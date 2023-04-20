@@ -23,4 +23,10 @@ export const Primary: Story = {
     label: 'Button',
   },
 };
+export const Disabled: Story = {
+  args: {
+    label: 'Button',
+    disabled: true
+  },
+};
  
