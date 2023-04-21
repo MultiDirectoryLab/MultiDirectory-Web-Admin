@@ -1,0 +1,3 @@
+[submodule "projects/ng-modal"]
+	path = projects/ng-modal
+	url = https://github.com/Gimemor/ng-modal.git

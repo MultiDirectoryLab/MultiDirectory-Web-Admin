@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MultifactorUiModule } from "../public-api";
+import { multidirectoryUiModule } from "../public-api";
 
 @NgModule({
-    imports: [ CommonModule, MultifactorUiModule ]
+    imports: [ CommonModule, multidirectoryUiModule ]
 })
 export class StoriesModule {}

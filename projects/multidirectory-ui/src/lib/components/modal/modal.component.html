@@ -1,0 +1,12 @@
+
+<app-modal #modalRoot class="modal-demo">
+  <ng-container class="app-modal-header">
+    <ng-content select=".app-modal-header"></ng-content>
+  </ng-container>
+  <ng-container class="app-modal-body">
+    <ng-content></ng-content>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <ng-content select=".app-modal-footer"></ng-content>
+  </ng-container>
+</app-modal>

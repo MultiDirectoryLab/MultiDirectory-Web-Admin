@@ -12,8 +12,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "multifactor-ui": [
-        "dist/multifactor-ui"
+      "multidirectory-ui": [
+        "dist/multidirectory-ui"
       ]
     },
     "declaration": false,

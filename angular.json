@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "multifactor-ui": {
+    "multidirectory-ui": {
       "projectType": "library",
-      "root": "projects/multifactor-ui",
-      "sourceRoot": "projects/multifactor-ui/src",
+      "root": "projects/multidirectory-ui",
+      "sourceRoot": "projects/multidirectory-ui/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/multifactor-ui/ng-package.json"
+            "project": "projects/multidirectory-ui/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/multifactor-ui/tsconfig.lib.prod.json"
+              "tsConfig": "projects/multidirectory-ui/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/multifactor-ui/tsconfig.lib.json"
+              "tsConfig": "projects/multidirectory-ui/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,16 +27,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/multifactor-ui/src/test.ts",
-            "tsConfig": "projects/multifactor-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/multifactor-ui/karma.conf.js"
+            "main": "projects/multidirectory-ui/src/test.ts",
+            "tsConfig": "projects/multidirectory-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/multidirectory-ui/karma.conf.js"
           }
         },
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
-            "configDir": "projects/multifactor-ui/.storybook",
-            "browserTarget": "multifactor-ui:build",
+            "configDir": "projects/multidirectory-ui/.storybook",
+            "browserTarget": "multidirectory-ui:build",
             "compodoc": false,
             "port": 6006
           }
@@ -44,8 +44,8 @@
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
           "options": {
-            "configDir": "projects/multifactor-ui/.storybook",
-            "browserTarget": "multifactor-ui:build",
+            "configDir": "projects/multidirectory-ui/.storybook",
+            "browserTarget": "multidirectory-ui:build",
             "compodoc": false,
             "outputDir": "storybook-static"
           }
