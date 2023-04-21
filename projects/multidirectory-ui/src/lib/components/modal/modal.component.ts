@@ -2,11 +2,11 @@ import { Component, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
 
 @Component({
-    selector: 'mf-modal',
+    selector: 'md-modal',
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class MfModalComponent {
+export class MdModalComponent {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
 
     open() {
@@ -16,6 +16,4 @@ export class MfModalComponent {
     close() {
         this.modalRoot?.hide();
     }
-
-
 }

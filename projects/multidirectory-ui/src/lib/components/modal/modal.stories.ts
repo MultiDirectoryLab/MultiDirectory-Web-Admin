@@ -1,10 +1,10 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MfModalComponent } from "./modal.component";
+import { MdModalComponent } from "./modal.component";
 import { ModalModule } from 'ng-modal-full-resizable';
 
-const meta: Meta<MfModalComponent> = {
+const meta: Meta<MdModalComponent> = {
     title: 'Base/Modal',
-    component: MfModalComponent,
+    component: MdModalComponent,
     tags: ['autodocs'],
     decorators: [
         moduleMetadata({
@@ -16,11 +16,11 @@ const meta: Meta<MfModalComponent> = {
 
 export default meta;
 
-type Story = StoryFn<MfModalComponent>;
-const template: Story = (args: MfModalComponent) => ({
+type Story = StoryFn<MdModalComponent>;
+const template: Story = (args: MdModalComponent) => ({
     props: args,
     template: `
-    <mf-modal #modalRoot>
+    <md-modal #modalRoot>
         <ng-container class="app-modal-header">Demo modal</ng-container>
         <ng-container class="app-modal-body">
         <h3>MODAL DIALOG</h3>
@@ -33,11 +33,11 @@ const template: Story = (args: MfModalComponent) => ({
             <button type="button" class="button button2" style="float: right;" (click)="modalRoot.close()">Close
         </button>
         </ng-container>
-    </mf-modal>
+    </md-modal>
     <button (click)="modalRoot.open()">Open modal</button>
     `
 });
 
 export const SimpleExample = template.bind({});
 SimpleExample.args = {
-  } as Partial<MfModalComponent>;
+  } as Partial<MdModalComponent>;

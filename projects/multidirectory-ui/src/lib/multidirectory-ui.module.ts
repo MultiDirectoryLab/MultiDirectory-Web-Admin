@@ -4,7 +4,7 @@ import { TextboxComponent } from './components/textbox/textbox.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NumberComponent } from './components/number/number.component';
 import { ModalModule } from 'ng-modal-full-resizable';
-import { MfModalComponent } from './components/modal/modal.component';
+import { MdModalComponent } from './components/modal/modal.component';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import { MfModalComponent } from './components/modal/modal.component';
     TextboxComponent,
     DropdownComponent,
     NumberComponent,
-    MfModalComponent
+    MdModalComponent
   ],
   imports: [
     ModalModule
@@ -23,7 +23,7 @@ import { MfModalComponent } from './components/modal/modal.component';
     TextboxComponent,
     DropdownComponent,
     NumberComponent,
-    MfModalComponent
+    MdModalComponent
   ]
 })
 export class multidirectoryUiModule { }
