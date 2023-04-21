@@ -20,7 +20,7 @@ type Story = StoryFn<MdModalComponent>;
 const template: Story = (args: MdModalComponent) => ({
     props: args,
     template: `
-    <md-modal #modalRoot>
+    <mdi-modal #modalRoot>
         <ng-container class="app-modal-header">Demo modal</ng-container>
         <ng-container class="app-modal-body">
         <h3>MODAL DIALOG</h3>

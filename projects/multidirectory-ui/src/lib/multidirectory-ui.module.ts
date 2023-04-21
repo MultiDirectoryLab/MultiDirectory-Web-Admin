@@ -5,7 +5,7 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NumberComponent } from './components/number/number.component';
 import { ModalModule } from 'ng-modal-full-resizable';
 import { MdModalComponent } from './components/modal/modal.component';
-
+import { ModalTestComponent } from './components/modal/modal.component.spec';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,8 @@ import { MdModalComponent } from './components/modal/modal.component';
     TextboxComponent,
     DropdownComponent,
     NumberComponent,
-    MdModalComponent
+    MdModalComponent,
+    ModalTestComponent
   ],
   imports: [
     ModalModule
