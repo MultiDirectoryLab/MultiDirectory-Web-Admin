@@ -5,7 +5,9 @@ import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NumberComponent } from './components/number/number.component';
 import { ModalModule } from 'ng-modal-full-resizable';
 import { MdModalComponent } from './components/modal/modal.component';
-import { ModalTestComponent } from './components/modal/modal.component.spec';
+import { TreeviewComponent } from './components/treeview/treeview.component';
+import { ModalTestComponent } from './components/modal/modaltest.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -14,9 +16,11 @@ import { ModalTestComponent } from './components/modal/modal.component.spec';
     DropdownComponent,
     NumberComponent,
     MdModalComponent,
-    ModalTestComponent
+    ModalTestComponent,
+    TreeviewComponent
   ],
   imports: [
+    CommonModule,
     ModalModule
   ],
   exports: [
@@ -24,7 +28,8 @@ import { ModalTestComponent } from './components/modal/modal.component.spec';
     TextboxComponent,
     DropdownComponent,
     NumberComponent,
-    MdModalComponent
+    MdModalComponent,
+    TreeviewComponent
   ]
 })
 export class multidirectoryUiModule { }

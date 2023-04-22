@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-    selector: 'mf-number',
+    selector: 'md-number',
     templateUrl: './number.component.html',
     styleUrls: ['./number.component.scss']
 })

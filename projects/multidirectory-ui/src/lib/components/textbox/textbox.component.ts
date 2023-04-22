@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-    selector: 'mf-textbox',
+    selector: 'md-textbox',
     templateUrl: './textbox.component.html',
     styleUrls: ['./textbox.component.scss']
 })

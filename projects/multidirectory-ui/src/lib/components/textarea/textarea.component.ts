@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-    selector: 'mf-textarea',
+    selector: 'md-textarea',
     templateUrl: './textarea.component.html',
     styleUrls: ['./textarea.component.scss']
 })

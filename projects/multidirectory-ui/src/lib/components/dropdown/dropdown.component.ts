@@ -1,7 +1,7 @@
 import { Component, Input, Output } from "@angular/core";
 
 @Component({
-    selector: 'mf-dropdown',
+    selector: 'md-dropdown',
     styleUrls: ['./dropdown.component.scss'],
     templateUrl: 'dropdown.component.html'
 })
