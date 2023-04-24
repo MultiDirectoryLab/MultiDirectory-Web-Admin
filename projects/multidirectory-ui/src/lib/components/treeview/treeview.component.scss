@@ -1,5 +1,5 @@
 .scrollable {
-    overflow: scroll;
+    overflow: auto;
 }
 
 .w-300 {
@@ -8,4 +8,20 @@
 
 .h-300 {
     height: 300px;
+}
+
+.tree-item {
+    list-style: none;
+}
+
+.expandable {
+    cursor: pointer;
+
+    &:before {
+        content: '+';
+    }
+
+    &.expanded:before {
+        content: '–';
+    }
 }

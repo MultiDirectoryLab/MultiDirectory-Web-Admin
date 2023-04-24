@@ -1,0 +1,23 @@
+@import url(../../styles/global.scss);
+
+.md-button-lettering {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 140%;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-style: normal;
+}
+
+.md-border-none {
+    //border: none;    
+}
+
+.md-background-blue {
+    //background: #3879B4;
+    //color: #FFFFFF;
+}

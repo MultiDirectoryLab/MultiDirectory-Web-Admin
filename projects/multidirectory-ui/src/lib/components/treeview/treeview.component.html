@@ -1,22 +1,22 @@
 <div class="scrollable w-300 h-300">
     <ul>
-        <li *ngFor="let node of tree"> 
-            <ng-container 
-            [ngTemplateOutlet]="treeNode"
-            [ngTemplateOutletContext]="{ $implicit: node }"></ng-container>
-        </li>
-      
+        <ng-container 
+        *ngFor="let node of tree"
+        [ngTemplateOutlet]="treeNode"
+        [ngTemplateOutletContext]="{ $implicit: node }"></ng-container>
     </ul>
 </div>
 
 
 <ng-template #treeNode let-data>
-    <li (click)="toggleNode(data)">{{data.name}}</li>
+    <div>
+        <li class="tree-item" [ngClass]="{ expanded: data.expanded, expandable: data.children?.length > 0 }" (click)="toggleNode(data)">{{data.name}}</li>
+    </div>
     <ng-container *ngIf="data.children != null && data.expanded">
         <ul>
             <ng-container *ngFor="let child of data.children"
                 [ngTemplateOutlet]="treeNode"
-                [ngTemplateOutletContext]="{ $implicit: child}"
+                [ngTemplateOutletContext]="{ $implicit: child }"
             ></ng-container>
         </ul>
     </ng-container>

@@ -3,5 +3,6 @@
   "dest": "../../dist/multidirectory-ui",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": ["./styles/**/*.css", "./fonts/**/*.css"]
 }
