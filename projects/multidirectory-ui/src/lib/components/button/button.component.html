@@ -1,4 +1,7 @@
 <button 
-    class="md-button-lettering md-background-blue md-border-none"
+    class="md-button"
+    [ngClass]="{
+        'md-button-primary': primary
+    }"
     (click)="emitClick($event)" 
     [disabled]="disabled">{{label}}</button>

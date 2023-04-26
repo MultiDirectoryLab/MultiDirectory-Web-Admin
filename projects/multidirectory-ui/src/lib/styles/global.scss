@@ -1,11 +1,12 @@
-@import url(../fonts//inter/stylesheet.css);
-
+@use './../fonts/inter/stylesheet.css';
+/* COLORS */
 $md-white: #FFFFFF;
 $md-neutral-100: #F1F1F1;
+$md-neutral-150: #D6E5F2;
 $md-neutral-200: #DCDCDC;
 $md-neutral-300: #C9C9C9;
 $md-neutral-400: #A5A5A5;
-$md-neutral-600: #4F4F4F;
+$md-neutral-600: #787878;
 $md-neutral-800: #4F4F4F;
 $md-neutral-1000: #1C1C1C;
 $md-white-blue-2: #3879B4;
@@ -15,3 +16,32 @@ $md-dark-blue: #215684;
 $md-dark-blue-2: #385A78;
 $md-dark-blue-3: #4D6881;
 $md-red: #F26969;
+
+@mixin use-typography($fontfame, $weight, $size, $lineheight) {
+    font-family: $fontfame;
+    font-weight: $weight;
+    font-size: $size;
+    line-height: $lineheight;
+}
+
+@mixin use-inter-typography($weight, $size, $lineheight) {
+    @include use-typography('Inter', $weight, $size, $lineheight);
+}
+
+/* TYPOGRAPHY */
+h1, .h1 {
+    @include use-inter-typography(700, 42px, 58.8px);  
+}
+
+h2, .h2 {
+    @include use-inter-typography(400, 32px, 44.8px);
+    &.bold {
+        @include use-inter-typography(700, 32px, 44.8px);
+    }
+}
+
+label, p, div {
+    @include use-inter-typography(400, 14px, 25.2px)
+}
+
+ 

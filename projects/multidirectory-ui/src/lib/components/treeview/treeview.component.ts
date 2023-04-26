@@ -9,7 +9,7 @@ export class TreeviewComponent {
     @Input() tree: Treenode[] = [];
 
     toggleNode(node: Treenode) {
-        node.expanded = !node.expanded;
+        node.expanded = !node.expanded; 
     }
 }
 

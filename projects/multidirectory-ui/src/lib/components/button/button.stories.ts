@@ -21,12 +21,24 @@ type Story = StoryObj<ButtonComponent>;
 export const Primary: Story = {
   args: {
     label: 'Button',
+    primary: true,
   },
 };
-export const Disabled: Story = {
+export const PrimaryDisabled: Story = {
+  args: {
+    label: 'Button',
+    primary: true,
+    disabled: true
+  },
+};
+export const Regular: Story = {
+  args: {
+    label: 'Button',
+  },
+};
+export const RegularDisabled: Story = {
   args: {
     label: 'Button',
     disabled: true
   },
-};
- 
+}
