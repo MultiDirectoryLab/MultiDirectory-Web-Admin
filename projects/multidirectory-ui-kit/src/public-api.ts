@@ -1,9 +1,9 @@
 /*
- * Public API Surface of multidirectory-ui
+ * Public API Surface of multidirectory-ui-kit
  */
 
-export * from './lib/multidirectory-ui.service';
-export * from './lib/multidirectory-ui.module';
+export * from './lib/multidirectory-ui-kit.service';
+export * from './lib/multidirectory-ui-kit.module';
 export * from './lib/components/button/button.component';
 export * from './lib/components/textbox/textbox.component';
 export * from './lib/components/dropdown/dropdown.component';

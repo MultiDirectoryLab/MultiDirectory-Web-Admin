@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { ButtonComponent } from 'projects/multidirectory-ui/src/lib/components/button/button.component';
+import { ButtonComponent } from 'projects/multidirectory-ui-kit/src/lib/components/button/button.component';
 
 const meta: Meta<ButtonComponent> = {
   title: 'Base/Button',

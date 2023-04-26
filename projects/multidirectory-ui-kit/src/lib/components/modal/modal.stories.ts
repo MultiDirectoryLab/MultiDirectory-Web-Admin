@@ -1,7 +1,7 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { MdModalComponent } from "./modal.component";
 import { ModalModule } from 'ng-modal-full-resizable';
-
+import { ButtonComponent } from '../button/button.component'
 const meta: Meta<MdModalComponent> = {
     title: 'Base/Modal',
     component: MdModalComponent,
@@ -9,6 +9,7 @@ const meta: Meta<MdModalComponent> = {
     decorators: [
         moduleMetadata({
             imports: [ModalModule],
+            declarations: [ButtonComponent]
         }),
     ]
     
@@ -28,13 +29,11 @@ const template: Story = (args: MdModalComponent) => ({
             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
         </ng-container>
         <ng-container class="app-modal-footer">
-            <button type="button" class="button button3" (click)="modalRoot.close()">Delete</button>
-            <button type="button" class="button button1" (click)="modalRoot.close()">Save</button>
-            <button type="button" class="button button2" style="float: right;" (click)="modalRoot.close()">Close
-        </button>
+            <md-button #closeButton (click)="modalRoot.close()">Delete</md-button>
+            <md-button [primary]="true" style="float: right;" (click)="modalRoot.close()">Close</md-button>
         </ng-container>
     </md-modal>
-    <button (click)="modalRoot.open()">Open modal</button>
+    <md-button [primary]=true (click)="modalRoot.open()">Open modal</md-button>
     `
 });
 

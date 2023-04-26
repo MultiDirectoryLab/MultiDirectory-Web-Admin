@@ -12,8 +12,8 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "multidirectory-ui": [
-        "dist/multidirectory-ui"
+      "multidirectory-ui-kit": [
+        "dist/multidirectory-ui-kit"
       ]
     },
     "declaration": false,

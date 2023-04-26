@@ -32,4 +32,4 @@ import { CommonModule } from '@angular/common';
     TreeviewComponent
   ]
 })
-export class multidirectoryUiModule { }
+export class MultidirectoryUiKitModule { }

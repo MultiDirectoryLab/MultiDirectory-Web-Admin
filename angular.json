@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "multidirectory-ui": {
+    "multidirectory-ui-kit": {
       "projectType": "library",
-      "root": "projects/multidirectory-ui",
-      "sourceRoot": "projects/multidirectory-ui/src",
+      "root": "projects/multidirectory-ui-kit",
+      "sourceRoot": "projects/multidirectory-ui-kit/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/multidirectory-ui/ng-package.json"
+            "project": "projects/multidirectory-ui-kit/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/multidirectory-ui/tsconfig.lib.prod.json"
+              "tsConfig": "projects/multidirectory-ui-kit/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/multidirectory-ui/tsconfig.lib.json"
+              "tsConfig": "projects/multidirectory-ui-kit/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,16 +27,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/multidirectory-ui/src/test.ts",
-            "tsConfig": "projects/multidirectory-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/multidirectory-ui/karma.conf.js"
+            "main": "projects/multidirectory-ui-kit/src/test.ts",
+            "tsConfig": "projects/multidirectory-ui-kit/tsconfig.spec.json",
+            "karmaConfig": "projects/multidirectory-ui-kit/karma.conf.js"
           }
         },
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
-            "configDir": "projects/multidirectory-ui/.storybook",
-            "browserTarget": "multidirectory-ui:build",
+            "configDir": "projects/multidirectory-ui-kit/.storybook",
+            "browserTarget": "multidirectory-ui-kit:build",
             "compodoc": false,
             "port": 6006
           }
@@ -44,8 +44,8 @@
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
           "options": {
-            "configDir": "projects/multidirectory-ui/.storybook",
-            "browserTarget": "multidirectory-ui:build",
+            "configDir": "projects/multidirectory-ui-kit/.storybook",
+            "browserTarget": "multidirectory-ui-kit:build",
             "compodoc": false,
             "outputDir": "storybook-static"
           }
