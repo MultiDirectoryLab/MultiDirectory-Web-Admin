@@ -7,4 +7,5 @@ import { Component, Input } from "@angular/core";
 })
 export class TextboxComponent {
     @Input() label: string = '';
+    @Input() password: boolean = false;
 }

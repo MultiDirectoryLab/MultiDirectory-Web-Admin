@@ -6,12 +6,19 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: ButtonComponent) => ({
+  render: (args: ButtonComponent) => {console.log({
+    backgroundColor: null,
+    ...args,
+  }); return ({
     props: {
       backgroundColor: null,
       ...args,
     },
-  }),
+    template: `
+      <md-button [primary]="primary" [disabled]="disabled" (click)="click()">Button</md-button>
+    `
+  })
+  },
 };
 
 export default meta;
@@ -20,25 +27,21 @@ type Story = StoryObj<ButtonComponent>;
 // More on writing stories with args: https://storybook.js.org/docs/angular/writing-stories/args
 export const Primary: Story = {
   args: {
-    label: 'Button',
     primary: true,
   },
 };
 export const PrimaryDisabled: Story = {
   args: {
-    label: 'Button',
     primary: true,
     disabled: true
   },
 };
 export const Regular: Story = {
   args: {
-    label: 'Button',
-  },
+  }
 };
 export const RegularDisabled: Story = {
   args: {
-    label: 'Button',
     disabled: true
-  },
+  }, 
 }

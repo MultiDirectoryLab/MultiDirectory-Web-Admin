@@ -1,3 +1,2 @@
-<h2>Test</h2>
-<label>{{label}}</label>
-<input type="text" />
+<label *ngIf="label">{{label}}</label>
+<input type="{{password ? 'password' : 'text'}}" />

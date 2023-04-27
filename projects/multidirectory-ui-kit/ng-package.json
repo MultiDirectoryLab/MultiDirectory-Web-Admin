@@ -5,5 +5,9 @@
     "entryFile": "src/public-api.ts",
     "styleIncludePaths": ["./src/styles"]
   },
-  "assets": ["./fonts/**/*"]
+  "assets": [
+    "karma.conf.js",
+    {"input": "src/lib/fonts/", "glob": "**/*", "output": "fonts"},
+    {"input": "src/lib/styles/", "glob": "*.scss", "output": "styles"}
+  ]
 }

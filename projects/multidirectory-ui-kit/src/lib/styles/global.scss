@@ -43,5 +43,15 @@ h2, .h2 {
 label, p, div {
     @include use-inter-typography(400, 14px, 25.2px)
 }
-
  
+.row {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+.flex-center {
+    justify-content: center;
+}
