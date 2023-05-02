@@ -1,2 +1,6 @@
-<label *ngIf="label">{{label}}</label>
-<input type="{{password ? 'password' : 'text'}}" />
+<input 
+    type="{{password ? 'password' : 'text'}}" 
+    [disabled]="disabled"
+    [(ngModel)]="value"
+    (blur)="onBlur()"
+/>

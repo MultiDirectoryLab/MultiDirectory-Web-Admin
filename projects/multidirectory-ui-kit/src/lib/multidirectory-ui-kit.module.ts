@@ -8,6 +8,7 @@ import { MdModalComponent } from './components/modal/modal.component';
 import { TreeviewComponent } from './components/treeview/treeview.component';
 import { ModalTestComponent } from './components/modal/modaltest.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
-    ModalModule
+    ModalModule,
+    FormsModule
   ],
   exports: [
     ButtonComponent,

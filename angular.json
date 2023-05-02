@@ -77,7 +77,8 @@
               "projects/multidirectory-app/src/assets"
             ],
             "styles": [
-              "projects/multidirectory-app/src/styles.scss"
+              "projects/multidirectory-app/src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

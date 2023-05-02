@@ -1,18 +1,21 @@
-<div class="pane">
-    <div class="row">
-        <img src="/assets/logo_login.svg" />
-    </div>
+<md-modal #modal [opened]="true" appHideControlbar [width]="'300px'">
+    <ng-container class="app-modal-header">
+        <img src="/assets/logo_login.svg" class="logo-img"/>
+    </ng-container>
     <div class="p-8">
         <div class="row flex-space-between">
             <label>Login</label>
-            <md-textbox></md-textbox>
+            <md-textbox [(ngModel)]="login"></md-textbox>
         </div>
         <div class="row flex-space-between">
             <label>Password</label>
-            <md-textbox [password]="true"></md-textbox>
+            <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
         </div>
-        <div class="row flex-center p-8">
-            <md-button [primary]="true">Login</md-button>
-        </div>    
     </div>
-</div>
+
+    <ng-container class="app-modal-footer">
+        <div class="row flex-center">
+            <md-button [primary]="true" (click)="onLogin()">Login</md-button>
+        </div>
+    </ng-container>
+</md-modal>
