@@ -1,0 +1,46 @@
+@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+.bg-white {
+    background: white;
+}
+
+.left-pane {
+    border-right: 1px solid lightgrey;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.treeview {
+    flex-grow: 1;
+}
+
+.avatar {
+    padding: 0 8px;
+    .avatar-img {
+        max-height: 50px;
+    }
+}
+.user-info {
+    flex-grow: 1;
+}
+.more-container {
+    padding: 0 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 5px;
+    margin-bottom: 1.05rem;
+
+    .more {
+        cursor: pointer;
+        &:hover {
+            border: 1px solid global.$md-dark-blue-2;
+        }
+    }
+}
+
+
+.footer {
+    border-top: 1px solid lightgray;
+    padding-top: 8px;
+}

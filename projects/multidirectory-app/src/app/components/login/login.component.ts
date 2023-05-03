@@ -1,6 +1,8 @@
 import { AfterContentInit, Component } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ToastrService } from "ngx-toastr";
+import { WhoamiResponse } from "../../models/whoami/whoami-response";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-login',
@@ -10,7 +12,7 @@ import { ToastrService } from "ngx-toastr";
 export class LoginComponent implements AfterContentInit {
     login = '';
     password = '';
-    constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
+    constructor(private api: MultidirectoryApiService, private router: Router) {}
 
     ngAfterContentInit(): void {
     }
@@ -18,7 +20,9 @@ export class LoginComponent implements AfterContentInit {
     onLogin() {
         this.api.login(this.login, this.password).subscribe(response => {
             console.log(response);
-            this.toastr.success(response.access_token);
+            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem('refresh_token', response.refresh_token);
+            this.router.navigate(['/']);
         });
     }
 }

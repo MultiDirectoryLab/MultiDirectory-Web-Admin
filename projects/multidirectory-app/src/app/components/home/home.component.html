@@ -1,0 +1,19 @@
+<div class="fullscreen bg-white row"> 
+    <div class="left-pane">
+        <img src="/assets/logo_login.svg" class="logo-img"/>
+        <md-treeview [tree]="tree" class="treeview">
+        </md-treeview>
+        <div class="row footer">
+            <div class="avatar"><img src="/assets/avatar-example.png" class="avatar-img"/></div>
+            <div class="user-info column">
+                <label>Максим Гулевич</label>
+                <label>max_gulevich@gmail.com</label>
+            </div>
+            <div class="more-container">
+                <img src="/assets/more_vert.svg" class="more" (click)="logout()" />
+            </div>
+        </div>
+    </div>
+    <div></div>
+
+</div>

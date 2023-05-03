@@ -49,6 +49,11 @@ label, p, div {
     flex-flow: row nowrap;
 }
 
+.column {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
 .flex-space-between {
     justify-content: space-between;
 }

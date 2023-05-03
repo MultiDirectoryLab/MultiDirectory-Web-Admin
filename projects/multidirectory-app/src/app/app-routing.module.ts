@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WizardComponent } from './components/wizard/wizard.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthRouteGuard } from './core/authorization/auth-route-guard';
 
 const routes: Routes = [
-  { path: '**', component: WizardComponent }
+  { path: 'login', component: LoginComponent },
+  { path: '**', component: HomeComponent, canActivate: [ AuthRouteGuard ]}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthRouteGuard]
 })
 export class AppRoutingModule { }
