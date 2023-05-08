@@ -39,4 +39,4 @@ const template: Story = (args: MdModalComponent) => ({
 
 export const SimpleExample = template.bind({});
 SimpleExample.args = {
-  } as Partial<MdModalComponent>;
+} as Partial<MdModalComponent>;

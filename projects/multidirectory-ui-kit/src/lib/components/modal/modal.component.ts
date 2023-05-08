@@ -9,15 +9,19 @@ import { ModalComponent } from "ng-modal-full-resizable";
 })
 export class MdModalComponent implements AfterViewInit {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
-    @Input() opened = true;
+    @Input() opened = false;
+    @Input() backdrop = true;
+
     constructor(private cdr: ChangeDetectorRef) {}
 
     open() {
          this.modalRoot?.show();
+         this.cdr.detectChanges();
     }
     
     close() {   
         this.modalRoot?.hide();
+        this.cdr.detectChanges();
     }
 
     ngAfterViewInit(): void {

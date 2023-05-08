@@ -18,7 +18,7 @@ export default meta;
 export const Primary: StoryFn<TextboxComponent> = (args: TextboxComponent) => ({
   props: args,
   template: `
-  <div>
+  <div class="md-4">
     <label style="padding-right: 8px;">Primary: </label>
     <md-textbox [(ngModel)]="model"></md-textbox>
   </div>
