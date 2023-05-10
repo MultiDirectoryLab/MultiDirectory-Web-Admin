@@ -1,4 +1,5 @@
 @use './../fonts/inter/stylesheet.css';
+@use './layout.scss';
 /* COLORS */
 $md-white: #FFFFFF;
 $md-neutral-100: #F1F1F1;
@@ -43,11 +44,7 @@ h2, .h2 {
 label, p, div {
     @include use-inter-typography(400, 14px, 25.2px)
 }
- 
-.row {
-    display: flex;
-    flex-flow: row nowrap;
-}
+
 
 .column {
     display: flex;
@@ -59,4 +56,8 @@ label, p, div {
 }
 .flex-center {
     justify-content: center;
+}
+.flex-row {
+    display: flex;
+    flex-flow: row nowrap;
 }

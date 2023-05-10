@@ -11,6 +11,9 @@
   "exports": {
     "./src/lib/styles/global": {
       "sass": "./styles/global.scss"
+    },
+    "./src/lib/styles/layout": {
+      "sass": "./styles/layout.scss"
     }
   }
 }

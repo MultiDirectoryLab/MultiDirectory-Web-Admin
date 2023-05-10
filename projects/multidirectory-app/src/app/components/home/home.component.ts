@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { WhoamiResponse } from "../../models/whoami/whoami-response";
 
 @Component({
     selector: 'app-home',
@@ -99,7 +101,13 @@ export class HomeComponent {
       }
     ];
 
-    constructor(private router: Router) {}
+    public user?: WhoamiResponse;
+    
+    constructor(private router: Router, private api: MultidirectoryApiService) {
+      this.api.whoami().subscribe(whoami=> {
+        this.user = whoami;
+      });
+    }
 
     logout() {
         localStorage.clear();

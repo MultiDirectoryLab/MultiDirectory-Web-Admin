@@ -11,3 +11,4 @@ export * from './lib/components/modal/modal.component';
 export * from './lib/components/number/number.component';
 export * from './lib/components/textarea/textarea.component';
 export * from './lib/components/treeview/treeview.component';
+export * from './lib/components/dropdown-menu/dropdown-menu.component';

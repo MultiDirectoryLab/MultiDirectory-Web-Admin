@@ -1,5 +1,9 @@
 @use '../../styles/global.scss';
+@use '../../styles/layout.scss';
 
 input {
     width: 100%;
+}
+label {
+    background: yellow;
 }

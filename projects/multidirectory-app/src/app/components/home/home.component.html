@@ -3,17 +3,24 @@
         <img src="/assets/logo_login.svg" class="logo-img"/>
         <md-treeview [tree]="tree" class="treeview">
         </md-treeview>
-        <div class="row footer">
+        <div class="flex-row footer">
             <div class="avatar"><img src="/assets/avatar-example.png" class="avatar-img"/></div>
             <div class="user-info column">
-                <label>Максим Гулевич</label>
+                <label>{{user?.display_name}}</label>
                 <label>max_gulevich@gmail.com</label>
             </div>
             <div class="more-container">
-                <img src="/assets/more_vert.svg" class="more" (click)="logout()" />
+                <img src="/assets/more_vert.svg" class="more" (click)="loginMenu.toggle()" />
             </div>
+            <md-dropdown-menu #loginMenu>
+                <div class="dropdown-item" (click)="logout()">Настройки аккаунта</div>
+                <hr />
+                <div class="dropdown-item" (click)="logout()">Выход из системы</div>
+            </md-dropdown-menu>
         </div>
     </div>
-    <div></div>
+    <div>
+
+    </div>
 
 </div>

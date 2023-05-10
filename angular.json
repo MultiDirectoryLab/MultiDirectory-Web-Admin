@@ -38,7 +38,10 @@
             "configDir": "projects/multidirectory-ui-kit/.storybook",
             "browserTarget": "multidirectory-ui-kit:build",
             "compodoc": false,
-            "port": 6006
+            "port": 6006,
+            "styles": [
+              "projects/multidirectory-ui-kit/src/lib/styles/global.scss"
+            ]
           }
         },
         "build-storybook": {

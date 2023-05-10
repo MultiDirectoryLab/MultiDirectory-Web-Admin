@@ -1,7 +1,5 @@
 import { AfterContentInit, Component } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { ToastrService } from "ngx-toastr";
-import { WhoamiResponse } from "../../models/whoami/whoami-response";
 import { Router } from "@angular/router";
 
 @Component({

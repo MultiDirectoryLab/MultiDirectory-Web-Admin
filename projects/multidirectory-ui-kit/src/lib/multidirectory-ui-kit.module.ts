@@ -9,6 +9,7 @@ import { TreeviewComponent } from './components/treeview/treeview.component';
 import { ModalTestComponent } from './components/modal/modaltest.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     NumberComponent,
     MdModalComponent,
     ModalTestComponent,
-    TreeviewComponent
+    TreeviewComponent,
+    DropdownMenuComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     DropdownComponent,
     NumberComponent,
     MdModalComponent,
-    TreeviewComponent
+    TreeviewComponent,
+    DropdownMenuComponent
   ]
 })
 export class MultidirectoryUiKitModule { }
