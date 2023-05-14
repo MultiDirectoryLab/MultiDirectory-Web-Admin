@@ -10,7 +10,10 @@
 
 <ng-template #treeNode let-data>
     <div>
-        <li class="tree-item" [ngClass]="{ expanded: data.expanded, expandable: data.children?.length > 0 }" (click)="toggleNode(data)">{{data.name}}</li>
+        <li class="tree-item" [ngClass]="{ 
+            expanded: data.expanded, 
+            expandable: data.children?.length > 0 || !!data.loadChildren
+        }" (click)="toggleNode(data)">{{data.name}}</li>
     </div>
     <ng-container *ngIf="data.children != null && data.expanded">
         <ul>

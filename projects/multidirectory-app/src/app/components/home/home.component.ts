@@ -1,112 +1,35 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
+import { LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
+import { Treenode } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
-    tree = [{
-        name: 'root1', 
-        icon: '',
-        expanded: false,
-        children: [
-          {
-            name: 'child1',
-            icon: '',
-            expanded: false,
-            children: [
-              {
-                name: 'child11',
-                icon: '',
-                expanded: false,
-                children: null
-              },
-              {
-                name: 'child12',
-                icon: '',
-                expanded: false,
-                children: null
-              }
-            ]
-          },
-          {
-            name: 'child2',
-            icon: '',
-            expanded: false,
-            children: [
-              {
-                name: 'child21',
-                icon: '',
-                expanded: false,
-                children: null
-              },
-              {
-                name: 'child22',
-                icon: '',
-                expanded: false,
-                children: null
-              }
-            ]
-          },
-        ]
-      },
-      {
-        name: 'root2', 
-        icon: '',
-        expanded: false,
-        children: [
-          {
-            name: 'child1',
-            icon: '',
-            expanded: false,
-            children: [
-              {
-                name: 'child11',
-                icon: '',
-                expanded: false,
-                children: null
-              },
-              {
-                name: 'child12',
-                icon: '',
-                expanded: false,
-                children: null
-              }
-            ]
-          },
-          {
-            name: 'child2',
-            icon: '',
-            expanded: false,
-            children: [
-              {
-                name: 'child21',
-                icon: '',
-                expanded: false,
-                children: null
-              },
-              {
-                name: 'child22',
-                icon: '',
-                expanded: false,
-                children: null
-              }
-            ]
-          },
-        ]
-      }
-    ];
+    tree: Treenode[] = [];
 
     public user?: WhoamiResponse;
     
-    constructor(private router: Router, private api: MultidirectoryApiService) {
-      this.api.whoami().subscribe(whoami=> {
-        this.user = whoami;
-      });
+    constructor(
+        private router: Router, 
+        private api: MultidirectoryApiService, 
+        private ldapTreeBuilder: LdapTreeBuilder,
+        private cdr: ChangeDetectorRef) {
+        
+        this.api.whoami().subscribe(whoami=> {
+            this.user = whoami;
+        });
+
+        this.ldapTreeBuilder.getRoot().subscribe(root => {
+            this.tree = root;
+            this.cdr.detectChanges();
+        });
     }
 
     logout() {
