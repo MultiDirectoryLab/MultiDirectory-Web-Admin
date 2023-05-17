@@ -10,6 +10,7 @@ import { ModalTestComponent } from './components/modal/modaltest.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.
     MdModalComponent,
     ModalTestComponent,
     TreeviewComponent,
-    DropdownMenuComponent
+    DropdownMenuComponent,
+    PlaneButtonComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.
     NumberComponent,
     MdModalComponent,
     TreeviewComponent,
-    DropdownMenuComponent
+    DropdownMenuComponent,
+    PlaneButtonComponent
   ]
 })
 export class MultidirectoryUiKitModule { }

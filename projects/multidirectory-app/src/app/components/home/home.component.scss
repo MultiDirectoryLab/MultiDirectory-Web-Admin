@@ -1,7 +1,7 @@
 @use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
 .bg-white {
-    background: white;
+    background: global.$md-neutral-100;
 }
 
 .left-pane {
@@ -9,7 +9,9 @@
     display: flex;
     flex-flow: column nowrap;
 }
-
+.right-pane {
+    flex-grow: 1;
+}
 .treeview {
     flex-grow: 1;
 }
@@ -43,4 +45,8 @@
 .footer {
     border-top: 1px solid lightgray;
     padding-top: 8px;
+}
+
+.logo-img {
+    pointer-events: none;
 }

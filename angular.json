@@ -41,6 +41,9 @@
             "port": 6006,
             "styles": [
               "projects/multidirectory-ui-kit/src/lib/styles/global.scss"
+            ],
+            "assets": [
+              "projects/multidirectory-ui-kit/src/lib/search.svg"
             ]
           }
         },

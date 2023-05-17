@@ -1,0 +1,12 @@
+<div class="header">
+    <label class="bold">Папка: IT</label>
+</div>
+<div class="control-panel">
+    <md-plane-button class="search control-button" [iconSrc]="'assets/search.svg'"></md-plane-button>
+    <md-plane-button class="settings control-button" [iconSrc]="'assets/settings.svg'" (click)="helpMenu.toggle()"></md-plane-button>
+    <md-plane-button class="settings control-button" [iconSrc]="'assets/help.svg'" ></md-plane-button>
+    <md-plane-button class="settings control-button" [iconSrc]="'assets/close.svg'"></md-plane-button>
+</div>
+<md-dropdown-menu #helpMenu>
+    <div class="dropdown-item">Настройки аккаунта</div>
+</md-dropdown-menu>

@@ -12,13 +12,17 @@ import { HideControlBar } from './components/login/hidecontrolbar.directive';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
+import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HideControlBar,
-    HomeComponent
+    HomeComponent,
+    HeaderComponent,
+    CatalogContentComponent
   ],
   imports: [
     BrowserModule,

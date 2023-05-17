@@ -29,6 +29,13 @@ export class DropdownMenuComponent {
             this.renderer.setStyle(this.menu.nativeElement, 'top', 
                `${  window.innerHeight - this.menu.nativeElement.offsetHeight - 32}px`);
         }
+
+        const rightPoint = this.menu.nativeElement.offsetLeft + this.menu.nativeElement.offsetWidth;
+        if(rightPoint > window.innerWidth)
+        {
+            this.renderer.setStyle(this.menu.nativeElement, 'left', 
+               `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 32}px`);
+        }
     }
 
     private setOutsideClickHandler() {

@@ -1,0 +1,26 @@
+@use '../../styles/global' as global;
+
+.plane-button-container {
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    /* padding: 8px; */
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 15px;
+    &:disabled {
+        color: global.$md-neutral-400;
+        background-color: global.$md-neutral-200;
+    }
+    &:not(.disabled):hover {
+        background-color: global.$md-white;
+        border: 1px solid global.$md-neutral-200;
+        cursor: pointer;
+    }
+
+}
+.plane-button {
+    border: none;
+    height: 20px;
+}

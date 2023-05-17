@@ -10,8 +10,8 @@ $md-neutral-400: #A5A5A5;
 $md-neutral-600: #787878;
 $md-neutral-800: #4F4F4F;
 $md-neutral-1000: #1C1C1C;
-$md-white-blue-2: #3879B4;
-$md-white-blue: #3879B4;
+$md-white-blue-2: #D6E5F2;
+$md-white-blue: #75A2C9;
 $md-blue: #3879B4;
 $md-dark-blue: #215684;
 $md-dark-blue-2: #385A78;
@@ -39,6 +39,10 @@ h2, .h2 {
     &.bold {
         @include use-inter-typography(700, 32px, 44.8px);
     }
+}
+
+label.bold {
+    @include use-inter-typography(700, 18px, 25.2px)
 }
 
 label, p, div {

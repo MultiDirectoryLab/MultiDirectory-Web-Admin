@@ -13,7 +13,10 @@
         <li class="tree-item" [ngClass]="{ 
             expanded: data.expanded, 
             expandable: data.children?.length > 0 || !!data.loadChildren
-        }" (click)="toggleNode(data)">{{data.name}}</li>
+        }" (click)="toggleNode(data)">
+        <img [src]="data.icon"    />    
+        {{data.name}}
+    </li>
     </div>
     <ng-container *ngIf="data.children != null && data.expanded">
         <ul>

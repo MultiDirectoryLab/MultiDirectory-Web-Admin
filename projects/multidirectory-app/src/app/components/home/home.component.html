@@ -1,4 +1,4 @@
-<div class="fullscreen bg-white row"> 
+<div class="fullscreen bg-white flex-row"> 
     <div class="left-pane">
         <img src="/assets/logo_login.svg" class="logo-img"/>
         <md-treeview [tree]="tree" class="treeview">
@@ -18,6 +18,10 @@
                 <div class="dropdown-item" (click)="logout()">Выход из системы</div>
             </md-dropdown-menu>
         </div>
+    </div>
+    <div class="right-pane column">
+        <app-header></app-header>
+        <app-catalog-content></app-catalog-content>
     </div>
     <div>
 
