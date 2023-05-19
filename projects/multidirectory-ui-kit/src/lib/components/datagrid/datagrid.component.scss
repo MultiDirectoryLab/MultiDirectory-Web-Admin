@@ -1,0 +1,41 @@
+@use '../../styles/global.scss';
+
+.ngx-datatable {
+    border: 1px solid global.$md-neutral-300;
+    .datatable-header {
+        z-index: 2;
+        border-bottom: 1px solid global.$md-neutral-300;
+
+        .datatable-header-cell {
+            text-transform: uppercase;
+            color: global.$md-dark-blue-4;
+            padding: 4px 8px;
+
+            cursor: pointer;
+            .datatable-header-cell-template-wrap {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                .datatable-header-cell-label  {
+                    @include global.use-inter-typography(bold, 13px, 120%);   
+                }
+                .sort-btn {
+                    display: flex !important;
+                    flex-flow: column nowrap;
+                    justify-content: center;
+                }
+            }
+        }
+    
+    }
+
+    .datatable-body-row {
+        border-bottom: 1px solid global.$md-neutral-300;
+        padding: 4px 8px;
+    }
+    .datatable-body-cell {
+        .datatable-body-cell-label  {
+            @include global.use-inter-typography(500, 14px, 19.6px);   
+        }
+    }
+}

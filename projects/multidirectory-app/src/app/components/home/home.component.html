@@ -1,7 +1,7 @@
 <div class="fullscreen bg-white flex-row"> 
     <div class="left-pane">
         <img src="/assets/logo_login.svg" class="logo-img"/>
-        <md-treeview [tree]="tree" class="treeview">
+        <md-treeview [tree]="tree" class="treeview" (onNodeSelect)="handleNodeSelection($any($event))">
         </md-treeview>
         <div class="flex-row footer">
             <div class="avatar"><img src="/assets/avatar-example.png" class="avatar-img"/></div>
@@ -21,7 +21,7 @@
     </div>
     <div class="right-pane column">
         <app-header></app-header>
-        <app-catalog-content></app-catalog-content>
+        <app-catalog-content [parentNode]="selectedNode"></app-catalog-content>
     </div>
     <div>
 

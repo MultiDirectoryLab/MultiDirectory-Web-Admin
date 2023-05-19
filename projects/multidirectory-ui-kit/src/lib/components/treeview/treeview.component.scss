@@ -2,6 +2,7 @@
 
 .scrollable {
     overflow: auto;
+    margin-left: -24px;
 }
 
 .w-300 {
@@ -14,16 +15,31 @@
 
 .tree-item {
     list-style: none;
+    padding-left: 8px;
+    cursor: initial;
+    user-select: none; /* Standard syntax */
+    &:hover {
+        border-bottom: 1px solid global.$md-dark-blue;
+        cursor: pointer;
+    }
+
+    &:not(.expandable) {
+        padding-right: 4px;
+    }
+    &.expandable {
+        padding-left: 8px;
+        margin-left: -12px;
+    }
+    &.selected {
+        background-color: global.$md-dark-blue-2;
+        color: global.$md-white;
+    }
+    
 }
 
-.expandable {
+.expand-mark {
     cursor: pointer;
-
-    &:before {
-        content: '+';
-    }
-
-    &.expanded:before {
-        content: '–';
-    }
 }
+
+
+

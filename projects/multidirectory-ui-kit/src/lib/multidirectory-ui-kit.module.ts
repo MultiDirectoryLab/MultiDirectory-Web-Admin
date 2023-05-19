@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { DatagridComponent } from './components/datagrid/datagrid.component';
 
 @NgModule({
   declarations: [
@@ -22,12 +24,14 @@ import { PlaneButtonComponent } from './components/plane-button/plane-button.com
     ModalTestComponent,
     TreeviewComponent,
     DropdownMenuComponent,
-    PlaneButtonComponent
+    PlaneButtonComponent,
+    DatagridComponent
   ],
   imports: [
     CommonModule,
     ModalModule,
-    FormsModule
+    FormsModule,
+    NgxDatatableModule 
   ],
   exports: [
     ButtonComponent,
@@ -37,7 +41,8 @@ import { PlaneButtonComponent } from './components/plane-button/plane-button.com
     MdModalComponent,
     TreeviewComponent,
     DropdownMenuComponent,
-    PlaneButtonComponent
+    PlaneButtonComponent,
+    DatagridComponent
   ]
 })
 export class MultidirectoryUiKitModule { }

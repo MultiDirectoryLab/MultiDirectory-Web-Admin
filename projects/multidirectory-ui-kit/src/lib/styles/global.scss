@@ -1,5 +1,6 @@
 @use './../fonts/inter/stylesheet.css';
 @use './layout.scss';
+
 /* COLORS */
 $md-white: #FFFFFF;
 $md-neutral-100: #F1F1F1;
@@ -16,6 +17,7 @@ $md-blue: #3879B4;
 $md-dark-blue: #215684;
 $md-dark-blue-2: #385A78;
 $md-dark-blue-3: #4D6881;
+$md-dark-blue-4: #476F92;
 $md-red: #F26969;
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
@@ -64,4 +66,7 @@ label, p, div {
 .flex-row {
     display: flex;
     flex-flow: row nowrap;
+}
+.align-center {
+    align-items: center;
 }

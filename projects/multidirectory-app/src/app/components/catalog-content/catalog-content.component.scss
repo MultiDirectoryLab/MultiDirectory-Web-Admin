@@ -1,0 +1,12 @@
+@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+:host {
+    background-color: #FAFAFA;
+    height: 100%;
+    padding: 1rem;
+}
+
+.control-pane {
+    align-items: center;
+    gap: 1rem;
+}

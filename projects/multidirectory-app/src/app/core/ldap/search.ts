@@ -1,4 +1,3 @@
-import { Treenode } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
 
 export const SearchQueries = {
@@ -16,6 +15,24 @@ export const SearchQueries = {
     },
   
     getChild(baseObject: string): SearchRequest {
+      return new SearchRequest({
+          "base_object": baseObject,
+          "scope": 1,
+          "deref_aliases": 0,
+          "size_limit": 0,
+          "time_limit": 0,
+          "types_only": false,
+          "filter": "(|(objectClass=builtinDomain)(objectClass=container))",
+          "attributes": [
+            "defaultNamingContext",
+            "sAMAccountName",
+            "name",
+            "objectClass"
+          ]
+        });
+    },
+
+    getContent(baseObject: string): SearchRequest {
       return new SearchRequest({
           "base_object": baseObject,
           "scope": 1,

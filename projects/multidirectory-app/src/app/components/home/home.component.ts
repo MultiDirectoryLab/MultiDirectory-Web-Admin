@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/
 import { Router } from "@angular/router";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
-import { LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
+import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
 import { Treenode } from "multidirectory-ui-kit";
 
 @Component({
@@ -13,8 +13,8 @@ import { Treenode } from "multidirectory-ui-kit";
 })
 export class HomeComponent {
     tree: Treenode[] = [];
-
-    public user?: WhoamiResponse;
+    selectedNode?: LdapNode;
+    user?: WhoamiResponse;
     
     constructor(
         private router: Router, 
@@ -37,4 +37,7 @@ export class HomeComponent {
         this.router.navigate(['/login'])
     }
 
+    handleNodeSelection(node: LdapNode) {
+        this.selectedNode = node;
+    }
 }

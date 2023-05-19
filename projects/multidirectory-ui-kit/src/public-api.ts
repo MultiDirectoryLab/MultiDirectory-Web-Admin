@@ -13,3 +13,4 @@ export * from './lib/components/textarea/textarea.component';
 export * from './lib/components/treeview/treeview.component';
 export * from './lib/components/dropdown-menu/dropdown-menu.component';
 export * from './lib/components/plane-button/plane-button.component';
+export * from './lib/components/datagrid/datagrid.component';
