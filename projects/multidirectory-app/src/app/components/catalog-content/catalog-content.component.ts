@@ -68,6 +68,5 @@ export class CatalogContentComponent {
         console.log(objectClass);
         return '';
     }
-    
 }
 

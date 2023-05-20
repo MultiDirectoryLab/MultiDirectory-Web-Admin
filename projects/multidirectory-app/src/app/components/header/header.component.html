@@ -3,10 +3,25 @@
 </div>
 <div class="control-panel">
     <md-plane-button class="search control-button" [iconSrc]="'assets/search.svg'"></md-plane-button>
-    <md-plane-button class="settings control-button" [iconSrc]="'assets/settings.svg'" (click)="helpMenu.toggle()"></md-plane-button>
+    <md-plane-button class="settings control-button" 
+        [iconSrc]="'assets/settings.svg'"
+        [mdDropdownContainer]="helpMenu">
+    </md-plane-button>
     <md-plane-button class="settings control-button" [iconSrc]="'assets/help.svg'" ></md-plane-button>
     <md-plane-button class="settings control-button" [iconSrc]="'assets/close.svg'"></md-plane-button>
 </div>
+
 <md-dropdown-menu #helpMenu>
-    <div class="dropdown-item">Настройки аккаунта</div>
-</md-dropdown-menu>
+    <div class="dropdown-item">Добавить/удалить столбцы...</div>
+    <div class="dropdown-item" (click)="toggleLeftPane()">
+        <md-checkbox>Скрыть дерево</md-checkbox>
+    </div>
+    <div class="dropdown-item">Маленькие иконки</div>
+    <div class="dropdown-item">Большие иконки</div>
+    <div class="dropdown-item">Список</div>
+    <div class="dropdown-item">Детали</div>
+    <div class="dropdown-item">Пользователи, контакты, группы и компьютеры как контейнеры</div>
+    <div class="dropdown-item">Дополнительные функции...</div>
+    <div class="dropdown-item">Параметры фильтров...</div>
+    <div class="dropdown-item">Настроить вид...</div>
+</md-dropdown-menu> 

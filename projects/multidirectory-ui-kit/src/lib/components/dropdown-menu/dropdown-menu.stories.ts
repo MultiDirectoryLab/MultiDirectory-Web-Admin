@@ -3,7 +3,7 @@ import { DropdownMenuComponent } from "./dropdown-menu.component";
 import { ButtonComponent } from "multidirectory-ui-kit";
 
 const meta: Meta<DropdownMenuComponent> = {
-    title: 'Base/DropdownMenu',
+    title: 'Components/DropdownMenu',
     component: DropdownMenuComponent,
     decorators: [
         moduleMetadata({

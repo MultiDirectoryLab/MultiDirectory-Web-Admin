@@ -11,6 +11,8 @@ export class DropdownMenuComponent {
     @Input() direction: 'up' | 'right' = 'right';
     @Input() itemTemplate!: TemplateRef<any>;
 
+    _top: number = 0;
+    _left: number = 0;
     @ViewChild('menu') menu!: ElementRef;
 
     dropdownVisible = false;
@@ -18,10 +20,14 @@ export class DropdownMenuComponent {
     constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {
     }
 
-    private positionMenu() {
-
+    setPosition(left: number, top: number) {
+        console.log(left, top);
+        this._top = top;
+        this._left = left;
+        
+        this.cdr.detectChanges();
     }
-
+ 
     private checkOverflow() {
         const bottomPoint = this.menu.nativeElement.offsetTop + this.menu.nativeElement.offsetHeight;
         if(bottomPoint > window.innerHeight)
@@ -37,7 +43,7 @@ export class DropdownMenuComponent {
                `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 32}px`);
         }
     }
-
+ 
     private setOutsideClickHandler() {
         setTimeout(() => {
             this.unlistenClick = this.renderer.listen('window', 'click', (e) => {
@@ -53,7 +59,8 @@ export class DropdownMenuComponent {
     open() {
         this.dropdownVisible = true;
         this.cdr.detectChanges();
-        this.positionMenu()
+        this.renderer.setStyle(this.menu.nativeElement, 'left', `${this._left}px`);
+        this.renderer.setStyle(this.menu.nativeElement, 'top',  `${this._top}px`);
         this.checkOverflow();
         this.cdr.detectChanges();
         this.setOutsideClickHandler();

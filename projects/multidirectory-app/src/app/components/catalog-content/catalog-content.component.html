@@ -2,9 +2,22 @@
     <md-plane-button class="search control-button" [iconSrc]="'assets/search.svg'"></md-plane-button>
     <md-button>Создать пользователя</md-button>
     <md-button>Создать группу</md-button>
-    <md-button>Добавить объект</md-button>
-
+    <md-button [mdDropdownContainer]="helpMenu">Добавить объект</md-button>
 </div>
 <md-datagrid #grid [rows]="rows" [columns]="columns">
 
 </md-datagrid> 
+
+
+<md-dropdown-menu #helpMenu>
+    <div class="dropdown-item">Добавить/удалить столбцы...</div>
+    <div class="dropdown-item"><md-checkbox>Скрыть дерево</md-checkbox></div>
+    <div class="dropdown-item">Маленькие иконки</div>
+    <div class="dropdown-item">Большие иконки</div>
+    <div class="dropdown-item">Список</div>
+    <div class="dropdown-item">Детали</div>
+    <div class="dropdown-item">Пользователи, контакты, группы и компьютеры как контейнеры</div>
+    <div class="dropdown-item">Дополнительные функции...</div>
+    <div class="dropdown-item">Параметры фильтров...</div>
+    <div class="dropdown-item">Настроить вид...</div>
+</md-dropdown-menu> 

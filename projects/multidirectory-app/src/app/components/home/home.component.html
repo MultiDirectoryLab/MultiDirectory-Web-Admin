@@ -1,5 +1,5 @@
 <div class="fullscreen bg-white flex-row"> 
-    <div class="left-pane">
+    <div *ngIf="showLeftPane" class="left-pane">
         <img src="/assets/logo_login.svg" class="logo-img"/>
         <md-treeview [tree]="tree" class="treeview" (onNodeSelect)="handleNodeSelection($any($event))">
         </md-treeview>
@@ -10,7 +10,7 @@
                 <label>max_gulevich@gmail.com</label>
             </div>
             <div class="more-container">
-                <img src="/assets/more_vert.svg" class="more" (click)="loginMenu.toggle()" />
+                <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
                 <div class="dropdown-item" (click)="logout()">Настройки аккаунта</div>
@@ -23,8 +23,4 @@
         <app-header></app-header>
         <app-catalog-content [parentNode]="selectedNode"></app-catalog-content>
     </div>
-    <div>
-
-    </div>
-
 </div>

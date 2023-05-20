@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { AppSettingsService } from "../../services/app-settings.service";
 
 @Component({
     selector: 'app-header',
@@ -6,10 +7,14 @@ import { Component } from "@angular/core";
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-    constructor() {}
+    constructor(private app: AppSettingsService) {}
 
 
     test() {
         alert('test');
+    }
+
+    toggleLeftPane() {
+        this.app.toggleLeftPane();
     }
 }

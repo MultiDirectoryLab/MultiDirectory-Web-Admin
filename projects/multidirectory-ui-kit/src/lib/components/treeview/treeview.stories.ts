@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 export default {
     component: TreeviewComponent,
-    title: 'Base/Treeview'
+    title: 'Components/Treeview'
 } as Meta<TreeviewComponent>;
 
 

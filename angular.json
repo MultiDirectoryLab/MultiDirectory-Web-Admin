@@ -43,7 +43,8 @@
               "projects/multidirectory-ui-kit/src/lib/styles/global.scss"
             ],
             "assets": [
-              "projects/multidirectory-ui-kit/src/lib/search.svg"
+              "projects/multidirectory-ui-kit/src/lib/../assets/search.svg",
+              "projects/multidirectory-ui-kit/src/lib/../assets/logo.svg"
             ]
           }
         },

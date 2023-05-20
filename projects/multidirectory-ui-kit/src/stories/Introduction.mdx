@@ -8,206 +8,61 @@ import Plugin from './assets/plugin.svg';
 import Repo from './assets/repo.svg';
 import StackAlt from './assets/stackalt.svg';
 
-<Meta title="Example/Introduction" />
-
-<style>
-  {`
-    .subheading {
-      --mediumdark: '#999999';
-      font-weight: 700;
-      font-size: 13px;
-      color: #999;
-      letter-spacing: 6px;
-      line-height: 24px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      margin-top: 40px;
-    }
-
-    .link-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
-      row-gap: 10px;
-    }
-
-    @media (min-width: 620px) {
-      .link-list {
-        row-gap: 20px;
-        column-gap: 20px;
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media all and (-ms-high-contrast:none) {
-    .link-list {
-        display: -ms-grid;
-        -ms-grid-columns: 1fr 1fr;
-        -ms-grid-rows: 1fr 1fr;
-      }
-    }
-
-    .link-item {
-      display: block;
-      padding: 20px;
-      border: 1px solid #00000010;
-      border-radius: 5px;
-      transition: background 150ms ease-out, border 150ms ease-out, transform 150ms ease-out;
-      color: #333333;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .link-item:hover {
-      border-color: #1EA7FD50;
-      transform: translate3d(0, -3px, 0);
-      box-shadow: rgba(0, 0, 0, 0.08) 0 3px 10px 0;
-    }
-
-    .link-item:active {
-      border-color: #1EA7FD;
-      transform: translate3d(0, 0, 0);
-    }
-
-    .link-item strong {
-      font-weight: 700;
-      display: block;
-      margin-bottom: 2px;
-    }
-
-    .link-item img {
-      height: 40px;
-      width: 40px;
-      margin-right: 15px;
-      flex: none;
-    }
-
-    .link-item span,
-    .link-item p {
-      margin: 0;
-      font-size: 14px;
-      line-height: 20px;
-    }
-
-    .tip {
-      display: inline-block;
-      border-radius: 1em;
-      font-size: 11px;
-      line-height: 12px;
-      font-weight: 700;
-      background: #E7FDD8;
-      color: #66BF3C;
-      padding: 4px 12px;
-      margin-right: 10px;
-      vertical-align: top;
-    }
-
-    .tip-wrapper {
-      font-size: 13px;
-      line-height: 20px;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
-
-    .tip-wrapper code {
-      font-size: 12px;
-      display: inline-block;
-    }
-  `}
-</style>
-
-# Welcome to Storybook
-
-Storybook helps you build UI components in isolation from your app's business logic, data, and context.
-That makes it easy to develop hard-to-reach states. Save these UI states as **stories** to revisit during development, testing, or QA.
-
-Browse example stories now by navigating to them in the sidebar.
-View their code in the `stories` directory to learn how they work.
-We recommend building UIs with a [**component-driven**](https://componentdriven.org) process starting with atomic components and ending with pages.
-
-<div className="subheading">Configure</div>
-
-<div className="link-list">
-  <a
-    className="link-item"
-    href="https://storybook.js.org/docs/react/addons/addon-types"
-    target="_blank"
-  >
-    <img src={Plugin} alt="plugin" />
-    <span>
-      <strong>Presets for popular tools</strong>
-      Easy setup for TypeScript, SCSS and more.
-    </span>
-  </a>
-  <a
-    className="link-item"
-    href="https://storybook.js.org/docs/react/configure/webpack"
-    target="_blank"
-  >
-    <img src={StackAlt} alt="Build" />
-    <span>
-      <strong>Build configuration</strong>
-      How to customize webpack and Babel
-    </span>
-  </a>
-  <a
-    className="link-item"
-    href="https://storybook.js.org/docs/react/configure/styling-and-css"
-    target="_blank"
-  >
-    <img src={Colors} alt="colors" />
-    <span>
-      <strong>Styling</strong>
-      How to load and configure CSS libraries
-    </span>
-  </a>
-  <a
-    className="link-item"
-    href="https://storybook.js.org/docs/react/get-started/setup#configure-storybook-for-your-stack"
-    target="_blank"
-  >
-    <img src={Flow} alt="flow" />
-    <span>
-      <strong>Data</strong>
-      Providers and mocking for data libraries
-    </span>
-  </a>
+<Meta title="Introduction" />
+ 
+<style>{`
+  .align-center {
+    justify-content: center;
+  }
+  .row {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+  .column {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  .ml-m72 {
+    margin-left: -72px;
+  }
+`}</style>
+<div class="row align-center">
+# 💻 MultiDirectory UI Showcase
 </div>
 
-<div className="subheading">Learn</div>
+Добро пожаловать в MultiDirectory Storybook! Эта интерактивная документация и среда разработки позволяет вам исследовать и экспериментировать с компонентами пользовательского интерфейса проекта MultiDirectory.
 
-<div className="link-list">
-  <a className="link-item" href="https://storybook.js.org/docs" target="_blank">
-    <img src={Repo} alt="repo" />
-    <span>
-      <strong>Storybook documentation</strong>
-      Configure, customize, and extend
-    </span>
-  </a>
-  <a className="link-item" href="https://storybook.js.org/tutorials/" target="_blank">
-    <img src={Direction} alt="direction" />
-    <span>
-      <strong>In-depth guides</strong>
-      Best practices from leading teams
-    </span>
-  </a>
-  <a className="link-item" href="https://github.com/storybookjs/storybook" target="_blank">
-    <img src={Code} alt="code" />
-    <span>
-      <strong>GitHub project</strong>
-      View the source and add issues
-    </span>
-  </a>
-  <a className="link-item" href="https://discord.gg/storybook" target="_blank">
-    <img src={Comments} alt="comments" />
-    <span>
-      <strong>Discord chat</strong>
-      Chat with maintainers and the community
-    </span>
-  </a>
-</div>
+## Что такое MultiDirectory?
+MultiDirectory - это комплексное веб-приложение, предоставляющее каталог различных ресурсов LDAP.
 
-<div className="tip-wrapper">
-  <span className="tip">Tip</span>Edit the Markdown in{' '}
-  <code>stories/Introduction.stories.mdx</code>
-</div>
+## Зачем использовать Storybook?
+
+Storybook - это мощный инструмент для разработки пользовательского интерфейса, который позволяет разработчикам создавать, демонстрировать и тестировать компоненты в изоляции. С помощью Storybook мы можем сосредоточиться на разработке и совершенствовании отдельных элементов пользовательского интерфейса независимо, без необходимости интеграции их в полный контекст приложения. Этот подход обеспечивает более быструю итерацию, упрощает сотрудничество между дизайнерами и разработчиками и гарантирует согласованность и повторное использование компонентов.
+
+## Как работать с MultiDirectory Storybook
+
+В этом проекте мы организовали компоненты пользовательского интерфейса MultiDirectory в структурированную и интерактивную документацию. Здесь вы можете переходить по различным категориям, просматривать и взаимодействовать с компонентами в различных состояниях и исследовать их доступные свойства и взаимодействия.
+Тут вы можете экспериментировать, изменять свойства и наблюдать, как компоненты реагируют на различные сценарии. С поддержкой горячей перезагрузки, все изменения будут отражены в режиме реального времени, обеспечивая мгновенную обратную связь и ускоряя процесс разработки.
+
+## Начало работы
+
+Чтобы начать работу с MultiDirectory Storybook, следуйте этим шагам:
+
+1. Клонируйте репозиторий MultiDirectory с [GitHub](https://github.com/MultifactorLab/MultiDirectory-Web-Admin).
+2. Установите необходимые зависимости с помощью выбранного вами менеджера пакетов.
+3. Запустите сервер разработки Storybook.
+```
+   ng run multidirectory-ui-kit:storybook
+```
+4. Откройте веб-браузер и перейдите по указанному локальному URL-адресу.
+
+После запуска вы сможете начать исследовать различные компоненты и их возможности. Используйте панель навигации слева, чтобы просматривать различные категории и компоненты. Щелкните по необходимому элементу,
+чтобы изучить его содержимое.
+Мы надеемся, что MultiDirectory Storybook улучшит ваш опыт разработки и поможет вам создавать компоненты пользовательского интерфейса для проекта MultiDirectory быстрее.
+Счастливого программирования!
+
+Если у вас возникнут вопросы или вам потребуется помощь, не стесняйтесь обращаться к нашей команде разработчиков.
+Мы готовы помочь!
+
+**Примечание:** MultiDirectory Storybook находится в стадии разработки, и новые компоненты и функции будут добавляться регулярно. 
+Следите за обновлениями и наслаждайтесь процессом создания пользовательского интерфейса MultiDirectory!

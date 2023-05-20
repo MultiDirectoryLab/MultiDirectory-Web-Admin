@@ -3,7 +3,7 @@ import { MdModalComponent } from "./modal.component";
 import { ModalModule } from 'ng-modal-full-resizable';
 import { ButtonComponent } from '../button/button.component'
 const meta: Meta<MdModalComponent> = {
-    title: 'Base/Modal',
+    title: 'Components/Modal',
     component: MdModalComponent,
     tags: ['autodocs'],
     decorators: [

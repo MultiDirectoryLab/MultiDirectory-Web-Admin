@@ -11,7 +11,7 @@ export class ButtonComponent {
     @Input() primary = false;
     @Output() click = new EventEmitter();
 
-    public emitClick(event: Event) {
+    emitClick(event: Event) {
         event.stopPropagation();
         this.click.emit(event);
     }

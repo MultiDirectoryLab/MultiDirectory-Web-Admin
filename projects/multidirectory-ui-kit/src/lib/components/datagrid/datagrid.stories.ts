@@ -3,7 +3,7 @@ import { DatagridComponent } from './datagrid.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 const meta: Meta<DatagridComponent> = {
-    title: 'Base/Datagrid',
+    title: 'Components/Datagrid',
     component: DatagridComponent,
     tags: ['autodocs'],
     decorators: [

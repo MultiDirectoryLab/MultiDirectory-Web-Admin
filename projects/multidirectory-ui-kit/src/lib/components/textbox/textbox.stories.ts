@@ -3,7 +3,7 @@ import { TextboxComponent } from "./textbox.component";
 import { FormsModule } from '@angular/forms';
 
 const meta: Meta<TextboxComponent> = {
-    title: 'Base/Textbox',
+    title: 'Components/Textbox',
     component: TextboxComponent,
     tags: ['autodocs'],
     decorators: [

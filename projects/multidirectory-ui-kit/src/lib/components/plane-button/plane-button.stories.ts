@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { PlaneButtonComponent } from './plane-button.component';
 
 const meta: Meta<PlaneButtonComponent> = {
-  title: 'Base/PlaneButton',
+  title: 'Components/PlaneButton',
   component: PlaneButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },

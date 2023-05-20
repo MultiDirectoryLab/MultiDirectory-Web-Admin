@@ -1,0 +1,14 @@
+<div class="flex-row align-center pointer">
+    <label class="switch" for="checkbox">
+        <input 
+            [disabled]="disabled"
+            [(ngModel)]="value"
+            (blur)="onBlur()"
+            #checkbox
+            type="checkbox" id="checkbox" />
+        <div class="slider round"></div>
+    </label>
+    <div class="label" (click)="checkbox.checked = !checkbox.checked">
+        <ng-content></ng-content>
+    </div>
+</div>

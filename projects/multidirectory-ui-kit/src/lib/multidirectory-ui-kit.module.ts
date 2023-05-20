@@ -13,6 +13,8 @@ import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.
 import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatagridComponent } from './components/datagrid/datagrid.component';
+import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { DatagridComponent } from './components/datagrid/datagrid.component';
     TreeviewComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,
-    DatagridComponent
+    DatagridComponent,
+    DropdownContainerDirective,
+    CheckboxComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +46,9 @@ import { DatagridComponent } from './components/datagrid/datagrid.component';
     TreeviewComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,
-    DatagridComponent
+    DatagridComponent,
+    DropdownContainerDirective,
+    CheckboxComponent
   ]
 })
 export class MultidirectoryUiKitModule { }
