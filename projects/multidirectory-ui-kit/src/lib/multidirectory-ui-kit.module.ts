@@ -15,6 +15,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatagridComponent } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobutton/radiobutton.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
     PlaneButtonComponent,
     DatagridComponent,
     DropdownContainerDirective,
-    CheckboxComponent
+    CheckboxComponent,
+    RadiobuttonComponent,
+    RadiogroupComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
     PlaneButtonComponent,
     DatagridComponent,
     DropdownContainerDirective,
-    CheckboxComponent
+    CheckboxComponent,
+    RadiobuttonComponent,
+    RadiogroupComponent
   ]
 })
 export class MultidirectoryUiKitModule { }

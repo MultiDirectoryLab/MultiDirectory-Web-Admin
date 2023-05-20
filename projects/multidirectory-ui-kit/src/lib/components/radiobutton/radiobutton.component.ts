@@ -1,22 +1,21 @@
-import { Component, EventEmitter, Input, Output, forwardRef } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
-    selector: 'md-checkbox',
-    templateUrl: './checkbox.component.html',
-    styleUrls: ['./checkbox.component.scss'],
+    selector: 'md-radiogroup',
+    template: '',
     providers: [
         {
           provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => CheckboxComponent),  // replace name as appropriate
+          useExisting: forwardRef(() => RadiogroupComponent),  // replace name as appropriate
           multi: true
         }
     ]
 })
-export class CheckboxComponent implements ControlValueAccessor {
+export class RadiogroupComponent implements ControlValueAccessor {
     @Input() disabled = false;
 
-    innerValue = false;
+    innerValue: any;
 
     get value(): any {
         return this.innerValue;
@@ -52,5 +51,21 @@ export class CheckboxComponent implements ControlValueAccessor {
 
     onBlur() {
         this._onTouched();
+    }
+}
+
+@Component({
+    selector: 'md-radiobutton',
+    templateUrl: 'radiobutton.component.html',
+    styleUrls: ['radiobutton.component.scss']
+})
+export class RadiobuttonComponent {
+    @Input() name!: string;
+    @Input() value: any;
+    @Input() group!: RadiogroupComponent;
+    @ViewChild('radio') input!: ElementRef<HTMLInputElement>;
+    onClick(event: Event) {
+        this.input.nativeElement.click();
+        this.group.value = this.value;
     }
 }

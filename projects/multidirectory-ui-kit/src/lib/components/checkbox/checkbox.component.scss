@@ -1,6 +1,7 @@
 @use '../../styles/global.scss';
 .pointer {
     cursor: pointer;
+    user-select: none;
 }
 .switch {
     display: inline-block;
@@ -51,5 +52,6 @@ input:checked + .slider {
 .label {
     @include global.use-inter-typography(400, 14px, 25.2px);
     padding-left: 8px;
+    width: 100%;
 }
  

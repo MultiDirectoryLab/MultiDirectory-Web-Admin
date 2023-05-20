@@ -16,3 +16,4 @@ export * from './lib/components/plane-button/plane-button.component';
 export * from './lib/components/datagrid/datagrid.component';
 export * from './lib/components/dropdown-menu/dropdown-container.directive';
 export * from './lib/components/checkbox/checkbox.component';
+export * from './lib/components/radiobutton/radiobutton.component';
