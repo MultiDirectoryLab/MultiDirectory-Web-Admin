@@ -6,10 +6,9 @@ RUN npm install
 COPY . /app
 RUN ng build multidirectory-ui-kit
 RUN npm link dist/multidirectory-ui-kit/
-RUN ng build multidirectory-app --output-path=/dist
-
+RUN npm run build-storybook
+COPY . /app
+EXPOSE 3000
 FROM nginx:1.17.1-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build  /dist/. /usr/share/nginx/html/.
-
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js && exec nginx -g 'daemon off;'"]
+COPY --from=build  /app/storybook-static/. /usr/share/nginx/html/.

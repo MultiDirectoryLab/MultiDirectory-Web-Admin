@@ -1,0 +1,25 @@
+version: "3.3"
+name: multidirectory
+services:
+  multidirectory-app:
+    container_name: multidirectory_app
+    build: .
+    restart: 'no'
+    environment:
+      - API_URL=http://api.localhost
+    ports:
+      - 9080:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.multidirectory-app.rule=Host(`ui.localhost`)"
+      - "traefik.http.routers.multidirectory-app.entrypoints=web"
+  multidirectory-storybook:
+    build: 
+      context:  .
+      dockerfile: Dockerfile.storybook
+    restart: always
+    profiles:
+      - showcase
+    ports:
+      - 9081:80
+    container_name: multidirectory-ui-storybook
