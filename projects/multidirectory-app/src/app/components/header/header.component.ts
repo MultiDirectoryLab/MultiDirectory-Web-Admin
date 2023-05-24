@@ -9,21 +9,9 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class HeaderComponent implements OnDestroy {
     unsubscribe = new Subject<boolean>();
-    constructor(private app: AppSettingsService) {
-        app.hideNavigationalPanelRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(val => {
-            this.leftPaneHidden = val
-        }) 
-    }
+    navigationalPanelVisible = true;
 
-    _leftPaneHidden = false;
-    get leftPaneHidden() {
-        return this._leftPaneHidden;
-    }
-    set leftPaneHidden(val: boolean) {
-        this._leftPaneHidden = val;
-        this.app.showNavigationalPanel(val);
+    constructor(private app: AppSettingsService) {
     }
 
     ngOnDestroy(): void {
@@ -31,7 +19,9 @@ export class HeaderComponent implements OnDestroy {
         this.unsubscribe.complete();
     }
 
-    test() {
-        alert('test');
+    onChange(value: boolean) {
+        this.navigationalPanelVisible = value;
+        this.app.setNavigationalPanelVisiblity(value);
+        window.dispatchEvent(new Event('resize'));
     }
 }

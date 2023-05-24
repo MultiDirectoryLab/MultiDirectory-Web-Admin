@@ -35,7 +35,9 @@ export class HomeComponent implements OnDestroy {
             this.cdr.detectChanges();
         });
 
-        this.app.hideNavigationalPanelRx.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+        this.app.navigationalPanelVisibleRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
             this.showLeftPane = x;
         })
     }

@@ -33,6 +33,14 @@ export abstract class HttpRequest<ResponseType> {
         return this;
     }
 
+    refreshToken(): HttpRequest<ResponseType> {
+        const token = localStorage.getItem('refresh_token');
+        if(token) {
+            this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${token}`);
+        }
+        return this;
+    }
+
     abstract execute(): Observable<ResponseType>;
 }
 

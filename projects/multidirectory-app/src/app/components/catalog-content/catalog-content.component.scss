@@ -4,9 +4,16 @@
     background-color: #FAFAFA;
     height: 100%;
     padding: 1rem;
+
+    display: flex;
+    flex-flow: column nowrap;
 }
 
 .control-pane {
     align-items: center;
     gap: 1rem;
+}
+
+.h-100 {
+    height: 100%;
 }

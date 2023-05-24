@@ -4,9 +4,10 @@
     <md-button>Создать группу</md-button>
     <md-button [mdDropdownContainer]="helpMenu">Добавить объект</md-button>
 </div>
-<md-datagrid #grid [rows]="rows" [columns]="columns">
-
-</md-datagrid> 
+<div class="w-100 h-100">
+    <md-datagrid #grid [rows]="rows" [columns]="columns">
+    </md-datagrid> 
+</div>
 
 
 <md-dropdown-menu #helpMenu>

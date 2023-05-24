@@ -16,7 +16,7 @@
 <md-dropdown-menu #helpMenu>
     <div class="dropdown-item">Добавить/удалить столбцы...</div>
     <div class="dropdown-item">
-        <md-checkbox [(ngModel)]="leftPaneHidden">Скрыть дерево</md-checkbox>
+        <md-checkbox [ngModel]="navigationalPanelVisible" (ngModelChange)="onChange($event)">Скрыть дерево</md-checkbox>
     </div>
     <div class="dropdown-item">
         <md-radiobutton name="viewmode" value="1" [group]="radiogroup">Маленькие иконки</md-radiobutton>

@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { HideControlBar } from './components/login/hidecontrolbar.directive';
@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
 import { HeaderComponent } from './components/header/header.component';
+import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,11 @@ import { HeaderComponent } from './components/header/header.component';
       useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient) => 
               new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings),
       deps: [MultidirectoryAdapterSettings, HttpClient]
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: StaleTokenInterceptor,
+    multi: true,
   }],
   bootstrap: [AppComponent]
 })

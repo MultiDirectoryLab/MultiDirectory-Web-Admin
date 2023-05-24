@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  multidirectoryApiUrl: (<any>window)['env']['multidirectoryApiUrl'] || "http://api.localhost"
 };

@@ -24,6 +24,12 @@ export class MultidirectoryApiService {
                 .execute();
     }
 
+    refresh(): Observable<LoginResponse> {
+        return this.httpClient.post<LoginResponse>('auth/token/refresh')
+                .refreshToken()
+                .execute();
+    }
+
     whoami(): Observable<WhoamiResponse> {
         return this.httpClient.get<WhoamiResponse>('auth/me')
                 .ensureBearer()

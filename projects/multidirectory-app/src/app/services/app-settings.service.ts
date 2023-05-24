@@ -5,9 +5,9 @@ import { BehaviorSubject, Observable } from "rxjs";
     providedIn: "root"
 })
 export class AppSettingsService {
-    hideNavigationalPanelRx = new BehaviorSubject<boolean>(true)
+    navigationalPanelVisibleRx = new BehaviorSubject<boolean>(true)
 
-    showNavigationalPanel(state: boolean) {
-        this.hideNavigationalPanelRx.next(state);
+    setNavigationalPanelVisiblity(state: boolean) {
+        this.navigationalPanelVisibleRx.next(state);
     }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Input, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, ElementRef, HostListener, Input, ViewChild, ViewEncapsulation } from "@angular/core";
 import { Component } from "@angular/core";
 import { ColumnMode, DatatableComponent, TableColumn } from "@swimlane/ngx-datatable";
 
@@ -15,7 +15,8 @@ import { ColumnMode, DatatableComponent, TableColumn } from "@swimlane/ngx-datat
 })
 export class DatagridComponent implements AfterViewInit {
     ColumnMode = ColumnMode;
-    @ViewChild('grid', { static: true }) grid!: DatatableComponent
+    @ViewChild('datagrid') grid!: DatatableComponent;
+
     init = false;
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
@@ -25,5 +26,14 @@ export class DatagridComponent implements AfterViewInit {
     ngAfterViewInit() {
         setTimeout(_ => {this.init = true;}, 0)
         this.cdr.detectChanges();
+    }
+    @HostListener('window:resize', ['$event'])
+    onResize($event: Event) {
+        if(!this.grid) {
+            return;
+        }
+        this.init = false;
+        this.cdr.detectChanges();
+        this.init = true;
     }
 }
