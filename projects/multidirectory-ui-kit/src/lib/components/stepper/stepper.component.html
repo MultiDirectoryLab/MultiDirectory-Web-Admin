@@ -1,0 +1,6 @@
+<ng-container 
+    *ngIf="currentIndex >= 0"
+    [ngTemplateOutlet]="content.get(currentIndex).templateRef"
+    [ngTemplateOutletContext]="{ $implicit: node, context: context }">
+</ng-container>
+

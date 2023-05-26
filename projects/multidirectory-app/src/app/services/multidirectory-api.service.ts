@@ -3,10 +3,11 @@ import { Inject, Injectable } from "@angular/core";
 import { LoginResponse } from "../models/login/login-response";
 import { ApiAdapter } from "../core/api/api-adapter";
 import { MultidirectoryAdapterSettings } from "../core/api/adapter-settings";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { WhoamiResponse } from "../models/whoami/whoami-response";
 import { SearchRequest } from "../models/entry/search-request";
 import { SearchResponse } from "../models/entry/search-response";
+import { SetupRequest } from "../models/setup/setup-request";
 
 @Injectable({
     providedIn: 'root'
@@ -40,5 +41,15 @@ export class MultidirectoryApiService {
         return this.httpClient.post<SearchResponse>('entry/search', request)
                 .ensureBearer()
                 .execute();
+    }
+
+    private tempSetup = false;
+    checkSetup(): Observable<boolean> {
+        return of(this.tempSetup); //this.httpClient.get<boolean>('entry/setup').execute();
+    }
+
+    setup(request: SetupRequest): Observable<boolean> {
+        this.tempSetup = true;
+        return of(true);
     }
 }

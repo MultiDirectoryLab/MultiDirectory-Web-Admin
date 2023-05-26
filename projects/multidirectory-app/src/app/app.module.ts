@@ -8,13 +8,14 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
-import { HideControlBar } from './components/login/hidecontrolbar.directive';
+import { HideControlBar } from './core/hidecontrolbar.directive';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
+import { SetupComponent } from './components/setup/setup.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { StaleTokenInterceptor } from './core/authorization/stale-token-intercep
     HideControlBar,
     HomeComponent,
     HeaderComponent,
-    CatalogContentComponent
+    CatalogContentComponent,
+    SetupComponent
   ],
   imports: [
     BrowserModule,

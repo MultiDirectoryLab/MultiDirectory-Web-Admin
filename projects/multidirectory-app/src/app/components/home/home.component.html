@@ -13,7 +13,7 @@
                 <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="logout()">Настройки аккаунта</div>
+                <div class="dropdown-item" (click)="loginMenu.close(); accountsettings.open()">Настройки аккаунта</div>
                 <hr />
                 <div class="dropdown-item" (click)="logout()">Выход из системы</div>
             </md-dropdown-menu>
@@ -24,3 +24,10 @@
         <app-catalog-content [parentNode]="selectedNode"></app-catalog-content>
     </div>
 </div>
+
+<md-modal #accountsettings>
+    <label class="app-modal-header">Настройки</label>
+    <div class="app-modal-body">
+        TODO
+    </div>
+</md-modal>

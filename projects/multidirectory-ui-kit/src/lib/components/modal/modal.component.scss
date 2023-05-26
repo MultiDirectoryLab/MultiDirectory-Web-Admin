@@ -1,5 +1,5 @@
 @use '../../styles/global.scss';
 :host ::ng-deep .ui-modal-header {
-    background-color: global.$md-white-blue-2;
-    padding: 0;
+    background-color: global.$md-dark-blue;
 }
+

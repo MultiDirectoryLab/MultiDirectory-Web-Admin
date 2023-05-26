@@ -21,7 +21,6 @@ export class DropdownMenuComponent {
     }
 
     setPosition(left: number, top: number) {
-        console.log(left, top);
         this._top = top;
         this._left = left;
         
@@ -54,6 +53,11 @@ export class DropdownMenuComponent {
                 }
             })
         });
+    }
+
+    clickInside($event: PointerEvent ) {
+        console.log($event);
+        this.close();
     }
 
     open() {
