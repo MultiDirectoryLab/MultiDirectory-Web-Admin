@@ -24,7 +24,7 @@
 
             <img [src]="data.icon"    />   
 
-            {{data.name}}
+            <label class="tree-label">{{data.name}}</label>
         </li>
     </div>
     <ng-container *ngIf="data.children != null && data.expanded">

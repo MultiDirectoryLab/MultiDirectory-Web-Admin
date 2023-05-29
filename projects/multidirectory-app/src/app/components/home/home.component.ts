@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
 import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
-import { Treenode } from "multidirectory-ui-kit";
+import { Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
 
@@ -18,6 +18,7 @@ export class HomeComponent implements OnDestroy {
     selectedNode?: LdapNode;
     user?: WhoamiResponse;
     showLeftPane = false;
+    @ViewChild('treeView') treeView?: TreeviewComponent;
     unsubscribe = new Subject<boolean>();
     constructor(
         private router: Router, 
@@ -54,5 +55,12 @@ export class HomeComponent implements OnDestroy {
 
     handleNodeSelection(node: LdapNode) {
         this.selectedNode = node;
+    }
+    
+    changeTreeView(event: LdapNode) {
+        console.log(this.treeView, event);
+        if(this.treeView) {
+            this.treeView.selectNode(event);
+        }
     }
 }

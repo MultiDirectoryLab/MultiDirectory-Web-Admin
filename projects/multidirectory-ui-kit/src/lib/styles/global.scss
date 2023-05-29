@@ -50,7 +50,9 @@ label.bold {
 label, p, div {
     @include use-inter-typography(400, 14px, 25.2px)
 }
-
+span.accented {
+    @include use-inter-typography(500, 14px, 25.2px)
+}
 
 .column {
     display: flex;
@@ -75,4 +77,19 @@ label, p, div {
 }
 .p-0 {
     padding: 0;
+}
+.p-8 {
+    padding: 8px;
+}
+.pv-8 {
+    padding: 8px 0;
+}
+.mb-16 {
+    margin-bottom: 16px;
+}
+.text-nowrap {
+    white-space: nowrap;
+}
+.text-justify {
+    text-align: justify;
 }

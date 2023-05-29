@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 export class SetupComponent {
     password = '';
     login = '';
-    domain = ''
+    domain = '';
     constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private router: Router) {}
 
     onSetup() {

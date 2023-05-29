@@ -1,36 +1,42 @@
-<!--md-modal #modal [opened]="true" appHideControlbar [width]="'350px'">
+<md-modal #modal [opened]="true" appHideControlbar [width]="'350px'">
     <ng-container class="app-modal-header">
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
-    <div class="p-8">
-        <div class="flex-row flex-space-between">
-            <label>Domain</label>
-            <md-textbox [(ngModel)]="domain"></md-textbox>
-        </div>
 
-        <div class="flex-row flex-space-between">
-            <label>Admin Login</label>
-            <md-textbox [(ngModel)]="login"></md-textbox>
-        </div>
+    <div class="w-100">
+        <md-stepper #stepper (onFinish)="onSetup()">
+            <ng-template mdStep>
+                <div class="flex-row flex-space-between">
+                    <span class="pv-8 text-justify accented mb-16">
+                        To use the Multidirectory app, please, complete the initial setup process
+                    </span>
+                </div>
+                <div class="flex-row flex-space-between">
+                    <label>Domain</label>
+                    <md-textbox [(ngModel)]="domain"></md-textbox>
+                </div>
+            </ng-template>
+            <ng-template mdStep>
+                <div class="flex-row flex-space-between">
+                    <label>Admin Login</label>
+                    <md-textbox [(ngModel)]="login"></md-textbox>
+                </div>
 
-        <div class="flex-row flex-space-between">
-            <label>Admin Password</label>
-            <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
-        </div>
-
-        <div class="flex-row flex-space-between">
-            <label>Repeat Password</label>
-            <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
-        </div>
+                <div class="flex-row flex-space-between">
+                    <label>Admin Password</label>
+                    <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
+                </div>
+        
+                <div class="flex-row flex-space-between">
+                    <label>Repeat Password</label>
+                    <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
+                </div>        
+            </ng-template>
+        </md-stepper>  
     </div>
-
     <ng-container class="app-modal-footer">
         <div class="flex-row flex-center">
-            <md-button [primary]="true" (click)="onSetup()">Setup</md-button>
+            <md-button [primary]="true" (click)="stepper.next()">Next</md-button>
         </div>
     </ng-container>
-</md-modal-->
-
-<div style="width: 300px; height: 300px; background: white;">
-    <md>
-</div>
+</md-modal>

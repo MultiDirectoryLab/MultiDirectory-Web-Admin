@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild, ViewChildren } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
 
 @Component({
@@ -12,7 +12,7 @@ export class MdModalComponent implements AfterViewInit {
     @Input() opened = false;
     @Input() backdrop = true;
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
 
     open() {
          this.modalRoot?.show();
@@ -27,6 +27,10 @@ export class MdModalComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         if(this.opened) {
             this.open();
+            this.modalRoot?.calcBodyHeight();
+            this.modalRoot?.center();
+            this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
+            this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
             this.cdr.detectChanges();
         }
     }
