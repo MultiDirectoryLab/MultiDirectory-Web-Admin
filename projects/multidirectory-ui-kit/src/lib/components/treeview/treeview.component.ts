@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { Observable, lastValueFrom } from "rxjs";
 
 @Component({
@@ -7,11 +7,19 @@ import { Observable, lastValueFrom } from "rxjs";
     styleUrls: ['./treeview.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TreeviewComponent {
+export class TreeviewComponent implements OnInit {
     @Input() tree: Treenode[] = [];
     @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
+    @Input() nodeLabel: TemplateRef<any> | null = null;
+    @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
     @Output() onNodeSelect = new EventEmitter<Treenode>();
     constructor(private cdr: ChangeDetectorRef) {}
+    ngOnInit(): void {
+        if(!this.nodeLabel) {
+            console.log(this.defaultLabel)
+            this.nodeLabel = this.defaultLabel;
+        }
+    }
 
     async loadChildren(node: Treenode) {
         if(!!node.loadChildren && (node.children == null || this.expandStrategy == ExpandStrategy.AlwaysUpdate))
@@ -89,7 +97,6 @@ export enum ExpandStrategy {
 export class Treenode {    
     id: string = '';
     name?: string;
-    icon?: string;
     selectable = false;
     selected: boolean = false;
     expanded: boolean = false;

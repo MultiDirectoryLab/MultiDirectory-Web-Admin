@@ -3,6 +3,7 @@
         <img src="/assets/logo_login.svg" class="logo-img"/>
         <md-treeview 
             [tree]="tree" 
+            [nodeLabel]="mdTreeModal"
             class="treeview" 
             (onNodeSelect)="handleNodeSelection($any($event))"
             #treeView>
@@ -35,3 +36,8 @@
         TODO
     </div>
 </md-modal>
+
+<ng-template #mdTreeModal let-data>
+    <img [src]="data.icon"/>
+    <label class="tree-label">{{data.name}}</label>
+</ng-template>

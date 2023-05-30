@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { DropdownMenuComponent } from "./dropdown-menu.component";
-import { ButtonComponent } from "multidirectory-ui-kit";
+import { ButtonComponent } from "../button/button.component";
 
 const meta: Meta<DropdownMenuComponent> = {
     title: 'Components/DropdownMenu',

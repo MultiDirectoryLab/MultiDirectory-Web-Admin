@@ -1,38 +1,45 @@
 <div class="scrollable">
-    <ul>
-        <ng-container 
-            *ngFor="let node of tree"
-            [ngTemplateOutlet]="treeNode"
-            [ngTemplateOutletContext]="{ $implicit: node }"></ng-container>
-    </ul>
+    <div class="tree-item-wrapper">
+    <ng-container 
+        *ngFor="let node of tree"
+        [ngTemplateOutlet]="treeNode"
+        [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
+    </div>
 </div>
 
 
-<ng-template #treeNode let-data>
-    <div (click)="handleNodeClick($event, data)">
-        <li class="tree-item" [ngClass]="{
+<ng-template #treeNode let-data let-level="level">
+    <div class="tree-item-wrapper" (click)="handleNodeClick($event, data)">
+        <span class="tree-item" [ngClass]="{
             expanded: data.expanded,
             expandable: (data.children?.length > 0 || !!data.loadChildren),
             selected: data.selected
-        }">
+        }"
+        [ngStyle]="{
+            'left': level + 'rem'
+         }">
             <label
                 class="expand-mark"
                 *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
               >
                 {{ data.expanded? '-' : '+' }}
             </label>
-
-            <img [src]="data.icon"    />   
-
-            <label class="tree-label">{{data.name}}</label>
-        </li>
+            
+            <ng-container 
+                [ngTemplateOutlet]="nodeLabel"
+                [ngTemplateOutletContext]="{ $implicit: data  }"></ng-container>
+        </span>
     </div>
     <ng-container *ngIf="data.children != null && data.expanded">
-        <ul>
+        <div>
             <ng-container *ngFor="let child of data.children"
                 [ngTemplateOutlet]="treeNode"
-                [ngTemplateOutletContext]="{ $implicit: child }"
+                [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
             ></ng-container>
-        </ul>
+        </div>
     </ng-container>
+</ng-template>
+
+<ng-template #defaultLabel let-data>
+    <label class="tree-label">{{data.name}}</label>
 </ng-template>

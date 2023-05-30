@@ -10,6 +10,8 @@ import { LdapNodeType, IconResolver } from "./icon-resolver";
 export class LdapNode extends Treenode {
     type: LdapNodeType = LdapNodeType.None;
     entry?: SearchEntry;
+    icon?;
+
     constructor(obj: Partial<LdapNode>) {
         super({});
         Object.assign(this, obj);

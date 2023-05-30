@@ -1,10 +1,10 @@
 import { Component, ElementRef, NgModule, ViewChild } from "@angular/core";
 import { StepperComponent } from "./stepper.component";
-import { MultidirectoryUiKitModule, TextboxComponent } from "multidirectory-ui-kit";
 import { FirstStepComponent } from "./steps/first-step.component";
 import { SecondStepComponent } from "./steps/second-step.component";
 import { ThirdStepComponent } from "./steps/third-step.component";
 import { FormsModule } from "@angular/forms";
+import { MultidirectoryUiKitModule } from "../../multidirectory-ui-kit.module";
 
 export class TestData {
     firstStep: string = '';
