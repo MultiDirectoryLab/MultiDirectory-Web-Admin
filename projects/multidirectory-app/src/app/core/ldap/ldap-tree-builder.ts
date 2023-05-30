@@ -74,9 +74,10 @@ export class LdapTreeBuilder {
         return this.api.search(SearchQueries.getContent(parent)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapNode({
                         name: displayName,
-                        type: LdapNodeType.Folder,
+                        type: objectClass?.vals.includes('user') ? LdapNodeType.Person : LdapNodeType.Folder,
                         selectable: true,
                         entry: x,
                         id: x.object_name
