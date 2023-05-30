@@ -4,12 +4,28 @@
     <md-button>Создать группу</md-button>
     <md-button [mdDropdownContainer]="helpMenu">Добавить объект</md-button>
 </div>
+<md-modal #properites >
+    <div class="app-modal-header">
+        Свойства
+    </div> 
+    <md-datagrid  #propGrid [rows]="properties!" [columns]="propColumns">
+    </md-datagrid> 
+</md-modal>
+
 <div class="w-100 h-100">
-    <md-datagrid #grid [rows]="rows" [columns]="columns">
+    <md-datagrid #grid [rows]="rows" [columns]="columns" (dblclick)="onSelect($event)" (contextmenu)="showContextMenu($event)">
     </md-datagrid> 
 </div>
 
-
+<ng-template #iconTemplate let-row="row" let-value="value">
+    <img [src]="row.icon" />
+    {{row.name}}
+</ng-template>
 <md-dropdown-menu #helpMenu>
     <div class="dropdown-item">Помощь</div>
+</md-dropdown-menu> 
+
+<md-dropdown-menu #contextMenu>
+    <div class="dropdown-item" (click)="contextMenu.close(); showProperties();">Подробнее</div>
+
 </md-dropdown-menu> 

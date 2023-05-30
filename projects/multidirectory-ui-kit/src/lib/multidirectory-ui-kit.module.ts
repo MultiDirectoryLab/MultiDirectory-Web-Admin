@@ -16,6 +16,8 @@ import { DatagridComponent } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobutton/radiobutton.component';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { StepDirective } from './components/stepper/step.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobut
     DropdownContainerDirective,
     CheckboxComponent,
     RadiobuttonComponent,
-    RadiogroupComponent
+    RadiogroupComponent,
+    StepperComponent,
+    StepDirective
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,9 @@ import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobut
     DropdownContainerDirective,
     CheckboxComponent,
     RadiobuttonComponent,
-    RadiogroupComponent
+    RadiogroupComponent,
+    StepperComponent,
+    StepDirective
   ]
 })
 export class MultidirectoryUiKitModule { }

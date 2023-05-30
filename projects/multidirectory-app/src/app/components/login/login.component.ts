@@ -17,7 +17,6 @@ export class LoginComponent implements AfterContentInit {
 
     onLogin() {
         this.api.login(this.login, this.password).subscribe(response => {
-            console.log(response);
             localStorage.setItem('access_token', response.access_token);
             localStorage.setItem('refresh_token', response.refresh_token);
             this.router.navigate(['/']);

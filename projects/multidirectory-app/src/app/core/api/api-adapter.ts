@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AdapterSettings } from "./adapter-settings";
-
+// 
 export class ApiAdapter<Settings extends AdapterSettings> {
 
     constructor(private httpClient: HttpClient, private _settings: Settings) {}

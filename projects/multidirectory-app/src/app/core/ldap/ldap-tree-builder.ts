@@ -10,6 +10,8 @@ import { LdapNodeType, IconResolver } from "./icon-resolver";
 export class LdapNode extends Treenode {
     type: LdapNodeType = LdapNodeType.None;
     entry?: SearchEntry;
+    icon?;
+
     constructor(obj: Partial<LdapNode>) {
         super({});
         Object.assign(this, obj);
@@ -28,20 +30,22 @@ export class LdapTreeBuilder {
             map((res: SearchResponse) => res.search_result.map(x => {
                     const root = new LdapNode({
                         name: 'Пользователи Multidirectory',
-                        type: LdapNodeType.Root
+                        type: LdapNodeType.Root,
+                        id: 'root'
                     });
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
                     const serverNode = new LdapNode({ 
                             name: this.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapNodeType.Server,
                             selectable: true,
-                            entry: x
+                            entry: x,
+                            id: namingContext?.vals[0] ?? ''
                         },
                     );
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '');
 
                     root.children = [
-                        new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true }),
+                        new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved' }),
                         serverNode,
                     ]
                     return root;
@@ -58,7 +62,8 @@ export class LdapTreeBuilder {
                         name: displayName,
                         type: LdapNodeType.Folder,
                         selectable: true,
-                        entry: x
+                        entry: x,
+                        id: x.object_name
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;
@@ -71,11 +76,13 @@ export class LdapTreeBuilder {
         return this.api.search(SearchQueries.getContent(parent)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapNode({
                         name: displayName,
-                        type: LdapNodeType.Folder,
+                        type: objectClass?.vals.includes('user') ? LdapNodeType.Person : LdapNodeType.Folder,
                         selectable: true,
-                        entry: x
+                        entry: x,
+                        id: x.object_name
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;

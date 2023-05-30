@@ -48,5 +48,22 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
+    },
+
+
+    getProperites(baseObject: string): SearchRequest {
+      console.log('base', baseObject);
+      return new SearchRequest({
+          "base_object": baseObject,
+          "scope": 0,
+          "deref_aliases": 0,
+          "size_limit": 0,
+          "time_limit": 0,
+          "types_only": false,
+          "filter": "(objectClass=*)",
+          "attributes": [
+            "*"
+          ]
+        });
     }
 };

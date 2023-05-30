@@ -14,6 +14,7 @@
 }
 
 .tree-item {
+    position: relative;
     list-style: none;
     padding-left: 8px;
     cursor: initial;
@@ -40,6 +41,7 @@
 .expand-mark {
     cursor: pointer;
 }
-
-
-
+.tree-item-wrapper {
+    padding-left: 1rem;
+    cursor: pointer;
+}

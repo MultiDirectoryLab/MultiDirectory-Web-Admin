@@ -30,8 +30,12 @@
     }
 
     .datatable-body-row {
+        cursor: pointer;
         border-bottom: 1px solid global.$md-neutral-300;
         padding: 4px 8px;
+        &.active {
+            color: global.$md-blue;
+        }
     }
     .datatable-body-cell {
         .datatable-body-cell-label  {

@@ -1,8 +1,8 @@
-<md-modal #modal [opened]="true" appHideControlbar [width]="'300px'">
+<md-modal #modal [opened]="true" class="paddingless" appHideControlbar [width]="'300px'">
     <ng-container class="app-modal-header">
-        <img src="/assets/logo_login.svg" class="logo-img"/>
+        <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
-    <div class="p-8">
+    <div class="w-100">
         <div class="flex-row flex-space-between">
             <label>Login</label>
             <md-textbox [(ngModel)]="login"></md-textbox>

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit, ViewChild } from "@angular/core";
+import { AfterContentInit, Directive, ElementRef, Input } from "@angular/core";
 
 @Directive({
     selector: '[appHideControlbar]'
