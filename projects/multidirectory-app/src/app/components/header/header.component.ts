@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
 import { AppSettingsService } from "../../services/app-settings.service";
-import { Subject, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
 
 @Component({
     selector: 'app-header',

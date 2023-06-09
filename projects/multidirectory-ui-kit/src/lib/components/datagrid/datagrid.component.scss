@@ -34,7 +34,8 @@
         border-bottom: 1px solid global.$md-neutral-300;
         padding: 4px 8px;
         &.active {
-            color: global.$md-blue;
+            color: global.$md-white;
+            background-color: global.$md-dark-blue-4;
         }
     }
     .datatable-body-cell {

@@ -8,8 +8,7 @@
     <div class="app-modal-header">
         Свойства
     </div> 
-    <md-datagrid  #propGrid [rows]="properties!" [columns]="propColumns">
-    </md-datagrid> 
+    <app-entity-properties #propData [entityDn]="contextRow?.id"></app-entity-properties>
 </md-modal>
 
 <div class="w-100 h-100">
@@ -26,6 +25,5 @@
 </md-dropdown-menu> 
 
 <md-dropdown-menu #contextMenu>
-    <div class="dropdown-item" (click)="contextMenu.close(); showProperties();">Подробнее</div>
-
+    <div class="dropdown-item" (click)="contextMenu.close(); properites.open(); propData.loadData();">Подробнее</div>
 </md-dropdown-menu> 

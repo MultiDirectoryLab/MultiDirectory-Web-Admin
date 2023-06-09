@@ -6,7 +6,6 @@ import { AfterContentInit, Directive, ElementRef, Input } from "@angular/core";
 export class HideControlBar implements AfterContentInit {
     @Input() width = ''
     constructor( private elem: ElementRef) {
-        console.log('hide controlbar');
     }
     
     ngAfterContentInit(): void {

@@ -11,8 +11,10 @@ export class MdModalComponent implements AfterViewInit {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
     @Input() opened = false;
     @Input() backdrop = true;
+    @Input() height: string = '';
 
-    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
+    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {
+    }
 
     open() {
          this.modalRoot?.show();

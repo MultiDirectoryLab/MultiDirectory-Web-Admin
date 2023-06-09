@@ -5,6 +5,7 @@ import { TestData } from "../stepperttest.component";
     selector: 'test-first-step',
     template: `
         <div style="width:200px;">
+            <label>First</label>
             <md-textbox [(ngModel)]="context.firstStep"></md-textbox>
         </div>
     `

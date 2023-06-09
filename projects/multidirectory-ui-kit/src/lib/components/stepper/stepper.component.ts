@@ -1,4 +1,4 @@
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList } from "@angular/core";
+import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from "@angular/core";
 import { StepDirective } from "./step.directive";
 @Component({
     selector: 'md-stepper',
@@ -6,18 +6,19 @@ import { StepDirective } from "./step.directive";
     styleUrls: ['./stepper.component.scss'],
 })
 export class StepperComponent {
-
-    @ContentChildren(StepDirective) content!: QueryList<StepDirective>;
+    @ContentChildren(StepDirective) steps!: QueryList<StepDirective>;
     currentIndex = 0;
+    @Output() onNext = new EventEmitter<TemplateRef<any>>();
     @Output() onFinish = new EventEmitter<void>();
     @Input() context!: any;
-
-
+    @Input() renderAll = false;
     next() {
         this.currentIndex++;
-        if(this.currentIndex == this.content.length) {
+        if(this.currentIndex == this.steps.length) {
             this.currentIndex = -1;
             this.onFinish.emit();
+        } else {
+            this.onNext.emit(this.steps.get(this.currentIndex)?.templateRef)
         }
     }
 }

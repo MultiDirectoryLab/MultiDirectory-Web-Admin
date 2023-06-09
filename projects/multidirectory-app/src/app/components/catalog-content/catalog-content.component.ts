@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
-import { SearchEntry, SearchResponse } from "../../models/entry/search-response";
 import { Subject } from "rxjs";
 import { ContextMenuEvent, DatagridComponent, DropdownMenuComponent } from "multidirectory-ui-kit";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { SearchQueries } from "../../core/ldap/search";
+import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
 
 export interface TableRow {
     icon?: string,
@@ -18,7 +17,7 @@ export interface TableRow {
 @Component({
     selector: 'app-catalog-content',
     templateUrl: './catalog-content.component.html',
-    styleUrls: ['./catalog-content.component.scss']
+    styleUrls: ['./catalog-content.component.scss'],
 })
 export class CatalogContentComponent implements OnInit {
     private _parentNode?: LdapNode;
@@ -31,12 +30,11 @@ export class CatalogContentComponent implements OnInit {
     rows: TableRow[] = [];
     @ViewChild('contextMenu', { static: true }) contextMenu!: DropdownMenuComponent;
     @ViewChild('properites', { static: true }) properitesModal!: DropdownMenuComponent;
-    @ViewChild('propGrid', { static: true }) propGrid!: DatagridComponent;
-
+    @ViewChild('grid', { static: true }) grid!: DatagridComponent;
     @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
     columns: TableColumn[] = [];
     contextRow?: LdapNode;
-    properties?: any[];
+
 
     constructor(private ldap: LdapTreeBuilder, private cdr: ChangeDetectorRef, private api: MultidirectoryApiService) {}
 
@@ -52,32 +50,20 @@ export class CatalogContentComponent implements OnInit {
         if(this._parentNode?.entry?.object_name == undefined) {
             return;
         }
-        this.ldap.getContent(this._parentNode.entry.object_name).subscribe(x => {
+        this.ldap.getContent(this._parentNode.entry.object_name, this.parentNode!).subscribe(x => {
             this.rows = x.map(node => <TableRow>{
                 icon: node.icon ?? '',
                 name: node.name ?? '',
-                type: node.entry ? this.getType(node.entry) : '',
+                type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
                 entry: node,
-                description: ''
+                description: '',
             });
+            this.rows = [<TableRow>{
+                name: '...',
+                entry: this._parentNode
+            }].concat(this.rows);
             this.cdr.detectChanges();
         });
-    }
-
-
-    getType(entry: SearchEntry): string | undefined {
-        const objectClass = entry.partial_attributes.find(x => x.type == 'objectClass');
-        if(objectClass?.vals.includes('group')) {
-            return 'Группа безопасности';
-        }
-        if(objectClass?.vals.includes('user')) {
-            return 'Пользователь';
-        }
-        if(objectClass?.vals.includes('organizationalUnit')) {
-            return 'Орагнизационная единица';
-        }
-        console.log(objectClass);
-        return '';
     }
 
     onSelect(event: any) {
@@ -86,6 +72,12 @@ export class CatalogContentComponent implements OnInit {
             if(this.parentNode)
                 this.selectedNodeChanged.next(this.parentNode);
         }
+        if(event.row?.name == '...') {
+            this.parentNode = event.row.entry.parent;
+            if(this.parentNode)
+                this.selectedNodeChanged.next(this.parentNode);
+        }
+        this.cdr.detectChanges();
     }
 
     showContextMenu(event: ContextMenuEvent) {
@@ -93,28 +85,9 @@ export class CatalogContentComponent implements OnInit {
             event.event.clientX, 
             event.event.clientY);
         this.contextRow = event.content.entry;
+        this.grid.select(event.content);
         this.contextMenu.toggle();
-    }
-
-    propColumns = [
-        { name: 'Имя', prop: 'name', flexGrow: 1 },
-        { name: 'Значение', prop: 'val', flexGrow: 1 },
-    ];    
-    showProperties() {
-        this.api.search(
-            SearchQueries.getProperites(this.contextRow!.id)
-        ).subscribe(resp => {
-            this.properties = resp.search_result[0].partial_attributes.map( x => {
-                return {
-                    name: x.type,
-                    val: x.vals.join(';')
-                }
-            });
-            this.properitesModal.open();
-            this.propGrid.grid.recalculate();
-            this.cdr.detectChanges();
-
-        });
+        this.cdr.detectChanges();
     }
 }
 

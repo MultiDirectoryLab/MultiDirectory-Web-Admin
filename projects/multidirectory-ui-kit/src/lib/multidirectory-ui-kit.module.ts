@@ -8,7 +8,7 @@ import { MdModalComponent } from './components/modal/modal.component';
 import { TreeviewComponent } from './components/treeview/treeview.component';
 import { ModalTestComponent } from './components/modal/modaltest.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -18,7 +18,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobutton/radiobutton.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StepDirective } from './components/stepper/step.directive';
-
+import { FormTestComponent } from './components/form/formtest.component';
+import { ErrorMessageDirective, MdFormComponent } from './components/form/form.component';
+  
 @NgModule({
   declarations: [
     ButtonComponent,
@@ -36,12 +38,16 @@ import { StepDirective } from './components/stepper/step.directive';
     RadiobuttonComponent,
     RadiogroupComponent,
     StepperComponent,
-    StepDirective
+    StepDirective,
+    MdFormComponent,
+    ErrorMessageDirective,
+    FormTestComponent
   ],
   imports: [
     CommonModule,
     ModalModule,
     FormsModule,
+    ReactiveFormsModule, 
     NgxDatatableModule 
   ],
   exports: [
@@ -59,7 +65,9 @@ import { StepDirective } from './components/stepper/step.directive';
     RadiobuttonComponent,
     RadiogroupComponent,
     StepperComponent,
-    StepDirective
+    StepDirective,
+    MdFormComponent,
+    ErrorMessageDirective
   ]
 })
 export class MultidirectoryUiKitModule { }

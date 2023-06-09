@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
@@ -16,6 +16,9 @@ import { CatalogContentComponent } from './components/catalog-content/catalog-co
 import { HeaderComponent } from './components/header/header.component';
 import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
 import { SetupComponent } from './components/setup/setup.component';
+import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
+import { DomainSettingsComponent } from './components/forms/domain-setttings/domain-settings.component';
+import { AdminSettingsComponent } from './components/forms/admin-settings/admin-settings.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { SetupComponent } from './components/setup/setup.component';
     HomeComponent,
     HeaderComponent,
     CatalogContentComponent,
-    SetupComponent
+    SetupComponent,
+    EntityPropertiesComponent,
+    DomainSettingsComponent,
+    AdminSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +40,7 @@ import { SetupComponent } from './components/setup/setup.component';
     FormsModule,
     HttpClientModule,
     MultidirectoryUiKitModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   providers: [{

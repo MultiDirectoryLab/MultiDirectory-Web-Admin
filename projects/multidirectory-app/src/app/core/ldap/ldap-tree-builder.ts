@@ -4,18 +4,19 @@ import { MultidirectoryApiService } from "../../services/multidirectory-api.serv
 import { SearchQueries } from "./search";
 import { Observable, map } from "rxjs";
 import { SearchEntry, SearchResponse } from "../../models/entry/search-response";
-import { LdapNodeType, IconResolver } from "./icon-resolver";
+import { LdapNodeType, EntityInfoResolver } from "./entity-info-resolver";
 
 
 export class LdapNode extends Treenode {
     type: LdapNodeType = LdapNodeType.None;
     entry?: SearchEntry;
     icon?;
+    parent?: LdapNode;
 
     constructor(obj: Partial<LdapNode>) {
         super({});
         Object.assign(this, obj);
-        this.icon = IconResolver.resolveIcon(this.type);
+        this.icon = EntityInfoResolver.resolveIcon(this.type);
     }
 }
 
@@ -42,7 +43,7 @@ export class LdapTreeBuilder {
                             id: namingContext?.vals[0] ?? ''
                         },
                     );
-                    serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '');
+                    serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
                         new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved' }),
@@ -54,35 +55,38 @@ export class LdapTreeBuilder {
         );
     }
 
-    getChild(parent: string): Observable<Treenode[]> {
-        return this.api.search(SearchQueries.getChild(parent)).pipe(
+    getChild(dn: string, parent?: LdapNode): Observable<Treenode[]> {
+        return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapNode({
                         name: displayName,
-                        type: LdapNodeType.Folder,
+                        type: EntityInfoResolver.getNodeType(objectClass?.vals),
                         selectable: true,
                         entry: x,
-                        id: x.object_name
+                        id: x.object_name,
+                        parent: parent
                     });
-                    node.loadChildren = () => this.getChild(x.object_name);
+                    node.loadChildren = () => this.getChild(x.object_name, node);
                     return node;
                 }))
             );
     }
 
 
-    getContent(parent: string): Observable<LdapNode[]> {
+    getContent(parent: string, parentNode: LdapNode): Observable<LdapNode[]> {
         return this.api.search(SearchQueries.getContent(parent)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapNode({
                         name: displayName,
-                        type: objectClass?.vals.includes('user') ? LdapNodeType.Person : LdapNodeType.Folder,
+                        type: EntityInfoResolver.getNodeType(objectClass?.vals), 
                         selectable: true,
                         entry: x,
-                        id: x.object_name
+                        id: x.object_name,
+                        parent: parentNode
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;

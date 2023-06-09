@@ -1,6 +1,9 @@
 @use '../../styles/global.scss';
 @use '../../styles/layout.scss';
-
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+}
 input {
     width: 100%;
 }

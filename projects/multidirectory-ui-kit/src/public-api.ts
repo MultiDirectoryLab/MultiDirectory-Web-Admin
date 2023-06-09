@@ -19,3 +19,4 @@ export * from './lib/components/checkbox/checkbox.component';
 export * from './lib/components/radiobutton/radiobutton.component';
 export * from './lib/components/stepper/stepper.component';
 export * from './lib/components/stepper/step.directive';
+export * from './lib/components/form/form.component';

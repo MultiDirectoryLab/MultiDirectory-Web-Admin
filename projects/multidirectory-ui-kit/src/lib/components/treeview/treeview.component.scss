@@ -31,10 +31,6 @@
         padding-left: 8px;
         margin-left: -12px;
     }
-    &.selected {
-        background-color: global.$md-dark-blue-2;
-        color: global.$md-white;
-    }
     
 }
 
@@ -44,4 +40,9 @@
 .tree-item-wrapper {
     padding-left: 1rem;
     cursor: pointer;
+
+    &.selected {
+        background-color: global.$md-dark-blue-2;
+        color: global.$md-white;
+    }
 }
