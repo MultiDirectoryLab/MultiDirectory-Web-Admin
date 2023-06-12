@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -19,6 +18,8 @@ import { SetupComponent } from './components/setup/setup.component';
 import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
 import { DomainSettingsComponent } from './components/forms/domain-setttings/domain-settings.component';
 import { AdminSettingsComponent } from './components/forms/admin-settings/admin-settings.component';
+import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
+import { AdminSettingsSecondComponent } from './components/forms/admin-settings-second/admin-settings-second.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AdminSettingsComponent } from './components/forms/admin-settings/admin-
     SetupComponent,
     EntityPropertiesComponent,
     DomainSettingsComponent,
-    AdminSettingsComponent
+    AdminSettingsComponent,
+    AdminSettingsSecondComponent
   ],
   imports: [
     BrowserModule,
@@ -39,8 +41,8 @@ import { AdminSettingsComponent } from './components/forms/admin-settings/admin-
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MultidirectoryUiKitModule,
     ReactiveFormsModule,
+    MultidirectoryUiKitModule,
     ToastrModule.forRoot()
   ],
   providers: [{

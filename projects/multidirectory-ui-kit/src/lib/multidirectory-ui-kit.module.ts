@@ -19,7 +19,8 @@ import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobut
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StepDirective } from './components/stepper/step.directive';
 import { FormTestComponent } from './components/form/formtest.component';
-import { ErrorMessageDirective, MdFormComponent } from './components/form/form.component';
+import { MdFormComponent } from './components/form/form.component';
+import { ErrorAwareDirective } from './components/form/error-aware.directive';
   
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { ErrorMessageDirective, MdFormComponent } from './components/form/form.c
     StepperComponent,
     StepDirective,
     MdFormComponent,
-    ErrorMessageDirective,
+    ErrorAwareDirective,
     FormTestComponent
   ],
   imports: [
@@ -67,7 +68,7 @@ import { ErrorMessageDirective, MdFormComponent } from './components/form/form.c
     StepperComponent,
     StepDirective,
     MdFormComponent,
-    ErrorMessageDirective
+    ErrorAwareDirective
   ]
 })
 export class MultidirectoryUiKitModule { }

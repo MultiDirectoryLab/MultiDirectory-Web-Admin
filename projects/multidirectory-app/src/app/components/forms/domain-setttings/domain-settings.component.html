@@ -1,9 +1,23 @@
-<div class="flex-row flex-space-between">
-    <span class="pv-8 text-justify accented mb-16">
-        To use the Multidirectory app, please, complete the initial setup process
-    </span>
-</div>
-<div class="flex-row flex-space-between">
-    <label>Domain</label>
-    <md-textbox required [formControl]="name" mdErrorMessage></md-textbox>
+<div class="domain-settings">
+    <div class="flex-row flex-space-between">
+        <span class="pv-8 text-justify accented mb-16">
+            To use the Multidirectory app, please, complete the initial setup process
+        </span>
+    </div>
+
+    
+    <div class="flex-row flex-space-between">
+        <label>
+            Domain
+        </label>
+        
+        <div class="flex-column">
+            <md-textbox
+                pattern="^(?:https://|http://)(?!.* .*)(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+                required [formControl]="name"
+                [(ngModel)]="setupRequest.domain"
+                mdErrorAware [errorLabel]="domainLabel"></md-textbox>
+            <label  class="error-message"  #domainLabel></label>
+        </div>
+    </div>
 </div>

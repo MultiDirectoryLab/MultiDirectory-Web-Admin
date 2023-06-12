@@ -1,20 +1,5 @@
-<ng-container *ngIf="renderAll">
-    <div
-    *ngFor="let step of steps; let index = index"
-    [ngStyle]="{'display': (index == currentIndex? 'block' : 'none')}"
-    >
-        <ng-container
-            [ngTemplateOutlet]="step.templateRef"
-            [ngTemplateOutletContext]="{ $implicit: context }">
-        </ng-container>
-    </div>
-</ng-container>
-<ng-container *ngIf="!renderAll">
-    <ng-container *ngFor="let step of steps; let index = index">
-        <ng-container
-            *ngIf="index == currentIndex"
-            [ngTemplateOutlet]="step.templateRef"
-            [ngTemplateOutletContext]="{ $implicit: context }">
-        </ng-container>
-    </ng-container>
+<ng-container
+    *ngIf="!!steps.get(currentIndex)"
+    [ngTemplateOutlet]="steps.get(currentIndex)!.templateRef"
+    [ngTemplateOutletContext]="{ $implicit: context }">
 </ng-container>

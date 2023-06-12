@@ -1,5 +1,7 @@
-import { Component, forwardRef } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, forwardRef } from "@angular/core";
 import { MdFormComponent } from "multidirectory-ui-kit";
+import { MdModalComponent } from "projects/multidirectory-ui-kit/src/lib/components/modal/modal.component";
+import { SetupRequest } from "../../../models/setup/setup-request";
 
 @Component({
     selector: 'app-admin-settings',
@@ -14,6 +16,6 @@ import { MdFormComponent } from "multidirectory-ui-kit";
     ]
 })
 export class AdminSettingsComponent extends MdFormComponent {
-    login: string = '';
-    password: string = '';
+    @Input() setupRequest!: SetupRequest;
+    @Input() modalForm!: MdModalComponent;
 }

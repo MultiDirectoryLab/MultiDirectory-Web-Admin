@@ -1,9 +1,10 @@
-import { Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef } from "@angular/core";
 import { StepDirective } from "./step.directive";
 @Component({
     selector: 'md-stepper',
     templateUrl: './stepper.component.html',
     styleUrls: ['./stepper.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepperComponent {
     @ContentChildren(StepDirective) steps!: QueryList<StepDirective>;
@@ -11,9 +12,10 @@ export class StepperComponent {
     @Output() onNext = new EventEmitter<TemplateRef<any>>();
     @Output() onFinish = new EventEmitter<void>();
     @Input() context!: any;
-    @Input() renderAll = false;
+    constructor(private cdr: ChangeDetectorRef) {}
     next() {
         this.currentIndex++;
+        this.cdr.detectChanges();
         if(this.currentIndex == this.steps.length) {
             this.currentIndex = -1;
             this.onFinish.emit();

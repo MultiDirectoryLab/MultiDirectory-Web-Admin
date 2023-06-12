@@ -43,13 +43,11 @@ export class MultidirectoryApiService {
                 .execute();
     }
 
-    private tempSetup = false;
     checkSetup(): Observable<boolean> {
-        return of(this.tempSetup); //this.httpClient.get<boolean>('entry/setup').execute();
+        return this.httpClient.get<boolean>('auth/setup').execute();
     }
 
     setup(request: SetupRequest): Observable<boolean> {
-        this.tempSetup = true;
-        return of(true);
+        return this.httpClient.post<boolean>('auth/setup', request).execute();
     }
 }
