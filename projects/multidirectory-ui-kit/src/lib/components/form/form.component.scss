@@ -1,3 +1,7 @@
 :host ::ng-deep .error-message {
     color: red;
 }
+
+:host {
+    width: 100%;
+}

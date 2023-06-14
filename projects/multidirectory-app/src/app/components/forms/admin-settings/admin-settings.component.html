@@ -5,27 +5,26 @@
         </span>
     </div>
 
-    <div class="flex-row flex-space-between">
-        <label>Admin Login</label>
-        <div class="flex-column">
-            <md-textbox required [(ngModel)]="setupRequest.username" mdErrorAware [errorLabel]="loginError"></md-textbox>
-            <label  class="error-message"  #loginError>&nbsp;</label>
+    <div class="flex-row flex-space-between justify-center">
+        <label class="textbox-label">Admin Login</label>
+        <div class="flex-column  flex-grow-1">
+            <md-textbox required [(ngModel)]="setupRequest.username" 
+            ></md-textbox>
         </div>
     </div>
     
-    <div class="flex-row flex-space-between">
-        <label>Admin Password</label>
-        <div class="flex-column">
-            <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" mdErrorAware [errorLabel]="passwordError"></md-textbox>
-            <label class="error-message" #passwordError>&nbsp;</label>
+    <div class="flex-row flex-space-between  justify-center">
+        <label  class="textbox-label">Admin Password</label>
+        <div class="flex-column  flex-grow-1">
+            <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
+                #passwordInput></md-textbox>
         </div>
     </div>
     
-    <div class="flex-row flex-space-between">
-        <label>Repeat Password</label>
-        <div class="flex-column">
-            <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" mdErrorAware [errorLabel]="repeatPasswordError"></md-textbox>
-            <label  class="error-message"  #repeatPasswordError>&#160;</label>
+    <div class="flex-row flex-space-between  justify-center">
+        <label  class="textbox-label">Repeat Password</label>
+        <div class="flex-column flex-grow-1">
+            <md-textbox required [appPasswordMatch]="passwordInput.value" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
         </div>
     </div>   
 </div>

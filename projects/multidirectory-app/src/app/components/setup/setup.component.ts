@@ -1,9 +1,9 @@
-import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
-import { Subject, takeUntil } from "rxjs";
+import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
 
 @Component({
@@ -17,7 +17,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('modal') modal!: MdModalComponent;
     valid = false;
     unsubscribe = new Subject<boolean>();
-    constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private router: Router) {
+    constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private router: Router, private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
@@ -31,7 +31,10 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.form.valid
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe((res: boolean) => this.valid = res);
+            .subscribe((res: boolean) => {
+                 this.valid = res;
+                 this.cdr.detectChanges();
+            });
     }
 
     onNext(templateRef: any) {
@@ -39,9 +42,14 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onSetup() {
-        this.api.setup(this.setupRequest).subscribe(res => {
+        this.api.setup(this.setupRequest).pipe(
+            catchError(err => {
+                this.toastr.error(err);
+                return EMPTY;
+            })
+        ).subscribe(res => {
             this.toastr.success('Настройка выполнена');
             this.router.navigate(['/'])
-        })
+        });
     }
 }

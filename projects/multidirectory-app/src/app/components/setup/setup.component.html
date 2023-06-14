@@ -1,15 +1,15 @@
-<md-form #form>
+<md-form #form [formId]="'main'">
     <md-modal #modal [opened]="true" appHideControlbar [width]="'390px'">
         <ng-container class="app-modal-header">
-            <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
+            <div style="flex-shrink: 1;"><img src="/assets/logo_login_transparent.svg" class="logo-img"/></div>
         </ng-container>
         <div class="w-100" style="height: 165px;">
                 <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
                     <ng-template mdStep>
-                        <app-domain-settings [setupRequest]="setupRequest"></app-domain-settings>
+                        <app-domain-settings [formId]="'ds'" [setupRequest]="setupRequest"></app-domain-settings>
                     </ng-template>
                     <ng-template mdStep>
-                        <app-admin-settings  [setupRequest]="setupRequest"></app-admin-settings>
+                        <app-admin-settings [formId]="'as'" [setupRequest]="setupRequest"></app-admin-settings>
                     </ng-template>
                     <ng-template mdStep>
                         <app-admin-settings-second  [setupRequest]="setupRequest"></app-admin-settings-second>
@@ -17,7 +17,8 @@
                 </md-stepper>  
         </div>
         <ng-container class="app-modal-footer">
-            <div class="flex-row flex-center">
+            <div class="flex-row flex-center flex-gap-20">
+                <md-button [primary]="false" *ngIf="stepper.currentIndex > 0" (click)="stepper.previous()">Previous</md-button>
                 <md-button [disabled]="!valid" [primary]="true" (click)="stepper.next()">Next</md-button>
             </div>
         </ng-container>

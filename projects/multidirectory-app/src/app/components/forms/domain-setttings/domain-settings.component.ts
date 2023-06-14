@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, Input, forwardRef } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, forwardRef } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MdFormComponent } from "projects/multidirectory-ui-kit/src/lib/components/form/form.component";
 import { SetupRequest } from "../../../models/setup/setup-request";
@@ -10,7 +10,7 @@ import { SetupRequest } from "../../../models/setup/setup-request";
     providers: [
         {
             provide: MdFormComponent,
-            useExisting: forwardRef(() => DomainSettingsComponent),  // replace name as appropriate
+            useExisting: forwardRef(() => DomainSettingsComponent), 
             multi: true
         }
     ]
@@ -19,7 +19,7 @@ export class DomainSettingsComponent extends MdFormComponent {
     @Input() setupRequest!: SetupRequest;
     name = new FormControl('');
 
-    constructor(private cdr: ChangeDetectorRef) {
-        super()
+    constructor(cdr: ChangeDetectorRef) {
+        super(cdr)
     }
 }

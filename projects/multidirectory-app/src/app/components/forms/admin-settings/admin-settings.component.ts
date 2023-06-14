@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges, forwardRef } from "@angular/core";
-import { MdFormComponent } from "multidirectory-ui-kit";
-import { MdModalComponent } from "projects/multidirectory-ui-kit/src/lib/components/modal/modal.component";
+import {  ChangeDetectorRef, Component, Input, forwardRef } from "@angular/core";
+import { MdFormComponent } from "projects/multidirectory-ui-kit/src/lib/components/form/form.component";
 import { SetupRequest } from "../../../models/setup/setup-request";
 
 @Component({
@@ -10,12 +9,15 @@ import { SetupRequest } from "../../../models/setup/setup-request";
     providers: [
         {
             provide: MdFormComponent,
-            useExisting: forwardRef(() => AdminSettingsComponent),  // replace name as appropriate
+            useExisting: forwardRef(() => AdminSettingsComponent), 
             multi: true
         }
     ]
 })
 export class AdminSettingsComponent extends MdFormComponent {
     @Input() setupRequest!: SetupRequest;
-    @Input() modalForm!: MdModalComponent;
+
+    constructor(cdr: ChangeDetectorRef) {
+        super(cdr)
+    }
 }

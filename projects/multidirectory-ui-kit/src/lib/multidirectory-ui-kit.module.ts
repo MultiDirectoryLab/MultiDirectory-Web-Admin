@@ -20,7 +20,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
 import { StepDirective } from './components/stepper/step.directive';
 import { FormTestComponent } from './components/form/formtest.component';
 import { MdFormComponent } from './components/form/form.component';
-import { ErrorAwareDirective } from './components/form/error-aware.directive';
+import { ErrorLabelComponent } from './components/base-component/error-label/error-label.component';
   
 @NgModule({
   declarations: [
@@ -41,8 +41,8 @@ import { ErrorAwareDirective } from './components/form/error-aware.directive';
     StepperComponent,
     StepDirective,
     MdFormComponent,
-    ErrorAwareDirective,
-    FormTestComponent
+    FormTestComponent,
+    ErrorLabelComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +68,6 @@ import { ErrorAwareDirective } from './components/form/error-aware.directive';
     StepperComponent,
     StepDirective,
     MdFormComponent,
-    ErrorAwareDirective
   ]
 })
 export class MultidirectoryUiKitModule { }

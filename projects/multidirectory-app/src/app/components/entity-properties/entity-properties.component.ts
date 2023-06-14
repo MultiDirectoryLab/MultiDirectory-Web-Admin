@@ -28,7 +28,6 @@ export class EntityPropertiesComponent implements OnInit {
     constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef) {}
 
     ngOnInit(): void {
-        console.log(this.entityDn);
         if(!this.entityDn) {
             return;
         }

@@ -19,6 +19,8 @@
         color: global.$md-neutral-600;
         border: 1px solid #787878;
         background: white;
+        line-height: 16px;
+
         &:hover:not(:disabled) {
             background: #F1F1F1;
             background-color: global.$md-neutral-100;

@@ -16,7 +16,6 @@ export class TreeviewComponent implements OnInit {
     constructor(private cdr: ChangeDetectorRef) {}
     ngOnInit(): void {
         if(!this.nodeLabel) {
-            console.log(this.defaultLabel)
             this.nodeLabel = this.defaultLabel;
         }
     }

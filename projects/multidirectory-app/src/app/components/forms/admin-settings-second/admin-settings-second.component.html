@@ -5,27 +5,24 @@
         </span>
     </div>
 
-    <div class="flex-row flex-space-between">
-        <label>UPN</label>
-        <div class="flex-column">
-            <md-textbox required [(ngModel)]="setupRequest.user_principal_name" mdErrorAware [errorLabel]="loginError"></md-textbox>
-            <label  class="error-message"  #loginError>&nbsp;</label>
+    <div class="flex-row flex-space-between  justify-center">
+        <label  class="textbox-label">UPN</label>
+        <div class="flex-column  flex-grow-1">
+            <md-textbox required [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
         </div>
     </div>
     
-    <div class="flex-row flex-space-between">
-        <label>Display Name</label>
-        <div class="flex-column">
-            <md-textbox required [(ngModel)]="setupRequest.display_name" mdErrorAware [errorLabel]="displayNameError"></md-textbox>
-            <label class="error-message" #displayNameError>&nbsp;</label>
+    <div class="flex-row flex-space-between  justify-center">
+        <label  class="textbox-label">Display Name</label>
+        <div class="flex-column  flex-grow-1">
+            <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
         </div>
     </div>
     
-    <div class="flex-row flex-space-between">
-        <label>Email</label>
-        <div class="flex-column">
-            <md-textbox required [(ngModel)]="setupRequest.mail" mdErrorAware [errorLabel]="emailError"></md-textbox>
-            <label  class="error-message"  #emailError>&#160;</label>
+    <div class="flex-row flex-space-between  justify-center">
+        <label  class="textbox-label">Email</label>
+        <div class="flex-column  flex-grow-1">
+            <md-textbox required [(ngModel)]="setupRequest.mail"></md-textbox>
         </div>
     </div>   
 </div>

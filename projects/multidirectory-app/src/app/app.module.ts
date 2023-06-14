@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NG_VALIDATORS, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
@@ -20,6 +20,8 @@ import { DomainSettingsComponent } from './components/forms/domain-setttings/dom
 import { AdminSettingsComponent } from './components/forms/admin-settings/admin-settings.component';
 import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
 import { AdminSettingsSecondComponent } from './components/forms/admin-settings-second/admin-settings-second.component';
+import { PasswordMatchValidatorDirective } from './components/forms/validators/passwordmatch.directive';
+import { DomainFormatValidatorDirective } from './components/forms/validators/domainformat.directive';
 
 @NgModule({
   declarations: [
@@ -31,9 +33,11 @@ import { AdminSettingsSecondComponent } from './components/forms/admin-settings-
     CatalogContentComponent,
     SetupComponent,
     EntityPropertiesComponent,
-    DomainSettingsComponent,
     AdminSettingsComponent,
-    AdminSettingsSecondComponent
+    DomainSettingsComponent,
+    AdminSettingsSecondComponent,
+    PasswordMatchValidatorDirective,
+    DomainFormatValidatorDirective
   ],
   imports: [
     BrowserModule,

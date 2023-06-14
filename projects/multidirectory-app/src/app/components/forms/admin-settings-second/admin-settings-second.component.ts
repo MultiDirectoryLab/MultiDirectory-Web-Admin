@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, forwardRef } from "@angular/core";
-import { MdFormComponent } from "multidirectory-ui-kit";
+import { MdFormComponent } from "projects/multidirectory-ui-kit/src/lib/components/form/form.component";
 import { MdModalComponent } from "projects/multidirectory-ui-kit/src/lib/components/modal/modal.component";
 import { SetupRequest } from "../../../models/setup/setup-request";
 
@@ -22,7 +22,6 @@ export class AdminSettingsSecondComponent extends MdFormComponent implements OnI
     ngOnInit(): void {
         const url = new URL(this.setupRequest.domain);
         const domain = url.hostname;
-        console.log(domain);
         this.setupRequest.user_principal_name = `${this.setupRequest.username}@${domain}`;
         this.setupRequest.display_name = this.setupRequest.username;
         this.setupRequest.mail = this.setupRequest.user_principal_name;

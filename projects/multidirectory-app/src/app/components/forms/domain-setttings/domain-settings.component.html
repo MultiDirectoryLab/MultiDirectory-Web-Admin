@@ -6,17 +6,17 @@
     </div>
 
     
-    <div class="flex-row flex-space-between">
-        <label>
-            Domain
+    <div class="flex-row flex-space-between justify-center">
+        <label  class="textbox-label">
+            Domain  
         </label>
         
-        <div class="flex-column">
+        <div class="flex-column flex-grow-1">
             <md-textbox
-                pattern="^(?:https://|http://)(?!.* .*)(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
-                required [formControl]="name"
+                appDomainFormat="^(?:https://|http://)(?!.* .*)(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+                required 
                 [(ngModel)]="setupRequest.domain"
-                mdErrorAware [errorLabel]="domainLabel"></md-textbox>
+            ></md-textbox>
             <label  class="error-message"  #domainLabel></label>
         </div>
     </div>

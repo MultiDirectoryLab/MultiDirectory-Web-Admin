@@ -58,7 +58,6 @@ export class HomeComponent implements OnDestroy {
     }
     
     changeTreeView(event: LdapNode) {
-        console.log(this.treeView, event);
         if(this.treeView) {
             this.treeView.selectNode(event);
         }

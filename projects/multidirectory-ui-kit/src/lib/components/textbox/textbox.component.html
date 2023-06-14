@@ -1,6 +1,13 @@
+<div class="input-container">
 <input 
     type="{{password ? 'password' : 'text'}}" 
     [disabled]="disabled"
     [(ngModel)]="value"
+    [ngClass]="{
+        'error-input': hasError
+    }"
+    autocomplete="{{password ? 'on' : 'off'}}"
     (blur)="onBlur()"
 />
+<md-error-label *ngIf="hasError" [ngControl]="ngControl"></md-error-label>
+</div>

@@ -6,10 +6,7 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: ButtonComponent) => {console.log({
-    backgroundColor: null,
-    ...args,
-  }); return ({
+  render: (args: ButtonComponent) => { return ({
     props: {
       backgroundColor: null,
       ...args,

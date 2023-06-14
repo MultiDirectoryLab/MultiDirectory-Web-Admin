@@ -10,3 +10,17 @@ input {
 label {
     background: yellow;
 }
+
+.error-input, input:invalid {
+    background-color: ivory;
+    border: none;
+    outline: 2px solid red;
+    margin-left: -1px;
+    margin-right: 2px;
+}
+
+.input-container {
+    display: flex;
+    flex-flow: column nowrap;
+    max-width: 100%;
+}

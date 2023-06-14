@@ -10,18 +10,15 @@ import { FormControl } from "@angular/forms";
             <md-form>
                 <div class="w-300">
                     <label>First</label>
-                    <md-textbox required [formControl]="first" mdErrorAware [errorLabel]="errorLabel"></md-textbox>
-                    <label #errorLabel></label>
+                    <md-textbox required [formControl]="first"></md-textbox>
                 </div>
                 <div class="w-300">
                     <label>Second</label>
-                    <md-textbox required [formControl]="second" mdErrorAware [errorLabel]="errorSecondLabel"></md-textbox>
-                    <label #errorSecondLabel></label>
+                    <md-textbox required [formControl]="second"></md-textbox>
                 </div>
                 <div class="w-300">
                     <label>Third</label> 
-                    <md-textbox required [formControl]="third" mdErrorAware [errorLabel]="errorThirdLabel"></md-textbox>
-                    <label #errorThirdLabel></label>
+                    <md-textbox required [formControl]="third"></md-textbox>
                 </div>
             </md-form>  
     `

@@ -5,4 +5,5 @@ export class SetupRequest {
     display_name: string = '';
     mail: string = '';
     password: string = '';
+    repeatPassword: string = '';
 }
