@@ -56,7 +56,6 @@ export class DropdownMenuComponent {
     }
 
     clickInside($event: PointerEvent ) {
-        console.log($event);
         this.close();
     }
 

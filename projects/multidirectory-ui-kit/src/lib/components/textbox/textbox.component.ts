@@ -1,5 +1,6 @@
-import { Component, Input, forwardRef } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ChangeDetectorRef, Component, Injector, Input, forwardRef, inject } from "@angular/core";
+import { NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
+import { BaseComponent } from "../base-component/base.component";
 
 @Component({
     selector: 'md-textbox',
@@ -11,46 +12,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
         multi: true
     }]
 })
-export class TextboxComponent implements ControlValueAccessor {
+export class TextboxComponent extends BaseComponent  {
     @Input() label: string = '';
     @Input() password: boolean = false;
-    @Input() disabled: boolean = false;
 
-    innerValue: any = '';
-
-    get value(): any {
-        return this.innerValue;
-    };
-
-    set value(v: any) {
-        if (v !== this.innerValue) {
-            this.innerValue = v;
-            this._onChange(v);
-        }
-    }
-
-    private _onChange = (value: any) => {};
-    private _onTouched = () => {};
-
-    writeValue(value: any): void {
-        if (value !== this.innerValue) {
-            this.innerValue = value;
-        }
-    }
-
-    registerOnChange(fn: any): void {
-        this._onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this._onTouched = fn;
-    }
-
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
-    }
-
-    onBlur() {
-        this._onTouched();
+    constructor(cdr: ChangeDetectorRef) {
+        super(cdr);
     }
 }

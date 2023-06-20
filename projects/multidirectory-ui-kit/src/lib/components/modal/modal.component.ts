@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, ViewChild, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewChildren } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
     selector: 'md-modal',
@@ -7,16 +8,30 @@ import { ModalComponent } from "ng-modal-full-resizable";
     styleUrls: ['./modal.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MdModalComponent implements AfterViewInit {
+export class MdModalComponent implements AfterViewInit, OnDestroy {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
     @Input() opened = false;
     @Input() backdrop = true;
-
-    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {}
+    @Input() height: string = '';
+    @Input() width: string = '';
+    @Input() contentDisplay = false;
+    @Output() onClose = new EventEmitter<void>();
+    unsubscribe = new Subject<void>();
+    
+    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {
+    }
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
 
     open() {
-         this.modalRoot?.show();
-         this.cdr.detectChanges();
+        this.contentDisplay = true;
+        this.modalRoot?.show();
+        this.cdr.detectChanges();
+        if(this.width) {
+            this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
+        }
     }
     
     close() {   
@@ -33,5 +48,10 @@ export class MdModalComponent implements AfterViewInit {
             this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
             this.cdr.detectChanges();
         }
+        this.modalRoot?.closeModal.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+            this.contentDisplay = false;
+            this.cdr.detectChanges();
+            this.onClose.emit()
+        });
     }
 }

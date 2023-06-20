@@ -1,0 +1,40 @@
+<md-modal *ngIf="selectedNode" #createUserModal [width]="'580px'" (onClose)="onClose()">
+    <ng-container class="app-modal-header">
+        <div>Новый объект - Пользователь</div>
+    </ng-container>
+    <div class="flex-row align-center flex-gap-10">
+        <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
+        <div class="place">Добавить в: {{selectedNode!.name ?? ''}}</div>
+    </div>  
+    <hr />
+    <md-stepper #createUserStepper (onFinish)="onFinish()">
+        <ng-template mdStep>
+            <app-user-create-general-info 
+                [setupRequest]="setupRequest"
+                [selectedNode]="selectedNode">
+            </app-user-create-general-info>
+        </ng-template>
+        <ng-template mdStep>
+            <app-user-create-password-settings
+                [setupRequest]="setupRequest"
+                [selectedNode]="selectedNode">
+            </app-user-create-password-settings>
+        </ng-template>
+        <ng-template mdStep>
+            <app-user-create-summary
+                [setupRequest]="setupRequest"
+                [selectedNode]="selectedNode">
+            </app-user-create-summary>
+        </ng-template>
+    </md-stepper>  
+    <hr />
+    
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button *ngIf="createUserStepper.currentIndex > 0" (click)="createUserStepper.previous()">Назад</md-button>
+            <md-button [disabled]="!formValid" (click)="createUserStepper.next()" [primary]="true">
+                {{createUserStepper.steps != null && (createUserStepper.currentIndex + 1 == createUserStepper.steps.length)  ? 'Готово' : 'Далее' }}
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>

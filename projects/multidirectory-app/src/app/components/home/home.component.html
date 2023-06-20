@@ -25,8 +25,8 @@
         </div>
     </div>
     <div class="right-pane column">
-        <app-header></app-header>
-        <app-catalog-content [parentNode]="selectedNode" (selectedNodeChanged)="changeTreeView($event)"></app-catalog-content>
+        <app-header [selectedNode]="selectedNode"></app-header>
+        <app-catalog-content [selectedNode]="selectedNode" (selectedNodeChanged)="changeTreeView($event)" #catalogContent></app-catalog-content>
     </div>
 </div>
 
@@ -38,6 +38,6 @@
 </md-modal>
 
 <ng-template #mdTreeModal let-data>
-    <img [src]="data.icon"/>
+    <img class="tree-icon" [src]="data.icon"/>
     <label class="tree-label">{{data.name}}</label>
 </ng-template>

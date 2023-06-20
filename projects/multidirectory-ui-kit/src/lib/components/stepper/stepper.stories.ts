@@ -9,7 +9,7 @@ const meta: Meta<StepperComponent> = {
         moduleMetadata({
             imports: [
                 StepperTestModule,
-            ] 
+            ],
         })
     ],
 }

@@ -1,15 +1,19 @@
-<div class="scrollable">
-    <div class="tree-item-wrapper">
-    <ng-container 
-        *ngFor="let node of tree"
-        [ngTemplateOutlet]="treeNode"
-        [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
+<div class="scrollable treeview-container">
+    <div class="tree-item-wrapper"  >
+        <ng-container 
+            *ngFor="let node of tree"
+            [ngTemplateOutlet]="treeNode"
+            [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
     </div>
 </div>
 
 
 <ng-template #treeNode let-data let-level="level">
-    <div class="tree-item-wrapper" (click)="handleNodeClick($event, data)">
+    <div class="tree-item-wrapper" 
+        [ngClass]="{
+            selected: data.selected
+        }"
+        (click)="handleNodeClick($event, data)">
         <span class="tree-item" [ngClass]="{
             expanded: data.expanded,
             expandable: (data.children?.length > 0 || !!data.loadChildren),
@@ -22,7 +26,10 @@
                 class="expand-mark"
                 *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
               >
-                {{ data.expanded? '-' : '+' }}
+                <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
+                         ? '&nbsp;&nbsp;' : data.expanded
+                         ? '-' : '+' 
+                    " style="margin-right: 2px;"></span>
             </label>
             
             <ng-container 

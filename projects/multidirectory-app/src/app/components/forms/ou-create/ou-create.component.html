@@ -1,0 +1,19 @@
+<md-modal #createOuModal [width]="'580px'">
+    <div class="app-modal-header">
+        Создание организационного подразделения
+    </div> 
+    <div class="flex-row align-center justify-end flex-gap-10">
+        <md-form #form>
+            <label for="ouname">Введите название организационного подразделения</label>
+            <md-textbox required [(ngModel)]="setupRequest" name="ouname"></md-textbox>
+        </md-form>
+    </div>
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button (click)="onClose()">Отмена</md-button>
+            <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish()">
+                Создать
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>

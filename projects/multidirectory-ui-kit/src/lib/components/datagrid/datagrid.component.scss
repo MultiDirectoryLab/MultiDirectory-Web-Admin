@@ -34,12 +34,16 @@
         border-bottom: 1px solid global.$md-neutral-300;
         padding: 4px 8px;
         &.active {
-            color: global.$md-blue;
+            color: global.$md-white;
+            background-color: global.$md-dark-blue-4;
         }
     }
     .datatable-body-cell {
         .datatable-body-cell-label  {
             @include global.use-inter-typography(500, 14px, 19.6px);   
         }
+    }
+    .page-count, .empty-row {
+        padding-left: 0.5rem;
     }
 }

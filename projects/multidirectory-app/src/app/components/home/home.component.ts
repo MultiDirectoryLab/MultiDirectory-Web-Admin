@@ -6,6 +6,7 @@ import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
 import { Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
+import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 
 @Component({
     selector: 'app-home',
@@ -19,6 +20,8 @@ export class HomeComponent implements OnDestroy {
     user?: WhoamiResponse;
     showLeftPane = false;
     @ViewChild('treeView') treeView?: TreeviewComponent;
+    @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
+
     unsubscribe = new Subject<boolean>();
     constructor(
         private router: Router, 
@@ -40,6 +43,7 @@ export class HomeComponent implements OnDestroy {
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
             this.showLeftPane = x;
+            this.catalogContent?.redraw();
         })
     }
     
@@ -58,7 +62,6 @@ export class HomeComponent implements OnDestroy {
     }
     
     changeTreeView(event: LdapNode) {
-        console.log(this.treeView, event);
         if(this.treeView) {
             this.treeView.selectNode(event);
         }

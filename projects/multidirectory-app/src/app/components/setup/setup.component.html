@@ -1,42 +1,20 @@
-<md-modal #modal [opened]="true" appHideControlbar [width]="'350px'">
-    <ng-container class="app-modal-header">
-        <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
-    </ng-container>
-
-    <div class="w-100">
-        <md-stepper #stepper (onFinish)="onSetup()">
-            <ng-template mdStep>
-                <div class="flex-row flex-space-between">
-                    <span class="pv-8 text-justify accented mb-16">
-                        To use the Multidirectory app, please, complete the initial setup process
-                    </span>
-                </div>
-                <div class="flex-row flex-space-between">
-                    <label>Domain</label>
-                    <md-textbox [(ngModel)]="domain"></md-textbox>
-                </div>
-            </ng-template>
-            <ng-template mdStep>
-                <div class="flex-row flex-space-between">
-                    <label>Admin Login</label>
-                    <md-textbox [(ngModel)]="login"></md-textbox>
-                </div>
-
-                <div class="flex-row flex-space-between">
-                    <label>Admin Password</label>
-                    <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
-                </div>
-        
-                <div class="flex-row flex-space-between">
-                    <label>Repeat Password</label>
-                    <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
-                </div>        
-            </ng-template>
-        </md-stepper>  
-    </div>
-    <ng-container class="app-modal-footer">
-        <div class="flex-row flex-center">
-            <md-button [primary]="true" (click)="stepper.next()">Next</md-button>
+<md-form #form>
+    <md-modal #modal [opened]="true" appHideControlbar [width]="'390px'">
+        <ng-container class="app-modal-header">
+            <div style="flex-shrink: 1;"><img src="/assets/logo_login_transparent.svg" class="logo-img"/></div>
+        </ng-container>
+        <div class="w-100" style="height: 165px;">
+                <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
+                    <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
+                    <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
+                    <app-admin-settings-second *mdStep  [setupRequest]="setupRequest"></app-admin-settings-second>
+                </md-stepper>  
         </div>
-    </ng-container>
-</md-modal>
+        <ng-container class="app-modal-footer">
+            <div class="flex-row flex-center flex-gap-20">
+                <md-button [primary]="false" *ngIf="stepper.currentIndex > 0" (click)="stepper.previous()">Previous</md-button>
+                <md-button [disabled]="!stepValid" [primary]="true" (click)="stepper.next()">Next</md-button>
+            </div>
+        </ng-container>
+    </md-modal>
+</md-form>

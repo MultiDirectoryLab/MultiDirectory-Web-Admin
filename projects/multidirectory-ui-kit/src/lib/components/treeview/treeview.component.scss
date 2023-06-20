@@ -1,8 +1,15 @@
 @use '../../styles/global.scss';
 
+:host {
+    display: flex;
+}
+
 .scrollable {
     overflow: auto;
-    margin-left: -24px;
+}
+.treeview-container {
+    padding: 1rem;
+    width: 100%
 }
 
 .w-300 {
@@ -31,10 +38,6 @@
         padding-left: 8px;
         margin-left: -12px;
     }
-    &.selected {
-        background-color: global.$md-dark-blue-2;
-        color: global.$md-white;
-    }
     
 }
 
@@ -42,6 +45,10 @@
     cursor: pointer;
 }
 .tree-item-wrapper {
-    padding-left: 1rem;
     cursor: pointer;
+    padding-left: 4px;
+    &.selected {
+        background-color: global.$md-dark-blue-3;
+        color: global.$md-white;
+    }
 }

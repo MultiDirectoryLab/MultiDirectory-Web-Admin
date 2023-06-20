@@ -52,7 +52,6 @@ export const SearchQueries = {
 
 
     getProperites(baseObject: string): SearchRequest {
-      console.log('base', baseObject);
       return new SearchRequest({
           "base_object": baseObject,
           "scope": 0,

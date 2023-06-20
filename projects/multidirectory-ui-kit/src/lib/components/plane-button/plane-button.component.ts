@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 })
 export class PlaneButtonComponent {
     @Input() disabled = false;
-    @Input() iconSrc = '';
+    @Input() primary = false;
     @Output() click = new EventEmitter();
 
     public emitClick(event: Event) {

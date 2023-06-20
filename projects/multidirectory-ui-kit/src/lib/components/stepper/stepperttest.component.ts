@@ -5,6 +5,7 @@ import { SecondStepComponent } from "./steps/second-step.component";
 import { ThirdStepComponent } from "./steps/third-step.component";
 import { FormsModule } from "@angular/forms";
 import { MultidirectoryUiKitModule } from "../../multidirectory-ui-kit.module";
+import { CommonModule } from "@angular/common";
 
 export class TestData {
     firstStep: string = '';
@@ -23,14 +24,14 @@ export class TestData {
                     <test-second-step [context]="data"></test-second-step>
                 </ng-template>
                 <ng-template mdStep>
-                    <test-second-step [context]="data"></test-second-step>
+                    <test-third-step [context]="data"></test-third-step>
                 </ng-template>
             </md-stepper>
             <button *ngIf="!finishedData" #nextBtn (click)="stepper.next()">Next</button> 
             <div  *ngIf="finishedData">
-                <div>firstStep: {{finishedData?.firstStep}}</div>
-                <div>secondStep: {{finishedData?.secondStep}}</div>
-                <div>thirdStep: {{finishedData?.thirdStep}}</div>
+                <div>firstStep: {{finishedData!.firstStep}}</div>
+                <div>secondStep: {{finishedData!.secondStep}}</div>
+                <div>thirdStep: {{finishedData!.thirdStep}}</div>
                 <button (click)="stepper.next()">Restart</button> 
             </div>
     `
@@ -49,6 +50,7 @@ export class StepperTestComponent {
 @NgModule({
     imports: [
         MultidirectoryUiKitModule,
+        CommonModule,
         FormsModule
     ],
     declarations: [
@@ -56,6 +58,9 @@ export class StepperTestComponent {
         SecondStepComponent, 
         ThirdStepComponent, 
         StepperTestComponent,
+    ],
+    exports: [
+        StepperTestComponent
     ]
 })
 export class StepperTestModule {

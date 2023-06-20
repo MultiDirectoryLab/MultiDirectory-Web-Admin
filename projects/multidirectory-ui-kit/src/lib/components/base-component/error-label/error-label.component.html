@@ -1,0 +1,15 @@
+<div class="error-message">
+    <label *ngIf="ngControl?.errors?.['required']">
+        Value is required
+    </label>
+    <label *ngIf="ngControl?.errors?.['pattern']">
+        Value has wrong format
+    </label>
+    <label *ngIf="ngControl?.errors?.['PasswordsDoNotMatch']">
+        Passwords do not match
+    </label>
+    <label *ngIf="ngControl?.errors?.['DomainFormat']">
+        Domain starts with http:// or https://
+    </label>
+</div>
+

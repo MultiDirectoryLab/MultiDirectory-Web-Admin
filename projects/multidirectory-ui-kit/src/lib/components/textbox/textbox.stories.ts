@@ -21,7 +21,7 @@ export const Primary: StoryFn<TextboxComponent> = (args: TextboxComponent) => ({
   template: `
   <div class="row">
     <label class="col-md-1" style="padding-right: 8px;">Primary: </label>
-    <md-textbox class="col-md-2" [(ngModel)]="model"></md-textbox>
+    <md-textbox class="col-md-2" required [(ngModel)]="model"></md-textbox>
   </div>
   `
 });

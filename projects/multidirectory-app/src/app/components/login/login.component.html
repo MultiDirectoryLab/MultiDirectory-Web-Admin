@@ -3,19 +3,20 @@
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
     <div class="w-100">
-        <div class="flex-row flex-space-between">
-            <label>Login</label>
-            <md-textbox [(ngModel)]="login"></md-textbox>
-        </div>
-        <div class="flex-row flex-space-between">
-            <label>Password</label>
-            <md-textbox [password]="true" [(ngModel)]="password"></md-textbox>
-        </div>
+        <md-form #loginForm>
+            <div class="flex-row flex-space-between">
+                <label class="form-label">Login</label>
+                <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
+            </div>
+            <div class="flex-row flex-space-between">
+                <label class="form-label">Password</label>
+                <md-textbox required [password]="true" [(ngModel)]="password" name="password"></md-textbox>
+            </div>
+        </md-form>
     </div>
-
     <ng-container class="app-modal-footer">
         <div class="flex-row flex-center">
-            <md-button [primary]="true" (click)="onLogin()">Login</md-button>
+            <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin()">Login</md-button>
         </div>
     </ng-container>
 </md-modal>

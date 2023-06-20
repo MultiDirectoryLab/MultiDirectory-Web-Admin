@@ -1,9 +1,10 @@
 
 <button 
     class="plane-button-container"
+    [ngClass]="{
+        'plane-button-primary': primary
+    }"
     (click)="emitClick($event)" 
     [disabled]="disabled">
-        <img 
-            [src]="iconSrc" 
-            class="plane-button"/>
+        <ng-content></ng-content>
 </button>

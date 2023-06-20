@@ -1,6 +1,7 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, Input, OnDestroy } from "@angular/core";
 import { AppSettingsService } from "../../services/app-settings.service";
-import { Subject, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
+import { LdapNode } from "../../core/ldap/ldap-tree-builder";
 
 @Component({
     selector: 'app-header',
@@ -9,8 +10,8 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class HeaderComponent implements OnDestroy {
     unsubscribe = new Subject<boolean>();
-    navigationalPanelVisible = true;
-
+    navigationalPanelInvisible = false;
+    @Input() selectedNode?: LdapNode;
     constructor(private app: AppSettingsService) {
     }
 
@@ -20,8 +21,8 @@ export class HeaderComponent implements OnDestroy {
     }
 
     onChange(value: boolean) {
-        this.navigationalPanelVisible = value;
-        this.app.setNavigationalPanelVisiblity(value);
+        this.navigationalPanelInvisible = value;
+        this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
         window.dispatchEvent(new Event('resize'));
     }
 }

@@ -1,5 +1,9 @@
-export interface SetupRequest {
-    domain: string;
-    login: string;
-    password: string;
+export class SetupRequest {
+    domain: string = '';
+    username: string = '';
+    user_principal_name: string = '';
+    display_name: string = '';
+    mail: string = '';
+    password: string = '';
+    repeatPassword: string = '';
 }

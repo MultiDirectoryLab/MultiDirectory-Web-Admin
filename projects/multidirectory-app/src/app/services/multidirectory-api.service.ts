@@ -8,6 +8,10 @@ import { WhoamiResponse } from "../models/whoami/whoami-response";
 import { SearchRequest } from "../models/entry/search-request";
 import { SearchResponse } from "../models/entry/search-response";
 import { SetupRequest } from "../models/setup/setup-request";
+import { CreateEntryRequest } from "../models/entry/create-request";
+import { CreateEntryResponse } from "../models/entry/create-response";
+import { DeleteEntryRequest } from "../models/entry/delete-request";
+import { DeleteEntryResponse } from "../models/entry/delete-response";
 
 @Injectable({
     providedIn: 'root'
@@ -43,13 +47,24 @@ export class MultidirectoryApiService {
                 .execute();
     }
 
-    private tempSetup = false;
     checkSetup(): Observable<boolean> {
-        return of(this.tempSetup); //this.httpClient.get<boolean>('entry/setup').execute();
+        return this.httpClient.get<boolean>('auth/setup').execute();
     }
 
     setup(request: SetupRequest): Observable<boolean> {
-        this.tempSetup = true;
-        return of(true);
+        return this.httpClient.post<boolean>('auth/setup', request).execute();
+    }
+
+    create(request: CreateEntryRequest): Observable<CreateEntryResponse> {
+        return this.httpClient.post<CreateEntryResponse>('entry/add', request)
+            .ensureBearer()
+            .execute();
+    }
+
+
+    delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
+        return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request)
+            .ensureBearer()
+            .execute();
     }
 }
