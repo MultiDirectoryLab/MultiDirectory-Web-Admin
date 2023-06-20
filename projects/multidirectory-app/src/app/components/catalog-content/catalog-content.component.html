@@ -1,8 +1,32 @@
 <div class="control-pane flex-row align-center">
-    <md-plane-button class="search control-button" [iconSrc]="'assets/search.svg'"></md-plane-button>
-    <md-button>Создать пользователя</md-button>
-    <md-button>Создать группу</md-button>
-    <md-button [mdDropdownContainer]="helpMenu">Добавить объект</md-button>
+    <div class="button-wrapper">
+        <md-plane-button class="search control-button" [mdDropdownContainer]="createMenu">
+            <div class="flex-row flex-space-between flex-gap-10">
+                <img class="color-change-blue-white" [src]="'assets/add_blue.svg'"/>
+                <img class="color-change-blue-white" [src]="'assets/arrow_drop_down_blue.svg'" *ngIf="!createMenu.dropdownVisible"/>
+                <img class="color-change-white-blue" [src]="'assets/arrow_drop_up_white.svg'" *ngIf="createMenu.dropdownVisible"/>
+            </div>
+        </md-plane-button>
+    </div>
+
+    <md-button (click)="openCreateUser()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/person_add.svg'"/>
+            Создать пользователя
+        </span>
+    </md-button>
+    <md-button  (click)="createGroupModal.open()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group.svg'" style="transform: scale(1.35)"/>
+            Создать группу
+        </span>
+    </md-button>
+    <md-button (click)="createObjectModal.open()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group_add.svg'"/>
+            Добавить объект
+        </span>
+    </md-button>
 </div>
 <md-modal #properites >
     <div class="app-modal-header">
@@ -17,7 +41,7 @@
 </div>
 
 <ng-template #iconTemplate let-row="row" let-value="value">
-    <img [src]="row.icon" />
+    <img class="row-icon" [src]="row.icon" />
     {{row.name}}
 </ng-template>
 <md-dropdown-menu #helpMenu>
@@ -26,4 +50,52 @@
 
 <md-dropdown-menu #contextMenu>
     <div class="dropdown-item" (click)="contextMenu.close(); properites.open(); propData.loadData();">Подробнее</div>
+    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">Удалить</div>
 </md-dropdown-menu> 
+
+<md-dropdown-menu #createMenu>
+    <div class="dropdown-item">Группа</div>
+    <div class="dropdown-item">Компьютер</div>
+    <div class="dropdown-item">Контакт</div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">Организационное подразделение</div>
+    <div class="dropdown-item">Общая папка</div>
+    <div class="dropdown-item">Принтер</div>
+    <div class="dropdown-item">Пользователь</div>
+    <div class="dropdown-item">msDS-ShadowPrincipalContainer</div>
+    <div class="dropdown-item">msExchDynamic DistributionList</div>
+    <div class="dropdown-item">mslmaging-PSP</div>
+    <div class="dropdown-item">MSMQ Queue Alias</div>
+</md-dropdown-menu> 
+
+
+
+<app-user-create #createUserModal [selectedNode]="selectedNode" (onCreate)="loadData()"></app-user-create>
+<app-ou-create #createOuModal [selectedNode]="selectedNode" (onCreate)="loadData()"></app-ou-create>
+
+<md-modal #createGroupModal>
+    TODO
+</md-modal>
+
+<md-modal #createObjectModal>
+    TODO
+</md-modal> 
+
+
+<md-modal #deleteConfirmation>
+    <div class="app-modal-header">
+        Требуется подтверждение
+    </div> 
+    Вы действительно хотите удалить объект?
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button (click)="deleteConfirmation.close()">Отмена</md-button>
+            <md-button [primary]="true" (click)="deleteConfirmation.close(); deleteSelectedEntry()">
+                Удалить
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>
+
+
+
+ 

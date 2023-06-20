@@ -3,7 +3,7 @@
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
     <div class="w-100">
-        <form>
+        <md-form #loginForm>
             <div class="flex-row flex-space-between">
                 <label class="form-label">Login</label>
                 <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
@@ -12,7 +12,7 @@
                 <label class="form-label">Password</label>
                 <md-textbox required [password]="true" [(ngModel)]="password" name="password"></md-textbox>
             </div>
-        </form>
+        </md-form>
     </div>
     <ng-container class="app-modal-footer">
         <div class="flex-row flex-center">

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Injector, Input, forwardRef, inject } from "@angular/core";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
 import { BaseComponent } from "../base-component/base.component";
 
 @Component({
@@ -16,7 +16,7 @@ export class TextboxComponent extends BaseComponent  {
     @Input() label: string = '';
     @Input() password: boolean = false;
 
-    constructor(injector: Injector, cdr: ChangeDetectorRef) {
-        super(injector, cdr);
+    constructor(cdr: ChangeDetectorRef) {
+        super(cdr);
     }
 }

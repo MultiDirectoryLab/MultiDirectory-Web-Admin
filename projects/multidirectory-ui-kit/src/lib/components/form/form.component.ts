@@ -1,71 +1,60 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, InjectionToken, Input, OnChanges, OnDestroy, SimpleChanges, ViewChildren, forwardRef } from "@angular/core";
-import { AfterViewInit, Component, ContentChildren, Directive, OnInit, QueryList, Renderer2, ViewContainerRef } from "@angular/core";
-import { BehaviorSubject, Observable, Subject, combineLatest, merge, of, pipe, startWith, takeUntil, tap } from "rxjs";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, InjectionToken, OnDestroy, QueryList, forwardRef } from "@angular/core";
+import { NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
+import { BehaviorSubject, Observable, Subject, combineLatest, takeUntil } from "rxjs";
 import { BaseComponent } from "../base-component/base.component";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
+    
+export const MD_FORM = new InjectionToken<MdFormComponent>('MDFORM');
 
 @Component({
     selector: 'md-form',
     styleUrls: ['./form.component.scss'],
     templateUrl: './form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: MD_FORM,
+            useExisting: forwardRef(() => MdFormComponent),
+            multi: true
+        }
+    ]
 })
 export class MdFormComponent implements AfterViewInit, OnDestroy {
-    @Input() formId = '';
-    @ViewChildren(NG_VALUE_ACCESSOR) inputs!: QueryList<BaseComponent>;
-    @ContentChildren(MdFormComponent, { descendants: true }) forms!: QueryList<MdFormComponent>
-    inputValidators: BehaviorSubject<boolean>[] = [];
-    formsValidators: BehaviorSubject<boolean>[] = [];
+    @ContentChildren(NgControl, {descendants: true}) inputs!: QueryList<NgControl>;
+    @ContentChildren(NG_VALUE_ACCESSOR, {descendants: true}) valueAccessors!: QueryList<BaseComponent>;
 
-    combinedValidation?: Observable<boolean[]>;
-    reloadRx = new Subject<void>();
+    inputValidators: Observable<string>[] = [];
     unsubscribe = new Subject<void>();
 
-    valid = new BehaviorSubject(false);
-    constructor(private cdr: ChangeDetectorRef) {}
-    ngAfterViewInit(): void {
-        this.inputs.changes.pipe(
-            takeUntil(this.unsubscribe),
-        ).subscribe(() => {
-            this.buildValidRx();        
-            this.cdr.detectChanges();
-        });
-
-        this.forms.changes.pipe(
-            takeUntil(this.unsubscribe),
-        ).subscribe(() => {
-            this.buildValidRx();
-            this.cdr.detectChanges();
-        });
-        this.buildValidRx();
+    private _valid = new BehaviorSubject(false);
+    get valid(){
+        return this._valid.value;
     }
+    get onValidChanges() {
+        return this._valid.asObservable();
+    }
+    
+    constructor(private cdr: ChangeDetectorRef) {}
 
-    buildValidRx() {
-        this.valid.next(false);
-        
-        if(this.combinedValidation) {
-            this.reloadRx.next();
-            this.reloadRx.complete();
-            this.reloadRx = new Subject<void>();
-            this.formsValidators.forEach(x => x.complete());
-            this.inputValidators.forEach(x => x.complete());
-        }
-        this.formsValidators = this.forms!.map(x => x.valid);
-        this.inputValidators = this.inputs!.map(x => x.validRx);
-
-        const controls = [...this.inputValidators, ...this.formsValidators];
-        this.combinedValidation = combineLatest(controls).pipe(
+    ngAfterViewInit(): void {
+        this.valueAccessors.forEach(va => {
+            const input = this.inputs.find(x => x.valueAccessor == va);
+            if(input) {
+                va.controlAccessor = input;
+                if(input.validator){
+                    input.validator(input.control!);
+                }
+            }
+        });
+        this.cdr.detectChanges();
+        this.inputValidators = this.inputs.toArray().filter(x => !!x).map(x => x.statusChanges!);
+        combineLatest(this.inputValidators).pipe(
             takeUntil(this.unsubscribe),
-            takeUntil(this.reloadRx));
-
-        this.combinedValidation.subscribe(result => {
-            this.valid.next(result.reduce((acc, x)=>  acc && x));
+        ).subscribe(va => {
+            this._valid.next(va.every(x => x == 'VALID'));
         });
     }
 
     ngOnDestroy(): void {
-        this.reloadRx.next();
-        this.reloadRx.complete();
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }

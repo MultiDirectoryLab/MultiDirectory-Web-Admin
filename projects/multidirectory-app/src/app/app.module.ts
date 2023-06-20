@@ -16,12 +16,17 @@ import { HeaderComponent } from './components/header/header.component';
 import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
 import { SetupComponent } from './components/setup/setup.component';
 import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
-import { DomainSettingsComponent } from './components/forms/domain-setttings/domain-settings.component';
-import { AdminSettingsComponent } from './components/forms/admin-settings/admin-settings.component';
+import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
 import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
-import { AdminSettingsSecondComponent } from './components/forms/admin-settings-second/admin-settings-second.component';
 import { PasswordMatchValidatorDirective } from './components/forms/validators/passwordmatch.directive';
 import { DomainFormatValidatorDirective } from './components/forms/validators/domainformat.directive';
+import { UserCreateGeneralInfoComponent } from './components/forms/user-create/general-info/general-info.component';
+import { UserCreatePasswordSettingsComponent } from './components/forms/user-create/password-settings/password-settings.component';
+import { UserCreateComponent } from './components/forms/user-create/user-create.component';
+import { UserCreateSummaryComponent } from './components/forms/user-create/summary/summary.component';
+import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
+import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
+import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { DomainFormatValidatorDirective } from './components/forms/validators/do
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
     PasswordMatchValidatorDirective,
-    DomainFormatValidatorDirective
+    DomainFormatValidatorDirective,
+    UserCreateComponent,
+    UserCreateGeneralInfoComponent,
+    UserCreatePasswordSettingsComponent,
+    UserCreateSummaryComponent,
+    OuCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +57,7 @@ import { DomainFormatValidatorDirective } from './components/forms/validators/do
     HttpClientModule,
     ReactiveFormsModule,
     MultidirectoryUiKitModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right'})
   ],
   providers: [{
       provide: 'apiAdapter',

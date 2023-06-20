@@ -1,10 +1,11 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
-import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
+import { MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
+import { SetupService } from "../../services/setup.service";
 
 @Component({
     selector: 'app-setup',
@@ -13,14 +14,23 @@ import { SetupRequest } from "../../models/setup/setup-request";
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     setupRequest = new SetupRequest();
-    @ViewChild('form') form!: MdFormComponent;
     @ViewChild('modal') modal!: MdModalComponent;
-    valid = false;
+    stepValid = false;
     unsubscribe = new Subject<boolean>();
-    constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private router: Router, private cdr: ChangeDetectorRef) {
+    constructor(
+        private api: MultidirectoryApiService,
+        private setup: SetupService,
+        private toastr: ToastrService,
+        private router: Router,
+        private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
+        this.setup.onStepValid.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(valid => {
+            this.stepValid = valid;
+        })
     }
 
     ngOnDestroy(): void {
@@ -29,12 +39,6 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     
     ngAfterViewInit(): void {
-        this.form.valid
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe((res: boolean) => {
-                 this.valid = res;
-                 this.cdr.detectChanges();
-            });
     }
 
     onNext(templateRef: any) {

@@ -1,0 +1,31 @@
+<div class="admin-settings">
+    <div class="flex-row flex-space-between">
+        <span class="pv-8 text-justify accented mb-16">
+            To use the Multidirectory app, please, complete the initial setup process
+        </span>
+    </div>
+    <md-form #form>
+        <div class="flex-row flex-space-between justify-center">
+            <label class="textbox-label">Admin Login</label>
+            <div class="flex-column  flex-grow-1">
+                <md-textbox required [(ngModel)]="setupRequest.username" 
+                ></md-textbox>
+            </div>
+        </div>
+        
+        <div class="flex-row flex-space-between  justify-center">
+            <label  class="textbox-label">Admin Password</label>
+            <div class="flex-column  flex-grow-1">
+                <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
+                    #passwordInput></md-textbox>
+            </div>
+        </div>
+        
+        <div class="flex-row flex-space-between  justify-center">
+            <label  class="textbox-label">Repeat Password</label>
+            <div class="flex-column flex-grow-1">
+                <md-textbox  required [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
+            </div>
+        </div>   
+    </md-form>
+</div>

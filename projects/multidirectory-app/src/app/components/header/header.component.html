@@ -1,22 +1,31 @@
-<div class="header">
-    <label class="bold">Папка: IT</label>
+<div class="header-container">
+    <div class="header">
+        <label class="bold">Папка: {{selectedNode?.name ?? ''}}</label>
+    </div>
+    <div class="control-panel">
+        <md-plane-button class="search control-button">
+            <img [src]="'assets/search.svg'" />
+        </md-plane-button>
+        <md-plane-button class="settings control-button" 
+            [mdDropdownContainer]="helpMenu">
+            <img [src]="'assets/settings.svg'" />
+        </md-plane-button>
+        <md-plane-button class="settings control-button">
+            <img [src]="'assets/help.svg'" />
+        </md-plane-button>
+        <md-plane-button class="settings control-button">
+            <img [src]="'assets/close.svg'" />
+        </md-plane-button>
+    </div>
 </div>
-<div class="control-panel">
-    <md-plane-button class="search control-button" [iconSrc]="'assets/search.svg'"></md-plane-button>
-    <md-plane-button class="settings control-button" 
-        [iconSrc]="'assets/settings.svg'"
-        [mdDropdownContainer]="helpMenu">
-    </md-plane-button>
-    <md-plane-button class="settings control-button" [iconSrc]="'assets/help.svg'" ></md-plane-button>
-    <md-plane-button class="settings control-button" [iconSrc]="'assets/close.svg'"></md-plane-button>
-</div>
+
 
 <md-radiogroup #radiogroup></md-radiogroup>
 
 <md-dropdown-menu #helpMenu>
     <div class="dropdown-item">Добавить/удалить столбцы...</div>
     <div class="dropdown-item">
-        <md-checkbox [ngModel]="navigationalPanelVisible" (ngModelChange)="onChange($event)">Скрыть дерево</md-checkbox>
+        <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">Скрыть дерево</md-shift-checkbox>
     </div>
     <div class="dropdown-item">
         <md-radiobutton name="viewmode" value="1" [group]="radiogroup">Маленькие иконки</md-radiobutton>

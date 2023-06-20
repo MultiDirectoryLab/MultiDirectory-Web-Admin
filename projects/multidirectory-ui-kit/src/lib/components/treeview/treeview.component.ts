@@ -25,6 +25,7 @@ export class TreeviewComponent implements OnInit {
         {
             const childRx = node.loadChildren();
             node.children = !!childRx ? await lastValueFrom(childRx) : null;
+            node.childrenLoaded = true;
         }
     }
 
@@ -100,6 +101,7 @@ export class Treenode {
     selected: boolean = false;
     expanded: boolean = false;
     children: Treenode[] | null = null;
+    childrenLoaded = false;
     loadChildren?: () => Observable<Treenode[]> | null;
 
     constructor(obj: Partial<Treenode>) {

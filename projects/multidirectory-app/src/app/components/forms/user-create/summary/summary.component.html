@@ -1,0 +1,20 @@
+<div class="flex-row">
+    <b>Когда вы нажмёте «Готово», будет создан пользователь:</b>
+</div>
+<div class="row align-center pv-8">
+    <div class="col-md-3"><label for="last-name">ФИО полностью:</label></div>
+    <md-textbox 
+        class="col-md-9" 
+        name="last-name"
+        [(ngModel)]="setupRequest.fullName"
+        [disabled]="true"></md-textbox>
+</div>
+<div class="row align-center pv-8">
+    <div class="col-md-3"><label for="login-name">Имя для входа:</label></div>
+    <md-textbox class="col-md-9"
+        [(ngModel)]="setupRequest.upnLogin"
+        name="login-name" [disabled]="true"></md-textbox>
+</div>
+<div class="flex-row">
+    <b>Дополнительные настройки:</b>
+</div>

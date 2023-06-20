@@ -8,17 +8,18 @@
     display: flex;
     flex-flow: column;
     justify-content: center;
-    padding: 15px;
     &:disabled {
         color: global.$md-neutral-400;
-        background-color: global.$md-neutral-200;
     }
     &:not(.disabled):hover {
-        background-color: global.$md-white;
-        border: 1px solid global.$md-neutral-200;
         cursor: pointer;
     }
-
+    &.plane-button-primary {
+        background-color: global.$md-white;
+        &.plane-button-primary:hover {
+            background-color: global.$md-dark-blue-2;
+        }
+    }
 }
 .plane-button {
     border: none;

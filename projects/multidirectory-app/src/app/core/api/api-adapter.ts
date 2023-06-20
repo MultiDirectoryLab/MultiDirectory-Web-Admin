@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { EMPTY, Observable, catchError, throwError } from "rxjs";
+import { Observable, catchError, throwError } from "rxjs";
 import { AdapterSettings } from "./adapter-settings";
 // 
 export class ApiAdapter<Settings extends AdapterSettings> {
@@ -9,6 +9,11 @@ export class ApiAdapter<Settings extends AdapterSettings> {
     post<T>(resource: string, body: any = null, ): PostRequest<T> {
         const url = this._settings.baseUrl + '/' + resource;
         return new PostRequest<T>(url, body, this.httpClient);
+    }
+
+    delete<T>(resource: string, body: any = null, ): DeleteRequest<T> {
+        const url = this._settings.baseUrl + '/' + resource;
+        return new DeleteRequest<T>(url, body, this.httpClient);
     }
 
     get<T>(resource: string): GetRequest<T> {
@@ -86,4 +91,24 @@ export class GetRequest<ResponseType> extends HttpRequest<ResponseType> {
         return this.httpClient.get<ResponseType>(this.url, this.httpOptions)
             .pipe(catchError(this.handleError));
     }
+}
+
+
+export class DeleteRequest<ResponseType> extends HttpRequest<ResponseType>{
+    constructor(url: string, private body: any, httpClient: HttpClient) {
+        super(url, httpClient);
+    }
+
+    useUrlEncodedForm(): DeleteRequest<ResponseType> {
+        this.httpOptions.headers = this.httpOptions.headers.set('Content-Type', `application/x-www-form-urlencoded`);
+        return this;
+    }
+
+    override execute(): Observable<ResponseType> {
+        return this.httpClient.delete<ResponseType>(this.url, {
+            headers: this.httpOptions.headers, 
+            body: this.body
+        }).pipe(catchError(this.handleError));
+    }
+
 }

@@ -14,13 +14,15 @@ import { PlaneButtonComponent } from './components/plane-button/plane-button.com
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatagridComponent } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
-import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { ShiftCheckboxComponent } from './components/shift-checkbox/shift-checkbox.component';
 import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobutton/radiobutton.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StepDirective } from './components/stepper/step.directive';
 import { FormTestComponent } from './components/form/formtest.component';
 import { MdFormComponent } from './components/form/form.component';
 import { ErrorLabelComponent } from './components/base-component/error-label/error-label.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { RerenderDirective } from './components/modal/rerender.directive';
   
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { ErrorLabelComponent } from './components/base-component/error-label/err
     PlaneButtonComponent,
     DatagridComponent,
     DropdownContainerDirective,
+    ShiftCheckboxComponent,
     CheckboxComponent,
     RadiobuttonComponent,
     RadiogroupComponent,
@@ -42,7 +45,8 @@ import { ErrorLabelComponent } from './components/base-component/error-label/err
     StepDirective,
     MdFormComponent,
     FormTestComponent,
-    ErrorLabelComponent
+    ErrorLabelComponent,
+    RerenderDirective
   ],
   imports: [
     CommonModule,
@@ -62,6 +66,7 @@ import { ErrorLabelComponent } from './components/base-component/error-label/err
     PlaneButtonComponent,
     DatagridComponent,
     DropdownContainerDirective,
+    ShiftCheckboxComponent,
     CheckboxComponent,
     RadiobuttonComponent,
     RadiogroupComponent,

@@ -43,4 +43,7 @@
             @include global.use-inter-typography(500, 14px, 19.6px);   
         }
     }
+    .page-count, .empty-row {
+        padding-left: 0.5rem;
+    }
 }

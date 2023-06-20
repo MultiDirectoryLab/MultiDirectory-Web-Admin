@@ -1,31 +1,36 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { Router } from "@angular/router";
-import { MdFormComponent } from "projects/multidirectory-ui-kit/src/public-api";
+import { MdFormComponent } from "multidirectory-ui-kit";
 import { Subject, takeUntil } from "rxjs";
-import { FormControl } from "@angular/forms";
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent extends MdFormComponent implements AfterViewInit, OnDestroy {
+export class LoginComponent implements AfterViewInit, OnDestroy {
     login = '';
     password = '';
+    private unsubscribe = new Subject<void>();
 
-    constructor(private api: MultidirectoryApiService, private router: Router, cdr: ChangeDetectorRef) {
-        super(cdr);
+    @ViewChild('loginForm') loginForm!: MdFormComponent;
+    constructor(private api: MultidirectoryApiService, private router: Router) {
     }
 
     loginValid = false;
-    override ngAfterViewInit(): void {
-        super.ngAfterViewInit();
-        this.valid.pipe(
+    ngAfterViewInit(): void {
+        this.loginValid = this.loginForm.valid;
+        this.loginForm.onValidChanges.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(result => {
             this.loginValid = result;
         })
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     onLogin() {
