@@ -15,7 +15,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DatagridComponent } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
 import { ShiftCheckboxComponent } from './components/shift-checkbox/shift-checkbox.component';
-import { RadiobuttonComponent, RadiogroupComponent } from './components/radiobutton/radiobutton.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { StepDirective } from './components/stepper/step.directive';
 import { FormTestComponent } from './components/form/formtest.component';
@@ -23,6 +23,7 @@ import { MdFormComponent } from './components/form/form.component';
 import { ErrorLabelComponent } from './components/base-component/error-label/error-label.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { RerenderDirective } from './components/modal/rerender.directive';
+import { RadioGroupComponent } from './components/radiobutton-group/radio-group.component';
   
 @NgModule({
   declarations: [
@@ -40,13 +41,13 @@ import { RerenderDirective } from './components/modal/rerender.directive';
     ShiftCheckboxComponent,
     CheckboxComponent,
     RadiobuttonComponent,
-    RadiogroupComponent,
     StepperComponent,
     StepDirective,
     MdFormComponent,
     FormTestComponent,
     ErrorLabelComponent,
-    RerenderDirective
+    RerenderDirective,
+    RadioGroupComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +70,7 @@ import { RerenderDirective } from './components/modal/rerender.directive';
     ShiftCheckboxComponent,
     CheckboxComponent,
     RadiobuttonComponent,
-    RadiogroupComponent,
+    RadioGroupComponent,
     StepperComponent,
     StepDirective,
     MdFormComponent,

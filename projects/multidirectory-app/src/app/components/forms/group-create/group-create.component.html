@@ -1,0 +1,48 @@
+<md-modal #createGroupModal [width]="'580px'" (onClose)="onClose()">
+    <ng-container class="app-modal-header">
+        <div>Новый объект - Группа</div>
+    </ng-container>
+    <div class="flex-row align-center flex-gap-10">
+        <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
+        <div class="place">Добавить в: {{selectedNode?.name ?? ''}}</div>
+    </div>  
+    <hr />
+        <md-form #groupForm>
+            <div class="row align-center pv-8">
+                <div class="col-md-6"><label for="repeatPassword">Имя группы</label></div>
+                <md-textbox class="col-md-6" 
+                    required
+                    [(ngModel)]="setupRequest.groupName"
+                    name="repeatPassword"></md-textbox>
+            </div>
+            <div class="row align-center pv-8">
+                <div class="col-md-6"><label for="repeatPassword">Имя группы (Pre-windows 2000)</label></div>
+                <md-textbox class="col-md-6" 
+                    required
+                    [(ngModel)]="setupRequest.groupNameLegacy"
+                    name="repeatPassword"></md-textbox>
+            </div>
+
+            <div class="row align-center pv-8">
+                <md-radiogroup class="col-md-6" #groupScope  required [drawBorder]="true"
+                    [(ngModel)]="setupRequest.groupScope" title="Область действия группы">
+                    <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">Локальная в домене</md-radiobutton>
+                    <md-radiobutton name="groupScope" [group]="groupScope" [value]="2">Глобальная</md-radiobutton>
+                    <md-radiobutton name="groupScope" [group]="groupScope" [value]="3">Универсальная</md-radiobutton>
+                </md-radiogroup>
+                <md-radiogroup class="col-md-6 h-100" #groupType required [drawBorder]="true" 
+                    [(ngModel)]="setupRequest.groupType" title="Тип группы">
+                    <md-radiobutton name="groupType" [group]="groupType" [value]="1">Группа безопасности</md-radiobutton>
+                    <md-radiobutton name="groupType" [group]="groupType" [value]="2">Группа распространения</md-radiobutton>
+                </md-radiogroup>
+            </div>
+        </md-form>
+    <hr />
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button [disabled]="!formValid" (click)="onFinish()" [primary]="true">
+                Готово
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>

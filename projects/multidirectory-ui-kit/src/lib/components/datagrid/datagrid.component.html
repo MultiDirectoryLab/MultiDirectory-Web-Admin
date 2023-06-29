@@ -7,9 +7,14 @@
     [rows]="rows"
     [columns]="columns"
     [selected]="selected"
-    [selectionType]="SelectionType.single"
+    [selectionType]="SelectionType.multi"
     (activate)="onActivate($event)"
     (select)="onSelect($event)"
+    [externalPaging]="false"
+    [count]="page.totalElements"
+    [offset]="page.pageNumber"
+    [limit]="page.size"
+    (page)="setPage($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     #datagrid
   >

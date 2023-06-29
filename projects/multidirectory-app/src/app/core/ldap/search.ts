@@ -1,3 +1,4 @@
+import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
 
 export const SearchQueries = {
@@ -32,7 +33,7 @@ export const SearchQueries = {
         });
     },
 
-    getContent(baseObject: string): SearchRequest {
+    getContent(baseObject: string, page: Page): SearchRequest {
       return new SearchRequest({
           "base_object": baseObject,
           "scope": 1,
