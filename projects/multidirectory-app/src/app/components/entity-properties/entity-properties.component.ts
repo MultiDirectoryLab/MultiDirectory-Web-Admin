@@ -31,8 +31,6 @@ export class EntityPropertiesComponent implements OnInit {
         if(!this.entityDn) {
             return;
         }
-
-       
     }
 
     loadData() {

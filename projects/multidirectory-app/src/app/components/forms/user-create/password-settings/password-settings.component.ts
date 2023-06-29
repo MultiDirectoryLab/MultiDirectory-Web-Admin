@@ -9,13 +9,6 @@ import { Subject, takeUntil } from "rxjs";
     selector: 'app-user-create-password-settings',
     styleUrls: ['./password-settings.component.scss'],
     templateUrl: './password-settings.component.html',
-    providers: [
-        {
-            provide: MdFormComponent,
-            useExisting: forwardRef(() => UserCreatePasswordSettingsComponent),  // replace name as appropriate
-            multi: true
-        }
-    ]
 })
 export class UserCreatePasswordSettingsComponent {
     @Input() selectedNode!: LdapNode; 

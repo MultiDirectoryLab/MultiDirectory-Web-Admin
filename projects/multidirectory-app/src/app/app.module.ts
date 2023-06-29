@@ -27,6 +27,7 @@ import { UserCreateSummaryComponent } from './components/forms/user-create/summa
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
 import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
+import { GroupCreateComponent } from './components/forms/group-create/group-create.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +44,15 @@ import { OuCreateComponent } from './components/forms/ou-create/ou-create.compon
     AdminSettingsSecondComponent,
     PasswordMatchValidatorDirective,
     DomainFormatValidatorDirective,
+
     UserCreateComponent,
     UserCreateGeneralInfoComponent,
     UserCreatePasswordSettingsComponent,
     UserCreateSummaryComponent,
-    OuCreateComponent
+
+    OuCreateComponent,
+
+    GroupCreateComponent
   ],
   imports: [
     BrowserModule,

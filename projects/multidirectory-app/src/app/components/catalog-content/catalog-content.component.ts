@@ -1,15 +1,16 @@
 import { ChangeDetectorRef, Component, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
-import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
-import { Subject } from "rxjs";
-import { ContextMenuEvent, DatagridComponent, DropdownMenuComponent } from "multidirectory-ui-kit";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { ContextMenuEvent, DatagridComponent, DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
+import { ToastrService } from "ngx-toastr";
+import { Subject, forkJoin } from "rxjs";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
+import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
-import { CreateEntryRequest, LdapPartialAttribute } from "../../models/entry/create-request";
-import { Toast, ToastrService } from "ngx-toastr";
-import { UserCreateComponent } from "../forms/user-create/user-create.component";
+import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { GroupCreateComponent } from "../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
+import { UserCreateComponent } from "../forms/user-create/user-create.component";
+import { EntityPropertiesComponent } from "../entity-properties/entity-properties.component";
 
 export interface TableRow {
     icon?: string,
@@ -38,10 +39,14 @@ export class CatalogContentComponent implements OnInit {
     @ViewChild('grid', { static: true }) grid!: DatagridComponent;
     @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
     @ViewChild('createUserModal', { static: true}) createUserModal?: UserCreateComponent;
+    @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
-    columns: TableColumn[] = [];
-    contextRow?: LdapNode;
+    @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
+    @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
 
+    columns: TableColumn[] = [];
+    contextRows: LdapNode[] = [];
+    page: Page = new Page();
 
     constructor(
         private ldap: LdapTreeBuilder, 
@@ -61,7 +66,7 @@ export class CatalogContentComponent implements OnInit {
         if(this._selectedNode?.entry?.object_name == undefined) {
             return;
         }
-        this.ldap.getContent(this._selectedNode.entry.object_name, this.selectedNode!).subscribe(x => {
+        this.ldap.getContent(this._selectedNode.entry.object_name, this._selectedNode, this.page).subscribe(x => {
             this.rows = x.map(node => <TableRow>{
                 icon: node.icon ?? '',
                 name: node.name ?? '',
@@ -96,18 +101,31 @@ export class CatalogContentComponent implements OnInit {
     showContextMenu(event: ContextMenuEvent) {
         this.contextMenu.setPosition(
             event.event.clientX, 
-            event.event.clientY);
-        this.contextRow = event.content.entry;
-        this.grid.select(event.content);
+            event.event.clientY); 
+        if(this.grid.selected.length == 0) {
+            this.contextRows = [ event.content.entry ];
+            this.grid.select(event);
+        } else {
+            this.contextRows = this.grid.selected.map(x => x.entry);
+        }
         this.contextMenu.toggle();
         this.cdr.detectChanges();
     }
     deleteSelectedEntry() {
-        this.api.delete(new DeleteEntryRequest({
-            entry: this.contextRow!.id
-        })).subscribe(x => {
+        forkJoin(
+            this.contextRows.map(x => 
+                this.api.delete(new DeleteEntryRequest({
+                    entry: (<any>x.entry).id
+                }))
+            )
+        ).subscribe(x => {
             this.loadData();
         });
+    }
+
+    onPageChanged(page: Page) {
+        this.page = page;
+        this.loadData();
     }
     redraw() {
         this.loadData();
@@ -121,12 +139,26 @@ export class CatalogContentComponent implements OnInit {
         this.createUserModal?.open();
     }
 
+    openCreateGroup() {
+        if(!this.selectedNode?.id) {
+            this.toastr.error('Выберите каталог в котором будет создан пользователь');
+            return;
+        }
+        this.createGroupModal?.open();
+    }
+
     openCreateOu() {
         if(!this.selectedNode?.id) {
             this.toastr.error('Выберите каталог в котором будет создана организационная единица');
             return;
         }
         this.createOuModal?.open();
+    }
+
+    showEntryProperties() { 
+        this.propertiesModal!.open();
+        this.propertiesData!.entityDn = this.contextRows[0].id; 
+        this.propertiesData!.loadData();
     }
 }
 

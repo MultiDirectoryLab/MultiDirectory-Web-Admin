@@ -2,6 +2,12 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, 
 import { Component } from "@angular/core";
 import { ColumnMode, ContextmenuType, DatatableComponent, SelectionType, TableColumn } from "@swimlane/ngx-datatable";
 
+export class Page {
+    totalElements: number = 0;
+    pageNumber: number = 0;
+    size: number = 20;
+}
+
 @Component({
     selector: 'md-datagrid',
     templateUrl: './datagrid.component.html',
@@ -19,16 +25,18 @@ export class DatagridComponent implements AfterViewInit {
     @ViewChild('datagrid') grid!: DatatableComponent;
 
     init = false;
+    @Input() page: Page = new Page();
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
     @Output() dblclick = new EventEmitter<InputEvent>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
-
+    @Output() pageChanged = new EventEmitter<Page>();
     selected: any[] = [];
     SelectionType = SelectionType;
     constructor(private cdr: ChangeDetectorRef) {}
 
     ngAfterViewInit() {
+        this.setPage({ offset: 0 });
     }
     
     select(row: any) {
@@ -61,6 +69,11 @@ export class DatagridComponent implements AfterViewInit {
         this.init = false;
         this.cdr.detectChanges();
         this.init = true;
+    }
+
+    setPage(pageInfo: { offset: number}) {
+        this.page.pageNumber = pageInfo.offset;
+        this.pageChanged.emit(this.page);
     }
 }
 

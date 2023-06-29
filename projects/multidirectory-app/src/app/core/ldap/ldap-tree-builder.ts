@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Treenode } from "multidirectory-ui-kit";
+import { Page, Treenode } from "multidirectory-ui-kit";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SearchQueries } from "./search";
 import { Observable, map } from "rxjs";
@@ -75,8 +75,8 @@ export class LdapTreeBuilder {
     }
 
 
-    getContent(parent: string, parentNode: LdapNode): Observable<LdapNode[]> {
-        return this.api.search(SearchQueries.getContent(parent)).pipe(
+    getContent(parent: string, parentNode: LdapNode, page: Page): Observable<LdapNode[]> {
+        return this.api.search(SearchQueries.getContent(parent, page)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');

@@ -1,12 +1,12 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
-import { RadiobuttonComponent, RadiogroupComponent } from "./radiobutton.component";
+import { RadiobuttonComponent, RadioGroupComponent } from "./radiobutton.component";
 
 const meta: Meta<RadiobuttonComponent> = {
     title: 'Components/Radiobutton',
     component: RadiobuttonComponent,
     decorators: [
         moduleMetadata({
-            declarations: [RadiogroupComponent]
+            declarations: [RadioGroupComponent]
         })
     ],
     tags: ['autodocs']

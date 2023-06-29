@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, InjectionToken, OnDestroy, QueryList, forwardRef } from "@angular/core";
-import { NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
+import { NG_VALUE_ACCESSOR, NgControl, NgModel } from "@angular/forms";
 import { BehaviorSubject, Observable, Subject, combineLatest, takeUntil } from "rxjs";
 import { BaseComponent } from "../base-component/base.component";
     
@@ -46,7 +46,7 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
             }
         });
         this.cdr.detectChanges();
-        this.inputValidators = this.inputs.toArray().filter(x => !!x).map(x => x.statusChanges!);
+        this.inputValidators = this.inputs.toArray()/*.filter(x => !!x)*/.map(x => x.statusChanges!);
         combineLatest(this.inputValidators).pipe(
             takeUntil(this.unsubscribe),
         ).subscribe(va => {
