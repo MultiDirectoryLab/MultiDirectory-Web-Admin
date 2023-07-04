@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ButtonComponent } from './components/button/button.component';
 import { TextboxComponent } from './components/textbox/textbox.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { DatagridComponent } from './components/datagrid/datagrid.component';
+import { DatagridComponent, Page } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
 import { ShiftCheckboxComponent } from './components/shift-checkbox/shift-checkbox.component';
 import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
@@ -24,6 +24,9 @@ import { ErrorLabelComponent } from './components/base-component/error-label/err
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { RerenderDirective } from './components/modal/rerender.directive';
 import { RadioGroupComponent } from './components/radiobutton-group/radio-group.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
   
 @NgModule({
   declarations: [
@@ -47,14 +50,17 @@ import { RadioGroupComponent } from './components/radiobutton-group/radio-group.
     FormTestComponent,
     ErrorLabelComponent,
     RerenderDirective,
-    RadioGroupComponent
+    RadioGroupComponent,
+    SpinnerComponent,
+    SpinnerHostDirective
   ],
   imports: [
     CommonModule,
     ModalModule,
     FormsModule,
     ReactiveFormsModule, 
-    NgxDatatableModule 
+    NgxDatatableModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
   ],
   exports: [
     ButtonComponent,
@@ -74,6 +80,9 @@ import { RadioGroupComponent } from './components/radiobutton-group/radio-group.
     StepperComponent,
     StepDirective,
     MdFormComponent,
-  ]
+    SpinnerComponent,
+    SpinnerHostDirective,
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class MultidirectoryUiKitModule { }

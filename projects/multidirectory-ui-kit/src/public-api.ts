@@ -22,3 +22,5 @@ export * from './lib/components/stepper/stepper.component';
 export * from './lib/components/stepper/step.directive';
 export * from './lib/components/form/form.component';
 export * from './lib/components/radiobutton-group/radio-group.component';
+export * from './lib/components/spinner/spinner.component';
+export * from './lib/components/spinner/spinner-host.directive';

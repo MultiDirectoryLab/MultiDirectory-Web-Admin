@@ -11,7 +11,7 @@ export class LdapPartialAttribute {
 export class CreateEntryRequest {
     entry: string = '';
     attributes: LdapPartialAttribute[] = [];
-
+    password: string = '';
     
     constructor(obj: Partial<CreateEntryRequest>) {
         Object.assign(this, obj);
