@@ -2,10 +2,11 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Outpu
 import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
 import { LdapNode } from "../../../core/ldap/ldap-tree-builder";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
-import { Subject, takeUntil } from "rxjs";
+import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { UserCreateService } from "../../../services/user-create.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
+import { ToastrService } from "ngx-toastr";
  
 @Component({
     selector: 'app-user-create',
@@ -20,12 +21,13 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     setupRequest = new UserCreateRequest();
     unsubscribe = new Subject<void>();
     formValid = false;
-    constructor(private setup: UserCreateService, private api: MultidirectoryApiService) {}
+    constructor(private setup: UserCreateService, private api: MultidirectoryApiService, private toastr: ToastrService) {}
     open() {
         this.createUserModal?.open();
     }
 
     onFinish() {
+        this.createUserModal?.showSpinner();
         this.api.create(new CreateEntryRequest({
               entry: `cn=${this.setupRequest.upnLogin},` + this.selectedNode?.id,
               attributes: [new LdapPartialAttribute({
@@ -33,10 +35,6 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
                 vals: ['user',
                 'top', 'person', 'organizationalPerson', 'posixAccount'
                 ]
-              }),
-              new LdapPartialAttribute({
-                type: 'password',
-                vals: [ '$2a$12$4yK2pbnlGgGGfCe/ACJ1YOYgO/MHJvKmmU2VV3yFsZ6yee0D.kAX2']
               }),
               new LdapPartialAttribute({
                 type: 'mail',
@@ -54,8 +52,16 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
                 type: 'displayName',
                 vals: [this.setupRequest.upnLogin]
               })
-            ]
-        })).subscribe(x => {
+            ],
+            password: this.setupRequest.password
+        }))
+        .pipe(catchError(err => {
+          this.createUserModal?.hideSpinner();
+          this.toastr.error('Не удалось создать пользователя');
+          return EMPTY;
+        }))
+        .subscribe(x => {
+            this.createUserModal?.hideSpinner();
             this.onCreate.emit();
             this.createUserModal?.close();
         });

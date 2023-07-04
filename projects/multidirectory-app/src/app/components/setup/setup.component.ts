@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChi
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
-import { MdModalComponent } from "multidirectory-ui-kit";
+import { MdModalComponent, SpinnerComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
 import { SetupService } from "../../services/setup.service";
@@ -15,6 +15,7 @@ import { SetupService } from "../../services/setup.service";
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     setupRequest = new SetupRequest();
     @ViewChild('modal') modal!: MdModalComponent;
+
     stepValid = false;
     unsubscribe = new Subject<boolean>();
     constructor(
@@ -46,12 +47,14 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onSetup() {
+        this.modal.showSpinner();
         this.api.setup(this.setupRequest).pipe(
             catchError(err => {
                 this.toastr.error(err);
                 return EMPTY;
             })
         ).subscribe(res => {
+            this.modal.hideSpinner();
             this.toastr.success('Настройка выполнена');
             this.router.navigate(['/'])
         });

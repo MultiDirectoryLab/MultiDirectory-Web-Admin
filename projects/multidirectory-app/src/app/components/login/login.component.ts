@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { Router } from "@angular/router";
-import { MdFormComponent } from "multidirectory-ui-kit";
-import { Subject, takeUntil } from "rxjs";
+import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
+import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
+import { Toast, ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-login',
@@ -15,7 +16,9 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     private unsubscribe = new Subject<void>();
 
     @ViewChild('loginForm') loginForm!: MdFormComponent;
-    constructor(private api: MultidirectoryApiService, private router: Router) {
+    @ViewChild('modal') modal!: MdModalComponent;
+
+    constructor(private api: MultidirectoryApiService, private router: Router, private toastr: ToastrService) {
     }
 
     loginValid = false;
@@ -34,10 +37,18 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     }
 
     onLogin() {
-        this.api.login(this.login, this.password).subscribe(response => {
-            localStorage.setItem('access_token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
-            this.router.navigate(['/']);
-        });
+        this.modal.showSpinner();
+        this.api.login(this.login, this.password)
+            .pipe(catchError((err, caught) => {
+                this.toastr.error('Неверный логин или пароль');
+                this.modal.hideSpinner();
+                return EMPTY;
+            }))
+            .subscribe(response => {
+                this.modal.hideSpinner();
+                localStorage.setItem('access_token', response.access_token);
+                localStorage.setItem('refresh_token', response.refresh_token);
+                this.router.navigate(['/']);
+            });
     }
 }

@@ -21,7 +21,7 @@
             Создать группу
         </span>
     </md-button>
-    <md-button (click)="createObjectModal.open()">
+    <md-button [disabled]="true" (click)="createObjectModal.open()">
         <span class="flex-row flex-space-between flex-gap-10">
             <img [src]="'assets/group_add.svg'"/>
             Добавить объект

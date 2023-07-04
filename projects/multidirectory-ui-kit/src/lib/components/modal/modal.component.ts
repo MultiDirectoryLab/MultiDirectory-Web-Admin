@@ -1,6 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewChildren } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
 import { Subject, takeUntil } from "rxjs";
+import { SpinnerComponent } from "../spinner/spinner.component";
+import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
 
 @Component({
     selector: 'md-modal',
@@ -10,6 +12,7 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class MdModalComponent implements AfterViewInit, OnDestroy {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
+    @ViewChild(SpinnerHostDirective, { static: false }) spinnerHost?: SpinnerHostDirective;
     @Input() opened = false;
     @Input() backdrop = true;
     @Input() height: string = '';
@@ -39,6 +42,13 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
+    showSpinner() {
+        this.spinnerHost?.show();
+    }
+
+    hideSpinner() {
+        this.spinnerHost?.hide();
+    }
     ngAfterViewInit(): void {
         if(this.opened) {
             this.open();
