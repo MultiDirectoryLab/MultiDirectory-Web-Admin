@@ -28,6 +28,9 @@ import { DomainSettingsComponent } from './components/forms/setup/domain-setttin
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
 import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
 import { GroupCreateComponent } from './components/forms/group-create/group-create.component';
+import { SearchPanelComponent } from './components/search-panel/search-panel.component';
+import { SearchUsersComponent } from './components/search-panel/seaarch-forms/search-users/search-users.component';
+import { SearchResultComponent } from './components/search-panel/seaarch-forms/search-result/search-result.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { GroupCreateComponent } from './components/forms/group-create/group-crea
 
     OuCreateComponent,
 
-    GroupCreateComponent
+    GroupCreateComponent,
+    SearchPanelComponent,
+    SearchUsersComponent,
+    SearchResultComponent
   ],
   imports: [
     BrowserModule,

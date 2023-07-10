@@ -47,7 +47,7 @@ label.bold {
     @include use-inter-typography(700, 18px, 25.2px)
 }
 
-label, p, div {
+label, p, div, select {
     @include use-inter-typography(400, 14px, 25.2px)
 }
 span.accented {
@@ -98,4 +98,7 @@ span.accented {
 }
 .text-justify {
     text-align: justify;
+}
+.pr-8 {
+    padding-right: 8px;
 }

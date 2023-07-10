@@ -39,20 +39,24 @@ export class DropdownMenuComponent {
         if(rightPoint > window.innerWidth)
         {
             this.renderer.setStyle(this.menu.nativeElement, 'left', 
-               `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 32}px`);
+               `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 40}px`);
+            this.renderer.setStyle(this.menu.nativeElement, 'right', 
+               `1rem`);
         }
     }
  
     private setOutsideClickHandler() {
-        setTimeout(() => {
-            this.unlistenClick = this.renderer.listen('window', 'click', (e) => {
-                if(this.dropdownVisible && 
-                    !this.menu.nativeElement.contains(e.target) )
-                {
-                    this.close();
-                }
-            })
-        });
+        document.addEventListener('click', this.handleClickOuside.bind(this), { capture: true  });
+    }
+
+
+    public handleClickOuside(e: Event) {
+        if(this.dropdownVisible && 
+            !this.menu.nativeElement.contains(e.target) )
+        {
+            document.removeEventListener('click', this.handleClickOuside);
+            this.close();
+        }
     }
 
     clickInside($event: PointerEvent ) {

@@ -65,5 +65,21 @@ export const SearchQueries = {
             "*"
           ]
         });
+    },
+
+
+    findByName(name: string): SearchRequest {
+      return new SearchRequest({
+          "base_object": '',
+          "scope": 2,
+          "deref_aliases": 0,
+          "size_limit": 0,
+          "time_limit": 0,
+          "types_only": false,
+          "filter": `(|(cn~=${name})(displayName~=${name}))`,
+          "attributes": [
+            "*"
+          ]
+        });
     }
 };

@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-1">
+        <label>Имя: </label>
+    </div>
+    <div class="col-md-8">
+        <md-textbox [(ngModel)]="searchQuery" class="search-input">
+        </md-textbox>
+    </div>
+    <div class="col-md-3">
+        <md-button (click)="clear()">Сбросить</md-button>
+    </div>
+</div>

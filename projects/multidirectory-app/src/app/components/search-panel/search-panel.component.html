@@ -1,0 +1,28 @@
+<div class="flex-column search-form">
+    <md-form #form>
+        <div class="row">
+            <label class="textbox-label">Поиск по:</label>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <md-dropdown [options]="searchTypes" [(ngModel)]="searchType">
+                </md-dropdown>
+            </div>
+            <div class="flex-row col-md-4">
+                <label class="pr-8">в: </label>
+                <md-dropdown [options]="['md.local', 'test']">
+                </md-dropdown>
+            </div>
+            <div class="col-md-3">
+               <md-button (click)="search()" [primary]="true">Найти</md-button>
+            </div>
+        </div>
+        <ng-container [ngSwitch]="searchType">
+            <app-search-users (onClear)="clear()" #searchUserForm *ngSwitchCase="SearchType.Users"></app-search-users>
+        </ng-container>
+    </md-form>
+    <div class="search-result">
+        <app-search-result [rows]="searchResults" #searchResultForm></app-search-result>
+    </div>
+</div>
