@@ -1,9 +1,10 @@
-import { Component, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { SearchUsersComponent } from "./seaarch-forms/search-users/search-users.component";
 import { LdapNode } from "../../core/ldap/ldap-tree-builder";
 import { SearchResultComponent } from "./seaarch-forms/search-result/search-result.component";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SearchQueries } from "../../core/ldap/search";
+import { SpinnerComponent, SpinnerHostDirective } from "multidirectory-ui-kit";
 
 
 export interface SearchRow {
@@ -30,14 +31,18 @@ export class SearchPanelComponent {
     searchResults: SearchRow[] = [];
     @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;
     @ViewChild('searchResultForm') searchResultForm!: SearchResultComponent;
-    constructor(private api: MultidirectoryApiService) {}
+    @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
+    constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef) {}
     search() {
         const query = this.searchUserForm.searchQuery;
+        this.spinner.show();
         this.api.search(SearchQueries.findByName(query)).subscribe(res => {
             this.searchResults = res.search_result.map(node => <SearchRow>{
                 name: node.object_name,
             });
             this.searchResultForm.rows = this.searchResults;
+            this.cdr.detectChanges();
+            this.spinner.hide();
         })
     }
 

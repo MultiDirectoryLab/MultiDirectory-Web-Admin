@@ -41,6 +41,7 @@ export class DatagridComponent implements AfterViewInit {
     
     select(row: any) {
         this.selected = [ row ];
+        console.log(this.selected);
         this.cdr.detectChanges();
     }
     onSelect({ selected }: { selected: any }) {

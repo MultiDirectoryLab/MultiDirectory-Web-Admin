@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { ContextMenuEvent, DatagridComponent, DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { Subject, forkJoin } from "rxjs";
+import { Observable, Subject, forkJoin, of, takeUntil, tap } from "rxjs";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
 import { LdapNode, LdapTreeBuilder } from "../../core/ldap/ldap-tree-builder";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
@@ -11,6 +11,7 @@ import { GroupCreateComponent } from "../forms/group-create/group-create.compone
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
 import { EntityPropertiesComponent } from "../entity-properties/entity-properties.component";
+import { LdapNavigationService } from "../../services/ldap-navigation.service";
 
 export interface TableRow {
     icon?: string,
@@ -25,7 +26,7 @@ export interface TableRow {
     templateUrl: './catalog-content.component.html',
     styleUrls: ['./catalog-content.component.scss'],
 })
-export class CatalogContentComponent implements OnInit {
+export class CatalogContentComponent implements OnInit, OnDestroy {
     private _selectedNode?: LdapNode;
     get selectedNode(): LdapNode | undefined { return this._selectedNode; }
     @Input() set selectedNode(val: LdapNode | undefined) { 
@@ -47,6 +48,7 @@ export class CatalogContentComponent implements OnInit {
     columns: TableColumn[] = [];
     contextRows: LdapNode[] = [];
     page: Page = new Page();
+    unsubscribe = new Subject<void>();
 
     constructor(
         private ldap: LdapTreeBuilder, 
@@ -60,30 +62,45 @@ export class CatalogContentComponent implements OnInit {
             { name: 'Тип', prop: 'type', flexGrow: 1 },
             { name: 'Описание', prop: 'description', flexGrow: 3 }
         ];    
+
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     loadData() {
-        if(this._selectedNode?.entry?.object_name == undefined) {
-            return;
-        }
-        this.ldap.getContent(this._selectedNode.entry.object_name, this._selectedNode, this.page).subscribe(x => {
-            this.rows = x.map(node => <TableRow>{
-                icon: node.icon ?? '',
-                name: node.name ?? '',
-                type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
-                entry: node,
-                description: '',
-            });
-            if(this._selectedNode?.parent) {
-                this.rows = [<TableRow>{
-                    name: '...',
-                    entry: this._selectedNode
-                }].concat(this.rows);
-            }
-            this.cdr.detectChanges();
-        });
+        return this.loadDataRx().subscribe();
     }
 
+    loadDataRx(): Observable<LdapNode[]> {
+        if(this._selectedNode?.entry?.object_name == undefined) {
+            return of([]);
+        }
+        return this.ldap.getContent(this._selectedNode.entry.object_name, this._selectedNode, this.page).pipe(
+            tap(x => {
+                    this.rows = x.map(node => <TableRow>{
+                        icon: node.icon ?? '',
+                        name: node.name ?? '',
+                        type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
+                        entry: node,
+                        description: '',
+                    });
+                    if(this._selectedNode?.parent) {
+                        this.rows = [<TableRow>{
+                            name: '...',
+                            entry: this._selectedNode
+                        }].concat(this.rows);
+                    }
+                    this.cdr.detectChanges();
+            }));
+    }
+
+    select(node: LdapNode) {
+        const row = this.rows.find(x => x.entry.id == node.id);
+        this.grid.select(row);
+    }
     onSelect(event: any) {
         if(event?.row?.entry) {
             this.selectedNode = event.row.entry;

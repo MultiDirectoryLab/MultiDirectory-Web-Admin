@@ -37,12 +37,12 @@ export class EntityPropertiesComponent implements OnInit {
         this.api.search(
             SearchQueries.getProperites(this.entityDn)
         ).subscribe(resp => {
-            this.properties = resp.search_result[0].partial_attributes.map( x => {
+            this.properties = [{name: 'DN', val: resp.search_result[0].object_name}].concat(resp.search_result[0].partial_attributes.map( x => {
                 return {
                     name: x.type,
                     val: x.vals.join(';')
                 }
-            });
+            }));
             this.propGrid.grid.recalculate();
             this.cdr.detectChanges();
         });

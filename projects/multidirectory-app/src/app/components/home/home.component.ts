@@ -7,6 +7,7 @@ import { Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
+import { LdapNavigationService } from "../../services/ldap-navigation.service";
 
 @Component({
     selector: 'app-home',
@@ -15,7 +16,9 @@ import { CatalogContentComponent } from "../catalog-content/catalog-content.comp
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnDestroy {
-    tree: Treenode[] = [];
+    get tree(): Treenode[] {
+        return this.navigation.ldapRoot!;
+    }
     selectedNode?: LdapNode;
     user?: WhoamiResponse;
     showLeftPane = false;
@@ -27,6 +30,7 @@ export class HomeComponent implements OnDestroy {
         private router: Router, 
         private api: MultidirectoryApiService, 
         private ldapTreeBuilder: LdapTreeBuilder,
+        private navigation: LdapNavigationService,
         private app: AppSettingsService,
         private cdr: ChangeDetectorRef) {
         
@@ -35,7 +39,18 @@ export class HomeComponent implements OnDestroy {
         });
 
         this.ldapTreeBuilder.getRoot().subscribe(root => {
-            this.tree = root;
+            this.navigation.ldapRoot = root;
+            this.cdr.detectChanges();
+        });
+
+        this.navigation.nodeSelected.subscribe(node => {
+            this.handleNodeSelection(node.parent);
+            this.changeTreeView(node.parent);
+            this.catalogContent?.loadDataRx().subscribe(result => {
+                if(node.node) {
+                    this.catalogContent?.select(node.node);
+                }
+            })
             this.cdr.detectChanges();
         });
 
