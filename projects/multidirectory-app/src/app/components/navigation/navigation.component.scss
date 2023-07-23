@@ -1,0 +1,18 @@
+@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+.more-container {
+    padding: 0 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 5px;
+    margin-bottom: 1.05rem;
+
+    .more {
+        cursor: pointer;
+        &:hover {
+            border: 1px solid global.$md-dark-blue-2;
+        }
+    }
+}
+

@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { MdFormComponent, MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
-import { LdapNode } from "../../../core/ldap/ldap-tree-builder";
-import { UserCreateRequest } from "../../../models/user-create/user-create.request";
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, ViewChild } from "@angular/core";
+import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
+import { LdapNode } from "../../../core/ldap/ldap-loader";
 import { Subject, takeUntil } from "rxjs";
-import { UserCreateService } from "../../../services/user-create.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
+import { LdapNavigationService } from "../../../services/ldap-navigation.service";
  
 @Component({
     selector: 'app-ou-create',
@@ -13,7 +12,7 @@ import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/
     styleUrls: ['./ou-create.component.scss']
 })
 export class OuCreateComponent implements AfterViewInit, OnDestroy {
-    @Input() selectedNode?: LdapNode;
+    selectedNode?: LdapNode;
     @Output() onCreate = new EventEmitter<void>();
     @ViewChild('createOuModal') createOuModal?: MdModalComponent;
     @ViewChild('form') form!: MdFormComponent;
@@ -22,7 +21,29 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     unsubscribe = new Subject<void>();
     formValid = false;
 
-    constructor(private setup: UserCreateService, private api: MultidirectoryApiService) {}
+    constructor(private navigation: LdapNavigationService, private api: MultidirectoryApiService) {}
+
+    
+    ngAfterViewInit(): void {
+        this.formValid = this.form.valid;
+        this.navigation.nodeSelected.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(node => {
+            this.selectedNode = node.parent;
+        });
+
+        this.form.onValidChanges.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
+            this.formValid = x;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.setupRequest = '';
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
 
     open() {
         this.createOuModal?.open();
@@ -42,21 +63,6 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
           this.onCreate.emit();
           this.onClose();
         });
-    }
-
-    ngAfterViewInit(): void {
-        this.formValid = this.form.valid;
-        this.form.onValidChanges.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(x => {
-            this.formValid = x;
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.setupRequest = '';
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
     }
 
     onClose(): void {

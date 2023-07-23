@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
 import { SearchRow } from "../../search-panel.component";
-import { LdapTreeBuilder } from "projects/multidirectory-app/src/app/core/ldap/ldap-tree-builder";
+import { LdapLoader } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
 @Component({

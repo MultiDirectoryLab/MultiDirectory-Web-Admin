@@ -1,5 +1,6 @@
 import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
+import { LdapNode } from "./ldap-loader";
 
 export const SearchQueries = {
   RootDse: {
@@ -33,14 +34,15 @@ export const SearchQueries = {
         });
     },
 
-    getContent(baseObject: string, page: Page): SearchRequest {
-      return new SearchRequest({
+    getContent(baseObject: string, page?: Page): SearchRequest {
+      const req = new SearchRequest({
           "base_object": baseObject,
           "scope": 1,
           "deref_aliases": 0,
-          "size_limit": 0,
+          "size_limit": page?.size ?? 0,
           "time_limit": 0,
           "types_only": false,
+          "page_number": page?.pageNumber ?? 1,
           "filter": "(objectClass=*)",
           "attributes": [
             "defaultNamingContext",
@@ -49,6 +51,7 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
+        return req;
     },
 
 
@@ -68,9 +71,9 @@ export const SearchQueries = {
     },
 
 
-    findByName(name: string): SearchRequest {
+    findByName(name: string, data: LdapNode): SearchRequest {
       return new SearchRequest({
-          "base_object": '',
+          "base_object": data.entry?.id,
           "scope": 2,
           "deref_aliases": 0,
           "size_limit": 0,

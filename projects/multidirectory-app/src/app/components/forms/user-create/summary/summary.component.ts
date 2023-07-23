@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-tree-builder";
+import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 

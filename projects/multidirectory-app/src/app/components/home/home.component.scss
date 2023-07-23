@@ -26,22 +26,6 @@
 .user-info {
     flex-grow: 1;
 }
-.more-container {
-    padding: 0 8px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    width: 5px;
-    margin-bottom: 1.05rem;
-
-    .more {
-        cursor: pointer;
-        &:hover {
-            border: 1px solid global.$md-dark-blue-2;
-        }
-    }
-}
-
 
 .footer {
     border-top: 1px solid lightgray;

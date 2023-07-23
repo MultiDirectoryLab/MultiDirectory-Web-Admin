@@ -11,7 +11,7 @@
             </div>
             <div class="flex-row col-md-4">
                 <label class="pr-8">в: </label>
-                <md-dropdown [options]="['md.local', 'test']">
+                <md-dropdown [options]="searchSources" [(ngModel)]="searchSource">
                 </md-dropdown>
             </div>
             <div class="col-md-3">

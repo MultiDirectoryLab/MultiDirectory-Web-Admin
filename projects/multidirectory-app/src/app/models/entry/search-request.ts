@@ -7,7 +7,7 @@ export class SearchRequest {
   types_only: boolean = false;
   filter: string = '';
   attributes: string[] = [];
-
+  page_number?: number = undefined;
   constructor(obj: Partial<SearchRequest>) {
     Object.assign(this, obj);
   }

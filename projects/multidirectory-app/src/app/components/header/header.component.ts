@@ -1,18 +1,25 @@
-import { Component, Input, OnDestroy } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { AppSettingsService } from "../../services/app-settings.service";
-import { Subject } from "rxjs";
-import { LdapNode } from "../../core/ldap/ldap-tree-builder";
+import { Subject, noop, takeUntil } from "rxjs";
+import { LdapNode } from "../../core/ldap/ldap-loader";
+import { LdapNavigationService } from "../../services/ldap-navigation.service";
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
-    @Input() selectedNode?: LdapNode;
-    constructor(private app: AppSettingsService) {
+    selectedCatalog?: LdapNode;
+     
+    constructor(private app: AppSettingsService, private navigation: LdapNavigationService) {
+    }
+    ngOnInit(): void {
+        this.navigation.nodeSelected.pipe(takeUntil(this.unsubscribe)).subscribe(node => {
+            this.selectedCatalog = node.parent;
+        })
     }
 
     ngOnDestroy(): void {

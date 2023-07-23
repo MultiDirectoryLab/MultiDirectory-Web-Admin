@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
-import { LdapNode } from "../../../../core/ldap/ldap-tree-builder";
+import { LdapNode } from "../../../../core/ldap/ldap-loader";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { MdFormComponent } from "projects/multidirectory-ui-kit/src/public-api";
 import { Subject, takeUntil } from "rxjs";

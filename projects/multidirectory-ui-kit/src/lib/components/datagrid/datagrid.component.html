@@ -9,12 +9,11 @@
     [selected]="selected"
     [selectionType]="SelectionType.multi"
     (activate)="onActivate($event)"
-    (select)="onSelect($event)"
-    [externalPaging]="false"
+    [externalPaging]="externalPaging"
     [count]="page.totalElements"
-    [offset]="page.pageNumber"
+    [offset]="page.pageOffset"
     [limit]="page.size"
-    (page)="setPage($event)"
+    (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     #datagrid
   >

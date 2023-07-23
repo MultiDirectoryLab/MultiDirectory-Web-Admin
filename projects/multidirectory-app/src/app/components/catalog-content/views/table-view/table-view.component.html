@@ -1,0 +1,12 @@
+<md-datagrid #grid
+[rows]="rows" 
+[columns]="columns" 
+[externalPaging]="true"
+(pageChanged)="onPageChanged($event)"
+(dblclick)="onDoubleClick($event)" 
+(contextmenu)="showContextMenu($event)">
+</md-datagrid> 
+<ng-template #iconTemplate let-row="row" let-value="value">
+    <img class="row-icon" [src]="row.icon" />
+    {{row.name}}
+</ng-template>

@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { LdapNode } from "../../../core/ldap/ldap-tree-builder";
+import { LdapNode } from "../../../core/ldap/ldap-loader";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";

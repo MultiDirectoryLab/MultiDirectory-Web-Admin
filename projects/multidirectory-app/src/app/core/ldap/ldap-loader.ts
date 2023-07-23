@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Page, Treenode } from "multidirectory-ui-kit";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SearchQueries } from "./search";
-import { Observable, map } from "rxjs";
+import { Observable, map, tap } from "rxjs";
 import { SearchEntry, SearchResponse } from "../../models/entry/search-response";
 import { LdapNodeType, EntityInfoResolver } from "./entity-info-resolver";
 
@@ -12,7 +12,7 @@ export class LdapNode extends Treenode {
     entry?: SearchEntry;
     icon?;
     parent?: LdapNode;
-
+    childCount?: number;
     constructor(obj: Partial<LdapNode>) {
         super({});
         Object.assign(this, obj);
@@ -20,13 +20,23 @@ export class LdapNode extends Treenode {
     }
 }
 
+export interface DnPart {
+    type: string;
+    value: string;
+}
+
+export interface NodeSelection {
+    node: LdapNode | undefined,
+    parent: LdapNode
+}
+
 @Injectable({
     providedIn: 'root'
 })
-export class LdapTreeBuilder {
+export class LdapLoader {
     constructor(private api: MultidirectoryApiService) {}
 
-    getRoot(): Observable<Treenode[]> {
+    getRoot(): Observable<LdapNode[]> {
         return this.api.search(SearchQueries.RootDse).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const root = new LdapNode({
@@ -43,7 +53,7 @@ export class LdapTreeBuilder {
                             id: namingContext?.vals[0] ?? ''
                         },
                     );
-                    serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
+                    serverNode.loadChildren = () => this.getContent(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
                         new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved' }),
@@ -55,28 +65,11 @@ export class LdapTreeBuilder {
         );
     }
 
-    getChild(dn: string, parent?: LdapNode): Observable<Treenode[]> {
-        return this.api.search(SearchQueries.getChild(dn)).pipe(
-            map((res: SearchResponse) => res.search_result.map(x => {
-                    const displayName = this.getSingleAttribute(x, 'name');
-                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
-                    const node = new LdapNode({
-                        name: displayName,
-                        type: EntityInfoResolver.getNodeType(objectClass?.vals),
-                        selectable: true,
-                        entry: x,
-                        id: x.object_name,
-                        parent: parent
-                    });
-                    node.loadChildren = () => this.getChild(x.object_name, node);
-                    return node;
-                }))
-            );
-    }
-
-
-    getContent(parent: string, parentNode: LdapNode, page: Page): Observable<LdapNode[]> {
+    getContent(parent: string, parentNode: LdapNode, page?: Page): Observable<LdapNode[]> {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
+            tap((res: SearchResponse) => {
+               parentNode.childCount = res.total_objects;
+            }),
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
@@ -86,9 +79,9 @@ export class LdapTreeBuilder {
                         selectable: true,
                         entry: x,
                         id: x.object_name,
-                        parent: parentNode
+                        parent: parentNode,
                     });
-                    node.loadChildren = () => this.getChild(x.object_name);
+                    node.loadChildren = () => this.getContent(x.object_name, parentNode);
                     return node;
                 }))
             );
