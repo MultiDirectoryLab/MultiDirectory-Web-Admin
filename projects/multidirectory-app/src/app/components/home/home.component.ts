@@ -29,6 +29,7 @@ export class HomeComponent implements OnDestroy {
     unsubscribe = new Subject<boolean>();
     constructor(
         private router: Router, 
+        private cdr: ChangeDetectorRef,
         private api: MultidirectoryApiService, 
         private navigation: LdapNavigationService,
         private app: AppSettingsService) {
@@ -37,6 +38,7 @@ export class HomeComponent implements OnDestroy {
 
         this.api.whoami().subscribe(whoami=> {
             this.user = whoami;
+            this.cdr.detectChanges();
         });
 
         this.app.navigationalPanelVisibleRx.pipe(

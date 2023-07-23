@@ -26,7 +26,11 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
     @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
 
-    page: Page = new Page();
+    page: Page = new Page({
+        pageNumber: 1,
+        size: 10, 
+        totalElements: 1000
+    });
     rows: LdapNode[] = [];
 
     selectedCatalog: LdapNode =  new LdapNode({ id: '' });
@@ -44,8 +48,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.navigation.nodeSelected.pipe(
             takeUntil(this.unsubscribe),
             switchMap(x => {
-                console.log('test');
                 this.selectedCatalog = x.parent;
+                this.page.totalElements = this.selectedCatalog.childCount ?? 1000;
                 const test = this.navigation.getContent(this.selectedCatalog, this.page);
                 return test;
             })

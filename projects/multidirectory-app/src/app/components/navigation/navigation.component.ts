@@ -21,10 +21,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.navigation.ldapRootRx.pipe(takeUntil(this.unsubscribe)).subscribe(roots => {
             this.ldapRoots = roots;
-            console.log(this.ldapRoots);
             this.cdr.detectChanges();
         });
         this.navigation.nodeSelected.pipe(takeUntil(this.unsubscribe)).subscribe(node => {
+            this.treeView?.selectNode(node.parent);
             this.cdr.detectChanges();
         });
     }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
-import { Observable, lastValueFrom } from "rxjs";
+import { Observable, lastValueFrom, of } from "rxjs";
 
 @Component({
     selector: 'md-treeview',
@@ -20,46 +20,49 @@ export class TreeviewComponent implements OnInit {
         }
     }
 
-    async loadChildren(node: Treenode) {
+    loadChildren(node: Treenode): Observable<Treenode[]> | null {
         if(!!node.loadChildren && (node.children == null || this.expandStrategy == ExpandStrategy.AlwaysUpdate))
         {
-            const childRx = node.loadChildren();
-            node.children = !!childRx ? await lastValueFrom(childRx) : null;
-            node.childrenLoaded = true;
+            return node.loadChildren ? node.loadChildren() : null;
         }
+        return null;
     }
 
-    async toggleNode(event: Event | null, node: Treenode) {
+    handleNodeClick(event: Event | null, node: Treenode) {
         if(event) {
             event.stopPropagation();
         }
-        await this.loadChildren(node);
-        node.expanded = !node.expanded; 
-    }
-
-    async handleNodeClick(event: Event | null, node: Treenode) {
-        if(event) {
-            event.stopPropagation();
-        }
+        
         if(node.selectable) {
             this.traverseTree(this.tree, (node , path)=> { node.selected = false; });
-            node.selected = !node.selected;
-            if(node.selected) {
-                this.onNodeSelect.emit(node);
-            }
         }
 
-        await this.toggleNode(event, node);
+        node.expanded = !node.expanded;
+        node.selected = true;
+        
+        if(node.expanded) {
+            this.loadChildren(node)?.subscribe(x => {
+                node.children = x;
+                node.childrenLoaded = true;
+                this.onNodeSelect.emit(node);
+            })
+            return;
+        }
+      
+        this.onNodeSelect.emit(node);
         this.cdr.detectChanges();
     }
 
     selectNode(node: Treenode) {
-        setTimeout(async () => {
             let nodePath: Treenode[] = [];
             let toSelect: Treenode | undefined;
+            if(node.selected) {
+                return;
+            }
+
             this.traverseTree(this.tree, (n, path) => {
                 n.selected = false; 
-                if(n.id == node.id) {
+                if(n == node) {
                     nodePath = [...path];
                     toSelect = n;
                 }
@@ -69,13 +72,16 @@ export class TreeviewComponent implements OnInit {
                 x.selected = false;
             });
             if(!!toSelect) {
-                await this.loadChildren(toSelect);
-                toSelect.selected = true;
-                toSelect.expanded = true;
+                this.loadChildren(toSelect)?.subscribe(x => {
+                    toSelect!.children = x;
+                    toSelect!.childrenLoaded = true;
+                    toSelect!.selected = true;
+                    toSelect!.expanded = true;
+                })
             }
             this.cdr.detectChanges();
-        });
     }
+
     traverseTree(tree: Treenode[], action: (node: Treenode, path: Treenode[]) => void, path: Treenode[] = []) {
         tree.forEach(node => {
             path.push(node);

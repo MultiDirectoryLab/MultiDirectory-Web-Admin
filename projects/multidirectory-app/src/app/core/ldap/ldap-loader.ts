@@ -53,7 +53,7 @@ export class LdapLoader {
                             id: namingContext?.vals[0] ?? ''
                         },
                     );
-                    serverNode.loadChildren = () => this.getContent(namingContext?.vals[0] ?? '', serverNode);
+                    serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
                         new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved' }),
@@ -65,11 +65,29 @@ export class LdapLoader {
         );
     }
 
+    getChild(dn: string, parent?: LdapNode): Observable<Treenode[]> {
+        return this.api.search(SearchQueries.getChild(dn)).pipe(
+            map((res: SearchResponse) => res.search_result.map(x => {
+                    const displayName = this.getSingleAttribute(x, 'name');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
+                    const node = new LdapNode({
+                        name: displayName,
+                        type: EntityInfoResolver.getNodeType(objectClass?.vals),
+                        selectable: true,
+                        entry: x,
+                        id: x.object_name,
+                        parent: parent
+                    });
+                    node.loadChildren = () => this.getChild(x.object_name, node);
+                    return node;
+                }))
+            );
+    }
+
+
     getContent(parent: string, parentNode: LdapNode, page?: Page): Observable<LdapNode[]> {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
-            tap((res: SearchResponse) => {
-               parentNode.childCount = res.total_objects;
-            }),
+            tap(x => parentNode.childCount = x.total_objects ),
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = this.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
@@ -79,9 +97,9 @@ export class LdapLoader {
                         selectable: true,
                         entry: x,
                         id: x.object_name,
-                        parent: parentNode,
+                        parent: parentNode
                     });
-                    node.loadChildren = () => this.getContent(x.object_name, parentNode);
+                    node.loadChildren = () => this.getChild(x.object_name);
                     return node;
                 }))
             );

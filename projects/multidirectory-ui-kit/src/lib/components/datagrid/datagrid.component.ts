@@ -83,7 +83,6 @@ export class DatagridComponent implements AfterViewInit {
     }
 
     onPageChange(pageInfo: { offset: number, pageSize: number, limit: number, count: number }) {
-        console.log(pageInfo);
         this.page = new Page({
             pageNumber: (pageInfo.offset) + 1,
             size: pageInfo.pageSize,
