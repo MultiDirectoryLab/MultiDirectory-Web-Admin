@@ -13,10 +13,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
     selectedCatalog?: LdapNode;
-     
+    ldapRoots: LdapNode[] = [];
     constructor(private app: AppSettingsService, private navigation: LdapNavigationService) {
     }
     ngOnInit(): void {
+        this.navigation.ldapRootRx.subscribe(x => {
+            this.ldapRoots = x;
+        });
         this.navigation.nodeSelected.pipe(takeUntil(this.unsubscribe)).subscribe(node => {
             this.selectedCatalog = node.parent;
         })

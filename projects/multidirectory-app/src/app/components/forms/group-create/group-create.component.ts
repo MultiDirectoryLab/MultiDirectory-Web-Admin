@@ -20,7 +20,6 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @Input() set selectedNode(node: LdapNode | undefined) {
         this._selectedNode = node;
         this.cdr.detectChanges();
-        this.ngAfterViewInit();
     }
     get selectedNode(): LdapNode | undefined {
         return this._selectedNode;

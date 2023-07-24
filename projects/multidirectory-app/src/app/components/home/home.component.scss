@@ -8,6 +8,7 @@
     border-right: 1px solid lightgrey;
     display: flex;
     flex-flow: column nowrap;
+    user-select: none;
 }
 .right-pane {
     flex-grow: 1;

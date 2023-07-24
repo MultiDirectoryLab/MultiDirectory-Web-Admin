@@ -31,7 +31,7 @@ export class SearchPanelComponent implements AfterViewInit {
     _ldapRoots?: LdapNode[];
 
     get ldapRoots(): LdapNode[] | undefined { return this._ldapRoots; }
-    set ldapRoots(ldapRoots: LdapNode[] | undefined) {
+    @Input() set ldapRoots(ldapRoots: LdapNode[] | undefined) {
         this._ldapRoots = ldapRoots;
         this._ldapRoots?.forEach(v => this.searchSources.push({
             title: v.name!, 

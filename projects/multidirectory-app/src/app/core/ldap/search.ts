@@ -42,7 +42,6 @@ export const SearchQueries = {
           "size_limit": page?.size ?? 0,
           "time_limit": 0,
           "types_only": false,
-          "page_number": page?.pageNumber ?? 1,
           "filter": "(objectClass=*)",
           "attributes": [
             "defaultNamingContext",
@@ -51,6 +50,9 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
+        if(page) {
+          req.page_number = page.pageNumber;
+        }
         return req;
     },
 

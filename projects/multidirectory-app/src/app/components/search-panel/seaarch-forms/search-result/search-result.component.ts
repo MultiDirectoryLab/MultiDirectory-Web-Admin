@@ -18,7 +18,6 @@ export class SearchResultComponent {
 
     goTo(event: any) {
         if(event?.row?.name) {
-            console.log(event.row.name);
             this.navigation.goTo(event.row.name).then(x => {
                 this.cdr.detectChanges();
             });

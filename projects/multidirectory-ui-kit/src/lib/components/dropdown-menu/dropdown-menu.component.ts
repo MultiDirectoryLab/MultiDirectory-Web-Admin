@@ -14,9 +14,10 @@ export class DropdownMenuComponent {
     _top: number = 0;
     _left: number = 0;
     @ViewChild('menu') menu!: ElementRef;
-
+    caller?: ElementRef;
     dropdownVisible = false;
     unlistenClick =  () => {};
+    unlistenListener = (e: Event) => {};
     constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {
     }
 
@@ -46,15 +47,20 @@ export class DropdownMenuComponent {
     }
  
     private setOutsideClickHandler() {
-        document.addEventListener('click', this.handleClickOuside.bind(this), { capture: true  });
+        this.unlistenListener = this.handleClickOuside.bind(this);
+        document.addEventListener('click',  this.unlistenListener, { capture: true  });
     }
 
 
     public handleClickOuside(e: Event) {
+        if(this.caller?.nativeElement.contains(e.target)) {
+            e.stopPropagation();
+        }
         if(this.dropdownVisible && 
             !this.menu.nativeElement.contains(e.target) )
         {
-            document.removeEventListener('click', this.handleClickOuside);
+            document.removeEventListener('click', this.unlistenListener, { capture: true });
+            this.unlistenListener = () => {};
             this.close();
         }
     }
@@ -80,7 +86,8 @@ export class DropdownMenuComponent {
         this.cdr.detectChanges();
     }
     
-    toggle() {
+    toggle(el?: ElementRef) {
+        this.caller = el;
         if(this.dropdownVisible) 
             this.close()
         else 

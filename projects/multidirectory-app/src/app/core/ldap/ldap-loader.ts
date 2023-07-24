@@ -27,7 +27,8 @@ export interface DnPart {
 
 export interface NodeSelection {
     node: LdapNode | undefined,
-    parent: LdapNode
+    parent: LdapNode,
+    page?: Page
 }
 
 @Injectable({

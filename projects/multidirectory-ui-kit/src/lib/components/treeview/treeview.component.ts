@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from "@angular/core";
 import { Observable, lastValueFrom, of } from "rxjs";
 
 @Component({
@@ -33,10 +33,17 @@ export class TreeviewComponent implements OnInit {
             event.stopPropagation();
         }
         
+        if(node.expanded && !node.selected) {
+            this.traverseTree(this.tree, (node , path)=> { node.selected = false; });
+            node.selected = true;
+            this.onNodeSelect.emit(node);
+            return;
+        }
+
         if(node.selectable) {
             this.traverseTree(this.tree, (node , path)=> { node.selected = false; });
         }
-
+        
         node.expanded = !node.expanded;
         node.selected = true;
         
@@ -62,7 +69,7 @@ export class TreeviewComponent implements OnInit {
 
             this.traverseTree(this.tree, (n, path) => {
                 n.selected = false; 
-                if(n == node) {
+                if(n.id == node.id) {
                     nodePath = [...path];
                     toSelect = n;
                 }
@@ -77,6 +84,7 @@ export class TreeviewComponent implements OnInit {
                     toSelect!.childrenLoaded = true;
                     toSelect!.selected = true;
                     toSelect!.expanded = true;
+                    this.cdr.detectChanges();
                 })
             }
             this.cdr.detectChanges();

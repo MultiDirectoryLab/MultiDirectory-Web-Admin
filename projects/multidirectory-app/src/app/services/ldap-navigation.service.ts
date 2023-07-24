@@ -83,11 +83,22 @@ export class LdapNavigationService {
                             dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const found = children.find(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
-                    if(found) {
-                        this._nodeSelected.next({ parent: <LdapNode>currentNode, node: found.node });
+                    const ldapNode = <LdapNode>currentNode!;
+                    ldapNode.childCount = x.length;
+                    const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
+                    if(foundIndex > -1) {
+                        this._nodeSelected.next({
+                            parent: ldapNode, 
+                            node: children[foundIndex].node,
+                            page: new Page({
+                                pageNumber: Math.floor(foundIndex / 10) + 1,
+                                totalElements: x.length,
+                                size: 10
+                            })
+                        });
                     }
                 })
+                return;
             } else {
                 currentNode = found?.node;
             }

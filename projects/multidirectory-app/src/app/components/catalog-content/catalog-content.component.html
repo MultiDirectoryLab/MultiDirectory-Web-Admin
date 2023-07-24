@@ -37,8 +37,11 @@
 
 <div class="w-100 h-100">
     <app-table-view
+        (pageChanged)="pageChanged($event)"
+        [contextMenu]="contextMenuRef"
         [selectedCatalog]="selectedCatalog"
         [content]="rows"
+        [page]="page"
     ></app-table-view>
 </div>
 
@@ -64,7 +67,7 @@
 
 <app-user-create #createUserModal (onCreate)="loadData()"></app-user-create>
 <app-ou-create #createOuModal (onCreate)="loadData()"></app-ou-create>
-<app-group-create #createGroupModal (onCreate)="loadData()"></app-group-create>
+<app-group-create #createGroupModal [selectedNode]="selectedCatalog" (onCreate)="loadData()"></app-group-create>
 
 <md-modal #createObjectModal>
     TODO

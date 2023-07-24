@@ -10,6 +10,7 @@ import { EntityPropertiesComponent } from "../entity-properties/entity-propertie
 import { GroupCreateComponent } from "../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
+import { TableViewComponent } from "./views/table-view/table-view.component";
 
 
 @Component({
@@ -18,24 +19,26 @@ import { UserCreateComponent } from "../forms/user-create/user-create.component"
     styleUrls: ['./catalog-content.component.scss'],
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {      
-    @ViewChild('contextMenu', { static: true }) contextMenu!: DropdownMenuComponent;
+    @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
     @ViewChild('properites', { static: true }) properitesModal!: DropdownMenuComponent;
     @ViewChild('createUserModal', { static: true}) createUserModal?: UserCreateComponent;
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
     @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
+    @ViewChild(TableViewComponent, { static: true }) tableView?: TableViewComponent;
 
     page: Page = new Page({
         pageNumber: 1,
         size: 10, 
-        totalElements: 1000
+        totalElements: 0
     });
-    rows: LdapNode[] = [];
 
     selectedCatalog: LdapNode =  new LdapNode({ id: '' });
     contextRows: LdapNode[] = [];
-    
+    rows: LdapNode[] = [];
+    selectedRows: LdapNode[] = [];
+
     unsubscribe = new Subject<void>();
 
     constructor(
@@ -48,13 +51,28 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.navigation.nodeSelected.pipe(
             takeUntil(this.unsubscribe),
             switchMap(x => {
+                this.selectedRows = [];
+                if(x.page) {
+                    this.page = new Page(x.page);
+                } else if(x.parent !== this.selectedCatalog) {
+                    this.page = new Page({
+                        pageNumber: 1,
+                        totalElements: this.selectedCatalog.childCount ?? 0,
+                    });
+                } 
+                this.selectedRows = x.node ? [ x.node ] : [];
                 this.selectedCatalog = x.parent;
-                this.page.totalElements = this.selectedCatalog.childCount ?? 1000;
-                const test = this.navigation.getContent(this.selectedCatalog, this.page);
-                return test;
+                this.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
+                if(x.parent?.parent) {
+                    this.page.totalElements += 1;
+                }
+                return this.navigation.getContent(this.selectedCatalog, this.page);
             })
         ).subscribe(x => {
             this.rows = x;
+            this.selectedRows = x.filter(x => this.selectedRows.some(y => y.id == x.id));
+            this.cdr.detectChanges();
+            this.tableView!.select(this.selectedRows);
             this.cdr.detectChanges();
         });
     }
@@ -63,17 +81,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
-
-  
-    select(node: LdapNode) {
-       // const row = this.rows.find(x => x.entry.id == node.id);
-       // this.grid.select(row);
-    }
-
     
     deleteSelectedEntry() {
         forkJoin(
-            this.contextRows.map(x => 
+            this.tableView!.contextRows.map(x => 
                 this.api.delete(new DeleteEntryRequest({
                     entry: (<any>x.entry).object_name
                 }))
@@ -82,7 +93,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.loadData();
         });
     }
-
 
     redraw() {
         this.loadData();
@@ -112,25 +122,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.createOuModal?.open();
     }
 
-    
-    showContextMenu(event: ContextMenuEvent) {
-        this.contextMenu.setPosition(
-            event.event.clientX, 
-            event.event.clientY); 
-        /**if(this.grid.selected.length == 0) {
-            this.contextRows = [ event.content.entry ];
-            this.grid.select(event);
-        } else {
-            this.contextRows = this.grid.selected.map(x => x.entry);
-        }**/
-        this.contextMenu.toggle();
-        this.cdr.detectChanges();
-    }
-
-     
     showEntryProperties() { 
         this.propertiesModal!.open();
-       // this.propertiesData!.entityDn = this.contextRows[0].id; 
+        this.propertiesData!.entityDn = this.tableView!.contextRows[0].id; 
         this.propertiesData!.loadData();
     }
 
@@ -138,6 +132,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         if(this.selectedCatalog) {
             this.navigation.setCatalog(this.selectedCatalog);
         }
+    }
+
+    pageChanged(page: Page) {
+        this.page = page;
+        this.loadData();
+        this.cdr.detectChanges();
     }
 }
 

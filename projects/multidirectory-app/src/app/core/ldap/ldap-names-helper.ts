@@ -10,7 +10,9 @@ export class LdapNamesHelper {
     }
 
     static dnContain(left: DnPart[], right: DnPart[]) {
-        return left.map(x => x.value).join('.').includes(right.map(x => x.value).join('.'));
+        const leftParts = left.map(x => x.value);
+        const rightParts = right.map(x => x.value); 
+        return  rightParts.every(x => leftParts.includes(x));
     }
 
     static dnEqual(left: DnPart[], right: DnPart[]) {

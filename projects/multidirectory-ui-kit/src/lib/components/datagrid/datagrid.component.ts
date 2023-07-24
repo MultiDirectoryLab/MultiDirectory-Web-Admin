@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { Component } from "@angular/core";
 import { ColumnMode, ContextmenuType, DatatableComponent, SelectionType, TableColumn } from "@swimlane/ngx-datatable";
+import { DropdownOption } from "projects/multidirectory-ui-kit/src/public-api";
 
 export class Page {
     totalElements: number = 0;
@@ -8,7 +9,7 @@ export class Page {
     size: number = 10;
 
     get pageOffset(): number {
-        return Math.floor(this.pageNumber / this.size)
+        return (this.pageNumber - 1)
     }
     constructor(obj?: Partial<Page>) {
         Object.assign(this, obj ?? {});
@@ -47,6 +48,12 @@ export class DatagridComponent implements AfterViewInit {
         this._selected = x;
     }
     SelectionType = SelectionType;
+    pageSizes: DropdownOption[] = [ 
+        { title: '5', value: 5 },
+        { title: '10', value: 10 },
+        { title: '15', value: 15 },
+        { title: '20', value: 20 }
+    ];
     constructor(private cdr: ChangeDetectorRef) {}
 
     ngAfterViewInit() {
@@ -54,6 +61,10 @@ export class DatagridComponent implements AfterViewInit {
     }
     
     select(row: any) {
+        if(!row) {
+            this.selected = [];
+            return;
+        }
         this.selected = [ row ];
         this.cdr.detectChanges();
     }
@@ -83,16 +94,20 @@ export class DatagridComponent implements AfterViewInit {
     }
 
     onPageChange(pageInfo: { offset: number, pageSize: number, limit: number, count: number }) {
+        this.selected =[];
         this.page = new Page({
-            pageNumber: (pageInfo.offset) + 1,
+            pageNumber: pageInfo.offset + 1,
             size: pageInfo.pageSize,
             totalElements: pageInfo.count
         });
         this.pageChanged.emit(this.page);
     }
     setPage(page: Page) {
-        this.page = page;
-        this.pageChanged.emit(this.page);
+        this.selected =[];
+        if(this.page == page) {return;}
+        this.page = new Page(page);
+        this.grid.offset = this.page.pageOffset;
+        this.grid.calcPageSize();
     }
 }
 
