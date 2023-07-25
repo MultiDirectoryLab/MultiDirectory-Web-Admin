@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild }
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { DatagridComponent } from "multidirectory-ui-kit";
 import { SearchQueries } from "../../core/ldap/search";
+import { tap } from "rxjs";
 
 @Component({
     selector: 'app-entity-properties',
@@ -34,9 +35,10 @@ export class EntityPropertiesComponent implements OnInit {
     }
 
     loadData() {
-        this.api.search(
+        return this.api.search(
             SearchQueries.getProperites(this.entityDn)
-        ).subscribe(resp => {
+        ).pipe(
+            tap(resp => {
             this.properties = [{name: 'DN', val: resp.search_result[0].object_name}].concat(resp.search_result[0].partial_attributes.map( x => {
                 return {
                     name: x.type,
@@ -45,6 +47,6 @@ export class EntityPropertiesComponent implements OnInit {
             }));
             this.propGrid.grid.recalculate();
             this.cdr.detectChanges();
-        });
+        }));
     }
 }

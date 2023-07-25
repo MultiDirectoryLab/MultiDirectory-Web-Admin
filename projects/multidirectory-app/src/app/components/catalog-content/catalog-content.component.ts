@@ -20,19 +20,12 @@ import { TableViewComponent } from "./views/table-view/table-view.component";
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {      
     @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
-    @ViewChild('properites', { static: true }) properitesModal!: DropdownMenuComponent;
     @ViewChild('createUserModal', { static: true}) createUserModal?: UserCreateComponent;
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
     @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
     @ViewChild(TableViewComponent, { static: true }) tableView?: TableViewComponent;
-
-    page: Page = new Page({
-        pageNumber: 1,
-        size: 10, 
-        totalElements: 0
-    });
 
     selectedCatalog: LdapNode =  new LdapNode({ id: '' });
     contextRows: LdapNode[] = [];
@@ -41,6 +34,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     unsubscribe = new Subject<void>();
 
+
+    get page(): Page {
+        return this.tableView!.grid.page;
+    }
     constructor(
         public navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
@@ -52,14 +49,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             takeUntil(this.unsubscribe),
             switchMap(x => {
                 this.selectedRows = [];
-                if(x.page) {
-                    this.page = new Page(x.page);
-                } else if(x.parent !== this.selectedCatalog) {
-                    this.page = new Page({
-                        pageNumber: 1,
-                        totalElements: this.selectedCatalog.childCount ?? 0,
-                    });
-                } 
+               
                 this.selectedRows = x.node ? [ x.node ] : [];
                 this.selectedCatalog = x.parent;
                 this.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
@@ -123,9 +113,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showEntryProperties() { 
-        this.propertiesModal!.open();
         this.propertiesData!.entityDn = this.tableView!.contextRows[0].id; 
-        this.propertiesData!.loadData();
+        this.propertiesData!.loadData().subscribe(x => {
+            this.propertiesModal!.open();
+            this.propertiesData?.propGrid.grid.recalculate();
+            this.propertiesModal!.center();
+        });
     }
 
     loadData() {
@@ -135,7 +128,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(page: Page) {
-        this.page = page;
         this.loadData();
         this.cdr.detectChanges();
     }

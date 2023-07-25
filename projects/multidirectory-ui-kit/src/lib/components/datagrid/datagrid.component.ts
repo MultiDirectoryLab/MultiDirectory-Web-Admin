@@ -33,6 +33,7 @@ export class DatagridComponent implements AfterViewInit {
     @ViewChild('datagrid') grid!: DatatableComponent;
 
     init = false;
+    @Input() name = '';
     @Input() externalPaging = false;
     @Input() page: Page = new Page({});
     @Input() rows: any[] = [];
@@ -47,6 +48,18 @@ export class DatagridComponent implements AfterViewInit {
     set selected(x: any[]) {
         this._selected = x;
     }
+    
+    set size(size: number) {
+        this.page.size = size;
+        if(this.name) {
+            localStorage.setItem(`gridSize_${this.name}`, String(size));
+        }
+        this.pageChanged.emit(this.page);
+     }
+     get size(): number {
+         return this.page.size;
+     }
+
     SelectionType = SelectionType;
     pageSizes: DropdownOption[] = [ 
         { title: '5', value: 5 },
@@ -58,6 +71,13 @@ export class DatagridComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         this.setPage(new Page());
+        if(this.name) {
+            const size =  Number(localStorage.getItem(`gridSize_${this.name}`));
+            if(!isNaN(size) && size > 0) {
+                this.page.size = size;
+                this.cdr.detectChanges();
+            }
+        }
     }
     
     select(row: any) {
@@ -109,6 +129,7 @@ export class DatagridComponent implements AfterViewInit {
         this.grid.offset = this.page.pageOffset;
         this.grid.calcPageSize();
     }
+
 }
 
 export interface ContextMenuEvent { 

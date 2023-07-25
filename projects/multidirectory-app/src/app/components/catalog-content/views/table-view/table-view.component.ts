@@ -60,6 +60,7 @@ export class TableViewComponent implements OnInit, OnDestroy {
     }
 
     onPageChanged(page: Page) {
+        console.log(page);
         this.pageChanged.emit(page);
     }
 

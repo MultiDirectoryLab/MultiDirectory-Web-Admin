@@ -46,6 +46,7 @@ export class LdapLoader {
                         id: 'root'
                     });
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
+                    console.log(x);
                     const serverNode = new LdapNode({ 
                             name: this.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapNodeType.Server,

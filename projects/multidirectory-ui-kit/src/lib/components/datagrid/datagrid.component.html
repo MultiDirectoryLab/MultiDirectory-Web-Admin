@@ -34,12 +34,12 @@
 
       <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
         <label class="pr-10">Размер страницы: </label>
-        <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="page.size"></md-dropdown> 
+        <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown> 
         <div>
           {{(curPage - 1) * pageSize + 1}}-{{ curPage * pageSize > rowCount ? rowCount : curPage * pageSize }} из {{rowCount}}
         </div>       
       </div>
-      <datatable-pager  *ngIf="page.totalElements > page.size" style="flex: 1 5 20%"
+      <datatable-pager style="flex: 1 5 20%"
         class="pager"
         [pagerLeftArrowIcon]="'datatable-icon-left'"
         [pagerRightArrowIcon]="'datatable-icon-right'"

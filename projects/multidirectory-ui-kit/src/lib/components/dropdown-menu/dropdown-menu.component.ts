@@ -48,7 +48,7 @@ export class DropdownMenuComponent {
  
     private setOutsideClickHandler() {
         this.unlistenListener = this.handleClickOuside.bind(this);
-        document.addEventListener('click',  this.unlistenListener, { capture: true  });
+        document.addEventListener('mousedown',  this.unlistenListener, { capture: true  });
     }
 
 
@@ -59,7 +59,7 @@ export class DropdownMenuComponent {
         if(this.dropdownVisible && 
             !this.menu.nativeElement.contains(e.target) )
         {
-            document.removeEventListener('click', this.unlistenListener, { capture: true });
+            document.removeEventListener('mousedown', this.unlistenListener, { capture: true });
             this.unlistenListener = () => {};
             this.close();
         }

@@ -35,8 +35,13 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
+        this.modalRoot?.center();
     }
-    
+
+    center() {
+        this.modalRoot?.center();
+    }
+
     close() {   
         this.modalRoot?.hide();
         this.cdr.detectChanges();

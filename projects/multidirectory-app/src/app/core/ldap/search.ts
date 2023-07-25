@@ -12,7 +12,17 @@ export const SearchQueries = {
         "types_only": false,
         "filter": "(objectClass=*)",
         "attributes": [
-          "defaultNamingContext"
+          "defaultNamingContext",
+          "namingContexts",
+          "subschemaSubentry",
+          "supportedLDAPVersion", 
+          "supportedSASLMechanisms",
+          "supportedExtension",
+          "supportedControl",
+          "supportedFeatures",
+          "vendorName",
+          "vendorVersion",
+          "objectClass"
         ]
     },
   
