@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { LdapNode } from "../../../core/ldap/ldap-loader";
 import { Subject, takeUntil } from "rxjs";
@@ -17,7 +17,14 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('createOuModal') createOuModal?: MdModalComponent;
     @ViewChild('form') form!: MdFormComponent;
 
-    setupRequest = '';
+    private _setupRequest = '';
+    @Input() set setupRequest(request: string) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+    }
+    get setupRequest(): string {
+        return this._setupRequest;
+    }
     unsubscribe = new Subject<void>();
     formValid = false;
 

@@ -13,7 +13,15 @@ import { AbstractControl } from "@angular/forms";
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
     @Input() selectedNode!: LdapNode;
-    @Input() setupRequest!: UserCreateRequest;
+    private _setupRequest!: UserCreateRequest;
+    @Input() set setupRequest(request: UserCreateRequest) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+    }
+    get setupRequest(): UserCreateRequest {
+        return this._setupRequest;
+    }
+
     @ViewChild('form') form!: MdFormComponent;
     @ViewChildren(AbstractControl) controls!: QueryList<AbstractControl>;
 
@@ -27,6 +35,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     }
 
     ngOnDestroy(): void {
+        this.form.inputs.forEach(x => x.reset());
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }

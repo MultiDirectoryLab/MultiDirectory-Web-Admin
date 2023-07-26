@@ -25,8 +25,7 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
     constructor(private setup: SetupService) {}
 
     ngOnInit(): void {
-        const url = new URL(this.setupRequest.domain);
-        const domain = url.hostname;
+        const domain = this.setupRequest.domain;
         if(!this.setupRequest.user_principal_name)
             this.setupRequest.user_principal_name = `${this.setupRequest.username}@${domain}`;
         if(!this.setupRequest.display_name)

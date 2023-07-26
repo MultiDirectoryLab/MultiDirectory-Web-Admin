@@ -129,7 +129,6 @@ export class DatagridComponent implements AfterViewInit {
         this.grid.offset = this.page.pageOffset;
         this.grid.calcPageSize();
     }
-
 }
 
 export interface ContextMenuEvent { 

@@ -28,7 +28,15 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @Output() onCreate = new EventEmitter<void>();
     unsubscribe = new Subject<boolean>();
     formValid: boolean = false;
-    setupRequest = new GroupCreateRequest();
+    _setupRequest = new GroupCreateRequest();
+    @Input() set setupRequest(request: GroupCreateRequest) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+        this.cdr.detectChanges();
+    }
+    get setupRequest(): GroupCreateRequest {
+        return this._setupRequest;
+    }
     constructor(private cdr: ChangeDetectorRef, private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {

@@ -12,7 +12,14 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class UserCreatePasswordSettingsComponent {
     @Input() selectedNode!: LdapNode; 
-    @Input() setupRequest!: UserCreateRequest;
+    private _setupRequest!: UserCreateRequest;
+    @Input() set setupRequest(request: UserCreateRequest) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+    }
+    get setupRequest(): UserCreateRequest {
+        return this._setupRequest;
+    }
 
     @ViewChild('form') form!: MdFormComponent;
 
