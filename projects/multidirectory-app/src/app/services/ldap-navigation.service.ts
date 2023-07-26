@@ -1,59 +1,59 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { LdapNode, LdapTreeBuilder } from "../core/ldap/ldap-tree-builder";
+import { EventEmitter, Injectable, OnInit } from "@angular/core";
+import { LdapNode, LdapLoader, NodeSelection } from "../core/ldap/ldap-loader";
 import { Page, Treenode } from "multidirectory-ui-kit";
-import { lastValueFrom, take } from "rxjs";
-
-interface DnPart {
-    type: string;
-    value: string;
-}
-
-interface NodeSelection {
-    node: LdapNode | undefined,
-    parent: LdapNode 
-}
+import { BehaviorSubject, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
+import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LdapNavigationService {
-    ldapRoot: Treenode[] | undefined;
-    nodeSelected = new EventEmitter<NodeSelection>();
-
-    constructor(private ldap: LdapTreeBuilder) {}
-
-    private getDnParts(dn: string): DnPart[] {
-        const rawDnParts = dn.split(',').map(x => x.trim().split('='));
-        const dnParts = rawDnParts.map(element => {
-            return { type: element[0], value: element[1]};
-        });
-        return dnParts;
+    private _ldapRootRx = new BehaviorSubject<LdapNode[]>([]);
+    get ldapRootRx(): Observable<LdapNode[]> {
+        return this._ldapRootRx.asObservable();
+    }
+    get ldapRoot(): LdapNode[] {
+        return this._ldapRootRx.value;
     }
 
-    private dnContain(left: DnPart[], right: DnPart[]) {
-        return left.map(x => x.value).join('.').includes(right.map(x => x.value).join('.'));
+    private _nodeSelected = new Subject<NodeSelection>();
+    get nodeSelected(): Observable<NodeSelection> {
+        return this._nodeSelected.asObservable();
     }
 
-    private dnEqual(left: DnPart[], right: DnPart[]) {
-        return left.map(x => x.value).join('.') == right.map(x => x.value).join('.');
-    }
+    constructor(private ldap: LdapLoader) {}
     
-    async goTo(dn: string) {
+    init() {
+        this.ldap.getRoot().subscribe(roots => {
+            this._ldapRootRx.next(roots);
+        });   
+    }
+
+    getRootDse() {
         if(!this.ldapRoot) throw Error('Ldap root not found');
+
         const rootDse = this.ldapRoot.flatMap(x => x.children?.filter(x => x.id !== 'saved'));
-        const rootDseDNs = rootDse.map(x => { 
+        return rootDse.map(x => { 
             return {
                 node: x,
-                dn: this.getDnParts(x?.id ?? '')
+                dn: LdapNamesHelper.getDnParts(x?.id ?? '')
             }
         });
-        const dnParts = this.getDnParts(dn);
-        const selectedRoot = rootDseDNs.find(x => this.dnContain(dnParts, x.dn));
+    }
+
+    async goTo(dn: string) {
+        if(!this.ldapRoot) throw Error('Ldap root not found');
+
+        const rootDseDNs = this.getRootDse();
+
+        const dnParts = LdapNamesHelper.getDnParts(dn);
+        const selectedRoot = rootDseDNs.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
         while(dnParts[dnParts.length - 1].type == 'dc' && dnParts.length > 0)
             dnParts.pop();
-        console.log(dnParts);  
+        
         let currentNode = selectedRoot?.node;
         let found: any;
+
         for(let i = 0; i < dnParts.length && currentNode; i++) {
             if(!!currentNode.loadChildren && currentNode.children == null)
             {
@@ -61,37 +61,61 @@ export class LdapNavigationService {
                 currentNode.children = !!childRx ? await lastValueFrom(childRx) : null;
                 currentNode.childrenLoaded = true;
             }
+
             if(!currentNode.children) {
                 continue;
             }
+
             const children = currentNode.children.map(x => {
                 return {
                     node: x,
-                    dn: this.getDnParts(x?.id ?? '').filter(x => x.type !== 'dc')
+                    dn: LdapNamesHelper.getDnParts(x?.id ?? '').filter(x => x.type !== 'dc')
                 }
             });
-            found = children.find(x => this.dnContain(dnParts, x.dn));
+            
+            found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
             if(!found && dnParts.length - i == 1) {
-                const allPage: Page = { pageNumber: 0, size: 10000, totalElements: 10000 } 
-                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapNode, allPage);
+                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapNode);
                 contentRx.pipe(take(1)).subscribe(x => {
                     const children = x.map(y => {
                         return {
                             node: y,
-                            dn: this.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
+                            dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const found = children.find(x => this.dnEqual(dnParts, x.dn));
-                    if(found) {
-                        this.nodeSelected.emit({ parent: <LdapNode>currentNode, node: found.node });
+                    const ldapNode = <LdapNode>currentNode!;
+                    ldapNode.childCount = x.length;
+                    const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
+                    if(foundIndex > -1) {
+                        this._nodeSelected.next({
+                            parent: ldapNode, 
+                            node: children[foundIndex].node,
+                            page: new Page({
+                                pageNumber: Math.floor(foundIndex / 10) + 1,
+                                totalElements: x.length,
+                                size: 10
+                            })
+                        });
                     }
                 })
+                return;
             } else {
                 currentNode = found?.node;
             }
         }
-        if(!!currentNode && found && this.dnEqual(dnParts, found!.dn)) {
-            this.nodeSelected.emit({ parent: <LdapNode>currentNode, node: undefined });
+        if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
+            this._nodeSelected.next({ parent: <LdapNode>currentNode, node: undefined });
         }
+    }
+
+    setCatalog(catalog: LdapNode) {
+        this._nodeSelected.next({ 
+            parent: catalog, 
+            node: undefined 
+        });
+    }
+
+    getContent(catalog: LdapNode, page: Page): Observable<LdapNode[]> {
+        return this.ldap.getContent(catalog.id, catalog, page);
     }
 }

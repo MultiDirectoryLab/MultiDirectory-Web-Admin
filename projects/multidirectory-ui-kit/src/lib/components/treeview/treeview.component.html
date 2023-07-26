@@ -9,34 +9,35 @@
 
 
 <ng-template #treeNode let-data let-level="level">
-    <div class="tree-item-wrapper" 
-        [ngClass]="{
-            selected: data.selected
-        }"
-        (click)="handleNodeClick($event, data)">
-        <span class="tree-item" [ngClass]="{
-            expanded: data.expanded,
-            expandable: (data.children?.length > 0 || !!data.loadChildren),
-            selected: data.selected
-        }"
-        [ngStyle]="{
-            'left': level + 'rem'
-         }">
-            <label
-                class="expand-mark"
-                *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
-              >
-                <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
-                         ? '&nbsp;&nbsp;' : data.expanded
-                         ? '-' : '+' 
-                    " style="margin-right: 2px;"></span>
-            </label>
-            
-            <ng-container 
-                [ngTemplateOutlet]="nodeLabel"
-                [ngTemplateOutletContext]="{ $implicit: data  }"></ng-container>
-        </span>
-    </div>
+    <md-tree-item (click)="handleNodeClick($event, data)">
+        <div class="tree-item-wrapper" 
+            [ngClass]="{
+                selected: data.selected
+            }">
+            <span class="tree-item" [ngClass]="{
+                expanded: data.expanded,
+                expandable: (data.children?.length > 0 || !!data.loadChildren),
+                selected: data.selected
+            }"
+            [ngStyle]="{
+                'left': level + 'rem'
+            }">
+                <label
+                    class="expand-mark"
+                    *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
+                >
+                    <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
+                            ? '&nbsp;&nbsp;' : data.expanded
+                            ? '-' : '+' 
+                        " style="margin-right: 2px;"></span>
+                </label>
+                
+                <ng-container 
+                    [ngTemplateOutlet]="nodeLabel"
+                    [ngTemplateOutletContext]="{ $implicit: data  }"></ng-container>
+            </span>
+        </div>
+    </md-tree-item>
     <ng-container *ngIf="data.children != null && data.expanded">
         <div>
             <ng-container *ngFor="let child of data.children"

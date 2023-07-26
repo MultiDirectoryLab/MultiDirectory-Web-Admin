@@ -1,6 +1,6 @@
 <div class="header-container">
     <div class="header">
-        <label class="bold">Папка: {{selectedNode?.name ?? ''}}</label>
+        <label class="bold">Папка: {{selectedCatalog?.name ?? ''}}</label>
     </div>
     <div class="control-panel">
         <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button">
@@ -46,5 +46,5 @@
 </md-dropdown-menu> 
 
 <md-dropdown-menu #searchMenu>
-    <app-search-panel></app-search-panel>
+    <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
 </md-dropdown-menu> 

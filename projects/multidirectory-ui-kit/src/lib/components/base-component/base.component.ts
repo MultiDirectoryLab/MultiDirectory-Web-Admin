@@ -17,8 +17,7 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
         this._controlAccessor = ca;
         this.cdr.detectChanges();
     }
-    constructor(private cdr: ChangeDetectorRef) {
-       
+    constructor(protected cdr: ChangeDetectorRef) {
     }
     
     innerValue: any = '';

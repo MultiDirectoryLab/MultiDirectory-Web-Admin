@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, forwardRef } from "@angular/core";
-import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-tree-builder";
+import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { MdFormComponent } from "projects/multidirectory-ui-kit/src/lib/components/form/form.component";
@@ -12,7 +12,14 @@ import { Subject, takeUntil } from "rxjs";
 })
 export class UserCreatePasswordSettingsComponent {
     @Input() selectedNode!: LdapNode; 
-    @Input() setupRequest!: UserCreateRequest;
+    private _setupRequest!: UserCreateRequest;
+    @Input() set setupRequest(request: UserCreateRequest) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+    }
+    get setupRequest(): UserCreateRequest {
+        return this._setupRequest;
+    }
 
     @ViewChild('form') form!: MdFormComponent;
 

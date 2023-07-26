@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { LdapNode } from "../../../core/ldap/ldap-tree-builder";
+import { LdapNode } from "../../../core/ldap/ldap-loader";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
@@ -20,7 +20,6 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @Input() set selectedNode(node: LdapNode | undefined) {
         this._selectedNode = node;
         this.cdr.detectChanges();
-        this.ngAfterViewInit();
     }
     get selectedNode(): LdapNode | undefined {
         return this._selectedNode;
@@ -29,7 +28,15 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @Output() onCreate = new EventEmitter<void>();
     unsubscribe = new Subject<boolean>();
     formValid: boolean = false;
-    setupRequest = new GroupCreateRequest();
+    _setupRequest = new GroupCreateRequest();
+    @Input() set setupRequest(request: GroupCreateRequest) {
+        this._setupRequest = request;
+        this.form?.inputs.forEach(x => x.reset());
+        this.cdr.detectChanges();
+    }
+    get setupRequest(): GroupCreateRequest {
+        return this._setupRequest;
+    }
     constructor(private cdr: ChangeDetectorRef, private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {

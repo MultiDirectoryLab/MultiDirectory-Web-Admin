@@ -31,6 +31,8 @@ import { GroupCreateComponent } from './components/forms/group-create/group-crea
 import { SearchPanelComponent } from './components/search-panel/search-panel.component';
 import { SearchUsersComponent } from './components/search-panel/seaarch-forms/search-users/search-users.component';
 import { SearchResultComponent } from './components/search-panel/seaarch-forms/search-result/search-result.component';
+import { TableViewComponent } from './components/catalog-content/views/table-view/table-view.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,11 @@ import { SearchResultComponent } from './components/search-panel/seaarch-forms/s
     HideControlBar,
     HomeComponent,
     HeaderComponent,
+
+    NavigationComponent,
     CatalogContentComponent,
+    TableViewComponent,
+    
     SetupComponent,
     EntityPropertiesComponent,
     AdminSettingsComponent,
