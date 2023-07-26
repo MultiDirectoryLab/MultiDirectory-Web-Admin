@@ -17,6 +17,6 @@ export class DropdownContainerDirective {
             rectObject.x, 
             rectObject.y + rectObject.height);
 
-        this.mdDropdownContainer.toggle();
+        this.mdDropdownContainer.toggle(this.el);
     }
 }

@@ -26,7 +26,7 @@ export class EntityInfoResolver {
         [ LdapNodeType.Server, 'Контроллер домена' ],
         [ LdapNodeType.User, 'Пользователь' ],
         [ LdapNodeType.Group, 'Группа безопасности' ],
-        [ LdapNodeType.OU, 'Орагнизационная единица' ]
+        [ LdapNodeType.OU, 'Организационная единица' ]
     ]);
 
     static TypeMap = new Map<string, LdapNodeType>([

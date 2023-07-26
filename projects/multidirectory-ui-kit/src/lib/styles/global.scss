@@ -47,7 +47,7 @@ label.bold {
     @include use-inter-typography(700, 18px, 25.2px)
 }
 
-label, p, div {
+label, p, div, select {
     @include use-inter-typography(400, 14px, 25.2px)
 }
 span.accented {
@@ -84,6 +84,9 @@ span.accented {
 .p-0 {
     padding: 0;
 }
+.p-4 {
+    padding: 4px;
+}
 .p-8 {
     padding: 8px;
 }
@@ -98,4 +101,49 @@ span.accented {
 }
 .text-justify {
     text-align: justify;
+}
+.pr-8 {
+    padding-right: 8px;
+}
+
+.page-size-select .select-input {
+    height: 24px;
+}
+
+.ngx-datatable .datatable-footer .datatable-pager .pager, 
+.ngx-datatable .datatable-footer .datatable-pager .pager {
+    display: flex !important;
+    list-style: none !important;
+    flex-flow: row nowrap !important;
+    gap: 4px !important;
+    padding: 0 4px !important;
+    li {
+        padding: 4px !important;
+        border: 1px solid $md-dark-blue-3;
+        height: 24px;
+        width: 24px;
+        font-size: 14px;
+        align-items: center;
+        display: flex !important;
+        flex-flow: column;
+        justify-content: center;
+        outline: none !important;
+        text-decoration: none;
+
+        a {
+            color: $md-dark-blue-3;
+            text-decoration: none;
+
+            i:before {
+                position: relative;
+                top: 2px;
+            }
+        }
+        &.active {
+            background-color: $md-dark-blue-3;
+            a {
+                color: white;
+            }
+        }
+    }
 }

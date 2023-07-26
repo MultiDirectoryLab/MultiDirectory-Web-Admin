@@ -1,13 +1,9 @@
 <div class="fullscreen bg-white flex-row"> 
     <div *ngIf="showLeftPane" class="left-pane">
         <img src="/assets/logo_login.svg" class="logo-img"/>
-        <md-treeview 
-            [tree]="tree" 
-            [nodeLabel]="mdTreeModal"
-            class="treeview" 
-            (onNodeSelect)="handleNodeSelection($any($event))"
-            #treeView>
-        </md-treeview>
+        <div class="treeview">
+            <app-navigation></app-navigation>
+        </div>
         <div class="flex-row footer">
             <div class="avatar"><img src="/assets/avatar-example.png" class="avatar-img"/></div>
             <div class="user-info column">
@@ -25,8 +21,8 @@
         </div>
     </div>
     <div class="right-pane column">
-        <app-header [selectedNode]="selectedNode"></app-header>
-        <app-catalog-content [selectedNode]="selectedNode" (selectedNodeChanged)="changeTreeView($event)" #catalogContent></app-catalog-content>
+        <app-header></app-header>
+        <app-catalog-content #catalogContent></app-catalog-content>
     </div>
 </div>
 
@@ -36,8 +32,3 @@
         TODO
     </div>
 </md-modal>
-
-<ng-template #mdTreeModal let-data>
-    <img class="tree-icon" [src]="data.icon"/>
-    <label class="tree-label">{{data.name}}</label>
-</ng-template>

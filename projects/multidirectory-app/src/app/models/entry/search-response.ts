@@ -2,6 +2,8 @@ export interface SearchResponse {
     resultCode: number;
     matchedDn: string;
     errorMessage: string;
+    total_objects: number;
+    total_pages: number;
     search_result: SearchEntry[];
 }
 

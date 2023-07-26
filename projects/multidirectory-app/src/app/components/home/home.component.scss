@@ -8,6 +8,7 @@
     border-right: 1px solid lightgrey;
     display: flex;
     flex-flow: column nowrap;
+    user-select: none;
 }
 .right-pane {
     flex-grow: 1;
@@ -18,6 +19,7 @@
 }
 
 .avatar {
+    user-select: none;
     padding: 0 8px;
     .avatar-img {
         max-height: 50px;
@@ -26,6 +28,25 @@
 .user-info {
     flex-grow: 1;
 }
+
+.footer {
+    border-top: 1px solid lightgray;
+    padding-top: 8px;
+    user-select: none;
+}
+
+.logo-img {
+    pointer-events: none;
+    height: 50px !important;
+    overflow: hidden;
+}
+
+
+:host ::ng-deep .selected .tree-icon {
+    filter:  brightness(0%) invert(100%);
+    
+}
+
 .more-container {
     padding: 0 8px;
     display: flex;
@@ -42,23 +63,3 @@
     }
 }
 
-
-.footer {
-    border-top: 1px solid lightgray;
-    padding-top: 8px;
-}
-
-.logo-img {
-    pointer-events: none;
-    height: 50px !important;
-    overflow: hidden;
-}
-
-.tree-icon {
-    padding-right: 4px;
-}
-
-:host ::ng-deep .selected .tree-icon {
-    filter:  brightness(0%) invert(100%);
-    
-}

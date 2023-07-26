@@ -14,9 +14,10 @@ export class DropdownMenuComponent {
     _top: number = 0;
     _left: number = 0;
     @ViewChild('menu') menu!: ElementRef;
-
+    caller?: ElementRef;
     dropdownVisible = false;
     unlistenClick =  () => {};
+    unlistenListener = (e: Event) => {};
     constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {
     }
 
@@ -39,20 +40,29 @@ export class DropdownMenuComponent {
         if(rightPoint > window.innerWidth)
         {
             this.renderer.setStyle(this.menu.nativeElement, 'left', 
-               `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 32}px`);
+               `${  window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 40}px`);
+            this.renderer.setStyle(this.menu.nativeElement, 'right', 
+               `1rem`);
         }
     }
  
     private setOutsideClickHandler() {
-        setTimeout(() => {
-            this.unlistenClick = this.renderer.listen('window', 'click', (e) => {
-                if(this.dropdownVisible && 
-                    !this.menu.nativeElement.contains(e.target) )
-                {
-                    this.close();
-                }
-            })
-        });
+        this.unlistenListener = this.handleClickOuside.bind(this);
+        document.addEventListener('mousedown',  this.unlistenListener, { capture: true  });
+    }
+
+
+    public handleClickOuside(e: Event) {
+        if(this.caller?.nativeElement.contains(e.target)) {
+            e.stopPropagation();
+        }
+        if(this.dropdownVisible && 
+            !this.menu.nativeElement.contains(e.target) )
+        {
+            document.removeEventListener('mousedown', this.unlistenListener, { capture: true });
+            this.unlistenListener = () => {};
+            this.close();
+        }
     }
 
     clickInside($event: PointerEvent ) {
@@ -76,7 +86,8 @@ export class DropdownMenuComponent {
         this.cdr.detectChanges();
     }
     
-    toggle() {
+    toggle(el?: ElementRef) {
+        this.caller = el;
         if(this.dropdownVisible) 
             this.close()
         else 

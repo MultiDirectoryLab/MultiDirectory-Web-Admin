@@ -1,5 +1,6 @@
 import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
+import { LdapNode } from "./ldap-loader";
 
 export const SearchQueries = {
   RootDse: {
@@ -11,7 +12,17 @@ export const SearchQueries = {
         "types_only": false,
         "filter": "(objectClass=*)",
         "attributes": [
-          "defaultNamingContext"
+          "defaultNamingContext",
+          "namingContexts",
+          "subschemaSubentry",
+          "supportedLDAPVersion", 
+          "supportedSASLMechanisms",
+          "supportedExtension",
+          "supportedControl",
+          "supportedFeatures",
+          "vendorName",
+          "vendorVersion",
+          "objectClass"
         ]
     },
   
@@ -33,12 +44,12 @@ export const SearchQueries = {
         });
     },
 
-    getContent(baseObject: string, page: Page): SearchRequest {
-      return new SearchRequest({
+    getContent(baseObject: string, page?: Page): SearchRequest {
+      const req = new SearchRequest({
           "base_object": baseObject,
           "scope": 1,
           "deref_aliases": 0,
-          "size_limit": 0,
+          "size_limit": page?.size ?? 0,
           "time_limit": 0,
           "types_only": false,
           "filter": "(objectClass=*)",
@@ -49,6 +60,10 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
+        if(page) {
+          req.page_number = page.pageNumber;
+        }
+        return req;
     },
 
 
@@ -61,6 +76,22 @@ export const SearchQueries = {
           "time_limit": 0,
           "types_only": false,
           "filter": "(objectClass=*)",
+          "attributes": [
+            "*"
+          ]
+        });
+    },
+
+
+    findByName(name: string, data: LdapNode): SearchRequest {
+      return new SearchRequest({
+          "base_object": data.entry?.id,
+          "scope": 2,
+          "deref_aliases": 0,
+          "size_limit": 0,
+          "time_limit": 0,
+          "types_only": false,
+          "filter": `(|(cn=*${name}*)(displayName=*${name}*))`,
           "attributes": [
             "*"
           ]

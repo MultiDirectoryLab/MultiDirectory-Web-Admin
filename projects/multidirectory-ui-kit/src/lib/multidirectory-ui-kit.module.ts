@@ -27,6 +27,7 @@ import { RadioGroupComponent } from './components/radiobutton-group/radio-group.
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
+import { TreeItemComponent } from './components/treeview/tree-item.component';
   
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SpinnerHostDirective } from './components/spinner/spinner-host.directiv
     MdModalComponent,
     ModalTestComponent,
     TreeviewComponent,
+    TreeItemComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,
     DatagridComponent,

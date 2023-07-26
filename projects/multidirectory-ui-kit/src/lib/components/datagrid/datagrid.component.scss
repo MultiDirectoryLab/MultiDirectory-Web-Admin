@@ -48,3 +48,11 @@
         padding-left: 0.5rem;
     }
 }
+
+::ng-deep .page-size-select {
+    height: 24px;
+}
+ ::ng-deep .select-input {
+    height: 24px;
+}
+

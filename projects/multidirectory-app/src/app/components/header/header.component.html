@@ -1,9 +1,9 @@
 <div class="header-container">
     <div class="header">
-        <label class="bold">Папка: {{selectedNode?.name ?? ''}}</label>
+        <label class="bold">Папка: {{selectedCatalog?.name ?? ''}}</label>
     </div>
     <div class="control-panel">
-        <md-plane-button class="search control-button">
+        <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button">
             <img [src]="'assets/search.svg'" />
         </md-plane-button>
         <md-plane-button class="settings control-button" 
@@ -43,4 +43,8 @@
     <div class="dropdown-item">Дополнительные функции...</div>
     <div class="dropdown-item">Параметры фильтров...</div>
     <div class="dropdown-item">Настроить вид...</div>
+</md-dropdown-menu> 
+
+<md-dropdown-menu #searchMenu>
+    <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
 </md-dropdown-menu> 
