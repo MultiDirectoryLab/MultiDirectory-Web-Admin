@@ -2,8 +2,12 @@
 
 :host ::ng-deep .ui-modal {
     flex-flow: column nowrap;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     .ui-modal-header {
         background-color: global.$md-dark-blue;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
         .ui-titlebar {
             max-height: 42px;
         }

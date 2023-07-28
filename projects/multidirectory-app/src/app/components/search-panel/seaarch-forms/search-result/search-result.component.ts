@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
-import { SearchRow } from "../../search-panel.component";
-import { LdapLoader } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
+import { SearchResult } from "../../search-panel.component";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
 @Component({
@@ -12,7 +11,7 @@ export class SearchResultComponent {
     columns = [
         { name: 'Имя',  prop: 'name',  flexGrow: 1 },
     ];
-    @Input() rows: SearchRow[] = [];
+    @Input() rows?: SearchResult[] = undefined;
 
     constructor(private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {}
 

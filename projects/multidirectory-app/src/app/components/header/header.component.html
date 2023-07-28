@@ -20,29 +20,29 @@
 </div>
 
 
-<md-radiogroup #radiogroup></md-radiogroup>
+<md-radiogroup [(ngModel)]="contentView" #radiogroup></md-radiogroup>
 
 <md-dropdown-menu #helpMenu>
-    <div class="dropdown-item">Добавить/удалить столбцы...</div>
+    <div class="dropdown-item disabled">Добавить/удалить столбцы...</div>
     <div class="dropdown-item">
         <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">Скрыть дерево</md-shift-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" value="1" [group]="radiogroup">Маленькие иконки</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">Маленькие иконки</md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" value="2" [group]="radiogroup">Большие иконки</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">Большие иконки</md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" value="3" [group]="radiogroup">Список</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">Список</md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" value="4" [group]="radiogroup">Детали</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">Детали</md-radiobutton>
     </div>
-    <div class="dropdown-item">Пользователи, контакты, группы и компьютеры как контейнеры</div>
-    <div class="dropdown-item">Дополнительные функции...</div>
-    <div class="dropdown-item">Параметры фильтров...</div>
-    <div class="dropdown-item">Настроить вид...</div>
+    <div class="dropdown-item disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>
+    <div class="dropdown-item disabled">Дополнительные функции...</div>
+    <div class="dropdown-item disabled">Параметры фильтров...</div>
+    <div class="dropdown-item disabled">Настроить вид...</div>
 </md-dropdown-menu> 
 
 <md-dropdown-menu #searchMenu>

@@ -1,7 +1,7 @@
-export interface SearchResponse {
-    resultCode: number;
+import { StatusResponse } from "./status-response";
+
+export interface SearchResponse extends StatusResponse {
     matchedDn: string;
-    errorMessage: string;
     total_objects: number;
     total_pages: number;
     search_result: SearchEntry[];

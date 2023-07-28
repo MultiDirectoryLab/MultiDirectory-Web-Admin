@@ -30,9 +30,11 @@
     }
 
     .datatable-body-row {
-        cursor: pointer;
         border-bottom: 1px solid global.$md-neutral-300;
         padding: 4px 8px;
+        &:hover {
+            background-color: global.$md-neutral-150;
+        }
         &.active {
             color: global.$md-white;
             background-color: global.$md-dark-blue-4;

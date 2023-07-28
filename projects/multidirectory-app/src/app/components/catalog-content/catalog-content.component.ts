@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ContextMenuEvent, DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
+import { DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { Subject, forkJoin, switchMap, takeUntil } from "rxjs";
-import { LdapNode, NodeSelection } from "../../core/ldap/ldap-loader";
+import { LdapNode } from "../../core/ldap/ldap-loader";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
@@ -11,7 +11,8 @@ import { GroupCreateComponent } from "../forms/group-create/group-create.compone
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
 import { TableViewComponent } from "./views/table-view/table-view.component";
-
+import { ViewMode } from "./view-modes";
+import { ContentViewService } from "../../services/content-view.service";
 
 @Component({
     selector: 'app-catalog-content',
@@ -25,6 +26,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
     @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
+
     @ViewChild(TableViewComponent, { static: true }) tableView?: TableViewComponent;
 
     selectedCatalog: LdapNode =  new LdapNode({ id: '' });
@@ -34,22 +36,26 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     unsubscribe = new Subject<void>();
 
+    ViewMode = ViewMode;
+    get currentView() {
+        return this.contentView.contentView;
+    }
 
+    _page = new Page();
     get page(): Page {
-        return this.tableView!.grid.page;
+        return this._page;
     }
     constructor(
         public navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef,
-        private toastr: ToastrService) {}
+        private toastr: ToastrService,
+        private contentView: ContentViewService) {}
 
     ngOnInit(): void {
         this.navigation.nodeSelected.pipe(
             takeUntil(this.unsubscribe),
             switchMap(x => {
-                this.selectedRows = [];
-               
                 this.selectedRows = x.node ? [ x.node ] : [];
                 this.selectedCatalog = x.parent;
                 this.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
@@ -57,12 +63,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                     this.page.totalElements += 1;
                 }
                 return this.navigation.getContent(this.selectedCatalog, this.page);
-            })
+            }),
         ).subscribe(x => {
             this.rows = x;
-            this.selectedRows = x.filter(x => this.selectedRows.some(y => y.id == x.id));
-            this.cdr.detectChanges();
-            this.tableView!.select(this.selectedRows);
+            this.selectedRows = this.rows.filter(x => this.selectedRows.some(y => y.id == x.id));
             this.cdr.detectChanges();
         });
     }

@@ -1,24 +1,25 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { Observable, catchError, throwError } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { EMPTY, Observable, catchError, retry, throwError } from "rxjs";
 import { AdapterSettings } from "./adapter-settings";
+import { ToastrService } from "ngx-toastr";
 // 
 export class ApiAdapter<Settings extends AdapterSettings> {
 
-    constructor(private httpClient: HttpClient, private _settings: Settings) {}
+    constructor(private httpClient: HttpClient, private _settings: Settings, private toastr: ToastrService) {}
 
     post<T>(resource: string, body: any = null, ): PostRequest<T> {
         const url = this._settings.baseUrl + '/' + resource;
-        return new PostRequest<T>(url, body, this.httpClient);
+        return new PostRequest<T>(url, body, this.httpClient, this.toastr);
     }
 
     delete<T>(resource: string, body: any = null, ): DeleteRequest<T> {
         const url = this._settings.baseUrl + '/' + resource;
-        return new DeleteRequest<T>(url, body, this.httpClient);
+        return new DeleteRequest<T>(url, body, this.httpClient, this.toastr);
     }
 
     get<T>(resource: string): GetRequest<T> {
         const url = this._settings.baseUrl + '/' + resource;
-        return new GetRequest<T>(url, this.httpClient);
+        return new GetRequest<T>(url, this.httpClient, this.toastr);
     }
 }
 
@@ -27,7 +28,7 @@ export abstract class HttpRequest<ResponseType> {
         headers: new HttpHeaders()
     };
     
-    constructor(protected url: string, protected httpClient: HttpClient) {
+    constructor(protected url: string, protected httpClient: HttpClient, protected toastr: ToastrService) {
     }
 
     ensureBearer(): HttpRequest<ResponseType> {
@@ -46,27 +47,19 @@ export abstract class HttpRequest<ResponseType> {
         return this;
     }
 
-    protected handleError(error: HttpErrorResponse) {
-        if (error.status === 0) {
-          // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error);
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong.
-          console.error(
-            `Backend returned code ${error.status}, body was: `, error.error);
-        }
-        // Return an observable with a user-facing error message.
-        return throwError(() => new Error('Something bad happened; please try again later.'));
-      }
-      
-      
+
+    handleError(err: any) {
+       // this.toastr.error(err.statusText);
+        return throwError(() => err);
+    }
+
     abstract execute(): Observable<ResponseType>;
+    
 }
 
 export class PostRequest<ResponseType> extends HttpRequest<ResponseType>{
-    constructor(url: string, private body: any, httpClient: HttpClient) {
-        super(url, httpClient);
+    constructor(url: string, private body: any, httpClient: HttpClient, toastr: ToastrService) {
+        super(url, httpClient, toastr);
     }
 
     useUrlEncodedForm(): PostRequest<ResponseType> {
@@ -75,28 +68,30 @@ export class PostRequest<ResponseType> extends HttpRequest<ResponseType>{
     }
 
     override execute(): Observable<ResponseType> {
-        return this.httpClient.post<ResponseType>(this.url, this.body, this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.httpClient.post<ResponseType>(this.url, this.body, this.httpOptions).pipe(
+            catchError(this.handleError.bind(this))
+        );
     }
 
 }
 
 
 export class GetRequest<ResponseType> extends HttpRequest<ResponseType> {
-    constructor(url: string, httpClient: HttpClient) {
-        super(url, httpClient);
+    constructor(url: string, httpClient: HttpClient, toastr: ToastrService) {
+        super(url, httpClient, toastr);
     } 
 
     override execute(): Observable<ResponseType> {
-        return this.httpClient.get<ResponseType>(this.url, this.httpOptions)
-            .pipe(catchError(this.handleError));
+        return this.httpClient.get<ResponseType>(this.url, this.httpOptions).pipe(
+            catchError(this.handleError.bind(this))
+        );
     }
 }
 
 
 export class DeleteRequest<ResponseType> extends HttpRequest<ResponseType>{
-    constructor(url: string, private body: any, httpClient: HttpClient) {
-        super(url, httpClient);
+    constructor(url: string, private body: any, httpClient: HttpClient, toastr: ToastrService) {
+        super(url, httpClient, toastr);
     }
 
     useUrlEncodedForm(): DeleteRequest<ResponseType> {
@@ -108,7 +103,9 @@ export class DeleteRequest<ResponseType> extends HttpRequest<ResponseType>{
         return this.httpClient.delete<ResponseType>(this.url, {
             headers: this.httpOptions.headers, 
             body: this.body
-        }).pipe(catchError(this.handleError));
+        }).pipe(
+            catchError(this.handleError.bind(this))
+        );
     }
 
 }

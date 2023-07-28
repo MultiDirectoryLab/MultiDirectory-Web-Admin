@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,7 +8,7 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { HideControlBar } from './core/hidecontrolbar.directive';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
@@ -33,6 +33,9 @@ import { SearchUsersComponent } from './components/search-panel/seaarch-forms/se
 import { SearchResultComponent } from './components/search-panel/seaarch-forms/search-result/search-result.component';
 import { TableViewComponent } from './components/catalog-content/views/table-view/table-view.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { ResultCodeInterceptor } from './core/api/error-handling/result-code-interceptor';
+import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
+import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { NavigationComponent } from './components/navigation/navigation.componen
     NavigationComponent,
     CatalogContentComponent,
     TableViewComponent,
-    
+    IconViewComponent,
+
     SetupComponent,
     EntityPropertiesComponent,
     AdminSettingsComponent,
@@ -78,13 +82,22 @@ import { NavigationComponent } from './components/navigation/navigation.componen
   ],
   providers: [{
       provide: 'apiAdapter',
-      useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient) => 
-              new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings),
-      deps: [MultidirectoryAdapterSettings, HttpClient]
+      useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient, toastr: ToastrService) => 
+              new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
+      deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService]
+  },
+  {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandler
   },
   {
     provide: HTTP_INTERCEPTORS,
     useClass: StaleTokenInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ResultCodeInterceptor,
     multi: true,
   }],
   bootstrap: [AppComponent]

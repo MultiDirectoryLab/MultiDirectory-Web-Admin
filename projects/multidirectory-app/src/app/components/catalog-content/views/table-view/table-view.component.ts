@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
-import { DatagridComponent, DropdownMenuComponent, Page } from "multidirectory-ui-kit";
+import { DatagridComponent, DropdownMenuComponent, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
 import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
@@ -108,9 +108,17 @@ export class TableViewComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    select(selectedRows: LdapNode[]) {
-        const rows = this.rows.filter(x => selectedRows.some( y => y.id == x.entry.id));
-        this.grid.select(rows[0]);
+    private _selectedRows: LdapNode[] = [];
+    get selectedRows(): LdapNode[] {
+        return this._selectedRows;
+    }
+    @Input() set selectedRows(selectedRows: LdapNode[]) {
+        this._selectedRows = selectedRows;
+        if(this._selectedRows.length > 0) {
+            const rows = this.rows.filter(x => this._selectedRows.some( y => y.id == x.entry.id));
+            this.grid.select(rows[0]);
+        }
         this.cdr.detectChanges();
     }
+ 
 }

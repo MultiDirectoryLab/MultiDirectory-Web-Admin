@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
@@ -7,10 +7,10 @@ import { NgxSpinnerService } from "ngx-spinner";
     templateUrl: './spinner.component.html'
 })
 export class SpinnerComponent implements OnInit{
+    @Input() inputText = 'Подождите...';
     constructor(private spinner: NgxSpinnerService) {}
     ngOnInit(): void {
     }
-
 
     show() {
         this.spinner.show();
