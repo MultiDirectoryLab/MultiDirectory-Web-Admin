@@ -40,10 +40,8 @@
         <app-table-view
             *ngSwitchCase="ViewMode.Table"
             (pageChanged)="pageChanged($event)"
-            [contextMenu]="contextMenuRef"
+            (onRightClick)="showContextMenu($event)"
             [selectedCatalog]="selectedCatalog"
-            [selectedRows]="selectedRows"
-            [content]="rows"
             [page]="page"
         ></app-table-view>
 

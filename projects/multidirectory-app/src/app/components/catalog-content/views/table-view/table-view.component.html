@@ -3,12 +3,11 @@ name="table-view"
 [rows]="rows" 
 [columns]="columns" 
 [externalPaging]="true"
-(contextRows)="contextRows"
+(contextmenu)="handleRightClick($event)"
 [page]="page"
 (pageChanged)="onPageChanged($event)"
 (dblclick)="onDoubleClick($event)" 
-(contextmenu)="showContextMenu($event)">
-</md-datagrid> 
+></md-datagrid> 
 <ng-template #iconTemplate let-row="row" let-value="value">
     <img class="row-icon" [src]="row.icon" />
     {{row.name}}

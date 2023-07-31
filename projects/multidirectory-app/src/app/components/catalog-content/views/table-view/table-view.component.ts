@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, forwardRef } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { DatagridComponent, DropdownMenuComponent, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
@@ -6,43 +6,30 @@ import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loa
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject } from "rxjs";
 import { TableRow } from "./table-row";
+import { BaseViewComponent } from "../base-view.component";
 
 @Component({
     selector: 'app-table-view',
     styleUrls: ['table-view.component.scss'],
-    templateUrl: './table-view.component.html'
+    templateUrl: './table-view.component.html',
+    providers: [
+        { provide: BaseViewComponent, useExisting: forwardRef(() => TableViewComponent) }
+    ]
 })
-export class TableViewComponent implements OnInit, OnDestroy {
+export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
     @ViewChild('grid', { static: true }) grid!: DatagridComponent;
     @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
-    @Input() contextMenu!: DropdownMenuComponent;
-    @Input() selectedCatalog?: LdapNode;
-    private _content:  LdapNode[] = [];
-    @Input() set content(x: LdapNode[]) {
-        this.mapRows(x);
-    } 
-    get content() {
-        return this._content;
-    }
 
     columns: TableColumn[] = [];
-    contextRows: LdapNode[] = [];
     rows: TableRow[] = [];
     unsubscribe = new Subject<void>();
-    private _page = new Page();
-    @Input() set page(p: Page) {
-        this._page = p;
-        //this.grid.setPage(p);
-    }
-    get page(): Page {
-        return this._page;
-    }
-    @Output() pageChanged = new EventEmitter<Page>();
 
     constructor(
         private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef
-    ) {}
+    ) {
+        super();
+    }
 
     ngOnInit(): void {
         this.columns = [
@@ -59,12 +46,7 @@ export class TableViewComponent implements OnInit, OnDestroy {
         }
     }
 
-    onPageChanged(page: Page) {
-        console.log(page);
-        this.pageChanged.emit(page);
-    }
-
-    mapRows(nodes: LdapNode[]) {
+    override setContent(nodes: LdapNode[], selectedNodes: LdapNode[] = []) {
         this.rows = nodes.map(node => <TableRow>{
             icon: node.icon ?? '',
             name: node.name ?? '',
@@ -75,13 +57,19 @@ export class TableViewComponent implements OnInit, OnDestroy {
 
         this.grid.page.totalElements = this.selectedCatalog!.childCount!;
         if(this.selectedCatalog?.parent) {
+            this.selectedCatalog.parent.selected = false;
             this.rows = [<TableRow>{
                 name: '...',
                 entry: this.selectedCatalog
             }].concat(this.rows);
             this.grid.page.totalElements += 1;
         }
+        this.grid.selected = this.rows.filter( x => selectedNodes.findIndex(y => y.id == x.entry.id) > -1);
         this.cdr.detectChanges();
+    }
+
+    override getSelected(): LdapNode[] {
+        return this.grid.selected.map(x => x.entry);
     }
 
 
@@ -93,32 +81,4 @@ export class TableViewComponent implements OnInit, OnDestroy {
         }
         this.cdr.detectChanges();
     }
-
-    showContextMenu(event: any) {
-        this.contextMenu.setPosition(
-            event.event.clientX, 
-            event.event.clientY); 
-        if(this.grid.selected.length == 0) {
-            this.contextRows = [ event.content.entry ];
-            this.grid.select(event);
-        } else {
-            this.contextRows = this.grid.selected.map(x => x.entry);
-        }
-        this.contextMenu.toggle();
-        this.cdr.detectChanges();
-    }
-
-    private _selectedRows: LdapNode[] = [];
-    get selectedRows(): LdapNode[] {
-        return this._selectedRows;
-    }
-    @Input() set selectedRows(selectedRows: LdapNode[]) {
-        this._selectedRows = selectedRows;
-        if(this._selectedRows.length > 0) {
-            const rows = this.rows.filter(x => this._selectedRows.some( y => y.id == x.entry.id));
-            this.grid.select(rows[0]);
-        }
-        this.cdr.detectChanges();
-    }
- 
 }
