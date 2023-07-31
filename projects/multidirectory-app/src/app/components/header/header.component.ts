@@ -3,6 +3,8 @@ import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, noop, takeUntil } from "rxjs";
 import { LdapNode } from "../../core/ldap/ldap-loader";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
+import { ContentViewService } from "../../services/content-view.service";
+import { ViewMode } from "../catalog-content/view-modes";
 
 @Component({
     selector: 'app-header',
@@ -14,7 +16,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     navigationalPanelInvisible = false;
     selectedCatalog?: LdapNode;
     ldapRoots: LdapNode[] = [];
-    constructor(private app: AppSettingsService, private navigation: LdapNavigationService) {
+
+    ViewMode = ViewMode;
+    get contentView(): ViewMode {
+        return this.contentViewService.contentView;
+    }
+    set contentView(view: ViewMode) {
+        this.contentViewService.contentView = view;
+    }
+
+    constructor(private app: AppSettingsService, private navigation: LdapNavigationService, private contentViewService: ContentViewService) {
     }
     ngOnInit(): void {
         this.navigation.ldapRootRx.subscribe(x => {

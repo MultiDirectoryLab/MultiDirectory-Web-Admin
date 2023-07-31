@@ -12,6 +12,7 @@
                 <label class="form-label">Password</label>
                 <md-textbox required [password]="true" [(ngModel)]="password" name="password"></md-textbox>
             </div>
+            <input type="submit" hidden (click)="onLogin()"/>
         </md-form>
     </div>
     <ng-container class="app-modal-footer">

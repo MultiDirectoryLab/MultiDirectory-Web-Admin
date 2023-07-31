@@ -2,11 +2,17 @@
 .dropdown-menu {
     position: absolute;
     z-index: 999;
+    border-radius: 3px;
     background: global.$md-white;
     border: 1px solid global.$md-dark-blue;
     white-space: nowrap;
     ::ng-deep .dropdown-item {
+        ::ng-deep &.disabled {
+            pointer-events: none;
+            background-color: global.$md-neutral-200;
+        }
         padding: 6px;
+        border-bottom: 1px solid global.$md-neutral-300;
         ::ng-deep &:hover {
             cursor: pointer;
             background-color: global.$md-neutral-150;

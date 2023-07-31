@@ -9,7 +9,8 @@ import { SetupRouteGuard } from './core/setup/setup-route-guard';
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
   { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard ] },
-  { path: '**', component: HomeComponent, canActivate: [ AuthRouteGuard ]}
+  { path: '', component: HomeComponent, canActivate: [ AuthRouteGuard ]},
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

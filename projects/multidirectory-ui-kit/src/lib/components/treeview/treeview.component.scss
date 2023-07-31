@@ -25,10 +25,8 @@
     position: relative;
     list-style: none;
     padding-left: 8px;
-    cursor: initial;
     user-select: none; /* Standard syntax */
     &:hover {
-        border-bottom: 1px solid global.$md-dark-blue;
         cursor: pointer;
     }
 
@@ -39,9 +37,10 @@
         padding-left: 8px;
         margin-left: -12px;
     }
-    
 }
-
+.tree-label {
+    cursor: pointer !important;
+}
 .expand-mark {
     cursor: pointer;
 }

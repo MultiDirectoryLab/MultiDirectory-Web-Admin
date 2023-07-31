@@ -36,13 +36,25 @@
 </md-modal>
 
 <div class="w-100 h-100">
-    <app-table-view
-        (pageChanged)="pageChanged($event)"
-        [contextMenu]="contextMenuRef"
-        [selectedCatalog]="selectedCatalog"
-        [content]="rows"
-        [page]="page"
-    ></app-table-view>
+    <ng-container [ngSwitch]="currentView">
+        <app-table-view
+            *ngSwitchCase="ViewMode.Table"
+            (pageChanged)="pageChanged($event)"
+            (onRightClick)="showContextMenu($event)"
+            [selectedCatalog]="selectedCatalog"
+            [page]="navigation.page"
+        ></app-table-view>
+
+        <app-icon-view
+            *ngSwitchCase="ViewMode.SmallIcons"
+        ></app-icon-view>
+        <app-icon-view
+        *ngSwitchCase="ViewMode.BigIcons"
+        ></app-icon-view>
+        <app-icon-view
+        *ngSwitchCase="ViewMode.Details"
+        ></app-icon-view>
+    </ng-container>
 </div>
 
 <md-dropdown-menu #helpMenu>
@@ -50,17 +62,17 @@
 </md-dropdown-menu> 
 
 <md-dropdown-menu #createMenu>
-    <div class="dropdown-item">Группа</div>
-    <div class="dropdown-item">Компьютер</div>
-    <div class="dropdown-item">Контакт</div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">Группа</div>
+    <div class="dropdown-item disabled">Компьютер</div>
+    <div class="dropdown-item disabled">Контакт</div>
     <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">Организационное подразделение</div>
-    <div class="dropdown-item">Общая папка</div>
-    <div class="dropdown-item">Принтер</div>
-    <div class="dropdown-item">Пользователь</div>
-    <div class="dropdown-item">msDS-ShadowPrincipalContainer</div>
-    <div class="dropdown-item">msExchDynamic DistributionList</div>
-    <div class="dropdown-item">mslmaging-PSP</div>
-    <div class="dropdown-item">MSMQ Queue Alias</div>
+    <div class="dropdown-item disabled">Общая папка</div>
+    <div class="dropdown-item disabled">Принтер</div>
+    <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">Пользователь</div>
+    <div class="dropdown-item disabled">msDS-ShadowPrincipalContainer</div>
+    <div class="dropdown-item disabled">msExchDynamic DistributionList</div>
+    <div class="dropdown-item disabled">mslmaging-PSP</div>
+    <div class="dropdown-item disabled">MSMQ Queue Alias</div>
 </md-dropdown-menu> 
 
 

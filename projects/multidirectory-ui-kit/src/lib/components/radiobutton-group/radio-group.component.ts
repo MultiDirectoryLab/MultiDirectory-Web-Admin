@@ -19,16 +19,13 @@ export class RadioGroupComponent extends BaseComponent implements AfterViewInit 
     @Input() drawBorder = false;
     @Input() title = '';
     @Output() valueChanges = new EventEmitter<any>();
-    @ViewChildren('input') buttons!: QueryList<HTMLInputElement>;
+    buttons: RadiobuttonComponent[] = []
 
     constructor(cdr: ChangeDetectorRef) {
         super(cdr);
     }
 
     ngAfterViewInit(): void {
-        this.buttons.changes.subscribe(x => {
-            console.log(x);
-        });
     }
 
     override writeValue(value: any): void {

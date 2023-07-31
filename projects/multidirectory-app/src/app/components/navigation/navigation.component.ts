@@ -35,6 +35,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     handleNodeSelection(node: LdapNode) {
+        this.navigation.page.pageNumber = 1;
         this.navigation.setCatalog(node);
     }
 }
