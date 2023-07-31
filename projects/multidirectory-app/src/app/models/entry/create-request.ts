@@ -16,4 +16,4 @@ export class CreateEntryRequest {
     constructor(obj: Partial<CreateEntryRequest>) {
         Object.assign(this, obj);
     }
-  }
+}

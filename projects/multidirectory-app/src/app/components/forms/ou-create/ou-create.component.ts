@@ -17,7 +17,7 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('createOuModal') createOuModal?: MdModalComponent;
     @ViewChild('form') form!: MdFormComponent;
 
-    private _setupRequest = '';
+    _setupRequest = '';
     @Input() set setupRequest(request: string) {
         this._setupRequest = request;
         this.form?.inputs.forEach(x => x.reset());

@@ -14,7 +14,7 @@ export class RadiobuttonComponent implements OnInit {
 
     ngOnInit(): void {
         this.group?.valueChanges?.subscribe(x => {
-            this.input.nativeElement.checked = !!x;
+            this.input.nativeElement.checked = x == this.value;
         })
     }
     onClick(event: Event) {

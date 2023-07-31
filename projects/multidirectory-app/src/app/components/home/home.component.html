@@ -5,17 +5,16 @@
             <app-navigation></app-navigation>
         </div>
         <div class="flex-row footer">
-            <div class="avatar"><img src="/assets/avatar-example.png" class="avatar-img"/></div>
+            <div class="avatar"><img src="/assets/avatar_placeholder.svg" class="avatar-img"/></div>
             <div class="user-info column">
                 <label>{{user?.display_name}}</label>
-                <label>max_gulevich@gmail.com</label>
+                <label>{{user?.mail}}</label>
             </div>
             <div class="more-container">
                 <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="loginMenu.close(); accountsettings.open()">Настройки аккаунта</div>
-                <hr />
+                <div class="dropdown-item disabled" (click)="loginMenu.close(); accountsettings.open()">Настройки аккаунта</div>
                 <div class="dropdown-item" (click)="logout()">Выход из системы</div>
             </md-dropdown-menu>
         </div>

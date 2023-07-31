@@ -5,16 +5,16 @@
         </div>
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 col-xs-5">
                 <md-dropdown [options]="searchTypes" [(ngModel)]="searchType">
                 </md-dropdown>
             </div>
-            <div class="flex-row col-md-4">
+            <div class="flex-row col-md-4 col-xs-4">
                 <label class="pr-8">в: </label>
                 <md-dropdown [options]="searchSources" [(ngModel)]="searchSource">
                 </md-dropdown>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-3">
                <md-button (click)="search()" [primary]="true">Найти</md-button>
             </div>
         </div>
@@ -25,5 +25,5 @@
     <div class="search-result">
         <app-search-result [rows]="searchResults" #searchResultForm></app-search-result>
     </div>
-    <md-spinner #spinner></md-spinner>
+    <md-spinner #spinner [inputText]="'Поиск...'"></md-spinner>
 </div>
