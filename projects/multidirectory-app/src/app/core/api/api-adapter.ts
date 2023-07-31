@@ -47,7 +47,6 @@ export abstract class HttpRequest<ResponseType> {
         return this;
     }
 
-
     handleError(err: any) {
        // this.toastr.error(err.statusText);
         return throwError(() => err);

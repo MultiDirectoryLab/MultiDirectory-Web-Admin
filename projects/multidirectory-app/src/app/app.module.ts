@@ -36,7 +36,6 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ResultCodeInterceptor } from './core/api/error-handling/result-code-interceptor';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
-import { BaseViewComponent } from './components/catalog-content/views/base-view.component';
 
 @NgModule({
   declarations: [

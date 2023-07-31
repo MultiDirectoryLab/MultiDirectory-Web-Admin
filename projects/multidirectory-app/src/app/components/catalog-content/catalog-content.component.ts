@@ -27,6 +27,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
     @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
+    @ViewChild(TableViewComponent, { static: true }) tableView?: TableViewComponent;
 
     @ViewChild(BaseViewComponent, { static: false }) view?: BaseViewComponent;
 

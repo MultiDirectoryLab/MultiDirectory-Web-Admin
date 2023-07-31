@@ -23,7 +23,4 @@ export class SearchResultComponent {
         }
         this.cdr.detectChanges();
     }
-
-
-
 }
