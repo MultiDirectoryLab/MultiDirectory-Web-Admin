@@ -21,6 +21,8 @@ export class LdapNavigationService {
         return this._nodeSelected.asObservable();
     }
 
+    page = new Page();
+
     constructor(private ldap: LdapLoader) {}
     
     init() {
@@ -91,9 +93,9 @@ export class LdapNavigationService {
                             parent: ldapNode, 
                             node: children[foundIndex].node,
                             page: new Page({
-                                pageNumber: Math.floor(foundIndex / 10) + 1,
+                                pageNumber: Math.floor(foundIndex / 5) + 1,
                                 totalElements: x.length,
-                                size: 10
+                                size: this.page.size
                             })
                         });
                     }
@@ -111,7 +113,8 @@ export class LdapNavigationService {
     setCatalog(catalog: LdapNode) {
         this._nodeSelected.next({ 
             parent: catalog, 
-            node: undefined 
+            node: undefined,
+            page: this.page 
         });
     }
 

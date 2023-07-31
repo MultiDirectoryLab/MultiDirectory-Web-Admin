@@ -23,9 +23,10 @@ export abstract class BaseViewComponent {
     }
 
     handleRightClick(event: any) {
-       //if(this.selectedRows.length == 0) {
-        //   this.selectedRows = [ event.entry ];
-        //}
+        const selected = this.getSelected();
+        if(selected.length == 0) {
+            this.setSelected([ event.content?.entry ]);
+        }
         this.onRightClick.emit({
             pointerEvent: event.event,
             selected: this.getSelected() ?? []
@@ -34,4 +35,5 @@ export abstract class BaseViewComponent {
 
     abstract setContent(rows: LdapNode[], selectedNodes: LdapNode[]): void;
     abstract getSelected(): LdapNode[];
+    abstract setSelected(selected: LdapNode[]): void;
 }

@@ -42,11 +42,17 @@
             (pageChanged)="pageChanged($event)"
             (onRightClick)="showContextMenu($event)"
             [selectedCatalog]="selectedCatalog"
-            [page]="page"
+            [page]="navigation.page"
         ></app-table-view>
 
         <app-icon-view
             *ngSwitchCase="ViewMode.SmallIcons"
+        ></app-icon-view>
+        <app-icon-view
+        *ngSwitchCase="ViewMode.BigIcons"
+        ></app-icon-view>
+        <app-icon-view
+        *ngSwitchCase="ViewMode.Details"
         ></app-icon-view>
     </ng-container>
 </div>

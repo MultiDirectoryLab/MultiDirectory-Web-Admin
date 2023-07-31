@@ -41,7 +41,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         return this.contentView.contentView;
     }
 
-    page = new Page();
 
     constructor(
         public navigation: LdapNavigationService,
@@ -56,14 +55,18 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             switchMap(x => {
                 this.selectedCatalog = x.parent;
                 this.selectedRows = x.node ? [ x.node ] : [];
-                this.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
-                if(x.parent?.parent) {
-                    this.page.totalElements += 1;
+                if(x.page) {
+                    this.navigation.page = x.page;
                 }
-                return this.navigation.getContent(this.selectedCatalog, this.page);
+                this.navigation.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
+                if(x.parent?.parent) {
+                    this.navigation.page.totalElements += 1;
+                }
+                return this.navigation.getContent(this.selectedCatalog, this.navigation.page);
             }),
         ).subscribe(x => {
             this.rows = x;
+            this.view!.selectedCatalog = this.selectedCatalog; 
             this.view?.setContent(this.rows, this.selectedRows);
             this.cdr.detectChanges();
         });
@@ -111,6 +114,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.error('Выберите каталог в котором будет создана организационная единица');
             return;
         }
+        this.createOuModal!.setupRequest = '';
         this.createOuModal?.open();
     }
 
@@ -123,15 +127,19 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         });
     }
 
-    loadData() {
+    loadData(page: Page | undefined = undefined) {
+        if(!!page) {
+            this.navigation.page = page;
+        } else {
+            this.navigation.page.pageNumber = 1;
+        }
         if(this.selectedCatalog) {
             this.navigation.setCatalog(this.selectedCatalog);
         }
     }
 
     pageChanged(page: Page) {
-        this.page = page;
-        this.loadData();
+        this.loadData(page);
         this.cdr.detectChanges();
     }
 
