@@ -59,4 +59,10 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
             this.router.navigate(['/'])
         });
     }
+
+    resize()  {
+        this.cdr.detectChanges();
+        this.modal.modalRoot?.resizeToContentHeight();
+        this.cdr.detectChanges();
+    }
 }

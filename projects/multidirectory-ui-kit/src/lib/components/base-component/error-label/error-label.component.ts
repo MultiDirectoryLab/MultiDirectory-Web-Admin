@@ -6,11 +6,24 @@ import { NgControl } from "@angular/forms";
     templateUrl: './error-label.component.html',
     styleUrls: ['./error-label.component.scss']
 })
-export class ErrorLabelComponent implements AfterViewInit {
+export class ErrorLabelComponent {
     @Input() ngControl!: NgControl;
-
     constructor() {
     }
-    ngAfterViewInit(): void {
+    
+    getFirstError(): string | undefined{
+         if(!!this.ngControl?.errors?.['required']) {
+            return 'required';
+         }
+         if(!!this.ngControl?.errors?.['pattern']) {
+            return 'pattern';
+         }
+         if(!!this.ngControl?.errors?.['PasswordsDoNotMatch']) {
+            return 'PasswordsDoNotMatch';
+         }
+         if(!!this.ngControl?.errors?.['DomainFormat']) {
+            return 'DomainFormat';
+         }
+         return undefined;
     }
 }

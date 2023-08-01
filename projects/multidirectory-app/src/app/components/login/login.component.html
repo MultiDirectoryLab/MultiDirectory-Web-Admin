@@ -1,23 +1,25 @@
-<md-modal #modal [opened]="true" class="paddingless" appHideControlbar [width]="'300px'">
+<md-modal #modal [opened]="true" class="paddingless" appHideControlbar [width]="'330px'">
     <ng-container class="app-modal-header">
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
-    <div class="w-100">
+    <div class="w-100 h-100 p-16">
         <md-form #loginForm>
-            <div class="flex-row flex-space-between">
-                <label class="form-label">Login</label>
-                <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
-            </div>
-            <div class="flex-row flex-space-between">
-                <label class="form-label">Password</label>
-                <md-textbox required [password]="true" [(ngModel)]="password" name="password"></md-textbox>
+            <div class="flex-column flex-space-between h-100 flex-gap-20">
+                <div class="flex-row flex-space-between">
+                    <label class="form-label">Логин</label>
+                    <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
+                </div>
+                <div class="flex-row flex-space-between">
+                    <label class="form-label">Пароль</label>
+                    <md-textbox required [password]="true" [(ngModel)]="password" name="password"></md-textbox>
+                </div>
             </div>
             <input type="submit" hidden (click)="onLogin()"/>
         </md-form>
     </div>
     <ng-container class="app-modal-footer">
         <div class="flex-row flex-center">
-            <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin()">Login</md-button>
+            <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin()">Войти</md-button>
         </div>
     </ng-container>
 </md-modal>

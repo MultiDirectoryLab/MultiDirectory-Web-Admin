@@ -16,6 +16,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error: any) {
         console.error(error);
-        this.toastr.error(error?.statusText ?? error)?.message;
+        this.toastr.error(error?.statusText ?? error?.message ?? error, error, { onActivateTick: true });
     }
 }

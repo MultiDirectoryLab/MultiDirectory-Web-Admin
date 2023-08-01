@@ -1,7 +1,8 @@
 <div class="admin-settings">
     <div class="flex-row flex-space-between">
-        <span class="pv-8 text-justify accented mb-16">
-            To use the Multidirectory app, please, complete the initial setup process
+        <span class="pv-8 accented mb-16">
+            Этот мастер поможет завершить настройку Multidirectory
+            <hr>
         </span>
     </div>
     <md-form #form>
@@ -13,7 +14,7 @@
         </div>
         
         <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">Display Name</label>
+            <label  class="textbox-label">Отображаемое имя</label>
             <div class="flex-column  flex-grow-1">
                 <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
             </div>
