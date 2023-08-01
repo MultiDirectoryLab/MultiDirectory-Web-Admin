@@ -38,11 +38,11 @@
     </div>
     
     <div class="row align-start pv-8">
-        <div class="col-md-6 flex-column align-center flex-grow-1 flex-gap-10">
+        <div class="col-md-6 flex-column align-start flex-grow-1 flex-gap-10">
             <label for="login">Имя для входа:</label>
             <md-textbox required [(ngModel)]="setupRequest.upnLogin" name="login"></md-textbox>
         </div>
-        <div class="col-md-6 flex-column align-center">
+        <div class="col-md-6 flex-column align-start flex-grow-1 flex-gap-10">
             <label>Домен</label>
             <md-textbox required [(ngModel)]="setupRequest.upnDomain" name="upnDomain"></md-textbox>
         </div>
@@ -53,7 +53,7 @@
             <label for="login">Имя для входа(pre-Windows 2000):</label>
             <md-textbox [disabled]="true" name="login"></md-textbox>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 flex-column align-start flex-grow-1 flex-gap-10">
             <label>Домен</label>
             <md-textbox [disabled]="true" name="domain"></md-textbox>
         </div>

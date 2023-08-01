@@ -1,19 +1,33 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, map, retry, switchMap, tap, throwError } from "rxjs";
+import { EMPTY, Observable, catchError, map, retry, switchMap, tap, throwError } from "rxjs";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class StaleTokenInterceptor implements HttpInterceptor {
-    constructor(private api: MultidirectoryApiService) {}
+    constructor(private api: MultidirectoryApiService, private router: Router) {}
 
     exceptUrl = [
         'auth/token/get'
     ];
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if(req.url.endsWith('auth/token/refresh')) {
+            return next.handle(req).pipe(
+                catchError(err => {
+                    if(err instanceof HttpErrorResponse && err.status == 401) {
+                        localStorage.removeItem('access_token');
+                        localStorage.removeItem('refresh_token');
+                        this.router.navigateByUrl('/login');
+                        return EMPTY;
+                    }
+                    throw err;
+                })
+            );
+        }
         return next.handle(req).pipe( 
              catchError((err: HttpErrorResponse) => {
-                if(err.status !== 401) {
+                if(err.status !== 401 || this.exceptUrl.some(url => err.url?.includes(url))) {
                     throw err;
                 }
                 return this.api.refresh().pipe(

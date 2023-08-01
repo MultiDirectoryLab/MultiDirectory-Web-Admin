@@ -69,6 +69,10 @@ span.accented {
     display: flex;
     flex-flow: row nowrap;
 }
+.flex-column {
+    display: flex;
+    flex-flow: column nowrap;
+}
 .align-center {
     align-items: center;
 }

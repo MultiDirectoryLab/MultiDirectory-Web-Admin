@@ -93,7 +93,7 @@ export class LdapNavigationService {
                             parent: ldapNode, 
                             node: children[foundIndex].node,
                             page: new Page({
-                                pageNumber: Math.floor(foundIndex / 5) + 1,
+                                pageNumber: Math.floor(foundIndex / this.page.size) + 1,
                                 totalElements: x.length,
                                 size: this.page.size
                             })

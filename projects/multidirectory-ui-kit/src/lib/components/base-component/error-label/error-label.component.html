@@ -1,15 +1,15 @@
 <div class="error-message">
-    <label *ngIf="ngControl?.errors?.['required']">
-        Value is required
+    <label *ngIf="getFirstError() == 'required'">
+        Обязательное поле
     </label>
-    <label *ngIf="ngControl?.errors?.['pattern']">
-        Value has wrong format
+    <label *ngIf="getFirstError() == 'pattern'">
+        Значение имеет неверный формат
     </label>
-    <label *ngIf="ngControl?.errors?.['PasswordsDoNotMatch']">
-        Passwords do not match
+    <label *ngIf="getFirstError() == 'PasswordsDoNotMatch'">
+        Пароли не совпадают
     </label>
-    <label *ngIf="ngControl?.errors?.['DomainFormat']">
-        Please, check the domain format
+    <label *ngIf="getFirstError() == 'DomainFormat'">
+        Проверьте формат домена
     </label>
 </div>
 
