@@ -36,4 +36,8 @@ export abstract class BaseViewComponent {
     abstract setContent(rows: LdapNode[], selectedNodes: LdapNode[]): void;
     abstract getSelected(): LdapNode[];
     abstract setSelected(selected: LdapNode[]): void;
+    
+    setCatalog(catalog: LdapNode): void {
+        this.selectedCatalog = catalog;
+    }
 }
