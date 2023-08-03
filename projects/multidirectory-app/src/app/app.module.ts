@@ -38,6 +38,8 @@ import { GlobalErrorHandler } from './core/api/error-handling/global-error-handl
 import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
 import { DndModule } from 'ngx-drag-drop';
 import { GridItemComponent } from './components/catalog-content/views/icon-view/grid-item/grid-item.component';
+import { RefreshTokenInterceptor } from './core/authorization/refresh-token-interceptor';
+import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,17 @@ import { GridItemComponent } from './components/catalog-content/views/icon-view/
   },
   {
     provide: HTTP_INTERCEPTORS,
+    useClass: EnsureBearerInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
     useClass: StaleTokenInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: RefreshTokenInterceptor,
     multi: true,
   },
   {
