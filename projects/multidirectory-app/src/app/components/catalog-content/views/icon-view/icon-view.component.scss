@@ -3,13 +3,6 @@
     grid-template-columns: repeat(100, 64px);
     grid-template-rows: repeat(100, 96px);
     gap: 1rem;
-
+    position: relative;
     grid-auto-flow: row;
-    .grid-item {
-        display: flex;
-        flex-flow: column nowrap;
-        width: 64px;
-        height: 96px;
-        align-items: center;
-    }
 }

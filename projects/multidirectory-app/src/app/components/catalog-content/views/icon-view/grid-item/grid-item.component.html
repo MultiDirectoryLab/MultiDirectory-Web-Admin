@@ -1,0 +1,15 @@
+<div class="grid-item"
+    [dndDraggable]="itemEl"
+    [dndDisableIf]="draggable.disable"
+    [dndEffectAllowed]="'move'"
+    (dndStart)="onDragStart($event)"
+    (dndCopied)="onDraggableCopied($event)"
+    (dndLinked)="onDraggableLinked($event)"
+    (dndMoved)="onDraggableMoved($event)"
+    (dndCanceled)="onDragCanceled($event)"
+    (dndEnd)="onDragEnd($event)"
+    #itemEl
+    >
+    <img class="row-icon" dndDragImageRef [src]="item.icon" style="width: 50px; height: 50px;" />
+    {{item.name}}
+</div>
