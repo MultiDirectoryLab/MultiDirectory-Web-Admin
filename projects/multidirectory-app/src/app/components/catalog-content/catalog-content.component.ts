@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { Subject, forkJoin, switchMap, take, takeUntil } from "rxjs";
+import { Subject, concat, forkJoin, from, map, switchMap, take, takeUntil, tap } from "rxjs";
 import { LdapNode } from "../../core/ldap/ldap-loader";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
@@ -78,13 +78,11 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
     
     deleteSelectedEntry() {
-        forkJoin(
-            this.selectedRows.map(x => 
-                this.api.delete(new DeleteEntryRequest({
-                    entry: (<any>x.entry).object_name
-                }))
-            )
-        ).subscribe(x => {
+        concat(...this.selectedRows.map(x => 
+            this.api.delete(new DeleteEntryRequest({
+                entry: (<any>x.entry).object_name
+            }))
+        )).subscribe(x => {
             this.loadData();
         });
     }

@@ -36,6 +36,10 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ResultCodeInterceptor } from './core/api/error-handling/result-code-interceptor';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
+import { DndModule } from 'ngx-drag-drop';
+import { GridItemComponent } from './components/catalog-content/views/icon-view/grid-item/grid-item.component';
+import { RefreshTokenInterceptor } from './core/authorization/refresh-token-interceptor';
+import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,7 @@ import { IconViewComponent } from './components/catalog-content/views/icon-view/
     CatalogContentComponent,
     TableViewComponent,
     IconViewComponent,
-    
+    GridItemComponent,
     SetupComponent,
     EntityPropertiesComponent,
     AdminSettingsComponent,
@@ -77,6 +81,7 @@ import { IconViewComponent } from './components/catalog-content/views/icon-view/
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DndModule,
     MultidirectoryUiKitModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right'})
   ],
@@ -92,7 +97,17 @@ import { IconViewComponent } from './components/catalog-content/views/icon-view/
   },
   {
     provide: HTTP_INTERCEPTORS,
+    useClass: EnsureBearerInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
     useClass: StaleTokenInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: RefreshTokenInterceptor,
     multi: true,
   },
   {

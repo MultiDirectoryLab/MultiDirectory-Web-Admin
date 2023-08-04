@@ -31,27 +31,6 @@ export abstract class HttpRequest<ResponseType> {
     constructor(protected url: string, protected httpClient: HttpClient, protected toastr: ToastrService) {
     }
 
-    ensureBearer(): HttpRequest<ResponseType> {
-        const token = localStorage.getItem('access_token');
-        if(token) {
-            this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${token}`);
-        }
-        return this;
-    }
-
-    refreshToken(): HttpRequest<ResponseType> {
-        const token = localStorage.getItem('refresh_token');
-        if(token) {
-            this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `Bearer ${token}`);
-        }
-        return this;
-    }
-
-    handleError(err: any) {
-       // this.toastr.error(err.statusText);
-        return throwError(() => err);
-    }
-
     abstract execute(): Observable<ResponseType>;
     
 }
@@ -67,9 +46,7 @@ export class PostRequest<ResponseType> extends HttpRequest<ResponseType>{
     }
 
     override execute(): Observable<ResponseType> {
-        return this.httpClient.post<ResponseType>(this.url, this.body, this.httpOptions).pipe(
-            catchError(this.handleError.bind(this))
-        );
+        return this.httpClient.post<ResponseType>(this.url, this.body, this.httpOptions);
     }
 
 }
@@ -81,9 +58,7 @@ export class GetRequest<ResponseType> extends HttpRequest<ResponseType> {
     } 
 
     override execute(): Observable<ResponseType> {
-        return this.httpClient.get<ResponseType>(this.url, this.httpOptions).pipe(
-            catchError(this.handleError.bind(this))
-        );
+        return this.httpClient.get<ResponseType>(this.url, this.httpOptions);
     }
 }
 
@@ -102,9 +77,7 @@ export class DeleteRequest<ResponseType> extends HttpRequest<ResponseType>{
         return this.httpClient.delete<ResponseType>(this.url, {
             headers: this.httpOptions.headers, 
             body: this.body
-        }).pipe(
-            catchError(this.handleError.bind(this))
-        );
+        });
     }
 
 }

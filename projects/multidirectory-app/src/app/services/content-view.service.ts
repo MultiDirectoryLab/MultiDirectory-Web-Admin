@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from "rxjs";
     providedIn: 'root'
 })
 export class ContentViewService {
-    private _contentViewRx = new BehaviorSubject(ViewMode.BigIcons);
+    private _contentViewRx = new BehaviorSubject(ViewMode.Table);
     get contentViewRx(): Observable<ViewMode> {
         return this._contentViewRx.asObservable();
     }

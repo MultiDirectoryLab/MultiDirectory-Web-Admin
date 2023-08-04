@@ -31,19 +31,16 @@ export class MultidirectoryApiService {
 
     refresh(): Observable<LoginResponse> {
         return this.httpClient.post<LoginResponse>('auth/token/refresh')
-                .refreshToken()
                 .execute();
     }
 
     whoami(): Observable<WhoamiResponse> {
         return this.httpClient.get<WhoamiResponse>('auth/me')
-                .ensureBearer()
                 .execute();
     }
 
     search(request: SearchRequest): Observable<SearchResponse> {
         return this.httpClient.post<SearchResponse>('entry/search', request)
-                .ensureBearer()
                 .execute();
     }
 
@@ -57,14 +54,12 @@ export class MultidirectoryApiService {
 
     create(request: CreateEntryRequest): Observable<CreateEntryResponse> {
         return this.httpClient.post<CreateEntryResponse>('entry/add', request)
-            .ensureBearer()
             .execute();
     }
 
 
     delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
         return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request)
-            .ensureBearer()
             .execute();
     }
 }
