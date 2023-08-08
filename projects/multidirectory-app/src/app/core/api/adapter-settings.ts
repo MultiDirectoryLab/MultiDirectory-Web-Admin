@@ -10,4 +10,10 @@ export interface AdapterSettings {
 })
 export class MultidirectoryAdapterSettings {
     baseUrl = environment.multidirectoryApiUrl
+
+    constructor() {
+        if(!this.baseUrl.startsWith('http://') && !this.baseUrl.startsWith('https://')) {
+            this.baseUrl = 'http://' + this.baseUrl
+        }
+    }
 } 
