@@ -7,19 +7,23 @@ export class ApiAdapter<Settings extends AdapterSettings> {
 
     constructor(private httpClient: HttpClient, private _settings: Settings, private toastr: ToastrService) {}
 
+    getBaseUrl(resource: string): URL {
+        
+        return new URL(this._settings.baseUrl + '/' + resource);
+    }
     post<T>(resource: string, body: any = null, ): PostRequest<T> {
-        const url = this._settings.baseUrl + '/' + resource;
-        return new PostRequest<T>(url, body, this.httpClient, this.toastr);
+        const url = this.getBaseUrl(resource);
+        return new PostRequest<T>(url.href, body, this.httpClient, this.toastr);
     }
 
     delete<T>(resource: string, body: any = null, ): DeleteRequest<T> {
-        const url = this._settings.baseUrl + '/' + resource;
-        return new DeleteRequest<T>(url, body, this.httpClient, this.toastr);
+        const url = this.getBaseUrl(resource);
+        return new DeleteRequest<T>(url.href, body, this.httpClient, this.toastr);
     }
 
     get<T>(resource: string): GetRequest<T> {
-        const url = this._settings.baseUrl + '/' + resource;
-        return new GetRequest<T>(url, this.httpClient, this.toastr);
+        const url = this.getBaseUrl(resource);
+        return new GetRequest<T>(url.href, this.httpClient, this.toastr);
     }
 }
 
