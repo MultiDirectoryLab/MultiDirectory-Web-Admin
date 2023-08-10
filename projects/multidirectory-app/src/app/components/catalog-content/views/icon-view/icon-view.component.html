@@ -1,7 +1,9 @@
-<h4>Coming Soon</h4>
 <div class="icon-grid"  
         dndDropzone
         (dndDragover)="onDragover($event)"
         (dndDrop)="onDrop($event)">
-        <app-grid-item *ngFor="let item of items" [item]="item"></app-grid-item>
+        <app-grid-item *ngFor="let item of items" 
+                (clickOnItem)="setSelected([item])"
+                (rightClick)="handleRightClick($event)"
+                [item]="item"></app-grid-item>
 </div>

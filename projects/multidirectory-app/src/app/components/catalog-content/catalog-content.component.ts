@@ -66,9 +66,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.cdr.detectChanges();
         });
 
-        this.contentView.contentViewRx.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+        this.contentView.contentViewRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
             this.currentView = x;
             this.cdr.detectChanges();
+            this.navigation.setCatalog(this.selectedCatalog);
         })
     }
 

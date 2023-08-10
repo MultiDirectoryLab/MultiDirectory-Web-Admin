@@ -15,6 +15,9 @@
     [limit]="page.size"
     (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
+    [messages]="{
+      emptyMessage: 'Нет данных для отображения'
+    }"
     #datagrid
   >
   <ngx-datatable-footer>

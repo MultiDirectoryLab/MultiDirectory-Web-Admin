@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, forwardRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, forwardRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
@@ -15,7 +15,7 @@ import { DndDropEvent } from "ngx-drag-drop";
 export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
     items: LdapNode[] = [];
 
-    constructor(public toast: ToastrService) {
+    constructor(public toast: ToastrService, private cdr: ChangeDetectorRef) {
         super()
     }
     ngAfterViewInit(): void {
@@ -26,18 +26,19 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.items = items;
     }
     override getSelected(): LdapNode[] {
-        return [];
+        return this.items.filter(x => x.selected);
     }
     override setSelected(selected: LdapNode[]): void {
+        this.items.forEach(i => i.selected = false);
+        selected.forEach(i => i.selected = true);
+        this.cdr.detectChanges();
     }
 
-
     onDragover(event:DragEvent) {
-        
         console.log("dragover", JSON.stringify(event, null, 2));
-      }
+    }
 
-      onDrop(event:DndDropEvent) {
+    onDrop(event:DndDropEvent) {
         return;
         console.log("dropped", JSON.stringify(event, null, 2));
         var offset = event!.event.dataTransfer!.getData("text/plain").split(',');
@@ -46,5 +47,5 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         dm.style.top = (event.event.clientY + parseInt(offset[1],10)) + 'px';
         event.event.preventDefault();
         return false;
-      }
+    }
 }

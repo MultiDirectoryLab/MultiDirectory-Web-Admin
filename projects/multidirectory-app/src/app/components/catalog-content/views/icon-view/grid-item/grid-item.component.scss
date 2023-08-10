@@ -1,7 +1,24 @@
+@use '../../../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
 .grid-item {
     display: flex;
     flex-flow: column nowrap;
     width: 64px;
-    height: 96px;
     align-items: center;
+}
+.grid-item:hover {
+    background-color: global.$md-white-blue-2;
+}
+.grid-item.selected {
+    background-color: global.$md-blue;
+    color: white;
+    .row-icon {
+        filter: brightness(0) invert(1);
+    }
+}
+.label {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
 }
