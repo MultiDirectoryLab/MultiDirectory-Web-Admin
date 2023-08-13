@@ -40,6 +40,7 @@ import { GridItemComponent } from './components/catalog-content/views/icon-view/
 import { RefreshTokenInterceptor } from './core/authorization/refresh-token-interceptor';
 import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,12 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     HttpClientModule,
     ReactiveFormsModule,
     MultidirectoryUiKitModule,
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right'})
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right'}),
+    HotkeyModule.forRoot({
+      cheatSheetCloseEsc: true,
+      cheatSheetCloseEscDescription: 'Скрыть меню помощи',
+      cheatSheetDescription: 'Показать/скрыть меню помощи'
+    })
   ],
   providers: [
     provideAnimations(),

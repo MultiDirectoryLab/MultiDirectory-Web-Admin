@@ -27,7 +27,6 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         super()
     }
     ngAfterViewInit(): void {
-        this.toast.info('Данный раздел находится в разразботке');
     }
 
     override setContent(items: LdapNode[], selectedNodes: LdapNode[]): void {
@@ -45,6 +44,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     resetItems() {
         this.gridDrags.forEach(x => {
             x.reset();
+            x.getRootElement().style.gridArea = '';
         });
     }
 
@@ -57,11 +57,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     drop(event: CdkDragDrop<LdapNode[]>) {
         moveItemInArray(this.items, event.previousIndex, event.currentIndex);
     }
-
-    computeDragRenderPos(pos: any, dragRef: DragRef) {
-        return pos;
-    }
-    computeDragRenderPosBinded = this.computeDragRenderPos.bind(this);
+ 
     onDrop(event: CdkDragEnd) {
         if(!this.alignItems) {
             return;
@@ -74,13 +70,36 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         const offsetLeft = this.grid.nativeElement.offsetLeft;
         const offsetTop = this.grid.nativeElement.offsetTop;
 
-        const gridXPos = Math.floor((pos.x - offsetLeft) / cellWidth) + 1;
-        const gridYPos = Math.floor((pos.y - offsetTop) / cellHeight) + 1;
+        let gridXPos = Math.floor((pos.x - offsetLeft) / cellWidth) + 1;
+        let gridYPos = Math.floor((pos.y - offsetTop) / cellHeight) + 1;
         dragRef.reset();
         const el = dragRef.getRootElement();
-        el.style.gridArea = `${gridYPos} / ${gridXPos}`
+        let oddIteration = 0;
+        while(this.isCellOccupied(gridXPos, gridYPos)) {
+            if(oddIteration % 2 == 0) 
+                gridXPos += 1;
+            else
+                gridYPos += 1;
+            oddIteration++;
+        }
+        el.style.gridArea = `${gridYPos} / ${gridXPos}`;
+    }
+
+    isCellOccupied(xPos: number, yPos: number) {
+        return this.gridDrags.some(x => {
+            const el = x.getRootElement()
+            if(!el.style.gridArea) {
+                return false;
+            } 
+            const pos = el.style.gridArea.split('/');
+            return Number(pos[0]) == yPos && Number(pos[1]) == xPos;
+        });
     }
     selectCatalog(item: LdapNode) {
         this.navigation.setCatalog(item);
     }
+
+    clickOutside(event: MouseEvent) {
+        this.items.forEach(x => x.selected = false);
+    } 
 }

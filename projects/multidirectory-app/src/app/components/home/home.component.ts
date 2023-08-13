@@ -8,6 +8,7 @@ import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, take, takeUntil } from "rxjs";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
+import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 
 @Component({
     selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnDestroy {
     showLeftPane = false;
     @ViewChild('treeView') treeView?: TreeviewComponent;
     @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
-
+    @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
     unsubscribe = new Subject<boolean>();
     constructor(
         private router: Router, 
@@ -33,14 +34,11 @@ export class HomeComponent implements OnDestroy {
         private api: MultidirectoryApiService, 
         private navigation: LdapNavigationService,
         private app: AppSettingsService) {
-        
         this.navigation.init();
-
         this.api.whoami().subscribe(whoami=> {
             this.user = whoami;
             this.cdr.detectChanges();
         });
-
         this.app.navigationalPanelVisibleRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
@@ -57,5 +55,9 @@ export class HomeComponent implements OnDestroy {
     logout() {
         localStorage.clear();
         this.router.navigate(['/login'])
+    }
+
+    helpMenuClick() {
+        this.helpcheatSheet.toggleCheatSheet();
     }
 }

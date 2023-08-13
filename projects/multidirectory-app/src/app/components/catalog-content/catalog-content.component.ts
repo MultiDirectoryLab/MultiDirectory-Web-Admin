@@ -13,6 +13,7 @@ import { UserCreateComponent } from "../forms/user-create/user-create.component"
 import { ViewMode } from "./view-modes";
 import { ContentViewService } from "../../services/content-view.service";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
+import { Hotkey, HotkeysService } from "angular2-hotkeys";
 
 @Component({
     selector: 'app-catalog-content',
@@ -42,7 +43,21 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
-        private contentView: ContentViewService) {}
+        private contentView: ContentViewService,
+        private hotkeysService: HotkeysService) {
+            this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
+                this.openCreateUser();
+                return false;
+            }, undefined, 'Создать пользователя'));
+            this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
+                this.openCreateGroup();
+                return false;
+            }, undefined, 'Создать группу'));
+            this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
+                this.openCreateOu();
+                return false;
+            }, undefined, 'Создать организационную единицу'));
+        }
 
     ngOnInit(): void {
         this.navigation.nodeSelected.pipe(

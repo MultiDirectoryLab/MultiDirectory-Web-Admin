@@ -1,5 +1,6 @@
 <div class="icon-grid" [ngClass]="{'big-icon': big}"
-        (contextmenu)="showGridContextMenu($event)" #grid>
+        (contextmenu)="showGridContextMenu($event)" #grid
+        (click)="clickOutside($event)">
         <div *ngFor="let item of items" 
                 class="grid-item"
                 cdkDrag

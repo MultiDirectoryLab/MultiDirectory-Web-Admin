@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input } from "@angular/core";
+import { Directive, ElementRef, HostListener, Input } from "@angular/core";
 import { DropdownMenuComponent } from "./dropdown-menu.component";
 
 @Directive({

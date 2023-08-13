@@ -28,6 +28,7 @@ export class GridItemComponent {
  
   onClick($event: MouseEvent) {
     $event.preventDefault();
+    $event.stopPropagation();
     this.clickOnItem.next($event);
   }
   onDblClick($event: MouseEvent) {

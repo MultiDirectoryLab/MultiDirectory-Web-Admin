@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, TemplateRef, ViewChild } from "@angular/core";
+import { DropdownContainerDirective } from "./dropdown-container.directive";
 
 @Component({
     selector: 'md-dropdown-menu',
@@ -10,7 +11,7 @@ export class DropdownMenuComponent {
     @Input() items!: any[];  
     @Input() direction: 'up' | 'right' = 'right';
     @Input() itemTemplate!: TemplateRef<any>;
-
+    @Input() container?: DropdownContainerDirective;
     _top: number = 0;
     _left: number = 0;
     @ViewChild('menu') menu!: ElementRef;
