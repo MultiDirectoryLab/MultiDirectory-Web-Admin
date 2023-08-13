@@ -1,9 +1,16 @@
 @use '../../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+.icon-grid-container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    height: 100%;
+
+}
 
 .icon-grid {
     display: grid;
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     grid-template-columns: repeat(auto-fill, 64px);
     grid-template-rows: repeat(auto-fill, 64px);
     gap: 8px;

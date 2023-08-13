@@ -48,6 +48,9 @@
         <app-icon-view
             *ngSwitchCase="ViewMode.SmallIcons"
             (onRightClick)="showContextMenu($event)"
+            (pageChanged)="pageChanged($event)"
+            [selectedCatalog]="selectedCatalog"
+            [page]="navigation.page"
         ></app-icon-view>
         <app-icon-view
             [big]="true"

@@ -3,7 +3,7 @@ import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { GridItemComponent } from "./grid-item/grid-item.component";
-import { DropdownMenuComponent } from "multidirectory-ui-kit";
+import { DropdownMenuComponent, PagerComponent } from "multidirectory-ui-kit";
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
@@ -21,6 +21,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
     @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
     @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
+    @ViewChild('pager') pager!: PagerComponent;
     items: LdapNode[] = [];
     alignItems = true;
     constructor(public toast: ToastrService, private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {
@@ -30,7 +31,16 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     }
 
     override setContent(items: LdapNode[], selectedNodes: LdapNode[]): void {
+        if(items.length > this.page.size) {
+            items = items.slice(0, this.page.size);
+        }
         this.items = items;
+        this.page.totalElements = this.selectedCatalog!.childCount!;
+        this.items.forEach(element => {
+            element.selected = selectedNodes.findIndex(y => y.id == element.id) > -1;
+        });
+        this.pager.updatePager();
+        this.cdr.detectChanges();
     }
     override getSelected(): LdapNode[] {
         return this.items.filter(x => x.selected);
