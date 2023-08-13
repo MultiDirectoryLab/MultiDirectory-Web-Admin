@@ -1,11 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
-import { DndDropEvent } from "ngx-drag-drop";
 import { GridItemComponent } from "./grid-item/grid-item.component";
 import { DropdownMenuComponent } from "multidirectory-ui-kit";
-import { CdkDrag, CdkDragDrop, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
 @Component({
@@ -20,7 +19,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     @Input() big = false;
     @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
     @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
-
+    @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
     @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
     items: LdapNode[] = [];
     alignItems = true;
@@ -55,18 +54,32 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.gridMenu.toggle();
     }
 
-    onDragover(event:DragEvent) {
-        console.log("dragover", JSON.stringify(event, null, 2));
-    }
-
     drop(event: CdkDragDrop<LdapNode[]>) {
         moveItemInArray(this.items, event.previousIndex, event.currentIndex);
-      }
-
-    computeDragRenderPos(pos: any, dragRef: DragRef) {
-        return {x: Math.floor(pos.x / 64) * 64, y: Math.floor(pos.y / 64) * 64}; // will render the element every 30 pixels horizontally
     }
 
+    computeDragRenderPos(pos: any, dragRef: DragRef) {
+        return pos;
+    }
+    computeDragRenderPosBinded = this.computeDragRenderPos.bind(this);
+    onDrop(event: CdkDragEnd) {
+        if(!this.alignItems) {
+            return;
+        }
+        const pos = event.dropPoint;
+        const dragRef = event.source;
+        const cellWidth = 64 + 8;
+        const cellHeight = 64 + 8;
+        
+        const offsetLeft = this.grid.nativeElement.offsetLeft;
+        const offsetTop = this.grid.nativeElement.offsetTop;
+
+        const gridXPos = Math.floor((pos.x - offsetLeft) / cellWidth) + 1;
+        const gridYPos = Math.floor((pos.y - offsetTop) / cellHeight) + 1;
+        dragRef.reset();
+        const el = dragRef.getRootElement();
+        el.style.gridArea = `${gridYPos} / ${gridXPos}`
+    }
     selectCatalog(item: LdapNode) {
         this.navigation.setCatalog(item);
     }

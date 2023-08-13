@@ -34,8 +34,11 @@
     }
 }
 .label {
-    width: 100%;
-    display: flex;
-    flex-flow: column nowrap;
+    max-width: 100%;
+    display: block;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+    white-space: nowrap;
 }

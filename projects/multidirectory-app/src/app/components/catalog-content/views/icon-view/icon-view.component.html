@@ -1,9 +1,10 @@
 <div class="icon-grid" [ngClass]="{'big-icon': big}"
-        (contextmenu)="showGridContextMenu($event)">
+        (contextmenu)="showGridContextMenu($event)" #grid>
         <div *ngFor="let item of items" 
                 class="grid-item"
                 cdkDrag
                 cdkDragBoundary=".icon-grid"
+                (cdkDragEnded)="onDrop($event)"
                 >
                 <app-grid-item
                         [big]="big"
