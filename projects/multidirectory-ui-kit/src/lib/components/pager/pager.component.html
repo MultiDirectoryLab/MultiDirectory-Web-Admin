@@ -15,7 +15,9 @@
         [page]="curPage"
         [size]="pageSize"
         [count]="rowCount"
-        [hidden]="!((rowCount / pageSize) > 1)"
+        [ngStyle]="{
+            'display': !((rowCount / pageSize) > 1)? 'none' : 'flex'
+        }"
         (change)="onPageChanged($event)">
     </datatable-pager>
 </div>
