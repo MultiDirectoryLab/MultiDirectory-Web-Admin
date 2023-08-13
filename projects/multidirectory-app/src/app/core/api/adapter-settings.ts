@@ -13,7 +13,7 @@ export class MultidirectoryAdapterSettings {
 
     constructor() {
         if(!this.baseUrl.startsWith('http://') && !this.baseUrl.startsWith('https://')) {
-            this.baseUrl = 'http://' + this.baseUrl
+            this.baseUrl = 'http://' + this.baseUrl;
         }
     }
 } 

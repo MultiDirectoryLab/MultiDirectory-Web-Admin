@@ -1,9 +1,23 @@
-<div class="icon-grid"  
-        dndDropzone
-        (dndDragover)="onDragover($event)"
-        (dndDrop)="onDrop($event)">
-        <app-grid-item *ngFor="let item of items" 
-                (clickOnItem)="setSelected([item])"
-                (rightClick)="handleRightClick($event)"
-                [item]="item"></app-grid-item>
+<div class="icon-grid" [ngClass]="{'big-icon': big}"
+        (contextmenu)="showGridContextMenu($event)">
+        <div *ngFor="let item of items" 
+                class="grid-item"
+                cdkDrag
+                cdkDragBoundary=".icon-grid"
+                >
+                <app-grid-item
+                        [big]="big"
+                        (clickOnItem)="setSelected([item])"
+                        (doubleClickOnItem)="selectCatalog(item)"
+                        (rightClick)="handleRightClick($event)"
+                        [item]="item"></app-grid-item>
+        </div>
+
 </div>
+
+<md-dropdown-menu #gridMenu>
+        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
+                <md-checkbox [(ngModel)]="alignItems">Выровнять по сетке</md-checkbox>
+        </div>
+        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">Сбросить</div>
+</md-dropdown-menu>

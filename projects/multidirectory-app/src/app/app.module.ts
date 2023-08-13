@@ -9,7 +9,7 @@ import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { HideControlBar } from './core/hidecontrolbar.directive';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -36,10 +36,10 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ResultCodeInterceptor } from './core/api/error-handling/result-code-interceptor';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
-import { DndModule } from 'ngx-drag-drop';
 import { GridItemComponent } from './components/catalog-content/views/icon-view/grid-item/grid-item.component';
 import { RefreshTokenInterceptor } from './core/authorization/refresh-token-interceptor';
 import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -77,15 +77,17 @@ import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-inte
   imports: [
     BrowserModule,
     BrowserAnimationsModule, 
+    DragDropModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DndModule,
     MultidirectoryUiKitModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right'})
   ],
-  providers: [{
+  providers: [
+    provideAnimations(),
+    {
       provide: 'apiAdapter',
       useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient, toastr: ToastrService) => 
               new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),

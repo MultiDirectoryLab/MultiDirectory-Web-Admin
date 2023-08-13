@@ -1,21 +1,12 @@
 <div class="grid-item"
     (click)="onClick($event)"
+    (dblclick)="onDblClick($event)"
     (contextmenu)="onRightClick($event)"
     [ngClass]="{
         'selected': item.selected
     }"
-    [dndDraggable]="itemEl"
-    [dndDisableIf]="true || draggable.disable"
-    [dndEffectAllowed]="'move'"
-    (dndStart)="onDragStart($event)"
-    (dndCopied)="onDraggableCopied($event)"
-    (dndLinked)="onDraggableLinked($event)"
-    (dndMoved)="onDraggableMoved($event)"
-    (dndCanceled)="onDragCanceled($event)"
-    (dndEnd)="onDragEnd($event)"
-    dndDragImageRef
     #itemEl
     >
-    <img class="row-icon"  [src]="item.icon" style="width: 50px; height: 50px;" />
+    <img class="row-icon"  [src]="item.icon" [ngClass]="{ 'big-icon': big }" />
     <div class="label">{{item.name}}</div>
 </div>
