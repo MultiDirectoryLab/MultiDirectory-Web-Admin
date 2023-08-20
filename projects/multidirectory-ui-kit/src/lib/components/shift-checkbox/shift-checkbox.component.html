@@ -8,7 +8,7 @@
             type="checkbox" id="checkbox" />
         <div class="slider round"></div>
     </label>
-    <div class="label" (click)="value = !checkbox.checked">
+    <div class="label" (click)="onToggle()" tabindex="0" (keypress)="onToggleKey($event)">
         <ng-content></ng-content>
     </div>
 </div>

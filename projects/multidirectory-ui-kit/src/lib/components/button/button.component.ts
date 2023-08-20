@@ -27,8 +27,14 @@ export class ButtonComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if(this.unlistenClick) {
+        if(this.unlistenClick) {    
             this.unlistenClick();
+        }
+    }
+
+    onKeydown($event: KeyboardEvent) {
+        if($event.key == 'Enter' || $event.key == ' ') {
+            this.click.next($event);
         }
     }
 }

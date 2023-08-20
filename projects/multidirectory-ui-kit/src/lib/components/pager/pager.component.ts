@@ -40,9 +40,15 @@ export class PagerComponent implements AfterViewInit {
          return this.page.size;
      }
     constructor(private cdr: ChangeDetectorRef) {}
-    ngAfterViewInit(): void {
+    ngAfterViewInit() {
+        if(this.name) {
+            const size =  Number(localStorage.getItem(`pager_${this.name}`));
+            if(!isNaN(size) && size > 0) {
+                this.page.size = size;
+                this.cdr.detectChanges();
+            }
+        }
     }
-
     onPageChanged(event: any) {
         this.page.pageNumber = event.page;
         this.updatePager();
