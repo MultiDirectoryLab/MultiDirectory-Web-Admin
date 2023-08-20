@@ -11,7 +11,7 @@ export class LdapNode extends Treenode {
     type: LdapNodeType = LdapNodeType.None;
     entry?: SearchEntry;
     icon?;
-    parent?: LdapNode;
+    override parent?: LdapNode;
     childCount?: number;
     constructor(obj: Partial<LdapNode>) {
         super({});
@@ -43,22 +43,23 @@ export class LdapLoader {
                     const root = new LdapNode({
                         name: 'Пользователи Multidirectory',
                         type: LdapNodeType.Root,
+                        expanded: true,
                         id: 'root'
                     });
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
-                    console.log(x);
                     const serverNode = new LdapNode({ 
                             name: this.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapNodeType.Server,
                             selectable: true,
                             entry: x,
+                            parent: root, 
                             id: namingContext?.vals[0] ?? ''
                         },
                     );
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
-                        new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved' }),
+                        new LdapNode({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved', parent: root }),
                         serverNode,
                     ]
                     return root;

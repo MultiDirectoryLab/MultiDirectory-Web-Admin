@@ -129,6 +129,33 @@ export class DatagridComponent implements AfterViewInit {
         this.grid.offset = this.page.pageOffset;
         this.grid.calcPageSize();
     }
+
+    onFocus($event: FocusEvent) {
+        if(this.selected.length === 0) {
+            this.select(this.rows[0]);
+        }
+    }
+
+    onKeyDown(event: KeyboardEvent) {
+        if(event.key == 'ArrowDown' || event.key == 'ArrowUp') {
+            let index = this.rows.findIndex(x => this.selected[0] == x);
+            if(event.key == 'ArrowDown') {
+                index = (index + 1) % this.rows.length;
+            }
+            if(event.key == 'ArrowUp') {
+                index -= 1;
+                if(index < 0) {
+                    index = this.rows.length - 1;
+                }
+            }
+            this.select(this.rows[index]);
+        }
+        if(event.key == 'Enter') {
+            let event = new InputEvent('');
+            event = Object.assign(event, { row: this.selected[0] })
+            this.dblclick.emit(event);
+        }
+    }
 }
 
 export interface ContextMenuEvent { 

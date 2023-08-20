@@ -1,6 +1,7 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { DropdownMenuComponent } from "./dropdown-menu.component";
 import { ButtonComponent } from "../button/button.component";
+import { DropdownContainerDirective } from "./dropdown-container.directive";
 
 const meta: Meta<DropdownMenuComponent> = {
     title: 'Components/DropdownMenu',
@@ -8,7 +9,8 @@ const meta: Meta<DropdownMenuComponent> = {
     decorators: [
         moduleMetadata({
             declarations: [
-                ButtonComponent
+                ButtonComponent,
+                DropdownContainerDirective
             ]
         })
     ],
@@ -23,12 +25,13 @@ export const Primary: Story = {
     },
     render: () => ({
         template: `
-            <md-button (click)="menu.toggle()">Open</md-button>
-            <md-dropdown-menu #menu>
-                <div class="dropdown-item">test</div>
-                <hr />
-                <div class="dropdown-item">test</div>
-            </md-dropdown-menu>
+            <div style="height: 320px;">
+                <md-dropdown-menu #menuRef>
+                    <div class="dropdown-item" tabindex=0>test</div>
+                    <div class="dropdown-item" tabindex=0>test</div>
+                </md-dropdown-menu>
+                <md-button [mdDropdownContainer]="menuRef">Open</md-button>
+            </div>
         `,
 
     })

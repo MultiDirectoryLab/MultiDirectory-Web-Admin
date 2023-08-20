@@ -28,6 +28,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
 import { TreeItemComponent } from './components/treeview/tree-item.component';
+import { PagerComponent } from './components/pager/pager.component';
   
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { TreeItemComponent } from './components/treeview/tree-item.component';
     RerenderDirective,
     RadioGroupComponent,
     SpinnerComponent,
-    SpinnerHostDirective
+    SpinnerHostDirective,
+    PagerComponent
   ],
   imports: [
     CommonModule,
@@ -84,6 +86,7 @@ import { TreeItemComponent } from './components/treeview/tree-item.component';
     MdFormComponent,
     SpinnerComponent,
     SpinnerHostDirective,
+    PagerComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

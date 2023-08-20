@@ -3,14 +3,15 @@
         <label class="bold">Папка: {{selectedCatalog?.name ?? ''}}</label>
     </div>
     <div class="control-panel">
-        <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button">
+        <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
             <img [src]="'assets/search.svg'" />
         </md-plane-button>
         <md-plane-button class="settings control-button" 
             [mdDropdownContainer]="helpMenu">
             <img [src]="'assets/settings.svg'" />
         </md-plane-button>
-        <md-plane-button class="settings control-button">
+        <md-plane-button class="settings control-button"
+            (click)="showHelp()">
             <img [src]="'assets/help.svg'" />
         </md-plane-button>
         <md-plane-button class="settings control-button">
@@ -25,19 +26,34 @@
 <md-dropdown-menu #helpMenu>
     <div class="dropdown-item disabled">Добавить/удалить столбцы...</div>
     <div class="dropdown-item">
-        <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">Скрыть дерево</md-shift-checkbox>
+        <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">
+            <label>Скрыть дерево</label>
+            <label>Ctrl-H</label>
+        </md-shift-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">Маленькие иконки</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">
+            <label>Маленькие иконки</label>
+            <label>F1</label>
+        </md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">Большие иконки</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">
+            <label>Большие иконки</label>
+            <label>F2</label>
+        </md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">Список</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">
+            <label>Список</label>
+            <label>F3</label>       
+        </md-radiobutton>
     </div>
     <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">Детали</md-radiobutton>
+        <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">
+            <label>Детали</label>
+            <label>F4</label>     
+        </md-radiobutton>
     </div>
     <div class="dropdown-item disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>
     <div class="dropdown-item disabled">Дополнительные функции...</div>
