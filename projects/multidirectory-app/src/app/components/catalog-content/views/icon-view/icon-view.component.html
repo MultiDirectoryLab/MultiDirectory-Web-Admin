@@ -1,7 +1,9 @@
 <div class="icon-grid-container">
         <div class="icon-grid" [ngClass]="{'big-icon': big}"
                 (contextmenu)="showGridContextMenu($event)" #grid
-                (click)="clickOutside($event)">
+                (click)="clickOutside($event)"
+                (focus)="onGetFocus()"
+                tabindex="0">
                 <div *ngFor="let item of items" 
                         class="grid-item"
                         cdkDrag

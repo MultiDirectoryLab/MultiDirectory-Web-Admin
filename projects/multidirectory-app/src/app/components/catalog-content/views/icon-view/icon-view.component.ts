@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
@@ -112,4 +112,41 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     clickOutside(event: MouseEvent) {
         this.items.forEach(x => x.selected = false);
     } 
+
+    onGetFocus() {
+        console.log('on get focus');
+        const selected = this.getSelected();
+        if(selected.length == 0) {
+            this.setSelected([this.items[0]]);
+        }
+    }
+
+    @HostListener('keydown', ['$event']) 
+    handleKeyEvent(event: KeyboardEvent) {
+        if(event.key == 'ArrowDown' || event.key == 'ArrowRight'
+            || event.key == 'ArrowLeft' || event.key == 'ArrowUp') {
+            const selectedItems = this.getSelected();
+            if(selectedItems.length == 0) {
+                this.setSelected([this.items[0]]);
+                return;
+            }
+            let currentIndex = this.items.findIndex( x => x.id == selectedItems[0].id);
+            if(event.key == 'ArrowDown' || event.key == 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % this.items.length;
+            } 
+            
+            if(event.key == 'ArrowLeft' || event.key == 'ArrowUp') {
+                currentIndex = (currentIndex - 1) < 0 ? (this.items.length - 1) : (currentIndex - 1);
+            }
+            this.setSelected([this.items[currentIndex]]);
+        }
+        if(event.key == 'Enter') {
+            const selectedItems = this.getSelected();
+            if(selectedItems.length == 0) {
+                this.setSelected([this.items[0]]);
+                return;
+            }
+            this.selectCatalog(selectedItems[0]);
+        }
+    }
 }

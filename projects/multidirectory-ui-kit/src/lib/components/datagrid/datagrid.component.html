@@ -5,6 +5,7 @@
     [headerHeight]="36"
     rowHeight="auto"
     [rows]="rows"
+    tabindex="0"
     [columns]="columns"
     [selected]="selected"
     [selectionType]="SelectionType.multi"
@@ -18,6 +19,8 @@
     [messages]="{
       emptyMessage: 'Нет данных для отображения'
     }"
+    (focus)="onFocus($event)"
+    (keydown)="onKeyDown($event)"
     #datagrid
   >
   <ngx-datatable-footer>
