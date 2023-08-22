@@ -17,7 +17,6 @@ import { StaleTokenInterceptor } from './core/authorization/stale-token-intercep
 import { SetupComponent } from './components/setup/setup.component';
 import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
 import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
-import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
 import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
@@ -38,6 +37,7 @@ import { HotkeyModule } from 'angular2-hotkeys';
 import { EntityAttributesComponent } from './components/entity-properties/entity-attributes/entity-attributes.component';
 import { UserCreateModule } from './components/forms/user-create/user-create.module';
 import { ValidatorsModule } from './components/forms/validators/validators.module';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
   declarations: [
