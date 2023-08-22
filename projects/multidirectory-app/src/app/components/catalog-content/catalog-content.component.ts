@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
-import { DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { Subject, concat, forkJoin, from, map, switchMap, take, takeUntil, tap } from "rxjs";
 import { LdapNode } from "../../core/ldap/ldap-loader";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { EntityPropertiesComponent } from "../entity-properties/entity-properties.component";
 import { GroupCreateComponent } from "../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
@@ -14,6 +12,8 @@ import { ViewMode } from "./view-modes";
 import { ContentViewService } from "../../services/content-view.service";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
+import { EntityAttributesComponent } from "../entity-properties/entity-attributes/entity-attributes.component";
+import { DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-catalog-content',
@@ -26,7 +26,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
-    @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
+    @ViewChild('propData', { static: true }) propertiesData?: EntityAttributesComponent;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapNode =  new LdapNode({ id: '' });

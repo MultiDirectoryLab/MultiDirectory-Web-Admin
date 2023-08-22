@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { Component } from "@angular/core";
 import { ColumnMode, ContextmenuType, DatatableComponent, SelectionType, TableColumn } from "@swimlane/ngx-datatable";
-import { DropdownOption } from "projects/multidirectory-ui-kit/src/public-api";
+import { DropdownOption } from "../dropdown/dropdown.component";
 
 export class Page {
     totalElements: number = 0;

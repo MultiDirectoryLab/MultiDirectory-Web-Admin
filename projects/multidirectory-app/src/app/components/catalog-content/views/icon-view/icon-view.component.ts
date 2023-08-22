@@ -47,7 +47,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     }
     override setSelected(selected: LdapNode[]): void {
         this.items.forEach(i => i.selected = false);
-        selected.forEach(i => i.selected = true);
+        selected.filter(i => !!i).forEach(i => i.selected = true);
         this.cdr.detectChanges();
     }
 
@@ -114,7 +114,6 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     } 
 
     onGetFocus() {
-        console.log('on get focus');
         const selected = this.getSelected();
         if(selected.length == 0) {
             this.setSelected([this.items[0]]);

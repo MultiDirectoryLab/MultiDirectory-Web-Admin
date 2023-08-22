@@ -12,7 +12,7 @@ import { AbstractControl } from "@angular/forms";
     templateUrl: './general-info.component.html'
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
-    @Input() selectedNode!: LdapNode;
+    @Input() selectedNode?: LdapNode;
     private _setupRequest!: UserCreateRequest;
     @Input() set setupRequest(request: UserCreateRequest) {
         this._setupRequest = request;

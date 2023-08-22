@@ -11,7 +11,7 @@ import { Subject, takeUntil } from "rxjs";
     templateUrl: './password-settings.component.html',
 })
 export class UserCreatePasswordSettingsComponent {
-    @Input() selectedNode!: LdapNode; 
+    @Input() selectedNode?: LdapNode; 
     private _setupRequest!: UserCreateRequest;
     @Input() set setupRequest(request: UserCreateRequest) {
         this._setupRequest = request;

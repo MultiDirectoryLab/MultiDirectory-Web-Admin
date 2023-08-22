@@ -18,12 +18,6 @@ import { SetupComponent } from './components/setup/setup.component';
 import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
 import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
 import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
-import { PasswordMatchValidatorDirective } from './components/forms/validators/passwordmatch.directive';
-import { DomainFormatValidatorDirective } from './components/forms/validators/domainformat.directive';
-import { UserCreateGeneralInfoComponent } from './components/forms/user-create/general-info/general-info.component';
-import { UserCreatePasswordSettingsComponent } from './components/forms/user-create/password-settings/password-settings.component';
-import { UserCreateComponent } from './components/forms/user-create/user-create.component';
-import { UserCreateSummaryComponent } from './components/forms/user-create/summary/summary.component';
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
 import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
@@ -41,6 +35,9 @@ import { RefreshTokenInterceptor } from './core/authorization/refresh-token-inte
 import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { EntityAttributesComponent } from './components/entity-properties/entity-attributes/entity-attributes.component';
+import { UserCreateModule } from './components/forms/user-create/user-create.module';
+import { ValidatorsModule } from './components/forms/validators/validators.module';
 
 @NgModule({
   declarations: [
@@ -57,16 +54,10 @@ import { HotkeyModule } from 'angular2-hotkeys';
     GridItemComponent,
     SetupComponent,
     EntityPropertiesComponent,
+    EntityAttributesComponent,
     AdminSettingsComponent,
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
-    PasswordMatchValidatorDirective,
-    DomainFormatValidatorDirective,
-
-    UserCreateComponent,
-    UserCreateGeneralInfoComponent,
-    UserCreatePasswordSettingsComponent,
-    UserCreateSummaryComponent,
 
     OuCreateComponent,
 
@@ -89,7 +80,9 @@ import { HotkeyModule } from 'angular2-hotkeys';
       cheatSheetCloseEsc: true,
       cheatSheetCloseEscDescription: 'Скрыть меню помощи',
       cheatSheetDescription: 'Показать/скрыть меню помощи'
-    })
+    }),
+    ValidatorsModule,
+    UserCreateModule
   ],
   providers: [
     provideAnimations(),
