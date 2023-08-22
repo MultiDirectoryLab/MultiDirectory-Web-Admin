@@ -15,7 +15,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
-  selectedNode?: LdapNode;
+  catalog?: LdapNode;
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserModal') createUserModal?: MdModalComponent;
   @ViewChild('createUserStepper') stepper!: StepperComponent;
@@ -32,7 +32,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
       this.navigation.nodeSelected
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(node => {
-          this.selectedNode = node.parent;
+          this.catalog = node.parent;
         });
       
       this.setup.onStepValid.pipe(
@@ -56,7 +56,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
       onFinish() {
         this.createUserModal?.showSpinner();
         this.api.create(new CreateEntryRequest({
-          entry: `cn=${this.setupRequest.upnLogin},` + this.selectedNode?.id,
+          entry: `cn=${this.setupRequest.upnLogin},` + this.catalog?.id,
           attributes: [new LdapPartialAttribute({
             type: 'objectClass',
             vals: ['user',
