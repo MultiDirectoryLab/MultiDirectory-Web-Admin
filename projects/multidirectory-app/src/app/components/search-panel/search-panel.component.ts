@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import { SpinnerComponent } from "multidirectory-ui-kit";
 import { catchError, throwError } from "rxjs";
-import { LdapNode } from "../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../core/ldap/ldap-loader";
 import { SearchQueries } from "../../core/ldap/search";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SearchResultComponent } from "./seaarch-forms/search-result/search-result.component";
@@ -17,10 +17,10 @@ import { SearchResult } from "../../core/search/search-result";
     styleUrls: ['./search-panel.component.scss']
 })
 export class SearchPanelComponent implements AfterViewInit {
-    _ldapRoots?: LdapNode[];
+    _ldapRoots: LdapEntity[] | null = null;
 
-    get ldapRoots(): LdapNode[] | undefined { return this._ldapRoots; }
-    @Input() set ldapRoots(ldapRoots: LdapNode[] | undefined) {
+    get ldapRoots(): LdapEntity[] | null { return this._ldapRoots; }
+    @Input() set ldapRoots(ldapRoots: LdapEntity[] | null) {
         this._ldapRoots = ldapRoots;
         this._ldapRoots?.forEach(v => this.searchSources.push({
             title: v.name!, 

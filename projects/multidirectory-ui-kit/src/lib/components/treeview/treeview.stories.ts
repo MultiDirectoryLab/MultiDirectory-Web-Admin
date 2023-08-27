@@ -1,13 +1,24 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { Treenode, TreeviewComponent } from "./treeview.component"
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
+import { TreeviewComponent } from "./treeview.component"
 import { of } from 'rxjs';
-
-export default {
-    component: TreeviewComponent,
-    title: 'Components/Treeview'
-} as Meta<TreeviewComponent>;
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TreeItemComponent } from './tree-item.component';
+import { Treenode } from './model/treenode';
 
 
+const meta: Meta<TreeviewComponent> = {
+  title: 'Components/Treeview',
+  component: TreeviewComponent,
+  tags: ['autodocs'],
+  decorators: [
+      moduleMetadata({
+          imports: [BrowserAnimationsModule],
+          declarations: [TreeviewComponent, TreeItemComponent]
+      }),
+  ]
+  
+}
+export default meta;
 export const Primary: StoryObj<TreeviewComponent> = {
     args: {
       tree: [new Treenode({

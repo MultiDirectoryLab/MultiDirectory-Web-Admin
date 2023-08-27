@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { LdapNode } from "../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
@@ -16,12 +16,12 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('createGroupModal') createGroupModal?: MdModalComponent;
     @ViewChild('groupForm', { static: true }) form!: MdFormComponent;
 
-    _selectedNode?: LdapNode;
-    @Input() set selectedNode(node: LdapNode | undefined) {
+    _selectedNode: LdapEntity | null = null;
+    @Input() set selectedNode(node: LdapEntity | null) {
         this._selectedNode = node;
         this.cdr.detectChanges();
     }
-    get selectedNode(): LdapNode | undefined {
+    get selectedNode(): LdapEntity | null {
         return this._selectedNode;
     }
 

@@ -28,14 +28,10 @@
         </span>
     </md-button>
 </div>
-<md-modal #properites >
-    <div class="app-modal-header">
-        Свойства
-    </div> 
-    <app-entity-properties #propData></app-entity-properties>
-</md-modal>
 
-<div class="w-100 h-100">
+<app-entity-properties #properties></app-entity-properties>
+
+<div class="w-100 h-100" *ngIf="selectedCatalog">
     <ng-container [ngSwitch]="currentView">
         <app-table-view
             *ngSwitchCase="ViewMode.Table"
@@ -63,7 +59,9 @@
         ></app-icon-view>
     </ng-container>
 </div>
-
+<div class="w-100 h-100 flex-centered" *ngIf="!selectedCatalog">
+    <img _ngcontent-ng-c1201517451="" src="/assets/logo.svg" class="logo-placeholder">
+</div>
 <md-dropdown-menu #helpMenu>
     <div class="dropdown-item">Помощь</div>
 </md-dropdown-menu> 
@@ -81,8 +79,6 @@
     <div class="dropdown-item disabled">mslmaging-PSP</div>
     <div class="dropdown-item disabled">MSMQ Queue Alias</div>
 </md-dropdown-menu> 
-
-
 
 <app-user-create #createUserModal (onCreate)="loadData()"></app-user-create>
 <app-ou-create #createOuModal (onCreate)="loadData()"></app-ou-create>

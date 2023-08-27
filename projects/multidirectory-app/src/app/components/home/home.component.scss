@@ -42,9 +42,8 @@
 }
 
 
-:host ::ng-deep .selected .tree-icon {
+:host ::ng-deep .selected:not(.focused) .tree-icon {
     filter:  brightness(0%) invert(100%);
-    
 }
 
 .more-container {

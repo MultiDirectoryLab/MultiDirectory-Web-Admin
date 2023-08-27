@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
+import { MdModalComponent } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-entity-properties',
@@ -6,4 +7,9 @@ import { Component } from "@angular/core";
     templateUrl: './entity-properties.component.html'
 })
 export class EntityPropertiesComponent {
+    @ViewChild('properties', { static: true }) propertiesModal?: MdModalComponent;
+
+    open() {
+        this.propertiesModal!.open();
+    }
 }

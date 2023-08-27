@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
-import { LdapNode } from "../../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../../core/ldap/ldap-loader";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { Subject, takeUntil } from "rxjs";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
@@ -12,7 +12,7 @@ import { MdFormComponent } from "multidirectory-ui-kit";
     templateUrl: './general-info.component.html'
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
-    @Input() selectedNode?: LdapNode;
+    @Input() selectedNode: LdapEntity | null = null;
     private _setupRequest!: UserCreateRequest;
     @Input() set setupRequest(request: UserCreateRequest) {
         this._setupRequest = request;

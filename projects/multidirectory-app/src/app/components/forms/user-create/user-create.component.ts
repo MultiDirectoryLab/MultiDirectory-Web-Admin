@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
-import { LdapNode } from "../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { UserCreateService } from "../../../services/user-create.service";
@@ -15,7 +15,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
-  catalog?: LdapNode;
+  catalog: LdapEntity | null = null;
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserModal') createUserModal?: MdModalComponent;
   @ViewChild('createUserStepper') stepper!: StepperComponent;
@@ -29,10 +29,10 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {
-      this.navigation.nodeSelected
+      this.navigation.selectedCatalogRx
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(node => {
-          this.catalog = node.parent;
+          this.catalog = node;
         });
       
       this.setup.onStepValid.pipe(

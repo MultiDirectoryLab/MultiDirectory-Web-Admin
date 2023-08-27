@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
-import { LdapNode } from "../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
@@ -12,7 +12,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
     styleUrls: ['./ou-create.component.scss']
 })
 export class OuCreateComponent implements AfterViewInit, OnDestroy {
-    selectedNode?: LdapNode;
+    selectedNode: LdapEntity | null = null;
     @Output() onCreate = new EventEmitter<void>();
     @ViewChild('createOuModal') createOuModal?: MdModalComponent;
     @ViewChild('form') form!: MdFormComponent;
@@ -33,10 +33,10 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     
     ngAfterViewInit(): void {
         this.formValid = this.form.valid;
-        this.navigation.nodeSelected.pipe(
+        this.navigation.selectedCatalogRx.pipe(
             takeUntil(this.unsubscribe)
-        ).subscribe(node => {
-            this.selectedNode = node.parent;
+        ).subscribe(catalog => {
+            this.selectedNode = catalog;
         });
 
         this.form.onValidChanges.pipe(

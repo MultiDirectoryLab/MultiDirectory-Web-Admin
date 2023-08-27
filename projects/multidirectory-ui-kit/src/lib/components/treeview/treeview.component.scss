@@ -51,4 +51,8 @@
         background-color: global.$md-dark-blue-3;
         color: global.$md-white;
     }
+    &.focused {
+        background-color: global.$md-neutral-150;
+        color: black;
+    }
 }

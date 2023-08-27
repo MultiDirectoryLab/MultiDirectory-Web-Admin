@@ -1,6 +1,6 @@
 import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
-import { LdapNode } from "./ldap-loader";
+import { LdapEntity } from "./ldap-loader";
 
 export const SearchQueries = {
   RootDse: {
@@ -83,7 +83,7 @@ export const SearchQueries = {
     },
 
 
-    findByName(name: string, data: LdapNode): SearchRequest {
+    findByName(name: string, data: LdapEntity): SearchRequest {
       return new SearchRequest({
           "base_object": data.entry?.id,
           "scope": 2,

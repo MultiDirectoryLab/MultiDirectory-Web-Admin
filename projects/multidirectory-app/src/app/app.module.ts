@@ -15,7 +15,6 @@ import { CatalogContentComponent } from './components/catalog-content/catalog-co
 import { HeaderComponent } from './components/header/header.component';
 import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
 import { SetupComponent } from './components/setup/setup.component';
-import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
 import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
@@ -34,10 +33,11 @@ import { RefreshTokenInterceptor } from './core/authorization/refresh-token-inte
 import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HotkeyModule } from 'angular2-hotkeys';
-import { EntityAttributesComponent } from './components/entity-properties/entity-attributes/entity-attributes.component';
 import { UserCreateModule } from './components/forms/user-create/user-create.module';
 import { ValidatorsModule } from './components/forms/validators/validators.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { EntityPropertiesModule } from './components/entity-properties/entity-properties.module';
+import { AuthorizationModule } from './core/authorization/authorization.module';
 
 @NgModule({
   declarations: [
@@ -46,15 +46,12 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     HideControlBar,
     HomeComponent,
     HeaderComponent,
-
     NavigationComponent,
     CatalogContentComponent,
     TableViewComponent,
     IconViewComponent,
     GridItemComponent,
     SetupComponent,
-    EntityPropertiesComponent,
-    EntityAttributesComponent,
     AdminSettingsComponent,
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
@@ -81,8 +78,10 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
       cheatSheetCloseEscDescription: 'Скрыть меню помощи',
       cheatSheetDescription: 'Показать/скрыть меню помощи'
     }),
+    AuthorizationModule,
     ValidatorsModule,
-    UserCreateModule
+    UserCreateModule,
+    EntityPropertiesModule,
   ],
   providers: [
     provideAnimations(),
@@ -91,31 +90,11 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
       useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient, toastr: ToastrService) => 
               new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
       deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService]
-  },
-  {
-    provide: ErrorHandler,
-    useClass: GlobalErrorHandler
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: EnsureBearerInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: StaleTokenInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: RefreshTokenInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ResultCodeInterceptor,
-    multi: true,
-  }],
-  bootstrap: [AppComponent]
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

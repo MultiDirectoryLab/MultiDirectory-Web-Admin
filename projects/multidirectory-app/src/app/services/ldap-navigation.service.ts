@@ -1,27 +1,47 @@
-import { EventEmitter, Injectable, OnInit } from "@angular/core";
-import { LdapNode, LdapLoader, NodeSelection } from "../core/ldap/ldap-loader";
-import { Page, Treenode } from "multidirectory-ui-kit";
-import { BehaviorSubject, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
+import { Injectable } from "@angular/core";
+import { Page } from "multidirectory-ui-kit";
+import { BehaviorSubject, Observable, Subject, lastValueFrom, take } from "rxjs";
+import { LdapEntity, LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LdapNavigationService {
-    private _ldapRootRx = new BehaviorSubject<LdapNode[]>([]);
-    get ldapRootRx(): Observable<LdapNode[]> {
+    private _ldapRootRx = new BehaviorSubject<LdapEntity[]>([]);
+    get ldapRootRx(): Observable<LdapEntity[]> {
         return this._ldapRootRx.asObservable();
     }
-    get ldapRoot(): LdapNode[] {
+    get ldapRoot(): LdapEntity[] {
         return this._ldapRootRx.value;
     }
 
-    private _nodeSelected = new Subject<NodeSelection>();
-    get nodeSelected(): Observable<NodeSelection> {
-        return this._nodeSelected.asObservable();
+    private _selectedCatalogRx = new Subject<LdapEntity | null>();
+    get selectedCatalogRx(): Observable<LdapEntity | null> {
+        return this._selectedCatalogRx.asObservable();
+    }
+    private _selectedCatalog: LdapEntity | null = null;
+    get selectedCatalog(): LdapEntity | null {
+        return this._selectedCatalog;
     }
 
-    page = new Page();
+    private _selectedEntityRx = new Subject<LdapEntity | null>();
+    get selectedEntityRx(): Observable<LdapEntity | null> {
+        return this._selectedEntityRx.asObservable();
+    }
+    private _selectedEntity: LdapEntity | null = null;
+    get selectedEntity(): LdapEntity | null {
+        return this._selectedEntity;
+    }
+
+    private _pageRx = new Subject<Page>();
+    get pageRx(): Observable<Page> {
+        return this._pageRx.asObservable();
+    }
+    private _page = new Page;
+    get page(): Page {
+        return this._page;
+    }
 
     constructor(private ldap: LdapLoader) {}
     
@@ -77,7 +97,7 @@ export class LdapNavigationService {
             
             found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
             if(!found && dnParts.length - i == 1) {
-                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapNode);
+                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntity);
                 contentRx.pipe(take(1)).subscribe(x => {
                     const children = x.map(y => {
                         return {
@@ -85,19 +105,19 @@ export class LdapNavigationService {
                             dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const ldapNode = <LdapNode>currentNode!;
+                    const ldapNode = <LdapEntity>currentNode!;
                     ldapNode.childCount = x.length;
                     const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
                     if(foundIndex > -1) {
-                        this._nodeSelected.next({
-                            parent: ldapNode, 
-                            node: children[foundIndex].node,
-                            page: new Page({
+                        this.setCatalog(
+                            ldapNode, 
+                            new Page({
                                 pageNumber: Math.floor(foundIndex / this.page.size) + 1,
                                 totalElements: x.length,
                                 size: this.page.size
-                            })
-                        });
+                            }),
+                            children[foundIndex].node
+                        );
                     }
                 })
                 return;
@@ -106,19 +126,38 @@ export class LdapNavigationService {
             }
         }
         if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
-            this._nodeSelected.next({ parent: <LdapNode>currentNode, node: undefined });
+            this.setCatalog(<LdapEntity>currentNode, null, null);
         }
     }
 
-    setCatalog(catalog: LdapNode) {
-        this._nodeSelected.next({ 
-            parent: catalog, 
-            node: undefined,
-            page: this.page 
-        });
+    setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity | null = null) {
+        if(!page) {
+            page = Object.assign({}, this.page);
+            page.pageNumber = 1;
+        } 
+        this._page = page;
+        this._page.totalElements = (this.selectedCatalog?.childCount ?? 0) ?? 0;
+        this._selectedEntity = selection;
+        this._selectedCatalog = catalog;
+        this._selectedCatalogRx.next(this._selectedCatalog);
     }
 
-    getContent(catalog: LdapNode, page: Page): Observable<LdapNode[]> {
+    setPage(page: Page | null = null, selection: LdapEntity | null = null) {
+        if(!page) {
+            page = new Page(Object.assign({}, this.page));
+            page.pageNumber = 1;
+        }
+        this._page = page;
+        this._selectedEntity = selection;
+        this._pageRx.next(this._page);
+    }
+
+    setSelection(selection: LdapEntity | null = null) {
+        this._selectedEntity = selection;
+        this._selectedEntityRx.next(this._selectedEntity);
+    }
+
+    getContent(catalog: LdapEntity, page: Page): Observable<LdapEntity[]> {
         return this.ldap.getContent(catalog.id, catalog, page);
     }
 }

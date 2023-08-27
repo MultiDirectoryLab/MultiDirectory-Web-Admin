@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, O
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { DatagridComponent, DropdownMenuComponent, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
-import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject } from "rxjs";
 import { TableRow } from "./table-row";
@@ -46,7 +46,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
     }
 
-    override setContent(nodes: LdapNode[], selectedNodes: LdapNode[] = []) {
+    override setContent(nodes: LdapEntity[], selectedNodes: LdapEntity[] = []) {
         this.rows = nodes.map(node => <TableRow>{
             icon: node.icon ?? '',
             name: node.name ?? '',
@@ -68,10 +68,10 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         this.cdr.detectChanges();
     }
 
-    override getSelected(): LdapNode[] {
+    override getSelected(): LdapEntity[] {
         return this.grid.selected.map(x => x.entry);
     }
-    override setSelected(selected: LdapNode[]) {
+    override setSelected(selected: LdapEntity[]) {
         this.grid.selected = this.rows.filter( x => selected.findIndex(y => y.id == x.entry.id) > -1);
         this.cdr.detectChanges();
     }
