@@ -39,8 +39,10 @@ export class DatagridComponent implements AfterViewInit {
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
     @Output() dblclick = new EventEmitter<InputEvent>();
+    @Output() selectionChanged = new EventEmitter<any>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
     @Output() pageChanged = new EventEmitter<Page>();
+    @Output() resize = new EventEmitter<void>();
     _selected: any[] = [];
     get selected(): any[] {
         return this._selected;
@@ -92,6 +94,8 @@ export class DatagridComponent implements AfterViewInit {
     onActivate(event: any) {
         if (event.type === 'dblclick') {
             this.dblclick.emit(event);
+        } else if (event.type === 'click') {
+            this.selectionChanged.emit(this.selected);
         }
         this.cdr.detectChanges();
     }
@@ -111,6 +115,10 @@ export class DatagridComponent implements AfterViewInit {
         this.init = false;
         this.cdr.detectChanges();
         this.init = true;
+    }
+
+    onTableResize() {
+        this.resize.emit();
     }
 
     onPageChange(pageInfo: { offset: number, pageSize: number, limit: number, count: number }) {

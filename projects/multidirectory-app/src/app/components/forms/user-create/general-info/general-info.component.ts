@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
-import { LdapEntity } from "../../../../core/ldap/ldap-loader";
-import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { Subject, takeUntil } from "rxjs";
-import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { AbstractControl } from "@angular/forms";
 import { MdFormComponent } from "multidirectory-ui-kit";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
+import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 
 @Component({
     selector: 'app-user-create-general-info', 

@@ -36,7 +36,7 @@ import { HotkeyModule } from 'angular2-hotkeys';
 import { UserCreateModule } from './components/forms/user-create/user-create.module';
 import { ValidatorsModule } from './components/forms/validators/validators.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { EntityPropertiesModule } from './components/entity-properties/entity-properties.module';
+import { PropertiesModule } from './components/entity-properties/properties.module';
 import { AuthorizationModule } from './core/authorization/authorization.module';
 
 @NgModule({
@@ -81,7 +81,7 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
     AuthorizationModule,
     ValidatorsModule,
     UserCreateModule,
-    EntityPropertiesModule,
+    PropertiesModule,
   ],
   providers: [
     provideAnimations(),

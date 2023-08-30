@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewChildren } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
-import { Subject, takeUntil } from "rxjs";
+import { Observable, Subject, takeUntil } from "rxjs";
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
 
@@ -28,13 +28,18 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    open() {
+    open(): Observable<boolean> | null {
         this.contentDisplay = true;
         this.modalRoot?.show();
         this.cdr.detectChanges();
+        return this.modalRoot?.openModal.asObservable() ?? null;
+    }
+
+    onModalOpen() {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
+        this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
     }
 

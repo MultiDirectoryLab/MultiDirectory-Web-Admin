@@ -1,12 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, noop, takeUntil } from "rxjs";
-import { LdapEntity } from "../../core/ldap/ldap-loader";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { ContentViewService } from "../../services/content-view.service";
 import { ViewMode } from "../catalog-content/view-modes";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
-import { DropdownMenuComponent, PlaneButtonComponent } from "multidirectory-ui-kit";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-header',

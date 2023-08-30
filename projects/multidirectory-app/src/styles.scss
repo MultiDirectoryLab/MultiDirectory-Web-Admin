@@ -43,3 +43,6 @@
 .cfp-hotkeys-close {
     border: none;
 }
+:focus-visible {
+    outline: global.$md-dark-blue-3 auto 2px;;
+}

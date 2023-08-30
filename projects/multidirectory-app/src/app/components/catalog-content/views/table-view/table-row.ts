@@ -1,4 +1,4 @@
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
 export interface TableRow {
     icon?: string,

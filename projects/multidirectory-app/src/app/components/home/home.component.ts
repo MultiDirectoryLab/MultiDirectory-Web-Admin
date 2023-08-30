@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewC
 import { Router } from "@angular/router";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
-import { LdapEntity } from "../../core/ldap/ldap-loader";
 import { TreeviewComponent } from "multidirectory-ui-kit";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, take, takeUntil } from "rxjs";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-home',

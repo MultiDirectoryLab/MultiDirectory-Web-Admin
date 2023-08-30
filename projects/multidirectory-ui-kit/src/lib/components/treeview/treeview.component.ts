@@ -138,7 +138,7 @@ export class TreeviewComponent implements OnInit {
                 this.focus(sibling);
             }
         } 
-        if(event.key == 'ArrowRight') {
+        if(event.key == 'ArrowRight' || event.key == 'Enter') {
             // expand + child 
             let nextNode = this._nodeFocused ?? null;
             if(nextNode) {

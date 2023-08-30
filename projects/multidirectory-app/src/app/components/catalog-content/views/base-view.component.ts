@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
-import { LdapEntity } from "../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
 
 export interface RightClickEvent {
     selected: LdapEntity[],
@@ -27,8 +27,12 @@ export abstract class BaseViewComponent {
         if(selected.length == 0) {
             this.setSelected([ event.content?.entry ]);
         }
+        if(event instanceof PointerEvent) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.onRightClick.emit({
-            pointerEvent: event.event,
+            pointerEvent: (event instanceof PointerEvent)? event : event.event,
             selected: this.getSelected() ?? []
         });
     }

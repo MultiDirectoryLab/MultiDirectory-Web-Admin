@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, forwardRef } from "@angular/core";
 import { MdFormComponent } from "multidirectory-ui-kit";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { Subject, takeUntil } from "rxjs";

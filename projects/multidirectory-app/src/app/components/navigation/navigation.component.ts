@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { LdapEntity } from "../../core/ldap/ldap-loader";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { Subject, takeUntil } from "rxjs";
 import { Page, TreeviewComponent } from "multidirectory-ui-kit";
-
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-navigation',

@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
-import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { UserCreateService } from "../../../services/user-create.service";
@@ -8,6 +7,7 @@ import { MultidirectoryApiService } from "../../../services/multidirectory-api.s
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
 import { ToastrService } from "ngx-toastr";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
 
 @Component({
   selector: 'app-user-create',

@@ -1,6 +1,6 @@
 import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
-import { LdapEntity } from "./ldap-loader";
+import { LdapEntity } from "./ldap-entity";
 
 export const SearchQueries = {
   RootDse: {

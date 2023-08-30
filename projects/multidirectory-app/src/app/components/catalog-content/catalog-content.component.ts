@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, combineLatest, concat, forkJoin, from, map, merge, switchMap, take, takeUntil, tap, zip } from "rxjs";
-import { LdapEntity } from "../../core/ldap/ldap-loader";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
@@ -13,7 +12,8 @@ import { ContentViewService } from "../../services/content-view.service";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
-import { EntityPropertiesComponent } from "../entity-properties/entity-properties.component";
+import { EntityPropertiesComponent } from "../entity-properties/properties.component";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-catalog-content',
@@ -68,7 +68,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                     this.cdr.detectChanges();
                     return EMPTY;
                 }
-                this.selectedRows = this.navigation.selectedEntity ? [ this.navigation.selectedEntity ] : [];
+                this.selectedRows = this.navigation.selectedEntity ? this.navigation.selectedEntity : [];
                 return this.navigation.getContent(this.selectedCatalog, this.navigation.page);
             }),
         ).subscribe(x => {

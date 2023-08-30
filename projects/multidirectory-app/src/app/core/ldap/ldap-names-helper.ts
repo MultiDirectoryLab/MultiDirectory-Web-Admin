@@ -1,4 +1,4 @@
-import { DnPart } from "./ldap-loader";
+import { DnPart } from "./distinguished-name";
 
 export class LdapNamesHelper {
     static getDnParts(dn: string): DnPart[] {

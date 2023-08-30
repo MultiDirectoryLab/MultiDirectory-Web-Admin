@@ -2,11 +2,11 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, O
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { DatagridComponent, DropdownMenuComponent, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject } from "rxjs";
 import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-table-view',
@@ -73,9 +73,12 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     }
     override setSelected(selected: LdapEntity[]) {
         this.grid.selected = this.rows.filter( x => selected.findIndex(y => y.id == x.entry.id) > -1);
+        this.navigation.setSelection(selected);
         this.cdr.detectChanges();
     }
-
+    onSingleClick(event: any) {
+        this.navigation.setSelection(event.map((x: TableRow) => x.entry));
+    }
     onDoubleClick(event: any) {
         this.navigation.page.pageNumber = 1;
         if(event?.row?.name == '...') {

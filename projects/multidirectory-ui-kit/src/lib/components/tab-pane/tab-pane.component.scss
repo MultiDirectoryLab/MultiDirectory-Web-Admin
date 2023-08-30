@@ -1,0 +1,31 @@
+@use '../../styles/global';
+
+.tab-header {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0px;
+    user-select: none;
+    .tab {
+        padding: 4px 8px;
+        border: 1px solid lightgrey;
+        border-right: none;
+        &.selected {
+            background-color: global.$md-white-blue-2;
+        }
+        & * {
+            user-select: none;
+        }
+    }
+    
+    .tab:hover {
+        background-color: global.$md-neutral-150;
+    }
+
+    md-tab:last-child  {
+        .tab {
+            border-right: 1px solid lightgrey;
+        }
+
+        
+    }
+}

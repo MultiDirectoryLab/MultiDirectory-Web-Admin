@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
 import { ToastrService } from "ngx-toastr";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-group-create',

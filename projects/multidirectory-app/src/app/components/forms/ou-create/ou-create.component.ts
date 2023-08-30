@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
-import { LdapEntity } from "../../../core/ldap/ldap-loader";
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
  
 @Component({
     selector: 'app-ou-create',

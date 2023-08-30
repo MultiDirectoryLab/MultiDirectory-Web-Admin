@@ -1,19 +1,19 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { DatagridComponent } from "multidirectory-ui-kit";
-import { Subject, takeUntil, tap } from "rxjs";
-import { SearchQueries } from "../../../core/ldap/search";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from "@angular/core";
+import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
+import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
+import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { DatagridComponent } from "projects/multidirectory-ui-kit/src/public-api";
+import { Subject, tap } from "rxjs";
 
 @Component({
     selector: 'app-entity-attributes',
-    styleUrls: ['./entity-attributes.component.scss'],
-    templateUrl: 'entity-attributes.component.html'
+    templateUrl: './entity-attributes.component.html'
 })
-export class EntityAttributesComponent implements OnInit, OnDestroy {
+export class EntityAttributesComponent implements AfterViewInit {
+    @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
+    @Output() dataLoad = new EventEmitter();
     unsubscribe = new Subject<boolean>();
-    @ViewChild('propGrid', { static: true }) propGrid!: DatagridComponent;
-
+     
     properties?: any[];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },
@@ -25,18 +25,20 @@ export class EntityAttributesComponent implements OnInit, OnDestroy {
         private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef) {}
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
+        this.loadData().subscribe(() => {
+            if(this.propGrid) {
+                this.propGrid.grid.recalculate();
+            }
+            this.cdr.detectChanges();
+            this.dataLoad.emit();
+        });
     }
 
-    ngOnDestroy(): void {
-        this.unsubscribe.next(true);
-        this.unsubscribe.complete();
-    }
-
-
+        
     loadData() {
         return this.api.search(
-            SearchQueries.getProperites(this.navigation.selectedEntity?.id ?? '')
+            SearchQueries.getProperites(this.navigation.selectedEntity?.[0]?.id ?? '')
         ).pipe(
             tap(resp => {
             this.properties = [{name: 'DN', val: resp.search_result[0].object_name}].concat(resp.search_result[0].partial_attributes.map( x => {
@@ -45,8 +47,10 @@ export class EntityAttributesComponent implements OnInit, OnDestroy {
                     val: x.vals.join(';')
                 }
             }));
-            this.propGrid.grid.recalculate();
-            this.cdr.detectChanges();
         }));
+    }
+
+    onResize() {
+        alert('resize');
     }
 }

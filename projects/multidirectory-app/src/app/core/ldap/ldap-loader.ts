@@ -4,26 +4,9 @@ import { MultidirectoryApiService } from "../../services/multidirectory-api.serv
 import { SearchQueries } from "./search";
 import { Observable, map, tap } from "rxjs";
 import { SearchEntry, SearchResponse } from "../../models/entry/search-response";
-import { LdapNodeType, EntityInfoResolver } from "./entity-info-resolver";
-
-
-export class LdapEntity extends Treenode {
-    type: LdapNodeType = LdapNodeType.None;
-    entry?: SearchEntry;
-    icon?;
-    override parent: LdapEntity | null = null;
-    childCount?: number;
-    constructor(obj: Partial<LdapEntity>) {
-        super({});
-        Object.assign(this, obj);
-        this.icon = EntityInfoResolver.resolveIcon(this.type);
-    }
-}
-
-export interface DnPart {
-    type: string;
-    value: string;
-}
+import { EntityInfoResolver } from "./entity-info-resolver";
+import { LdapEntityType } from "./ldap-entity-type";
+import { LdapEntity } from "./ldap-entity";
 
 @Injectable({
     providedIn: 'root'
@@ -36,14 +19,14 @@ export class LdapLoader {
             map((res: SearchResponse) => res.search_result.map(x => {
                     const root = new LdapEntity({
                         name: 'Пользователи Multidirectory',
-                        type: LdapNodeType.Root,
+                        type: LdapEntityType.Root,
                         expanded: true,
                         id: 'root'
                     });
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
                     const serverNode = new LdapEntity({ 
                             name: this.getSingleAttribute(x, 'dnsHostName'),
-                            type: LdapNodeType.Server,
+                            type: LdapEntityType.Server,
                             selectable: true,
                             entry: x,
                             parent: root, 
@@ -53,7 +36,7 @@ export class LdapLoader {
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
-                        new LdapEntity({ name: 'Cохраненные запросы', type: LdapNodeType.Folder, selectable: true, id: 'saved', parent: root }),
+                        new LdapEntity({ name: 'Cохраненные запросы', type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
                         serverNode,
                     ]
                     return root;

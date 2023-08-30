@@ -1,4 +1,4 @@
-import { LdapEntity } from "../../core/ldap/ldap-loader";
+import { LdapEntity } from "../ldap/ldap-entity";
 
 export interface SearchResult {
     name: string,

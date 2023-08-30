@@ -1,50 +1,42 @@
-export enum LdapNodeType {
-    None = 0,
-    Root = 1,
-    Folder = 2,
-    Server = 3,
-    User = 4,
-    Group = 5,
-    OU = 6
-}
+import { LdapEntityType } from "./ldap-entity-type";
 
 export class EntityInfoResolver {
-    static IconMap = new Map<LdapNodeType, string>([
-        [ LdapNodeType.None, 'assets/folder.svg' ],
-        [ LdapNodeType.Folder, 'assets/folder.svg'],
-        [ LdapNodeType.Root, 'assets/snippet_folder.svg'],
-        [ LdapNodeType.Server, 'assets/topic.svg'],
-        [ LdapNodeType.User, 'assets/person.svg'],
-        [ LdapNodeType.Group, 'assets/group.svg'],
-        [ LdapNodeType.OU, 'assets/folder.svg'],
+    static IconMap = new Map<LdapEntityType, string>([
+        [ LdapEntityType.None, 'assets/folder.svg' ],
+        [ LdapEntityType.Folder, 'assets/folder.svg'],
+        [ LdapEntityType.Root, 'assets/snippet_folder.svg'],
+        [ LdapEntityType.Server, 'assets/topic.svg'],
+        [ LdapEntityType.User, 'assets/person.svg'],
+        [ LdapEntityType.Group, 'assets/group.svg'],
+        [ LdapEntityType.OU, 'assets/folder.svg'],
     ]);
 
-    static TypeNameMap = new Map<LdapNodeType, string>([
-        [ LdapNodeType.None, '' ],
-        [ LdapNodeType.Folder, 'Каталог' ],
-        [ LdapNodeType.Root, 'Корень' ],
-        [ LdapNodeType.Server, 'Контроллер домена' ],
-        [ LdapNodeType.User, 'Пользователь' ],
-        [ LdapNodeType.Group, 'Группа безопасности' ],
-        [ LdapNodeType.OU, 'Организационная единица' ]
+    static TypeNameMap = new Map<LdapEntityType, string>([
+        [ LdapEntityType.None, '' ],
+        [ LdapEntityType.Folder, 'Каталог' ],
+        [ LdapEntityType.Root, 'Корень' ],
+        [ LdapEntityType.Server, 'Контроллер домена' ],
+        [ LdapEntityType.User, 'Пользователь' ],
+        [ LdapEntityType.Group, 'Группа безопасности' ],
+        [ LdapEntityType.OU, 'Организационная единица' ]
     ]);
 
-    static TypeMap = new Map<string, LdapNodeType>([
-        ['user', LdapNodeType.User],
-        ['group', LdapNodeType.Group],
-        ['organizationalUnit', LdapNodeType.OU]
+    static TypeMap = new Map<string, LdapEntityType>([
+        ['user', LdapEntityType.User],
+        ['group', LdapEntityType.Group],
+        ['organizationalUnit', LdapEntityType.OU]
 
     ]);
 
-    static resolveIcon(type: LdapNodeType): string | undefined {
+    static resolveIcon(type: LdapEntityType): string | undefined {
         return this.IconMap.get(type);
     }
 
-    static resolveTypeName(type: LdapNodeType): string | undefined {
+    static resolveTypeName(type: LdapEntityType): string | undefined {
         return this.TypeNameMap.get(type);
     }
 
-    static getNodeType(objectClass?: string[]): LdapNodeType | undefined {
+    static getNodeType(objectClass?: string[]): LdapEntityType | undefined {
         if(!objectClass || objectClass.length <= 0) {
             return undefined;
         }
@@ -53,6 +45,6 @@ export class EntityInfoResolver {
             if(this.TypeMap.has(x))
                 return this.TypeMap.get(x);
         }
-        return LdapNodeType.Folder;
+        return LdapEntityType.Folder;
     }
 }

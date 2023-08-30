@@ -29,6 +29,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
 import { TreeItemComponent } from './components/treeview/tree-item.component';
 import { PagerComponent } from './components/pager/pager.component';
+import { TabPaneComponent } from './components/tab-pane/tab-pane.component';
+import { TabComponent } from './components/tab-pane/tab/tab.component';
+import { TabDirective } from './components/tab-pane/tab.directive';
   
 @NgModule({
   declarations: [
@@ -56,7 +59,10 @@ import { PagerComponent } from './components/pager/pager.component';
     RadioGroupComponent,
     SpinnerComponent,
     SpinnerHostDirective,
-    PagerComponent
+    PagerComponent,
+    TabPaneComponent,
+    TabComponent,
+    TabDirective
   ],
   imports: [
     CommonModule,
@@ -86,7 +92,10 @@ import { PagerComponent } from './components/pager/pager.component';
     MdFormComponent,
     SpinnerComponent,
     SpinnerHostDirective,
-    PagerComponent
+    PagerComponent,
+    TabPaneComponent,
+    TabComponent,
+    TabDirective
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

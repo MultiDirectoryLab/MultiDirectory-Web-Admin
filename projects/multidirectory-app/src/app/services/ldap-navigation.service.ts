@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
 import { BehaviorSubject, Observable, Subject, lastValueFrom, take } from "rxjs";
-import { LdapEntity, LdapLoader } from "../core/ldap/ldap-loader";
+import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
+import { LdapEntity } from "../core/ldap/ldap-entity";
 
 @Injectable({
     providedIn: 'root'
@@ -25,12 +26,12 @@ export class LdapNavigationService {
         return this._selectedCatalog;
     }
 
-    private _selectedEntityRx = new Subject<LdapEntity | null>();
-    get selectedEntityRx(): Observable<LdapEntity | null> {
+    private _selectedEntityRx = new Subject<LdapEntity[] | null>();
+    get selectedEntityRx(): Observable<LdapEntity[] | null> {
         return this._selectedEntityRx.asObservable();
     }
-    private _selectedEntity: LdapEntity | null = null;
-    get selectedEntity(): LdapEntity | null {
+    private _selectedEntity: LdapEntity[] | null = null;
+    get selectedEntity(): LdapEntity[] | null {
         return this._selectedEntity;
     }
 
@@ -116,7 +117,7 @@ export class LdapNavigationService {
                                 totalElements: x.length,
                                 size: this.page.size
                             }),
-                            children[foundIndex].node
+                            [children[foundIndex].node]
                         );
                     }
                 })
@@ -130,7 +131,7 @@ export class LdapNavigationService {
         }
     }
 
-    setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity | null = null) {
+    setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity[] | null = null) {
         if(!page) {
             page = Object.assign({}, this.page);
             page.pageNumber = 1;
@@ -142,7 +143,7 @@ export class LdapNavigationService {
         this._selectedCatalogRx.next(this._selectedCatalog);
     }
 
-    setPage(page: Page | null = null, selection: LdapEntity | null = null) {
+    setPage(page: Page | null = null, selection: LdapEntity[] | null = null) {
         if(!page) {
             page = new Page(Object.assign({}, this.page));
             page.pageNumber = 1;
@@ -152,7 +153,7 @@ export class LdapNavigationService {
         this._pageRx.next(this._page);
     }
 
-    setSelection(selection: LdapEntity | null = null) {
+    setSelection(selection: LdapEntity[] | null = null) {
         this._selectedEntity = selection;
         this._selectedEntityRx.next(this._selectedEntity);
     }

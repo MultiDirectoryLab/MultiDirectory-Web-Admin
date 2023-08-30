@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { GridItemComponent } from "./grid-item/grid-item.component";
 import { DropdownMenuComponent, PagerComponent } from "multidirectory-ui-kit";
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-icon-view',

@@ -1,0 +1,12 @@
+<md-tab-pane #tabs (tabChanged)="onTabChanged($event)">
+    <div class="tab-header">
+        <md-tab [el]="attributes.el" [isSelected]="true">Аттрибуты</md-tab>
+        <md-tab [el]="second">Общее</md-tab>
+        <md-tab [el]="third">Адрес</md-tab>
+        <md-tab [el]="null">Аккаунт</md-tab>
+        <md-tab [el]="null">Профиль</md-tab>
+    </div>
+    <app-entity-attributes mdTab #attributes="mdTab" (dataLoad)="onDataLoad()"></app-entity-attributes>
+    <div #second>fst</div>
+    <div #third>sec</div>
+</md-tab-pane>
