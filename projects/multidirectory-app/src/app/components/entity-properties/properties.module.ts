@@ -4,6 +4,10 @@ import { UserPropertiesComponent } from "./user-properties/user-properties.compo
 import { CommonModule } from "@angular/common";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { EntityAttributesComponent } from "./entity-attributes/entity-attributes.component";
+import { UserPropertiesGeneralComponent } from "./user-properties/general/user-properties-general.component";
+import { UserPropertiesAddressComponent } from "./user-properties/address/user-properties-address.component";
+import { UserPropertiesProfileComponent } from "./user-properties/profile/user-properties-profile.component";
+import { UserPropertiesAccountComponent } from "./user-properties/account/user-properties-account.component";
 
 @NgModule({
     imports: [
@@ -13,11 +17,19 @@ import { EntityAttributesComponent } from "./entity-attributes/entity-attributes
     declarations: [
         PropertiesComponent,
         UserPropertiesComponent,
+        UserPropertiesGeneralComponent,
+        UserPropertiesAddressComponent,
+        UserPropertiesProfileComponent,
+        UserPropertiesAccountComponent,
         EntityAttributesComponent
     ],
     exports: [
         PropertiesComponent,
         UserPropertiesComponent,
+        UserPropertiesGeneralComponent,
+        UserPropertiesAddressComponent,
+        UserPropertiesProfileComponent,
+        UserPropertiesAccountComponent,
         EntityAttributesComponent
     ]
 })

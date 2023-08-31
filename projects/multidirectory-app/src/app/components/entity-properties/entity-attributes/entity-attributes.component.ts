@@ -1,9 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild, forwardRef } from "@angular/core";
+import { ModalService } from "multidirectory-ui-kit";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { DatagridComponent } from "projects/multidirectory-ui-kit/src/public-api";
 import { Subject, tap } from "rxjs";
+import { EntityPropertiesComponent } from "../properties.component";
+import { ModalComponent } from "ng-modal-full-resizable";
 
 @Component({
     selector: 'app-entity-attributes',
@@ -11,10 +14,9 @@ import { Subject, tap } from "rxjs";
 })
 export class EntityAttributesComponent implements AfterViewInit {
     @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
-    @Output() dataLoad = new EventEmitter();
     unsubscribe = new Subject<boolean>();
      
-    properties?: any[];
+    properties: any[] = [];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },
         { name: 'Значение', prop: 'val', flexGrow: 1 },
@@ -23,7 +25,8 @@ export class EntityAttributesComponent implements AfterViewInit {
     constructor(
         private api: MultidirectoryApiService,
         private navigation: LdapNavigationService,
-        private cdr: ChangeDetectorRef) {}
+        private cdr: ChangeDetectorRef,
+        private modal: ModalService) {}
 
     ngAfterViewInit(): void {
         this.loadData().subscribe(() => {
@@ -31,7 +34,8 @@ export class EntityAttributesComponent implements AfterViewInit {
                 this.propGrid.grid.recalculate();
             }
             this.cdr.detectChanges();
-            this.dataLoad.emit();
+            this.modal.resize();
+            this.cdr.detectChanges();
         });
     }
 
@@ -41,13 +45,14 @@ export class EntityAttributesComponent implements AfterViewInit {
             SearchQueries.getProperites(this.navigation.selectedEntity?.[0]?.id ?? '')
         ).pipe(
             tap(resp => {
-            this.properties = [{name: 'DN', val: resp.search_result[0].object_name}].concat(resp.search_result[0].partial_attributes.map( x => {
-                return {
-                    name: x.type,
-                    val: x.vals.join(';')
-                }
-            }));
-        }));
+                this.properties = [{name: 'DN', val: resp.search_result[0].object_name}].concat(resp.search_result[0].partial_attributes.map( x => {
+                    return {
+                        name: x.type,
+                        val: x.vals.join(';')
+                    }
+                }));
+            })
+        );
     }
 
     onResize() {

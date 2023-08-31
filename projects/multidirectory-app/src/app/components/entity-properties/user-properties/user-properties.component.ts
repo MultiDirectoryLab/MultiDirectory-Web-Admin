@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output }
 import { Subject } from "rxjs";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { ModalService } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-user-properties',
@@ -10,7 +11,6 @@ import { MultidirectoryApiService } from "../../../services/multidirectory-api.s
 })
 export class UserPropertiesComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
-    @Output() dataLoad = new EventEmitter();
      
     properties?: any[];
     propColumns = [
@@ -21,6 +21,7 @@ export class UserPropertiesComponent implements OnInit, OnDestroy {
     constructor(
         private api: MultidirectoryApiService,
         private navigation: LdapNavigationService,
+        private modal: ModalService,
         private cdr: ChangeDetectorRef) {}
 
     ngOnInit(): void {
@@ -32,12 +33,7 @@ export class UserPropertiesComponent implements OnInit, OnDestroy {
     }
 
     onTabChanged(tab: any) {
-        console.log('test');
+        this.modal.resize();
         this.cdr.detectChanges();
     }
-
-    onDataLoad() {
-        this.dataLoad.emit();
-    }
-   
 }

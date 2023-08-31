@@ -6,19 +6,28 @@
     padding: 0px;
     user-select: none;
     .tab {
+        height: 32px;
+        position: relative;
+        top: 2px;
         padding: 4px 8px;
         border: 1px solid lightgrey;
         border-right: none;
+        background-color: global.$md-neutral-100;
         &.selected {
-            background-color: global.$md-white-blue-2;
+            height: 34px;
+            position: relative;
+            top: 1px;
+            z-index: 3;
+            background-color: white;
+            border-bottom: none;
         }
         & * {
             user-select: none;
         }
     }
-    
+ 
     .tab:hover {
-        background-color: global.$md-neutral-150;
+        background-color: white;
     }
 
     md-tab:last-child  {

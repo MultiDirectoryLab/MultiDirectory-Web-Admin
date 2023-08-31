@@ -1,0 +1,63 @@
+<div class="flex-row align-center flex-gap-10 p-8">
+    <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
+    <div class="place">Иван Иванов</div>
+</div>  
+<hr />
+<div class="row align-start pv-8">
+    <div class="col-md-4">
+        <label for="first-name">Имя</label>
+    </div>
+    <div class="col-md-4 flex-row align-start flex-grow-1 flex-gap-10">
+        <md-textbox 
+            required class="w-100" name="first-name">
+        </md-textbox>
+    </div>
+    <div class="col-md-2">
+        <label for="initials">Инициалы</label>
+    </div>
+    <div class="col-md-2">
+        <md-textbox name="initials">
+        </md-textbox>
+    </div>
+</div>  
+
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="last-name">Фамилия</label></div>
+    <md-textbox class="col-md-8" 
+        name="last-name">
+    </md-textbox>
+</div>
+
+
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">ФИО полностью</label></div>
+    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+</div>
+
+
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">Описание</label></div>
+    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+</div>
+
+
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">Офис</label></div>
+    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+</div>
+<hr />
+
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">Номер телефона</label></div>
+    <md-textbox class="col-md-6" name="full-name"></md-textbox>
+    <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="showOtherSelect()">Другое...</md-plane-button></div>
+</div>
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">Email</label></div>
+    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+</div>
+<div class="row align-start pv-8">
+    <div class="col-md-4"><label for="full-name">Веб-страница</label></div>
+    <md-textbox class="col-md-6" name="full-name"></md-textbox>
+    <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="showOtherSelect()">Другое...</md-plane-button></div>
+</div>

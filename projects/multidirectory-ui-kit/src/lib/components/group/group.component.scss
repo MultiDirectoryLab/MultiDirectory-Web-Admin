@@ -1,0 +1,40 @@
+@use '../../styles/global';
+
+:host {
+    display: block;
+}
+
+
+.group-container {
+    display: flex;
+    position: relative;
+    flex-flow: column nowrap;
+    padding: 1rem;
+    border: 1px solid global.$md-neutral-300;
+    border-top: transparent;
+    height: 100%;
+    .label-container {
+        position: absolute;
+        top: 0px;
+        left: 8px;
+        right: 7px;
+
+        display: flex;
+        flex-flow: row nowrap;
+        .before-title {
+            border-top: 1px solid global.$md-neutral-300;
+            width: 5%;
+            margin-left: -8px;
+        }
+        .after-title {
+            border-top: 1px solid global.$md-neutral-300;
+            width: 100%;
+            margin-right: -7px;
+        }
+        .group-label {
+            padding: 0 8px;
+            margin: -11px 0;
+            white-space: nowrap;
+        }
+    }
+}

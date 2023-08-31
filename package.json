@@ -23,7 +23,7 @@
     "@angular/router": "^16.1.7",
     "@swimlane/ngx-datatable": "^20.1.0",
     "angular2-hotkeys": "^15.0.0",
-    "ng-modal-full-resizable": "0.0.21",
+    "ng-modal-full-resizable": "0.0.23",
     "ngx-drag-drop": "^16.0.0",
     "ngx-spinner": "^16.0.0",
     "ngx-toastr": "^15.2.0",

@@ -1,12 +1,14 @@
 <md-tab-pane #tabs (tabChanged)="onTabChanged($event)">
     <div class="tab-header">
-        <md-tab [el]="attributes.el" [isSelected]="true">Аттрибуты</md-tab>
-        <md-tab [el]="second">Общее</md-tab>
-        <md-tab [el]="third">Адрес</md-tab>
-        <md-tab [el]="null">Аккаунт</md-tab>
-        <md-tab [el]="null">Профиль</md-tab>
+        <md-tab [el]="generals.el" [isSelected]="true">Общее</md-tab>
+        <md-tab [el]="attributes.el">Аттрибуты</md-tab>
+        <md-tab [el]="address.el">Адрес</md-tab>
+        <md-tab [el]="account.el">Аккаунт</md-tab>
+        <md-tab [el]="profile.el">Профиль</md-tab>
     </div>
-    <app-entity-attributes mdTab #attributes="mdTab" (dataLoad)="onDataLoad()"></app-entity-attributes>
-    <div #second>fst</div>
-    <div #third>sec</div>
+    <app-user-properties-general mdTab #generals="mdTab"></app-user-properties-general>
+    <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
+    <app-user-properties-address mdTab #address="mdTab"></app-user-properties-address>
+    <app-user-properties-profile mdTab #profile="mdTab"></app-user-properties-profile>
+    <app-user-properties-account mdTab #account="mdTab"></app-user-properties-account>
 </md-tab-pane>

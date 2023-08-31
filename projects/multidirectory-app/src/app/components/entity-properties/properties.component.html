@@ -1,17 +1,16 @@
-<md-modal #properties (onClose)="onClose()">
+<md-modal #properties>
     <div class="app-modal-header">
         Свойства
     </div> 
-    
-    <div *ngIf="opened">
+
+    <div>
         <ng-container  [ngSwitch]="_entityType">
-            <app-user-properties (dataLoad)="onDataLoad()" *ngSwitchCase="EntityTypes.User"></app-user-properties>
+            <app-user-properties *ngSwitchCase="EntityTypes.User"></app-user-properties>
+            <app-entity-attributes *ngSwitchDefault></app-entity-attributes>
         </ng-container>
     </div>
 
-
-
     <div class="app-modal-footer">
-        <md-button>Закрыть</md-button>
+        <md-button (click)="close()">Закрыть</md-button>
     </div>
 </md-modal>

@@ -32,11 +32,14 @@ import { PagerComponent } from './components/pager/pager.component';
 import { TabPaneComponent } from './components/tab-pane/tab-pane.component';
 import { TabComponent } from './components/tab-pane/tab/tab.component';
 import { TabDirective } from './components/tab-pane/tab.directive';
+import { TextareaComponent } from './components/textarea/textarea.component';
+import { GroupComponent } from './components/group/group.component';
   
 @NgModule({
   declarations: [
     ButtonComponent,
     TextboxComponent,
+    TextareaComponent,
     DropdownComponent,
     NumberComponent,
     MdModalComponent,
@@ -62,7 +65,8 @@ import { TabDirective } from './components/tab-pane/tab.directive';
     PagerComponent,
     TabPaneComponent,
     TabComponent,
-    TabDirective
+    TabDirective,
+    GroupComponent
   ],
   imports: [
     CommonModule,
@@ -75,6 +79,7 @@ import { TabDirective } from './components/tab-pane/tab.directive';
   exports: [
     ButtonComponent,
     TextboxComponent,
+    TextareaComponent,
     DropdownComponent,
     NumberComponent,
     MdModalComponent,
@@ -95,7 +100,8 @@ import { TabDirective } from './components/tab-pane/tab.directive';
     PagerComponent,
     TabPaneComponent,
     TabComponent,
-    TabDirective
+    TabDirective,
+    GroupComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

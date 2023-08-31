@@ -1,19 +1,19 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Hotkey, HotkeysService } from "angular2-hotkeys";
+import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, Subject, combineLatest, concat, forkJoin, from, map, merge, switchMap, take, takeUntil, tap, zip } from "rxjs";
+import { EMPTY, Subject, concat, switchMap, takeUntil } from "rxjs";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
+import { ContentViewService } from "../../services/content-view.service";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { EntityPropertiesComponent } from "../entity-properties/properties.component";
 import { GroupCreateComponent } from "../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
 import { ViewMode } from "./view-modes";
-import { ContentViewService } from "../../services/content-view.service";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { Hotkey, HotkeysService } from "angular2-hotkeys";
-import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
-import { EntityPropertiesComponent } from "../entity-properties/properties.component";
-import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-catalog-content',
