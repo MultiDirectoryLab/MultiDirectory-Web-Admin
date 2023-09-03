@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { Component } from "@angular/core";
 import { ColumnMode, ContextmenuType, DatatableComponent, SelectionType, TableColumn } from "@swimlane/ngx-datatable";
-import { DropdownOption } from "projects/multidirectory-ui-kit/src/public-api";
+import { DropdownOption } from "../dropdown/dropdown.component";
 
 export class Page {
     totalElements: number = 0;
@@ -39,8 +39,10 @@ export class DatagridComponent implements AfterViewInit {
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
     @Output() dblclick = new EventEmitter<InputEvent>();
+    @Output() selectionChanged = new EventEmitter<any>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
     @Output() pageChanged = new EventEmitter<Page>();
+    @Output() resize = new EventEmitter<void>();
     _selected: any[] = [];
     get selected(): any[] {
         return this._selected;
@@ -92,6 +94,8 @@ export class DatagridComponent implements AfterViewInit {
     onActivate(event: any) {
         if (event.type === 'dblclick') {
             this.dblclick.emit(event);
+        } else if (event.type === 'click') {
+            this.selectionChanged.emit(this.selected);
         }
         this.cdr.detectChanges();
     }
@@ -113,6 +117,10 @@ export class DatagridComponent implements AfterViewInit {
         this.init = true;
     }
 
+    onTableResize() {
+        this.resize.emit();
+    }
+
     onPageChange(pageInfo: { offset: number, pageSize: number, limit: number, count: number }) {
         this.selected =[];
         this.page = new Page({
@@ -128,6 +136,33 @@ export class DatagridComponent implements AfterViewInit {
         this.page = new Page(page);
         this.grid.offset = this.page.pageOffset;
         this.grid.calcPageSize();
+    }
+
+    onFocus($event: FocusEvent) {
+        if(this.selected.length === 0) {
+            this.select(this.rows[0]);
+        }
+    }
+
+    onKeyDown(event: KeyboardEvent) {
+        if(event.key == 'ArrowDown' || event.key == 'ArrowUp') {
+            let index = this.rows.findIndex(x => this.selected[0] == x);
+            if(event.key == 'ArrowDown') {
+                index = (index + 1) % this.rows.length;
+            }
+            if(event.key == 'ArrowUp') {
+                index -= 1;
+                if(index < 0) {
+                    index = this.rows.length - 1;
+                }
+            }
+            this.select(this.rows[index]);
+        }
+        if(event.key == 'Enter') {
+            let event = new InputEvent('');
+            event = Object.assign(event, { row: this.selected[0] })
+            this.dblclick.emit(event);
+        }
     }
 }
 

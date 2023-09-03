@@ -1,4 +1,4 @@
-<div class="scrollable treeview-container">
+<div class="scrollable treeview-container" tabindex="0">
     <div class="tree-item-wrapper"  >
         <ng-container 
             *ngFor="let node of tree"
@@ -12,12 +12,14 @@
     <md-tree-item (click)="handleNodeClick($event, data)">
         <div class="tree-item-wrapper" 
             [ngClass]="{
-                selected: data.selected
+                selected: data.selected,
+                focused: data.focused
             }">
             <span class="tree-item" [ngClass]="{
                 expanded: data.expanded,
                 expandable: (data.children?.length > 0 || !!data.loadChildren),
-                selected: data.selected
+                selected: data.selected,
+                focused: data.focused
             }"
             [ngStyle]="{
                 'left': level + 'rem'

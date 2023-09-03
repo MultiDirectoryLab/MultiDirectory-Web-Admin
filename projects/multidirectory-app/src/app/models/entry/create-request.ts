@@ -1,16 +1,9 @@
-export class LdapPartialAttribute {
-    type: string = '';
-    vals: string[] = [];
+import { PartialAttribute } from "../../core/ldap/ldap-partial-attribute";
 
-    
-    constructor(obj: Partial<LdapPartialAttribute>) {
-        Object.assign(this, obj);
-    }
-}
-
+ 
 export class CreateEntryRequest {
     entry: string = '';
-    attributes: LdapPartialAttribute[] = [];
+    attributes: PartialAttribute[] = [];
     password: string = '';
     
     constructor(obj: Partial<CreateEntryRequest>) {

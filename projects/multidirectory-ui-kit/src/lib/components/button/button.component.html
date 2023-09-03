@@ -1,6 +1,8 @@
 <button 
+    tabindex="0"
     class="md-button"
     [ngClass]="{
         'md-button-primary': primary
     }"
+    (keydown)="onKeydown($event)"
     [disabled]="disabled"><ng-content></ng-content></button>

@@ -1,17 +1,18 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewChildren } from "@angular/core";
-import { DropdownMenuComponent, MdModalComponent, Page } from "multidirectory-ui-kit";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Hotkey, HotkeysService } from "angular2-hotkeys";
+import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { Subject, concat, forkJoin, from, map, switchMap, take, takeUntil, tap } from "rxjs";
-import { LdapNode } from "../../core/ldap/ldap-loader";
+import { EMPTY, Subject, concat, switchMap, takeUntil } from "rxjs";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../models/entry/delete-request";
+import { ContentViewService } from "../../services/content-view.service";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { EntityPropertiesComponent } from "../entity-properties/entity-properties.component";
+import { EntityPropertiesComponent } from "../entity-properties/properties.component";
 import { GroupCreateComponent } from "../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
 import { ViewMode } from "./view-modes";
-import { ContentViewService } from "../../services/content-view.service";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 
 @Component({
@@ -24,13 +25,13 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createUserModal', { static: true}) createUserModal?: UserCreateComponent;
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
-    @ViewChild('properites', { static: true }) propertiesModal?: MdModalComponent;
-    @ViewChild('propData', { static: true }) propertiesData?: EntityPropertiesComponent;
+    @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
+    
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
-    selectedCatalog: LdapNode =  new LdapNode({ id: '' });
-    rows: LdapNode[] = [];
-    selectedRows: LdapNode[] = [];
+    selectedCatalog: LdapEntity | null = null;
+    rows: LdapEntity[] = [];
+    selectedRows: LdapEntity[] = [];
 
     unsubscribe = new Subject<void>();
 
@@ -42,21 +43,32 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
-        private contentView: ContentViewService) {}
+        private contentView: ContentViewService,
+        private hotkeysService: HotkeysService) {
+            this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
+                this.openCreateUser();
+                return false;
+            }, undefined, 'Создать пользователя'));
+            this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
+                this.openCreateGroup();
+                return false;
+            }, undefined, 'Создать группу'));
+            this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
+                this.openCreateOu();
+                return false;
+            }, undefined, 'Создать организационную единицу'));
+        }
 
     ngOnInit(): void {
-        this.navigation.nodeSelected.pipe(
+        this.navigation.selectedCatalogRx.pipe(
             takeUntil(this.unsubscribe),
-            switchMap(x => {
-                this.selectedCatalog = x.parent;
-                this.selectedRows = x.node ? [ x.node ] : [];
-                if(x.page) {
-                    this.navigation.page = x.page;
+            switchMap((catalog) => {
+                this.selectedCatalog = catalog;
+                if(!this.selectedCatalog) {
+                    this.cdr.detectChanges();
+                    return EMPTY;
                 }
-                this.navigation.page.totalElements = (this.selectedCatalog.childCount ?? 0) ?? 0;
-                if(x.parent?.parent) {
-                    this.navigation.page.totalElements += 1;
-                }
+                this.selectedRows = this.navigation.selectedEntity ? this.navigation.selectedEntity : [];
                 return this.navigation.getContent(this.selectedCatalog, this.navigation.page);
             }),
         ).subscribe(x => {
@@ -66,9 +78,28 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.cdr.detectChanges();
         });
 
-        this.contentView.contentViewRx.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+        this.navigation.pageRx.pipe(
+            takeUntil(this.unsubscribe),
+            switchMap((page) => {
+                if(!this.selectedCatalog) {
+                    return EMPTY;
+                }
+                return this.navigation.getContent(this.selectedCatalog, page);
+            })).subscribe(x => {
+                this.rows = x;
+                this.view!.selectedCatalog = this.selectedCatalog; 
+                this.view?.setContent(this.rows, this.selectedRows);
+                this.cdr.detectChanges();
+            });
+
+        this.contentView.contentViewRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
             this.currentView = x;
             this.cdr.detectChanges();
+            if(this.selectedCatalog) {
+                this.navigation.setCatalog(this.selectedCatalog);
+            }
         })
     }
 
@@ -117,27 +148,21 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showEntryProperties() { 
-        this.propertiesData!.entityDn = this.selectedRows[0].id; 
-        this.propertiesData!.loadData().subscribe(x => {
-            this.propertiesModal!.open();
-            this.propertiesData?.propGrid.grid.recalculate();
-            this.propertiesModal!.center();
-        });
+        //this.propertiesData!.entityDn = this.selectedRows[0].id; 
+        //this.propertiesData!.loadData().subscribe(x => {
+        this.properties!.open();
+          //  this.propertiesData?.propGrid.grid.recalculate();
+           // this.propertiesModal!.center();
+        //});
     }
 
-    loadData(page: Page | undefined = undefined) {
-        if(!!page) {
-            this.navigation.page = page;
-        } else {
-            this.navigation.page.pageNumber = 1;
-        }
+    loadData() {
         if(this.selectedCatalog) {
-            this.navigation.setCatalog(this.selectedCatalog);
         }
     }
 
     pageChanged(page: Page) {
-        this.loadData(page);
+        this.navigation.setPage(page);
         this.cdr.detectChanges();
     }
 

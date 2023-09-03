@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Injector, Input, forwardRef, inject } from "@angular/core";
-import { AbstractControl, AbstractControlDirective, FormControl, NG_VALUE_ACCESSOR, NgControl, NgModel } from "@angular/forms";
+import { ChangeDetectorRef, Component, Input, forwardRef } from "@angular/core";
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BaseComponent } from "../base-component/base.component";
 
 @Component({

@@ -1,4 +1,4 @@
-import { Component, forwardRef } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { BaseComponent } from "../base-component/base.component";
 
@@ -14,5 +14,26 @@ import { BaseComponent } from "../base-component/base.component";
         }
     ]
 })
-export class ShiftCheckboxComponent extends BaseComponent {
+export class ShiftCheckboxComponent extends BaseComponent implements OnInit {
+  @ViewChild('checkbox') checkbox!: ElementRef<HTMLInputElement>;
+
+  override ngOnInit() {
+    super.ngOnInit();
+    this.value = false;
+  }
+
+  onToggle() {
+    console.log('on toggle');
+    this.value = !this.checkbox.nativeElement.checked;
+    this.checkbox.nativeElement.checked = !this.checkbox.nativeElement.checked;
+    this.cdr.detectChanges();
+  }
+
+  onToggleKey($event: KeyboardEvent) {
+    if($event.key == ' ') {
+      $event.preventDefault();
+      $event.stopPropagation();
+      this.onToggle();
+    }
+  }
 }

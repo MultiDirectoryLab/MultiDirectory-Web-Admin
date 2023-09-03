@@ -6,6 +6,10 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 export class DropdownOption {
     title: string = '';
     value: any;
+
+    constructor(obj: Partial<DropdownOption>) {
+        Object.assign(this, obj);
+    }
 }
 @Component({
     selector: 'md-dropdown',

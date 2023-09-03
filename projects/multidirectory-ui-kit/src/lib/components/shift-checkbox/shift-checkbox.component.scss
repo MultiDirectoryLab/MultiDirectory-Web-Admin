@@ -53,5 +53,9 @@ input:checked + .slider {
     @include global.use-inter-typography(400, 14px, 25.2px);
     padding-left: 8px;
     width: 100%;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
 }
  

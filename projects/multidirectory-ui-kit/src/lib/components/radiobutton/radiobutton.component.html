@@ -1,4 +1,6 @@
-<div  (click)="onClick($event)">
+<div class="radiobutton-container"  (click)="onClick($event)">
     <input type="radio" [name]="name" #radio>
-    <label for="{{name}}"><ng-content></ng-content></label>
+    <label class="radiobutton-label" for="{{name}}">
+        <ng-content></ng-content>
+    </label>
 </div>

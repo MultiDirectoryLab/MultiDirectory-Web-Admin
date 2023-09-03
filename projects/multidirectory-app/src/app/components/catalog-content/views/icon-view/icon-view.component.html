@@ -1,7 +1,33 @@
-<h4>Coming Soon</h4>
-<div class="icon-grid"  
-        dndDropzone
-        (dndDragover)="onDragover($event)"
-        (dndDrop)="onDrop($event)">
-        <app-grid-item *ngFor="let item of items" [item]="item"></app-grid-item>
+<div class="icon-grid-container">
+        <div class="icon-grid" [ngClass]="{'big-icon': big}"
+                (contextmenu)="showGridContextMenu($event)" #grid
+                (click)="clickOutside($event)"
+                (focus)="onGetFocus()"
+                tabindex="0">
+                <div *ngFor="let item of items" 
+                        class="grid-item"
+                        cdkDrag
+                        cdkDragBoundary=".icon-grid"
+                        (cdkDragEnded)="onDrop($event)"
+                        >
+                        <app-grid-item
+                                [big]="big"
+                                (clickOnItem)="setSelected([item])"
+                                (doubleClickOnItem)="selectCatalog(item)"
+                                (rightClick)="handleRightClick($event)"
+                                [item]="item"></app-grid-item>
+                </div>
+        </div>
+        <md-pager
+                #pager
+                [name]="'iconView'"
+                (pageChanged)="onPageChanged($event)" 
+                [page]="page"></md-pager>
 </div>
+
+<md-dropdown-menu #gridMenu>
+        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
+                <md-checkbox [(ngModel)]="alignItems">Выровнять по сетке</md-checkbox>
+        </div>
+        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">Сбросить</div>
+</md-dropdown-menu>

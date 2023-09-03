@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, Renderer2, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, Renderer2, TemplateRef, ViewChild } from "@angular/core";
+import { DropdownContainerDirective } from "./dropdown-container.directive";
 
 @Component({
     selector: 'md-dropdown-menu',
@@ -10,7 +11,7 @@ export class DropdownMenuComponent {
     @Input() items!: any[];  
     @Input() direction: 'up' | 'right' = 'right';
     @Input() itemTemplate!: TemplateRef<any>;
-
+    @Input() container?: DropdownContainerDirective;
     _top: number = 0;
     _left: number = 0;
     @ViewChild('menu') menu!: ElementRef;
@@ -72,6 +73,7 @@ export class DropdownMenuComponent {
     open() {
         this.dropdownVisible = true;
         this.cdr.detectChanges();
+        this.menu.nativeElement.focus();
         this.renderer.setStyle(this.menu.nativeElement, 'left', `${this._left}px`);
         this.renderer.setStyle(this.menu.nativeElement, 'top',  `${this._top}px`);
         this.checkOverflow();
@@ -81,6 +83,7 @@ export class DropdownMenuComponent {
 
     close() {
         this.dropdownVisible = false;
+        this.caller?.nativeElement.focus();
         this.unlistenClick();
         this.unlistenClick = () => {};
         this.cdr.detectChanges();

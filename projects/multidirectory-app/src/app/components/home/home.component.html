@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="right-pane column">
-        <app-header></app-header>
+        <app-header (helpMenuClick)="helpMenuClick()"></app-header>
         <app-catalog-content #catalogContent></app-catalog-content>
     </div>
 </div>
@@ -31,3 +31,6 @@
         TODO
     </div>
 </md-modal>
+
+
+<hotkeys-cheatsheet title="Горячие клавиши" #helpcheatSheet></hotkeys-cheatsheet> 

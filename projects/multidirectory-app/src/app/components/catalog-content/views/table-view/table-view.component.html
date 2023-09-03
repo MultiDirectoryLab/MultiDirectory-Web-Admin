@@ -6,6 +6,7 @@ name="table-view"
 (contextmenu)="handleRightClick($event)"
 [page]="page"
 (pageChanged)="onPageChanged($event)"
+(selectionChanged)="onSingleClick($event)"
 (dblclick)="onDoubleClick($event)" 
 ></md-datagrid> 
 <ng-template #iconTemplate let-row="row" let-value="value">

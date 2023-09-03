@@ -1,0 +1,30 @@
+<ng-container *ngIf="accessor">
+    <div class="row align-center" style="margin-top: 24px;">
+        <div class="col-md-12">
+            <md-group title="Профиль пользователя">
+                <div class="row align-start">
+                    <div class="col-md-4"><label for="profile-path">Путь до профиля</label></div>
+                    <md-textbox class="col-md-8 w-100" name="profile-path" [(ngModel)]="accessor.profilePath"></md-textbox>
+                </div>
+                <div class="row align-start">
+                    <div class="col-md-4"><label for="full-name"  >Скрипт Logon</label></div>
+                    <md-textbox class="col-md-8 w-100" [(ngModel)]="accessor.scriptPath"></md-textbox>
+                </div>
+            </md-group>
+        </div>
+    </div>
+    <div class="row align-center" style="margin-top: 32px;">
+        <div class="col-md-12">
+            <md-group title="Домашний каталог">
+                <div class="row align-start">
+                    <div class="col-md-4"><label for="full-name">Локальный путь</label></div>
+                    <md-textbox class="col-md-8 w-100"></md-textbox>
+                </div>
+                <div class="row align-start">
+                    <div class="col-md-4"><label for="full-name">Примонтировать</label></div>
+                    <md-textbox class="col-md-8 w-100"></md-textbox>
+                </div>
+            </md-group>
+        </div>
+    </div>
+</ng-container>

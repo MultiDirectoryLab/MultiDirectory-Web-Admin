@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { LdapNode } from "../../core/ldap/ldap-loader";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { Subject, takeUntil } from "rxjs";
-import { TreeviewComponent } from "multidirectory-ui-kit";
-
+import { Page, TreeviewComponent } from "multidirectory-ui-kit";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-navigation',
@@ -13,7 +12,7 @@ import { TreeviewComponent } from "multidirectory-ui-kit";
 export class NavigationComponent implements OnInit, OnDestroy {
     @ViewChild('treeView', { static: true } ) treeView?: TreeviewComponent;
     private unsubscribe = new Subject<void>();
-    ldapRoots: LdapNode[] = [];
+    ldapRoots: LdapEntity[] = [];
     constructor(
         private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef) {}
@@ -23,8 +22,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
             this.ldapRoots = roots;
             this.cdr.detectChanges();
         });
-        this.navigation.nodeSelected.pipe(takeUntil(this.unsubscribe)).subscribe(node => {
-            this.treeView?.selectNode(node.parent);
+        this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
+            this.treeView?.selectNode(catalog);
             this.cdr.detectChanges();
         });
     }
@@ -34,8 +33,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    handleNodeSelection(node: LdapNode) {
-        this.navigation.page.pageNumber = 1;
-        this.navigation.setCatalog(node);
+    handleNodeSelection(node: LdapEntity) {
+        const page = new Page(Object.assign({}, this.navigation.page));
+        page.pageNumber = 1;
+        this.navigation.setCatalog(node, page);
     }
 }

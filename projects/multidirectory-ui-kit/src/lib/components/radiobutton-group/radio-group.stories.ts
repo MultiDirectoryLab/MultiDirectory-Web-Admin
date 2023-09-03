@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
-import { RadiobuttonComponent } from "multidirectory-ui-kit";
 import { RadioGroupComponent } from "./radio-group.component";
+import { RadiobuttonComponent } from "../radiobutton/radiobutton.component";
 
 const meta: Meta<RadioGroupComponent> = {
     title: 'Layout/RadioGroup',
