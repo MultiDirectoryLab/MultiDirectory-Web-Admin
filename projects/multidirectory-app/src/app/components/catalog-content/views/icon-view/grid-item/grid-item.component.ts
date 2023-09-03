@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { ContextmenuType } from "@swimlane/ngx-datatable";
 import { ContextMenuEvent } from "multidirectory-ui-kit";
-import { LdapNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-loader";
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
 
 @Component({
@@ -12,7 +12,7 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 })
 export class GridItemComponent {
   @Input() big = false;
-  @Input() item!: LdapNode;
+  @Input() item!: LdapEntity;
   @Output() clickOnItem = new EventEmitter<MouseEvent>;
   @Output() doubleClickOnItem = new EventEmitter<MouseEvent>;
   @Output() rightClick = new EventEmitter<ContextMenuEvent>;

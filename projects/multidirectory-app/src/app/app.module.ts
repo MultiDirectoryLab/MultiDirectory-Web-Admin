@@ -13,17 +13,8 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { HomeComponent } from './components/home/home.component';
 import { CatalogContentComponent } from './components/catalog-content/catalog-content.component';
 import { HeaderComponent } from './components/header/header.component';
-import { StaleTokenInterceptor } from './core/authorization/stale-token-interceptor';
 import { SetupComponent } from './components/setup/setup.component';
-import { EntityPropertiesComponent } from './components/entity-properties/entity-properties.component';
 import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
-import { MultidirectoryUiKitModule } from 'projects/multidirectory-ui-kit/src/public-api';
-import { PasswordMatchValidatorDirective } from './components/forms/validators/passwordmatch.directive';
-import { DomainFormatValidatorDirective } from './components/forms/validators/domainformat.directive';
-import { UserCreateGeneralInfoComponent } from './components/forms/user-create/general-info/general-info.component';
-import { UserCreatePasswordSettingsComponent } from './components/forms/user-create/password-settings/password-settings.component';
-import { UserCreateComponent } from './components/forms/user-create/user-create.component';
-import { UserCreateSummaryComponent } from './components/forms/user-create/summary/summary.component';
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
 import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
@@ -33,14 +24,16 @@ import { SearchUsersComponent } from './components/search-panel/seaarch-forms/se
 import { SearchResultComponent } from './components/search-panel/seaarch-forms/search-result/search-result.component';
 import { TableViewComponent } from './components/catalog-content/views/table-view/table-view.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { ResultCodeInterceptor } from './core/api/error-handling/result-code-interceptor';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { IconViewComponent } from './components/catalog-content/views/icon-view/icon-view.component';
 import { GridItemComponent } from './components/catalog-content/views/icon-view/grid-item/grid-item.component';
-import { RefreshTokenInterceptor } from './core/authorization/refresh-token-interceptor';
-import { EnsureBearerInterceptor } from './core/authorization/ensure-bearer-interceptor';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { UserCreateModule } from './components/forms/user-create/user-create.module';
+import { ValidatorsModule } from './components/forms/validators/validators.module';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { PropertiesModule } from './components/entity-properties/properties.module';
+import { AuthorizationModule } from './core/authorization/authorization.module';
 
 @NgModule({
   declarations: [
@@ -49,24 +42,15 @@ import { HotkeyModule } from 'angular2-hotkeys';
     HideControlBar,
     HomeComponent,
     HeaderComponent,
-
     NavigationComponent,
     CatalogContentComponent,
     TableViewComponent,
     IconViewComponent,
     GridItemComponent,
     SetupComponent,
-    EntityPropertiesComponent,
     AdminSettingsComponent,
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
-    PasswordMatchValidatorDirective,
-    DomainFormatValidatorDirective,
-
-    UserCreateComponent,
-    UserCreateGeneralInfoComponent,
-    UserCreatePasswordSettingsComponent,
-    UserCreateSummaryComponent,
 
     OuCreateComponent,
 
@@ -89,7 +73,11 @@ import { HotkeyModule } from 'angular2-hotkeys';
       cheatSheetCloseEsc: true,
       cheatSheetCloseEscDescription: 'Скрыть меню помощи',
       cheatSheetDescription: 'Показать/скрыть меню помощи'
-    })
+    }),
+    AuthorizationModule,
+    ValidatorsModule,
+    UserCreateModule,
+    PropertiesModule,
   ],
   providers: [
     provideAnimations(),
@@ -98,31 +86,11 @@ import { HotkeyModule } from 'angular2-hotkeys';
       useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient, toastr: ToastrService) => 
               new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
       deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService]
-  },
-  {
-    provide: ErrorHandler,
-    useClass: GlobalErrorHandler
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: EnsureBearerInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: StaleTokenInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: RefreshTokenInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ResultCodeInterceptor,
-    multi: true,
-  }],
-  bootstrap: [AppComponent]
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

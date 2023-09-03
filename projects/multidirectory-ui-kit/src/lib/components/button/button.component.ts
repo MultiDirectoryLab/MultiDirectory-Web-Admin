@@ -6,7 +6,6 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, O
     styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements AfterViewInit, OnDestroy {
-
     @Input() label = '';
     @Input() disabled = false;
     @Input() primary = false;

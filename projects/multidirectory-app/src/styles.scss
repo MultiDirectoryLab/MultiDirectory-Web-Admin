@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+@use '../../../node_modules/multidirectory-ui-kit/styles/typings.scss';
 @import 'ngx-toastr/toastr';
 
 
@@ -41,4 +42,10 @@
 }
 .cfp-hotkeys-close {
     border: none;
+}
+:focus-visible {
+    outline: global.$md-dark-blue-3 auto 2px;;
+}
+.pt-16 {
+    padding-top: 16px;
 }

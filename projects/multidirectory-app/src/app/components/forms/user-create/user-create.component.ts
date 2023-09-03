@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
-import { LdapNode } from "../../../core/ldap/ldap-loader";
+import { MdModalComponent, ModalService, StepperComponent } from "multidirectory-ui-kit";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { UserCreateService } from "../../../services/user-create.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
+import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { ToastrService } from "ngx-toastr";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 
 @Component({
   selector: 'app-user-create',
@@ -15,7 +16,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
-  selectedNode?: LdapNode;
+  catalog: LdapEntity | null = null;
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserModal') createUserModal?: MdModalComponent;
   @ViewChild('createUserStepper') stepper!: StepperComponent;
@@ -29,10 +30,10 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {
-      this.navigation.nodeSelected
+      this.navigation.selectedCatalogRx
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(node => {
-          this.selectedNode = node.parent;
+          this.catalog = node;
         });
       
       this.setup.onStepValid.pipe(
@@ -40,7 +41,11 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
           this.formValid = x;
         });
-      }
+
+        if(this.createUserModal) {
+          this.createUserModal.resize();
+        }
+    }
       
       ngOnDestroy(): void {
         this.setupRequest = new UserCreateRequest();
@@ -56,26 +61,26 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
       onFinish() {
         this.createUserModal?.showSpinner();
         this.api.create(new CreateEntryRequest({
-          entry: `cn=${this.setupRequest.upnLogin},` + this.selectedNode?.id,
-          attributes: [new LdapPartialAttribute({
+          entry: `cn=${this.setupRequest.upnLogin},` + this.catalog?.id,
+          attributes: [new PartialAttribute({
             type: 'objectClass',
             vals: ['user',
             'top', 'person', 'organizationalPerson', 'posixAccount'
           ]
         }),
-        new LdapPartialAttribute({
+        new PartialAttribute({
           type: 'mail',
           vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
         }),
-        new LdapPartialAttribute({
+        new PartialAttribute({
           type: 'sAMAccountName',
           vals: [this.setupRequest.upnLogin]
         }),
-        new LdapPartialAttribute({
+        new PartialAttribute({
           type: 'userPrincipalName',
           vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
         }),
-        new LdapPartialAttribute({
+        new PartialAttribute({
           type: 'displayName',
           vals: [this.setupRequest.upnLogin]
         })

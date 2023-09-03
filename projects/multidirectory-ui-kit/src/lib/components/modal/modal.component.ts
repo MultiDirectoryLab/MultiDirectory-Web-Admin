@@ -1,14 +1,19 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, forwardRef } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
-import { Subject, takeUntil } from "rxjs";
-import { SpinnerComponent } from "../spinner/spinner.component";
+import { Observable, Subject, takeUntil } from "rxjs";
 import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
+import { ModalService } from "./modal.service";
 
 @Component({
     selector: 'md-modal',
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [{
+        provide: ModalService,
+        useClass: ModalService,
+        multi: false
+    }]
 })
 export class MdModalComponent implements AfterViewInit, OnDestroy {
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
@@ -21,20 +26,38 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     @Output() onClose = new EventEmitter<void>();
     unsubscribe = new Subject<void>();
     
-    constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2) {
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private renderer: Renderer2,
+        private modal: ModalService) {
+        this.modal.resizeRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(() => this.resize());
     }
+
+    resize() {
+        this.modalRoot?.resizeToContentHeight();
+        this.modalRoot?.center();
+        this.cdr.detectChanges();
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
 
-    open() {
+    open(): Observable<boolean> | null {
         this.contentDisplay = true;
         this.modalRoot?.show();
         this.cdr.detectChanges();
+        return this.modalRoot?.openModal.asObservable() ?? null;
+    }
+
+    onModalOpen() {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
+        this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
     }
 
@@ -59,7 +82,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
             this.open();
             this.modalRoot?.calcBodyHeight();
             this.modalRoot?.center();
-            this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
             this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
             this.cdr.detectChanges();
         }

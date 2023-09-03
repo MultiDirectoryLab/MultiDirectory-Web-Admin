@@ -1,5 +1,5 @@
 
-<app-modal #modalRoot class="ng-modal" [backdrop]="backdrop" spinnerHost>
+<app-modal #modalRoot class="ng-modal" [backdrop]="backdrop" spinnerHost (openModal)="onModalOpen()">
   <ng-container class="app-modal-header">
     <div class="header-wrapper">
       <ng-content select=".app-modal-header"></ng-content>

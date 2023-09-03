@@ -2,7 +2,8 @@
 <button 
     class="plane-button-container"
     [ngClass]="{
-        'plane-button-primary': primary
+        'plane-button-primary': primary,
+        'has-border': hasBorder
     }"
     [disabled]="disabled">
         <ng-content></ng-content>

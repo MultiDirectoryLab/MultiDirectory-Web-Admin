@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
-import { LdapNode } from "../../../core/ldap/ldap-loader";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
 
 export interface RightClickEvent {
-    selected: LdapNode[],
+    selected: LdapEntity[],
     pointerEvent: PointerEvent
 }
 
@@ -12,7 +12,7 @@ export interface RightClickEvent {
     template: ''
 })
 export abstract class BaseViewComponent {
-    @Input() selectedCatalog?: LdapNode;
+    @Input() selectedCatalog: LdapEntity | null = null;
     @Output() pageChanged = new EventEmitter<Page>();
     @Output() onRightClick = new EventEmitter<RightClickEvent>();
 
@@ -27,17 +27,21 @@ export abstract class BaseViewComponent {
         if(selected.length == 0) {
             this.setSelected([ event.content?.entry ]);
         }
+        if(event instanceof PointerEvent) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.onRightClick.emit({
-            pointerEvent: event.event,
+            pointerEvent: (event instanceof PointerEvent)? event : event.event,
             selected: this.getSelected() ?? []
         });
     }
 
-    abstract setContent(rows: LdapNode[], selectedNodes: LdapNode[]): void;
-    abstract getSelected(): LdapNode[];
-    abstract setSelected(selected: LdapNode[]): void;
+    abstract setContent(rows: LdapEntity[], selectedNodes: LdapEntity[]): void;
+    abstract getSelected(): LdapEntity[];
+    abstract setSelected(selected: LdapEntity[]): void;
     
-    setCatalog(catalog: LdapNode): void {
+    setCatalog(catalog: LdapEntity): void {
         this.selectedCatalog = catalog;
     }
 }

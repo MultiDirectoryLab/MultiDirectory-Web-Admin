@@ -1,6 +1,7 @@
 <div class="header-container">
     <div class="header">
-        <label class="bold">Папка: {{selectedCatalog?.name ?? ''}}</label>
+        <label *ngIf="selectedCatalog" class="bold">Папка: {{selectedCatalog.name ?? ''}}</label>
+        <label *ngIf="!selectedCatalog" class="bold">Выберите каталог</label>
     </div>
     <div class="control-panel">
         <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
@@ -14,7 +15,7 @@
             (click)="showHelp()">
             <img [src]="'assets/help.svg'" />
         </md-plane-button>
-        <md-plane-button class="settings control-button">
+        <md-plane-button class="settings control-button" (click)="closeCatalog()">
             <img [src]="'assets/close.svg'" />
         </md-plane-button>
     </div>

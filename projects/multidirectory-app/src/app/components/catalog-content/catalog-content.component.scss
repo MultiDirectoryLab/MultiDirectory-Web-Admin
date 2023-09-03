@@ -34,3 +34,19 @@
 :host ::ng-deep .datatable-body-row.active .row-icon {
     filter: brightness(0) invert(100%);
 }
+
+.flex-centered {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+.logo-placeholder {
+    user-select: none;
+    pointer-events: none;
+    filter: grayscale(60%) opacity(0.55);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateX(20%) translateY(-15%) rotate(15deg);
+}

@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewC
 import { Router } from "@angular/router";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
-import { LdapNode } from "../../core/ldap/ldap-loader";
 import { TreeviewComponent } from "multidirectory-ui-kit";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, take, takeUntil } from "rxjs";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
+import { LdapEntity } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-home',
@@ -17,10 +17,10 @@ import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnDestroy {
-    get tree(): LdapNode[] {
-        return <LdapNode[]>this.navigation.ldapRoot!;
+    get tree(): LdapEntity[] {
+        return <LdapEntity[]>this.navigation.ldapRoot!;
     }
-    rootDse: LdapNode[] = [];
+    rootDse: LdapEntity[] = [];
 
     user?: WhoamiResponse;
     showLeftPane = false;

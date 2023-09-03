@@ -4,7 +4,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 @Component({
     selector: 'md-spinner',
     styleUrls: ['./spinner.component.scss'],
-    templateUrl: './spinner.component.html'
+    templateUrl: './spinner.component.html',
+    host: { 'collision-id': 'MdSpinnerComponent' }
 })
 export class SpinnerComponent implements OnInit{
     @Input() inputText = 'Подождите...';

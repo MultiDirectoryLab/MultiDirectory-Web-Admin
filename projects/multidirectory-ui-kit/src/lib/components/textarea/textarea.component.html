@@ -1,2 +1,4 @@
-<label>{{label}}</label>
-<textarea></textarea>
+<label *ngIf="label">{{label}}</label>
+<textarea class="textarea"
+[(ngModel)]="value"
+></textarea>

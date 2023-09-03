@@ -12,11 +12,14 @@ import { CreateEntryRequest } from "../models/entry/create-request";
 import { CreateEntryResponse } from "../models/entry/create-response";
 import { DeleteEntryRequest } from "../models/entry/delete-request";
 import { DeleteEntryResponse } from "../models/entry/delete-response";
+import { UpdateEntryResponse } from "../models/entry/update-response";
+import { UpdateEntryRequest } from "../models/entry/update-request";
 
 @Injectable({
     providedIn: 'root'
 })
 export class MultidirectoryApiService {
+
     constructor(@Inject('apiAdapter') private httpClient: ApiAdapter<MultidirectoryAdapterSettings>) {}
 
     login(login: string, password: string): Observable<LoginResponse> {
@@ -57,7 +60,10 @@ export class MultidirectoryApiService {
             .execute();
     }
 
-
+    update(request: UpdateEntryRequest): Observable<UpdateEntryResponse> {
+        return this.httpClient.patch<UpdateEntryResponse>('entry/update', request)
+            .execute();
+    }
     delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
         return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request)
             .execute();
