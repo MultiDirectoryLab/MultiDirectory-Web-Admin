@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
-import { Subject } from "rxjs";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { Subject, take } from "rxjs";
 import { ModalService } from "multidirectory-ui-kit";
+import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { LdapEntityAccessor } from "../../../core/ldap/ldap-entity-accessor";
 
 @Component({
     selector: 'app-user-properties',
@@ -11,28 +11,32 @@ import { ModalService } from "multidirectory-ui-kit";
 })
 export class UserPropertiesComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
-     
+    accessor: LdapEntityAccessor | null = null;
     properties?: any[];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },
         { name: 'Значение', prop: 'val', flexGrow: 1 },
     ];    
-
+    
     constructor(
-        private api: MultidirectoryApiService,
-        private navigation: LdapNavigationService,
         private modal: ModalService,
+        private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef) {}
-
+    
     ngOnInit(): void {
+        this.navigation.getEntityAccessor().pipe(take(1)).subscribe((accessor) => {
+            this.accessor = accessor;
+            this.cdr.detectChanges();
+            this.modal.resize();
+        });
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy() {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();
     }
 
-    onTabChanged(tab: any) {
+    onTabChanged() {
         this.modal.resize();
         this.cdr.detectChanges();
     }

@@ -5,8 +5,6 @@ import { LdapNavigationService } from "projects/multidirectory-app/src/app/servi
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { DatagridComponent } from "projects/multidirectory-ui-kit/src/public-api";
 import { Subject, tap } from "rxjs";
-import { EntityPropertiesComponent } from "../properties.component";
-import { ModalComponent } from "ng-modal-full-resizable";
 
 @Component({
     selector: 'app-entity-attributes',
@@ -15,7 +13,7 @@ import { ModalComponent } from "ng-modal-full-resizable";
 export class EntityAttributesComponent implements AfterViewInit {
     @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
     unsubscribe = new Subject<boolean>();
-     
+
     properties: any[] = [];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },

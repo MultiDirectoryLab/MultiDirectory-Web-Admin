@@ -2,9 +2,10 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewC
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
+import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
  
 @Component({
     selector: 'app-ou-create',
@@ -59,7 +60,7 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     onFinish() {
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest},` + this.selectedNode?.id,
-            attributes: [new LdapPartialAttribute({
+            attributes: [new PartialAttribute({
               type: 'objectClass',
               vals: [
               'top', 'container', 'organizationalUnit'

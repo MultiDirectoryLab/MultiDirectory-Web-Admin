@@ -3,9 +3,10 @@ import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { CreateEntryRequest, LdapPartialAttribute } from "../../../models/entry/create-request";
+import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { ToastrService } from "ngx-toastr";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 
 @Component({
     selector: 'app-group-create',
@@ -64,7 +65,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest.groupName},` + this.selectedNode?.id,
             attributes: [
-                new LdapPartialAttribute({
+                new PartialAttribute({
                     type: 'objectClass',
                     vals: [ 'group', 'top' ]
                 }),

@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
-import { BehaviorSubject, Observable, Subject, lastValueFrom, take } from "rxjs";
+import { BehaviorSubject, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
 import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntityAccessor } from "../core/ldap/ldap-entity-accessor";
+import { LdapEntityAccessorFactory } from "../core/ldap/ldap-entity-accessor-factory";
 
 @Injectable({
     providedIn: 'root'
@@ -44,7 +46,7 @@ export class LdapNavigationService {
         return this._page;
     }
 
-    constructor(private ldap: LdapLoader) {}
+    constructor(private ldap: LdapLoader, private accessorFactory: LdapEntityAccessorFactory) {}
     
     init() {
         this.ldap.getRoot().subscribe(roots => {
@@ -160,5 +162,19 @@ export class LdapNavigationService {
 
     getContent(catalog: LdapEntity, page: Page): Observable<LdapEntity[]> {
         return this.ldap.getContent(catalog.id, catalog, page);
+    }
+
+    private _accessor: LdapEntityAccessor | null = null;
+    getEntityAccessor(): Observable<LdapEntityAccessor | null> {
+        if(!!this._accessor?.dn  && this._accessor?.dn == this.selectedEntity?.[0]?.entry?.object_name ) {
+            return of(this._accessor);
+        }
+        if(this.selectedEntity == null) {
+            return of(null);
+        }
+        
+        return this.accessorFactory.get(this.selectedEntity[0]).pipe(take(1), tap(accessor => {
+            this._accessor = accessor;
+        }));
     }
 }

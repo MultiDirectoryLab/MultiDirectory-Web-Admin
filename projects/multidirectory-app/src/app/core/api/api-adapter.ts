@@ -16,6 +16,11 @@ export class ApiAdapter<Settings extends AdapterSettings> {
         return new PostRequest<T>(url.href, body, this.httpClient, this.toastr);
     }
 
+    patch<T>(resource: string, body: any = null, ): PatchRequest<T> {
+        const url = this.getBaseUrl(resource);
+        return new PatchRequest<T>(url.href, body, this.httpClient, this.toastr);
+    }
+
     delete<T>(resource: string, body: any = null, ): DeleteRequest<T> {
         const url = this.getBaseUrl(resource);
         return new DeleteRequest<T>(url.href, body, this.httpClient, this.toastr);
@@ -54,6 +59,21 @@ export class PostRequest<ResponseType> extends HttpRequest<ResponseType>{
     }
 
 }
+export class PatchRequest<ResponseType> extends HttpRequest<ResponseType>{
+    constructor(url: string, private body: any, httpClient: HttpClient, toastr: ToastrService) {
+        super(url, httpClient, toastr);
+    }
+
+    useUrlEncodedForm(): PatchRequest<ResponseType> {
+        this.httpOptions.headers = this.httpOptions.headers.set('Content-Type', `application/x-www-form-urlencoded`);
+        return this;
+    }
+
+    override execute(): Observable<ResponseType> {
+        return this.httpClient.patch<ResponseType>(this.url, this.body, this.httpOptions);
+    }
+}
+
 
 
 export class GetRequest<ResponseType> extends HttpRequest<ResponseType> {

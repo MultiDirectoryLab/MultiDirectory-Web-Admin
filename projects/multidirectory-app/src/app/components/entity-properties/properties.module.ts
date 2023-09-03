@@ -8,11 +8,13 @@ import { UserPropertiesGeneralComponent } from "./user-properties/general/user-p
 import { UserPropertiesAddressComponent } from "./user-properties/address/user-properties-address.component";
 import { UserPropertiesProfileComponent } from "./user-properties/profile/user-properties-profile.component";
 import { UserPropertiesAccountComponent } from "./user-properties/account/user-properties-account.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
     imports: [
         CommonModule,
-        MultidirectoryUiKitModule
+        MultidirectoryUiKitModule,
+        FormsModule
     ],
     declarations: [
         PropertiesComponent,

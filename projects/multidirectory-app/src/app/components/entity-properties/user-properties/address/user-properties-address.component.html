@@ -1,24 +1,26 @@
+<ng-container *ngIf="accessor">
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Улица</label></div>
-    <md-textarea class="col-md-8" name="full-name"></md-textarea>
+    <div class="col-md-4"><label for="streetAddress">Улица</label></div>
+    <md-textarea class="col-md-8" name="streetAddress" [(ngModel)]="accessor.streetAddress"></md-textarea>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Почтовый ящик</label></div>
-    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+    <div class="col-md-4"><label for="postalAddress">Почтовый ящик</label></div>
+    <md-textbox class="col-md-8" name="postalAddress" [(ngModel)]="accessor.postalAddress"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Город</label></div>
-    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+    <div class="col-md-4"><label for="location">Город</label></div>
+    <md-textbox class="col-md-8" name="location" [(ngModel)]="accessor.location"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Область</label></div>
-    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+    <div class="col-md-4"><label for="state">Область</label></div>
+    <md-textbox class="col-md-8" name="state" [(ngModel)]="accessor.state"></md-textbox>
 </div>
 <div class="row align-start pv-8">
     <div class="col-md-4"><label for="full-name">Почтовый индекс</label></div>
-    <md-textbox class="col-md-8" name="full-name"></md-textbox>
+    <md-textbox class="col-md-8" name="full-name" [(ngModel)]="accessor.postalCode"></md-textbox>
 </div>
 <div class="row align-start pv-8">
     <div class="col-md-4"><label for="full-name">Страна</label></div>
-    <md-dropdown class="col-md-8 w-100" [options]="['ru', 'en']"></md-dropdown>
+    <md-dropdown class="col-md-8 w-100" [options]="countries" [(ngModel)]="accessor.country"></md-dropdown>
 </div>
+</ng-container>
