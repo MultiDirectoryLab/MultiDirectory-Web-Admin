@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { LdapEntity } from "../core/ldap/ldap-entity";
-import { MultidirectoryApiService } from "./multidirectory-api.service";
-import { SearchQueries } from "../core/ldap/search";
-import { Observable, map, of, tap } from "rxjs";
-import { PartialAttribute } from "../core/ldap/ldap-partial-attribute";
-import { LdapAttributes, LdapAttributesProxyHandler, Trackable } from "../core/ldap/ldap-entity-proxy";
-import { UpdateEntryResponse } from "../models/entry/update-response";
+import { Observable, map } from "rxjs";
 import { ChangeDescription } from "../core/ldap/ldap-change";
+import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapAttributes, LdapAttributesProxyHandler } from "../core/ldap/ldap-entity-proxy";
+import { PartialAttribute } from "../core/ldap/ldap-partial-attribute";
+import { SearchQueries } from "../core/ldap/search";
 import { LdapChange, LdapOperation, UpdateEntryRequest } from "../models/entry/update-request";
+import { UpdateEntryResponse } from "../models/entry/update-response";
+import { MultidirectoryApiService } from "./multidirectory-api.service";
 
 @Injectable({
     providedIn: 'root'
@@ -34,7 +34,6 @@ export class AttributeService {
     }
 
     getChanges(attribute: LdapAttributes): ChangeDescription[] {
-        let changes: ChangeDescription[] = [];
         // to add 
         const toAdd = Object.entries(attribute).filter((keyValue) => {
             const old = attribute['$' + keyValue[0]];

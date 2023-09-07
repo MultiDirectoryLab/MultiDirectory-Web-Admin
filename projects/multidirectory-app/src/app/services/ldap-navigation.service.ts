@@ -159,6 +159,7 @@ export class LdapNavigationService {
 
     setSelection(selection: LdapEntity[] | null = null) {
         this._selectedEntity = selection;
+        this._accessor = null;
         this._selectedEntityRx.next(this._selectedEntity);
     }
 
