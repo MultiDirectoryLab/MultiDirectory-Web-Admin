@@ -1,4 +1,4 @@
-<md-modal #properties width="600px">
+<md-modal #properties width="500px">
     <div class="app-modal-header">
         Свойства
     </div> 
@@ -10,8 +10,8 @@
         </ng-container>
     </div>
 
-    <div class="app-modal-footer">
-        <md-button (click)="close()">Закрыть</md-button>
-        <md-button (click)="save()">Применить</md-button>
+    <div class="app-modal-footer flex-row flex-end">
+        <md-button class="pr-8" (click)="close()">Закрыть</md-button>
+        <md-button [primary]="true" (click)="save()">Применить</md-button>
     </div>
 </md-modal>

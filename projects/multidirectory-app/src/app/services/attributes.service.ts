@@ -59,7 +59,7 @@ export class AttributeService {
         }));
         const toDelete = Object.entries(attribute).filter((keyValue) => {
             const old = attribute['$' + keyValue[0]];
-            return !!old && !old.some(x => keyValue[1].includes(x));
+            return !!old && keyValue[1].length === 0;
         }).map(keyValue => new ChangeDescription({
             operation: LdapOperation.Delete,
             attribute: new PartialAttribute({

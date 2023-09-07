@@ -38,17 +38,24 @@ export class EntityPropertiesComponent {
         this.propertiesModal.close()
     }
     save() {
+        this.propertiesModal.showSpinner();
         this.navigation.getEntityAccessor().pipe(
             take(1),
             switchMap(accessor => {
                 if(!accessor) {
                     return EMPTY;
                 }
-                console.log(accessor);
                 return this.attributes.saveEntity(accessor);
             })
-        ).subscribe((accessor) => {
-            console.log(accessor);
+        ).subscribe({
+            complete: () => {
+                this.propertiesModal.hideSpinner();
+                this.propertiesModal.close();
+            },
+            error: (err) => {
+                this.toastr.error(err);
+                this.propertiesModal.hideSpinner();
+            }
         });
     }
 }
