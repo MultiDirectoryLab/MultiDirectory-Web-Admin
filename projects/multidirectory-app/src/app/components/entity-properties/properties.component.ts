@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { MdModalComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, Subject, switchMap, take } from "rxjs";
+import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
 import { LdapEntity } from "../../core/ldap/ldap-entity";
 import { LdapEntityType } from "../../core/ldap/ldap-entity-type";
 import { AttributeService } from "../../services/attributes.service";
@@ -34,8 +34,11 @@ export class EntityPropertiesComponent {
             this.toastr.error('Для просмотра свойств необходимо выбрать сущность')
             return;
         }
-        this.propertiesModal.open()?.pipe(take(1), switchMap(() => this.navigation.getEntityAccessor())).subscribe((accessor) => {
-            this.accessor = accessor;
+        this.navigation.getEntityAccessor().pipe(
+            take(1), 
+            tap(accessor => { this.accessor = accessor; }),
+            switchMap(() => { return this.propertiesModal.open() ?? of(false) })
+        ).subscribe(() => {
             this.cdr.detectChanges();
             this.propertiesModal.resize();
         });
