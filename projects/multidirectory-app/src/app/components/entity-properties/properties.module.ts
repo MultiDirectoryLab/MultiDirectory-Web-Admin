@@ -9,6 +9,7 @@ import { UserPropertiesAddressComponent } from "./user-properties/address/user-p
 import { UserPropertiesProfileComponent } from "./user-properties/profile/user-properties-profile.component";
 import { UserPropertiesAccountComponent } from "./user-properties/account/user-properties-account.component";
 import { FormsModule } from "@angular/forms";
+import { AttributeListComponent } from "./attributes-list/attributes-list.component";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { FormsModule } from "@angular/forms";
         UserPropertiesAddressComponent,
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
-        EntityAttributesComponent
+        EntityAttributesComponent,
+        AttributeListComponent
     ],
     exports: [
         PropertiesComponent,
@@ -32,7 +34,8 @@ import { FormsModule } from "@angular/forms";
         UserPropertiesAddressComponent,
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
-        EntityAttributesComponent
+        EntityAttributesComponent,
+        AttributeListComponent
     ]
 })
 export class PropertiesModule {}

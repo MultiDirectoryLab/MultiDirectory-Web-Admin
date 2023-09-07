@@ -1,12 +1,11 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
+import { MdModalComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, switchMap, take } from "rxjs";
-import { LdapEntityType } from "../../core/ldap/ldap-entity-type";
-import { LdapNavigationService } from "../../services/ldap-navigation.service";
 import { LdapEntity } from "../../core/ldap/ldap-entity";
-import { MdModalComponent } from "multidirectory-ui-kit";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { LdapEntityType } from "../../core/ldap/ldap-entity-type";
 import { AttributeService } from "../../services/attributes.service";
+import { LdapNavigationService } from "../../services/ldap-navigation.service";
 
 @Component({
     selector: 'app-properties',
@@ -24,8 +23,7 @@ export class EntityPropertiesComponent {
     constructor(
         public navigation: LdapNavigationService, 
         public toastr: ToastrService, 
-        private attributes: AttributeService,
-        private cdr: ChangeDetectorRef) {
+        private attributes: AttributeService) {
     }
     open() {
         this._selectedEntity = this.navigation.selectedEntity?.[0] ?? null;
@@ -46,6 +44,7 @@ export class EntityPropertiesComponent {
                 if(!accessor) {
                     return EMPTY;
                 }
+                console.log(accessor);
                 return this.attributes.saveEntity(accessor);
             })
         ).subscribe((accessor) => {

@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, Subject, lastValueFrom, of, take, tap } fr
 import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
-import { LdapEntityAccessor } from "../core/ldap/ldap-entity-accessor";
-import { LdapEntityAccessorFactory } from "../core/ldap/ldap-entity-accessor-factory";
+import { LdapAttributes } from "../core/ldap/ldap-entity-proxy";
+import { AttributeService } from "./attributes.service";
 
 @Injectable({
     providedIn: 'root'
@@ -46,7 +46,9 @@ export class LdapNavigationService {
         return this._page;
     }
 
-    constructor(private ldap: LdapLoader, private accessorFactory: LdapEntityAccessorFactory) {}
+    constructor(
+        private ldap: LdapLoader,
+        private attributes: AttributeService) {}
     
     init() {
         this.ldap.getRoot().subscribe(roots => {
@@ -164,16 +166,15 @@ export class LdapNavigationService {
         return this.ldap.getContent(catalog.id, catalog, page);
     }
 
-    private _accessor: LdapEntityAccessor | null = null;
-    getEntityAccessor(): Observable<LdapEntityAccessor | null> {
-        if(!!this._accessor?.dn  && this._accessor?.dn == this.selectedEntity?.[0]?.entry?.object_name ) {
-            return of(this._accessor);
-        }
-        if(this.selectedEntity == null) {
+    private _accessor: LdapAttributes | null = null;
+    getEntityAccessor(): Observable<LdapAttributes | null> {
+        if(!this.selectedEntity) {
             return of(null);
         }
-        
-        return this.accessorFactory.get(this.selectedEntity[0]).pipe(take(1), tap(accessor => {
+        if(!!this._accessor) {
+            return of(this._accessor);
+        } 
+        return this.attributes.get(this.selectedEntity[0]).pipe(take(1), tap(accessor => {
             this._accessor = accessor;
         }));
     }

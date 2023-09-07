@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
-import { Subject, take } from "rxjs";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { ModalService } from "multidirectory-ui-kit";
+import { Subject, take } from "rxjs";
+import { LdapAttributes } from "../../../core/ldap/ldap-entity-proxy";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { LdapEntityAccessor } from "../../../core/ldap/ldap-entity-accessor";
 
 @Component({
     selector: 'app-user-properties',
@@ -11,7 +11,7 @@ import { LdapEntityAccessor } from "../../../core/ldap/ldap-entity-accessor";
 })
 export class UserPropertiesComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
-    accessor: LdapEntityAccessor | null = null;
+    accessor: LdapAttributes | null = null;
     properties?: any[];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },

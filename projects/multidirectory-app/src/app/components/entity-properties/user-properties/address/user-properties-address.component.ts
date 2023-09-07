@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { DropdownOption } from "multidirectory-ui-kit";
-import { LdapEntityAccessor } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-accessor";
-import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
-import { take } from "rxjs";
+import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 
 @Component({
     selector: 'app-user-properties-address',
@@ -10,7 +8,7 @@ import { take } from "rxjs";
     styleUrls: ['./user-properties-address.component.scss']
 })
 export class UserPropertiesAddressComponent {
-    @Input() accessor: LdapEntityAccessor | null = null;
+    @Input() accessor: LdapAttributes | null = null;
 
     constructor() {}
     countries = [

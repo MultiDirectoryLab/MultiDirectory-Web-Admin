@@ -83,6 +83,11 @@ export class TreeviewComponent implements OnInit {
     
     }
 
+    addRoot(node: Treenode) {
+        this.tree.push(node);
+        this.cdr.detectChanges();
+    }
+
     selectNode(node: Treenode | null) {
             let nodePath: Treenode[] = [];
             let toSelect: Treenode | undefined;
@@ -153,5 +158,9 @@ export class TreeviewComponent implements OnInit {
                 this.cdr.detectChanges();
             }
         }
+    }
+
+    redraw() {
+        this.cdr.detectChanges();
     }
 }

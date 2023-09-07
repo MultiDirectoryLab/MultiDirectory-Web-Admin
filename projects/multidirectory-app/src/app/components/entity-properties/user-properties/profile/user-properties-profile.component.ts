@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { LdapEntityAccessor } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-accessor";
+import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 
 @Component({
     selector: 'app-user-properties-profile',
@@ -7,5 +7,5 @@ import { LdapEntityAccessor } from "projects/multidirectory-app/src/app/core/lda
     templateUrl: './user-properties-profile.component.html'
 })
 export class UserPropertiesProfileComponent {
-    @Input() accessor: LdapEntityAccessor | null = null;
+    @Input() accessor: LdapAttributes | null = null;
 }

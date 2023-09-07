@@ -53,7 +53,7 @@
     <div class="row align-start pv-8">
         <div class="col-md-4"><label for="phone">Номер телефона</label></div>
         <md-textbox class="col-md-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
-        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="showOtherSelect()">Другое...</md-plane-button></div>
+        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('Телефоны', 'otherTelephone')">Другое...</md-plane-button></div>
     </div>
     <div class="row align-start pv-8">
         <div class="col-md-4"><label for="email">Email</label></div>
@@ -62,6 +62,7 @@
     <div class="row align-start pv-8">
         <div class="col-md-4"><label for="homepage">Веб-страница</label></div>
         <md-textbox class="col-md-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
-        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="showOtherSelect()">Другое...</md-plane-button></div>
+        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('Веб-страницы', 'otherWebpage')">Другое...</md-plane-button></div>
     </div>
 </ng-container>
+<app-attribute-list #attributeList></app-attribute-list>
