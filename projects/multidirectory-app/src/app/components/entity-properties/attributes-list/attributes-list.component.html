@@ -15,7 +15,7 @@
         <md-treeview #treeview class="border-solid-1 h-100 w-100" style="min-height: 200px;"></md-treeview>
         <div class="flex-column flex-space-between">
             <md-plane-button [hasBorder]="true" (click)="deleteAttribute()">Удалить</md-plane-button>
-            <md-button (click)="apply()">Применить</md-button>
+            <md-button [primary]="true" (click)="apply()">Применить</md-button>
         </div>
     </div>
 </md-modal>

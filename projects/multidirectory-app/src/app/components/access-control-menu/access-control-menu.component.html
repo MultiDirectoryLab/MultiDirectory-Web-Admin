@@ -1,0 +1,32 @@
+<md-modal #accessControlModal width="800px" minHeight="400px">
+    <div class="app-modal-header">
+        Контроль доступа
+    </div>
+    <!--md-datagrid [rows]="properties" [columns]="propColumns">
+
+    </md-datagrid-->
+    <div class="flex-column flex-gap-10">
+        <div class="flex-row flex-space-between ">
+            <div class="title">
+                Клиенты:
+            </div>
+            <div class="flex-row align-center">
+                <md-button>Добавить</md-button>
+            </div>
+        </div>
+        
+        <div *ngFor="let client of clients; let i = index">
+            <app-acccess-control-client 
+                [accessClient]="client" 
+                [index]="i + 1" 
+                (turnOffClick)="onTurnOffClick($event)"
+                (deleteClick)="onDeleteClick($event)">
+            </app-acccess-control-client>
+        </div>
+    </div>
+
+    <div class="app-modal-footer flex-row justify-end flex-gap-10">
+        <md-button>Отмена</md-button>
+        <md-button [primary]="true">Применить</md-button>
+    </div>
+</md-modal>

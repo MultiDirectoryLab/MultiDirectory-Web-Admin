@@ -14,10 +14,6 @@ export class UserPropertiesGeneralComponent {
     @ViewChild('attributeList', { static: true }) attributeList: AttributeListComponent | null = null;
 
     constructor(public toastr: ToastrService) {}
- 
-    showOtherSelect() {
-        this.toastr.info('IN PROGRESS');
-    }
 
     changeOtherAttributeList(title: string, field: string) {
         if(!this.accessor) {

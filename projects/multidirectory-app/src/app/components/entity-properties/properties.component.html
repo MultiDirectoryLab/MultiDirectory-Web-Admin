@@ -4,7 +4,7 @@
     </div> 
 
     <div>
-        <ng-container  [ngSwitch]="_entityType">
+        <ng-container [ngSwitch]="_entityType">
             <app-user-properties [accessor]="accessor" *ngSwitchCase="EntityTypes.User"></app-user-properties>
             <app-entity-attributes *ngSwitchDefault></app-entity-attributes>
         </ng-container>

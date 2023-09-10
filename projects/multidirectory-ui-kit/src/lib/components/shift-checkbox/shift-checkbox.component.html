@@ -1,5 +1,5 @@
 <div class="flex-row align-center pointer">
-    <label class="switch" for="checkbox">
+    <label class="switch" for="checkbox" (click)="onToggle()">
         <input 
             [disabled]="disabled"
             [(ngModel)]="value"

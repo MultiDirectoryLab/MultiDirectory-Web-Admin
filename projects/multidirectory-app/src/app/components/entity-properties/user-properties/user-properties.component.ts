@@ -1,8 +1,7 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnDestroy } from "@angular/core";
 import { ModalService } from "multidirectory-ui-kit";
-import { Subject, take } from "rxjs";
+import { Subject } from "rxjs";
 import { LdapAttributes } from "../../../core/ldap/ldap-entity-proxy";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 
 @Component({
     selector: 'app-user-properties',

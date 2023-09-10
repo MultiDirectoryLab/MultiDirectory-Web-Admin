@@ -6,6 +6,7 @@ import { ContentViewService } from "../../services/content-view.service";
 import { ViewMode } from "../catalog-content/view-modes";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { LdapEntity } from "../../core/ldap/ldap-entity";
+import { MenuService } from "../../services/menu.service";
 
 @Component({
     selector: 'app-header',
@@ -33,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private navigation: LdapNavigationService,
         private contentViewService: ContentViewService,
         private hotkeysService: HotkeysService,
+        private menu: MenuService,
         private cdr: ChangeDetectorRef) 
     {
         this.hotkeysService.add(new Hotkey('ctrl+h', (event: KeyboardEvent): boolean => {
@@ -90,5 +92,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     closeCatalog() {
         this.navigation.setCatalog(null);
         this.cdr.detectChanges();
+    }
+    openAccessControl() {
+        this.menu.showAccessControlMenu();
     }
 }

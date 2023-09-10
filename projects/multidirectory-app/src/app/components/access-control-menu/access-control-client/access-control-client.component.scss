@@ -1,0 +1,62 @@
+.client-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 32px 200px 200px 1fr 64px;
+    border: 1px solid lightgrey;
+    border-radius: 8px;
+    .cell-index {
+        grid-column: 1;
+        grid-row: 1 / 3;
+
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 2rem;
+    }
+
+    .cell-domain {
+        grid-row: 1;
+        grid-column: 2 / 3;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .cell-ip {
+        grid-row: 1 / 3;
+        grid-column: 3;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cell-groups {
+        grid-row: 2;
+        grid-column: 2 / 3;
+    }
+
+    .cell-control-buttons {
+        display: flex;
+        grid-row: 1/3;
+        grid-column: 4;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .cell-switches {
+        display: flex;
+        grid-row: 1/3;
+        grid-column: 5;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: flex-end;
+    }
+}
+
+.control-button-logo {
+    height: 20px;
+    width: 20px;
+}

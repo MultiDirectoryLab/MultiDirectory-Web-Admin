@@ -84,11 +84,12 @@
 <app-ou-create #createOuModal (onCreate)="loadData()"></app-ou-create>
 <app-group-create #createGroupModal [selectedNode]="selectedCatalog" (onCreate)="loadData()"></app-group-create>
 
+<app-access-control-menu #accessControlModal>
+</app-access-control-menu>
+
 <md-modal #createObjectModal>
     TODO
 </md-modal> 
-
-
 
 <md-modal #deleteConfirmation>
     <div class="app-modal-header">

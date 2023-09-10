@@ -20,7 +20,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     @ViewChild(SpinnerHostDirective, { static: false }) spinnerHost?: SpinnerHostDirective;
     @Input() opened = false;
     @Input() backdrop = true;
-    @Input() height: string = '';
+    @Input() minHeight: string = '';
     @Input() width: string = '';
     @Input() contentDisplay = false;
     @Output() onClose = new EventEmitter<void>();

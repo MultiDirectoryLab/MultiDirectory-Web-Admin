@@ -34,6 +34,8 @@ import { ValidatorsModule } from './components/forms/validators/validators.modul
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { PropertiesModule } from './components/entity-properties/properties.module';
 import { AuthorizationModule } from './core/authorization/authorization.module';
+import { AccessControlMenuComponent } from './components/access-control-menu/access-control-menu.component';
+import { AccessControlModule } from './components/access-control-menu/access-control-menu.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,6 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
     AdminSettingsComponent,
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
-
     OuCreateComponent,
 
     GroupCreateComponent,
@@ -78,6 +79,7 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
     ValidatorsModule,
     UserCreateModule,
     PropertiesModule,
+    AccessControlModule
   ],
   providers: [
     provideAnimations(),

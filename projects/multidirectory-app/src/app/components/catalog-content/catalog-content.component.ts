@@ -14,6 +14,8 @@ import { OuCreateComponent } from "../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../forms/user-create/user-create.component";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
+import { AccessControlMenuComponent } from "../access-control-menu/access-control-menu.component";
+import { MenuService } from "../../services/menu.service";
 
 @Component({
     selector: 'app-catalog-content',
@@ -26,7 +28,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
-    
+    @ViewChild('accessControlModal', { static: true }) accessControlMenu: AccessControlMenuComponent | null = null;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;
@@ -44,6 +46,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private contentView: ContentViewService,
+        private menuService: MenuService,
         private hotkeysService: HotkeysService) {
             this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
                 this.openCreateUser();
@@ -57,6 +60,16 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                 this.openCreateOu();
                 return false;
             }, undefined, 'Создать организационную единицу'));
+            this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
+                this.openAccessControlMenu();
+                return false;
+            }, undefined, 'Создать организационную единицу'));
+            
+            this.menuService.accessControlMenuRx
+                .pipe(takeUntil(this.unsubscribe))
+                .subscribe(() => {
+                    this.openAccessControlMenu();
+                });
         }
 
     ngOnInit(): void {
@@ -108,6 +121,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.unsubscribe.complete();
     }
     
+    openAccessControlMenu() {
+        this.accessControlMenu?.open();
+    }
+
     deleteSelectedEntry() {
         concat(...this.selectedRows.map(x => 
             this.api.delete(new DeleteEntryRequest({
