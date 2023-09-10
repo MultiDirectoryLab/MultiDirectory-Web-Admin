@@ -11,7 +11,7 @@
                 Клиенты:
             </div>
             <div class="flex-row align-center">
-                <md-button>Добавить</md-button>
+                <md-button (click)="onAddClick()">Добавить</md-button>
             </div>
         </div>
         
@@ -20,6 +20,7 @@
                 [accessClient]="client" 
                 [index]="i + 1" 
                 (turnOffClick)="onTurnOffClick($event)"
+                (editClick)="onEditClick($event)"
                 (deleteClick)="onDeleteClick($event)">
             </app-acccess-control-client>
         </div>
@@ -30,3 +31,6 @@
         <md-button [primary]="true">Применить</md-button>
     </div>
 </md-modal>
+
+
+<app-access-control-client-create #createModal></app-access-control-client-create>

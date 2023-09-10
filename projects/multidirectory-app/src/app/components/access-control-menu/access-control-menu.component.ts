@@ -2,6 +2,8 @@ import { Component, ViewChild } from "@angular/core";
 import { MdModalComponent } from "multidirectory-ui-kit";
 import { AccessControlClient } from "../../core/access-control/access-control";
 import { ToastrService } from "ngx-toastr";
+import { AccessControlClientCreateComponent } from "./access-control-client-create/access-control-client-create.component";
+import { take } from "rxjs";
 
 @Component({
     selector: 'app-access-control-menu',
@@ -10,6 +12,8 @@ import { ToastrService } from "ngx-toastr";
 }) 
 export class AccessControlMenuComponent {
     @ViewChild('accessControlModal', { static: true }) accessControlModal: MdModalComponent | null = null;
+    @ViewChild('createModal', { static: true }) accessClientCreateModal: AccessControlClientCreateComponent | null = null;
+
     properties: any[] = [];
     propColumns = [
         { name: '№', prop: 'no', flexGrow: 1 },
@@ -62,5 +66,28 @@ export class AccessControlMenuComponent {
             client.enabled = true;
             return;
         }
+    }
+
+    onEditClick(toEdit: AccessControlClient) {
+        this.accessClientCreateModal?.open(
+            new AccessControlClient(toEdit)
+        ).pipe(take(1)).subscribe(client => {
+            if(!client) {
+                return;
+            }
+            const ind = this.clients.findIndex(x => x == toEdit);
+            this.clients[ind] = client;
+        });
+    }
+
+    onAddClick() {
+        this.accessClientCreateModal?.open(
+            new AccessControlClient()
+        ).pipe(take(1)).subscribe(client => {
+            if(!client) {
+                return;
+            }
+            this.clients.push(client);
+        });
     }
 }

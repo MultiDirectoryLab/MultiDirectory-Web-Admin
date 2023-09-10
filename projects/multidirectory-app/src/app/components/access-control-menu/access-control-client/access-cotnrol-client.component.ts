@@ -11,6 +11,7 @@ export class AccessControlClientComponent implements AfterViewInit {
     @Input() index = 0;
     @Output() deleteClick = new EventEmitter<AccessControlClient>();
     @Output() turnOffClick = new EventEmitter<AccessControlClient>();
+    @Output() editClick = new EventEmitter<AccessControlClient>();
 
     _accessClient: AccessControlClient | null = null;
     get accessClient(): AccessControlClient | null{
@@ -44,5 +45,14 @@ export class AccessControlClientComponent implements AfterViewInit {
             return;
         }
         this.turnOffClick.emit(this.accessClient);
+    }
+
+    
+    onEditClick() {
+        if(!this.accessClient) {
+            this.toastr.error('Этого клиента не существует');
+            return;
+        }
+        this.editClick.emit(this.accessClient);
     }
 }
