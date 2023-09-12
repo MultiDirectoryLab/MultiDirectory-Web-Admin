@@ -8,10 +8,5 @@ import { Router } from "@angular/router";
     styleUrls: ['./app-settings.component.scss']
 })
 export class AppSettingsComponent {
-    constructor(private router: Router) {
-    }
 
-    close() {
-        this.router.navigate(['']);
-    }
 }

@@ -9,6 +9,7 @@ import { AccessControlModule } from "./access-control-menu/access-control-menu.m
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { MultifactorSettingsComponent } from "./mulifactor-settings/multifactor-settings.component";
 import { AppSettingsRoutingModule } from "./app-settings-routes.module";
+import { AppSettingsHeaderComponent } from "./header/app-settings-header.component";
 
 @NgModule({
     imports: [
@@ -23,13 +24,15 @@ import { AppSettingsRoutingModule } from "./app-settings-routes.module";
     declarations: [
         AppSettingsComponent,
         AppSettingsNavigationComponent,
+        AppSettingsHeaderComponent,
         MultifactorSettingsComponent
     ],
     exports: [
         AppSettingsComponent,
         AppSettingsNavigationComponent,
         MultifactorSettingsComponent,
-        AppSettingsRoutingModule
+        AppSettingsRoutingModule,
+        AppSettingsHeaderComponent
     ]
 })
 export class AppSettingsModule {
