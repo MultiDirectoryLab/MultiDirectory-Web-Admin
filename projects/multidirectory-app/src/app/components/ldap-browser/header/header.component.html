@@ -56,7 +56,7 @@
             <label>F4</label>     
         </md-radiobutton>
     </div>
-    <div class="dropdown-item" (click)="helpMenu.close(); openAccessControl()">
+    <div class="dropdown-item" [routerLink]="['settings']">
         Контроль доступа
     </div>
     <div class="dropdown-item disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>

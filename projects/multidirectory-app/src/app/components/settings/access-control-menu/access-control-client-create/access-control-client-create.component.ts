@@ -1,10 +1,10 @@
 import { Component, EventEmitter, ViewChild } from "@angular/core";
-import { DropdownOption, MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
-import { AccessControlClient } from "../../../core/access-control/access-control";
 import { Observable, take } from "rxjs";
-import { MfaAccessEnum } from "../../../core/access-control/mfa-access-enum";
 import { AccessGroupSelectorComponent } from "../access-control-group-selector/access-group-selector.component";
-import { AttributeListComponent } from "../../ldap-browser/editors/attributes-list/attributes-list.component";
+import { MdModalComponent, MdFormComponent, DropdownOption } from "multidirectory-ui-kit";
+import { AccessControlClient } from "projects/multidirectory-app/src/app/core/access-control/access-control";
+import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-control/mfa-access-enum";
+import { AttributeListComponent } from "../../../ldap-browser/editors/attributes-list/attributes-list.component";
 
 @Component({
     selector: 'app-access-control-client-create',

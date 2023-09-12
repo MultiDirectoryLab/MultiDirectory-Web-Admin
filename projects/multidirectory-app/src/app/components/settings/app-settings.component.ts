@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { AppSettingsService } from "../../services/app-settings.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-settings',
@@ -7,7 +8,10 @@ import { AppSettingsService } from "../../services/app-settings.service";
     styleUrls: ['./app-settings.component.scss']
 })
 export class AppSettingsComponent {
-    constructor(private app: AppSettingsService) {
-        this.app.setNavigationalPanelVisiblity(false);
+    constructor(private router: Router) {
+    }
+
+    close() {
+        this.router.navigate(['']);
     }
 }

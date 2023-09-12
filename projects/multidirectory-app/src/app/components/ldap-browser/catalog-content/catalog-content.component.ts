@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
-import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, concat, switchMap, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
@@ -9,13 +8,14 @@ import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { AccessControlMenuComponent } from "../../access-control-menu/access-control-menu.component";
-import { GroupCreateComponent } from "../../forms/group-create/group-create.component";
 import { OuCreateComponent } from "../../forms/ou-create/ou-create.component";
 import { UserCreateComponent } from "../../forms/user-create/user-create.component";
 import { EntityPropertiesComponent } from "../entity-properties/properties.component";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
+import { AccessControlClientModalComponent } from "../../settings/access-control-menu/access-control-modal.component";
+import { GroupCreateComponent } from "../../forms/group-create/group-create.component";
+import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
  
 @Component({
     selector: 'app-catalog-content',
@@ -28,7 +28,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
-    @ViewChild('accessControlModal', { static: true }) accessControlMenu: AccessControlMenuComponent | null = null;
+    @ViewChild('accessControlModal', { static: true }) accessControlMenu: AccessControlClientModalComponent | null = null;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;

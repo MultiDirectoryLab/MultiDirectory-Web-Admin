@@ -1,0 +1,22 @@
+<div class="flex-column flex-gap-10">
+    <div class="flex-row flex-space-between ">
+        <div class="title">
+            Клиенты:
+        </div>
+        <div class="flex-row align-center">
+            <md-button (click)="onAddClick()">Добавить</md-button>
+        </div>
+    </div>
+    
+    <div *ngFor="let client of clients; let i = index">
+        <app-acccess-control-client 
+            [accessClient]="client" 
+            [index]="i + 1" 
+            (turnOffClick)="onTurnOffClick($event)"
+            (editClick)="onEditClick($event)"
+            (deleteClick)="onDeleteClick($event)">
+        </app-acccess-control-client>
+    </div>
+</div>
+
+<app-access-control-client-create #createModal></app-access-control-client-create>

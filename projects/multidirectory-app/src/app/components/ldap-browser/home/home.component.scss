@@ -1,9 +1,5 @@
 @use '../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
-.bg-white {
-    background: global.$md-neutral-100;
-}
-
 .left-pane {
     border-right: 1px solid lightgrey;
     display: flex;

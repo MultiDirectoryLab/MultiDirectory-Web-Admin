@@ -10,7 +10,12 @@ import { HomeComponent } from './components/ldap-browser/home/home.component';
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
   { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard ] },
-  { path: 'settings', component: AppSettingsComponent, canActivate: [ AuthRouteGuard ]},
+  {
+    path: 'settings',
+    component: AppSettingsComponent, 
+    canActivate: [ AuthRouteGuard ],
+    loadChildren: () => import('./components/settings/app-settings.module').then(m => m.AppSettingsModule)
+  },
   { path: '', component: HomeComponent, canActivate: [ AuthRouteGuard ]},
   { path: '**', redirectTo: ''}
 ];

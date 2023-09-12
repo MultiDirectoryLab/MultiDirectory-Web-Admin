@@ -1,0 +1,8 @@
+<div class="nav">
+    <div class="nav-item" routerLink="/settings"
+        [ngClass]="{'selected': url.endsWith('settings') }" 
+        >Контроль доступа</div>
+    <div class="nav-item"
+        [ngClass]="{'selected': url.endsWith('multifactor') }" 
+        routerLink="/settings/multifactor">Подключение к Мультифактору</div>
+</div>

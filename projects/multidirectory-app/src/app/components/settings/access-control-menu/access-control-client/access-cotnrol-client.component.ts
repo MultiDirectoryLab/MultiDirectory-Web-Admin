@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
-import { AccessControlClient } from "../../../core/access-control/access-control";
 import { ToastrService } from "ngx-toastr";
+import { AccessControlClient } from "projects/multidirectory-app/src/app/core/access-control/access-control";
 
 @Component({
     selector: 'app-acccess-control-client',

@@ -1,9 +1,8 @@
 import { Component, ViewChild } from "@angular/core";
-import { MdModalComponent } from "multidirectory-ui-kit";
-import { AccessControlClient, GroupSelection } from "../../core/access-control/access-control";
 import { ToastrService } from "ngx-toastr";
 import { AccessControlClientCreateComponent } from "./access-control-client-create/access-control-client-create.component";
 import { take } from "rxjs";
+import { AccessControlClient, GroupSelection } from "../../../core/access-control/access-control";
 
 @Component({
     selector: 'app-access-control-menu',
@@ -11,7 +10,6 @@ import { take } from "rxjs";
     styleUrls: ['./access-control-menu.component.scss']
 }) 
 export class AccessControlMenuComponent {
-    @ViewChild('accessControlModal', { static: true }) accessControlModal: MdModalComponent | null = null;
     @ViewChild('createModal', { static: true }) accessClientCreateModal: AccessControlClientCreateComponent | null = null;
 
     properties: any[] = [];
@@ -42,13 +40,7 @@ export class AccessControlMenuComponent {
     ];
     constructor(private toastr: ToastrService) {}
 
-    open() {
-        this.accessControlModal?.open();
-    }
 
-    close() {
-        this.accessControlModal?.close();
-    }
 
     onDeleteClick(client: AccessControlClient) {
         if(this.clients.length <= 1) {
