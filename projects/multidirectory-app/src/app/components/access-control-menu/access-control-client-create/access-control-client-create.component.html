@@ -24,7 +24,7 @@
                     </md-textbox>
                 </div>
                 <div class="col-md-2">
-                    <md-plane-button [hasBorder]="true">
+                    <md-plane-button [hasBorder]="true" (click)="changeIpAdressAttribute()">
                         Добавить
                     </md-plane-button>
                 </div>
@@ -34,11 +34,12 @@
                 <div class="col-md-4">Группы доступа</div>
                 <div class="col-md-6">
                     <md-textbox 
+                        [(ngModel)]="groups"
                         required>
                     </md-textbox>
                 </div>
                 <div class="col-md-2">
-                    <md-plane-button [hasBorder]="true">
+                    <md-plane-button [hasBorder]="true" (click)="changeGroupSelection()">
                         Добавить
                     </md-plane-button>
                 </div>
@@ -59,3 +60,6 @@
         <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">Применить</md-button>
     </div>
 </md-modal> 
+
+<app-attribute-list #attributeList></app-attribute-list>
+<app-access-group-selector #groupSelector></app-access-group-selector>

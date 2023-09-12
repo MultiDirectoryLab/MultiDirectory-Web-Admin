@@ -21,11 +21,12 @@ export class AccessControlClientComponent implements AfterViewInit {
         this._accessClient = accessClient;
         if(this._accessClient) {
             this.ipAddress = this._accessClient.ipRange.join(', ');
+            this.groups = this._accessClient.groups.map(x => x.name).join(', ');
         }
     } 
 
     ipAddress = '';
-    
+    groups = '';
     constructor(private toastr: ToastrService) {}
 
     ngAfterViewInit(): void {

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import { MdModalComponent } from "multidirectory-ui-kit";
-import { AccessControlClient } from "../../core/access-control/access-control";
+import { AccessControlClient, GroupSelection } from "../../core/access-control/access-control";
 import { ToastrService } from "ngx-toastr";
 import { AccessControlClientCreateComponent } from "./access-control-client-create/access-control-client-create.component";
 import { take } from "rxjs";
@@ -33,7 +33,10 @@ export class AccessControlMenuComponent {
         new AccessControlClient({
             domain: 'dev.local.ru',
             enabled: false,
-            groups: [],
+            groups: [new GroupSelection({
+                name: 'administrators',
+                dn: ''
+            })],
             ipRange: ['94.32.123.12']
         })
     ];
@@ -76,7 +79,7 @@ export class AccessControlMenuComponent {
                 return;
             }
             const ind = this.clients.findIndex(x => x == toEdit);
-            this.clients[ind] = client;
+            Object.assign(this.clients[ind], client);
         });
     }
 
@@ -84,6 +87,7 @@ export class AccessControlMenuComponent {
         this.accessClientCreateModal?.open(
             new AccessControlClient()
         ).pipe(take(1)).subscribe(client => {
+            console.log('test', client);
             if(!client) {
                 return;
             }

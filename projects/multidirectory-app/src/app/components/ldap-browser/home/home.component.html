@@ -1,0 +1,37 @@
+<div class="fullscreen bg-white flex-row"> 
+    <div *ngIf="showLeftPane" class="left-pane">
+        <img src="/assets/logo_login.svg" class="logo-img"/>
+        <div class="treeview">
+            <app-navigation></app-navigation>
+        </div>
+        <div class="flex-row footer">
+            <div class="avatar"><img src="/assets/avatar_placeholder.svg" class="avatar-img"/></div>
+            <div class="user-info column">
+                <label>{{user?.display_name}}</label>
+                <label>{{user?.mail}}</label>
+            </div>
+            <div class="more-container">
+                <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
+            </div>
+            <md-dropdown-menu #loginMenu>
+                <div class="dropdown-item disabled" (click)="loginMenu.close(); accountsettings.open()">Настройки аккаунта</div>
+                <div class="dropdown-item" (click)="logout()">Выход из системы</div>
+            </md-dropdown-menu>
+        </div>
+    </div>
+    <div class="right-pane column">
+        <app-header (helpMenuClick)="helpMenuClick()"></app-header>
+        <router-outlet name="header"></router-outlet>
+        <app-catalog-content></app-catalog-content>
+    </div>
+</div>
+
+<md-modal #accountsettings>
+    <label class="app-modal-header">Настройки</label>
+    <div class="app-modal-body">
+        TODO
+    </div>
+</md-modal>
+
+
+<hotkeys-cheatsheet title="Горячие клавиши" #helpcheatSheet></hotkeys-cheatsheet> 

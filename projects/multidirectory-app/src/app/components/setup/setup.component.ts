@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
-import { MdModalComponent, SpinnerComponent } from "multidirectory-ui-kit";
+import { MdModalComponent } from "multidirectory-ui-kit";
+import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
+import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SetupService } from "../../services/setup.service";
 
 @Component({

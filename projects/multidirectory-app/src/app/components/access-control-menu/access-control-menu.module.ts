@@ -6,23 +6,28 @@ import { AccessControlMenuComponent } from "./access-control-menu.component";
 import { AccessControlClientComponent } from "./access-control-client/access-cotnrol-client.component";
 import { AccessControlClientCreateComponent } from "./access-control-client-create/access-control-client-create.component";
 import { ValidatorsModule } from "../forms/validators/validators.module";
+import { AccessGroupSelectorComponent } from "./access-control-group-selector/access-group-selector.component";
+import { EditorsModule } from "../ldap-browser/editors/editors.module";
 
 @NgModule({
     declarations: [ 
         AccessControlMenuComponent,
         AccessControlClientComponent,
-        AccessControlClientCreateComponent
+        AccessControlClientCreateComponent,
+        AccessGroupSelectorComponent
     ],
     exports: [
         AccessControlClientComponent,
         AccessControlMenuComponent,
-        AccessControlClientCreateComponent
+        AccessControlClientCreateComponent,
+        AccessGroupSelectorComponent
     ],
     imports: [
         CommonModule,
         MultidirectoryUiKitModule,
         FormsModule,
-        ValidatorsModule
+        ValidatorsModule,
+        EditorsModule
     ]
 })
 export class AccessControlModule {
