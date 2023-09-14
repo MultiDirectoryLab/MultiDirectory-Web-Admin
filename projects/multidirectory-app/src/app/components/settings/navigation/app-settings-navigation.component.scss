@@ -1,0 +1,31 @@
+@use '../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+div.nav {
+    padding: 0.5rem;
+
+    .nav-item {
+        padding: 0.5rem;
+        border: 1px solid lightgray;
+
+        &:first-child {
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+        &:last-child {
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+        &:not(:last-child) {
+            border-bottom: none;
+            
+        }
+        &:hover {
+            background-color: global.$md-neutral-100;
+        }
+        &.selected {
+            background-color: global.$md-blue;
+            color: global.$md-white;
+        }
+    }
+
+}

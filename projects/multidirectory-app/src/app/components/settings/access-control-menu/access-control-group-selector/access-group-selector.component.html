@@ -1,0 +1,11 @@
+<md-modal #groupSelectorModal width="350px">
+    <div class="app-modal-header">Выбор групп безопасности</div>
+    <div *ngFor="let group of groups">
+        <md-checkbox [(ngModel)]="group.selected">{{group.name}}</md-checkbox>
+    </div>
+
+    <div class="app-modal-footer flex-row justify-end flex-gap-10">
+        <md-button (click)="close()">Отмена</md-button>
+        <md-button [primary]="true" (click)="close()">Применить</md-button>
+    </div>
+</md-modal>

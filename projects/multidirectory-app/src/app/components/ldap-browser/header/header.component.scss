@@ -1,0 +1,33 @@
+@use '../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+.header-container {
+    width: 100%;
+    height: 50px;
+    background: global.$md-white-blue-2;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    user-select: none;
+}
+
+.header {
+    padding-left: 1rem;
+    flex-grow: 1;
+}
+
+.control-panel {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    .control-button {
+        height: 100%;
+        padding: 0px 8px;
+        border-left: 1px solid global.$md-neutral-300;
+    }
+    .control-button:hover {
+        background-color: global.$md-white;
+        & img {
+            filter: invert(37%) sepia(85%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
+        }
+    }
+}

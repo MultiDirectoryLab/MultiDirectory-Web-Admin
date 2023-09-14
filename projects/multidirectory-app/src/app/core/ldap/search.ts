@@ -96,5 +96,20 @@ export const SearchQueries = {
             "*"
           ]
         });
+    },
+
+    findAccessGroups(baseObject: string): SearchRequest {
+      return new SearchRequest({
+        "base_object": baseObject,
+        "scope": 2,
+        "deref_aliases": 0,
+        "size_limit": 0,
+        "time_limit": 0,
+        "types_only": false,
+        "filter": `(|(objectClass=group))`,
+        "attributes": [
+          "*"
+        ]
+      });
     }
 };
