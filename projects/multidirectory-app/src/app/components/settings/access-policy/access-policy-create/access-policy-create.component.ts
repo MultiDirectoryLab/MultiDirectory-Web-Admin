@@ -1,22 +1,22 @@
 import { Component, EventEmitter, ViewChild } from "@angular/core";
 import { Observable, take } from "rxjs";
-import { AccessGroupSelectorComponent } from "../access-control-group-selector/access-group-selector.component";
 import { MdModalComponent, MdFormComponent, DropdownOption } from "multidirectory-ui-kit";
-import { AccessControlClient } from "projects/multidirectory-app/src/app/core/access-control/access-control";
-import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-control/mfa-access-enum";
+import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
 import { AttributeListComponent } from "../../../ldap-browser/editors/attributes-list/attributes-list.component";
+import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
+import { AccessGroupSelectorComponent } from "../access-policy-group-selector/access-group-selector.component";
 
 @Component({
-    selector: 'app-access-control-client-create',
-    templateUrl: './access-control-client-create.component.html',
-    styleUrls: ['./access-control-client-create.component.scss']
+    selector: 'app-access-policy-create',
+    templateUrl: './access-policy-create.component.html',
+    styleUrls: ['./access-policy-create.component.scss']
 })
-export class AccessControlClientCreateComponent {
+export class AccessPolicyCreateComponent {
     @ViewChild('accessControlCreateModal') modal!: MdModalComponent;
     @ViewChild('attributeList', { static: true }) attributeList: AttributeListComponent | null = null;
     @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
     @ViewChild('groupSelector', {static: true}) groupSelector!: AccessGroupSelectorComponent;
-    accessClient = new AccessControlClient();
+    accessClient = new AccessPolicy();
     ipAddresses = '';
     groups = '';
     mfaAccess = MfaAccessEnum.SelectedGroups;
@@ -26,10 +26,11 @@ export class AccessControlClientCreateComponent {
         { title: 'Выбранным группам', value: MfaAccessEnum.SelectedGroups }
     ];
 
-    onSave = new EventEmitter<AccessControlClient | null>();
+    onSave = new EventEmitter<AccessPolicy | null>();
 
-    open(client: AccessControlClient): Observable<AccessControlClient | null> {
+    open(client: AccessPolicy): Observable<AccessPolicy | null> {
         this.accessClient = client;
+        console.log(client);
         this.modal.open();
         this.ipAddresses = this.accessClient.ipRange.join(', ');
         this.groups = this.accessClient.groups.map(x => x.name).join(', ');
@@ -44,6 +45,7 @@ export class AccessControlClientCreateComponent {
     }
 
     save() {
+        console.log(this.accessClient);
         this.onSave.emit(this.accessClient);
         this.modal.close();
         this.form?.inputs.forEach(x => x.reset());
@@ -58,6 +60,10 @@ export class AccessControlClientCreateComponent {
             this.accessClient.ipRange = result;
             this.ipAddresses = result.join(', ');
         });
+    }
+
+    onIpChanged() {
+        this.accessClient.ipRange = this.ipAddresses.split(',').map(x => x.trim());
     }
 
     changeGroupSelection() {

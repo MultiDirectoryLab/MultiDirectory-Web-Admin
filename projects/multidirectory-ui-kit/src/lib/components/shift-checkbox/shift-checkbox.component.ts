@@ -23,7 +23,6 @@ export class ShiftCheckboxComponent extends BaseComponent implements OnInit {
   }
 
   onToggle() {
-    console.log('on toggle');
     this.value = !this.checkbox.nativeElement.checked;
     this.checkbox.nativeElement.checked = !this.checkbox.nativeElement.checked;
     this.cdr.detectChanges();

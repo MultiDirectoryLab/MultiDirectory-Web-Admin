@@ -9,14 +9,14 @@
     </div>
     
     <div *ngFor="let client of clients; let i = index">
-        <app-acccess-control-client 
+        <app-acccess-policy
             [accessClient]="client" 
             [index]="i + 1" 
             (turnOffClick)="onTurnOffClick($event)"
             (editClick)="onEditClick($event)"
             (deleteClick)="onDeleteClick($event)">
-        </app-acccess-control-client>
+        </app-acccess-policy>
     </div>
 </div>
 
-<app-access-control-client-create #createModal></app-access-control-client-create>
+<app-access-policy-create #createModal></app-access-policy-create>
