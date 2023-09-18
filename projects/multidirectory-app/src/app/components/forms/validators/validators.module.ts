@@ -1,15 +1,18 @@
 import { NgModule } from "@angular/core";
 import { DomainFormatValidatorDirective } from "./domainformat.directive";
 import { PasswordMatchValidatorDirective } from "./passwordmatch.directive";
+import { IpAddressValidatorDirective } from "./ip-address.directive";
 
 @NgModule({
     declarations: [
         DomainFormatValidatorDirective,
-        PasswordMatchValidatorDirective
+        PasswordMatchValidatorDirective,
+        IpAddressValidatorDirective
     ],
     exports: [
         DomainFormatValidatorDirective,
-        PasswordMatchValidatorDirective
+        PasswordMatchValidatorDirective,
+        IpAddressValidatorDirective
     ]
 })
 export class ValidatorsModule {

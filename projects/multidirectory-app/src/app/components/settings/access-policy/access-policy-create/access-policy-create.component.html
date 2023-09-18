@@ -8,9 +8,8 @@
                 <div class="col-md-4">Домен</div>
                 <div class="col-md-8">
                     <md-textbox 
-                        appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
                         required 
-                        [(ngModel)]="accessClient.domain">
+                        [(ngModel)]="accessClient.name">
                     </md-textbox>
                 </div>
             </div>
@@ -20,6 +19,8 @@
                 <div class="col-md-6">
                     <md-textbox 
                         required 
+                        validIpAddress
+                        (blur)="onIpChanged()"
                         [(ngModel)]="ipAddresses">
                     </md-textbox>
                 </div>

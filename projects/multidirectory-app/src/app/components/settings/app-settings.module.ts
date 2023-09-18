@@ -5,11 +5,11 @@ import { FormsModule } from "@angular/forms";
 import { ValidatorsModule } from "../forms/validators/validators.module";
 import { RouterModule } from "@angular/router";
 import { AppSettingsNavigationComponent } from "./navigation/app-settings-navigation.component";
-import { AccessControlModule } from "./access-control-menu/access-control-menu.module";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { MultifactorSettingsComponent } from "./mulifactor-settings/multifactor-settings.component";
 import { AppSettingsRoutingModule } from "./app-settings-routes.module";
 import { AppSettingsHeaderComponent } from "./header/app-settings-header.component";
+import { AccessPolicyModule } from "./access-policy/access-policy-settings.module";
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import { AppSettingsHeaderComponent } from "./header/app-settings-header.compone
         MultidirectoryUiKitModule,
         FormsModule,
         ValidatorsModule,
-        AccessControlModule,
+        AccessPolicyModule,
         RouterModule,
         AppSettingsRoutingModule
     ],

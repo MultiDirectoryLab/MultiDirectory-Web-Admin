@@ -28,14 +28,12 @@ import { SearchResultComponent } from './components/ldap-browser/search-panel/se
 import { SearchUsersComponent } from './components/ldap-browser/search-panel/seaarch-forms/search-users/search-users.component';
 import { SearchPanelComponent } from './components/ldap-browser/search-panel/search-panel.component';
 import { LoginComponent } from './components/login/login.component';
-import { AppSettingsModule } from './components/settings/app-settings.module';
 import { SetupComponent } from './components/setup/setup.component';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { AuthorizationModule } from './core/authorization/authorization.module';
 import { HideControlBar } from './core/hidecontrolbar.directive';
-import { AppSettingsRoutingModule } from './components/settings/app-settings-routes.module';
 
 @NgModule({
   declarations: [

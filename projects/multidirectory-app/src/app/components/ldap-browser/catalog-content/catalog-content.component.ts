@@ -13,7 +13,6 @@ import { UserCreateComponent } from "../../forms/user-create/user-create.compone
 import { EntityPropertiesComponent } from "../entity-properties/properties.component";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { AccessControlClientModalComponent } from "../../settings/access-control-menu/access-control-modal.component";
 import { GroupCreateComponent } from "../../forms/group-create/group-create.component";
 import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
  
@@ -28,7 +27,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
     @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
     @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
-    @ViewChild('accessControlModal', { static: true }) accessControlMenu: AccessControlClientModalComponent | null = null;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;
@@ -61,15 +59,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                 return false;
             }, undefined, 'Создать организационную единицу'));
             this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
-                this.openAccessControlMenu();
                 return false;
-            }, undefined, 'Контролль доступа'));
-            
-            this.menuService.accessControlMenuRx
-                .pipe(takeUntil(this.unsubscribe))
-                .subscribe(() => {
-                    this.openAccessControlMenu();
-                });
+            }, undefined, 'Контроль доступа'));
         }
 
     ngOnInit(): void {
@@ -121,10 +112,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.unsubscribe.complete();
     }
     
-    openAccessControlMenu() {
-        this.accessControlMenu?.open();
-    }
-
     deleteSelectedEntry() {
         concat(...this.selectedRows.map(x => 
             this.api.delete(new DeleteEntryRequest({

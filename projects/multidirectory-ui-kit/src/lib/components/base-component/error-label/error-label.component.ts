@@ -24,6 +24,9 @@ export class ErrorLabelComponent {
          if(!!this.ngControl?.errors?.['DomainFormat']) {
             return 'DomainFormat';
          }
+         if(!!this.ngControl?.errors?.['IpAddress']) {
+            return 'IpAddress';
+         }
          return undefined;
     }
 }

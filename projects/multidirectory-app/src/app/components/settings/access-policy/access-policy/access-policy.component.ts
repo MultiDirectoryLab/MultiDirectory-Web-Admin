@@ -1,23 +1,23 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { AccessControlClient } from "projects/multidirectory-app/src/app/core/access-control/access-control";
+import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
 
 @Component({
-    selector: 'app-acccess-control-client',
-    templateUrl: './access-control-client.component.html',
-    styleUrls: ['./access-control-client.component.scss']
+    selector: 'app-acccess-policy',
+    templateUrl: './access-policy.component.html',
+    styleUrls: ['./access-policy.component.scss']
 })
-export class AccessControlClientComponent implements AfterViewInit {
+export class AccessPolicyComponent implements AfterViewInit {
     @Input() index = 0;
-    @Output() deleteClick = new EventEmitter<AccessControlClient>();
-    @Output() turnOffClick = new EventEmitter<AccessControlClient>();
-    @Output() editClick = new EventEmitter<AccessControlClient>();
+    @Output() deleteClick = new EventEmitter<AccessPolicy>();
+    @Output() turnOffClick = new EventEmitter<AccessPolicy>();
+    @Output() editClick = new EventEmitter<AccessPolicy>();
 
-    _accessClient: AccessControlClient | null = null;
-    get accessClient(): AccessControlClient | null{
+    _accessClient: AccessPolicy | null = null;
+    get accessClient(): AccessPolicy | null{
         return this._accessClient;
     }
-    @Input() set accessClient(accessClient: AccessControlClient | null) {
+    @Input() set accessClient(accessClient: AccessPolicy | null) {
         this._accessClient = accessClient;
         if(this._accessClient) {
             this.ipAddress = this._accessClient.ipRange.join(', ');
