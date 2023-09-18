@@ -1,0 +1,21 @@
+<md-modal #modal (onClose)="close()" width="400px">
+    <div class="app-modal-header">
+        {{title}}
+    </div> 
+    <div class="grid">
+        <div class="flex-column flex-grow-1">
+            <div class="row">
+                <label class="col-md-4" for="newAttribute">Значение:</label>
+                <div class="col-md-8">
+                    <md-textbox [(ngModel)]="newAttribute" name="newAttribute"></md-textbox>
+                </div>
+            </div>
+        </div>
+        <md-plane-button [hasBorder]="true" (click)="addAttribute()">Добавить</md-plane-button>
+        <md-treeview #treeview class="border-solid-1 h-100 w-100" style="min-height: 200px;"></md-treeview>
+        <div class="flex-column flex-space-between">
+            <md-plane-button [hasBorder]="true" (click)="deleteAttribute()">Удалить</md-plane-button>
+            <md-button [primary]="true" (click)="apply()">Применить</md-button>
+        </div>
+    </div>
+</md-modal>

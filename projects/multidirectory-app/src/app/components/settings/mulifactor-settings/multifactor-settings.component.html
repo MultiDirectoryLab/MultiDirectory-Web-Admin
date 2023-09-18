@@ -1,0 +1,19 @@
+<div class="flex-column flex-gap-10 p-8">
+    <div class="flex-row flex-center">
+        <div class="title">
+            Подключение к Мультфактору:
+        </div>
+    </div>
+    <div class="mf-control-grid">
+        <label class="flex-gap-10" for="api-key">API Key</label>
+        <md-textbox name="api-key" class="col-md-4"></md-textbox>
+
+        <label class="flex-gap-10"  for="api-secret">API Secret</label>
+        <md-textbox [password]="true" name="api-secret" class="col-md-4"></md-textbox>
+    </div>
+
+
+    <div class="flex-row flex-end">
+        <md-button [primary]="true">Применить</md-button>
+    </div>
+</div>

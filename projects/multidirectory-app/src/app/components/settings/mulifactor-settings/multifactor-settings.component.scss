@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    flex-flow: row;
+    justify-content: start;
+}
+.mf-control-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}

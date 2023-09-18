@@ -1,0 +1,69 @@
+@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+:host {
+    background-color: global.$md-white;
+    height: 100%;
+    width: 100%;
+    flex-flow: column nowrap;
+    user-select: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 315px 1fr;
+}
+
+.logo-img {
+    pointer-events: none;
+    height: 50px !important;
+    overflow: hidden;
+}
+
+
+.more-container {
+    padding: 0 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 5px;
+    margin-bottom: 1.05rem;
+
+    .more {
+        cursor: pointer;
+        &:hover {
+            border: 1px solid global.$md-dark-blue-2;
+        }
+    }
+}
+
+
+
+.body {
+    padding: 0 1rem;
+    overflow-y: auto;
+} 
+
+
+.avatar {
+    user-select: none;
+    padding: 0 8px;
+    .avatar-img {
+        max-height: 50px;
+    }
+}
+.user-info {
+    flex-grow: 1;
+}
+
+.footer {
+    border-top: 1px solid lightgray;
+    padding-top: 8px;
+    user-select: none;
+}
+
+.logo-img {
+    pointer-events: none;
+    height: 50px !important;
+    overflow: hidden;
+}

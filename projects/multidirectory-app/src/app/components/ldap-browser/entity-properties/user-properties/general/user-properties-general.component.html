@@ -1,0 +1,68 @@
+<ng-container *ngIf="accessor">
+    <div class="flex-row align-center flex-gap-10 p-8">
+        <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
+        <div class="place">{{accessor.displayName}}</div>
+    </div>  
+    <hr />
+    <div class="row align-start pv-8">
+        <div class="col-md-4">
+            <label for="givenName">Имя</label>
+        </div>
+        <div class="col-md-4 flex-row align-start flex-grow-1 flex-gap-10">
+            <md-textbox 
+                 [(ngModel)]="accessor.givenName"
+                required class="w-100" name="givenName">
+            </md-textbox>
+        </div>
+        <div class="col-md-2">
+            <label for="initials">Инициалы</label>
+        </div>
+        <div class="col-md-2">
+            <md-textbox name="initials" [(ngModel)]="accessor.initials">
+            </md-textbox>
+        </div>
+    </div>  
+
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="surname">Фамилия</label></div>
+        <md-textbox class="col-md-8" 
+            [(ngModel)]="accessor.surname"
+            name="surname">
+        </md-textbox>
+    </div>
+
+
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="display-name">ФИО полностью</label></div>
+        <md-textbox class="col-md-8" name="display-name" [(ngModel)]="accessor.displayName"></md-textbox>
+    </div>
+
+
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="description">Описание</label></div>
+        <md-textbox class="col-md-8" name="description" [(ngModel)]="accessor.description"></md-textbox>
+    </div>
+
+
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="office">Офис</label></div>
+        <md-textbox class="col-md-8" name="office" [(ngModel)]="accessor.office"></md-textbox>
+    </div>
+    <hr />
+
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="phone">Номер телефона</label></div>
+        <md-textbox class="col-md-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
+        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('Телефоны', 'otherTelephone')">Другое...</md-plane-button></div>
+    </div>
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="email">Email</label></div>
+        <md-textbox class="col-md-8" name="email" [(ngModel)]="accessor.mail"></md-textbox>
+    </div>
+    <div class="row align-start pv-8">
+        <div class="col-md-4"><label for="homepage">Веб-страница</label></div>
+        <md-textbox class="col-md-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
+        <div class="col-md-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('Веб-страницы', 'otherWebpage')">Другое...</md-plane-button></div>
+    </div>
+</ng-container>
+<app-attribute-list #attributeList></app-attribute-list>

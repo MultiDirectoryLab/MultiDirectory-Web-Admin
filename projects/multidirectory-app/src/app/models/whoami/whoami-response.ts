@@ -4,4 +4,8 @@ export class WhoamiResponse {
     user_principal_name = '';
     mail = '';
     display_name = '';
+
+    constructor(obj: Partial<WhoamiResponse>) {
+        Object.assign(this, obj);
+    }
 }

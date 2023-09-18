@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ViewMode } from "../components/catalog-content/view-modes";
 import { BehaviorSubject, Observable } from "rxjs";
+import { ViewMode } from "../components/ldap-browser/catalog-content/view-modes";
 
 @Injectable({
     providedIn: 'root'

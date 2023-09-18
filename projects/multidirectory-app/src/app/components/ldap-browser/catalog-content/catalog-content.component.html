@@ -1,0 +1,109 @@
+<div class="control-pane flex-row align-center">
+    <div class="button-wrapper">
+        <md-plane-button class="search control-button" [mdDropdownContainer]="createMenu">
+            <div class="flex-row flex-space-between flex-gap-10">
+                <img class="color-change-blue-white" [src]="'assets/add_blue.svg'"/>
+                <img class="color-change-blue-white" [src]="'assets/arrow_drop_down_blue.svg'" *ngIf="!createMenu.dropdownVisible"/>
+                <img class="color-change-white-blue" [src]="'assets/arrow_drop_up_white.svg'" *ngIf="createMenu.dropdownVisible"/>
+            </div>
+        </md-plane-button>
+    </div>
+
+    <md-button (click)="openCreateUser()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/person_add.svg'"/>
+            Создать пользователя
+        </span>
+    </md-button>
+    <md-button  (click)="openCreateGroup()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group.svg'" style="transform: scale(1.35)"/>
+            Создать группу
+        </span>
+    </md-button>
+    <md-button [disabled]="true" (click)="createObjectModal.open()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group_add.svg'"/>
+            Добавить объект
+        </span>
+    </md-button>
+</div>
+
+<app-properties #properties></app-properties>
+
+<div class="w-100 h-100" *ngIf="selectedCatalog">
+    <ng-container [ngSwitch]="currentView">
+        <app-table-view
+            *ngSwitchCase="ViewMode.Table"
+            (pageChanged)="pageChanged($event)"
+            (onRightClick)="showContextMenu($event)"
+            [selectedCatalog]="selectedCatalog"
+            [page]="navigation.page"
+        ></app-table-view>
+
+        <app-icon-view
+            *ngSwitchCase="ViewMode.SmallIcons"
+            (onRightClick)="showContextMenu($event)"
+            (pageChanged)="pageChanged($event)"
+            [selectedCatalog]="selectedCatalog"
+            [page]="navigation.page"
+        ></app-icon-view>
+        <app-icon-view
+            [big]="true"
+            *ngSwitchCase="ViewMode.BigIcons"
+            (onRightClick)="showContextMenu($event)"
+        ></app-icon-view>
+        <app-icon-view
+            *ngSwitchCase="ViewMode.Details"
+            (onRightClick)="showContextMenu($event)"
+        ></app-icon-view>
+    </ng-container>
+</div>
+<div class="w-100 h-100 flex-centered" *ngIf="!selectedCatalog">
+    <img _ngcontent-ng-c1201517451="" src="/assets/logo.svg" class="logo-placeholder">
+</div>
+<md-dropdown-menu #helpMenu>
+    <div class="dropdown-item">Помощь</div>
+</md-dropdown-menu> 
+
+<md-dropdown-menu #createMenu>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">Группа</div>
+    <div class="dropdown-item disabled">Компьютер</div>
+    <div class="dropdown-item disabled">Контакт</div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">Организационное подразделение</div>
+    <div class="dropdown-item disabled">Общая папка</div>
+    <div class="dropdown-item disabled">Принтер</div>
+    <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">Пользователь</div>
+    <div class="dropdown-item disabled">msDS-ShadowPrincipalContainer</div>
+    <div class="dropdown-item disabled">msExchDynamic DistributionList</div>
+    <div class="dropdown-item disabled">mslmaging-PSP</div>
+    <div class="dropdown-item disabled">MSMQ Queue Alias</div>
+</md-dropdown-menu> 
+
+<app-user-create #createUserModal (onCreate)="loadData()"></app-user-create>
+<app-ou-create #createOuModal (onCreate)="loadData()"></app-ou-create>
+<app-group-create #createGroupModal [selectedNode]="selectedCatalog" (onCreate)="loadData()"></app-group-create>
+
+<md-modal #createObjectModal>
+    TODO
+</md-modal> 
+
+<md-modal #deleteConfirmation>
+    <div class="app-modal-header">
+        Требуется подтверждение
+    </div> 
+    Вы действительно хотите удалить объект?
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button (click)="deleteConfirmation.close()">Отмена</md-button>
+            <md-button [primary]="true" (click)="deleteConfirmation.close(); deleteSelectedEntry()">
+                Удалить
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>
+
+<md-dropdown-menu #contextMenu>
+    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">Подробнее</div>
+    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">Удалить</div>
+</md-dropdown-menu> 

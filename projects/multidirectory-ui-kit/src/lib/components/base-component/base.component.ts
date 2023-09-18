@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, InjectFlags, Injector, Input, OnDestroy, OnInit, Output, forwardRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
-import { BehaviorSubject, Subject, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
 
 @Component({
     template: ``,
@@ -8,6 +8,7 @@ import { BehaviorSubject, Subject, takeUntil } from "rxjs";
 })
 export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
     @Input() disabled: boolean = false;
+    @Output() blur = new EventEmitter<void>();
     unsubscribe = new Subject<boolean>();
     _controlAccessor?: NgControl;
     get controlAccessor(): NgControl {
@@ -57,6 +58,7 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
     }
 
     onBlur() {
+        this.blur.next();
         this._onTouched();
         this.cdr.detectChanges();
 

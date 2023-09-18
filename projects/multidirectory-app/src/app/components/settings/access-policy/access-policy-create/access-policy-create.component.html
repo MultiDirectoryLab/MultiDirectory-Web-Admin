@@ -1,0 +1,66 @@
+<md-modal #accessControlCreateModal width="500px" minHeight="300px">
+    <div class="app-modal-header">
+        Добавить клиент
+    </div>
+    <md-form #form>
+        <div class="flex-column">
+            <div class="row pv-8">
+                <div class="col-md-4">Домен</div>
+                <div class="col-md-8">
+                    <md-textbox 
+                        required 
+                        [(ngModel)]="accessClient.name">
+                    </md-textbox>
+                </div>
+            </div>
+
+            <div class="row pv-8">
+                <div class="col-md-4">IP Адреса</div>
+                <div class="col-md-6">
+                    <md-textbox 
+                        required 
+                        validIpAddress
+                        (blur)="onIpChanged()"
+                        [(ngModel)]="ipAddresses">
+                    </md-textbox>
+                </div>
+                <div class="col-md-2">
+                    <md-plane-button [hasBorder]="true" (click)="changeIpAdressAttribute()">
+                        Добавить
+                    </md-plane-button>
+                </div>
+            </div>
+
+            <div class="row pv-8">
+                <div class="col-md-4">Группы доступа</div>
+                <div class="col-md-6">
+                    <md-textbox 
+                        [(ngModel)]="groups"
+                        required>
+                    </md-textbox>
+                </div>
+                <div class="col-md-2">
+                    <md-plane-button [hasBorder]="true" (click)="changeGroupSelection()">
+                        Добавить
+                    </md-plane-button>
+                </div>
+            </div>
+
+            <div class="row pv-8">
+                <div class="col-md-4">MFA</div>
+                <div class="col-md-8">
+                    <md-dropdown class="w-100" [options]="options" [(ngModel)]="mfaAccess" required>
+                    </md-dropdown>
+                </div>
+            </div>
+
+        </div>
+    </md-form>
+    <div class="app-modal-footer flex-row justify-end flex-gap-10">
+        <md-button (click)="close()">Отмена</md-button>
+        <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">Применить</md-button>
+    </div>
+</md-modal> 
+
+<app-attribute-list #attributeList></app-attribute-list>
+<app-access-group-selector #groupSelector></app-access-group-selector>

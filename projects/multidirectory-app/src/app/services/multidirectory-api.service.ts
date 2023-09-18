@@ -3,7 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { LoginResponse } from "../models/login/login-response";
 import { ApiAdapter } from "../core/api/api-adapter";
 import { MultidirectoryAdapterSettings } from "../core/api/adapter-settings";
-import { Observable, of } from "rxjs";
+import { Observable, map, of } from "rxjs";
 import { WhoamiResponse } from "../models/whoami/whoami-response";
 import { SearchRequest } from "../models/entry/search-request";
 import { SearchResponse } from "../models/entry/search-response";
@@ -14,6 +14,11 @@ import { DeleteEntryRequest } from "../models/entry/delete-request";
 import { DeleteEntryResponse } from "../models/entry/delete-response";
 import { UpdateEntryResponse } from "../models/entry/update-response";
 import { UpdateEntryRequest } from "../models/entry/update-request";
+import { AccessPolicy } from "../core/access-policy/access-policy";
+import { PolicyCreateRequest } from "../models/policy/policy-create-request";
+import { PolicyResponse } from "../models/policy/policy-get-response";
+import { PolicyDeleteRequest } from "../models/policy/policy-delete-request";
+import { PolicyPutRequest } from "../models/policy/policy-put-request";
 
 @Injectable({
     providedIn: 'root'
@@ -67,5 +72,34 @@ export class MultidirectoryApiService {
     delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
         return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request)
             .execute();
+    }
+
+    getPolicy(): Observable<AccessPolicy[]> {
+        return this.httpClient.get<PolicyResponse[]>('policy')
+            .execute()
+            .pipe(map(response => response.map(policy => {
+                const accessPolicy = new AccessPolicy({
+                    id: policy.id,
+                    name: policy.name,
+                    enabled: policy.enabled,
+                    groups: [],
+                    ipRange: policy.netmasks
+                });
+                accessPolicy.id = policy.id;
+                return accessPolicy;
+            })));
+    }
+
+    savePolicy(client: AccessPolicy): Observable<boolean> {
+        return this.httpClient.post<boolean>('policy', new PolicyCreateRequest(client)).execute();
+    }
+
+    deletePolicy(policyId: string): Observable<boolean> {
+        return this.httpClient.delete<boolean>(`policy?policy_id=${policyId}`).execute();
+    }
+
+    switchPolicy(policyId: string, is_enabled: boolean): Observable<boolean> {
+        const req = new PolicyPutRequest(policyId, is_enabled);
+        return this.httpClient.put<boolean>(`policy`, req).execute();
     }
 }

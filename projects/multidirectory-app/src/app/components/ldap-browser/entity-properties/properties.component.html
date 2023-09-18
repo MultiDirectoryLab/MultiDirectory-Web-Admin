@@ -1,0 +1,17 @@
+<md-modal #properties width="500px">
+    <div class="app-modal-header">
+        Свойства
+    </div> 
+
+    <div>
+        <ng-container [ngSwitch]="_entityType">
+            <app-user-properties [accessor]="accessor" *ngSwitchCase="EntityTypes.User"></app-user-properties>
+            <app-entity-attributes *ngSwitchDefault></app-entity-attributes>
+        </ng-container>
+    </div>
+
+    <div class="app-modal-footer flex-row flex-end">
+        <md-button class="pr-8" (click)="close()">Закрыть</md-button>
+        <md-button [primary]="true" (click)="save()">Применить</md-button>
+    </div>
+</md-modal>
