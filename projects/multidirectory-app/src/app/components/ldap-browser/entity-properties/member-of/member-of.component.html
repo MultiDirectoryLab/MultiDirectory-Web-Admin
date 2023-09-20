@@ -1,0 +1,24 @@
+<div class="row">
+    Группы:
+</div>
+<div class="flex-row w-100" style="min-height: 250px;">
+    <md-datagrid class="w-100" [columns]="columns" [rows]="groups" [stretchHeight]="true">
+    </md-datagrid>
+</div>
+<div class="flex-row button-row">
+    <md-button (click)="addGroup()">Добавить</md-button>
+    <md-button>Удалить</md-button>
+</div>
+<hr />
+<div class="flex-row">
+    <div class="col-md-4">Основная группа:</div>
+    <div class="col-md-4">Administrators</div>
+</div>
+<div class="flex-row primary-group-block">
+    <div class="col-md-4"><md-button>Сделать основной</md-button></div>
+    <div class="col-md-4">
+        Менять основную группу следует, только если у вас есть
+        приложения, совместимые с POSIX, или клиенты Macintosh.
+    </div>
+</div>
+<app-group-selector #groupSelector></app-group-selector>

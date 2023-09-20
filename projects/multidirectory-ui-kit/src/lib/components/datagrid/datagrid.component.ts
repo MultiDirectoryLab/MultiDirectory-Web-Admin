@@ -38,6 +38,7 @@ export class DatagridComponent implements AfterViewInit {
     @Input() page: Page = new Page({});
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
+    @Input() stretchHeight = false;
     @Output() dblclick = new EventEmitter<InputEvent>();
     @Output() selectionChanged = new EventEmitter<any>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();

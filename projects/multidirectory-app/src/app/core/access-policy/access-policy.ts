@@ -1,4 +1,4 @@
-import { GroupSelection } from "./group-selection";
+import { GroupSelection } from "../entities/entities-selection";
 // AccessPolicy
 export class AccessPolicy {
     id?: string ;

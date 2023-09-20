@@ -1,0 +1,40 @@
+<md-modal #modal>
+    <div class="app-modal-header">
+        Выбор группы
+    </div>
+    <div class="flex-column h-100">
+        <div class="flex-row">
+            Выберите тип группы:
+        </div>
+        <div class="row flex-gap-10">
+            <md-textbox class="col-md-9 flex-grow-1" [disabled]="true"></md-textbox>
+            <md-plane-button (click)="selectEntityType()" class="col-md-3" [hasBorder]="true">Типы объектов...</md-plane-button>
+        </div>
+        <div class="flex-row">
+            Из этого места:
+        </div>
+        <div class="row flex-gap-10">
+            <md-textbox class="col-md-9 flex-grow-1" [disabled]="true"></md-textbox>
+            <md-plane-button class="col-md-3" [hasBorder]="true">Места...</md-plane-button>
+        </div>
+        <div class="flex-row">
+            Чтобы найти объект, введите имя:
+        </div>
+        <div class="flex-grow-1 row flex-gap-10">
+            <md-textarea class="col-md-9 flex-grow-1 w-100" [expandWidth]="true" [expandHeight]="true"></md-textarea>
+            <md-plane-button class="col-md-3 text-nowrap" [hasBorder]="true">Проверить имя...</md-plane-button>
+        </div>
+    </div>
+    <div class="app-modal-footer">
+        <div class="flex-row flex-space-between">
+            <md-button>Дополнительные параметры</md-button>
+            <div class="flex-row flex-gap-10">
+                <md-button>Отмена</md-button>
+                <md-button [primary]="true">Применить</md-button>
+            </div>
+        </div>
+    </div>
+</md-modal>
+
+
+<app-entity-type-selector #entityTypeSelector></app-entity-type-selector>
