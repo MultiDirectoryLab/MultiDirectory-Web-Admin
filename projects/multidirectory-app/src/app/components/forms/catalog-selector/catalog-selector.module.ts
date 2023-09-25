@@ -1,9 +1,9 @@
-import { NgModule } from "@angular/core";
-import { EntityTypeSelectorComponent } from "./entity-type-selector/entity-type-selector.component";
 import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
-import { ValidatorsModule } from "./validators/validators.module";
+import { ValidatorsModule } from "../validators/validators.module";
+import { CatalogSelectorComponent } from "./catalog-selector.component";
 
 @NgModule({
     imports: [
@@ -14,11 +14,10 @@ import { ValidatorsModule } from "./validators/validators.module";
         ValidatorsModule
     ],
     exports: [
-        EntityTypeSelectorComponent,
-        GroupSelectorComponent
+        CatalogSelectorComponent,
     ],
     declarations: [
-        EntityTypeSelectorComponent
+        CatalogSelectorComponent
     ]
 })
-export class AppFormsModule {}
+export class CatalogSelectorModule {}

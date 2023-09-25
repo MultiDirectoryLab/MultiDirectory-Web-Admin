@@ -12,7 +12,7 @@
     </div>
 
     <div class="app-modal-footer flex-row justify-end flex-gap-10">
-        <md-button>Отмена</md-button>
-        <md-button [primary]="true">Применить</md-button>
+        <md-button (click)="close()">Отмена</md-button>
+        <md-button [primary]="true" (click)="finish()">Применить</md-button>
     </div>
 </md-modal>

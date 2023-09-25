@@ -34,6 +34,8 @@ import { TabComponent } from './components/tab-pane/tab/tab.component';
 import { TabDirective } from './components/tab-pane/tab.directive';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { GroupComponent } from './components/group/group.component';
+import { MultiselectBadgeComponent } from './components/multiselect/multiselect-badge/multiselect-badge.component';
+import { MultiselectComponent } from './components/multiselect/multiselect.component';
   
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { GroupComponent } from './components/group/group.component';
     TabPaneComponent,
     TabComponent,
     TabDirective,
-    GroupComponent
+    GroupComponent,
+    MultiselectBadgeComponent,
+    MultiselectComponent
   ],
   imports: [
     CommonModule,
@@ -101,7 +105,8 @@ import { GroupComponent } from './components/group/group.component';
     TabPaneComponent,
     TabComponent,
     TabDirective,
-    GroupComponent
+    GroupComponent,
+    MultiselectComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

@@ -6,6 +6,7 @@ import { DropdownMenuComponent } from "./dropdown-menu.component";
 })
 export class DropdownContainerDirective implements OnInit {
     @Input() mdDropdownContainer!: DropdownMenuComponent;
+    @Input() openMenuOnClick = true; 
     constructor(private el: ElementRef) {
     }
     
@@ -14,14 +15,28 @@ export class DropdownContainerDirective implements OnInit {
             this.mdDropdownContainer.container = this;
         }
     }
-    @HostListener('click', ['$event']) onClick($event: Event) {
-        $event.stopPropagation();
-        var rectObject = this.el.nativeElement.getBoundingClientRect();
+    @HostListener('click', ['$event']) onClick($event: Event)  {
+        if(!this.openMenuOnClick) {
+            return;
+        }
+        $event?.stopPropagation();
+        this.toggleMenu();
+    }
 
+    toggleMenu(focus = true, width: number | undefined = undefined) {
+        var rectObject = this.el.nativeElement.getBoundingClientRect();
         this.mdDropdownContainer.setPosition(
             rectObject.x, 
             rectObject.y + rectObject.height);
+        this.mdDropdownContainer.setWidth(width);
+        this.mdDropdownContainer.toggle(this.el, focus);
+    }
 
-        this.mdDropdownContainer.toggle(this.el);
+    isVisible(): boolean {
+        return this.mdDropdownContainer.dropdownVisible;
+    }
+    
+    focus() {
+        this.mdDropdownContainer.focus();
     }
 }

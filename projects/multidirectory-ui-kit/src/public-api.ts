@@ -30,3 +30,4 @@ export * from './lib/components/tab-pane/tab-pane.component';
 export * from './lib/components/tab-pane/tab/tab.component';
 export * from './lib/components/tab-pane/tab.directive';
 export * from './lib/components/group/group.component';
+export * from './lib/components/multiselect/multiselect.component';

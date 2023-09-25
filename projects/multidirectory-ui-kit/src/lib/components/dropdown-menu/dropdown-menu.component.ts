@@ -14,6 +14,7 @@ export class DropdownMenuComponent {
     @Input() container?: DropdownContainerDirective;
     _top: number = 0;
     _left: number = 0;
+    _width?: number;
     @ViewChild('menu') menu!: ElementRef;
     caller?: ElementRef;
     dropdownVisible = false;
@@ -29,6 +30,11 @@ export class DropdownMenuComponent {
         this.cdr.detectChanges();
     }
  
+    setWidth(width?: number) {
+        this._width = width;
+        this.cdr.detectChanges();
+    }
+
     private checkOverflow() {
         const bottomPoint = this.menu.nativeElement.offsetTop + this.menu.nativeElement.offsetHeight;
         if(bottomPoint > window.innerHeight)
@@ -73,12 +79,22 @@ export class DropdownMenuComponent {
     open() {
         this.dropdownVisible = true;
         this.cdr.detectChanges();
-        this.menu.nativeElement.focus();
         this.renderer.setStyle(this.menu.nativeElement, 'left', `${this._left}px`);
         this.renderer.setStyle(this.menu.nativeElement, 'top',  `${this._top}px`);
+        if(this._width) {
+            this.renderer.setStyle(this.menu.nativeElement, 'width', `${this._width}px`);
+        }
         this.checkOverflow();
         this.cdr.detectChanges();
         this.setOutsideClickHandler();
+    }
+
+    focus() {
+        this.menu.nativeElement.children?.[0]?.focus();
+    }
+
+    blur() {
+        this.menu.nativeElement.blur();
     }
 
     close() {
@@ -89,11 +105,16 @@ export class DropdownMenuComponent {
         this.cdr.detectChanges();
     }
     
-    toggle(el?: ElementRef) {
+    toggle(el?: ElementRef, focus = true) {
         this.caller = el;
-        if(this.dropdownVisible) 
-            this.close()
-        else 
-            this.open();
+        if(this.dropdownVisible) {
+            this.close();
+            return;
+        }
+        this.open(); 
+        if(focus) {
+            this.focus();
+        }
+
     }
 }
