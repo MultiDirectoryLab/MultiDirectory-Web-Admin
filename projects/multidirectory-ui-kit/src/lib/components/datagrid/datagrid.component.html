@@ -3,6 +3,7 @@
     [columnMode]="ColumnMode.force"
     [footerHeight]="36"
     [headerHeight]="36"
+    [summaryHeight]="300"
     rowHeight="auto"
     [rows]="rows"
     tabindex="0"
@@ -14,6 +15,7 @@
     [count]="page.totalElements"
     [offset]="page.pageOffset"
     [limit]="page.size"
+    [ngStyle]="{height: stretchHeight? '100%' : 'auto' }"
     (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     [messages]="{

@@ -1,4 +1,9 @@
 <label *ngIf="label">{{label}}</label>
-<textarea class="textarea"
-[(ngModel)]="value"
+<textarea 
+    class="textarea"
+    [ngClass]="{ 
+        'w-100': expandWidth,
+        'h-100': expandHeight 
+    }"
+    [(ngModel)]="value"
 ></textarea>

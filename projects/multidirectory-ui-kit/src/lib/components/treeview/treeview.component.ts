@@ -14,6 +14,7 @@ export class TreeviewComponent implements OnInit {
     @Input() tree: Treenode[] = [];
     @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
     @Input() nodeLabel: TemplateRef<any> | null = null;
+    @Input() checkboxes = false;
     @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
     @Output() onNodeSelect = new EventEmitter<Treenode>();
     _nodeSelected: Treenode | null = null;

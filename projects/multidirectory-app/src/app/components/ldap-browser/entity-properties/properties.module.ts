@@ -10,13 +10,16 @@ import { UserPropertiesProfileComponent } from "./user-properties/profile/user-p
 import { UserPropertiesAccountComponent } from "./user-properties/account/user-properties-account.component";
 import { FormsModule } from "@angular/forms";
 import { EditorsModule } from "../editors/editors.module";
+import { MemberOfComponent } from "./member-of/member-of.component";
+import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
 
 @NgModule({
     imports: [
         CommonModule,
         MultidirectoryUiKitModule,
         FormsModule,
-        EditorsModule
+        EditorsModule,
+        GroupSelectorModule
     ],
     declarations: [
         PropertiesComponent,
@@ -26,6 +29,7 @@ import { EditorsModule } from "../editors/editors.module";
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
+        MemberOfComponent
     ],
     exports: [
         PropertiesComponent,
@@ -35,6 +39,7 @@ import { EditorsModule } from "../editors/editors.module";
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
+        MemberOfComponent
     ]
 })
 export class PropertiesModule {}

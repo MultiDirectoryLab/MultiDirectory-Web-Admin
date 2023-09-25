@@ -14,4 +14,6 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class TextareaComponent  extends BaseComponent {
     @Input() label: string | null = null;
+    @Input() expandWidth = false;
+    @Input() expandHeight = false;
 }

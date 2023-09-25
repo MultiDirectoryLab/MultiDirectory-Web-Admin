@@ -1,10 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, concat, concatAll, switchMap, take, zip } from "rxjs";
-import { GroupSelection } from "../../../core/access-policy/group-selection";
-import { AccessPolicyCreateComponent } from "./access-policy-create/access-policy-create.component";
+import { EMPTY, switchMap, take, zip } from "rxjs";
 import { AccessPolicy } from "../../../core/access-policy/access-policy";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { AccessPolicyCreateComponent } from "./access-policy-create/access-policy-create.component";
 
 @Component({
     selector: 'app-access-policy-settings',

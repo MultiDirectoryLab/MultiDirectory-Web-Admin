@@ -111,5 +111,20 @@ export const SearchQueries = {
           "*"
         ]
       });
+    },
+
+    findGroup(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
+      return new SearchRequest({
+        "base_object": baseDn,
+        "scope": 2,
+        "deref_aliases": 0,
+        "size_limit": 0,
+        "time_limit": 0,
+        "types_only": false,
+        "filter": `(&(objectClass=group)(|(cn=*${name}*)(displayName=*${name}*)))`,
+        "attributes": [
+          "*"
+        ]
+      });
     }
 };

@@ -1,0 +1,23 @@
+@use '../../../styles/global.scss';
+
+.multiselect-badge {
+    display: flex;
+    padding: 1px 2px;
+    margin: 2px 4px;
+    flex-flow: row nowrap;
+    gap: 4px;
+    border-radius: 4px;
+    background-color: global.$md-neutral-150;
+    color: black;
+
+    .close-icon {
+        cursor: pointer;
+        img {
+            width: 8px;
+        }
+    }
+
+    &:focus-within {
+        background: white;
+    }
+}

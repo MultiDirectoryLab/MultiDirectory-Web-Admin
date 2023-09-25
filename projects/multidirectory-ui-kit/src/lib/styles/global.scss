@@ -52,6 +52,9 @@ label, p, div, select {
 span.accented {
     @include use-inter-typography(500, 14px, 25.2px)
 }
+div{
+    @include use-inter-typography(400, 14px, 25.2px)
+}
 
 .column {
     display: flex;
@@ -86,6 +89,9 @@ span.accented {
 }
 .w-100 {
     width: 100%;
+}
+.h-100 {
+    height: 100%;
 }
 .p-0 {
     padding: 0;
@@ -152,4 +158,10 @@ span.accented {
             }
         }
     }
+}
+.borderless {
+    border: none;
+}
+.transparent {
+    background-color: transparent;
 }

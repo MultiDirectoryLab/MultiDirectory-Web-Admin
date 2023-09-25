@@ -34,6 +34,9 @@ import { ApiAdapter } from './core/api/api-adapter';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { AuthorizationModule } from './core/authorization/authorization.module';
 import { HideControlBar } from './core/hidecontrolbar.directive';
+import { GroupSelectorModule } from './components/forms/group-selector/group-selector.module';
+import { EntityTypeSelectorComponent } from './components/forms/entity-type-selector/entity-type-selector.component';
+import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 
 @NgModule({
   declarations: [
@@ -77,6 +80,8 @@ import { HideControlBar } from './core/hidecontrolbar.directive';
     ValidatorsModule,
     UserCreateModule,
     PropertiesModule,
+    GroupSelectorModule,
+    CatalogSelectorModule
   ],
   providers: [
     provideAnimations(),
