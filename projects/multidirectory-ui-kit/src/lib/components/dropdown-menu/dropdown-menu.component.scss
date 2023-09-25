@@ -1,6 +1,6 @@
 @use '../../styles/global.scss';
 .dropdown-menu {
-    position: absolute;
+    position: fixed;
     z-index: 999;
     background: global.$md-white;
     border: 1px solid global.$md-dark-blue;

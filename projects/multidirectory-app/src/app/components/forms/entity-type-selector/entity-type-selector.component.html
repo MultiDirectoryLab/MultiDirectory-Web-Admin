@@ -1,0 +1,18 @@
+<md-modal #modal>
+    <div class="app-modal-header">
+        Типы сущностей
+    </div>
+
+    <div class="flex-row">
+        Выберите типы сущностей, которые хотите найти:
+    </div>
+    <div>
+        <md-treeview [tree]="tree" [checkboxes]="true">
+        </md-treeview>
+    </div>
+
+    <div class="app-modal-footer flex-row justify-end flex-gap-10">
+        <md-button (click)="close()">Отмена</md-button>
+        <md-button [primary]="true" (click)="finish()">Применить</md-button>
+    </div>
+</md-modal>

@@ -1,6 +1,6 @@
-import { Component, ViewChild, ViewChildren } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { MdModalComponent } from "multidirectory-ui-kit";
-import { GroupSelection } from "projects/multidirectory-app/src/app/core/access-policy/group-selection";
+import { GroupSelection } from "projects/multidirectory-app/src/app/core/entities/entities-selection";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { Observable, Subject, switchMap } from "rxjs";

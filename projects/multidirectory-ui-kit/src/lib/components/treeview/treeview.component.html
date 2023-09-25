@@ -33,7 +33,6 @@
                             ? '-' : '+' 
                         " style="margin-right: 2px;"></span>
                 </label>
-                
                 <ng-container 
                     [ngTemplateOutlet]="nodeLabel"
                     [ngTemplateOutletContext]="{ $implicit: data  }"></ng-container>
@@ -51,5 +50,6 @@
 </ng-template>
 
 <ng-template #defaultLabel let-data>
-    <label class="tree-label">{{data.name}}</label>
+    <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{data.name}}</md-checkbox>
+    <label  *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
 </ng-template>

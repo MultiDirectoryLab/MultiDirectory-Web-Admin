@@ -1,7 +1,15 @@
 @use '../../styles/global.scss';
 
+
 .ngx-datatable {
     border: 1px solid global.$md-neutral-300;
+    display: flex !important;
+    flex-flow: column nowrap;
+    .visible {
+        height: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+    }
     .datatable-header {
         z-index: 2;
         border-bottom: 1px solid global.$md-neutral-300;
@@ -27,6 +35,9 @@
             }
         }
     
+    }
+    .datatable-body {
+        flex-grow: 1;
     }
 
     .datatable-body-row {

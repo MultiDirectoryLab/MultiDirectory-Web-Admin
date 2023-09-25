@@ -1,0 +1,31 @@
+@use '../../styles/global.scss';
+
+.multiselect-container {
+    display: flex;
+    flex-flow: row nowrap;
+    min-width: 32px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    .multiselect-badges {
+        display: flex;
+        flex-flow: row wrap;
+        height: fit-content;
+        width: 100%;
+        max-width: 100%;
+        .multiselect-input {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 100%;
+            height: fit-content;
+            &:focus-visible {
+                outline: none;
+            }
+        }
+    }
+    &:focus-within,
+    &:focus-visible {
+        outline: auto;
+    }
+}
+
