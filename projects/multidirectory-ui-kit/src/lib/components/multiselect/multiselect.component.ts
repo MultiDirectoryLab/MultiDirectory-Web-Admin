@@ -21,10 +21,14 @@ export class MultiselectComponent extends BaseComponent {
     constructor(cdr: ChangeDetectorRef) { super(cdr); }
     selectedData: MultiselectModel[] = [];
     private _options: MultiselectModel[]  = [];
+
     @Input() set options(value: MultiselectModel[]) {
       value = value.filter(x => !this.selectedData.some(y => y.id == x.id));
       this._options = value;
       this._originalOptions = JSON.parse(JSON.stringify(value));
+      if(value.some(x => x.selected)) {
+        this.selectedData = this.selectedData.concat(value.filter(x => x.selected));
+      }
     };
     get options(): MultiselectModel[] {
       return this._options;
@@ -80,5 +84,19 @@ export class MultiselectComponent extends BaseComponent {
 
     onBadgeClose(select: MultiselectModel) {
       this.selectedData = this.selectedData.filter(x => x != select);
+    }
+
+    override writeValue(value: any): void {
+        if(!value) {
+          this._options = [];
+          this._originalOptions = [];
+        }
+        if(this.inputContainer) {
+          this.inputContainer.nativeElement.innerText = value;
+        }
+        if (value !== this.innerValue) {
+            this.innerValue = value;
+            this.cdr.detectChanges();
+        }
     }
 }

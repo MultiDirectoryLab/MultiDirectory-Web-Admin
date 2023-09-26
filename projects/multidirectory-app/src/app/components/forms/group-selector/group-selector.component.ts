@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { MdModalComponent, MultiselectComponent } from "multidirectory-ui-kit";
 import { EntityTypeSelectorComponent } from "../entity-type-selector/entity-type-selector.component";
 import { Subject, catchError, take, throwError } from "rxjs";
@@ -14,7 +14,7 @@ import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/compone
     templateUrl: './group-selector.component.html',
     styleUrls: ['./group-selector.component.scss']
 }) 
-export class GroupSelectorComponent implements AfterViewInit {
+export class GroupSelectorComponent implements OnInit {
     @ViewChild('modal', { static: true }) modal?: MdModalComponent;
     @ViewChild('entityTypeSelector', { static: true }) entityTypeSelector?: EntityTypeSelectorComponent;
     @ViewChild('catalogSelector', { static: true }) catalogSelector?: CatalogSelectorComponent;
@@ -26,7 +26,7 @@ export class GroupSelectorComponent implements AfterViewInit {
     availableGroups: MultiselectModel[] = [];
     result = new Subject<MultiselectModel[] | null>();
     constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef) {}
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         this.entityTypes = ENTITY_TYPES;
         this.entityTypeDisplay = ENTITY_TYPES.map(x => x.name).join(' ИЛИ ');
         this.selectedCatalogDn = 'ou=users,dc=dev,dc=ru';

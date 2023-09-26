@@ -1,5 +1,8 @@
 @use '../../../styles/global.scss';
-
+:host {
+    overflow: hidden;
+    max-width: 100%;
+}
 .multiselect-badge {
     display: flex;
     padding: 1px 2px;
@@ -9,7 +12,9 @@
     border-radius: 4px;
     background-color: global.$md-neutral-150;
     color: black;
-
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;    
     .close-icon {
         cursor: pointer;
         img {

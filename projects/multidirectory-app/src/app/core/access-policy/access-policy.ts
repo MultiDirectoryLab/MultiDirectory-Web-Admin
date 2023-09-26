@@ -1,18 +1,16 @@
-import { GroupSelection } from "../entities/entities-selection";
-// AccessPolicy
 export class AccessPolicy {
-    id?: string ;
+    id?: number;
     name: string = '';
     ipRange: string[] = [];
     enabled: boolean = false;
-    groups: GroupSelection[] = [];
-    
+    groups: string[] = [];
+    priority?: number;
     constructor(obj: Partial<AccessPolicy> = {}) {
         Object.assign(this, obj);
-        this.id = '';
+        this.id = undefined;
     }
 
-    setId(id: string) {
+    setId(id: number) {
         this.id = id;
         return this;
     }

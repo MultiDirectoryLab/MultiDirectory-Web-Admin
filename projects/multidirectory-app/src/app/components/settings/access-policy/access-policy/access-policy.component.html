@@ -1,5 +1,8 @@
 
 <div *ngIf="accessClient" class="client-grid p-8">
+    <div class="cell-drag-drop">
+        <img class="control-button-logo" [src]="'assets/draggable.svg'" />
+    </div>
     <div class="cell-index">{{index}}</div> 
     <div class="cell-domain">{{accessClient.name}}</div>
     <div class="cell-ip">

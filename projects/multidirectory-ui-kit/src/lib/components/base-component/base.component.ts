@@ -61,7 +61,6 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
         this.blur.next();
         this._onTouched();
         this.cdr.detectChanges();
-
     }
 
     ngOnInit(): void {

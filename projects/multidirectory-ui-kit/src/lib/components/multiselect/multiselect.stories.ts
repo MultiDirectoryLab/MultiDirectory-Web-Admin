@@ -35,8 +35,8 @@ export const Primary: Story = {
         `,
         props: {
             options: [
-                new MultiselectModel({ id: 1, key: 'city', selected: false, title: 'New York' }),
-                new MultiselectModel({ id: 2, key: 'city', selected: false, title: 'Login' }),
+                new MultiselectModel({ id: '1', key: 'city', selected: false, title: 'New York' }),
+                new MultiselectModel({ id: '2', key: 'city', selected: false, title: 'Login' }),
             ]
         }
 

@@ -5,29 +5,30 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { ValidatorsModule } from "../../forms/validators/validators.module";
 import { EditorsModule } from "../../ldap-browser/editors/editors.module";
 import { AccessPolicyCreateComponent } from "./access-policy-create/access-policy-create.component";
-import { AccessGroupSelectorComponent } from "./access-policy-group-selector/access-group-selector.component";
 import { AccessPolicySettingsComponent } from "./access-policy-settings.component";
 import { AccessPolicyComponent } from "./access-policy/access-policy.component";
+import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
     declarations: [ 
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
-        AccessGroupSelectorComponent,
     ],
     exports: [
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
-        AccessGroupSelectorComponent,
     ],
     imports: [
         CommonModule,
         MultidirectoryUiKitModule,
         FormsModule,
         ValidatorsModule,
-        EditorsModule
+        EditorsModule,
+        GroupSelectorModule,
+        DragDropModule
     ]
 })
 export class AccessPolicyModule {

@@ -47,7 +47,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     }
 
     open(): Observable<boolean> | null {
-        this.contentDisplay = true;
         this.modalRoot?.show();
         this.cdr.detectChanges();
         return this.modalRoot?.openModal.asObservable() ?? null;
@@ -57,8 +56,16 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
+        this.contentDisplay = true;
         this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
+        this.cdr.detectChanges();
+    }
+
+    onModalClose() {
+        this.contentDisplay = false;
+        this.onClose.next();
+        this.cdr.detectChanges();
     }
 
     center() {

@@ -34,10 +34,7 @@
             <div class="row pv-8">
                 <div class="col-md-4">Группы доступа</div>
                 <div class="col-md-6">
-                    <md-textbox 
-                        [(ngModel)]="groups"
-                        required>
-                    </md-textbox>
+                    <md-multiselect [options]="availableGroups" (ngModelChange)="checkGroups()" [(ngModel)]="groupQuery"></md-multiselect>
                 </div>
                 <div class="col-md-2">
                     <md-plane-button [hasBorder]="true" (click)="changeGroupSelection()">
@@ -63,4 +60,4 @@
 </md-modal> 
 
 <app-attribute-list #attributeList></app-attribute-list>
-<app-access-group-selector #groupSelector></app-access-group-selector>
+<app-group-selector #groupSelector></app-group-selector>

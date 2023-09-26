@@ -1,5 +1,5 @@
 <div class="flex-row align-center pointer">
-    <label class="switch" for="checkbox" (click)="onToggle()">
+    <label class="switch" for="checkbox" (click)="onToggle($event)">
         <input 
             [disabled]="disabled"
             [(ngModel)]="value"
@@ -8,7 +8,7 @@
             type="checkbox" id="checkbox" />
         <div class="slider round"></div>
     </label>
-    <div class="label" (click)="onToggle()" tabindex="0" (keypress)="onToggleKey($event)">
+    <div class="label" (click)="onToggle($event)" tabindex="0" (keypress)="onToggleKey($event)">
         <ng-content></ng-content>
     </div>
 </div>

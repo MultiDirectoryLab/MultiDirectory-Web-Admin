@@ -19,6 +19,8 @@ import { PolicyCreateRequest } from "../models/policy/policy-create-request";
 import { PolicyResponse } from "../models/policy/policy-get-response";
 import { PolicyDeleteRequest } from "../models/policy/policy-delete-request";
 import { PolicyPutRequest } from "../models/policy/policy-put-request";
+import { SwapPolicyRequest } from "../models/policy/policy-swap-request";
+import { SwapPolicyResponse } from "../models/policy/policy-swap-response";
 
 @Injectable({
     providedIn: 'root'
@@ -82,8 +84,9 @@ export class MultidirectoryApiService {
                     id: policy.id,
                     name: policy.name,
                     enabled: policy.enabled,
-                    groups: [],
-                    ipRange: policy.netmasks
+                    groups: policy.groups,
+                    ipRange: policy.netmasks,
+                    priority: policy.priority
                 });
                 accessPolicy.id = policy.id;
                 return accessPolicy;
@@ -94,12 +97,23 @@ export class MultidirectoryApiService {
         return this.httpClient.post<boolean>('policy', new PolicyCreateRequest(client)).execute();
     }
 
-    deletePolicy(policyId: string): Observable<boolean> {
-        return this.httpClient.delete<boolean>(`policy?policy_id=${policyId}`).execute();
+    deletePolicy(policyId: number): Observable<boolean> {
+        return this.httpClient.delete<boolean>(`policy/${policyId}`).execute();
     }
 
-    switchPolicy(policyId: string, is_enabled: boolean): Observable<boolean> {
-        const req = new PolicyPutRequest(policyId, is_enabled);
-        return this.httpClient.put<boolean>(`policy`, req).execute();
+    editPolicy(policy: AccessPolicy): Observable<boolean> {
+        return this.httpClient.put<boolean>(`policy`, policy).execute();
+    }
+
+    switchPolicy(policyId: number): Observable<boolean> {
+        return this.httpClient.patch<boolean>(`policy/${policyId}`).execute();
+    }
+
+    swapPolicies(previousPolicyId: number, currentPolicyId: number) {
+        const request = new SwapPolicyRequest({
+            first_policy_id: previousPolicyId,
+            second_policy_id: currentPolicyId
+        });
+        return this.httpClient.post<SwapPolicyResponse>(`policy/swap`, request).execute();
     }
 }
