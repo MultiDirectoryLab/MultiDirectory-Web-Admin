@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild, forwardRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, forwardRef } from "@angular/core";
 import { MultiselectModel } from "./mutliselect-model";
 import { DropdownContainerDirective } from "../dropdown-menu/dropdown-container.directive";
 import { BaseComponent } from "../base-component/base.component";
@@ -16,6 +16,8 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
     }]
 })
 export class MultiselectComponent extends BaseComponent {
+    @Input() suppressMenu = false;
+    @Output() onEnter = new EventEmitter<string>(); 
     @ViewChild('inputContainer') inputContainer?: ElementRef<HTMLElement>;
     @ViewChild('menuContainer', { read: DropdownContainerDirective }) menuContainer?: DropdownContainerDirective;
     constructor(cdr: ChangeDetectorRef) { super(cdr); }
@@ -40,6 +42,13 @@ export class MultiselectComponent extends BaseComponent {
       if(event.key == 'Enter') {
         event.preventDefault();
         event.stopPropagation();
+        this.onEnter.emit(this.inputContainer?.nativeElement.innerText);
+      }
+      if(event.key == 'Backspace' && this.inputContainer?.nativeElement.innerText.length === 0) {
+        if(this.selectedData.length > 0) {
+          const items = this.selectedData.splice(this.selectedData.length - 1);
+          items.forEach(x => x.selected = false);
+        }
       }
     }
 
@@ -55,15 +64,21 @@ export class MultiselectComponent extends BaseComponent {
 
         this._options = this._originalOptions.filter(x => x.title.toLocaleLowerCase().includes(
             text.toLocaleLowerCase()) && !this.selectedData.some(y => y.id == x.id));
-            
-        if(!this.menuContainer?.isVisible())
-            this.menuContainer?.toggleMenu(false, this.inputContainer?.nativeElement.offsetWidth);
-
+        if(!this.suppressMenu) {
+          this.showMenu();
+        }
         if(event.key == 'ArrowDown') {
             this.menuContainer?.focus();
         }
         this.value = text;
         this.cdr.detectChanges();
+    }
+
+    showMenu() {
+      if(!!this.menuContainer?.isVisible()) {
+        return;
+      }
+      this.menuContainer?.toggleMenu(false, this.inputContainer?.nativeElement.offsetWidth);
     }
 
     onElementSelect(select: MultiselectModel) {

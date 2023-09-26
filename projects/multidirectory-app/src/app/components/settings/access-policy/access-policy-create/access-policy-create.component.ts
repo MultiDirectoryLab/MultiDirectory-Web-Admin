@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Query, ViewChild } from "@angular/core";
 import { Observable, take } from "rxjs";
-import { MdModalComponent, MdFormComponent, DropdownOption } from "multidirectory-ui-kit";
+import { MdModalComponent, MdFormComponent, DropdownOption, MultiselectComponent } from "multidirectory-ui-kit";
 import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
 import { AttributeListComponent } from "../../../ldap-browser/editors/attributes-list/attributes-list.component";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
@@ -18,7 +18,7 @@ export class AccessPolicyCreateComponent {
     @ViewChild('accessControlCreateModal') modal!: MdModalComponent;
     @ViewChild('attributeList', { static: true }) attributeList: AttributeListComponent | null = null;
     @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
-    @ViewChild('groupSelector', {static: true}) groupSelector!: GroupSelectorComponent;
+    @ViewChild('groupSelector', {static: true}) groupSelector!: MultiselectComponent;
     accessClient = new AccessPolicy();
     ipAddresses = '';
     mfaAccess = MfaAccessEnum.SelectedGroups;
@@ -54,7 +54,7 @@ export class AccessPolicyCreateComponent {
     }
 
     save() {
-        this.accessClient.groups = this.availableGroups.filter(x => x.selected).map(x => x.title);
+        this.accessClient.groups = this.groupSelector.selectedData.map(x => x.title);
         this.onSave.emit(this.accessClient);
         this.modal.close();
         this.form?.inputs.forEach(x => x.reset());
@@ -75,23 +75,14 @@ export class AccessPolicyCreateComponent {
         this.accessClient.ipRange = this.ipAddresses.split(',').map(x => x.trim());
     }
 
-    changeGroupSelection() {
-        const closeRx = this.groupSelector!.open();
-        closeRx.pipe(take(1)).subscribe(result => {
-            if(!result) {
-                return;
-            }
-            this.accessClient.groups = result.map(x => x.title);
-        });
-    }
-
     checkGroups() {
         this.api.search(SearchQueries.findGroup(this.groupQuery, '', [])).subscribe(result => {
-            this.availableGroups = this.availableGroups.filter(x => x.selected).concat(result.search_result.map(x => new MultiselectModel({
+            this.availableGroups = result.search_result.map(x => new MultiselectModel({
                 id: x.object_name,
                 selected: false,
                 title: x.object_name
-            })));
+            }));
+            this.groupSelector.showMenu();
         })
     }
 }
