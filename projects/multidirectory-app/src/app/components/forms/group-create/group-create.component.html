@@ -10,28 +10,28 @@
         <hr />
         <md-form #groupForm>
             <div class="row align-center pv-8">
-                <div class="col-md-6"><label for="repeatPassword">Имя группы</label></div>
-                <md-textbox class="col-md-6" 
+                <div class="col-xs-6"><label for="repeatPassword">Имя группы</label></div>
+                <md-textbox class="col-xs-6" 
                     required
                     [(ngModel)]="setupRequest.groupName"
                     name="repeatPassword"></md-textbox>
             </div>
             <div class="row align-center pv-8">
-                <div class="col-md-6"><label for="repeatPassword">Имя группы (Pre-windows 2000)</label></div>
-                <md-textbox class="col-md-6" 
+                <div class="col-xs-6"><label for="repeatPassword">Имя группы (Pre-windows 2000)</label></div>
+                <md-textbox class="col-xs-6" 
                     required
                     [(ngModel)]="setupRequest.groupNameLegacy"
                     name="repeatPassword"></md-textbox>
             </div>
 
             <div class="row align-center pv-8">
-                <md-radiogroup class="col-md-6" #groupScope  required [drawBorder]="true"
+                <md-radiogroup class="col-xs-6" #groupScope  required [drawBorder]="true"
                     [(ngModel)]="setupRequest.groupScope" title="Область действия группы">
                     <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">Локальная в домене</md-radiobutton>
                     <md-radiobutton name="groupScope" [group]="groupScope" [value]="2">Глобальная</md-radiobutton>
                     <md-radiobutton name="groupScope" [group]="groupScope" [value]="3">Универсальная</md-radiobutton>
                 </md-radiogroup>
-                <md-radiogroup class="col-md-6 h-100" #groupType required [drawBorder]="true" 
+                <md-radiogroup class="col-xs-6 h-100" #groupType required [drawBorder]="true" 
                     [(ngModel)]="setupRequest.groupType" title="Тип группы">
                     <md-radiobutton name="groupType" [group]="groupType" [value]="1">Группа безопасности</md-radiobutton>
                     <md-radiobutton name="groupType" [group]="groupType" [value]="2">Группа распространения</md-radiobutton>

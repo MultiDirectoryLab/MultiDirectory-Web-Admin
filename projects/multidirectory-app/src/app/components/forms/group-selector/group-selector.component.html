@@ -8,22 +8,22 @@
         </div>
         <div class="row flex-gap-10">
             <md-textbox class="col-xs-9 flex-grow-1" [disabled]="true" [(ngModel)]="entityTypeDisplay"></md-textbox>
-            <md-plane-button (click)="selectEntityType()" class="col-md-3" [hasBorder]="true">Типы объектов...</md-plane-button>
+            <md-plane-button (click)="selectEntityType()" class="col-xs-3" [hasBorder]="true">Типы объектов...</md-plane-button>
         </div>
         <div class="flex-row">
             Из этого места:
         </div>
         <div class="row flex-gap-10">
             <md-textbox class="col-xs-9 flex-grow-1"  [(ngModel)]="selectedCatalogDn" [disabled]="true"></md-textbox>
-            <md-plane-button (click)="selectCatalog()" class="col-md-3" [hasBorder]="true">Места...</md-plane-button>
+            <md-plane-button (click)="selectCatalog()" class="col-xs-3" [hasBorder]="true">Места...</md-plane-button>
         </div>
         <div class="flex-row">
             Чтобы найти объект, введите имя:
         </div>
         <div class="flex-grow-1 row flex-gap-10">
-            <!--md-textarea class="col-md-9 flex-grow-1 w-100" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
+            <!--md-textarea class="col-xs-9 flex-grow-1 w-100" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
             <md-multiselect #selector  [(ngModel)]="name" [options]="availableGroups" (ngModelChange)="checkNames()"  class="col-xs-9 flex-grow-1"></md-multiselect>
-            <md-plane-button (click)="checkNames()" class="col-md-3 text-nowrap" [hasBorder]="true">Проверить имя...</md-plane-button>
+            <md-plane-button (click)="checkNames()" class="col-xs-3 text-nowrap" [hasBorder]="true">Проверить имя...</md-plane-button>
         </div>
     </div>
     <div class="app-modal-footer">
