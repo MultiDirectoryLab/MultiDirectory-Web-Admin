@@ -8,6 +8,8 @@ import { ENTITY_TYPES } from "../../../core/entities/entities-available-types";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { SearchQueries } from "../../../core/ldap/search";
 import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model";
+import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { Constants } from "../../../core/constants";
 
 @Component({
     selector: 'app-group-selector',
@@ -25,11 +27,12 @@ export class GroupSelectorComponent implements OnInit {
     name = '';
     availableGroups: MultiselectModel[] = [];
     result = new Subject<MultiselectModel[] | null>();
-    constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef) {}
+    constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {}
     ngOnInit(): void {
         this.entityTypes = ENTITY_TYPES;
         this.entityTypeDisplay = ENTITY_TYPES.map(x => x.name).join(' ИЛИ ');
-        this.selectedCatalogDn = 'ou=users,dc=dev,dc=ru';
+        const root = this.navigation.getRootDse();
+        this.selectedCatalogDn = root[0].node?.id ?? '';
     }
 
     open(): Subject<MultiselectModel[] | null> {
@@ -76,14 +79,18 @@ export class GroupSelectorComponent implements OnInit {
                 return throwError(() => err);
             })
         ).subscribe(res => {
-            this.availableGroups = res.search_result.map((x, ind) => new MultiselectModel({
-                id: x.object_name,
-                key: 'group',
-                selected: false,
-                title: x.object_name
-            }));
+            this.availableGroups = res.search_result.map((x, ind) => {
+                const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+                return new MultiselectModel({
+                    id: x.object_name,
+                    key: 'group',
+                    selected: false,
+                    title: name?.[0] ?? x.object_name,
+                    badge_title: name?.[1] ?? x.object_name
+                })
+            });
+            this.selector?.showMenu()
             this.cdr.detectChanges();
-            //this.spinner.hide();
         })
     }
 

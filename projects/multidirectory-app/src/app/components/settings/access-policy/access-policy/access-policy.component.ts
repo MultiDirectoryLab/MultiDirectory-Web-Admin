@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
+import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 
 @Component({
     selector: 'app-acccess-policy',
@@ -21,7 +22,10 @@ export class AccessPolicyComponent implements AfterViewInit {
         this._accessClient = accessClient;
         if(this._accessClient) {
             this.ipAddress = this._accessClient.ipRange.join(', ');
-            this.groups = this._accessClient.groups.map(x => x).join(', ');
+            this.groups = this._accessClient.groups.map(x => {
+                const name = new RegExp(Constants.RegexGetNameFromDn).exec(x);
+                return name?.[1] ?? x;
+            }).join(', ');
         }
     } 
 

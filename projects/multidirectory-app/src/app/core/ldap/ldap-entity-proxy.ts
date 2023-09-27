@@ -56,30 +56,3 @@ export class LdapAttributesProxyHandler {
         return true;
     }
 }
-
-export class LdapChangableTrack {
-    constructor(private attributes: LdapAttributes, private original: LdapAttributes) {}
-
- /*   getChanges(): ChangeDescription[] {
-        let changes: ChangeDescription[] = [];
-        // to add 
-        const toAdd = this._properties.filter(currentAttribute => {
-            return this._originalProperties.findIndex(y => currentAttribute.type === y.type) < 0;
-        }) ?? [];
-        changes = changes.concat(toAdd.map(y => new ChangeDescription({
-            operation: LdapOperation.Add,
-            attribute: y
-        })));
-        // to replace
-        const toReplace = this._properties.filter(currentAttribute => {
-            const currentVals = currentAttribute.vals;
-            const originalVals = this._originalProperties.find(y => currentAttribute.type === y.type)?.vals ?? [];
-            return !currentVals.some(x => originalVals.includes(x));
-        }) ?? [];
-        changes = changes.concat(toReplace.map(y => new ChangeDescription({
-            operation: LdapOperation.Replace,
-            attribute: y
-        })));
-        return changes;
-    }*/
-}

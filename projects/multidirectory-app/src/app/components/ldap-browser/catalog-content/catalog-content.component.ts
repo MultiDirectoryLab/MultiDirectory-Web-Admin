@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, Subject, concat, switchMap, takeUntil } from "rxjs";
+import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../../models/entry/delete-request";
 import { ContentViewService } from "../../../services/content-view.service";
@@ -139,7 +139,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.error('Выберите каталог в котором будет создан пользователь');
             return;
         }
-        this.createGroupModal?.open();
+        this.createGroupModal?.open().pipe(take(1)).subscribe(() => {
+            this.loadData();
+        });
     }
 
     openCreateOu() {
@@ -152,16 +154,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showEntryProperties() { 
-        //this.propertiesData!.entityDn = this.selectedRows[0].id; 
-        //this.propertiesData!.loadData().subscribe(x => {
         this.properties!.open();
-          //  this.propertiesData?.propGrid.grid.recalculate();
-           // this.propertiesModal!.center();
-        //});
     }
 
     loadData() {
         if(this.selectedCatalog) {
+            this.navigation.setCatalog(this.selectedCatalog, this.navigation.page);
         }
     }
 

@@ -1,7 +1,9 @@
+import { IpOption } from "./access-policy-ip-address";
+
 export class AccessPolicy {
     id?: number;
     name: string = '';
-    ipRange: string[] = [];
+    ipRange: IpOption[] = [];
     enabled: boolean = false;
     groups: string[] = [];
     priority?: number;

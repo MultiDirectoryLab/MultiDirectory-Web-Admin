@@ -53,6 +53,9 @@ export class SearchPanelComponent implements AfterViewInit {
     
     search() {
         const query = this.searchUserForm.searchQuery;
+        if(!query || query.length == 0) {
+            return;
+        }
         const source = this.searchSources.find(x => x.value == this.searchSource);
         this.spinner.show();
         this.api.search(SearchQueries.findByName(query, source?.data)).pipe(

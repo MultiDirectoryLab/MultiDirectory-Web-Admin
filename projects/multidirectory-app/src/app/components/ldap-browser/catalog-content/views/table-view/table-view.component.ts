@@ -62,7 +62,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
                 name: '...',
                 entry: this.selectedCatalog
             }].concat(this.rows);
-            this.grid.page.totalElements += 1;
+            this.grid.page.totalElements += Math.ceil(this.selectedCatalog!.childCount! / this.page.size);
         }
         this.grid.selected = this.rows.filter( x => selectedNodes.findIndex(y => y.id == x.entry.id) > -1);
         this.cdr.detectChanges();

@@ -1,0 +1,43 @@
+// address input addbutton 
+// range   input
+//         input
+// 1111111111111 controlbtn
+// item list
+
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 180px 1fr 96px;
+    grid-template-rows: 32px repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.cell-address-label {
+    grid-column: 1;
+    grid-row: 1;
+}
+.cell-address-input {
+    grid-column: 2;
+    grid-row: 1;
+}
+.cell-add-button {
+    grid-column: 3;
+    grid-row: 1;
+}
+.cell-range-label {
+    grid-column: 1;
+    grid-row: 2;
+}
+.cell-range-input {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.cell-values {
+    grid-column: 1 / 3;
+    grid-row: 3 / 6;
+}
+.cell-control-buttons {
+    grid-column: 3;
+    grid-row: 3 / 6;
+}

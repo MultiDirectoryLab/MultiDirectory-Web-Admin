@@ -8,6 +8,9 @@ import { GroupSelectorComponent } from "../../../forms/group-selector/group-sele
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model";
+import { Constants } from "projects/multidirectory-app/src/app/core/constants";
+import { IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
+import { AccessPolicyIpListComponent } from "../access-policy-ip-list/access-policy-ip-list.component";
 
 @Component({
     selector: 'app-access-policy-create',
@@ -16,7 +19,7 @@ import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/compone
 })
 export class AccessPolicyCreateComponent {
     @ViewChild('accessControlCreateModal') modal!: MdModalComponent;
-    @ViewChild('attributeList', { static: true }) attributeList: AttributeListComponent | null = null;
+    @ViewChild('ipListEditor', { static: true }) ipListEditor: AccessPolicyIpListComponent | null = null;
     @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
     @ViewChild('groupSelector', {static: true}) groupSelector!: MultiselectComponent;
     accessClient = new AccessPolicy();
@@ -40,8 +43,9 @@ export class AccessPolicyCreateComponent {
         this.availableGroups = this.accessClient.groups.map(x => new MultiselectModel({
             selected: true,
             id: x,
-            title: x
-        }))
+            title: x,
+            badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
+        }));
         return this.onSave.asObservable();
     }
 
@@ -61,27 +65,51 @@ export class AccessPolicyCreateComponent {
     }
 
     changeIpAdressAttribute( ) {
-        const closeRx = this.attributeList!.open('Допустимые адреса', 'IpRange', this.accessClient.ipRange);
+        const ipAddresses = this.accessClient.ipRange.map(x => x instanceof IpRange ? `${x.start}-${x.end}` : x);
+        const closeRx = this.ipListEditor!.open(ipAddresses);
         closeRx.pipe(take(1)).subscribe(result => {
             if(!result) {
                 return;
             }
-            this.accessClient.ipRange = result;
-            this.ipAddresses = result.join(', ');
+           /* const resultAddress = result.map(x => {
+                if(x.includes('-')) {
+                    const parts =  x.split('-');
+                    return new IpRange({
+                        start: parts[0],
+                        end: parts[1]
+                    });
+                }
+                return x;
+            });
+            this.accessClient.ipRange = resultAddress;
+            this.ipAddresses = result.join(', ');*/
         });
     }
 
     onIpChanged() {
-        this.accessClient.ipRange = this.ipAddresses.split(',').map(x => x.trim());
+        this.accessClient.ipRange = this.ipAddresses.split(',').map(x => {
+            if(x.includes('-')) {
+                const parts = x.split('-');
+                return new IpRange({
+                    start: parts[0],
+                    end: parts[1]
+                });
+            }
+            return x.trim()
+        });
     }
 
     checkGroups() {
         this.api.search(SearchQueries.findGroup(this.groupQuery, '', [])).subscribe(result => {
-            this.availableGroups = result.search_result.map(x => new MultiselectModel({
-                id: x.object_name,
-                selected: false,
-                title: x.object_name
-            }));
+            this.availableGroups = result.search_result.map(x => {
+                const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+                return new MultiselectModel({
+                    id: x.object_name,
+                    selected: false,
+                    title: x.object_name,
+                    badge_title: name?.[1] ?? x.object_name
+                });
+            });
             this.groupSelector.showMenu();
         })
     }

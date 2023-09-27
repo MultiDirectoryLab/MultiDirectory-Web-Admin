@@ -9,17 +9,20 @@ import { AccessPolicySettingsComponent } from "./access-policy-settings.componen
 import { AccessPolicyComponent } from "./access-policy/access-policy.component";
 import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-policy-ip-list.component";
 
 @NgModule({
     declarations: [ 
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
+        AccessPolicyIpListComponent
     ],
     exports: [
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
+        AccessPolicyIpListComponent
     ],
     imports: [
         CommonModule,

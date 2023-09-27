@@ -22,6 +22,9 @@
     gap: 20px;
     margin-bottom: 1rem;
 }
+.flex-align-center {
+    align-items: center;
+}
 .flex-grow-1 {
     flex-grow: 1;
 }
@@ -56,6 +59,9 @@
 .mv-16 {
     margin-top: 16px;
     margin-bottom: 16px;
+}
+.pl-20 {
+    padding-left: 20px;
 }
 .border-solid-1 {
     border: 1px solid black;
