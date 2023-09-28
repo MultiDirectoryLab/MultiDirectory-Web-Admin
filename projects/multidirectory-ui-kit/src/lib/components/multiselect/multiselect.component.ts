@@ -17,6 +17,7 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class MultiselectComponent extends BaseComponent {
     @Input() suppressMenu = false;
+    @Input() notFoundText = 'Опции не найдены';
     @Output() onEnter = new EventEmitter<string>(); 
     @ViewChild('inputContainer') inputContainer?: ElementRef<HTMLElement>;
     @ViewChild('menuContainer', { read: DropdownContainerDirective }) menuContainer?: DropdownContainerDirective;

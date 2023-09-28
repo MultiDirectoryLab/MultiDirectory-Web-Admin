@@ -1,7 +1,7 @@
 <div class="flex-column flex-gap-10">
     <div class="flex-row flex-space-between ">
         <div class="title">
-            Клиенты:
+            Клиенты
         </div>
         <div class="flex-row align-center">
             <md-button (click)="onAddClick()">Добавить</md-button>
@@ -16,7 +16,7 @@
                 <app-acccess-policy
                     [accessClient]="client" 
                     [index]="i + 1" 
-                    (turnOffClick)="onTurnOffClick(client)"
+                    (turnOffClick)="onTurnOffClick($event)"
                     (editClick)="onEditClick($event)"
                     (deleteClick)="onDeleteClick($event)">
                 </app-acccess-policy>

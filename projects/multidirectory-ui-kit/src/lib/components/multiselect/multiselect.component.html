@@ -11,7 +11,7 @@
         {{el.title}}
       </div>
       <div *ngIf="!options || options.length === 0">
-        Опции не найдены
+         {{ notFoundText }}
       </div>
  </md-dropdown-menu>
 <!--select class="select-input" name="{{label}}" id="{{id}}" [(ngModel)]="value" (blur)="onBlur()">

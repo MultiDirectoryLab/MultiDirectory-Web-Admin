@@ -39,6 +39,7 @@
                         [options]="availableGroups"
                         [(ngModel)]="groupQuery"
                         (onEnter)="checkGroups()"
+                        notFoundText="Группы не найдены"
                         #groupSelector></md-multiselect>
                 </div>
                 <div class="col-xs-2">

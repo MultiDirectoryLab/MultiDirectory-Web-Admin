@@ -22,7 +22,14 @@
         </div>
         <div class="flex-grow-1 row flex-gap-10">
             <!--md-textarea class="col-xs-9 flex-grow-1 w-100" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
-            <md-multiselect [suppressMenu]="true" (onEnter)="checkNames()" #selector  [(ngModel)]="name" [options]="availableGroups" class="col-xs-9 flex-grow-1"></md-multiselect>
+            <md-multiselect
+                [suppressMenu]="true" 
+                (onEnter)="checkNames()" 
+                #selector  [(ngModel)]="name" 
+                [options]="availableGroups" 
+                notFoundText="Группы не найдены"
+                class="col-xs-9 flex-grow-1">
+            </md-multiselect>
             <md-plane-button (click)="checkNames()" class="col-xs-3 text-nowrap" [hasBorder]="true">Проверить имя...</md-plane-button>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
@@ -11,12 +11,21 @@ export interface RightClickEvent {
     selector: 'app-base-view',
     template: ''
 })
-export abstract class BaseViewComponent {
+export abstract class BaseViewComponent implements OnInit {
+    
     @Input() selectedCatalog: LdapEntity | null = null;
     @Output() pageChanged = new EventEmitter<Page>();
     @Output() onRightClick = new EventEmitter<RightClickEvent>();
 
     @Input() page = new Page();
+
+    ngOnInit(): void {
+        const pageSize = localStorage.getItem('gridSize_table-view');
+        if(pageSize && !isNaN(parseFloat(pageSize))) {
+            this.page.size = Math.floor(parseFloat(pageSize));
+            this.pageChanged.emit(this.page);
+        }
+    }
 
     onPageChanged(page: Page) {
         this.pageChanged.emit(page);

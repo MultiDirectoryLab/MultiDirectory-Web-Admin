@@ -77,7 +77,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             }),
         ).subscribe(x => {
             this.rows = x;
-            this.view!.selectedCatalog = this.selectedCatalog; 
+            if(this.view) {
+                this.view.selectedCatalog = this.selectedCatalog; 
+            }
             this.view?.setContent(this.rows, this.selectedRows);
             this.cdr.detectChanges();
         });

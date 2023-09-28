@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, switchMap, take, zip } from "rxjs";
 import { AccessPolicy } from "../../../core/access-policy/access-policy";
@@ -25,7 +25,11 @@ export class AccessPolicySettingsComponent {
 
 
     clients: AccessPolicy[] = [];
-    constructor(private toastr: ToastrService, private api: MultidirectoryApiService, private navigation: LdapNavigationService) {
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private toastr: ToastrService,
+        private api: MultidirectoryApiService,
+        private navigation: LdapNavigationService) {
         this.api.getPolicy().subscribe(x => {
             this.clients = x;
             console.log(this.clients);
@@ -60,7 +64,11 @@ export class AccessPolicySettingsComponent {
         }
         if(!this.clients.some(x => x.enabled)) {
             this.toastr.error('Один клиент должен быть включен');
-            client.enabled = true;
+            const toRevert = this.clients.find(x => x.id == client.id);
+            if(toRevert) {
+                setTimeout(() => toRevert.enabled = true);
+            }
+            this.cdr.detectChanges();
             return;
         }
         this.api.switchPolicy(client.id).pipe(
@@ -122,6 +130,9 @@ export class AccessPolicySettingsComponent {
         ];
         if(!previous.id || !current.id) {
             this.toastr.error('У этих политик не задан ID');
+            return;
+        }
+        if(previous.id == current.id) {
             return;
         }
         this.api.swapPolicies(previous.id, current.id).pipe(

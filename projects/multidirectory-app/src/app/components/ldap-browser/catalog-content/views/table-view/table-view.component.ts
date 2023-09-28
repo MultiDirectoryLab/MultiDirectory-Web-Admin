@@ -31,7 +31,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         super();
     }
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
+        super.ngOnInit();
         this.columns = [
             { name: 'Имя', cellTemplate: this.iconColumn, flexGrow: 1 },
             { name: 'Тип', prop: 'type', flexGrow: 1 },

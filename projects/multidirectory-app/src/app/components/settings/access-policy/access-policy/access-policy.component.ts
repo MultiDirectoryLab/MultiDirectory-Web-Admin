@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
@@ -31,7 +31,7 @@ export class AccessPolicyComponent implements AfterViewInit {
 
     ipAddress = '';
     groups = '';
-    constructor(private toastr: ToastrService) {}
+    constructor(private toastr: ToastrService, private cdr: ChangeDetectorRef) {}
 
     ngAfterViewInit(): void {
     }
@@ -49,7 +49,9 @@ export class AccessPolicyComponent implements AfterViewInit {
             this.toastr.error('Этого клиента не существует');
             return;
         }
+        console.log(this.accessClient.enabled);
         this.turnOffClick.emit(this.accessClient);
+        this.cdr.detectChanges();
     }
 
     
@@ -59,5 +61,6 @@ export class AccessPolicyComponent implements AfterViewInit {
             return;
         }
         this.editClick.emit(this.accessClient);
+        this.cdr.detectChanges();
     }
 }
