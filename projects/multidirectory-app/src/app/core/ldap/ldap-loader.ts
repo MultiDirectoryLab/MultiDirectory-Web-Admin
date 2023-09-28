@@ -75,6 +75,7 @@ export class LdapLoader {
                         name: displayName,
                         type: EntityInfoResolver.getNodeType(objectClass?.vals), 
                         selectable: true,
+                        expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
                         entry: x,
                         id: x.object_name,
                         parent: parentNode

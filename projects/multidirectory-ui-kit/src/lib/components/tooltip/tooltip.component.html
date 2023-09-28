@@ -1,0 +1,13 @@
+<div class="tooltip-icon-wrapper" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)">
+    <img class="tooltip-icon" [src]="iconPath">
+    <div class="tooltip" [ngClass]="{
+        'tooltip-visible': tooltipVisible
+    }"
+    [ngStyle]="{
+        'minWidth': width + 'px'
+    }"
+    >
+        <ng-content></ng-content>
+    </div>
+</div>
+

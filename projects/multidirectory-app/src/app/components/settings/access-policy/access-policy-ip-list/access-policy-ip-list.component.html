@@ -1,30 +1,27 @@
 <md-modal #modal [width]="'540px'">
     <div class="app-modal-header">Допустимые адреса</div>
-    <md-radiogroup #radioSelect [(ngModel)]="inputMode"></md-radiogroup>
-    <div class="grid-layout" >
-        <div class="cell-address-label">
-            <md-radiobutton [group]="radioSelect" [value]="0">Адрес или маска</md-radiobutton>
+    <div class="grid-layout w-100 h-100" >
+        <div class="cell-input flex-column justify-start align-start">
+            <label>Адрес, маска подсети или диапазон:</label>
+            <div class="flex-row flex-gap-10">
+                <md-textbox class="w-100" [(ngModel)]="input"></md-textbox>
+                <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'">
+                    Пример:<br />
+                    192.168.0.1<br />
+                    192.168.0.1-192.168.0.5<br />
+                    192.168.0.1/24<br />
+                </md-tooltip>
+            </div>
         </div>
-        <div class="cell-address-input">
-            <md-textbox [disabled]="inputMode == 1" [(ngModel)]="singleInput"></md-textbox>
-        </div>
-        <div class="cell-add-button flex-row justify-center">
+        <div class="cell-add-button flex-column justify-center align-end">
             <md-button (click)="addEntry()">Добавить</md-button>
         </div>
-        <div class="cell-range-label flex-row flex-gap-10">
-            <md-radiobutton [group]="radioSelect" [value]="1">Диапазон</md-radiobutton>
-        </div>
-        <div class="cell-range-input flex-column">
-            <div class="flex-row flex-gap-10 flex-space-between"><label>С:</label><md-textbox [disabled]="inputMode !== 1"></md-textbox></div>
-            <div class="flex-row flex-gap-10 flex-space-between"><label>До:</label><md-textbox [disabled]="inputMode !== 1"></md-textbox></div>
-        </div>
-        <div class="cell-values">
-            <md-treeview [tree]="entries" #treeview class="border-solid-1 h-100 w-100" style="min-height: 200px;"></md-treeview>
-        </div>
-        <div class="cell-control-buttons flex-column flex-space-between flex-align-center">
-            <md-button (click)="delete()">Удалить</md-button>
+        <div class="cell-control-buttons flex-column flex-space-between align-end">
+            <md-button (click)="deleteEntry()">Удалить</md-button>
             <md-button [primary]="true" (click)="finish()">Применить</md-button>
-
+        </div>
+        <div class="cell-entries">
+            <md-treeview #entriesList></md-treeview>
         </div>
     </div>
 </md-modal>

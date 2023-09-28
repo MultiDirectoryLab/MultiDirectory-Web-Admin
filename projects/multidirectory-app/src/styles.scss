@@ -18,9 +18,12 @@
 
 .justify-center {
     justify-content: center;
-    align-items: start;
-    gap: 20px;
-    margin-bottom: 1rem;
+}
+.justify-start {
+    justify-content: start;
+}
+.text-align-end {
+    text-align: end;
 }
 .flex-align-center {
     align-items: center;

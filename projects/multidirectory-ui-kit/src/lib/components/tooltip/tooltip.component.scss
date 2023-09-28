@@ -1,0 +1,28 @@
+@use '../../styles/global';
+.tooltip-icon-wrapper {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+
+    width: 24px;
+    height: 24px;
+    .tooltip-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .tooltip {
+        display: none;
+        position: fixed;
+        left: 50%;
+        background-color: global.$md-neutral-800;
+        color: #fff;
+        padding: 1rem;
+        border-radius: 6px;
+        &.tooltip-visible {
+            display: block;
+        }
+    }
+    
+}
+

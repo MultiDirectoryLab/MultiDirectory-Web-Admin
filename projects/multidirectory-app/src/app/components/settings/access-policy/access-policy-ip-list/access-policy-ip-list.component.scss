@@ -1,43 +1,36 @@
-// address input addbutton 
-// range   input
-//         input
+// help input addbutton 
 // 1111111111111 controlbtn
 // item list
 
 
 .grid-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 96px;
-    grid-template-rows: 32px repeat(4, 1fr);
+    grid-template-columns: 1fr 90px 140px;
+    grid-template-rows: repeat(5, 1fr);
     gap: 1rem;
 }
 
-.cell-address-label {
-    grid-column: 1;
+.cell-input {
+    grid-column: 1 / 3;
     grid-row: 1;
 }
-.cell-address-input {
-    grid-column: 2;
-    grid-row: 1;
-}
+
 .cell-add-button {
     grid-column: 3;
     grid-row: 1;
 }
-.cell-range-label {
-    grid-column: 1;
-    grid-row: 2;
-}
-.cell-range-input {
-    grid-column: 2;
-    grid-row: 2;
-}
 
-.cell-values {
-    grid-column: 1 / 3;
-    grid-row: 3 / 6;
-}
 .cell-control-buttons {
     grid-column: 3;
-    grid-row: 3 / 6;
+    grid-row: 2 / 6;
+}
+
+:host ::ng-deep .ui-modal-footer {
+    display: none;
+}
+
+.cell-entries {
+    grid-row: 2 / 6;
+    grid-column: 1 / 3;
+    border: 1px solid lightgray;
 }

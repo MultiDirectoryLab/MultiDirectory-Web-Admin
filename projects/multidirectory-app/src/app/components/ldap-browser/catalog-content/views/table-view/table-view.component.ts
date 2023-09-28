@@ -58,11 +58,12 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         this.grid.page.totalElements = this.selectedCatalog!.childCount!;
         if(this.selectedCatalog?.parent) {
             this.selectedCatalog.parent.selected = false;
-            this.rows = [<TableRow>{
+            /*this.rows = [<TableRow>{
                 name: '...',
                 entry: this.selectedCatalog
             }].concat(this.rows);
             this.grid.page.totalElements += Math.ceil(this.selectedCatalog!.childCount! / this.page.size);
+            */
         }
         this.grid.selected = this.rows.filter( x => selectedNodes.findIndex(y => y.id == x.entry.id) > -1);
         this.cdr.detectChanges();
@@ -81,10 +82,11 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     }
     onDoubleClick(event: any) {
         this.navigation.page.pageNumber = 1;
+        const entry = event?.row?.entry;
         if(event?.row?.name == '...') {
             this.navigation.setCatalog(this.selectedCatalog?.parent!);
-        } else if(event?.row?.entry) {
-            this.navigation.setCatalog(event.row.entry);
+        } else if(entry && entry.expandable) {
+            this.navigation.setCatalog(entry);
         }
         this.cdr.detectChanges();
     }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { MdModalComponent, Treenode, TreeviewComponent } from "multidirectory-ui-kit";
+import { ToastrService } from "ngx-toastr";
 import { IpOption } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
 import { Observable, Subject } from "rxjs";
 
@@ -10,18 +11,12 @@ import { Observable, Subject } from "rxjs";
 })
 export class AccessPolicyIpListComponent {
     @ViewChild('modal', { static: true }) private _modal!: MdModalComponent;
-    @ViewChild('treeview', {static: true}) private _treeview!: TreeviewComponent;
-
+    @ViewChild('entriesList', { static: true }) private _entriesList!: TreeviewComponent;
     private _ipAddresses: IpOption[] = [];
     private _result = new Subject<IpOption[] | null>();
-    entries: Treenode[] = [];
-    inputMode: number = 0;
-    singleInput = '';
-    rangeStart = '';
-    rangeEnd = '';
+    input = '';
 
-    constructor(private cdr: ChangeDetectorRef) {}
-
+    constructor(private cdr: ChangeDetectorRef, private toastr: ToastrService) {}
 
     open(ipAddresses: IpOption[]): Observable<IpOption[] | null> {
         this._ipAddresses = ipAddresses;
@@ -39,18 +34,33 @@ export class AccessPolicyIpListComponent {
         this._modal.close();
     }
 
-    delete() {
-
+    deleteEntry() {
+        this._entriesList.tree = this._entriesList.tree.filter(x => !x.selected);
+        this._entriesList!.redraw(); 
     }
 
     addEntry() {
-        this.entries.push(new Treenode({
-            id: this.singleInput,
-            name: this.singleInput,
-            selectable: true
-        }));
-        
-        console.log(this.entries);
-        this.cdr.detectChanges();
+        const validIp = new RegExp(`^(\d{1,3}(\.\d{1,3}){3}( *- *\d{1,3}(\.\d{1,3}){3})?)$`);
+        const validSubnet = new RegExp(`^(\d{1,3}(\.\d{1,3}){3}\/\d{1,2})$`);
+        if(this.input.match(validIp) || this.input.match(validSubnet)) {
+            this._entriesList.addRoot(new Treenode({
+                id: this.input,
+                name: this.input,
+                selectable: true
+            }));
+            return;
+        }
+        if(this.input.includes('-')) {
+            const parts = this.input.split('-');
+            if(parts.length == 2 && parts.every(x => x.match(validIp) || x.match(validSubnet))) {
+                this._entriesList.addRoot(new Treenode({
+                    id: this.input,
+                    name: this.input,
+                    selectable: true,
+                }));
+            }
+        }
+        this.toastr.error('Формат адреса неверен');
+        return;
     }
 }
