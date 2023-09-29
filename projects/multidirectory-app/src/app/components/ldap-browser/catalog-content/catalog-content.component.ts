@@ -129,7 +129,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     openCreateUser() {
-        if(!this.selectedCatalog?.id) {
+        if(!this.selectedCatalog?.entry) {
             this.toastr.error('Выберите каталог в котором будет создан пользователь');
             return;
         }
@@ -137,7 +137,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     openCreateGroup() {
-        if(!this.selectedCatalog?.id) {
+        if(!this.selectedCatalog?.entry) {
             this.toastr.error('Выберите каталог в котором будет создан пользователь');
             return;
         }
@@ -147,7 +147,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     openCreateOu() {
-        if(!this.selectedCatalog?.id) {
+        if(!this.selectedCatalog?.entry) {
             this.toastr.error('Выберите каталог в котором будет создана организационная единица');
             return;
         }
