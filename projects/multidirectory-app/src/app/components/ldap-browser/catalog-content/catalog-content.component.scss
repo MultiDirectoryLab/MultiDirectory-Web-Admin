@@ -7,6 +7,7 @@
     display: flex;
     flex-flow: column nowrap;
     user-select: none;
+    overflow: auto;
 }
 
 .control-pane {

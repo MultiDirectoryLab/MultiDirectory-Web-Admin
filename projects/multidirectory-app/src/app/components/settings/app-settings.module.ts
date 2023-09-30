@@ -10,6 +10,7 @@ import { MultifactorSettingsComponent } from "./mulifactor-settings/multifactor-
 import { AppSettingsRoutingModule } from "./app-settings-routes.module";
 import { AppSettingsHeaderComponent } from "./header/app-settings-header.component";
 import { AccessPolicyModule } from "./access-policy/access-policy-settings.module";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { AccessPolicyModule } from "./access-policy/access-policy-settings.modul
         ValidatorsModule,
         AccessPolicyModule,
         RouterModule,
-        AppSettingsRoutingModule
+        AppSettingsRoutingModule,
+        DragDropModule
     ],
     declarations: [
         AppSettingsComponent,

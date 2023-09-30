@@ -1,6 +1,6 @@
 <div class="multiselect-container"  (keydown)="preventEnterKey($event)" (keyup)="onChange($event)" [mdDropdownContainer]="menu" [openMenuOnClick]="false" #menuContainer>
   <div class="multiselect-badges">
-    <md-multiselect-badge (close)="onBadgeClose(d)" *ngFor="let d of selectedData">{{d.title}}</md-multiselect-badge>
+    <md-multiselect-badge (close)="onBadgeClose(d)" *ngFor="let d of selectedData">{{d.badge_title ?? d.title}}</md-multiselect-badge>
       <div class="multiselect-input" contenteditable="true" #inputContainer >
     </div>
   </div>
@@ -11,7 +11,7 @@
         {{el.title}}
       </div>
       <div *ngIf="!options || options.length === 0">
-        Опции не найдены
+         {{ notFoundText }}
       </div>
  </md-dropdown-menu>
 <!--select class="select-input" name="{{label}}" id="{{id}}" [(ngModel)]="value" (blur)="onBlur()">

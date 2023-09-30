@@ -45,7 +45,8 @@
             ],
             "assets": [
               "projects/multidirectory-ui-kit/src/lib/../assets/search.svg",
-              "projects/multidirectory-ui-kit/src/lib/../assets/logo.svg"
+              "projects/multidirectory-ui-kit/src/lib/../assets/logo.svg",
+              "projects/multidirectory-ui-kit/src/lib/../assets/info-circle.svg"
             ]
           }
         },

@@ -10,7 +10,7 @@ export class LdapEntity extends Treenode {
     entry?: SearchEntry;
     icon?: string;
     childCount?: number;
-    
+    expandable = true;
     constructor(obj: Partial<LdapEntity>) {
         super({});
         Object.assign(this, obj);

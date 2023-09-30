@@ -5,6 +5,9 @@
     background: global.$md-white;
     border: 1px solid global.$md-dark-blue;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
     ::ng-deep .dropdown-item {
         ::ng-deep &.disabled {
             pointer-events: none;

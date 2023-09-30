@@ -2,16 +2,16 @@
     <b>Когда вы нажмёте «Готово», будет создан пользователь:</b>
 </div>
 <div class="row align-center pv-8">
-    <div class="col-md-3"><label for="last-name">ФИО полностью:</label></div>
+    <div class="col-xs-3"><label for="last-name">ФИО полностью:</label></div>
     <md-textbox 
-        class="col-md-9" 
+        class="col-xs-9" 
         name="last-name"
         [(ngModel)]="setupRequest.fullName"
         [disabled]="true"></md-textbox>
 </div>
 <div class="row align-center pv-8">
-    <div class="col-md-3"><label for="login-name">Имя для входа:</label></div>
-    <md-textbox class="col-md-9"
+    <div class="col-xs-3"><label for="login-name">Имя для входа:</label></div>
+    <md-textbox class="col-xs-9"
         [(ngModel)]="setupRequest.upnLogin"
         name="login-name" [disabled]="true"></md-textbox>
 </div>

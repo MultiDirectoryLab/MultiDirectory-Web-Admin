@@ -1,3 +1,3 @@
 export class PolicyPutRequest {
-    constructor(private id: string, private is_enabled: boolean) {}
+    constructor(private id: number, private is_enabled: boolean) {}
 }

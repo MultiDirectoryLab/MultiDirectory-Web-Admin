@@ -15,6 +15,7 @@ export class DropdownMenuComponent {
     _top: number = 0;
     _left: number = 0;
     _width?: number;
+    _minWidth?: number;
     @ViewChild('menu') menu!: ElementRef;
     caller?: ElementRef;
     dropdownVisible = false;
@@ -32,6 +33,10 @@ export class DropdownMenuComponent {
  
     setWidth(width?: number) {
         this._width = width;
+        this.cdr.detectChanges();
+    }
+    setMinWidth(minWidth?: number) {
+        this._minWidth = minWidth;
         this.cdr.detectChanges();
     }
 
@@ -83,6 +88,9 @@ export class DropdownMenuComponent {
         this.renderer.setStyle(this.menu.nativeElement, 'top',  `${this._top}px`);
         if(this._width) {
             this.renderer.setStyle(this.menu.nativeElement, 'width', `${this._width}px`);
+        }
+        if(this._minWidth) {
+            this.renderer.setStyle(this.menu.nativeElement, 'min-width', `${this._minWidth}px`);
         }
         this.checkOverflow();
         this.cdr.detectChanges();

@@ -15,8 +15,12 @@ export const Primary: Story = {
     },
     render: () => ({
         template: `
-            <md-shift-checkbox>Checkbox</md-shift-checkbox>
+            <md-shift-checkbox (click)="onAlert(1)">Checkbox</md-shift-checkbox>
+            <md-shift-checkbox (click)="onAlert(2)">Checkbox</md-shift-checkbox>
         `,
+        props: {
+            onAlert: (num: number) => alert(num)
+        }
 
     })
 }

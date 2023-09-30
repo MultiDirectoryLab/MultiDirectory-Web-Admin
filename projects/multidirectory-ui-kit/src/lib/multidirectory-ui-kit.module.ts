@@ -36,6 +36,7 @@ import { TextareaComponent } from './components/textarea/textarea.component';
 import { GroupComponent } from './components/group/group.component';
 import { MultiselectBadgeComponent } from './components/multiselect/multiselect-badge/multiselect-badge.component';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
   
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { MultiselectComponent } from './components/multiselect/multiselect.compo
     TabDirective,
     GroupComponent,
     MultiselectBadgeComponent,
-    MultiselectComponent
+    MultiselectComponent,
+    TooltipComponent
   ],
   imports: [
     CommonModule,
@@ -106,7 +108,8 @@ import { MultiselectComponent } from './components/multiselect/multiselect.compo
     TabComponent,
     TabDirective,
     GroupComponent,
-    MultiselectComponent
+    MultiselectComponent,
+    TooltipComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

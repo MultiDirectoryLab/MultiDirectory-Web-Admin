@@ -1,26 +1,26 @@
 <ng-container *ngIf="accessor">
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="streetAddress">Улица</label></div>
-    <md-textarea class="col-md-8" name="streetAddress" [(ngModel)]="accessor.streetAddress"></md-textarea>
+    <div class="col-xs-4"><label for="streetAddress">Улица</label></div>
+    <md-textarea class="col-xs-8" name="streetAddress" [(ngModel)]="accessor.streetAddress"></md-textarea>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="postalAddress">Почтовый ящик</label></div>
-    <md-textbox class="col-md-8" name="postalAddress" [(ngModel)]="accessor.postalAddress"></md-textbox>
+    <div class="col-xs-4"><label for="postalAddress">Почтовый ящик</label></div>
+    <md-textbox class="col-xs-8" name="postalAddress" [(ngModel)]="accessor.postalAddress"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="location">Город</label></div>
-    <md-textbox class="col-md-8" name="location" [(ngModel)]="accessor.location"></md-textbox>
+    <div class="col-xs-4"><label for="location">Город</label></div>
+    <md-textbox class="col-xs-8" name="location" [(ngModel)]="accessor.location"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="state">Область</label></div>
-    <md-textbox class="col-md-8" name="state" [(ngModel)]="accessor.state"></md-textbox>
+    <div class="col-xs-4"><label for="state">Область</label></div>
+    <md-textbox class="col-xs-8" name="state" [(ngModel)]="accessor.state"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Почтовый индекс</label></div>
-    <md-textbox class="col-md-8" name="full-name" [(ngModel)]="accessor.postalCode"></md-textbox>
+    <div class="col-xs-4"><label for="full-name">Почтовый индекс</label></div>
+    <md-textbox class="col-xs-8" name="full-name" [(ngModel)]="accessor.postalCode"></md-textbox>
 </div>
 <div class="row align-start pv-8">
-    <div class="col-md-4"><label for="full-name">Страна</label></div>
-    <md-dropdown class="col-md-8 w-100" [options]="countries" [(ngModel)]="accessor.country"></md-dropdown>
+    <div class="col-xs-4"><label for="full-name">Страна</label></div>
+    <md-dropdown class="col-xs-8 w-100" [options]="countries" [(ngModel)]="accessor.country"></md-dropdown>
 </div>
 </ng-container>

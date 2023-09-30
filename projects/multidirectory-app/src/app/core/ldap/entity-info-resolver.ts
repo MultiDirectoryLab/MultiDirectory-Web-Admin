@@ -47,4 +47,8 @@ export class EntityInfoResolver {
         }
         return LdapEntityType.Folder;
     }
+
+    static isExpandable(objectClass?: string[]) {
+        return objectClass?.includes('container') || objectClass?.includes('builtinDomain');
+    }
 }
