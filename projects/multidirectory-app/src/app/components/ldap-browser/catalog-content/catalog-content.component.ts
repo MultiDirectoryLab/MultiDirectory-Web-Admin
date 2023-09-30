@@ -14,7 +14,7 @@ import { EntityPropertiesComponent } from "../entity-properties/properties.compo
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 import { GroupCreateComponent } from "../../forms/group-create/group-create.component";
-import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
+import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
  
 @Component({
     selector: 'app-catalog-content',
@@ -23,9 +23,9 @@ import { DropdownMenuComponent, Page } from "multidirectory-ui-kit";
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {      
     @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
-    @ViewChild('createUserModal', { static: true}) createUserModal?: UserCreateComponent;
-    @ViewChild('createGroupModal', { static: true}) createGroupModal?: GroupCreateComponent;
-    @ViewChild('createOuModal', { static: true}) createOuModal?: OuCreateComponent;
+    @ViewChild('createUserModal', { static: true}) createUserModal?: ModalInjectDirective;
+    @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
+    @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
     @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
@@ -133,15 +133,17 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.error('Выберите каталог в котором будет создан пользователь');
             return;
         }
-        this.createUserModal?.open();
+        this.createUserModal?.open({ 'width': '600px' }).pipe(take(1)).subscribe(() => {
+            this.loadData();
+        });
     }
 
     openCreateGroup() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.error('Выберите каталог в котором будет создан пользователь');
+            this.toastr.error('Выберите каталог в котором будет создана группа');
             return;
         }
-        this.createGroupModal?.open().pipe(take(1)).subscribe(() => {
+        this.createGroupModal?.open({ 'width': '580px' }).pipe(take(1)).subscribe(() => {
             this.loadData();
         });
     }
@@ -151,8 +153,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.error('Выберите каталог в котором будет создана организационная единица');
             return;
         }
-        this.createOuModal!.setupRequest = '';
-        this.createOuModal?.open();
+        this.createOuModal?.open().pipe(take(1)).subscribe(x => {
+            this.loadData();
+        });
     }
 
     showEntryProperties() { 

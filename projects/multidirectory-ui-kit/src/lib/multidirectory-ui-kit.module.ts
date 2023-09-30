@@ -22,7 +22,7 @@ import { FormTestComponent } from './components/form/formtest.component';
 import { MdFormComponent } from './components/form/form.component';
 import { ErrorLabelComponent } from './components/base-component/error-label/error-label.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { RerenderDirective } from './components/modal/rerender.directive';
+import { ModalInjectDirective } from './components/modal/modal-inject.directive';
 import { RadioGroupComponent } from './components/radiobutton-group/radio-group.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -61,7 +61,7 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     MdFormComponent,
     FormTestComponent,
     ErrorLabelComponent,
-    RerenderDirective,
+    ModalInjectDirective,
     RadioGroupComponent,
     SpinnerComponent,
     SpinnerHostDirective,
@@ -89,6 +89,7 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     DropdownComponent,
     NumberComponent,
     MdModalComponent,
+    ModalInjectDirective,
     TreeviewComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,

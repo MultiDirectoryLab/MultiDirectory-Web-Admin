@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
+import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest } from "../../../models/entry/create-request";
@@ -15,7 +15,6 @@ import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 export class OuCreateComponent implements AfterViewInit, OnDestroy {
     selectedNode: LdapEntity | null = null;
     @Output() onCreate = new EventEmitter<void>();
-    @ViewChild('createOuModal') createOuModal?: MdModalComponent;
     @ViewChild('form') form!: MdFormComponent;
 
     _setupRequest = '';
@@ -29,32 +28,26 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     unsubscribe = new Subject<void>();
     formValid = false;
 
-    constructor(private navigation: LdapNavigationService, private api: MultidirectoryApiService) {}
+    constructor(
+        private navigation: LdapNavigationService,
+        private api: MultidirectoryApiService,
+        private modalInejctor: ModalInjectDirective) {}
 
     
     ngAfterViewInit(): void {
         this.formValid = this.form.valid;
-        this.navigation.selectedCatalogRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(catalog => {
-            this.selectedNode = catalog;
-        });
-
         this.form.onValidChanges.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
             this.formValid = x;
         });
+        this.selectedNode = this.navigation.selectedCatalog;
     }
 
     ngOnDestroy(): void {
         this.setupRequest = '';
         this.unsubscribe.next();
         this.unsubscribe.complete();
-    }
-
-    open() {
-        this.createOuModal?.open();
     }
 
     onFinish() {
@@ -68,13 +61,11 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
             }),
           ]
         })).subscribe(x => {
-          this.onCreate.emit();
-          this.onClose();
+          this.modalInejctor.close(x);
         });
     }
 
-    onClose(): void {
-        this.setupRequest = '';
-        this.createOuModal?.close();
+    onClose() {
+        this.modalInejctor.close(null);
     }
 }

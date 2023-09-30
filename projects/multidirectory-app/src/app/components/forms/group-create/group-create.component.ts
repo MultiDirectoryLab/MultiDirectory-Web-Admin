@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
+import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { EMPTY, Observable, Subject, catchError, takeUntil } from "rxjs";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
@@ -8,6 +8,7 @@ import { ToastrService } from "ngx-toastr";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 import { CreateEntryResponse } from "../../../models/entry/create-response";
+import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 
 @Component({
     selector: 'app-group-create',
@@ -15,20 +16,11 @@ import { CreateEntryResponse } from "../../../models/entry/create-response";
     styleUrls: ['./group-create.component.scss']
 })
 export class GroupCreateComponent implements AfterViewInit, OnDestroy {
-    @ViewChild('createGroupModal') private _createGroupModal?: MdModalComponent;
     @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
     private _unsubscribe = new Subject<boolean>();
     private _setupRequest = new GroupCreateRequest();
-    private _selectedNode: LdapEntity | null = null;
+    selectedNode: LdapEntity | null = null;
     formValid: boolean = false;
-
-    @Input() set selectedNode(node: LdapEntity | null) {
-        this._selectedNode = node;
-        this.cdr.detectChanges();
-    }
-    get selectedNode(): LdapEntity | null {
-        return this._selectedNode;
-    }
 
 
     @Input() set setupRequest(request: GroupCreateRequest) {
@@ -40,7 +32,12 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         return this._setupRequest;
     }
 
-    constructor(private cdr: ChangeDetectorRef, private api: MultidirectoryApiService, private toastr: ToastrService) {}
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private api: MultidirectoryApiService,
+        private toastr: ToastrService,
+        private navigation: LdapNavigationService,
+        private modalControl: ModalInjectDirective) {}
     
     ngAfterViewInit(): void {
         this._form?.onValidChanges.pipe(
@@ -48,6 +45,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.formValid = x;
         });
+        this.selectedNode = this.navigation.selectedCatalog;
     }
 
     ngOnDestroy(): void {
@@ -56,18 +54,14 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         this.setupRequest = new GroupCreateRequest();
     }
 
-    private _onCreate = new Subject<CreateEntryResponse | null>();
-    open(): Observable<CreateEntryResponse | null> {
-        this._createGroupModal?.open();
-        return this._onCreate.asObservable();
-    }
 
     onClose() {
         this.setupRequest = new GroupCreateRequest();
+        this.modalControl.close(null);
     }
 
     onFinish() {
-        this._createGroupModal?.showSpinner();
+        this.modalControl?.modal?.showSpinner();
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest.groupName},` + this.selectedNode?.id,
             attributes: [
@@ -77,15 +71,14 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
                 }),
             ]
         })).pipe(catchError(err => {
-            this._createGroupModal?.hideSpinner();
+            this.modalControl.modal?.hideSpinner();
             this.toastr.error('Не удалось создать группу');
-            this._onCreate.next(null);
+            this.modalControl.close(null);
             return EMPTY;
         })).subscribe(x => {
-            this._createGroupModal?.hideSpinner();
+            this.modalControl?.modal?.hideSpinner();
             this.setupRequest = new GroupCreateRequest();
-            this._onCreate.next(x);
-            this._createGroupModal?.close();
+            this.modalControl?.close(x);
         })
     }
 }

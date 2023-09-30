@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { MdModalComponent, ModalService, StepperComponent } from "multidirectory-ui-kit";
+import { MdModalComponent, ModalInjectDirective, ModalService, StepperComponent } from "multidirectory-ui-kit";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { UserCreateService } from "../../../services/user-create.service";
@@ -18,7 +18,6 @@ import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
   catalog: LdapEntity | null = null;
   @Output() onCreate = new EventEmitter<void>();
-  @ViewChild('createUserModal') createUserModal?: MdModalComponent;
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
   unsubscribe = new Subject<void>();
@@ -27,24 +26,20 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     private setup: UserCreateService, 
     private navigation: LdapNavigationService,
     private api: MultidirectoryApiService,
+    private modalControl: ModalInjectDirective,
     private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {
-      this.navigation.selectedCatalogRx
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe(node => {
-          this.catalog = node;
-        });
-      
+      this.catalog = this.navigation.selectedCatalog;
       this.setup.onStepValid.pipe(
         takeUntil(this.unsubscribe)
-        ).subscribe(x => {
+      ).subscribe(x => {
           this.formValid = x;
-        });
+      });
 
-        if(this.createUserModal) {
-          this.createUserModal.resize();
-        }
+      if(this.modalControl) {
+        this.modalControl.modal?.resize();
+      }
     }
       
       ngOnDestroy(): void {
@@ -54,12 +49,8 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
       }
       
       
-      open() {
-        this.createUserModal?.open();
-      }
-      
       onFinish() {
-        this.createUserModal?.showSpinner();
+        this.modalControl.modal?.showSpinner();
         this.api.create(new CreateEntryRequest({
           entry: `cn=${this.setupRequest.upnLogin},` + this.catalog?.id,
           attributes: [new PartialAttribute({
@@ -88,14 +79,13 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
       password: this.setupRequest.password
     }))
     .pipe(catchError(err => {
-      this.createUserModal?.hideSpinner();
+      this.modalControl.modal?.hideSpinner();
       this.toastr.error('Не удалось создать пользователя');
       return EMPTY;
     }))
     .subscribe(x => {
-      this.createUserModal?.hideSpinner();
-      this.onCreate.emit();
-      this.createUserModal?.close();
+      this.modalControl.modal?.hideSpinner();
+      this.modalControl?.close(x);
     });
   }
   
