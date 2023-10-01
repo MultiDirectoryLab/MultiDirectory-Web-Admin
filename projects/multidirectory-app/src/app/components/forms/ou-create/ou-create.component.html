@@ -15,7 +15,7 @@
 <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
         <md-button (click)="onClose()">Отмена</md-button>
-        <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish()">
+        <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish($event)">
             Создать
         </md-button>
     </div>

@@ -49,7 +49,7 @@ export class ModalInjectDirective implements OnInit, OnChanges {
     }
 
     open(modalOptions?: {[key: string]: any }): Observable<any | boolean | null> {
-        this.templateView = this.viewContainerRef.createEmbeddedView(this.templateRef); 
+        this.templateView = this.viewContainerRef.createEmbeddedView(this.templateRef);
         let nodes = this.findModalParts(this.templateView.rootNodes);
         if(nodes.some(x => !x || x.length == 0)) {
             nodes = this.findModalParts(Array.from(this.templateView.rootNodes.flatMap(x => Array.from(x.children))));

@@ -50,7 +50,9 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    onFinish() {
+    onFinish(event: MouseEvent) {
+        event.stopPropagation();
+        event.preventDefault();
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest},` + this.selectedNode?.id,
             attributes: [new PartialAttribute({
