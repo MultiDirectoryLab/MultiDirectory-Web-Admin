@@ -15,6 +15,9 @@ import { MenuService } from "../../../services/menu.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @Output() helpMenuClick = new EventEmitter<MouseEvent>();
+    @Output() accountSettingsClicked = new EventEmitter<void>();
+    @Output() logoutClick = new EventEmitter<void>();
+
     @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef; 
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
@@ -95,5 +98,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     openAccessControl() {
         this.menu.showAccessControlMenu();
+    }
+    onAccountSettingsClick() {
+        this.accountSettingsClicked.emit();
+    }
+
+    onLogout() {
+        this.logoutClick.next();
     }
 }

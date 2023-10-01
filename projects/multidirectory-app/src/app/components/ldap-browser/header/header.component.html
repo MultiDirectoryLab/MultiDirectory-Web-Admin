@@ -4,6 +4,9 @@
         <label *ngIf="!selectedCatalog" class="bold">Выберите каталог</label>
     </div>
     <div class="control-panel">
+        <md-plane-button *ngIf="navigationalPanelInvisible" [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
+            <img [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px;" />
+        </md-plane-button>
         <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
             <img [src]="'assets/search.svg'" />
         </md-plane-button>
@@ -68,3 +71,8 @@
 <md-dropdown-menu #searchMenu>
     <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
 </md-dropdown-menu> 
+
+<md-dropdown-menu #loginMenu>
+    <div class="dropdown-item disabled" (click)="loginMenu.close(); onAccountSettingsClick()">Настройки аккаунта</div>
+    <div class="dropdown-item" (click)="onLogout()">Выход из системы</div>
+</md-dropdown-menu>

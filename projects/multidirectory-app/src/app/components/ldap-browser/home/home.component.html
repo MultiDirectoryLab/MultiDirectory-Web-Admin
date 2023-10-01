@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="right-pane column">
-        <app-header (helpMenuClick)="helpMenuClick()"></app-header>
+        <app-header (helpMenuClick)="helpMenuClick()" (accountSettingsClicked)="accountsettings.open()" (logoutClick)="logout()"></app-header>
         <router-outlet name="header"></router-outlet>
         <app-catalog-content></app-catalog-content>
     </div>
