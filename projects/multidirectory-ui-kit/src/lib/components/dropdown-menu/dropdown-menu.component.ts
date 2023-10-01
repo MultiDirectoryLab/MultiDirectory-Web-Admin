@@ -125,4 +125,14 @@ export class DropdownMenuComponent {
         }
 
     }
+
+    
+    @HostListener('keydown', ['$event']) 
+    handleKeyEvent(event: KeyboardEvent) {
+        if(event.key == 'Escape') {
+            event.stopPropagation();
+            event.preventDefault();
+            this.close();
+        }
+    }
 }

@@ -1,20 +1,16 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
+import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../../models/entry/delete-request";
 import { ContentViewService } from "../../../services/content-view.service";
+import { LdapWindowsService } from "../../../services/ldap-browser.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { MenuService } from "../../../services/menu.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { OuCreateComponent } from "../../forms/ou-create/ou-create.component";
-import { UserCreateComponent } from "../../forms/user-create/user-create.component";
-import { EntityPropertiesComponent } from "../entity-properties/properties.component";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { GroupCreateComponent } from "../../forms/group-create/group-create.component";
-import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
  
 @Component({
     selector: 'app-catalog-content',
@@ -44,7 +40,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private contentView: ContentViewService,
-        private menuService: MenuService,
+        private ldapWindows: LdapWindowsService,
         private hotkeysService: HotkeysService) {
             this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
                 this.openCreateUser();
@@ -159,7 +155,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showEntryProperties() { 
-        this.properties!.open({'width': '600px'});
+        if(!this.navigation.selectedEntity?.[0]) {
+            return;
+        }
+        this.ldapWindows.openEntityProperiesModal(this.navigation.selectedEntity[0]);
     }
 
     loadData() {
@@ -177,6 +176,16 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.contextMenuRef.setPosition(event.pointerEvent.x, event.pointerEvent.y);
         this.selectedRows = event.selected;
         this.contextMenuRef.toggle();
+    }
+
+    
+    @HostListener('keydown', ['$event']) 
+    handleKeyEvent(event: KeyboardEvent) {
+        if(event.key == 'Escape') {
+            event.stopPropagation();
+            event.preventDefault();
+            this.navigation.setCatalog(null);
+        }
     }
 }
 

@@ -21,17 +21,13 @@
             Создать группу
         </span>
     </md-button>
-    <md-button [disabled]="true" (click)="createObjectModal.open()">
+    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">
         <span class="flex-row flex-space-between flex-gap-10">
             <img [src]="'assets/group_add.svg'"/>
             Добавить объект
         </span>
     </md-button>
 </div>
-
-<ng-template modalInject #properties="modalInject">
-    <app-properties #properties></app-properties>
-</ng-template>
 
 <div class="w-100 h-100" *ngIf="selectedCatalog">
     <ng-container [ngSwitch]="currentView">
@@ -70,16 +66,16 @@
 
 <md-dropdown-menu #createMenu>
     <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">Группа</div>
-    <div class="dropdown-item disabled">Компьютер</div>
-    <div class="dropdown-item disabled">Контакт</div>
+    <div class="dropdown-item disabled hidden">Компьютер</div>
+    <div class="dropdown-item disabled hidden">Контакт</div>
     <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">Организационное подразделение</div>
-    <div class="dropdown-item disabled">Общая папка</div>
-    <div class="dropdown-item disabled">Принтер</div>
+    <div class="dropdown-item disabled hidden">Общая папка</div>
+    <div class="dropdown-item disabled hidden">Принтер</div>
     <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">Пользователь</div>
-    <div class="dropdown-item disabled">msDS-ShadowPrincipalContainer</div>
-    <div class="dropdown-item disabled">msExchDynamic DistributionList</div>
-    <div class="dropdown-item disabled">mslmaging-PSP</div>
-    <div class="dropdown-item disabled">MSMQ Queue Alias</div>
+    <div class="dropdown-item disabled hidden">msDS-ShadowPrincipalContainer</div>
+    <div class="dropdown-item disabled hidden">msExchDynamic DistributionList</div>
+    <div class="dropdown-item disabled hidden">mslmaging-PSP</div>
+    <div class="dropdown-item disabled hidden">MSMQ Queue Alias</div>
 </md-dropdown-menu> 
 <ng-template modalInject #createUserModal="modalInject">
     <app-user-create></app-user-create>

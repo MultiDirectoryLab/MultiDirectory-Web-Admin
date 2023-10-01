@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from "@angular/core";
 import { MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
@@ -15,7 +15,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 })
 export class EntityPropertiesComponent implements OnInit {
     EntityTypes = LdapEntityType;
-    _selectedEntity: LdapEntity | null= null;
+    @Input() selectedEntity: LdapEntity | null= null;
     _entityType: LdapEntityType | null = null;
     accessor: LdapAttributes | null = null;
     unsubscribe = new Subject<boolean>();
@@ -28,13 +28,12 @@ export class EntityPropertiesComponent implements OnInit {
         private attributes: AttributeService) {
     }
     ngOnInit(): void {
-        this._selectedEntity = this.navigation.selectedEntity?.[0] ?? null;
-        this._entityType = this._selectedEntity?.type ?? null;
-        if(!this._selectedEntity || !this._entityType) {
+        this._entityType = this.selectedEntity?.type ?? null;
+        if(!this.selectedEntity || !this._entityType) {
             this.toastr.error('Для просмотра свойств необходимо выбрать сущность')
             return;
         }
-        this.navigation.getEntityAccessor().pipe(
+        this.navigation.getEntityAccessor(this.selectedEntity).pipe(
             take(1), 
             tap(accessor => { this.accessor = accessor; }),
         ).subscribe(() => {
@@ -48,7 +47,7 @@ export class EntityPropertiesComponent implements OnInit {
     }
     save() {
         this.modalControl.modal?.showSpinner();
-        this.navigation.getEntityAccessor().pipe(
+        this.navigation.getEntityAccessor(this.selectedEntity!).pipe(
             take(1),
             switchMap(accessor => {
                 if(!accessor) {
