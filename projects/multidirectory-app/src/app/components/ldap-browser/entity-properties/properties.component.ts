@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { MdModalComponent } from "multidirectory-ui-kit";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import { MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
@@ -13,9 +13,8 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
     styleUrls: ['./properties.component.scss'],
     templateUrl: './properties.component.html',
 })
-export class EntityPropertiesComponent {
+export class EntityPropertiesComponent implements OnInit {
     EntityTypes = LdapEntityType;
-    @ViewChild('properties', { static: true }) propertiesModal!: MdModalComponent;
     _selectedEntity: LdapEntity | null= null;
     _entityType: LdapEntityType | null = null;
     accessor: LdapAttributes | null = null;
@@ -25,9 +24,10 @@ export class EntityPropertiesComponent {
         public navigation: LdapNavigationService, 
         public toastr: ToastrService, 
         private cdr: ChangeDetectorRef,
+        private modalControl: ModalInjectDirective,
         private attributes: AttributeService) {
     }
-    open() {
+    ngOnInit(): void {
         this._selectedEntity = this.navigation.selectedEntity?.[0] ?? null;
         this._entityType = this._selectedEntity?.type ?? null;
         if(!this._selectedEntity || !this._entityType) {
@@ -37,17 +37,17 @@ export class EntityPropertiesComponent {
         this.navigation.getEntityAccessor().pipe(
             take(1), 
             tap(accessor => { this.accessor = accessor; }),
-            switchMap(() => { return this.propertiesModal.open() ?? of(false) })
         ).subscribe(() => {
             this.cdr.detectChanges();
-            this.propertiesModal.resize();
+            this.modalControl.modal?.resize();
         });
     }
+    
     close() {
-        this.propertiesModal.close()
+        this.modalControl.close()
     }
     save() {
-        this.propertiesModal.showSpinner();
+        this.modalControl.modal?.showSpinner();
         this.navigation.getEntityAccessor().pipe(
             take(1),
             switchMap(accessor => {
@@ -58,12 +58,12 @@ export class EntityPropertiesComponent {
             })
         ).subscribe({
             complete: () => {
-                this.propertiesModal.hideSpinner();
-                this.propertiesModal.close();
+                this.modalControl.modal?.hideSpinner();
+                this.modalControl.close();
             },
             error: (err) => {
                 this.toastr.error(err);
-                this.propertiesModal.hideSpinner();
+                this.modalControl?.modal?.hideSpinner();
             }
         });
     }

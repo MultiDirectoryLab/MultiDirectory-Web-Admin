@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild, forwardRef } from "@angular/core";
-import { ModalService } from "multidirectory-ui-kit";
+import { ModalInjectDirective, ModalService } from "multidirectory-ui-kit";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
@@ -24,7 +24,7 @@ export class EntityAttributesComponent implements AfterViewInit {
         private api: MultidirectoryApiService,
         private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef,
-        private modal: ModalService) {}
+        private modalControl: ModalInjectDirective) {}
 
     ngAfterViewInit(): void {
         this.loadData().subscribe(() => {
@@ -32,7 +32,7 @@ export class EntityAttributesComponent implements AfterViewInit {
                 this.propGrid.grid.recalculate();
             }
             this.cdr.detectChanges();
-            this.modal.resize();
+            this.modalControl?.modal?.resize();
             this.cdr.detectChanges();
         });
     }

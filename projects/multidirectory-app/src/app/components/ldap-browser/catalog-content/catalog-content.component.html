@@ -29,7 +29,9 @@
     </md-button>
 </div>
 
-<app-properties #properties></app-properties>
+<ng-template modalInject #properties="modalInject">
+    <app-properties #properties></app-properties>
+</ng-template>
 
 <div class="w-100 h-100" *ngIf="selectedCatalog">
     <ng-container [ngSwitch]="currentView">

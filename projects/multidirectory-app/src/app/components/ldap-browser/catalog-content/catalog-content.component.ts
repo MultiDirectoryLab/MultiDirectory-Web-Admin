@@ -26,7 +26,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createUserModal', { static: true}) createUserModal?: ModalInjectDirective;
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
     @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
-    @ViewChild('properties', { static: true }) properties?: EntityPropertiesComponent;
+    @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;
@@ -159,7 +159,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showEntryProperties() { 
-        this.properties!.open();
+        this.properties!.open({'width': '600px'});
     }
 
     loadData() {

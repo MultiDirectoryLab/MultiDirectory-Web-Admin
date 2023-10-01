@@ -7,6 +7,7 @@ import { AppSettingsService } from "../../../services/app-settings.service";
 import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
+import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 
 @Component({
     selector: 'app-header',
@@ -32,6 +33,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.contentViewService.contentView = view;
     }
 
+    get user(): WhoamiResponse | undefined {
+        return this.app.user;
+    }
     constructor(
         private app: AppSettingsService,
         private navigation: LdapNavigationService,

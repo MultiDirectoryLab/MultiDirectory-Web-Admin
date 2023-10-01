@@ -83,9 +83,9 @@ export const SearchQueries = {
     },
 
 
-    findByName(name: string, data: LdapEntity): SearchRequest {
+    findByName(name: string, data?: LdapEntity): SearchRequest {
       return new SearchRequest({
-          "base_object": data.entry?.id,
+          "base_object": data?.entry?.id ?? '',
           "scope": 2,
           "deref_aliases": 0,
           "size_limit": 0,

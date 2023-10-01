@@ -12,6 +12,7 @@ import { FormsModule } from "@angular/forms";
 import { EditorsModule } from "../editors/editors.module";
 import { MemberOfComponent } from "./member-of/member-of.component";
 import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
+import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { GroupSelectorModule } from "../../forms/group-selector/group-selector.m
         MultidirectoryUiKitModule,
         FormsModule,
         EditorsModule,
-        GroupSelectorModule
+        GroupSelectorModule,
     ],
     declarations: [
         PropertiesComponent,
@@ -29,7 +30,8 @@ import { GroupSelectorModule } from "../../forms/group-selector/group-selector.m
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
-        MemberOfComponent
+        MemberOfComponent,
+        AvatarUploadComponent
     ],
     exports: [
         PropertiesComponent,
@@ -39,7 +41,8 @@ import { GroupSelectorModule } from "../../forms/group-selector/group-selector.m
         UserPropertiesProfileComponent,
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
-        MemberOfComponent
+        MemberOfComponent,
+        AvatarUploadComponent
     ]
 })
 export class PropertiesModule {}
