@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, tap } from "rxjs";
 import { WhoamiResponse } from "../models/whoami/whoami-response";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
+import { LdapEntity } from "../core/ldap/ldap-entity";
 
 @Injectable({
     providedIn: "root"
@@ -12,7 +13,7 @@ export class AppSettingsService {
     setNavigationalPanelVisiblity(state: boolean) {
         this.navigationalPanelVisibleRx.next(state);
     }
-
+    userEntry?: LdapEntity;
     private _user: WhoamiResponse = new WhoamiResponse({});
     get user(): WhoamiResponse {
         return this._user;

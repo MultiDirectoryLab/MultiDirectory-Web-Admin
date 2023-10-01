@@ -8,6 +8,7 @@ export * from './lib/components/textbox/textbox.component';
 export * from './lib/components/dropdown/dropdown.component';
 export * from './lib/components/modal/modal.component';
 export * from './lib/components/modal/modal.service';
+export * from './lib/components/modal/modal-inject.directive';
 export * from './lib/components/number/number.component';
 export * from './lib/components/textarea/textarea.component';
 export * from './lib/components/treeview/treeview.component';

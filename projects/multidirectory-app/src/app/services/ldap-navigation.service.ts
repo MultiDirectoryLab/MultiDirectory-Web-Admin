@@ -168,14 +168,11 @@ export class LdapNavigationService {
     }
 
     private _accessor: LdapAttributes | null = null;
-    getEntityAccessor(): Observable<LdapAttributes | null> {
-        if(!this.selectedEntity) {
-            return of(null);
-        }
-        if(!!this._accessor) {
+    getEntityAccessor(entity: LdapEntity): Observable<LdapAttributes | null> {
+        if(!!this._accessor && this._accessor.$entitydn[0] == entity.id) {
             return of(this._accessor);
         } 
-        return this.attributes.get(this.selectedEntity[0]).pipe(take(1), tap(accessor => {
+        return this.attributes.get(entity).pipe(take(1), tap(accessor => {
             this._accessor = accessor;
         }));
     }

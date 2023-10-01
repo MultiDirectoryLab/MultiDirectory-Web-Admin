@@ -7,6 +7,8 @@ import { AppSettingsService } from "../../../services/app-settings.service";
 import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
+import { WhoamiResponse } from "../../../models/whoami/whoami-response";
+import { LdapWindowsService } from "../../../services/ldap-browser.service";
 
 @Component({
     selector: 'app-header',
@@ -15,6 +17,9 @@ import { MenuService } from "../../../services/menu.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @Output() helpMenuClick = new EventEmitter<MouseEvent>();
+    @Output() accountSettingsClicked = new EventEmitter<void>();
+    @Output() logoutClick = new EventEmitter<void>();
+
     @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef; 
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
@@ -29,11 +34,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.contentViewService.contentView = view;
     }
 
+    get user(): WhoamiResponse | undefined {
+        return this.app.user;
+    }
     constructor(
         private app: AppSettingsService,
         private navigation: LdapNavigationService,
         private contentViewService: ContentViewService,
         private hotkeysService: HotkeysService,
+        private ldapWindows: LdapWindowsService,
         private menu: MenuService,
         private cdr: ChangeDetectorRef) 
     {
@@ -41,10 +50,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.onChange(!this.navigationalPanelInvisible);
             return false; // Prevent bubbling
         }, undefined, 'Показать/скрыть навигационную панель'));
-        this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
-            this.navigation.setCatalog(null);
-            return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - маленькие иконки'));
         this.hotkeysService.add(new Hotkey('f1', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.SmallIcons;
             return false; // Prevent bubbling
@@ -95,5 +100,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     openAccessControl() {
         this.menu.showAccessControlMenu();
+    }
+    onAccountSettingsClick() {
+        if(!this.app.userEntry) {
+            return;
+        }
+        this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
+    }
+
+    onLogout() {
+        this.logoutClick.next();
     }
 }

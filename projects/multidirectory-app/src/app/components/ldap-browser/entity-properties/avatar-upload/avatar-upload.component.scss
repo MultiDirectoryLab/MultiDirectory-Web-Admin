@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+}
+.img-container {
+    overflow: hidden;
+    justify-content: center;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.avatar-img {
+    max-width: 48px;
+    max-height: 48px;
+}

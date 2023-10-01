@@ -4,6 +4,10 @@
         <label *ngIf="!selectedCatalog" class="bold">Выберите каталог</label>
     </div>
     <div class="control-panel">
+        <md-plane-button *ngIf="navigationalPanelInvisible" [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
+            <img *ngIf="!user?.jpegPhoto" [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px;" />
+            <img *ngIf="!!user?.jpegPhoto" [src]="('data:image/jpg;base64,' + user?.jpegPhoto)" style="width: 24px; height: 24px;" />
+        </md-plane-button>
         <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
             <img [src]="'assets/search.svg'" />
         </md-plane-button>
@@ -25,7 +29,7 @@
 <md-radiogroup [(ngModel)]="contentView" #radiogroup></md-radiogroup>
 
 <md-dropdown-menu #helpMenu>
-    <div class="dropdown-item disabled">Добавить/удалить столбцы...</div>
+    <div class="dropdown-item hidden disabled">Добавить/удалить столбцы...</div>
     <div class="dropdown-item">
         <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">
             <label>Скрыть дерево</label>
@@ -50,7 +54,7 @@
             <label>F3</label>       
         </md-radiobutton>
     </div>
-    <div class="dropdown-item">
+    <div class="dropdown-item hidden">
         <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">
             <label>Детали</label>
             <label>F4</label>     
@@ -59,12 +63,17 @@
     <div class="dropdown-item" [routerLink]="['settings']">
         Настройки MultiDirectory
     </div>
-    <div class="dropdown-item disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>
-    <div class="dropdown-item disabled">Дополнительные функции...</div>
-    <div class="dropdown-item disabled">Параметры фильтров...</div>
-    <div class="dropdown-item disabled">Настроить вид...</div>
+    <div class="dropdown-item hidden disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>
+    <div class="dropdown-item hidden disabled">Дополнительные функции...</div>
+    <div class="dropdown-item hidden disabled">Параметры фильтров...</div>
+    <div class="dropdown-item hidden disabled">Настроить вид...</div>
 </md-dropdown-menu> 
 
 <md-dropdown-menu #searchMenu>
     <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
 </md-dropdown-menu> 
+
+<md-dropdown-menu #loginMenu>
+    <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">Настройки аккаунта</div>
+    <div class="dropdown-item" (click)="onLogout()">Выход из системы</div>
+</md-dropdown-menu>

@@ -25,7 +25,7 @@ export class LdapLoader {
                     });
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
                     const serverNode = new LdapEntity({ 
-                            name: this.getSingleAttribute(x, 'dnsHostName'),
+                            name: LdapLoader.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapEntityType.Server,
                             selectable: true,
                             entry: x,
@@ -48,7 +48,7 @@ export class LdapLoader {
     getChild(dn: string, parent: LdapEntity | null = null): Observable<Treenode[]> {
         return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
-                    const displayName = this.getSingleAttribute(x, 'name');
+                    const displayName = LdapLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapEntity({
                         name: displayName,
@@ -69,7 +69,7 @@ export class LdapLoader {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
             tap(x => parentNode.childCount = x.total_objects ),
             map((res: SearchResponse) => res.search_result.map(x => {
-                    const displayName = this.getSingleAttribute(x, 'name');
+                    const displayName = LdapLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapEntity({
                         name: displayName,
@@ -86,7 +86,7 @@ export class LdapLoader {
             );
     }
 
-    private getSingleAttribute(entry: SearchEntry, attributeName: string): string {
+    static getSingleAttribute(entry: SearchEntry, attributeName: string): string {
         const partialAttribute = entry.partial_attributes.find(x => x.type == attributeName);
         return partialAttribute?.vals?.[0] ?? '';
     }

@@ -2,14 +2,25 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { MdModalComponent } from "./modal.component";
 import { ModalModule } from 'ng-modal-full-resizable';
 import { ButtonComponent } from '../button/button.component'
+import { ModalTestComponent } from './modaltest.component';
+import { ModalInjectDirective } from './modal-inject.directive';
+import { TextboxComponent } from '../textbox/textbox.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 const meta: Meta<MdModalComponent> = {
     title: 'Components/Modal',
     component: MdModalComponent,
     tags: ['autodocs'],
     decorators: [
         moduleMetadata({
-            imports: [ModalModule],
-            declarations: [ButtonComponent]
+            imports: [ModalModule, CommonModule, FormsModule],
+            declarations: [ButtonComponent, ModalTestComponent, ModalInjectDirective, TextboxComponent],
+            entryComponents: [ModalInjectDirective, MdModalComponent],
+            providers: [{
+                provide:  ModalInjectDirective,
+                useClass: ModalInjectDirective,
+                multi: false
+            }]
         }),
     ]
     
@@ -19,22 +30,16 @@ export default meta;
 
 type Story = StoryFn<MdModalComponent>;
 const template: Story = (args: MdModalComponent) => ({
-    props: args,
+    props: {
+        'value': 10
+    },
     template: `
-    <md-modal #modalRoot>
-        <ng-container class="app-modal-header">Demo modal</ng-container>
-        <ng-container class="app-modal-body">
-        <h3>MODAL DIALOG</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-        </ng-container>
-        <ng-container class="app-modal-footer">
-            <md-button #closeButton (click)="modalRoot.close()">Delete</md-button>
-            <md-button [primary]="true" style="float: right;" (click)="modalRoot.close()">Close</md-button>
-        </ng-container>
-    </md-modal>
-    <md-button [primary]=true (click)="modalRoot.open()">Open modal</md-button>
-    `
+    <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
+    <br /><br />
+    <app-modal-test #modal></app-modal-test>
+ 
+    `,
+
 });
 
 export const SimpleExample = template.bind({});

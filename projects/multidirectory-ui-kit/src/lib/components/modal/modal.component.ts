@@ -22,7 +22,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     @Input() backdrop = true;
     @Input() minHeight: string = '';
     @Input() width: string = '';
-    @Input() contentDisplay = false;
     @Output() onClose = new EventEmitter<void>();
     unsubscribe = new Subject<void>();
     
@@ -56,14 +55,12 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
-        this.contentDisplay = true;
         this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
         this.cdr.detectChanges();
     }
 
     onModalClose() {
-        this.contentDisplay = false;
         this.onClose.next();
         this.cdr.detectChanges();
     }
@@ -93,7 +90,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
             this.cdr.detectChanges();
         }
         this.modalRoot?.closeModal.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-            this.contentDisplay = false;
             this.cdr.detectChanges();
             this.onClose.emit()
         });
