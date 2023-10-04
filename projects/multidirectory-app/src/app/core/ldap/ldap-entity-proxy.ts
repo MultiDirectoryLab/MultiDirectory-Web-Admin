@@ -13,7 +13,7 @@ export class Trackable<T> {
 }
 
 export class LdapAttributes {
-    [type: string]: string[];
+    [type: string]: any[];
 
     constructor(props: PartialAttribute[]) {
         props.forEach(prop => {

@@ -6,25 +6,27 @@
         </span>
     </div>
     <md-form #form>
-        <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">UPN</label>
-            <div class="flex-column  flex-grow-1">
-                <md-textbox required [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
+        <div class="flex-column flex-gap-10">
+            <div class="flex-row flex-space-between  justify-center">
+                <label  class="textbox-label">UPN</label>
+                <div class="flex-column  flex-grow-1">
+                    <md-textbox required [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
+                </div>
             </div>
+            
+            <div class="flex-row flex-space-between  justify-center">
+                <label  class="textbox-label">Отображаемое имя</label>
+                <div class="flex-column  flex-grow-1">
+                    <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
+                </div>
+            </div>
+            
+            <div class="flex-row flex-space-between  justify-center">
+                <label  class="textbox-label">Email</label>
+                <div class="flex-column  flex-grow-1">
+                    <md-textbox required [(ngModel)]="setupRequest.mail"></md-textbox>
+                </div>
+            </div>   
         </div>
-        
-        <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">Отображаемое имя</label>
-            <div class="flex-column  flex-grow-1">
-                <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
-            </div>
-        </div>
-        
-        <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">Email</label>
-            <div class="flex-column  flex-grow-1">
-                <md-textbox required [(ngModel)]="setupRequest.mail"></md-textbox>
-            </div>
-        </div>   
     </md-form>
 </div>
