@@ -102,7 +102,8 @@ export class MultidirectoryApiService {
     }
 
     editPolicy(policy: AccessPolicy): Observable<boolean> {
-        return this.httpClient.put<boolean>(`policy`, policy).execute();
+        const editPolicyRequest = new PolicyPutRequest(policy)
+        return this.httpClient.put<boolean>(`policy`, editPolicyRequest).execute();
     }
 
     switchPolicy(policyId: number): Observable<boolean> {

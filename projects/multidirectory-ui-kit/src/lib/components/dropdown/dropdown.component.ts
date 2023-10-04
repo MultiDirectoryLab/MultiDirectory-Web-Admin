@@ -33,4 +33,14 @@ export class DropdownComponent extends BaseComponent {
     getValue(value: DropdownOption | string, index: number) {
         return typeof value === "string" ? value : (<DropdownOption>value).value;
     }
+
+    override writeValue(value: any): void {
+        if (value !== this.innerValue && this.options) {
+            const index = this.options.findIndex(x => typeof x == 'string' ? x == value : x.value == value);
+            const innerValue = this.options[index] ;
+            this.innerValue = typeof innerValue == 'string'? innerValue : innerValue?.value;
+            this.cdr.detectChanges();
+        }
+    }
+ 
 }

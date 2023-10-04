@@ -47,8 +47,8 @@ export class ModalInjectDirective implements OnInit, OnChanges {
     get modal(): MdModalComponent | undefined {
         return this._modal;
     }
-
-    open(modalOptions?: {[key: string]: any }): Observable<any | boolean | null> {
+    contentOptions?: {[key: string]: any};
+    open(modalOptions?: {[key: string]: any }, contentOptions?: {[key: string]: any}): Observable<any | boolean | null> {
         this.templateView = this.viewContainerRef.createEmbeddedView(this.templateRef);
         let nodes = this.findModalParts(this.templateView.rootNodes);
         if(nodes.some(x => !x || x.length == 0)) {
@@ -60,6 +60,9 @@ export class ModalInjectDirective implements OnInit, OnChanges {
         if(modalOptions) {
             Object.entries(modalOptions).forEach(x => { wrapped.setInput(x[0], x[1])});
         }
+        if(contentOptions) {
+            this.contentOptions = contentOptions;
+        }
         this._modal = wrapped.instance;
         this.cdr.detectChanges();   
         this._modal!.open();
@@ -67,6 +70,7 @@ export class ModalInjectDirective implements OnInit, OnChanges {
             this.close();
         })
         this.cdr.detectChanges();   
+        wrapped.instance.modalRoot?.moveOnTop();
         return this.resultRx;
     }
 

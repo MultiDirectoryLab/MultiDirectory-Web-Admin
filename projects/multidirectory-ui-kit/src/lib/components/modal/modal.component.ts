@@ -22,6 +22,8 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     @Input() backdrop = true;
     @Input() minHeight: string = '';
     @Input() width: string = '';
+    @Input() zIndex?: number;
+
     @Output() onClose = new EventEmitter<void>();
     unsubscribe = new Subject<void>();
     
@@ -57,6 +59,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         }
         this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
+        this.modalRoot?.moveOnTop();
         this.cdr.detectChanges();
     }
 

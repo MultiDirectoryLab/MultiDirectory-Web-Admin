@@ -3,9 +3,9 @@ import { ToastrService } from "ngx-toastr";
 import { EMPTY, switchMap, take, zip } from "rxjs";
 import { AccessPolicy } from "../../../core/access-policy/access-policy";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { AccessPolicyCreateComponent } from "./access-policy-create/access-policy-create.component";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { CdkDragDrop, CdkDragEnd } from "@angular/cdk/drag-drop";
+import { ModalInjectDirective } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-access-policy-settings',
@@ -13,7 +13,7 @@ import { CdkDragDrop, CdkDragEnd } from "@angular/cdk/drag-drop";
     styleUrls: ['./access-policy-settings.component.scss']
 }) 
 export class AccessPolicySettingsComponent {
-    @ViewChild('createModal', { static: true }) accessClientCreateModal: AccessPolicyCreateComponent | null = null;
+    @ViewChild('createModal', { static: true }) accessClientCreateModal!: ModalInjectDirective;
 
     properties: any[] = [];
     propColumns = [
@@ -82,8 +82,9 @@ export class AccessPolicySettingsComponent {
         if(!toEdit.id) {
             return;
         }
-        this.accessClientCreateModal?.open(
-            new AccessPolicy(toEdit).setId(toEdit.id)
+        this.accessClientCreateModal.open(
+            undefined,
+            { 'accessPolicy': new AccessPolicy(toEdit).setId(toEdit.id) }
         ).pipe(
             take(1),
             switchMap(client => {
@@ -103,7 +104,8 @@ export class AccessPolicySettingsComponent {
 
     onAddClick() {
         this.accessClientCreateModal?.open(
-            new AccessPolicy()
+            undefined,
+            { 'accessPolicy': new AccessPolicy() }
         ).pipe(
             take(1),
             switchMap(client => {
