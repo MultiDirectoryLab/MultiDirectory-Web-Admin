@@ -13,6 +13,7 @@ import { EditorsModule } from "../editors/editors.module";
 import { MemberOfComponent } from "./member-of/member-of.component";
 import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
 import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
+import { LogonTimeEditorComponent } from "./user-properties/account/logn-time-editor/logon-time-editor.component";
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
         MemberOfComponent,
-        AvatarUploadComponent
+        AvatarUploadComponent,
+        LogonTimeEditorComponent
     ],
     exports: [
         PropertiesComponent,
@@ -42,7 +44,8 @@ import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
         UserPropertiesAccountComponent,
         EntityAttributesComponent,
         MemberOfComponent,
-        AvatarUploadComponent
+        AvatarUploadComponent,
+        LogonTimeEditorComponent
     ]
 })
 export class PropertiesModule {}
