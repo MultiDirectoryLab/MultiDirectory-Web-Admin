@@ -1,66 +1,128 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { MdModalComponent, Treenode, TreeviewComponent } from "multidirectory-ui-kit";
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { MdModalComponent, ModalInjectDirective, Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { IpOption } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
+import { IpOption, IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
 import { Observable, Subject } from "rxjs";
+
+export class IpAddressStatus {
+    title: string = '';
+    address: IpOption = '';
+    valid: boolean = false;
+
+    constructor(address: IpOption = '', valid: boolean = false) {
+        this.address = address;
+        this.title = typeof this.address == 'string' ? this.address : `${this.address.start}-${this.address.end}}` 
+        this.validate();
+    }
+
+    validate() {
+        const validIp = new RegExp(/^(?:\d{1,3}\.?){4}$/);
+        const validSubnet = new RegExp(/^(?:\d{1,3}\.?){4}(?:\/\d{1,3})?$/);
+        this.valid = false;
+        if(typeof (this.address) == 'string') {
+            this.valid = !!this.address.match(validIp) || !!this.address.match(validSubnet);
+        } else {
+            this.valid = [this.address.end, this.address.start].every(x => x.match(validIp) || x.match(validSubnet));
+        }
+        return this;
+    }
+
+    update(input: string) {
+        this.title = input;
+        if(input.includes('-')) {
+            const parts = input.split('-');
+            const validIp = new RegExp(/^(?:\d{1,3}\.?){4}$/);
+            const validSubnet = new RegExp(/^(?:\d{1,3}\.?){4}(?:\/\d{1,3})?$/);
+            if(parts.length == 2 && parts.every(x => x.match(validIp) || x.match(validSubnet))) {
+                this.address = new IpRange({start: parts[0], end: parts[1]});
+                this.validate();
+                return this;
+            }
+        }
+        this.address = input;
+        this.validate();
+        return this;
+    }
+}
 
 @Component({
     selector: 'app-access-policy-ip-list',
     templateUrl: './access-policy-ip-list.component.html',
     styleUrls: ['./access-policy-ip-list.component.scss']
 })
-export class AccessPolicyIpListComponent {
-    @ViewChild('modal', { static: true }) private _modal!: MdModalComponent;
-    @ViewChild('entriesList', { static: true }) private _entriesList!: TreeviewComponent;
-    private _ipAddresses: IpOption[] = [];
-    private _result = new Subject<IpOption[] | null>();
-    input = '';
+export class AccessPolicyIpListComponent implements OnInit {
+    @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
+    _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
 
-    constructor(private cdr: ChangeDetectorRef, private toastr: ToastrService) {}
-
-    open(ipAddresses: IpOption[]): Observable<IpOption[] | null> {
-        this._ipAddresses = ipAddresses;
-        this._modal.open();
-        return this._result.asObservable();    
+    constructor(private cdr: ChangeDetectorRef, private toastr: ToastrService, private modalControl: ModalInjectDirective) {}
+    ngOnInit(): void {
+        if(this.modalControl.contentOptions) {
+            this._ipAddresses = this.modalControl.contentOptions.ipAddresses.map(
+                (x: IpOption) => new IpAddressStatus(x).validate());
+        }
     }
 
     finish() {
-        this._result.next(this._ipAddresses);
-        this._modal.close();
+        this.modalControl.close(this._ipAddresses.filter(x => x.valid).map(x => x.address));
     }
     
     close()  {
-        this._result.next(null);
-        this._modal.close();
+        this.modalControl.close(null);
     }
 
-    deleteEntry() {
-        this._entriesList.tree = this._entriesList.tree.filter(x => !x.selected);
-        this._entriesList!.redraw(); 
-    }
-
-    addEntry() {
-        const validIp = new RegExp(`^(\d{1,3}(\.\d{1,3}){3}( *- *\d{1,3}(\.\d{1,3}){3})?)$`);
-        const validSubnet = new RegExp(`^(\d{1,3}(\.\d{1,3}){3}\/\d{1,2})$`);
-        if(this.input.match(validIp) || this.input.match(validSubnet)) {
-            this._entriesList.addRoot(new Treenode({
-                id: this.input,
-                name: this.input,
-                selectable: true
-            }));
-            return;
+    addEntry(input: string) {
+        this._ipAddresses.push(
+            new IpAddressStatus().update(input)
+        ); 
+        if(!this._ipAddresses[this._ipAddresses.length - 1].valid) {
+            this.toastr.error('Формат адреса неверен');
         }
-        if(this.input.includes('-')) {
-            const parts = this.input.split('-');
-            if(parts.length == 2 && parts.every(x => x.match(validIp) || x.match(validSubnet))) {
-                this._entriesList.addRoot(new Treenode({
-                    id: this.input,
-                    name: this.input,
-                    selectable: true,
-                }));
-            }
-        }
-        this.toastr.error('Формат адреса неверен');
         return;
+    }
+
+    onNewKeyDown(event: KeyboardEvent) {
+        if(event.key == 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            this.addEntry(this._ipInput.nativeElement.innerText);
+            this._ipInput.nativeElement.innerText = '';
+            this.cdr.detectChanges();
+        }
+        if(event.key == 'Backspace' && this._ipInput.nativeElement.innerText.length == 0) {
+            event.preventDefault();
+            event.stopPropagation();
+            this._ipAddresses.pop() 
+            this.cdr.detectChanges();
+        }
+    }
+    onNewBlur(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.addEntry(this._ipInput.nativeElement.innerText);
+        this._ipInput.nativeElement.innerText = '';
+        this.cdr.detectChanges();
+    }
+
+    onEditKeyDown(event: KeyboardEvent, element: HTMLDivElement, index: number) {
+        if(event.key == 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            this._ipAddresses[index].update(element.innerText);
+            this._ipInput.nativeElement.focus();
+            this.cdr.detectChanges();
+        }
+        if(event.key == 'Backspace' && element.innerText.length == 0) {
+            event.preventDefault();
+            event.stopPropagation();
+            this._ipAddresses.splice(index, 1);
+            this.cdr.detectChanges();
+        }
+    }
+    onEditBlur(event: Event, index: number, element: HTMLDivElement) {
+        event.preventDefault();
+        event.stopPropagation();
+        this._ipAddresses[index].update(element.innerText);
+        this._ipInput.nativeElement.focus();
+        this.cdr.detectChanges();
     }
 }

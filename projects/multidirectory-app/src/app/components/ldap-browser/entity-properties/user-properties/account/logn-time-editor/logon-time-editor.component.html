@@ -1,0 +1,61 @@
+<div class="app-modal-header">Часы входа для {{username}}</div>
+<div class="flex-row h-100">
+    <div class="logon-map flex-grow-1" #logonMap>
+        <div></div>
+        <div class="icon-midnight">
+            <img src="assets/moon.svg"/>
+        </div>
+        <div class="icon-midday">
+            <img src="assets/sun.svg"/>
+        </div>
+        <div class="icon-dayend">
+            <img src="assets/moon.svg"/>
+        </div>
+        <ng-container *ngFor="let day of daysOfWeek; let dayIndex = index">
+            <div class="logon-day">
+                <md-plane-button (click)="onDaySelect($event, day)">{{day.title}}</md-plane-button>
+            </div>
+            <ng-container *ngFor="let time of hours">
+                <div class="logon-hour" *ngIf="dayIndex == 0">
+                    <div class="logon-hour-click" (click)="onHoursSelect($event, time)">{{time}}</div>
+                </div>
+                <div
+                     (mousedown)="onSelectStarted($event, day, time)" 
+                     (mouseenter)="onSelectMouseEnter($event, day, time)" 
+                     class="logon-selector" 
+                     *ngIf="dayIndex > 0" 
+                     #daySelector
+                     [ngClass]="{
+                        'logon-enabled': getDayBit(day.id, time),
+                        'logon-selected': isInsideSelection(day, time),
+                    }" 
+                     [attr.data-day]="day.id"
+                     [attr.data-hour]="time"
+                     (click)="selectSingle(day, time)">
+                     <div class="selection-overlay"
+                        [ngClass]="{
+                            'logon-select-row-start': isSelectionRowStart(day, time),
+                            'logon-select-column-start': isSelectionColumnStart(day, time),
+                            'logon-select-column-end': isSelectionColumnEnd(day, time),
+                            'logon-select-row-end': isSelectionRowEnd(day, time)
+                        }" 
+                     ></div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="logon-switch">
+        <md-radiogroup [(ngModel)]="selectionAllowance" #radioGroup></md-radiogroup>
+        <md-radiobutton [group]="radioGroup" [value]="1">Вход разрешен</md-radiobutton>
+        <md-radiobutton [group]="radioGroup" [value]="0">Вход запрещен</md-radiobutton>
+    </div>
+</div>
+<div class="app-modal-footer flex-row flex-gap-10 flex-space-between">
+    <div>
+        <label *ngIf="selectedDaysState.length > 0">{{getSelectionDescription()}}</label>
+    </div>
+    <div class="flex-row flex-gap-10">
+        <md-button (click)="close()">Отменить</md-button>
+        <md-button (click)="finish()" [primary]="true">Применить</md-button>
+    </div>
+</div>

@@ -6,27 +6,30 @@
         </span>
     </div>
     <md-form #form>
-        <div class="flex-row flex-space-between justify-center">
-            <label class="textbox-label">Логин администратора</label>
-            <div class="flex-column  flex-grow-1">
-                <md-textbox required [(ngModel)]="setupRequest.username" 
-                ></md-textbox>
+        <div class="flex-column flex-gap-10 ">
+            <div class="flex-row flex-gap-10 flex-space-between justify-center">
+                <label class="textbox-label">Логин администратора</label>
+                <div class="flex-column  flex-grow-1">
+                    <md-textbox required [(ngModel)]="setupRequest.username" 
+                    ></md-textbox>
+                </div>
             </div>
+            
+            <div class="flex-row flex-gap-10  flex-space-between  justify-center">
+                <label  class="textbox-label">Пароль</label>
+                <div class="flex-column  flex-grow-1">
+                    <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
+                        #passwordInput></md-textbox>
+                </div>
+            </div>
+            
+            <div class="flex-row flex-gap-10  flex-space-between  justify-center">
+                <label  class="textbox-label">Повторите пароль</label>
+                <div class="flex-column flex-grow-1">
+                    <md-textbox  required [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
+                </div>
+            </div>   
         </div>
-        
-        <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">Пароль</label>
-            <div class="flex-column  flex-grow-1">
-                <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
-                    #passwordInput></md-textbox>
-            </div>
-        </div>
-        
-        <div class="flex-row flex-space-between  justify-center">
-            <label  class="textbox-label">Повторите пароль</label>
-            <div class="flex-column flex-grow-1">
-                <md-textbox  required [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
-            </div>
-        </div>   
+       
     </md-form>
 </div>

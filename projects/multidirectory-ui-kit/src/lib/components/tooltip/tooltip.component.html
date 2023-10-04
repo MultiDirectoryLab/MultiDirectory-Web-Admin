@@ -1,4 +1,4 @@
-<div class="tooltip-icon-wrapper" (mouseenter)="onMouseEnter($event)" (mouseleave)="onMouseLeave($event)">
+<div class="tooltip-icon-wrapper" (click)="toogleTooltip($event)">
     <img class="tooltip-icon" [src]="iconPath">
     <div class="tooltip" [ngClass]="{
         'tooltip-visible': tooltipVisible

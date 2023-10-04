@@ -24,4 +24,6 @@
     </div>
 </div>
 
-<app-access-policy-create #createModal></app-access-policy-create>
+<ng-template modalInject #createModal="modalInject">
+    <app-access-policy-create #createModal></app-access-policy-create>
+</ng-template>

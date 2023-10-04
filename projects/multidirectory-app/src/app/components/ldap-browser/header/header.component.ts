@@ -50,6 +50,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.onChange(!this.navigationalPanelInvisible);
             return false; // Prevent bubbling
         }, undefined, 'Показать/скрыть навигационную панель'));
+        this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
+            this.navigation.setCatalog(null);
+            return false; // Prevent bubbling
+        }, undefined, 'Режим отображения - маленькие иконки'));
         this.hotkeysService.add(new Hotkey('f1', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.SmallIcons;
             return false; // Prevent bubbling

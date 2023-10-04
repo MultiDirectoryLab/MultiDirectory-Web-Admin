@@ -1,5 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subject, delay, skipWhile, takeUntil } from "rxjs";
+import { Component, ElementRef, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subject, delay, fromEvent, skipWhile, takeUntil } from "rxjs";
 
 @Component({
     selector: 'md-tooltip',
@@ -11,33 +11,39 @@ export class TooltipComponent implements OnInit, OnDestroy{
     @Input() delay = 200;
     @Input() width = 140;
     tooltipVisible = false;
-    mouseInsideRx = new Subject<boolean>();
-    mouseOutside = true;
     unsubscribe = new Subject<boolean>();
 
+    constructor(private elRef: ElementRef) {}
+    clickOutsideListener = (e?: any) => {};
     ngOnInit(): void {
-        this.mouseInsideRx.pipe(
-            takeUntil(this.unsubscribe),
-            delay(this.delay),
-            skipWhile(() => this.mouseOutside)
-        ).subscribe(x => {
-            this.tooltipVisible = true;
-        });
     }
 
     ngOnDestroy(): void {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();
     }
-    
-    onMouseEnter(event: MouseEvent) {
-        this.mouseOutside = false;
-        this.mouseInsideRx.next(true);
+
+    toogleTooltip(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.tooltipVisible = !this.tooltipVisible;
+        this.setOutsideClickHandler();
     }
 
-    onMouseLeave(event: MouseEvent) {
-        this.mouseOutside = true;
-        this.mouseInsideRx.next(false);
-        this.tooltipVisible = false;
+    
+    private setOutsideClickHandler() {
+        this.clickOutsideListener = this.handleClickOuside.bind(this);
+        document.addEventListener('mousedown',  this.clickOutsideListener, { capture: true  });
+    }
+
+
+    public handleClickOuside(e: Event) {
+        if(this.elRef?.nativeElement.contains(e.target)) {
+            e.stopPropagation();
+        }
+        this.tooltipVisible = !this.tooltipVisible;
+        document.removeEventListener('mousedown', this.clickOutsideListener, { capture: true });
+        this.clickOutsideListener = () => {};    
+        return true;
     }
 }

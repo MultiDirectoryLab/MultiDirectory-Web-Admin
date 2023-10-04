@@ -4,6 +4,9 @@
   [minHeight]="minHeight"
   [backdrop]="backdrop"
   spinnerHost 
+  [ngStyle]="
+    { 'z-index': this.zIndex }
+  "
   (closeModal)="onModalClose()"
   (openModal)="onModalOpen()">
   <ng-container class="app-modal-header">

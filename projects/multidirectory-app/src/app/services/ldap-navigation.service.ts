@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
-import { BehaviorSubject, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
 import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
@@ -168,10 +168,16 @@ export class LdapNavigationService {
     }
 
     private _accessor: LdapAttributes | null = null;
-    getEntityAccessor(entity: LdapEntity): Observable<LdapAttributes | null> {
-        if(!!this._accessor && this._accessor.$entitydn[0] == entity.id) {
+    getEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
+        if(!entity && this._accessor) {
+            return of(this._accessor);
+        } else if(!entity) {
+            return of(null);
+        }
+        if(!!this._accessor && this._accessor.$entitydn[0] == entity?.id) {
             return of(this._accessor);
         } 
+
         return this.attributes.get(entity).pipe(take(1), tap(accessor => {
             this._accessor = accessor;
         }));

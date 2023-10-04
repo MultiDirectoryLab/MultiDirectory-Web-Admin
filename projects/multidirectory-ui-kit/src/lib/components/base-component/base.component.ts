@@ -34,8 +34,8 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
         }
     }
 
-    private _onChange = (value: any) => {};
-    private _onTouched = () => {};
+    protected _onChange = (value: any) => {};
+    protected _onTouched = () => {};
 
     writeValue(value: any): void {
         if (value !== this.innerValue) {

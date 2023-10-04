@@ -1,27 +1,33 @@
-<md-modal #modal [width]="'540px'">
-    <div class="app-modal-header">Допустимые адреса</div>
-    <div class="grid-layout w-100 h-100" >
-        <div class="cell-input flex-column justify-start align-start">
-            <label>Адрес, маска подсети или диапазон:</label>
-            <div class="flex-row flex-gap-10">
-                <md-textbox class="w-100" [(ngModel)]="input"></md-textbox>
-                <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'">
-                    Пример:<br />
-                    192.168.0.1<br />
-                    192.168.0.1-192.168.0.5<br />
-                    192.168.0.1/24<br />
-                </md-tooltip>
+<div class="app-modal-header">Допустимые адреса</div>
+<div class="grid-layout w-100 h-100" >
+    <div class="cell-input flex-row flex-space-between align-start">
+        <label>Адрес, маска подсети или диапазон </label>
+        <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'">
+            Пример:<br />
+            192.168.0.1<br />
+            192.168.0.1-192.168.0.5<br />
+            192.168.0.1/24<br />
+        </md-tooltip>
+    </div>
+    <div class="cell-entries">
+        <!--md-textarea class="input-textarea" class="w-100 h-100" [(ngModel)]="input"></md-textarea-->
+        <div class="w-100 h-100" contentEditable="false" > 
+            <div class="ip-list-entry" [ngClass]="{
+                'valid': entry.valid
+            }" *ngFor="let entry of _ipAddresses; let i = index"
+            (keydown)="onEditKeyDown($event, editField, i)"
+            (blur)="onEditBlur($event, i, editField)"
+            contenteditable="true"
+            #editField
+            >
+                {{entry.title}}
+            </div>
+            <div class="multiselect-input" (keydown)="onNewKeyDown($event)" (blur)="onNewBlur($event)" contenteditable="true" #ipInput >
             </div>
         </div>
-        <div class="cell-add-button flex-column justify-center align-end">
-            <md-button (click)="addEntry()">Добавить</md-button>
-        </div>
-        <div class="cell-control-buttons flex-column flex-space-between align-end">
-            <md-button (click)="deleteEntry()">Удалить</md-button>
-            <md-button [primary]="true" (click)="finish()">Применить</md-button>
-        </div>
-        <div class="cell-entries">
-            <md-treeview #entriesList></md-treeview>
-        </div>
     </div>
-</md-modal>
+</div>
+<div class="app-modal-footer flex-row flex-gap-10 flex-end">
+    <md-button (click)="close()">Отменить</md-button>
+    <md-button [primary]="true" (click)="finish()">Применить</md-button>
+</div>
