@@ -40,6 +40,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     
     ngAfterViewInit(): void {
+        this.cdr.detectChanges();
     }
 
     onNext(templateRef: any) {

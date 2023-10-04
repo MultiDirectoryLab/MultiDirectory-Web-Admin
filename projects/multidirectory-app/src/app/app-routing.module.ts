@@ -8,7 +8,7 @@ import { AppSettingsComponent } from './components/settings/app-settings.compone
 import { HomeComponent } from './components/ldap-browser/home/home.component';
 
 const routes: Routes = [
-  { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard, AuthRouteGuard ]  },
+  { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
   { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard, AuthRouteGuard ] },
   {
     path: 'settings',

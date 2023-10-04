@@ -3,7 +3,7 @@
         <ng-container class="app-modal-header">
             <div style="flex-shrink: 1;"><img src="/assets/logo_login_transparent.svg" class="logo-img"/></div>
         </ng-container>
-        <div class="w-100" >
+        <div class="w-100" style="min-height: 150px;">
                 <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
                     <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
                     <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
