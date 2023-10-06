@@ -1,5 +1,5 @@
 <div class="app-modal-header">Часы входа для {{username}}</div>
-<div class="flex-row h-100">
+<div class="flex-row flex-gap-10 h-100">
     <div class="logon-map flex-grow-1" #logonMap>
         <div></div>
         <div class="icon-midnight">
@@ -46,8 +46,18 @@
     </div>
     <div class="logon-switch">
         <md-radiogroup [(ngModel)]="selectionAllowance" #radioGroup></md-radiogroup>
-        <md-radiobutton [group]="radioGroup" [value]="1">Вход разрешен</md-radiobutton>
-        <md-radiobutton [group]="radioGroup" [value]="0">Вход запрещен</md-radiobutton>
+        <div class="flex-row flex-center">
+            <div class="flex-column flex-center h-100">
+                <div class="logon-cell-example-allowed"></div>
+            </div>
+            <md-radiobutton [group]="radioGroup" [value]="1">Вход разрешен</md-radiobutton>
+        </div>
+        <div class="flex-row flex-center">
+            <div class="flex-column flex-center h-100">
+                <div class="logon-cell-example-denied"></div>
+            </div>
+            <md-radiobutton [group]="radioGroup" [value]="0">Вход запрещен</md-radiobutton>
+        </div>
     </div>
 </div>
 <div class="app-modal-footer flex-row flex-gap-10 flex-space-between">
