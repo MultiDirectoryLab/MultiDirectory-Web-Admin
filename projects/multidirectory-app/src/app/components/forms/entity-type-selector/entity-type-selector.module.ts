@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { EntityTypeSelectorComponent } from "./entity-type-selector.component";
 import { ValidatorsModule } from "../validators/validators.module";
+import { TranslocoModule } from "@ngneat/transloco";
 
 @NgModule({
     imports: [
@@ -11,7 +12,8 @@ import { ValidatorsModule } from "../validators/validators.module";
         FormsModule,
         ReactiveFormsModule,
         MultidirectoryUiKitModule,
-        ValidatorsModule
+        ValidatorsModule,
+        TranslocoModule
     ],
     exports: [
         EntityTypeSelectorComponent,

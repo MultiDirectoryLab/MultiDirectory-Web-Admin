@@ -1,0 +1,41 @@
+{
+    "home": {
+        "accountSettings": "Account Settings"
+    },
+    "multidirectory-settings": {
+        "header": "Multidirectory Admin Panel Settings",
+        "language": "Language",
+        "apply": "Apply"
+    },
+    "multifactor-settings": {
+        "header": "Подключение к Мультфактору",
+        "apply": "Применить"
+    },
+    "catalog-selector": {
+        "modal-header": "Select a catalog",
+        "header": "Select a location to start search from",
+        "cancel": "Cancel",
+        "apply": "Apply"
+    },
+    "group-create": {
+        "header": "New object - Group",
+        "addto": "Add to",
+        "group-name": "Group name",
+        "group-name-legacy": "Group name (Pre-windows 2000)",
+        "group-scope-label": "Group scope",
+        "group-scope-local": "Domain local",
+        "group-scope-global": "Global",
+        "group-scope-universal": "Universal",
+        "group-type-label": "Group type",
+        "group-type-security": "Security group",
+        "group-type-distribution": "Distribution group",
+        "apply": "Apply"
+    },
+    "entity-type-selector": {
+        "modal-header": "Object Types",
+        "header": "Select the types of objects you want to find:",
+        "apply": "Apply",
+        "cancel": "Cancel"
+    }
+}
+

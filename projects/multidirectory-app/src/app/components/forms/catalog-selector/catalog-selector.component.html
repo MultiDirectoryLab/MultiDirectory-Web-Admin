@@ -1,14 +1,14 @@
 <md-modal #modal>
-    <div class="app-modal-header">Выберите каталог</div>
-    <div class="flex-row">Выберите место, откуда хотите начать поиск</div> 
+    <div class="app-modal-header">{{ 'catalog-selector.modal-header' | transloco }}</div>
+    <div class="flex-row">{{ 'catalog-selector.header' | transloco }}</div> 
     <md-treeview #ldapTree [tree]="ldapRoots" [nodeLabel]="mdTreeModal" class="treeview">
     </md-treeview>
     <div class="app-modal-footer flex-row flex-end flex-gap-10">
-        <md-button (click)="close()">Отменить</md-button>
-        <md-button [primary]="true" (click)="finish()">Применить</md-button>
+        <md-button (click)="close()">{{ 'catalog-selector.cancel' | transloco }}</md-button>
+        <md-button [primary]="true" (click)="finish()">{{ 'catalog-selector.apply' | transloco }}</md-button>
     </div>
 </md-modal>
-
+    
 <ng-template #mdTreeModal let-data>
     <img class="tree-icon" [src]="data.icon"/>
     <label class="tree-label">{{data.name}}</label>

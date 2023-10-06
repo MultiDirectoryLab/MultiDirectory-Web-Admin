@@ -1,4 +1,4 @@
-<div class="fullscreen bg-white-neutral flex-row"> 
+<div *transloco="let t; read: 'home'" class="fullscreen bg-white-neutral flex-row"> 
     <div *ngIf="showLeftPane" class="left-pane">
         <img src="/assets/logo_login.svg" class="logo-img"/>
         <div class="treeview">
@@ -18,7 +18,7 @@
                 <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">Настройки аккаунта</div>
+                <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">{{ t('accountSettings') }}</div>
                 <div class="dropdown-item" (click)="logout()">Выход из системы</div>
             </md-dropdown-menu>
         </div>

@@ -1,0 +1,40 @@
+{
+    "home": {
+        "accountSettings": "Настройки аккаунта"
+    },
+    "multidirectory-settings": {
+        "header": "Настройки панели управления Multidirectory" ,
+        "language": "Язык",
+        "apply": "Применить"
+    },
+    "multifactor-settings": {
+        "header": "Подключение к Мультфактору",
+        "apply": "Применить"
+    },
+    "group-create": {
+        "header": "Новый объект - Группа",
+        "addto": "Добавить в",
+        "group-name": "Имя группы",
+        "group-name-legacy": "Имя группы (Pre-windows 2000)",
+        "group-scope-label": "Область действия группы",
+        "group-scope-local": "Локальная в домене",
+        "group-scope-global": "Глобальная",
+        "group-scope-universal": "Универсальная",
+        "group-type-label": "Тип группы",
+        "group-type-security": "Группа безопасности",
+        "group-type-distribution": "Группа распространения",
+        "apply": "Готово"
+    },
+    "catalog-selector": {
+        "modal-header": "Выберите каталог",
+        "header": "Выберите место, откуда хотите начать поиск",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "entity-type-selector": {
+        "modal-header": "Типы сущностей",
+        "header": "Выберите типы сущностей, которые хотите найти:",
+        "apply": "Применить",
+        "cancel": "Отменить"
+    }
+}

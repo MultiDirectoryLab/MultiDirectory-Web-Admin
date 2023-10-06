@@ -1,4 +1,7 @@
 <div class="nav">
+    <div class="nav-item" routerLink="/settings/multidirectory"
+        [ngClass]="{'selected': url.endsWith('multidirectory') }" 
+        >Настройки Multidirectory</div>
     <div class="nav-item" routerLink="/settings"
         [ngClass]="{'selected': url.endsWith('settings') }" 
         >Контроль доступа</div>
