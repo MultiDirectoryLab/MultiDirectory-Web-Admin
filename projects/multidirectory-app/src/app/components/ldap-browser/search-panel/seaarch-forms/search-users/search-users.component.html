@@ -1,12 +1,12 @@
-<div class="row">
+<div *transloco="let t" class="row">
     <div class="col-xs-1 col-xs-1">
-        <label>Имя: </label>
+        <label>{{ t("name") }}</label>
     </div>
     <div class="col-xs-8 col-xs-8">
         <md-textbox [(ngModel)]="searchQuery" class="search-input">
         </md-textbox>
     </div>
     <div class="col-xs-3 col-xs-3">
-        <md-button (click)="clear()">Сбросить</md-button>
+        <md-button (click)="clear()">{{ t("reset") }}</md-button>
     </div>
 </div>

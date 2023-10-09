@@ -1,9 +1,9 @@
-<div class="app-modal-header">Допустимые адреса</div>
+<div class="app-modal-header">{{ "access-policy-ip-list.modal-header" | transloco }}</div>
 <div class="grid-layout w-100 h-100" >
     <div class="cell-input flex-row flex-space-between align-start">
-        <label>Адрес, маска подсети или диапазон </label>
+        <label>{{ "access-policy-ip-list.header" }} </label>
         <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'">
-            Пример:<br />
+            {{ "access-policy-ip-list.exmaple" | transloco }}<br />
             192.168.0.1<br />
             192.168.0.1-192.168.0.5<br />
             192.168.0.1/24<br />
@@ -28,6 +28,6 @@
     </div>
 </div>
 <div class="app-modal-footer flex-row flex-gap-10 flex-end">
-    <md-button (click)="close()">Отменить</md-button>
-    <md-button [primary]="true" (click)="finish()">Применить</md-button>
+    <md-button (click)="close()">{{ "access-policy-ip-list.cancel" | transloco }}</md-button>
+    <md-button [primary]="true" (click)="finish()">{{ "access-policy-ip-list.approve" | transloco }}</md-button>
 </div>

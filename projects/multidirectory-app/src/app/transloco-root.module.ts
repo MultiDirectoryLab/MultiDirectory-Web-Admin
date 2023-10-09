@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
         config: {
           availableLangs: ['en-US', 'ru-RU'],
           defaultLang: localStorage.getItem('locale') ?? 'en-US',
+          reRenderOnLangChange: true,
           prodMode: environment.production,
         },
         loader: TranslocoHttpLoader

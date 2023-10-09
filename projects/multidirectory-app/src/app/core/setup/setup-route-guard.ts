@@ -9,8 +9,6 @@ export class SetupRouteGuard  {
     constructor(private multidirectoryApi: MultidirectoryApiService, private router: Router) {}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
         return this.multidirectoryApi.checkSetup().pipe(map(x => {
-            return true;
-
             if(route.url.join('/') == 'setup') {
                 if(x) 
                     return this.router.createUrlTree(['/login']);

@@ -12,8 +12,8 @@
         </div>
         <ng-container class="app-modal-footer">
             <div class="flex-row flex-center flex-gap-20">
-                <md-button [primary]="false" *ngIf="stepper.currentIndex > 0" (click)="stepper.previous(); resize()">Назад</md-button>
-                <md-button [disabled]="!stepValid" [primary]="true" (click)="stepper.next(); resize()">Далее</md-button>
+                <md-button [primary]="false" *ngIf="stepper.currentIndex > 0" (click)="stepper.previous(); resize()">{{ 'back' | transloco }}</md-button>
+                <md-button [disabled]="!stepValid" [primary]="true" (click)="stepper.next(); resize()">{{ 'next' | transloco }}</md-button>
             </div>  
         </ng-container>
     </md-modal>
