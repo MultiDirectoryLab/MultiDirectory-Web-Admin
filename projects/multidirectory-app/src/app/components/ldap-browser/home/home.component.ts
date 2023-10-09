@@ -46,7 +46,10 @@ export class HomeComponent implements OnDestroy {
         this.navigation.init();
         this.app.userRx.pipe(
             takeUntil(this.unsubscribe),
-            tap(user => this.app.user = user),
+            tap(user => {
+                 this.app.user = user;
+                 console.log(user);
+            }),
             switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
@@ -85,6 +88,7 @@ export class HomeComponent implements OnDestroy {
 
     logout() {
         localStorage.clear();
+        this.app.user = new WhoamiResponse({});
         this.router.navigate(['/login'])
     }
 
@@ -102,5 +106,10 @@ export class HomeComponent implements OnDestroy {
             return;
         }
         this.openEntityProperties(this.app.userEntry);
+    }
+
+    closeCheatsheet() {
+        alert('test');
+        this.helpcheatSheet.toggleCheatSheet();
     }
 }

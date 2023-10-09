@@ -27,7 +27,7 @@
 
 <md-dropdown-menu #gridMenu>
         <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
-                <md-checkbox [(ngModel)]="alignItems">Выровнять по сетке</md-checkbox>
+                <md-checkbox [(ngModel)]="alignItems">{{ "icon-view.align-grid" | transloco }}</md-checkbox>
         </div>
-        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">Сбросить</div>
+        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">{{ "icon-view.reset" | transloco }}</div>
 </md-dropdown-menu>

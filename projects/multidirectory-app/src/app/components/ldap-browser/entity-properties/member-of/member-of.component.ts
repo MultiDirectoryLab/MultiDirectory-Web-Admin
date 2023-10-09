@@ -5,6 +5,7 @@ import { take } from "rxjs";
 import { DatagridComponent } from "multidirectory-ui-kit";
 import { Group } from "projects/multidirectory-app/src/app/core/groups/group";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-member-of',
@@ -31,8 +32,8 @@ export class MemberOfComponent implements AfterViewInit {
     }
 
     columns = [
-        { name: 'Имя',  prop: 'name',  flexGrow: 1 },
-        { name: 'Каталог в домене Multidirectory',  prop: 'path',  flexGrow: 3 },
+        { name: translate('member-of.name'),  prop: 'name',  flexGrow: 1 },
+        { name: translate('member-of.catalog-path'),  prop: 'path',  flexGrow: 3 },
     ];
 
     ngAfterViewInit(): void {

@@ -6,6 +6,7 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { ValidatorsModule } from "../validators/validators.module";
 import { EntityTypeSelectorModule } from "../entity-type-selector/entity-type-selector.module";
 import { CatalogSelectorModule } from "../catalog-selector/catalog-selector.module";
+import { TranslocoModule } from "@ngneat/transloco";
 
 @NgModule({
     declarations: [GroupSelectorComponent],
@@ -17,7 +18,8 @@ import { CatalogSelectorModule } from "../catalog-selector/catalog-selector.modu
         MultidirectoryUiKitModule,
         ValidatorsModule,
         EntityTypeSelectorModule,
-        CatalogSelectorModule
+        CatalogSelectorModule,
+        TranslocoModule
     ]
 })
 export class GroupSelectorModule {}

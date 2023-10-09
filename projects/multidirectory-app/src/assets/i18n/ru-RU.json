@@ -36,5 +36,180 @@
         "header": "Выберите типы сущностей, которые хотите найти:",
         "apply": "Применить",
         "cancel": "Отменить"
+    },
+    "group-selector": {
+        "modal-header": "Выбор группы",
+        "header": "Выберите тип группы:",
+        "object-types": "Типы объектов...",
+        "from-place": "Из этого места:",
+        "places": "Места...",
+        "name-prompt": "Чтобы найти объект, введите имя:",
+        "not-found-text": "Группы не найдены",
+        "check-name": "Проверить имя...",
+        "additional-parameters": "Дополнительные параметры",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "ou-create": {
+        "modal-header":"Новый объект - Организационное подразделение",
+        "header": "Добавить в: ",
+        "ouname-label": "Введите название организационного подразделения",
+        "cancel": "Отмена",
+        "apply": "Создать"
+    },
+    "setup": {
+        "admin-settings": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "admin-login-label": "Логин администратора",
+            "admin-password-label": "Пароль",
+            "admin-password-repeat-label": "Повторите пароль"
+        },
+        "admin-settings-second": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "display-name-label": "Отображаемое имя"
+        },
+        "domain-settings": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "domain-label": "Домен"
+        }
+    },
+    "user-create": {
+        "modal-header": "Новый объект - Пользователь",
+        "add-to": "Добавить в:",
+        "back": "Назад",
+        "next": "Далее",
+        "finish": "Готово",
+        "general-info": {
+            "first-name-label": "Имя",
+            "initials-label": "Инициалы",
+            "last-name-label": "Фамилия",
+            "full-name-label": "ФИО полностью",
+            "logon-name-label": "Имя для входа:",
+            "domain-label": "Домен",
+            "legacy-logon-name-label": "Имя для входа(pre-Windows 2000):",
+            "legacy-domain-label": "Домен"
+        },
+        "password-settings": {
+            "password-label": "Пароль",
+            "repeat-password-label": "Повторите пароль",
+            "user-should-change-password": "Пользователь должен изменить пароль при следующем входе в систему",
+            "user-unable-change-password": "Пользователь не может изменить пароль",
+            "password-never-expires": "Срок действия пароля не истекает",
+            "account-disabled": "Аккаунт отключен"
+        },
+        "summary": {
+            "header": "Когда вы нажмёте «Готово», будет создан пользователь:",
+            "full-name-label": "ФИО полностью",
+            "logon-name-label": "Имя для входа:",
+            "additional-settings": "Дополнительные настройки:"    
+        }
+    },
+    "icon-view": {
+        "align-grid": "Выровнять по сетке",
+        "reset": "Сбросить"
+
+    },
+    "catalog-content": {
+        "create-user": "Создать пользователя",
+        "create-group": "Создать группу",
+        "create-object": "Добавить объект",
+        "help": "Помощь",
+        "group": "Группа",
+        "computer": "Компьютер",
+        "contact": "Контакт",
+        "ou": "Организационное подразделение",
+        "common-folder": "Общая папка",
+        "printer": "Принтер",
+        "user": "Пользователь",
+        "approve-delete-header": "Требуется подтвержение",
+        "approve-delete": "Вы действительно хотите удалить объект?",
+        "cancel": "Отмена",
+        "delete": "Удалить",
+        "more": "Подробнее"
+    },
+    "attributes-list": {
+        "value": "Значение",
+        "add": "Добавить",
+        "apply": "Применить", 
+        "delete": "Удалить"
+    },
+    "entity-attributes": {
+        "name": "Имя",
+        "value": "Значение"
+    },
+    "member-of": {
+        "groups": "Группы:",
+        "name": "Имя",
+        "catalog-path": "Каталог в домене Multidirectory",
+        "add": "Добавить", 
+        "delete": "Удалить",
+        "primary-group": "Основная группа:",
+        "make-primary": "Сделать основной",
+        "primary-note": "Менять основную группу следует, только если у вас есть приложения, совместимые с POSIX, или клиенты Macintosh." 
+    },
+    "logon-time-editor": {
+        "modal-header": "Часы входа для ",
+        "login-allowed": "Вход разрешен",
+        "login-disabled": "Вход запрещен",
+        "starts-from": "начиная с",
+        "finish-to": "по",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "user-properties": {
+        "login-label":  "Имя для входа:",
+        "domain-label": "Домен",
+        "legacy-login-label": "Имя для входа(pre-Windows 2000):",
+        "login-time": "Часы для входа",
+        "login-resources": "Ресурсы для входа",
+        "unlock-account": "Разблокировать аккаунт",
+        "user-should-change-password": "Пользователь должен изменить пароль при следующем входе в систему",
+        "user-unable-change-password": "Пользователь не может изменить пароль",
+        "password-never-expires": "Срок действия пароля не истекает",
+        "account-disabled": "Аккаунт отключен",
+        "password-settings-title": "Настройки пароля",
+        "password-expire-title": "Истечение аккаунта",
+        "never": "Никогда",
+        "expires-label": "Заканчивается:"
+    },
+    "user-address": {
+        "street": "Улица",
+        "postal-address": "Почтовый ящик", 
+        "city": "Город",
+        "area": "Область",
+        "postal-code": "Почтовый индекс",
+        "country": "Страна"
+    },
+    "user-properties-generals": {
+        "name": "Имя",
+        "initials": "Инициалы",
+        "last-name": "Фамилия",
+        "full-name": "ФИО полностью",
+        "desctiption": "Описание",
+        "office": "Офис",
+        "phone": "Номер телефона",
+        "phones": "Телефоны",
+        "webpage": "Веб-страница",
+        "webpages": "Веб-страницы"
+    },
+    "user-properties-profile": {
+        "profile-path": "Путь до профиля", 
+        "logon-script": "Скрпит Logon",
+        "home-catalog": "Домашний каталог",
+        "user-profile": "Профиль пользователя",
+        "local-path": "Локальный путь",
+        "mount": "Примонтировать"
+    },
+    "user-properties-tabs": {
+        "general": "Общее",
+        "attributes": "Аттрибуты",
+        "address": "Адресс",
+        "account": "Аккаунт",
+        "profile": "Профиль",
+        "groups": "Группы"
+    },
+    "header": {
+        "folder": "Каталог",
+        "select-folder": "Выберите каталог"
     }
 }

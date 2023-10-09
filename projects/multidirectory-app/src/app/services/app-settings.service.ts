@@ -23,7 +23,6 @@ export class AppSettingsService {
         this._user = user;
     } 
     get userRx(): Observable<WhoamiResponse> {
-        console.log(this._user)
         return iif(
             () => this._user.id == 0, 
             this.api.whoami().pipe(tap(x => { this.user = x })),

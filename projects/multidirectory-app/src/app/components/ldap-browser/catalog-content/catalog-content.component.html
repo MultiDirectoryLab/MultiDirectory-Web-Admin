@@ -12,19 +12,19 @@
     <md-button (click)="openCreateUser()">
         <span class="flex-row flex-space-between flex-gap-10">
             <img [src]="'assets/person_add.svg'"/>
-            Создать пользователя
+            {{ "catalog-content.create-user" | transloco }}
         </span>
     </md-button>
     <md-button  (click)="openCreateGroup()">
         <span class="flex-row flex-space-between flex-gap-10">
             <img [src]="'assets/group.svg'" style="transform: scale(1.35)"/>
-            Создать группу
+            {{ "catalog-content.create-group" | transloco }}
         </span>
     </md-button>
     <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">
         <span class="flex-row flex-space-between flex-gap-10">
             <img [src]="'assets/group_add.svg'"/>
-            Добавить объект
+            {{ "catalog-content.create-object" | transloco }}
         </span>
     </md-button>
 </div>
@@ -61,17 +61,33 @@
     <img _ngcontent-ng-c1201517451="" src="/assets/logo.svg" class="logo-placeholder">
 </div>
 <md-dropdown-menu #helpMenu>
-    <div class="dropdown-item">Помощь</div>
+    <div class="dropdown-item">
+        {{ "catalog-content.help" | transloco }}
+    </div>
 </md-dropdown-menu> 
 
 <md-dropdown-menu #createMenu>
-    <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">Группа</div>
-    <div class="dropdown-item disabled hidden">Компьютер</div>
-    <div class="dropdown-item disabled hidden">Контакт</div>
-    <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">Организационное подразделение</div>
-    <div class="dropdown-item disabled hidden">Общая папка</div>
-    <div class="dropdown-item disabled hidden">Принтер</div>
-    <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">Пользователь</div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">
+        {{ "catalog-content.group" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.computer" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.contact" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">
+        {{ "catalog-content.ou" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.common-folder" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.printer" | transloco }}
+    </div>
+    <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">
+        {{ "catalog-content.user" | transloco }}
+    </div>
     <div class="dropdown-item disabled hidden">msDS-ShadowPrincipalContainer</div>
     <div class="dropdown-item disabled hidden">msExchDynamic DistributionList</div>
     <div class="dropdown-item disabled hidden">mslmaging-PSP</div>
@@ -93,20 +109,28 @@
 
 <md-modal #deleteConfirmation>
     <div class="app-modal-header">
-        Требуется подтверждение
+        {{ "catalog-content.approve-delete-header" | transloco }}
+
     </div> 
-    Вы действительно хотите удалить объект?
+    {{ "catalog-content.approve-delete" | transloco }}
+
     <ng-container class="app-modal-footer">
         <div class="flex-row align-center justify-end flex-gap-10">
-            <md-button (click)="deleteConfirmation.close()">Отмена</md-button>
+            <md-button (click)="deleteConfirmation.close()">
+                {{ "catalog-content.cancel" | transloco }}
+            </md-button>
             <md-button [primary]="true" (click)="deleteConfirmation.close(); deleteSelectedEntry()">
-                Удалить
+                {{ "catalog-content.delete" | transloco }}
             </md-button>
         </div>
     </ng-container>
 </md-modal>
 
 <md-dropdown-menu #contextMenu>
-    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">Подробнее</div>
-    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">Удалить</div>
+    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">
+        {{ "catalog-content.more" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">
+        {{ "catalog-content.delete" | transloco }}
+    </div>
 </md-dropdown-menu> 

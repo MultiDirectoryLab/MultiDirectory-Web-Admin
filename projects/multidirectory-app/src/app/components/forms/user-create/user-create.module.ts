@@ -7,6 +7,7 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ValidatorsModule } from "../validators/validators.module";
 import { CommonModule } from "@angular/common";
+import { TranslocoModule } from "@ngneat/transloco";
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { CommonModule } from "@angular/common";
         FormsModule,
         ReactiveFormsModule,
         MultidirectoryUiKitModule,
-        ValidatorsModule
+        ValidatorsModule,
+        TranslocoModule
     ],
     declarations: [
         UserCreateComponent,

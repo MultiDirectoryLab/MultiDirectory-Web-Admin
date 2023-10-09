@@ -1,13 +1,21 @@
 <ng-container *ngIf="accessor">
     <div class="row align-center" style="margin-top: 24px;">
         <div class="col-xs-12">
-            <md-group title="Профиль пользователя">
+            <md-group title="{{ 'user-properties-profile.user-profile' | transloco }}">
                 <div class="row align-start">
-                    <div class="col-xs-4"><label for="profile-path">Путь до профиля</label></div>
+                    <div class="col-xs-4">
+                        <label for="profile-path">
+                            {{ "user-properties-profile.profile-path" | transloco }}
+                        </label>
+                    </div>
                     <md-textbox class="col-xs-8 w-100" name="profile-path" [(ngModel)]="accessor.profilePath"></md-textbox>
                 </div>
                 <div class="row align-start">
-                    <div class="col-xs-4"><label for="full-name"  >Скрипт Logon</label></div>
+                    <div class="col-xs-4">
+                        <label for="full-name">
+                            {{ "user-properties-profile.logon-script" | transloco }}
+                        </label>
+                    </div>
                     <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.scriptPath"></md-textbox>
                 </div>
             </md-group>
@@ -15,13 +23,17 @@
     </div>
     <div class="row align-center" style="margin-top: 32px;">
         <div class="col-xs-12">
-            <md-group title="Домашний каталог">
+            <md-group title="{{ 'user-properties-generals.home-catalog' | transloco }}">
                 <div class="row align-start">
-                    <div class="col-xs-4"><label for="full-name">Локальный путь</label></div>
+                    <div class="col-xs-4"><label for="full-name">
+                        {{ 'user-properties-profile.local-path' | transloco }}
+                    </label></div>
                     <md-textbox class="col-xs-8 w-100"></md-textbox>
                 </div>
                 <div class="row align-start">
-                    <div class="col-xs-4"><label for="full-name">Примонтировать</label></div>
+                    <div class="col-xs-4"><label for="full-name">
+                        {{ "user-properties-profile.mount" | transloco}}
+                    </label></div>
                     <md-textbox class="col-xs-8 w-100"></md-textbox>
                 </div>
             </md-group>

@@ -1,24 +1,23 @@
 <div class="row">
-    Группы:
+    {{ 'member-of.groups' | transloco }}
 </div>
 <div class="flex-row w-100" style="min-height: 250px;">
     <md-datagrid class="w-100" [columns]="columns" [rows]="groups" [stretchHeight]="true" #groupList>
     </md-datagrid>
 </div>
 <div class="flex-row button-row">
-    <md-button (click)="addGroup()">Добавить</md-button>
-    <md-button (click)="deleteGroup()">Удалить</md-button>
+    <md-button (click)="addGroup()">{{ "member-of.add" | transloco}}</md-button>
+    <md-button (click)="deleteGroup()">{{ "member-of.delete" | transloco}}</md-button>
 </div>
 <hr />
 <div class="flex-row">
-    <div class="col-xs-4">Основная группа: </div>
+    <div class="col-xs-4">{{ "member-of.primary-group" | transloco}}</div>
     <div class="col-xs-4">Administrators</div>
 </div>
 <div class="flex-row primary-group-block">
-    <div class="col-xs-4"><md-button [disabled]="true">Сделать основной</md-button></div>
+    <div class="col-xs-4"><md-button [disabled]="true">{{ "member-of.make-primary" | transloco}}</md-button></div>
     <div class="col-xs-4">
-        Менять основную группу следует, только если у вас есть
-        приложения, совместимые с POSIX, или клиенты Macintosh.
+        {{ "member-of.primary-note" | transloco}}
     </div>
 </div>
 <app-group-selector #groupSelector></app-group-selector>

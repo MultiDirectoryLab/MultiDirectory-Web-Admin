@@ -4,13 +4,15 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { ValidatorsModule } from "../../forms/validators/validators.module";
+import { TranslocoModule } from "@ngneat/transloco";
 
 @NgModule({
     imports: [
         CommonModule,
         MultidirectoryUiKitModule,
         FormsModule,
-        ValidatorsModule
+        ValidatorsModule,
+        TranslocoModule
     ],
     declarations: [ AttributeListComponent ],
     exports: [AttributeListComponent]
