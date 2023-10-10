@@ -1,5 +1,5 @@
 <div class="app-modal-header">
-    Свойства
+    {{ "properties-modal.modal-header" | transloco }}
 </div> 
 
 <div>
@@ -10,6 +10,6 @@
 </div>
 
 <div class="app-modal-footer flex-row flex-end">
-    <md-button class="pr-8" (click)="close()">Закрыть</md-button>
-    <md-button [primary]="true" (click)="save()">Применить</md-button>
+    <md-button class="pr-8" (click)="close()">{{ "properties-modal.close" | transloco }}</md-button>
+    <md-button [primary]="true" (click)="save()">{{ "properties-modal.approve" | transloco}}</md-button>
 </div>

@@ -1,4 +1,4 @@
-<div class="fullscreen bg-white grid">
+<div class="fullscreen bg-white grid" *transloco="let t; read: 'settings'">
     <div>
         <img src="/assets/logo_login.svg" class="logo-img"/>
     </div>
@@ -17,8 +17,8 @@
                 <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item disabled" (click)="loginMenu.close();">Настройки аккаунта</div>
-                <div class="dropdown-item">Выход из системы</div>
+                <div class="dropdown-item disabled" (click)="loginMenu.close();">{{t('account-settings')}}</div>
+                <div class="dropdown-item">{{t('logout')}}</div>
             </md-dropdown-menu>
         </div>
     </div>

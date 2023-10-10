@@ -3,7 +3,7 @@ import { DropdownOption } from "../dropdown/dropdown.component";
 import { Page } from "../datagrid/datagrid.component";
 
 @Component({
-    selector: 'md-pager]',
+    selector: 'md-pager',
     templateUrl: './pager.component.html',
     encapsulation: ViewEncapsulation.None,
     styleUrls: [
@@ -19,7 +19,8 @@ export class PagerComponent implements AfterViewInit {
     @Input() name = ''; 
     @Input() page: Page = new Page({});
     @Output() pageChanged = new EventEmitter<Page>();
-
+    @Input() pagerTitle = 'Размер страницы:';
+    @Input() fromTitle = 'из'
     curPage = 0;
     pageSize = 0;
     rowCount = 0;

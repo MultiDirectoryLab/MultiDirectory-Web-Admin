@@ -1,2 +1,9 @@
-<md-datagrid  #propGrid [rows]="properties" [columns]="propColumns" [stretchHeight]="true">
+<md-datagrid  #propGrid
+    [rows]="properties"
+    [columns]="propColumns"
+    [stretchHeight]="true"
+    pagerTitle="{{ 'grid.pager-title' | transloco}}"
+    fromTitle="{{ 'grid.from-title' | transloco}}"
+    emptyMessage="{{ 'grid.no-data' | transloco }}"
+>
 </md-datagrid>

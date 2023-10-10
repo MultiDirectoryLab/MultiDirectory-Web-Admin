@@ -67,6 +67,9 @@
 .icon-midday {
     grid-row: 1;
     grid-column: 13 / 15;
+    flex-flow: row nowrap;
+    display: flex;
+    justify-content: center;
     img {
         width: 16px; 
         height: 16px;
@@ -77,9 +80,21 @@
     grid-column: 24 / 26;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: end;
     img {
         width: 16px; 
         height: 16px;
     }
+}
+
+.logon-cell-example-allowed {
+    width: 8px; 
+    height: 16px; 
+    background: blue;
+}
+.logon-cell-example-denied {
+    width: 8px; 
+    height: 16px;
+    background: white;
+    border: 1px solid black;
 }

@@ -1,4 +1,4 @@
-<md-modal #modal [opened]="true" class="paddingless" appHideControlbar [width]="'330px'">
+<md-modal *transloco="let t" #modal [opened]="true" class="paddingless" appHideControlbar [width]="'330px'">
     <ng-container class="app-modal-header">
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
@@ -6,11 +6,11 @@
         <md-form #loginForm>
             <div class="flex-column flex-space-between h-100 flex-gap-20">
                 <div class="flex-row flex-space-between">
-                    <label class="form-label">Логин</label>
+                    <label class="form-label">{{ t('login.name') }}</label>
                     <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
                 </div>
                 <div class="flex-row flex-space-between">
-                    <label class="form-label">Пароль</label>
+                    <label class="form-label">{{ t('login.password') }}</label>
                     <md-textbox required [password]="true" [autocomplete]="true" [(ngModel)]="password" name="password"></md-textbox>
                 </div>
             </div>
@@ -19,7 +19,7 @@
     </div>
     <ng-container class="app-modal-footer">
         <div class="flex-row flex-center">
-            <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin()">Войти</md-button>
+            <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin()">{{ t('login.login') }}</md-button>
         </div>
     </ng-container>
 </md-modal>

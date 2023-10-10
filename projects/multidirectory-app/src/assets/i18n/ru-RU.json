@@ -1,0 +1,314 @@
+{
+    "multidirectory-settings": {
+        "header": "Настройки панели управления Multidirectory" ,
+        "language": "Язык",
+        "apply": "Применить"
+    },
+    "multifactor-settings": {
+        "header": "Подключение к Мультфактору",
+        "apply": "Применить"
+    },
+    "group-create": {
+        "header": "Новый объект - Группа",
+        "addto": "Добавить в",
+        "group-name": "Имя группы",
+        "group-name-legacy": "Имя группы (Pre-windows 2000)",
+        "group-scope-label": "Область действия группы",
+        "group-scope-local": "Локальная в домене",
+        "group-scope-global": "Глобальная",
+        "group-scope-universal": "Универсальная",
+        "group-type-label": "Тип группы",
+        "group-type-security": "Группа безопасности",
+        "group-type-distribution": "Группа распространения",
+        "apply": "Готово"
+    },
+    "catalog-selector": {
+        "modal-header": "Выберите каталог",
+        "header": "Выберите место, откуда хотите начать поиск",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "entity-type-selector": {
+        "modal-header": "Типы сущностей",
+        "header": "Выберите типы сущностей, которые хотите найти:",
+        "apply": "Применить",
+        "cancel": "Отменить"
+    },
+    "group-selector": {
+        "modal-header": "Выбор группы",
+        "header": "Выберите тип группы:",
+        "object-types": "Типы объектов...",
+        "from-place": "Из этого места:",
+        "places": "Места...",
+        "name-prompt": "Чтобы найти объект, введите имя:",
+        "not-found-text": "Группы не найдены",
+        "check-name": "Проверить имя...",
+        "additional-parameters": "Дополнительные параметры",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "ou-create": {
+        "modal-header":"Новый объект - Организационное подразделение",
+        "header": "Добавить в: ",
+        "ouname-label": "Введите название организационного подразделения",
+        "cancel": "Отмена",
+        "apply": "Создать"
+    },
+    "setup": {
+        "admin-settings": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "admin-login-label": "Логин администратора",
+            "admin-password-label": "Пароль",
+            "admin-password-repeat-label": "Повторите пароль"
+        },
+        "admin-settings-second": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "display-name-label": "Отображаемое имя"
+        },
+        "domain-settings": {
+            "header": "Этот мастер поможет завершить настройку Multidirectory",
+            "domain-label": "Домен"
+        }
+    },
+    "user-create": {
+        "modal-header": "Новый объект - Пользователь",
+        "add-to": "Добавить в:",
+        "back": "Назад",
+        "next": "Далее",
+        "finish": "Готово",
+        "general-info": {
+            "first-name-label": "Имя",
+            "initials-label": "Инициалы",
+            "last-name-label": "Фамилия",
+            "full-name-label": "ФИО полностью",
+            "logon-name-label": "Имя для входа:",
+            "domain-label": "Домен",
+            "legacy-logon-name-label": "Имя для входа(pre-Windows 2000):",
+            "legacy-domain-label": "Домен"
+        },
+        "password-settings": {
+            "password-label": "Пароль",
+            "repeat-password-label": "Повторите пароль",
+            "user-should-change-password": "Пользователь должен изменить пароль при следующем входе в систему",
+            "user-unable-change-password": "Пользователь не может изменить пароль",
+            "password-never-expires": "Срок действия пароля не истекает",
+            "account-disabled": "Аккаунт отключен"
+        },
+        "summary": {
+            "header": "Когда вы нажмёте «Готово», будет создан пользователь:",
+            "full-name-label": "ФИО полностью",
+            "logon-name-label": "Имя для входа:",
+            "additional-settings": "Дополнительные настройки:"    
+        }
+    },
+    "icon-view": {
+        "align-grid": "Выровнять по сетке",
+        "reset": "Сбросить",
+        "pagerTitle": "Размер страницы",
+        "fromString": "из"
+    },
+    "table-view": {
+        "pagerTitle": "Размер страницы",
+        "fromTitle": "из",
+        "name-column": "Имя",
+        "type-column": "Тип",
+        "description-column": "Описание"
+    },
+    "catalog-content": {
+        "create-user": "Создать пользователя",
+        "create-group": "Создать группу",
+        "create-object": "Добавить объект",
+        "help": "Помощь",
+        "group": "Группа",
+        "computer": "Компьютер",
+        "contact": "Контакт",
+        "ou": "Организационное подразделение",
+        "common-folder": "Общая папка",
+        "printer": "Принтер",
+        "user": "Пользователь",
+        "approve-delete-header": "Требуется подтвержение",
+        "approve-delete": "Вы действительно хотите удалить объект?",
+        "cancel": "Отмена",
+        "delete": "Удалить",
+        "more": "Подробнее"
+    },
+    "attributes-list": {
+        "value": "Значение",
+        "add": "Добавить",
+        "apply": "Применить", 
+        "delete": "Удалить"
+    },
+    "entity-attributes": {
+        "name": "Имя",
+        "value": "Значение"
+    },
+    "member-of": {
+        "groups": "Группы:",
+        "name": "Имя",
+        "catalog-path": "Каталог в домене Multidirectory",
+        "add": "Добавить", 
+        "delete": "Удалить",
+        "primary-group": "Основная группа:",
+        "make-primary": "Сделать основной",
+        "primary-note": "Менять основную группу следует, только если у вас есть приложения, совместимые с POSIX, или клиенты Macintosh." 
+    },
+    "logon-time-editor": {
+        "modal-header": "Часы входа для ",
+        "login-allowed": "Вход разрешен",
+        "login-disabled": "Вход запрещен",
+        "starts-from": "начиная с",
+        "finish-to": "по",
+        "cancel": "Отменить",
+        "apply": "Применить"
+    },
+    "user-properties": {
+        "login-label":  "Имя для входа:",
+        "domain-label": "Домен",
+        "legacy-login-label": "Имя для входа(pre-Windows 2000):",
+        "login-time": "Часы для входа",
+        "login-resources": "Ресурсы для входа",
+        "unlock-account": "Разблокировать аккаунт",
+        "user-should-change-password": "Пользователь должен изменить пароль при следующем входе в систему",
+        "user-unable-change-password": "Пользователь не может изменить пароль",
+        "password-never-expires": "Срок действия пароля не истекает",
+        "account-disabled": "Аккаунт отключен",
+        "password-settings-title": "Настройки пароля",
+        "password-expire-title": "Истечение аккаунта",
+        "never": "Никогда",
+        "expires-label": "Заканчивается:"
+    },
+    "user-address": {
+        "street": "Улица",
+        "postal-address": "Почтовый ящик", 
+        "city": "Город",
+        "area": "Область",
+        "postal-code": "Почтовый индекс",
+        "country": "Страна"
+    },
+    "user-properties-generals": {
+        "name": "Имя",
+        "initials": "Инициалы",
+        "last-name": "Фамилия",
+        "full-name": "ФИО полностью",
+        "description": "Описание",
+        "office": "Офис",
+        "phone": "Номер телефона",
+        "phones": "Телефоны",
+        "webpage": "Веб-страница",
+        "webpages": "Веб-страницы"
+    },
+    "user-properties-profile": {
+        "profile-path": "Путь до профиля", 
+        "logon-script": "Скрпит Logon",
+        "home-catalog": "Домашний каталог",
+        "user-profile": "Профиль пользователя",
+        "local-path": "Локальный путь",
+        "mount": "Примонтировать"
+    },
+    "user-properties-tabs": {
+        "general": "Общее",
+        "attributes": "Аттрибуты",
+        "address": "Адресс",
+        "account": "Аккаунт",
+        "profile": "Профиль",
+        "groups": "Группы"
+    },
+    "header": {
+        "folder": "Каталог",
+        "select-folder": "Выберите каталог",
+        "add-remove-columns": "Добавить/удалить столбцы...",
+        "hide-left-panel": "Скрыть дерево",
+        "small-icons": "Маленькие иконки",
+        "big-icons": "Большие иконки",
+        "list": "Список",
+        "details": "Детали",
+        "multidirectory-settings": "Настройки Multidirectory",
+        "users-etc": "Пользователи, контакты, группы и компьютеры как контейнеры",
+        "additional-features": "Дополнительные функции...",
+        "filter-settings": "Параметры фильтров...",
+        "view-settings": "Настроить вид...",
+        "account-settings": "Настройки аккаунта",
+        "logout": "Выход из системы"
+    },
+    "home": {
+        "account-settings": "Настройки аккаунта",
+        "logout":"Выход из системы",
+        "hotkeys": "Горячие клавиши"
+    },
+    "search-users": {
+        "name": "Имя: ",
+        "reset": "Сбросить"
+    },
+    "search-panel": {
+        "search-label": "Поиск по:",
+        "in-label": "В: ",
+        "search": "Найти",
+        "search-spinner-label": "Поиск...",
+        "user-search-type": "Пользователи, контакты и группы"
+    },
+    "search-result": {
+        "name": "Имя"
+    },
+    "login": {
+        "name":"Логин",
+        "password": "Пароль",
+        "login": "Войти"
+    },
+    "access-policy-create": {
+        "modal-header": "Добавить клиент",
+        "domain": "Домен",
+        "ip-addresses": "IP Адреса",
+        "add": "Добавить",
+        "access-group": "Группы доступа",
+        "group-not-found": "Группы не найдены",
+        "check-groups": "Проверить",
+        "cancel": "Отмена",
+        "approve": "Применить"
+    },
+    "access-policy-ip-list": {
+        "modal-header": "Допустимые адреса",
+        "header": "Адрес, маска подсети или диапазон",
+        "expample": "Пример:",
+        "cancel": "Отменить",
+        "approve": "Применить"
+    },
+    "access-policy-settings": {
+        "clients": "Клиенты",
+        "add": "Добавить"
+    },
+    "settings-header": {
+        "title": "Настройки"
+    },
+    "settings-navigation": {
+        "md-settings": "Настройки Multidirectory",
+        "access-control": "Контроль доступа",
+        "mf-settings": "Подключение к Мультифактору"
+    },
+    "settings": {
+        "account-settings": "Настройки аккаунта",
+        "logout": "Выход из системы"
+    },
+    "ldap-builder": {
+      "root-dse-name": "Пользователи Multidirectory",
+      "saved-queries": "Cохраненные запросы"
+    },
+
+    "grid": {
+        "no-data": "Нет данных для отображения...",
+        "pager-title": "Размер страницы",
+        "from-title": "из"
+    },
+    "entity-info-resolver": {
+      "catalog": "Каталог",
+      "root": "Корень",
+      "domain-controller": "Контроллер домена",
+      "user": "Пользователь",
+      "security-group": "Группа безопасности",
+      "organizational-unit": "Организационная единица"
+    },
+    "properties-modal": {
+        "modal-header": "Свойства",
+        "close": "Закрыть",
+        "approve": "Применить"
+    }
+}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
@@ -21,7 +21,7 @@ import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnDestroy {
+export class HomeComponent implements AfterViewInit, OnDestroy {
     @ViewChild('properties') properties!: ModalInjectDirective;
     get tree(): LdapEntity[] {
         return <LdapEntity[]>this.navigation.ldapRoot!;
@@ -43,10 +43,11 @@ export class HomeComponent implements OnDestroy {
         private cdr: ChangeDetectorRef,
         private ldapWindows: LdapWindowsService,
         private app: AppSettingsService) {
-        this.navigation.init();
         this.app.userRx.pipe(
             takeUntil(this.unsubscribe),
-            tap(user => this.app.user = user),
+            tap(user => {
+                 this.app.user = user;
+            }),
             switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
@@ -77,7 +78,9 @@ export class HomeComponent implements OnDestroy {
             this.openEntityProperties(x);
         })
     }
-    
+    ngAfterViewInit(): void {
+        setTimeout(() => this.navigation.init());
+    }
     ngOnDestroy(): void {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();
@@ -85,6 +88,7 @@ export class HomeComponent implements OnDestroy {
 
     logout() {
         localStorage.clear();
+        this.app.user = new WhoamiResponse({});
         this.router.navigate(['/login'])
     }
 
@@ -102,5 +106,9 @@ export class HomeComponent implements OnDestroy {
             return;
         }
         this.openEntityProperties(this.app.userEntry);
+    }
+
+    closeCheatsheet() {
+        this.helpcheatSheet.toggleCheatSheet();
     }
 }

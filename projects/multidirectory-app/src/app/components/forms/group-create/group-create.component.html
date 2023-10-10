@@ -1,22 +1,22 @@
 <div class="app-modal-header">
-    <div>Новый объект - Группа</div>
+    <div transloco="group-create.header"></div>
 </div>
 <div>
     <div class="flex-row align-center flex-gap-10">
         <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
-        <div class="place">Добавить в: {{selectedNode?.name ?? ''}}</div>
+        <div class="place"><span transloco="group-create.addto"></span>: {{selectedNode?.name ?? ''}}</div>
     </div>  
     <hr />
     <md-form #groupForm>
         <div class="row align-center pv-8">
-            <div class="col-xs-6"><label for="repeatPassword">Имя группы</label></div>
+            <div class="col-xs-6"><label for="repeatPassword" transloco="group-create.group-name"></label></div>
             <md-textbox class="col-xs-6" 
                 required
                 [(ngModel)]="setupRequest.groupName"
                 name="repeatPassword"></md-textbox>
         </div>
         <div class="row align-center pv-8">
-            <div class="col-xs-6"><label for="repeatPassword">Имя группы (Pre-windows 2000)</label></div>
+            <div class="col-xs-6"><label for="repeatPassword" transloco="group-create.group-name-legacy"></label></div>
             <md-textbox class="col-xs-6" 
                 required
                 [(ngModel)]="setupRequest.groupNameLegacy"
@@ -25,15 +25,25 @@
 
         <div class="row align-center pv-8">
             <md-radiogroup class="col-xs-6" #groupScope  required [drawBorder]="true"
-                [(ngModel)]="setupRequest.groupScope" title="Область действия группы">
-                <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">Локальная в домене</md-radiobutton>
-                <md-radiobutton name="groupScope" [group]="groupScope" [value]="2">Глобальная</md-radiobutton>
-                <md-radiobutton name="groupScope" [group]="groupScope" [value]="3">Универсальная</md-radiobutton>
+                [(ngModel)]="setupRequest.groupScope" [title]="'group-create.group-scope-label' | transloco ">
+                <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">
+                    <span transloco="group-create.group-scope-local"></span>
+                </md-radiobutton>
+                <md-radiobutton name="groupScope" [group]="groupScope" [value]="2">
+                    <span transloco="group-create.group-scope-global"></span>
+                </md-radiobutton>
+                <md-radiobutton name="groupScope" [group]="groupScope" [value]="3">
+                    <span transloco="group-create.group-scope-universal"></span>
+                </md-radiobutton>
             </md-radiogroup>
             <md-radiogroup class="col-xs-6 h-100" #groupType required [drawBorder]="true" 
-                [(ngModel)]="setupRequest.groupType" title="Тип группы">
-                <md-radiobutton name="groupType" [group]="groupType" [value]="1">Группа безопасности</md-radiobutton>
-                <md-radiobutton name="groupType" [group]="groupType" [value]="2">Группа распространения</md-radiobutton>
+                [(ngModel)]="setupRequest.groupType" [title]="'group-create.group-type-label' | transloco ">
+                <md-radiobutton name="groupType" [group]="groupType" [value]="1">
+                    <span transloco="group-create.group-type-security"></span>
+                </md-radiobutton>
+                <md-radiobutton name="groupType" [group]="groupType" [value]="2">
+                    <span transloco="group-create.group-type-distribution"></span>
+                </md-radiobutton>
             </md-radiogroup>
         </div>
     </md-form>
@@ -42,7 +52,7 @@
 <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
         <md-button [disabled]="!formValid" (click)="onFinish()" [primary]="true">
-            Готово
+            <span transloco="group-create.apply"></span>
         </md-button>
     </div>
 </div>

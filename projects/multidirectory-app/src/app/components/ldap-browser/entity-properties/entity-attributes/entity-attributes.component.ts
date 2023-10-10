@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild, forwardRef } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { ModalInjectDirective, ModalService } from "multidirectory-ui-kit";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
@@ -16,8 +17,8 @@ export class EntityAttributesComponent implements AfterViewInit {
 
     properties: any[] = [];
     propColumns = [
-        { name: 'Имя', prop: 'name', flexGrow: 1 },
-        { name: 'Значение', prop: 'val', flexGrow: 1 },
+        { name:  translate('entity-attributes.name'), prop: 'name', maxWidth: 150 },
+        { name:  translate('entity-attributes.value'), prop: 'val', flexGrow: 1 },
     ];    
 
     constructor(

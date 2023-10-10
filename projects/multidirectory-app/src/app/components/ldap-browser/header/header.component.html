@@ -1,79 +1,81 @@
-<div class="header-container">
-    <div class="header">
-        <label *ngIf="selectedCatalog" class="bold">Папка: {{selectedCatalog.name ?? ''}}</label>
-        <label *ngIf="!selectedCatalog" class="bold">Выберите каталог</label>
+<ng-container *transloco="let t">
+    <div class="header-container">
+        <div class="header">
+            <label *ngIf="selectedCatalog" class="bold">{{ t("header.folder") }}: {{selectedCatalog.name ?? ''}}</label>
+            <label *ngIf="!selectedCatalog" class="bold">{{ t("header.select-folder") }}</label>
+        </div>
+        <div class="control-panel">
+            <md-plane-button *ngIf="navigationalPanelInvisible" [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
+                <img *ngIf="!user?.jpegPhoto" [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px;" />
+                <img *ngIf="!!user?.jpegPhoto" [src]="('data:image/jpg;base64,' + user?.jpegPhoto)" style="width: 24px; height: 24px;" />
+            </md-plane-button>
+            <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
+                <img [src]="'assets/search.svg'" />
+            </md-plane-button>
+            <md-plane-button class="settings control-button" 
+                [mdDropdownContainer]="helpMenu">
+                <img [src]="'assets/settings.svg'" />
+            </md-plane-button>
+            <md-plane-button class="settings control-button"
+                (click)="showHelp()">
+                <img [src]="'assets/help.svg'" />
+            </md-plane-button>
+            <md-plane-button class="settings control-button" (click)="closeCatalog()">
+                <img [src]="'assets/close.svg'" />
+            </md-plane-button>
+        </div>
     </div>
-    <div class="control-panel">
-        <md-plane-button *ngIf="navigationalPanelInvisible" [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
-            <img *ngIf="!user?.jpegPhoto" [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px;" />
-            <img *ngIf="!!user?.jpegPhoto" [src]="('data:image/jpg;base64,' + user?.jpegPhoto)" style="width: 24px; height: 24px;" />
-        </md-plane-button>
-        <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
-            <img [src]="'assets/search.svg'" />
-        </md-plane-button>
-        <md-plane-button class="settings control-button" 
-            [mdDropdownContainer]="helpMenu">
-            <img [src]="'assets/settings.svg'" />
-        </md-plane-button>
-        <md-plane-button class="settings control-button"
-            (click)="showHelp()">
-            <img [src]="'assets/help.svg'" />
-        </md-plane-button>
-        <md-plane-button class="settings control-button" (click)="closeCatalog()">
-            <img [src]="'assets/close.svg'" />
-        </md-plane-button>
-    </div>
-</div>
 
 
-<md-radiogroup [(ngModel)]="contentView" #radiogroup></md-radiogroup>
+    <md-radiogroup [(ngModel)]="contentView" #radiogroup></md-radiogroup>
 
-<md-dropdown-menu #helpMenu>
-    <div class="dropdown-item hidden disabled">Добавить/удалить столбцы...</div>
-    <div class="dropdown-item">
-        <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">
-            <label>Скрыть дерево</label>
-            <label>Ctrl-H</label>
-        </md-shift-checkbox>
-    </div>
-    <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">
-            <label>Маленькие иконки</label>
-            <label>F1</label>
-        </md-radiobutton>
-    </div>
-    <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">
-            <label>Большие иконки</label>
-            <label>F2</label>
-        </md-radiobutton>
-    </div>
-    <div class="dropdown-item">
-        <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">
-            <label>Список</label>
-            <label>F3</label>       
-        </md-radiobutton>
-    </div>
-    <div class="dropdown-item hidden">
-        <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">
-            <label>Детали</label>
-            <label>F4</label>     
-        </md-radiobutton>
-    </div>
-    <div class="dropdown-item" [routerLink]="['settings']">
-        Настройки MultiDirectory
-    </div>
-    <div class="dropdown-item hidden disabled">Пользователи, контакты, группы и компьютеры как контейнеры</div>
-    <div class="dropdown-item hidden disabled">Дополнительные функции...</div>
-    <div class="dropdown-item hidden disabled">Параметры фильтров...</div>
-    <div class="dropdown-item hidden disabled">Настроить вид...</div>
-</md-dropdown-menu> 
+    <md-dropdown-menu #helpMenu>
+        <div class="dropdown-item hidden disabled">{{ t("header.add-remove-columns") }}</div>
+        <div class="dropdown-item">
+            <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">
+                <label>{{ t("header.hide-left-panel") }}</label>
+                <label>Ctrl-H</label>
+            </md-shift-checkbox>
+        </div>
+        <div class="dropdown-item">
+            <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">
+                <label>{{ t('header.small-icons') }}</label>
+                <label>F1</label>
+            </md-radiobutton>
+        </div>
+        <div class="dropdown-item">
+            <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">
+                <label>{{ t('header.big-icons') }}</label>
+                <label>F2</label>
+            </md-radiobutton>
+        </div>
+        <div class="dropdown-item">
+            <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">
+                <label>{{ t('header.list') }}</label>
+                <label>F3</label>       
+            </md-radiobutton>
+        </div>
+        <div class="dropdown-item hidden">
+            <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">
+                <label>{{ t('header.details') }}</label>
+                <label>F4</label>     
+            </md-radiobutton>
+        </div>
+        <div class="dropdown-item" [routerLink]="['settings']">
+            {{ t('header.multidirectory-settings') }}
+        </div>
+        <div class="dropdown-item hidden disabled">{{ t("header.users-etc") }}</div>
+        <div class="dropdown-item hidden disabled">{{ t("header.additional-features") }}</div>
+        <div class="dropdown-item hidden disabled">{{ t("header.filter-settings") }}</div>
+        <div class="dropdown-item hidden disabled">{{ t("header.view-settings") }}</div>
+    </md-dropdown-menu> 
 
-<md-dropdown-menu #searchMenu>
-    <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
-</md-dropdown-menu> 
+    <md-dropdown-menu #searchMenu>
+        <app-search-panel [ldapRoots]="ldapRoots"></app-search-panel>
+    </md-dropdown-menu> 
 
-<md-dropdown-menu #loginMenu>
-    <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">Настройки аккаунта</div>
-    <div class="dropdown-item" (click)="onLogout()">Выход из системы</div>
-</md-dropdown-menu>
+    <md-dropdown-menu #loginMenu>
+        <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">{{"header.account-settings"}}</div>
+        <div class="dropdown-item" (click)="onLogout()">{{t("header.logout")}}</div>
+    </md-dropdown-menu>
+</ng-container>

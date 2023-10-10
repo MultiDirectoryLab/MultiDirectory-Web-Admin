@@ -1,38 +1,39 @@
-<div class="fullscreen bg-white-neutral flex-row"> 
-    <div *ngIf="showLeftPane" class="left-pane">
-        <img src="/assets/logo_login.svg" class="logo-img"/>
-        <div class="treeview">
-            <app-navigation></app-navigation>
-        </div>
-        <div class="flex-row footer">
-            <div class="avatar">
-                <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img"/>
-                <img *ngIf="!!user.jpegPhoto" [src]="('data:image/jpg;base64,' + user.jpegPhoto)" class="avatar-img"/>
+<ng-container *transloco="let t; read: 'home'">
+    <div class="fullscreen bg-white-neutral flex-row"> 
+        <div *ngIf="showLeftPane" class="left-pane">
+            <img src="/assets/logo_login.svg" class="logo-img"/>
+            <div class="treeview">
+                <app-navigation></app-navigation>
+            </div>
+            <div class="flex-row footer">
+                <div class="avatar">
+                    <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img"/>
+                    <img *ngIf="!!user.jpegPhoto" [src]="('data:image/jpg;base64,' + user.jpegPhoto)" class="avatar-img"/>
 
+                </div>
+                <div class="user-info column">
+                    <label>{{user.display_name}}</label>
+                    <label>{{user.mail}}</label>
+                </div>
+                <div class="more-container">
+                    <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
+                </div>
+                <md-dropdown-menu #loginMenu>
+                    <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">{{ t('home.account-settings') }}</div>
+                    <div class="dropdown-item" (click)="logout()">{{ t('home.logout') }}</div>
+                </md-dropdown-menu>
             </div>
-            <div class="user-info column">
-                <label>{{user.display_name}}</label>
-                <label>{{user.mail}}</label>
-            </div>
-            <div class="more-container">
-                <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
-            </div>
-            <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">Настройки аккаунта</div>
-                <div class="dropdown-item" (click)="logout()">Выход из системы</div>
-            </md-dropdown-menu>
+        </div>
+        <div class="right-pane column">
+            <app-header (helpMenuClick)="helpMenuClick()" (accountSettingsClicked)="openAccountSettings()" (logoutClick)="logout()"></app-header>
+            <router-outlet name="header"></router-outlet>
+            <app-catalog-content></app-catalog-content>
         </div>
     </div>
-    <div class="right-pane column">
-        <app-header (helpMenuClick)="helpMenuClick()" (accountSettingsClicked)="openAccountSettings()" (logoutClick)="logout()"></app-header>
-        <router-outlet name="header"></router-outlet>
-        <app-catalog-content></app-catalog-content>
-    </div>
-</div>
- 
+    
+    <hotkeys-cheatsheet title="{{ t('home.hotkeys')}}" #helpcheatSheet (keydown)="closeCheatsheet()"></hotkeys-cheatsheet> 
 
-<hotkeys-cheatsheet title="Горячие клавиши" #helpcheatSheet></hotkeys-cheatsheet> 
-
-<ng-template modalInject #properties="modalInject">
-    <app-properties #properties [selectedEntity]="properitesEntity"></app-properties>
-</ng-template>
+    <ng-template modalInject #properties="modalInject">
+        <app-properties #properties [selectedEntity]="properitesEntity"></app-properties>
+    </ng-template>
+</ng-container>

@@ -34,6 +34,9 @@ export class DatagridComponent implements AfterViewInit {
 
     init = false;
     @Input() name = '';
+    @Input() pagerTitle = 'Размер страницы:';
+    @Input() fromTitle = 'из'
+    @Input() emptyMessage = 'Нет данных для отображения...';
     @Input() externalPaging = false;
     @Input() page: Page = new Page({});
     @Input() rows: any[] = [];
@@ -70,10 +73,16 @@ export class DatagridComponent implements AfterViewInit {
         { title: '15', value: 15 },
         { title: '20', value: 20 }
     ];
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef) {
+    }
 
     ngAfterViewInit() {
         this.setPage(new Page());
+        if(this.grid.element.parentElement) {
+            new ResizeObserver(
+                this.handleGridResize.bind(this)
+            ).observe(this.grid.element.parentElement);
+        }
         if(this.name) {
             const size =  Number(localStorage.getItem(`gridSize_${this.name}`));
             if(!isNaN(size) && size > 0) {
@@ -99,6 +108,13 @@ export class DatagridComponent implements AfterViewInit {
             this.selectionChanged.emit(this.selected);
         }
         this.cdr.detectChanges();
+    }
+
+    handleGridResize() {
+        if(!this.grid) {
+            return;
+        }
+        this.grid.recalculate();
     }
 
     onTableContextMenu(contextMenuEvent:  ContextMenuEvent) {
