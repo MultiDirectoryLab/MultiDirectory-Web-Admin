@@ -1,10 +1,13 @@
 @use '../../styles/global.scss';
-
+:host {
+    width: 100%;
+}
 
 .ngx-datatable {
     border: 1px solid global.$md-neutral-300;
     display: flex !important;
     flex-flow: column nowrap;
+    width: 100%;
     .visible {
         height: 100%;
         display: flex;

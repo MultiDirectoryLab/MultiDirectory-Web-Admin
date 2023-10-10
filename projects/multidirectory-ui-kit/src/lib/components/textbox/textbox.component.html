@@ -5,6 +5,7 @@
     [(ngModel)]="value"
     autocomplete="{{autocomplete ? 'on' : 'off'}}"
     (blur)="onBlur()"
+    #input
 />
 </div>
 <md-error-label *ngIf="controlAccessor && (controlAccessor.dirty || controlAccessor.touched)" [ngControl]="controlAccessor"></md-error-label>

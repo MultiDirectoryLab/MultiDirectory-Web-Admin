@@ -1,10 +1,10 @@
 <md-modal #modal>
     <div class="app-modal-header">
-        Типы сущностей
+        {{ 'entity-type-selector.modal-header' | transloco }}
     </div>
 
     <div class="flex-row">
-        Выберите типы сущностей, которые хотите найти:
+        {{ 'entity-type-selector.header' | transloco }}
     </div>
     <div>
         <md-treeview [tree]="tree" [checkboxes]="true">
@@ -12,7 +12,7 @@
     </div>
 
     <div class="app-modal-footer flex-row justify-end flex-gap-10">
-        <md-button (click)="close()">Отмена</md-button>
-        <md-button [primary]="true" (click)="finish()">Применить</md-button>
+        <md-button (click)="close()">{{ 'entity-type-selector.cancel' | transloco }}</md-button>
+        <md-button [primary]="true" (click)="finish()">{{ 'entity-type-selector.apply' | transloco }}</md-button>
     </div>
 </md-modal>

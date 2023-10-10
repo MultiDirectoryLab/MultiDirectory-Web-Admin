@@ -36,6 +36,7 @@ import { AuthorizationModule } from './core/authorization/authorization.module';
 import { HideControlBar } from './core/hidecontrolbar.directive';
 import { GroupSelectorModule } from './components/forms/group-selector/group-selector.module';
 import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { CatalogSelectorModule } from './components/forms/catalog-selector/catal
     UserCreateModule,
     PropertiesModule,
     GroupSelectorModule,
-    CatalogSelectorModule
+    CatalogSelectorModule,
+    TranslocoRootModule
   ],
   providers: [
     provideAnimations(),

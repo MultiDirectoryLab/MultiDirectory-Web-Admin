@@ -8,6 +8,9 @@ name="table-view"
 (pageChanged)="onPageChanged($event)"
 (selectionChanged)="onSingleClick($event)"
 (dblclick)="onDoubleClick($event)" 
+pagerTitle="{{ 'grid.pager-title' | transloco}}"
+fromTitle="{{ 'grid.from-title' | transloco}}"
+emptyMessage="{{ 'grid.no-data' | transloco }}"
 ></md-datagrid> 
 <ng-template #iconTemplate let-row="row" let-value="value">
     <img class="row-icon" [src]="row.icon" />

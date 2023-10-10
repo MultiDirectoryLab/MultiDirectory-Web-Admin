@@ -1,7 +1,7 @@
-<div class="flex-column flex-gap-10 p-8">
+<div *transloco="let t; read: 'multifactor-settings'" class="flex-column flex-gap-10 p-8">
     <div class="flex-row flex-center">
         <div class="title">
-            Подключение к Мультфактору:
+            {{ t('header') }}
         </div>
     </div>
     <div class="mf-control-grid">
@@ -14,6 +14,6 @@
 
 
     <div class="flex-row flex-end">
-        <md-button [primary]="true">Применить</md-button>
+        <md-button [primary]="true">{{ t('apply') }}</md-button>
     </div>
 </div>

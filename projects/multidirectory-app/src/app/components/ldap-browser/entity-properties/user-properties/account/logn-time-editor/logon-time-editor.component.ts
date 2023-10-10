@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, ElementRef, Input, OnDestroy, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import BitSet from "bitset";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { Subject, fromEvent, take, takeUntil } from "rxjs";
@@ -247,7 +248,7 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
         }
         const from = this.fromDescription[Math.min(this.selectDayStarted, this.selectDayCurrent)];
         const to = this.fromDescription[Math.max(this.selectDayStarted, this.selectDayCurrent) + 7];
-        return `${from} ${to}, начиная с ${Math.min(this.selectHourStarted, this.selectHourCurrent)}:00 по ${Math.max(this.selectHourStarted, this.selectHourCurrent) + 1}:00`;
+        return `${from} ${to}, ${translate('logon-time-editor.starts-from')} ${Math.min(this.selectHourStarted, this.selectHourCurrent)}:00 ${translate('finish-to')} ${Math.max(this.selectHourStarted, this.selectHourCurrent) + 1}:00`;
     }
 
     close() {

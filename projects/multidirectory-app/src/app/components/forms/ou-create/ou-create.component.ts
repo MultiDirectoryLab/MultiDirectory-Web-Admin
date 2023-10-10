@@ -31,7 +31,8 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     constructor(
         private navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
-        private modalInejctor: ModalInjectDirective) {}
+        private modalInejctor: ModalInjectDirective) {
+        }
 
     
     ngAfterViewInit(): void {

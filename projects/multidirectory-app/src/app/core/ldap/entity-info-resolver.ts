@@ -1,3 +1,4 @@
+import { translate } from "@ngneat/transloco";
 import { LdapEntityType } from "./ldap-entity-type";
 
 export class EntityInfoResolver {
@@ -11,14 +12,14 @@ export class EntityInfoResolver {
         [ LdapEntityType.OU, 'assets/folder.svg'],
     ]);
 
-    static TypeNameMap = new Map<LdapEntityType, string>([
-        [ LdapEntityType.None, '' ],
-        [ LdapEntityType.Folder, 'Каталог' ],
-        [ LdapEntityType.Root, 'Корень' ],
-        [ LdapEntityType.Server, 'Контроллер домена' ],
-        [ LdapEntityType.User, 'Пользователь' ],
-        [ LdapEntityType.Group, 'Группа безопасности' ],
-        [ LdapEntityType.OU, 'Организационная единица' ]
+    static TypeNameMap = new Map<LdapEntityType, () => string>([
+        [ LdapEntityType.None, () =>  '' ],
+        [ LdapEntityType.Folder, () => translate('entity-info-resolver.catalog') ],
+        [ LdapEntityType.Root,  () => translate('entity-info-resolver.root') ],
+        [ LdapEntityType.Server,  () => translate('entity-info-resolver.domain-controller') ],
+        [ LdapEntityType.User,  () => translate('entity-info-resolver.user')],
+        [ LdapEntityType.Group,  () => translate('entity-info-resolver.security-group')],
+        [ LdapEntityType.OU,  () => translate('entity-info-resolver.organizational-unit') ]
     ]);
 
     static TypeMap = new Map<string, LdapEntityType>([
@@ -33,7 +34,7 @@ export class EntityInfoResolver {
     }
 
     static resolveTypeName(type: LdapEntityType): string | undefined {
-        return this.TypeNameMap.get(type);
+        return this.TypeNameMap.get(type)?.();
     }
 
     static getNodeType(objectClass?: string[]): LdapEntityType | undefined {

@@ -1,7 +1,7 @@
 <div class="flex-column search-form" >
     <md-form #form >
         <div class="row">
-            <label class="textbox-label">Поиск по:</label>
+            <label class="textbox-label">{{ "search-panel.search-label" | transloco }}</label>
         </div>
 
         <div class="row">
@@ -10,12 +10,12 @@
                 </md-dropdown>
             </div>
             <div class="flex-row col-xs-4 col-xs-4">
-                <label class="pr-8">в: </label>
+                <label class="pr-8">{{ "search-panel.in-label" | transloco }}</label>
                 <md-dropdown [options]="searchSources" [(ngModel)]="searchSource">
                 </md-dropdown>
             </div>
             <div class="col-xs-3 col-xs-3">
-               <md-button (click)="search()" [primary]="true">Найти</md-button>
+               <md-button (click)="search()" [primary]="true">{{ 'search-panel.search' | transloco }}</md-button>
             </div>
         </div>
         <ng-container [ngSwitch]="searchType">
@@ -25,5 +25,5 @@
     <div class="search-result">
         <app-search-result [rows]="searchResults" #searchResultForm></app-search-result>
     </div>
-    <md-spinner #spinner [inputText]="'Поиск...'"></md-spinner>
+    <md-spinner #spinner inputText="{{ 'search-spinner-label' | transloco }}"></md-spinner>
 </div>

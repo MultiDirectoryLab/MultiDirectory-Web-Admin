@@ -1,24 +1,28 @@
 <md-modal #modal>
     <div class="app-modal-header">
-        Выбор группы
+        {{ 'group-selector.modal-header' | transloco}}
     </div>
     <div class="flex-column h-100">
         <div class="flex-row">
-            Выберите тип группы:
+            {{ 'group-selector.header' | transloco }}
         </div>
         <div class="row flex-gap-10">
             <md-textbox class="col-xs-9 flex-grow-1" [disabled]="true" [(ngModel)]="entityTypeDisplay"></md-textbox>
-            <md-plane-button (click)="selectEntityType()" class="col-xs-3" [hasBorder]="true">Типы объектов...</md-plane-button>
+            <md-plane-button (click)="selectEntityType()" class="col-xs-3" [hasBorder]="true">
+               {{ 'group-selector.object-types' | transloco }}
+            </md-plane-button>
         </div>
         <div class="flex-row">
-            Из этого места:
+            {{ 'group-selector.from-place' | transloco }}
         </div>
         <div class="row flex-gap-10">
             <md-textbox class="col-xs-9 flex-grow-1"  [(ngModel)]="selectedCatalogDn" [disabled]="true"></md-textbox>
-            <md-plane-button (click)="selectCatalog()" class="col-xs-3" [hasBorder]="true">Места...</md-plane-button>
+            <md-plane-button (click)="selectCatalog()" class="col-xs-3" [hasBorder]="true">
+                {{ 'group-selector.places' | transloco }}
+            </md-plane-button>
         </div>
         <div class="flex-row">
-            Чтобы найти объект, введите имя:
+            {{ 'group-selector.name-prompt' | transloco }}
         </div>
         <div class="flex-grow-1 row flex-gap-10">
             <!--md-textarea class="col-xs-9 flex-grow-1 w-100" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
@@ -27,18 +31,26 @@
                 (onEnter)="checkNames()" 
                 #selector  [(ngModel)]="name" 
                 [options]="availableGroups" 
-                notFoundText="Группы не найдены"
+                [notFoundText]=" 'group-selector.not-found-text' | transloco  "
                 class="col-xs-9 flex-grow-1">
             </md-multiselect>
-            <md-plane-button (click)="checkNames()" class="col-xs-3 text-nowrap" [hasBorder]="true">Проверить имя...</md-plane-button>
+            <md-plane-button (click)="checkNames()" class="col-xs-3 text-nowrap" [hasBorder]="true">
+                {{ 'group-selector.check-name' }}
+            </md-plane-button>
         </div>
     </div>
     <div class="app-modal-footer">
         <div class="flex-row flex-space-between">
-            <md-button [disabled]="true">Дополнительные параметры</md-button>
+            <md-button [disabled]="true">
+                {{ 'group-selector.additional-parameters' }}
+            </md-button>
             <div class="flex-row flex-gap-10">
-                <md-button (click)="close()">Отмена</md-button>
-                <md-button (click)="finish()" [primary]="true">Применить</md-button>
+                <md-button (click)="close()">
+                    {{ 'group-selector.cancel' }}
+                </md-button>
+                <md-button (click)="finish()" [primary]="true">
+                    {{ 'group-selector.apply' }}
+                </md-button>
             </div>
         </div>
     </div>

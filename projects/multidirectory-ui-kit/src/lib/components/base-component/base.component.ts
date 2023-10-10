@@ -63,6 +63,10 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
         this.cdr.detectChanges();
     }
 
+    focus() {
+
+    }
+
     ngOnInit(): void {
     }
 

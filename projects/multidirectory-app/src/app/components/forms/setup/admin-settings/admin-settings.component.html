@@ -1,14 +1,14 @@
 <div class="admin-settings">
     <div class="flex-row flex-space-between">
         <span class="pv-8 accented mb-16">
-            Этот мастер поможет завершить настройку Multidirectory
+            {{ "setup.admin-settings.header" | transloco }}
             <hr>
         </span>
     </div>
     <md-form #form>
         <div class="flex-column flex-gap-10 ">
             <div class="flex-row flex-gap-10 flex-space-between justify-center">
-                <label class="textbox-label">Логин администратора</label>
+                <label class="textbox-label">{{ "setup.admin-settings.admin-login-label" | transloco }}</label>
                 <div class="flex-column  flex-grow-1">
                     <md-textbox required [(ngModel)]="setupRequest.username" 
                     ></md-textbox>
@@ -16,7 +16,7 @@
             </div>
             
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
-                <label  class="textbox-label">Пароль</label>
+                <label  class="textbox-label">{{ "setup.admin-settings.admin-password-label" | transloco }}</label>
                 <div class="flex-column  flex-grow-1">
                     <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
                         #passwordInput></md-textbox>
@@ -24,7 +24,7 @@
             </div>
             
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
-                <label  class="textbox-label">Повторите пароль</label>
+                <label  class="textbox-label">{{ "setup.admin-settings.admin-password-repeat-label" | transloco }}</label>
                 <div class="flex-column flex-grow-1">
                     <md-textbox  required [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
                 </div>

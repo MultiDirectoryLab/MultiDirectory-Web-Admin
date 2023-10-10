@@ -10,6 +10,7 @@ import { AccessPolicyComponent } from "./access-policy/access-policy.component";
 import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-policy-ip-list.component";
+import { TranslocoModule } from "@ngneat/transloco";
 
 @NgModule({
     declarations: [ 
@@ -31,7 +32,8 @@ import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-poli
         ValidatorsModule,
         EditorsModule,
         GroupSelectorModule,
-        DragDropModule
+        DragDropModule,
+        TranslocoModule
     ]
 })
 export class AccessPolicyModule {

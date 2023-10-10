@@ -11,6 +11,8 @@ import { AppSettingsRoutingModule } from "./app-settings-routes.module";
 import { AppSettingsHeaderComponent } from "./header/app-settings-header.component";
 import { AccessPolicyModule } from "./access-policy/access-policy-settings.module";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MultidirectorySettingsComponent } from "./multidirectory-settings/multidirectory-settings.component";
+import { TranslocoRootModule } from "../../transloco-root.module";
 
 @NgModule({
     imports: [
@@ -21,20 +23,23 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
         AccessPolicyModule,
         RouterModule,
         AppSettingsRoutingModule,
-        DragDropModule
+        DragDropModule,
+        TranslocoRootModule
     ],
     declarations: [
         AppSettingsComponent,
         AppSettingsNavigationComponent,
         AppSettingsHeaderComponent,
-        MultifactorSettingsComponent
+        MultifactorSettingsComponent,
+        MultidirectorySettingsComponent
     ],
     exports: [
         AppSettingsComponent,
         AppSettingsNavigationComponent,
         MultifactorSettingsComponent,
         AppSettingsRoutingModule,
-        AppSettingsHeaderComponent
+        AppSettingsHeaderComponent,
+        MultidirectorySettingsComponent
     ]
 })
 export class AppSettingsModule {

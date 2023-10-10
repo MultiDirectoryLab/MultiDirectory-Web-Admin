@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
 import { SearchResult } from "../../search-panel.component";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-search-result',
@@ -9,7 +10,7 @@ import { LdapNavigationService } from "projects/multidirectory-app/src/app/servi
 })
 export class SearchResultComponent {
     columns = [
-        { name: 'Имя',  prop: 'name',  flexGrow: 1 },
+        { name: translate('search-result.name'),  prop: 'name',  flexGrow: 1 },
     ];
     @Input() rows?: SearchResult[] = undefined;
 

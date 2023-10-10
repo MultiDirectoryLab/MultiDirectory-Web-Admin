@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Page } from "multidirectory-ui-kit";
-import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, of, take, tap } from "rxjs";
+import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, of, skip, skipUntil, skipWhile, switchMap, take, tap } from "rxjs";
 import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
@@ -51,7 +51,8 @@ export class LdapNavigationService {
         private attributes: AttributeService) {}
     
     init() {
-        this.ldap.getRoot().subscribe(roots => {
+      this.ldap.getRoot()
+        .subscribe(roots => {
             this._ldapRootRx.next(roots);
         });   
     }

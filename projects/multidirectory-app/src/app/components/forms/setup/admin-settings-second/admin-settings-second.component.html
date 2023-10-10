@@ -1,7 +1,7 @@
 <div class="admin-settings">
     <div class="flex-row flex-space-between">
         <span class="pv-8 accented mb-16">
-            Этот мастер поможет завершить настройку Multidirectory
+            {{ "setup.admin-settings-second.header" | transloco }}
             <hr>
         </span>
     </div>
@@ -15,7 +15,9 @@
             </div>
             
             <div class="flex-row flex-space-between  justify-center">
-                <label  class="textbox-label">Отображаемое имя</label>
+                <label  class="textbox-label">
+                    {{ "setup.admin-settings-second.display-name-label" | transloco }}
+                </label>
                 <div class="flex-column  flex-grow-1">
                     <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
                 </div>
