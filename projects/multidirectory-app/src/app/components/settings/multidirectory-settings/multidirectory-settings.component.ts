@@ -1,8 +1,7 @@
 import { OnInit, Component } from "@angular/core";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { DropdownOption } from "multidirectory-ui-kit";
-import { Observable, Subject } from "rxjs";
-import { TranslocoService } from "@ngneat/transloco";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-multidirectory-settings',
@@ -10,7 +9,7 @@ import { TranslocoService } from "@ngneat/transloco";
     styleUrls: ['./multidirectory-settings.component.scss']
 })
 export class MultidirectorySettingsComponent implements OnInit {
-    constructor(private settings: AppSettingsService) {
+    constructor(private settings: AppSettingsService, private router: Router) {
 
     }
     ngOnInit(): void {
@@ -27,4 +26,7 @@ export class MultidirectorySettingsComponent implements OnInit {
         { title: 'Russian', value: 'ru-RU' },
         { title: 'English', value: 'en-US' }
     ]
+    apply() {
+        window.location.reload();
+    }
 }

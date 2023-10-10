@@ -10,6 +10,7 @@ import { SearchType } from "../../../core/search/search-type";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { SearchResultComponent } from "./seaarch-forms/search-result/search-result.component";
 import { SearchUsersComponent } from "./seaarch-forms/search-users/search-users.component";
+import { translate } from "@ngneat/transloco";
  
 @Component({
     selector: 'app-search-panel',
@@ -32,7 +33,7 @@ export class SearchPanelComponent implements AfterViewInit {
     SearchType = SearchType;
     searchType = SearchType.Users; 
     searchTypes = [ 
-        { title: 'Пользователи, контакты и группы', value: SearchType.Users },
+        { title: translate('search-panel.user-search-type'), value: SearchType.Users },
     ];
 
     searchSources: SearchMode[] = [  

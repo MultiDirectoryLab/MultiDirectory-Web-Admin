@@ -105,7 +105,16 @@
     },
     "icon-view": {
       "align-grid": "Align to Grid",
-      "reset": "Reset"
+      "reset": "Reset",
+      "pagerTitle": "Page Size",
+      "fromTitle": "from"
+    },
+    "table-view": {
+        "pagerTitle": "Page Size",
+        "fromTitle": "from",
+        "name-column": "Name",
+        "type-column": "Type",
+        "description-column": "Description"
     },
     "catalog-content": {
       "create-user": "Create a user",
@@ -126,14 +135,14 @@
       "more": "More details"
     },
     "attributes-list": {
-      "value": "Meaning",
+      "value": "Value",
       "add": "Add",
       "apply": "Apply",
       "delete": "Delete"
     },
     "entity-attributes": {
       "name": "Name",
-      "value": "Meaning"
+      "value": "Value"
     },
     "member-of": {
       "groups": "Groups:",
@@ -183,7 +192,7 @@
       "initials": "Initials",
       "last-name": "Surname",
       "full-name": "Full name",
-      "desctiption": "Description",
+      "description": "Description",
       "office": "Office",
       "phone": "Phone number",
       "phones": "Phones",
@@ -234,9 +243,10 @@
     },
     "search-panel": {
       "search-label": "Search by:",
-      "in-panel": "AT:",
+      "in-label": "AT:",
       "search": "Find",
-      "search-spinner-label": "Search..."
+      "search-spinner-label": "Search...",
+      "user-search-type": "Users, contacts and groups"
     },
     "login": {
       "name": "Login",
@@ -276,5 +286,30 @@
     "settings": {
       "account-settings": "account settings",
       "logout": "Sign Out"
+    },
+    "search-result": {
+        "name": "Name"
+    },
+    "ldap-builder": {
+      "root-dse-name": "MultiDirectory Users & Computers",
+      "saved-queries": "Saved queries"
+    },
+    "grid": {
+      "no-data": "No data to display...",
+      "pager-title": "Page Size",
+      "from-title": "from"
+    },
+    "entity-info-resolver": {
+      "catalog": "Catalog",
+      "root": "Root",
+      "domain-controller": "Domain controller",
+      "user": "User",
+      "security-group": "Security group",
+      "organizational-unit": "Organizational Unit"
+    },
+    "properties-modal": {
+      "modal-header": "Properties",
+      "close": "Close",
+      "approve": "Apply"
     }
   }

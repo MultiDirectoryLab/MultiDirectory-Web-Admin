@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-table-view',
@@ -34,9 +35,9 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     override ngOnInit(): void {
         super.ngOnInit();
         this.columns = [
-            { name: 'Имя', cellTemplate: this.iconColumn, flexGrow: 1 },
-            { name: 'Тип', prop: 'type', flexGrow: 1 },
-            { name: 'Описание', prop: 'description', flexGrow: 3 }
+            { name: translate("table-view.name-column"), cellTemplate: this.iconColumn, flexGrow: 1 },
+            { name: translate("table-view.type-column"), prop: 'type', flexGrow: 1 },
+            { name: translate("table-view.description-column"), prop: 'description', flexGrow: 3 }
         ];    
     }
 

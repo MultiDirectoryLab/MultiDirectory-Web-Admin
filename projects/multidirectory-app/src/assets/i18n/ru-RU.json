@@ -103,8 +103,16 @@
     },
     "icon-view": {
         "align-grid": "Выровнять по сетке",
-        "reset": "Сбросить"
-
+        "reset": "Сбросить",
+        "pagerTitle": "Размер страницы",
+        "fromString": "из"
+    },
+    "table-view": {
+        "pagerTitle": "Размер страницы",
+        "fromTitle": "из",
+        "name-column": "Имя",
+        "type-column": "Тип",
+        "description-column": "Описание"
     },
     "catalog-content": {
         "create-user": "Создать пользователя",
@@ -182,7 +190,7 @@
         "initials": "Инициалы",
         "last-name": "Фамилия",
         "full-name": "ФИО полностью",
-        "desctiption": "Описание",
+        "description": "Описание",
         "office": "Офис",
         "phone": "Номер телефона",
         "phones": "Телефоны",
@@ -233,9 +241,13 @@
     },
     "search-panel": {
         "search-label": "Поиск по:",
-        "in-panel": "В: ",
+        "in-label": "В: ",
         "search": "Найти",
-        "search-spinner-label": "Поиск..."
+        "search-spinner-label": "Поиск...",
+        "user-search-type": "Пользователи, контакты и группы"
+    },
+    "search-result": {
+        "name": "Имя"
     },
     "login": {
         "name":"Логин",
@@ -275,5 +287,28 @@
     "settings": {
         "account-settings": "Настройки аккаунта",
         "logout": "Выход из системы"
+    },
+    "ldap-builder": {
+      "root-dse-name": "Пользователи Multidirectory",
+      "saved-queries": "Cохраненные запросы"
+    },
+
+    "grid": {
+        "no-data": "Нет данных для отображения...",
+        "pager-title": "Размер страницы",
+        "from-title": "из"
+    },
+    "entity-info-resolver": {
+      "catalog": "Каталог",
+      "root": "Корень",
+      "domain-controller": "Контроллер домена",
+      "user": "Пользователь",
+      "security-group": "Группа безопасности",
+      "organizational-unit": "Организационная единица"
+    },
+    "properties-modal": {
+        "modal-header": "Свойства",
+        "close": "Закрыть",
+        "approve": "Применить"
     }
 }

@@ -34,6 +34,9 @@ export class DatagridComponent implements AfterViewInit {
 
     init = false;
     @Input() name = '';
+    @Input() pagerTitle = 'Размер страницы:';
+    @Input() fromTitle = 'из'
+    @Input() emptyMessage = 'Нет данных для отображения...';
     @Input() externalPaging = false;
     @Input() page: Page = new Page({});
     @Input() rows: any[] = [];

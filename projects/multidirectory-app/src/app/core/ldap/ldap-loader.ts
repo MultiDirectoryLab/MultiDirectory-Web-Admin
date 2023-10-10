@@ -7,6 +7,7 @@ import { SearchEntry, SearchResponse } from "../../models/entry/search-response"
 import { EntityInfoResolver } from "./entity-info-resolver";
 import { LdapEntityType } from "./ldap-entity-type";
 import { LdapEntity } from "./ldap-entity";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class LdapLoader {
         return this.api.search(SearchQueries.RootDse).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const root = new LdapEntity({
-                        name: 'Пользователи Multidirectory',
+                        name: translate('ldap-builder.root-dse-name'),
                         type: LdapEntityType.Root,
                         expanded: true,
                         id: 'root'
@@ -36,7 +37,7 @@ export class LdapLoader {
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
 
                     root.children = [
-                        new LdapEntity({ name: 'Cохраненные запросы', type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
+                        new LdapEntity({ name: translate("ldap-builder.saved-queries"), type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
                         serverNode,
                     ]
                     return root;

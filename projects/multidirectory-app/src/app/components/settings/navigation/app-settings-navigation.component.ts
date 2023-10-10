@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { Subject, takeUntil } from "rxjs";
+import { Subject, filter, startWith, takeUntil } from "rxjs";
 
 @Component({
     selector: 'app-settings-navigation',
@@ -12,11 +12,14 @@ export class AppSettingsNavigationComponent implements OnDestroy {
     _unsubscribe = new Subject<void>();
 
     constructor(private router: Router) {
-        this.router.events.pipe(takeUntil(this._unsubscribe)).subscribe(evt => {
-            if(evt instanceof NavigationEnd) {
+        this.router.events
+            .pipe(
+                filter((event) => event instanceof NavigationEnd),
+                startWith({})
+            )
+            .subscribe(() => {
                 this.url = this.router.url;
-            }
-        })
+            });
     }
 
 
