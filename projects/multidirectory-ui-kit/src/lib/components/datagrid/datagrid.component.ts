@@ -110,8 +110,11 @@ export class DatagridComponent implements AfterViewInit {
         this.cdr.detectChanges();
     }
 
-    handleGridResize() {
+    handleGridResize(evt: ResizeObserverEntry[]) {
         if(!this.grid) {
+            return;
+        }
+        if(evt[0].contentRect.width == 0 || evt[0].contentRect.height == 0) {
             return;
         }
         this.grid.recalculate();

@@ -35,21 +35,21 @@
                 class="col-xs-9 flex-grow-1">
             </md-multiselect>
             <md-plane-button (click)="checkNames()" class="col-xs-3 text-nowrap" [hasBorder]="true">
-                {{ 'group-selector.check-name' }}
+                {{ 'group-selector.check-name' | transloco }}
             </md-plane-button>
         </div>
     </div>
     <div class="app-modal-footer">
         <div class="flex-row flex-space-between">
             <md-button [disabled]="true">
-                {{ 'group-selector.additional-parameters' }}
+                {{ 'group-selector.additional-parameters' | transloco }}
             </md-button>
             <div class="flex-row flex-gap-10">
                 <md-button (click)="close()">
-                    {{ 'group-selector.cancel' }}
+                    {{ 'group-selector.cancel' | transloco }}
                 </md-button>
                 <md-button (click)="finish()" [primary]="true">
-                    {{ 'group-selector.apply' }}
+                    {{ 'group-selector.apply' | transloco }}
                 </md-button>
             </div>
         </div>

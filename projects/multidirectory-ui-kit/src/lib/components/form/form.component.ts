@@ -52,7 +52,9 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
         ).subscribe(va => {
             this._valid.next(va.every(x => x == 'VALID'));
         });
-        this.valueAccessors.first?.focus();
+        setTimeout(() => {
+            this.valueAccessors.first?.focus();
+        }, 200);
     }
 
     ngOnDestroy(): void {

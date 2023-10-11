@@ -157,7 +157,7 @@
     "logon-time-editor": { 
       "modal-header": "Entry hours for",
       "login-allowed": "Entry allowed",
-      "login-disabled": "no entry",
+      "login-disabled": "No entry",
       "starts-from": "beginning with",
       "finish-to": "By",
       "cancel": "Cancel",
@@ -229,11 +229,11 @@
       "additional-features": "Additional functions...",
       "filter-settings": "Filter options...",
       "view-settings": "Customize view...",
-      "account-settings": "account settings",
+      "account-settings": "Account Settings",
       "logout": "Sign Out"
     },
     "home": {
-      "account-settings": "account settings",
+      "account-settings": "Account Settings",
       "logout": "Sign Out",
       "hotkeys": "Hotkeys"
     },
