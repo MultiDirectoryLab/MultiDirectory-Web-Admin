@@ -17,8 +17,7 @@
                 <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
             </div>
             <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item disabled" (click)="loginMenu.close();">{{t('account-settings')}}</div>
-                <div class="dropdown-item">{{t('logout')}}</div>
+                <div class="dropdown-item" (click)="loginMenu.close(); logout()">{{t('logout')}}</div>
             </md-dropdown-menu>
         </div>
     </div>

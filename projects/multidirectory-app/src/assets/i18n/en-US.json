@@ -150,7 +150,7 @@
       "catalog-path": "Directory in a Multidirectory domain",
       "add": "Add",
       "delete": "Delete",
-      "primary-group": "Main group:",
+      "primary-group": "Main group: ",
       "make-primary": "Make primary",
       "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients."
     },

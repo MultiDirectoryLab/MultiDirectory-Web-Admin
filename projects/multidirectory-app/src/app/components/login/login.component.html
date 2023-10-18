@@ -3,7 +3,7 @@
         <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
     </ng-container>
     <div class="w-100 h-100 p-16">
-        <md-form #loginForm>
+        <md-form #loginForm [autocomplete]="false">
             <div class="flex-column flex-space-between h-100 flex-gap-20">
                 <div class="flex-row flex-space-between">
                     <label class="form-label">{{ 'login.name'| transloco }}</label>

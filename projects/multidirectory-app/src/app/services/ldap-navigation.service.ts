@@ -138,11 +138,10 @@ export class LdapNavigationService {
 
     setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity[] | null = null) {
         if(!page) {
-            page = Object.assign({}, this.page);
+            page = new Page(this.page);
             page.pageNumber = 1;
         } 
         this._page = page;
-        this._page.totalElements = (this.selectedCatalog?.childCount ?? 0) ?? 0;
         this._selectedEntity = selection;
         this._selectedCatalog = catalog;
         this._selectedCatalogRx.next(this._selectedCatalog);
@@ -150,7 +149,7 @@ export class LdapNavigationService {
 
     setPage(page: Page | null = null, selection: LdapEntity[] | null = null) {
         if(!page) {
-            page = new Page(Object.assign({}, this.page));
+            page =  new Page(this.page);
             page.pageNumber = 1;
         }
         this._page = page;

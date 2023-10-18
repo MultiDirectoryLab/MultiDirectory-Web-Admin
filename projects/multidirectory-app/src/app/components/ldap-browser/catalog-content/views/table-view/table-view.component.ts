@@ -57,7 +57,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
             description: '',
         });
 
-        this.grid.page.totalElements = this.selectedCatalog!.childCount!;
+        this.grid.totalElements = this.selectedCatalog!.childCount!;
         if(this.selectedCatalog?.parent) {
             this.selectedCatalog.parent.selected = false;
             /*this.rows = [<TableRow>{
@@ -83,12 +83,13 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         this.navigation.setSelection(event.map((x: TableRow) => x.entry));
     }
     onDoubleClick(event: any) {
-        this.navigation.page.pageNumber = 1;
         const entry = event?.row?.entry;
         if(event?.row?.name == '...') {
             this.navigation.setCatalog(this.selectedCatalog?.parent!);
         } else if(entry && entry.expandable) {
-            this.navigation.setCatalog(entry);
+            const page = new Page(this.page);
+            page.pageNumber = 1;
+            this.navigation.setCatalog(entry, page);
         }
         this.cdr.detectChanges();
     }

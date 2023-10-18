@@ -57,6 +57,7 @@ export class DatagridComponent implements AfterViewInit {
     
     set size(size: number) {
         this.page.size = size;
+        this.page.pageNumber = 1;
         if(this.name) {
             localStorage.setItem(`gridSize_${this.name}`, String(size));
         }
@@ -64,6 +65,19 @@ export class DatagridComponent implements AfterViewInit {
      }
      get size(): number {
          return this.page.size;
+     }
+
+     set pageNumber(number: number) {
+        this.page.pageNumber = number;
+     }
+     get pageNumber(): number {
+        return this.page.pageNumber;
+     }
+     set totalElements(number: number) {
+        this.page.totalElements = number;
+     }
+     get totalElements(): number {
+        return this.page.totalElements;
      }
 
     SelectionType = SelectionType;
