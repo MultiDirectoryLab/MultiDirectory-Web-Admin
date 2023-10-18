@@ -160,7 +160,6 @@ export class LdapNavigationService {
 
     setSelection(selection: LdapEntity[] | null = null) {
         this._selectedEntity = selection;
-        this._accessor = null;
         this._selectedEntityRx.next(this._selectedEntity);
     }
 
@@ -168,19 +167,18 @@ export class LdapNavigationService {
         return this.ldap.getContent(catalog.id, catalog, page);
     }
 
-    private _accessor: LdapAttributes | null = null;
-    getEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
-        if(!entity && this._accessor) {
-            return of(this._accessor);
-        } else if(!entity) {
+    setEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
+        if(!entity) {
+            this._entityAccessorRx.next(null);
             return of(null);
         }
-        if(!!this._accessor && this._accessor.$entitydn[0] == entity?.id) {
-            return of(this._accessor);
-        } 
-
         return this.attributes.get(entity).pipe(take(1), tap(accessor => {
-            this._accessor = accessor;
+            this._entityAccessorRx.next(accessor);
         }));
     }
+
+    _entityAccessorRx = new BehaviorSubject<LdapAttributes | null>(null);
+    entityAccessorRx(): Observable<LdapAttributes | null> {
+        return this._entityAccessorRx.asObservable();
+    } 
 }

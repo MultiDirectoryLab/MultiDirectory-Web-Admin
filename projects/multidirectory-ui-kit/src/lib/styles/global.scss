@@ -165,3 +165,68 @@ div{
 .transparent {
     background-color: transparent;
 }
+
+dp-calendar-nav {
+    .dp-nav-btns-container {
+        display: inline-flex !important;
+        flex-flow: row nowrap;
+        gap: 8px;
+        align-items: center;
+    }
+    .dp-nav-header-btn,
+    .dp-calendar-nav-left,
+    .dp-calendar-nav-right {
+        @include use-inter-typography(700, 12px, 140%);
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        border: none;
+        padding: 7.5px 16px;
+        color: $md-neutral-800;
+        line-height: 17px;
+        letter-spacing: -0.03em;
+        text-align: center;
+        &:not(.md-button-primary) {
+            box-shadow: none; //0px 0px 3px rgba(0, 0, 0, 0.15);
+            border: none !important;
+            color: $md-neutral-600;
+            background: white;
+            line-height: 16px;
+    
+            &:hover:not(:disabled) {
+                background: #F1F1F1;
+                background-color: $md-neutral-100;
+            }
+    
+            &:disabled {
+                color: $md-neutral-400;
+                background-color: $md-neutral-200;
+            }
+        }
+    }
+    .dp-current-location-btn {
+        display: none;
+    }
+    & .dp-calendar-nav-container {
+        height: 40px !important;
+    }
+    
+    
+}
+.dp-calendar-weekday {
+    @include use-inter-typography(400, 14px, 25.2px);
+    border: none !important;
+    outline: none !important;
+    user-select: none;
+    cursor: auto;
+}
+.dp-calendar-day,
+.dp-calendar-month {
+    background-color: white;
+    border: none;
+    outline: none;
+
+    &:hover {
+        border: 1px solid $md-dark-blue;
+    }
+}
+ 

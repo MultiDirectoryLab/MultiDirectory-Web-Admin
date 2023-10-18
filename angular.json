@@ -14,6 +14,7 @@
           "options": {
             "project": "projects/multidirectory-ui-kit/ng-package.json"
           },
+
           "configurations": {
             "production": {
               "tsConfig": "projects/multidirectory-ui-kit/tsconfig.lib.prod.json"
@@ -41,7 +42,8 @@
             "port": 6006,
             "styles": [
               "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
-              "node_modules/ngx-spinner/animations/line-spin-fade.css"
+              "node_modules/ngx-spinner/animations/line-spin-fade.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "assets": [
               "projects/multidirectory-ui-kit/src/lib/../assets/search.svg",

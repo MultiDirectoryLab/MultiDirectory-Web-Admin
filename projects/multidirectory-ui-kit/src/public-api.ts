@@ -33,3 +33,4 @@ export * from './lib/components/tab-pane/tab.directive';
 export * from './lib/components/group/group.component';
 export * from './lib/components/multiselect/multiselect.component';
 export * from './lib/components/tooltip/tooltip.component';
+export * from './lib/components/datepicker/datepicker.component';

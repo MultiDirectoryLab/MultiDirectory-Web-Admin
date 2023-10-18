@@ -161,7 +161,31 @@
       "starts-from": "beginning with",
       "finish-to": "By",
       "cancel": "Cancel",
-      "apply": "Apply"
+      "apply": "Apply",
+
+      "every": "All",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+
+      "from-monday": "From Monday",
+      "from-tuesday": "From Tuesday",
+      "from-wednesday": "From Wednesday",
+      "from-thursday": "From Thursday",
+      "from-friday": "From Friday",
+      "from-saturday": "From Saturday",
+      "from-sunday": "From Sunday",
+      "to-monday": "to Monday",
+      "to-tuesday": "to Tuesday",
+      "to-wednesday": "to Wednesday",
+      "to-thursday": "to Thursday",
+      "to-friday": "to Friday",
+      "to-saturday": "to Saturday",
+      "to-sunday": "to Sunday"
     },
     "user-properties": {
       "login-label": "Login name:",
@@ -177,7 +201,8 @@
       "password-settings-title": "Password settings",
       "password-expire-title": "Account expiration",
       "never": "Never",
-      "expires-label": "Ends:"
+      "expires-label": "Ends:",
+      "store-password-reversible": "Store password using reversible encryption"
     },
     "user-address": {
       "street": "Street",
@@ -197,7 +222,8 @@
       "phone": "Phone number",
       "phones": "Phones",
       "webpage": "Webpage",
-      "webpages": "Web pages"
+      "webpages": "Web pages",
+      "other": "Other..."
     },
     "user-properties-profile": {
       "profile-path": "Path to profile",

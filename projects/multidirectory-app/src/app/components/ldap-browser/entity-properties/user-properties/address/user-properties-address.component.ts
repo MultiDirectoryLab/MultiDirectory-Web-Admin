@@ -1,15 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
 import { DropdownOption } from "multidirectory-ui-kit";
+import { ToastrService } from "ngx-toastr";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
-import { take } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
     selector: 'app-user-properties-address',
     templateUrl: './user-properties-address.component.html',
     styleUrls: ['./user-properties-address.component.scss']
 })
-export class UserPropertiesAddressComponent {
+export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy {
     private _country?: DropdownOption;
     get country(): string {
         return this._country?.value;
@@ -20,16 +21,30 @@ export class UserPropertiesAddressComponent {
             this.accessor.country = [value];
         }
     }
-    private _accessor: LdapAttributes = {};
-    get accessor(): LdapAttributes {
-        return this._accessor;
+
+    accessor: LdapAttributes = {};
+    unsubscribe = new Subject();
+
+    constructor(private navigation: LdapNavigationService, private cdr: ChangeDetectorRef, private toastr: ToastrService) {
     }
-    @Input() set accessor(accessor: LdapAttributes)  {
-        this._accessor = accessor;
-        this.country = this.accessor.country?.[0];
-        this.cdr.detectChanges();
+    
+    ngAfterViewInit(): void {
+        this.navigation._entityAccessorRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
+            if(!x) {
+                return;
+            }
+            this.accessor = x;
+            if(this.accessor.country?.[0]) {
+                this.country = this.countries?.find(x => x.value == this.accessor.country[0])?.value ?? '';
+            }
+        })
     }
-    constructor(private navigation: LdapNavigationService, private cdr: ChangeDetectorRef) {
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next(false);
+        this.unsubscribe.complete();
     }
 
     countries = [

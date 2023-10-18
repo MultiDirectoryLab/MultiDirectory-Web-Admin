@@ -159,7 +159,31 @@
         "starts-from": "начиная с",
         "finish-to": "по",
         "cancel": "Отменить",
-        "apply": "Применить"
+        "apply": "Применить",
+        
+        "every": "Все",
+        "monday": "Понедельник",
+        "tuesday": "Вторник",
+        "wednesday": "Среда",
+        "thursday": "Четверг",
+        "friday": "Пятница",
+        "saturday": "Суббота",
+        "sunday": "Воскресенье",
+
+        "from-monday": "С понедельника",
+        "from-tuesday": "Со вторника",
+        "from-wednesday": "Со среды",
+        "from-thursday": "С четверга",
+        "from-friday": "С пятницы",
+        "from-saturday": "C cубботы",
+        "from-sunday": "С воскресенья",
+        "to-monday": "по понедельник",
+        "to-tuesday": "по вторник",
+        "to-wednesday": "по среду",
+        "to-thursday": "по четверг",
+        "to-friday": "по пятницы",
+        "to-saturday": "по субботу",
+        "to-sunday": "по воскресенье"
     },
     "user-properties": {
         "login-label":  "Имя для входа:",
@@ -175,7 +199,8 @@
         "password-settings-title": "Настройки пароля",
         "password-expire-title": "Истечение аккаунта",
         "never": "Никогда",
-        "expires-label": "Заканчивается:"
+        "expires-label": "Заканчивается:",
+        "store-password-reversible": "Использовать обратимое шифрование для хранения пароля"
     },
     "user-address": {
         "street": "Улица",
@@ -195,7 +220,8 @@
         "phone": "Номер телефона",
         "phones": "Телефоны",
         "webpage": "Веб-страница",
-        "webpages": "Веб-страницы"
+        "webpages": "Веб-страницы",
+        "other": "Другое..."
     },
     "user-properties-profile": {
         "profile-path": "Путь до профиля", 

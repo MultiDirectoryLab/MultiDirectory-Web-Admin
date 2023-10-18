@@ -1,14 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
-import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
-import { EMPTY, Observable, Subject, catchError, takeUntil } from "rxjs";
-import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { CreateEntryRequest } from "../../../models/entry/create-request";
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from "@angular/core";
+import { MdFormComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
+import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
-import { CreateEntryResponse } from "../../../models/entry/create-response";
+import { CreateEntryRequest } from "../../../models/entry/create-request";
+import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 
 @Component({
     selector: 'app-group-create',
@@ -60,7 +59,9 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         this.modalControl.close(null);
     }
 
-    onFinish() {
+    onFinish(event: MouseEvent) {
+        event.stopPropagation();
+        event.preventDefault();
         this.modalControl?.modal?.showSpinner();
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest.groupName},` + this.selectedNode?.id,

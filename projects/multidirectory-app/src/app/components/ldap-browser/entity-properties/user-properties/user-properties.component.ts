@@ -10,7 +10,7 @@ import { LdapAttributes } from "../../../../core/ldap/ldap-entity-proxy";
 })
 export class UserPropertiesComponent implements  OnDestroy {
     unsubscribe = new Subject<boolean>();
-    @Input() accessor: LdapAttributes | null = null;
+    @Input() accessor!: LdapAttributes;
     properties?: any[];
     propColumns = [
         { name: 'Имя', prop: 'name', flexGrow: 1 },

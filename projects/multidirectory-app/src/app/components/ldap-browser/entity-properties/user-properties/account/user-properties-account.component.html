@@ -30,35 +30,49 @@
 <md-group title="{{ 'user-properties.password-settings-title' | transloco }}"  class="row align-start pv-8 mv-16">
     <div class="col-xs-12">
         <div class="flex-column" style="height: 90px; overflow-y: scroll;" >
-            <md-checkbox name="repeatPassword1" id="repeatPassword1">
+            <!-- user musst change password at next logon  -->
+            <md-checkbox name="userShouldChangePassword" id="userShouldChangePassword" [(ngModel)]="userShouldChangePassword">
                 {{ "user-properties.user-should-change-password" | transloco }}
             </md-checkbox>
-            <md-checkbox name="repeatPassword2" id="repeatPassword2">
+            <!-- user cannot change password-->
+            <md-checkbox name="user-unable-change-password" id="user-unable-change-password" [disabled]="true">
                 {{ "user-properties.user-unable-change-password" | transloco }}
             </md-checkbox>
-            <md-checkbox name="repeatPassword3" id="repeatPassword3">
+            <md-checkbox name="password-never-expires" id="password-never-expires" [(ngModel)]="passwordNeverExpires">
                 {{ "user-properties.password-never-expires" | transloco }}
             </md-checkbox>
-            <md-checkbox name="repeatPassword4" id="repeatPassword4">
+            <md-checkbox name="account-disabled" id="account-disabled" [(ngModel)]="accountDisabled">
                 {{ "user-properties.account-disabled" | transloco }}
             </md-checkbox>
+            <!-- Store password using reversible encryption -->
+            <md-checkbox name="store-password-reversible" id="store-password-reversible" [(ngModel)]="storePasswordReversible">
+                {{ "user-properties.store-password-reversible" | transloco }}
+            </md-checkbox>
+            <!-- Account is disabled -->
+            <!-- Smart card is required for interactive log in -->
+            <!-- Account is sensitive and cannot be delegated -->
+            <!-- Use only Kerberos DES encryption types with this account  -->
+            <!-- This account supports Kerberos AES 128 bit encryption -->
+            <!-- This account supports Kerberos AES 256 bit encryption -->
+            <!-- Do not require Kerberos preauthentication -->
         </div>
     </div>
 </md-group>
 <div class="row align-start pv-8">
     <md-group title="{{ 'user-properties.password-expire-title' | transloco }}" class="col-xs-12">
         <div class="flex-column">
-            <md-checkbox name="repeatPassword1" id="repeatPassword1">
+            <md-radiogroup [(ngModel)]="accountExpires" #accountExpirationRadiogroup></md-radiogroup>
+            <md-radiobutton [group]="accountExpirationRadiogroup" [value]="false" name="accountNeverExpires" id="accountNeverExpires">
                 {{ "user-properties.never" | transloco }}
-            </md-checkbox>
-            <md-checkbox name="repeatPassword2" id="repeatPassword2">
-                <div style="display: flex; flex-flow: row nowrap; justify-content: space-between;">
+            </md-radiobutton>
+            <div class="flex-row flex-gap-10">
+                <md-radiobutton [group]="accountExpirationRadiogroup" [value]="true" name="accountNeverExpires" id="accountSometimesExpires">
                     <label style="padding-right: 8px;">
                         {{ "user-properties.expires-label" | transloco }}
                     </label>
-                    <md-textbox></md-textbox>
-                </div>
-            </md-checkbox>
+                </md-radiobutton>
+                <md-datepicker [disabled]="!accountExpirationRadiogroup.value" [(ngModel)]="expireDate"></md-datepicker>
+            </div>
         </div>
     </md-group>
 </div>

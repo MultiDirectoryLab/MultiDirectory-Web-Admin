@@ -1,4 +1,4 @@
-import { Component, forwardRef } from "@angular/core";
+import { Component, EventEmitter, Output, forwardRef } from "@angular/core";
 import { BaseComponent } from "../base-component/base.component";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
@@ -14,4 +14,20 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
         }
     ]
 })
-export class CheckboxComponent extends BaseComponent {}
+export class CheckboxComponent extends BaseComponent {
+  @Output() change = new EventEmitter<boolean>();
+  onChange(event: Event) {
+    event.stopPropagation();
+    this.change.emit(this.innerValue);
+  }
+
+  onLabelClick(event: Event, checked: boolean) {
+    event.stopPropagation();
+    
+    if(this.disabled) {
+      return;
+    }
+
+    this.value = !checked
+  }
+}

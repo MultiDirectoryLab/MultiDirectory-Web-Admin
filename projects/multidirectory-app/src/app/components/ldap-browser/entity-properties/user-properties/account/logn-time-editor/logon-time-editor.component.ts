@@ -31,14 +31,14 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
     username = ''
     @ViewChild('logonMap', { static:true }) logonMap!: ElementRef<HTMLDivElement>;
     daysOfWeek: LogonMapDay[] = [
-        { id: null, title: 'Все' }, 
-        { id: 0, title: 'Понедельник' }, 
-        { id: 1, title: 'Вторник' }, 
-        { id: 2, title: 'Среда' }, 
-        { id: 3, title: 'Четверг' }, 
-        { id: 4, title: 'Пятница' }, 
-        { id: 5, title: 'Суббота' }, 
-        { id: 6, title: 'Воскресенье'}
+        { id: null, title: translate("logon-time-editor.every") }, 
+        { id: 0, title: translate("logon-time-editor.monday") }, 
+        { id: 1, title: translate("logon-time-editor.tuesday")  }, 
+        { id: 2, title: translate("logon-time-editor.wednesday")  }, 
+        { id: 3, title: translate("logon-time-editor.thursday")  }, 
+        { id: 4, title: translate("logon-time-editor.friday")  }, 
+        { id: 5, title: translate("logon-time-editor.saturday")  }, 
+        { id: 6, title: translate("logon-time-editor.sunday") }
     ];
     hours = Array.from(Array(24).keys());
     bitValues = new BitSet().setRange(0, 24 * 7, 1);
@@ -226,20 +226,20 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
     }
 
     fromDescription: string[] = [
-        'С понедельника',
-        'Со вторника',
-        'Со среды',
-        'С четверга',
-        'С пятницы',
-        'C cубботы',
-        'С воскресенья',
-        'по понедельник',
-        'по вторник',
-        'по среду',
-        'по четверг',
-        'по пятницы',
-        'по субботу',
-        'по воскресенье'
+        translate("logon-time-editor.from-monday"),
+        translate("logon-time-editor.from-tuesday"),
+        translate("logon-time-editor.from-wednesday"),
+        translate("logon-time-editor.from-thursday"),
+        translate("logon-time-editor.from-friday"),
+        translate("logon-time-editor.from-saturday"),
+        translate("logon-time-editor.from-sunday"),
+        translate("logon-time-editor.to-monday"),
+        translate("logon-time-editor.to-tuesday"),
+        translate("logon-time-editor.to-wednesday"),
+        translate("logon-time-editor.to-thursday"),
+        translate("logon-time-editor.to-friday"),
+        translate("logon-time-editor.to-saturday"),
+        translate("logon-time-editor.to-sunday")
     ];
     getSelectionDescription() {
         if(this.selectDayCurrent < 0 || this.selectDayStarted < 0 
@@ -248,7 +248,7 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
         }
         const from = this.fromDescription[Math.min(this.selectDayStarted, this.selectDayCurrent)];
         const to = this.fromDescription[Math.max(this.selectDayStarted, this.selectDayCurrent) + 7];
-        return `${from} ${to}, ${translate('logon-time-editor.starts-from')} ${Math.min(this.selectHourStarted, this.selectHourCurrent)}:00 ${translate('finish-to')} ${Math.max(this.selectHourStarted, this.selectHourCurrent) + 1}:00`;
+        return `${from} ${to}, ${translate('logon-time-editor.starts-from')} ${Math.min(this.selectHourStarted, this.selectHourCurrent)}:00 ${translate('logon-time-editor.finish-to')} ${Math.max(this.selectHourStarted, this.selectHourCurrent) + 1}:00`;
     }
 
     close() {

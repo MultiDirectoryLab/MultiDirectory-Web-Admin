@@ -37,8 +37,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     }
 
     resize() {
-        this.modalRoot?.resizeToContentHeight();
-        this.modalRoot?.center();
         this.cdr.detectChanges();
     }
 
@@ -57,7 +55,6 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
         if(this.width) {
             this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
         }
-        this.modalRoot?.resizeToContentHeight();
         this.modalRoot?.center();
         this.modalRoot?.moveOnTop();
         this.cdr.detectChanges();

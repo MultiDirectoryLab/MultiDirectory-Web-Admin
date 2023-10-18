@@ -17,7 +17,7 @@ export class EntityPropertiesComponent implements OnInit {
     EntityTypes = LdapEntityType;
     @Input() selectedEntity: LdapEntity | null= null;
     _entityType: LdapEntityType | null = null;
-    accessor: LdapAttributes | null = null;
+    accessor!: LdapAttributes;
     unsubscribe = new Subject<boolean>();
 
     constructor(
@@ -33,9 +33,14 @@ export class EntityPropertiesComponent implements OnInit {
             this.toastr.error('Для просмотра свойств необходимо выбрать сущность')
             return;
         }
-        this.navigation.getEntityAccessor(this.selectedEntity).pipe(
+        this.navigation.setEntityAccessor(this.selectedEntity).pipe(
             take(1), 
-            tap(accessor => { this.accessor = accessor; }),
+            tap(accessor => { 
+                if(!accessor) {
+                    throw 'Accessor could not be reteived!';
+                }
+                this.accessor = accessor 
+            }),
         ).subscribe(() => {
             this.cdr.detectChanges();
             this.modalControl.modal?.resize();
@@ -47,13 +52,16 @@ export class EntityPropertiesComponent implements OnInit {
     }
     save() {
         this.modalControl.modal?.showSpinner();
-        this.navigation.getEntityAccessor(this.selectedEntity!).pipe(
+        this.navigation.entityAccessorRx().pipe(
             take(1),
             switchMap(accessor => {
                 if(!accessor) {
                     return EMPTY;
                 }
                 return this.attributes.saveEntity(accessor);
+            }),
+            switchMap(() => {
+                return this.navigation.setEntityAccessor(undefined);
             })
         ).subscribe({
             complete: () => {
