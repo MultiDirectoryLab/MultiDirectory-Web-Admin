@@ -77,6 +77,7 @@ export class ModalInjectDirective implements OnInit, OnChanges {
         this._modal = wrapped.instance;
         this.cdr.detectChanges();   
         this._modal!.open();
+        this._modal!.modalRoot?.calcBodyHeight();
         this._modal?.onClose.pipe(take(1)).subscribe(x => {
             this.close();
         })

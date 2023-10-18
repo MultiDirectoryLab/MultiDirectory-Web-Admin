@@ -13,7 +13,7 @@
         <div class="col-xs-4 flex-row align-start flex-grow-1 flex-gap-10">
             <md-textbox 
                  [(ngModel)]="accessor.givenName"
-                required class="w-100" name="givenName">
+                required class="w-100" name="givenName" id="givenName">
             </md-textbox>
         </div>
         <div class="col-xs-2">
@@ -55,7 +55,9 @@
     <div class="row align-start pv-8">
         <div class="col-xs-4"><label for="phone">{{ "user-properties-generals.phone" | transloco }}</label></div>
         <md-textbox class="col-xs-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
-        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')">Другое...</md-plane-button></div>
+        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')">
+            {{ "user-properties-generals.other" | transloco }}
+        </md-plane-button></div>
     </div>
     <div class="row align-start pv-8">
         <div class="col-xs-4"><label for="email">Email</label></div>
@@ -64,7 +66,9 @@
     <div class="row align-start pv-8">
         <div class="col-xs-4"><label for="homepage">{{ "user-properties-generals.webpage" | transloco }}</label></div>
         <md-textbox class="col-xs-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
-        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')">Другое...</md-plane-button></div>
+        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')">
+            {{ "user-properties-generals.other" | transloco }}
+        </md-plane-button></div>
     </div>
 </ng-container>
 <app-attribute-list #attributeList></app-attribute-list>

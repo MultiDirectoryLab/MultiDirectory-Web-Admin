@@ -37,7 +37,9 @@ import { GroupComponent } from './components/group/group.component';
 import { MultiselectBadgeComponent } from './components/multiselect/multiselect-badge/multiselect-badge.component';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
-  
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
+
 @NgModule({
   declarations: [
     ButtonComponent,
@@ -72,7 +74,8 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     GroupComponent,
     MultiselectBadgeComponent,
     MultiselectComponent,
-    TooltipComponent
+    TooltipComponent,
+    DatepickerComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +83,8 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     FormsModule,
     ReactiveFormsModule, 
     NgxDatatableModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    DpDatePickerModule
   ],
   exports: [
     ButtonComponent,
@@ -110,7 +114,8 @@ import { TooltipComponent } from './components/tooltip/tooltip.component';
     TabDirective,
     GroupComponent,
     MultiselectComponent,
-    TooltipComponent
+    TooltipComponent,
+    DatepickerComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

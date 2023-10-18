@@ -23,8 +23,6 @@ export class DropdownOption {
 })
 export class DropdownComponent extends BaseComponent {
     @Input() options: (DropdownOption | string)[] = [];
-    @Input() label: string = '';
-    @Input() id: string = '';
 
     getTitle(value: DropdownOption | string) {
         return typeof value === "string" ? value : (<DropdownOption>value).title;

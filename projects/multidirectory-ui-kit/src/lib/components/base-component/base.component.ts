@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 import { Subject } from "rxjs";
+import { IdProvider } from "../../utils/id-provider";
 
 @Component({
     template: ``,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
+    __ID = IdProvider.getUniqueId();
     @Input() disabled: boolean = false;
     @Output() blur = new EventEmitter<void>();
     unsubscribe = new Subject<boolean>();
