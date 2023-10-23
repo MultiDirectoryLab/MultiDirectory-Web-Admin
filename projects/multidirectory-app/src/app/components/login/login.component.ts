@@ -5,6 +5,7 @@ import { EMPTY, Subject, catchError, skipWhile, switchMap, take, takeUntil } fro
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import {  ToastrService } from "ngx-toastr";
 import { WebSocketService, WebsocketTokenHandle } from "../../core/websocket/websocket.service";
+import { LoginResponse } from "../../models/login/login-response";
 
 @Component({
     selector: 'app-login',
@@ -47,21 +48,18 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         this.modal.showSpinner();
         this.api.login(this.login, this.password)
             .pipe(catchError((err, caught) => {
+                this.modal.hideSpinner();
                 if(err.status == 426) {
-                    return this.use2FA();
+                    this.use2FA();
+                    return EMPTY
                 }
                 this.toastr.error('Неверный логин или пароль');
-                this.modal.hideSpinner();
-                return EMPTY;
-            }),
-            switchMap(x => {
-                this.modal.hideSpinner();
                 return EMPTY;
             }))
-            .subscribe(response => {
+            .subscribe((response: LoginResponse) => {
                 this.modal.hideSpinner();
-                //localStorage.setItem('access_token', response.access_token);
-                //localStorage.setItem('refresh_token', response.refresh_token);
+                localStorage.setItem('access_token', response.access_token);
+                localStorage.setItem('refresh_token', response.refresh_token);
                 this.router.navigate(['/']);
             });
     }
