@@ -28,6 +28,7 @@ export class SearchPanelComponent implements AfterViewInit {
             value: SearchSource.RootDse,
             data: v
          }));
+        this.searchSource = this.searchSources?.[0]?.value;
     }
 
     SearchType = SearchType;
@@ -38,7 +39,7 @@ export class SearchPanelComponent implements AfterViewInit {
 
     searchSources: SearchMode[] = [  
     ];
-    searchSource = SearchSource.RootDse;
+    searchSource?: SearchSource;
 
     searchResults?: SearchResult[];
     @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;

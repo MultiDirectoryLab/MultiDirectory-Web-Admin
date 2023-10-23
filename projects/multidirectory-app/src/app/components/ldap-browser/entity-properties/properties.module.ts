@@ -15,6 +15,8 @@ import { GroupSelectorModule } from "../../forms/group-selector/group-selector.m
 import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
 import { LogonTimeEditorComponent } from "./user-properties/account/logn-time-editor/logon-time-editor.component";
 import { TranslocoModule } from "@ngneat/transloco";
+import { GroupPropertiesComponent } from "./group-properties/group-properties.component";
+import { MembersComponent } from "./members/members.component";
 
 @NgModule({
     imports: [
@@ -35,7 +37,10 @@ import { TranslocoModule } from "@ngneat/transloco";
         EntityAttributesComponent,
         MemberOfComponent,
         AvatarUploadComponent,
-        LogonTimeEditorComponent
+        LogonTimeEditorComponent,
+
+        GroupPropertiesComponent,
+        MembersComponent
     ],
     exports: [
         PropertiesComponent,
@@ -47,7 +52,8 @@ import { TranslocoModule } from "@ngneat/transloco";
         EntityAttributesComponent,
         MemberOfComponent,
         AvatarUploadComponent,
-        LogonTimeEditorComponent
+        LogonTimeEditorComponent,
+        MembersComponent
     ]
 })
 export class PropertiesModule {}

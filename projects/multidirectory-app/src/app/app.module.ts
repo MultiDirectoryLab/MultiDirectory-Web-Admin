@@ -37,6 +37,8 @@ import { HideControlBar } from './core/hidecontrolbar.directive';
 import { GroupSelectorModule } from './components/forms/group-selector/group-selector.module';
 import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 import { TranslocoRootModule } from './transloco-root.module';
+import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { TranslocoRootModule } from './transloco-root.module';
     GroupCreateComponent,
     SearchPanelComponent,
     SearchUsersComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    BackendNotRespondedComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,7 @@ import { TranslocoRootModule } from './transloco-root.module';
     PropertiesModule,
     GroupSelectorModule,
     CatalogSelectorModule,
-    TranslocoRootModule
+    TranslocoRootModule,
   ],
   providers: [
     provideAnimations(),

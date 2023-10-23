@@ -1,0 +1,7 @@
+<div class="row">
+    {{ 'members.members' | transloco }}
+</div>
+<div class="flex-row w-100" style="min-height: 450px;">
+    <md-datagrid class="w-100" [columns]="columns" [rows]="members" [stretchHeight]="true" #groupList>
+    </md-datagrid>
+</div>

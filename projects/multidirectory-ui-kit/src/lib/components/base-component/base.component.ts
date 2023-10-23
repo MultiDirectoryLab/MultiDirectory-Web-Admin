@@ -8,7 +8,7 @@ import { IdProvider } from "../../utils/id-provider";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
-    __ID = IdProvider.getUniqueId();
+    __ID = IdProvider.getUniqueId('base');
     @Input() disabled: boolean = false;
     @Output() blur = new EventEmitter<void>();
     unsubscribe = new Subject<boolean>();

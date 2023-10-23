@@ -129,7 +129,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.error('Выберите каталог в котором будет создан пользователь');
             return;
         }
-        this.createUserModal?.open({ 'width': '600px' }).pipe(take(1)).subscribe(() => {
+        this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
             this.loadData();
         });
     }

@@ -6,6 +6,7 @@ import { SetupComponent } from './components/setup/setup.component';
 import { SetupRouteGuard } from './core/setup/setup-route-guard';
 import { AppSettingsComponent } from './components/settings/app-settings.component';
 import { HomeComponent } from './components/ldap-browser/home/home.component';
+import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
@@ -17,6 +18,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/settings/app-settings.module').then(m => m.AppSettingsModule)
   },
   { path: '', component: HomeComponent, canActivate: [ AuthRouteGuard ]},
+  { path: 'enable-backend', component: BackendNotRespondedComponent },
   { path: '**', redirectTo: ''}
 ];
 

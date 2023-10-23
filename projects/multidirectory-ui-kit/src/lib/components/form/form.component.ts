@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, InjectionToken, OnDestroy, QueryList, forwardRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, InjectionToken, Input, OnDestroy, QueryList, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR, NgControl, NgModel } from "@angular/forms";
 import { BehaviorSubject, Observable, Subject, combineLatest, takeUntil } from "rxjs";
 import { BaseComponent } from "../base-component/base.component";
@@ -21,7 +21,7 @@ export const MD_FORM = new InjectionToken<MdFormComponent>('MDFORM');
 export class MdFormComponent implements AfterViewInit, OnDestroy {
     @ContentChildren(NgControl, {descendants: true}) inputs!: QueryList<NgControl>;
     @ContentChildren(NG_VALUE_ACCESSOR, {descendants: true}) valueAccessors!: QueryList<BaseComponent>;
-
+    @Input() autocomplete = false;
     inputValidators: Observable<string>[] = [];
     unsubscribe = new Subject<void>();
 
