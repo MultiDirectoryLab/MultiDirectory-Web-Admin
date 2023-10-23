@@ -5,8 +5,14 @@
         "apply": "Применить"
     },
     "multifactor-settings": {
-        "header": "Подключение к Мультфактору",
-        "apply": "Применить"
+        "mf-user-integration": {
+          "header": "Подключение к Мультфактору для пользователей",
+          "apply": "Применить"
+        },
+        "mf-admin-integration": {
+          "header": "Подключение к Мультфактору для администратором",
+          "apply": "Применить"
+        }
     },
     "group-create": {
         "header": "Новый объект - Группа",
@@ -152,6 +158,13 @@
         "make-primary": "Сделать основной",
         "primary-note": "Менять основную группу следует, только если у вас есть приложения, совместимые с POSIX, или клиенты Macintosh." 
     },
+    "members": {
+      "members": "Члены группы:",
+      "name": "Имя",
+      "catalog-path": "Каталог в домене Multidirectory",
+      "add": "Добавить",
+      "delete": "Удалить"
+    },
     "logon-time-editor": {
         "modal-header": "Часы входа для ",
         "login-allowed": "Вход разрешен",
@@ -237,7 +250,8 @@
         "address": "Адресс",
         "account": "Аккаунт",
         "profile": "Профиль",
-        "groups": "Группы"
+        "groups": "Группы",
+        "members": "Членство"
     },
     "header": {
         "folder": "Каталог",

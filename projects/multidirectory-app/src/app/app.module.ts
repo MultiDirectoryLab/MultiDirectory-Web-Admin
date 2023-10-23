@@ -38,6 +38,7 @@ import { GroupSelectorModule } from './components/forms/group-selector/group-sel
 import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,7 @@ import { BackendNotRespondedComponent } from './components/errors/backend-does-n
     PropertiesModule,
     GroupSelectorModule,
     CatalogSelectorModule,
-    TranslocoRootModule
+    TranslocoRootModule,
   ],
   providers: [
     provideAnimations(),

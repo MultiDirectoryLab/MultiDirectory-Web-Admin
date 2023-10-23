@@ -3,7 +3,7 @@
     type="{{password ? 'password' : 'text'}}" 
     [disabled]="disabled"
     [(ngModel)]="value"
-    autocomplete="{{autocomplete ? 'on' : 'off'}}"
+    autocomplete="{{autocomplete ? 'on' : password ? 'new-password' : 'off' }}"
     (blur)="onBlur()"
     id="{{__ID}}"
     #input

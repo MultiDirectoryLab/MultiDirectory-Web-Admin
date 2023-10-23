@@ -12,7 +12,6 @@ export default meta;
 type Story = StoryObj<DropdownComponent>;
 export const Primary: Story = {
     args: {
-      label: 'Dropdown: ',
       options: ['test1', 'test2', { title: 'Тест', value: 5 }]
     },
   };

@@ -13,6 +13,8 @@ import { AccessPolicyModule } from "./access-policy/access-policy-settings.modul
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MultidirectorySettingsComponent } from "./multidirectory-settings/multidirectory-settings.component";
 import { TranslocoRootModule } from "../../transloco-root.module";
+import { MfAdminIntegrationComponent } from "./mulifactor-settings/admin-integration/mf-admin-integration.component";
+import { MfUserIntegrationComponent } from "./mulifactor-settings/user-integration/mf-user-integration.component";
 
 @NgModule({
     imports: [
@@ -31,7 +33,9 @@ import { TranslocoRootModule } from "../../transloco-root.module";
         AppSettingsNavigationComponent,
         AppSettingsHeaderComponent,
         MultifactorSettingsComponent,
-        MultidirectorySettingsComponent
+        MultidirectorySettingsComponent,
+        MfAdminIntegrationComponent,
+        MfUserIntegrationComponent
     ],
     exports: [
         AppSettingsComponent,

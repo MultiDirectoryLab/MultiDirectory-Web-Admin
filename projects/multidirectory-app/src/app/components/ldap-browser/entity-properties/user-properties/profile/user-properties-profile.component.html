@@ -28,13 +28,13 @@
                     <div class="col-xs-4"><label for="full-name">
                         {{ 'user-properties-profile.local-path' | transloco }}
                     </label></div>
-                    <md-textbox class="col-xs-8 w-100"></md-textbox>
+                    <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.localPath"></md-textbox>
                 </div>
                 <div class="row align-start">
                     <div class="col-xs-4"><label for="full-name">
                         {{ "user-properties-profile.mount" | transloco}}
                     </label></div>
-                    <md-textbox class="col-xs-8 w-100"></md-textbox>
+                    <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.mount"></md-textbox>
                 </div>
             </md-group>
         </div>

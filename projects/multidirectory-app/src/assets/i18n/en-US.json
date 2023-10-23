@@ -5,8 +5,14 @@
       "apply": "Apply"
     },
     "multifactor-settings": {
-      "header": "Multifactor integration",
-      "apply": "Apply"
+      "mf-user-integration": {
+        "header": "Multifactor Users integrations",
+        "apply": "Apply"
+      },
+      "mf-admin-integration": {
+        "header": "Multifactor Admin integrations",
+        "apply": "Apply"
+      }
     },
     "catalog-selector": {
       "modal-header": "Select a catalog",
@@ -154,6 +160,13 @@
       "make-primary": "Make primary",
       "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients."
     },
+    "members": {
+      "members": "Members:",
+      "name": "Name",
+      "catalog-path": "Directory in a Multidirectory domain",
+      "add": "Add",
+      "delete": "Delete"
+    },
     "logon-time-editor": { 
       "modal-header": "Entry hours for",
       "login-allowed": "Entry allowed",
@@ -239,7 +252,8 @@
       "address": "Address",
       "account": "Account",
       "profile": "Profile",
-      "groups": "Groups"
+      "groups": "Groups",
+      "members": "Members"
     },
     "header": {
       "folder": "Catalog",
