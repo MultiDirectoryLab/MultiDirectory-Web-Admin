@@ -82,7 +82,7 @@ export class WebSocketService {
       if(!wsUrl.startsWith('ws://') && !wsUrl.startsWith('wss://')) {
         const isHttps = this._settings.baseUrl.includes('https:');
         wsUrl = this.getBaseUrl(wsUrl).replace(/^https?\:\/\//i, "");;
-        wsUrl = isHttps ? 'wss://' : 'ws://' + wsUrl;
+        wsUrl = (isHttps ? 'wss://' : 'ws://') + wsUrl;
       }
       const handle = new WebsocketTokenHandle(wsUrl);
       handle.connect();
