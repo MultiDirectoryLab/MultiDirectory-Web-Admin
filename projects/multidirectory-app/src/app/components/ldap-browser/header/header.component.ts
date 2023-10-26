@@ -8,7 +8,7 @@ import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
-import { LdapWindowsService } from "../../../services/ldap-browser.service";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { translate } from "@ngneat/transloco";
 
 @Component({

@@ -78,21 +78,12 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                 windowHandle = window.open(x.message, 'Auth', "height=630,width=630");
             } else if(x.status == 'success') {
                 windowHandle?.close();
-                console.log(x);
                 this.authComplete.next(true);
                 localStorage.setItem('access_token', x.message);
                 localStorage.setItem('refresh_token', x.message);
                 this.router.navigate(['/']);
             }
         });
-        /** 
-        this.wss.status.pipe(skipWhile(x => !x), take(1)).subscribe(_ => {
-            this.wss.on<any>().subscribe(x => {
-                console.log(x)
-               
-            });
-        });
-        */
         return this.authComplete.asObservable();
     }
 }
