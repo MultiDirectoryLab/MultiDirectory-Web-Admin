@@ -45,13 +45,12 @@ export class WebsocketTokenHandle {
             return;
         }
         this.socketSubject.pipe(
-            tap(msg => this._inputRx.next(msg))
+            tap(msg => this._inputRx.next(msg)),
         ).subscribe({
             next: (message) => {},
             error: (error) => {
-                alert('error');
                 this.state = WebsocketState.ERROR;
-
+                throw error;
             }
         });
         this.state = WebsocketState.CONNECTED;
