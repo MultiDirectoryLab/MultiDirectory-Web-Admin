@@ -71,8 +71,8 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         this.wssHandle.inputRx.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
             if(x.status == 'connected') {
                 this.wssHandle?.send({
-                    'username': 'adminlogin',
-                    'password': '123123'
+                    'username': this.login,
+                    'password': this.password
                 });
             } else if(x.status == 'pending') {
                 windowHandle = window.open(x.message, 'Auth', "height=630,width=630");
