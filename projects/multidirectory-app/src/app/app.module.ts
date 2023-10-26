@@ -39,6 +39,7 @@ import { CatalogSelectorModule } from './components/forms/catalog-selector/catal
 import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { environment } from '../environments/environment';
+import { translate } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [
@@ -76,8 +77,8 @@ import { environment } from '../environments/environment';
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right'}),
     HotkeyModule.forRoot({
       cheatSheetCloseEsc: true,
-      cheatSheetCloseEscDescription: 'Скрыть меню помощи',
-      cheatSheetDescription: 'Показать/скрыть меню помощи'
+      cheatSheetCloseEscDescription: ("hotkeys.hide-help"),
+      cheatSheetDescription:("hotkeys.toggle-help")
     }),
     AuthorizationModule,
     ValidatorsModule,

@@ -1,4 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { translate } from "@ngneat/transloco";
+import { ToastrService } from "ngx-toastr";
+import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 
 @Component({
     selector: 'app-mf-user-integration',
@@ -6,5 +9,16 @@ import { Component } from "@angular/core";
     styleUrls: ['./mf-user-integration.component.scss']
 })
 export class MfUserIntegrationComponent {
+    @Input() apiKey: string = '';
+    @Input() apiSecret: string = '';
 
+    constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
+
+    apply() {
+        this.api.setupMultifactor(this.apiKey, this.apiSecret, true).subscribe(result => {
+            if(result) {
+                this.toastr.success(translate('mf-user-integration.integration-success'));
+            }
+        })
+    }
 }

@@ -7,11 +7,17 @@
     "multifactor-settings": {
       "mf-user-integration": {
         "header": "Multifactor Users integrations",
-        "apply": "Apply"
+        "apply": "Apply",
+        "integration-success": "Integration Enabled",
+        "integration-failed": "Error has occured",
+        "integration-disabled": "Integration disabled"
       },
       "mf-admin-integration": {
         "header": "Multifactor Admin integrations",
-        "apply": "Apply"
+        "apply": "Apply",
+        "integration-success": "Integration Enabled",
+        "integration-failed": "Error has occured",
+        "integration-disabled": "Integration disabled"
       }
     },
     "catalog-selector": {
@@ -351,5 +357,16 @@
       "modal-header": "Properties",
       "close": "Close",
       "approve": "Apply"
+    },
+    "hotkeys": {
+      "toggle-help": "Toggle the help menu",
+      "toggle-navbar": "Toggle the navigation panel",
+      "toggle-small-icon-view": "View mode - small icons",
+      "toggle-big-icon-view": "View mode - big icons",
+      "toggle-list-view": "View mode - list",
+      "toggle-detail-view": "View mode - detail",
+      "toggle-search-menu": "Show the search panel",
+      "hide-help": "Hide the help menu"
     }
+    
   }

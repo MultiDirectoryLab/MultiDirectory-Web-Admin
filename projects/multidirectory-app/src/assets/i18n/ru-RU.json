@@ -7,11 +7,17 @@
     "multifactor-settings": {
         "mf-user-integration": {
           "header": "Подключение к Мультфактору для пользователей",
-          "apply": "Применить"
+          "apply": "Применить",
+          "integration-success": "Интеграция включена",
+          "integration-failed": "Произошла ошибка",
+          "integration-disabled": "Интеграция выключена"
         },
         "mf-admin-integration": {
           "header": "Подключение к Мультфактору для администратором",
-          "apply": "Применить"
+          "apply": "Применить",
+          "integration-success": "Интеграция включена",
+          "integration-failed": "Произошла ошибка",
+          "integration-disabled": "Интеграция выключена"
         }
     },
     "group-create": {
@@ -350,5 +356,14 @@
         "modal-header": "Свойства",
         "close": "Закрыть",
         "approve": "Применить"
+    },
+    "hotkeys": {
+      "toggle-help": "Показать/скрыть меню помощи",
+      "toggle-navbar": "Показать/скрыть навигационную панель",
+      "toggle-small-icon-view": "Режим отображения - маленькие иконки",
+      "toggle-big-icon-view": "Режим отображения - большие иконки",
+      "toggle-list-view": "Режим отображения - список",
+      "toggle-detail-view": "Режим отображения - детали",
+      "toggle-search-menu": "Показать меню поиска"
     }
 }

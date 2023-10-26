@@ -21,6 +21,8 @@ import { PolicyDeleteRequest } from "../models/policy/policy-delete-request";
 import { PolicyPutRequest } from "../models/policy/policy-put-request";
 import { SwapPolicyRequest } from "../models/policy/policy-swap-request";
 import { SwapPolicyResponse } from "../models/policy/policy-swap-response";
+import { SetupMultifactorRequest } from "../models/multifactor/setup-multifactor-request";
+import { GetMultifactorResponse } from "../models/multifactor/get-multifactor-response";
 
 @Injectable({
     providedIn: 'root'
@@ -116,5 +118,18 @@ export class MultidirectoryApiService {
             second_policy_id: currentPolicyId
         });
         return this.httpClient.post<SwapPolicyResponse>(`policy/swap`, request).execute();
+    }
+
+    setupMultifactor(apiKey: string, apiSecret: string, isLdapScope: boolean) {
+        const request = new SetupMultifactorRequest({
+            mfa_key: apiKey,
+            mfa_secret: apiSecret,
+            is_ldap_scope: isLdapScope
+        });
+        return this.httpClient.post<boolean>('multifactor/setup', request).execute();
+    }
+
+    getMultifactor(): Observable<GetMultifactorResponse> {
+        return this.httpClient.post<GetMultifactorResponse>('multifactor/get').execute();
     }
 }

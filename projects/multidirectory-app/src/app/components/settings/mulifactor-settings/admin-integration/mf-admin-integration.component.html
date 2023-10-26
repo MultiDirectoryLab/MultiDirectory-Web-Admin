@@ -7,15 +7,15 @@
         </div>
         <div class="mf-control-grid">
             <label class="flex-gap-10" for="api-key">API Key</label>
-            <md-textbox name="api-key" class="col-xs-4"></md-textbox>
+            <md-textbox [(ngModel)]="apiKey" name="api-key" class="col-xs-4"></md-textbox>
 
             <label class="flex-gap-10"  for="api-secret">API Secret</label>
-            <md-textbox [password]="true" name="api-secret" class="col-xs-4"></md-textbox>
+            <md-textbox [(ngModel)]="apiSecret" [password]="true" name="api-secret" class="col-xs-4"></md-textbox>
         </div>
 
 
         <div class="flex-row flex-end">
-            <md-button [primary]="true">{{ t('apply') }}</md-button>
+            <md-button (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
         </div>
     </md-form>
 </div>
