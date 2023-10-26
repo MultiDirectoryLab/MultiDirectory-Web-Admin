@@ -31,7 +31,7 @@
         </div>
     </div>
     
-    <hotkeys-cheatsheet title="{{ t('home.hotkeys')}}" #helpcheatSheet (keydown)="closeCheatsheet()"></hotkeys-cheatsheet> 
+    <hotkeys-cheatsheet title="{{ t('hotkeys')}}" #helpcheatSheet (keydown)="closeCheatsheet()"></hotkeys-cheatsheet> 
 
     <ng-template modalInject #properties="modalInject">
         <app-properties #properties [selectedEntity]="properitesEntity"></app-properties>

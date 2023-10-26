@@ -8,7 +8,8 @@ import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
-import { LdapWindowsService } from "../../../services/ldap-browser.service";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-header',
@@ -49,31 +50,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.hotkeysService.add(new Hotkey('ctrl+h', (event: KeyboardEvent): boolean => {
             this.onChange(!this.navigationalPanelInvisible);
             return false; // Prevent bubbling
-        }, undefined, 'Показать/скрыть навигационную панель'));
+        }, undefined, translate('hotkeys.toggle-navbar')));
         this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
             this.navigation.setCatalog(null);
             return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - маленькие иконки'));
+        }, undefined, translate('hotkeys.toggle-small-icon-view')));
         this.hotkeysService.add(new Hotkey('f1', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.SmallIcons;
             return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - маленькие иконки'));
+        }, undefined, translate('hotkeys.toggle-small-icon-view')));
         this.hotkeysService.add(new Hotkey('f2', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.BigIcons;
             return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - большие иконки'));
+        }, undefined, translate('hotkeys.toggle-big-icon-view')));
         this.hotkeysService.add(new Hotkey('f3', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.Table;
             return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - список'));
+        }, undefined, translate('hotkeys.toggle-list-view')));
         this.hotkeysService.add(new Hotkey('f4', (event: KeyboardEvent): boolean => {
             this.contentView = ViewMode.Details;
             return false; // Prevent bubbling
-        }, undefined, 'Режим отображения - Детали')); 
+        }, undefined, translate('hotkeys.toggle-detail-view'))); 
         this.hotkeysService.add(new Hotkey('ctrl+f', (event: KeyboardEvent): boolean => {
             this.searchBtn?.nativeElement.click();
             return false;
-        }, undefined, 'Показать меню поиска'))
+        }, undefined, translate('hotkeys.toggle-search-menu')));
     }
     ngOnInit(): void {
         this.navigation.ldapRootRx.subscribe(x => {

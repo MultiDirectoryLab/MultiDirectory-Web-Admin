@@ -6,7 +6,7 @@ import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../../models/entry/delete-request";
 import { ContentViewService } from "../../../services/content-view.service";
-import { LdapWindowsService } from "../../../services/ldap-browser.service";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { ViewMode } from "./view-modes";

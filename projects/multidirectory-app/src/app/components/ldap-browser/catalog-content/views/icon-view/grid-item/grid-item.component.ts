@@ -14,7 +14,7 @@ export class GridItemComponent {
   @Input() big = false;
   @Input() item!: LdapEntity;
   @Output() clickOnItem = new EventEmitter<MouseEvent>;
-  @Output() doubleClickOnItem = new EventEmitter<MouseEvent>;
+  @Output() doubleClickOnItem = new EventEmitter<Event>;
   @Output() rightClick = new EventEmitter<ContextMenuEvent>;
 
   @ViewChild(CdkDrag) drag!: CdkDrag;
@@ -31,7 +31,7 @@ export class GridItemComponent {
     $event.stopPropagation();
     this.clickOnItem.next($event);
   }
-  onDblClick($event: MouseEvent) {
+  onDblClick($event: Event) {
     $event.preventDefault();
     this.item.selected = false;
     this.doubleClickOnItem.next($event);

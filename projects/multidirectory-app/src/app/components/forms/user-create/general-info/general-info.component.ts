@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
 import { AbstractControl } from "@angular/forms";
-import { MdFormComponent } from "multidirectory-ui-kit";
+import { DropdownOption, MdFormComponent } from "multidirectory-ui-kit";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
+import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
 @Component({
     selector: 'app-user-create-general-info', 
@@ -26,12 +27,19 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     @ViewChildren(AbstractControl) controls!: QueryList<AbstractControl>;
 
     unsubscribe = new Subject<void>();
-    constructor(public setup: UserCreateService) {}
+    domains: DropdownOption[] = []
+    constructor(public setup: UserCreateService, private navigation: LdapNavigationService) {}
     ngAfterViewInit(): void {
         this.setup.stepValid(this.form.valid)
         this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
             this.setup.stepValid(this.form.valid);
         })
+
+        this.domains = this.navigation.getRootDse().map(x => new DropdownOption({
+            title: x.node?.name,
+            value: x.dn
+        }));
+        this.setupRequest.upnDomain = this.domains?.[0]?.value;
     }
 
     ngOnDestroy(): void {

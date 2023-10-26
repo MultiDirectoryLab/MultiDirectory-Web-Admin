@@ -2,7 +2,15 @@
     {{ 'member-of.groups' | transloco }}
 </div>
 <div class="flex-row w-100" style="min-height: 250px;">
-    <md-datagrid class="w-100" [columns]="columns" [rows]="groups" [stretchHeight]="true" #groupList>
+    <md-datagrid 
+        pagerTitle="{{ 'grid.pager-title' | transloco}}"
+        fromTitle="{{ 'grid.from-title' | transloco}}"
+        emptyMessage="{{ 'grid.no-data' | transloco }}"
+        class="w-100"
+        [columns]="columns"
+        [rows]="groups"
+        [stretchHeight]="true" 
+        #groupList>
     </md-datagrid>
 </div>
 <div class="flex-row button-row">

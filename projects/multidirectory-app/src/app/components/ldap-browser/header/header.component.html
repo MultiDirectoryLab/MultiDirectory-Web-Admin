@@ -75,7 +75,7 @@
     </md-dropdown-menu> 
 
     <md-dropdown-menu #loginMenu>
-        <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">{{"header.account-settings"}}</div>
+        <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">{{t("header.account-settings")}}</div>
         <div class="dropdown-item" (click)="onLogout()">{{t("header.logout")}}</div>
     </md-dropdown-menu>
 </ng-container>

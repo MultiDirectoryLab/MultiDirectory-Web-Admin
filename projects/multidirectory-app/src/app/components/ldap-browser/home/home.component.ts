@@ -10,7 +10,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 import { SearchQueries } from "../../../core/ldap/search";
-import { LdapWindowsService } from "../../../services/ldap-browser.service";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
 import { LdapLoader } from "../../../core/ldap/ldap-loader";
 import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
