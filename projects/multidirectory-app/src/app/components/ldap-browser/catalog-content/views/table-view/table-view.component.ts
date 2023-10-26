@@ -8,6 +8,7 @@ import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { translate } from "@ngneat/transloco";
+import { LdapWindowsService } from "projects/multidirectory-app/src/app/services/ldap-browser.service";
 
 @Component({
     selector: 'app-table-view',
@@ -27,6 +28,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
 
     constructor(
         private navigation: LdapNavigationService,
+        private windows: LdapWindowsService,
         private cdr: ChangeDetectorRef
     ) {
         super();
@@ -90,6 +92,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
             const page = new Page(this.page);
             page.pageNumber = 1;
             this.navigation.setCatalog(entry, page);
+        } else if(entry && !entry.expandable) {
+            this.windows.openEntityProperiesModal(entry);
         }
         this.cdr.detectChanges();
     }
