@@ -52,6 +52,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                     this.use2FA();
                     return EMPTY
                 }
+                this.modal.hideSpinner();
                 this.toastr.error('Неверный логин или пароль');
                 return EMPTY;
             }))
