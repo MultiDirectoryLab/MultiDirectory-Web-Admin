@@ -13,4 +13,15 @@ export class LdapWindowsService {
     openEntityProperiesModal(entity: LdapEntity) {
         this._openEntityPropertiesModalRx.next(entity);
     }
+
+    private _toggleGloablSpinnerRx = new Subject<boolean>();
+    get globalSpinnerRx(): Observable<boolean> {
+        return this._toggleGloablSpinnerRx.asObservable();
+    }
+    hideSpinner() {
+        this._toggleGloablSpinnerRx.next(false);
+    }
+    showSpinner() {
+        this._toggleGloablSpinnerRx.next(true);
+    }
 }

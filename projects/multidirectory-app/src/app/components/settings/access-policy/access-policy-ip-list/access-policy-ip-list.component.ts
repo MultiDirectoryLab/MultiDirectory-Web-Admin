@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { MdModalComponent, ModalInjectDirective, Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { IpOption, IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
@@ -54,7 +54,7 @@ export class AccessPolicyIpListComponent implements OnInit {
     @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
     _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
 
-    constructor(private cdr: ChangeDetectorRef, private toastr: ToastrService, private modalControl: ModalInjectDirective) {}
+    constructor(private cdr: ChangeDetectorRef, private toastr: ToastrService, @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
     ngOnInit(): void {
         if(this.modalControl.contentOptions) {
             this._ipAddresses = this.modalControl.contentOptions.ipAddresses.map(

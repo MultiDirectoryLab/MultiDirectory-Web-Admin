@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, Input } from "@angular/core";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { Subject } from "rxjs";
@@ -12,7 +12,7 @@ export class GroupPropertiesComponent {
     unsubscribe = new Subject<boolean>();
     @Input() accessor!: LdapAttributes;
     constructor(
-        private modalControl: ModalInjectDirective,
+        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private cdr: ChangeDetectorRef) {}
     
     onTabChanged() {

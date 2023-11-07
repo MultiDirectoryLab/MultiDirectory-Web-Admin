@@ -37,7 +37,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
 
         this.domains = this.navigation.getRootDse().map(x => new DropdownOption({
             title: x.node?.name,
-            value: x.dn
+            value: x.node?.name
         }));
         this.setupRequest.upnDomain = this.domains?.[0]?.value;
     }

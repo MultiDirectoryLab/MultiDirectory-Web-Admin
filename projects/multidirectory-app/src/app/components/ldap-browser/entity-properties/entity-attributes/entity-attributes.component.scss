@@ -1,0 +1,16 @@
+.entity-attributes-container {
+    padding: 0.5rem 0;
+    height: 100%;
+}
+
+.filter {
+    padding: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.filter:not(:first) {
+    padding-top: 0;
+}
+.filter-label {
+    padding: 0;
+    padding-left: 6px;
+}

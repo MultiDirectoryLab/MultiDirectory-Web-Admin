@@ -25,7 +25,7 @@
     "@swimlane/ngx-datatable": "^20.1.0",
     "angular2-hotkeys": "^15.0.0",
     "bitset": "^5.1.1",
-    "ng-modal-full-resizable": "0.0.27",
+    "ng-modal-full-resizable": "0.0.29",
     "ng2-date-picker": "^16.0.0",
     "ngx-drag-drop": "^16.0.0",
     "ngx-spinner": "^16.0.0",

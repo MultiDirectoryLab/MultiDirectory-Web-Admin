@@ -36,8 +36,8 @@
             {{ "user-create.back" | transloco}}
         </md-button>
         <md-button [disabled]="!formValid" (click)="createUserStepper.next()" [primary]="true">
-            {{createUserStepper.steps != null && (createUserStepper.currentIndex + 1 == createUserStepper.steps.length)  ? 
-                'user-create.finish' : 'user-create.next' | transloco }}
+            {{(createUserStepper.steps != null && (createUserStepper.currentIndex + 1 == createUserStepper.steps.length)  ? 
+                'user-create.finish' : 'user-create.next') | transloco }}
         </md-button>
     </div>
 </div>

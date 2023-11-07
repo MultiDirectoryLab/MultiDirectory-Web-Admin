@@ -11,6 +11,8 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
+import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
+import { ChangePasswordComponent } from "../editors/change-password/change-password.component";
  
 @Component({
     selector: 'app-catalog-content',
@@ -23,6 +25,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
     @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
+    @ViewChild('changePasswordModal', { static: true }) changePasswordModal?: ModalInjectDirective
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;
@@ -105,6 +108,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         })
     }
 
+    LdapEntityType = LdapEntityType;
+    isSelectedRowsOfType(selectedRowsType: LdapEntityType) {
+        return this.selectedRows.every(x => x.type == selectedRowsType);
+    }
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
@@ -159,6 +166,14 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             return;
         }
         this.ldapWindows.openEntityProperiesModal(this.navigation.selectedEntity[0]);
+    }
+
+    showChangePassword() {
+        this.changePasswordModal?.open(undefined, { 
+            identity: this.selectedRows?.[0]?.id, 
+            un: this.selectedRows?.[0]?.name 
+        }).pipe(take(1)).subscribe(x => {
+        });
     }
 
     loadData() {

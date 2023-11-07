@@ -9,7 +9,8 @@ import { Subject, tap } from "rxjs";
 
 @Component({
     selector: 'app-entity-attributes',
-    templateUrl: './entity-attributes.component.html'
+    templateUrl: './entity-attributes.component.html',
+    styleUrls: ['./entity-attributes.component.scss']
 })
 export class EntityAttributesComponent implements AfterViewInit {
     @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
@@ -25,7 +26,7 @@ export class EntityAttributesComponent implements AfterViewInit {
         private api: MultidirectoryApiService,
         private navigation: LdapNavigationService,
         private cdr: ChangeDetectorRef,
-        private modalControl: ModalInjectDirective) {}
+        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
 
     ngAfterViewInit(): void {
         this.loadData().subscribe(() => {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, switchMap, take, zip } from "rxjs";
 import { AccessPolicy } from "../../../core/access-policy/access-policy";
@@ -6,13 +6,14 @@ import { MultidirectoryApiService } from "../../../services/multidirectory-api.s
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { CdkDragDrop, CdkDragEnd } from "@angular/cdk/drag-drop";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
 
 @Component({
     selector: 'app-access-policy-settings',
     templateUrl: './access-policy-settings.component.html',
     styleUrls: ['./access-policy-settings.component.scss']
 }) 
-export class AccessPolicySettingsComponent {
+export class AccessPolicySettingsComponent implements OnInit {
     @ViewChild('createModal', { static: true }) accessClientCreateModal!: ModalInjectDirective;
 
     properties: any[] = [];
@@ -29,12 +30,16 @@ export class AccessPolicySettingsComponent {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private api: MultidirectoryApiService,
+        private windows: LdapWindowsService,
         private navigation: LdapNavigationService) {
+        this.navigation.init();
+    }
+    ngOnInit(): void {
+        this.windows.showSpinner();
         this.api.getPolicy().subscribe(x => {
             this.clients = x;
-            console.log(this.clients);
+            this.windows.hideSpinner();
         });
-        this.navigation.init();
     }
 
     onDeleteClick(client: AccessPolicy) {
