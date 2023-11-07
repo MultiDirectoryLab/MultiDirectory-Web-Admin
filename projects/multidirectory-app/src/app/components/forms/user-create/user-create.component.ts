@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { MdModalComponent, ModalInjectDirective, ModalService, StepperComponent } from "multidirectory-ui-kit";
 import { UserCreateRequest } from "../../../models/user-create/user-create.request";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
@@ -26,7 +26,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     private setup: UserCreateService, 
     private navigation: LdapNavigationService,
     private api: MultidirectoryApiService,
-    private modalControl: ModalInjectDirective,
+    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
     private toastr: ToastrService) {}
     
     ngAfterViewInit(): void {

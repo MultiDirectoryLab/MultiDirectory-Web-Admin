@@ -48,7 +48,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         this.modal.showSpinner();
         this.api.login(this.login, this.password)
             .pipe(catchError((err, caught) => {
-                this.modal.hideSpinner();
                 if(err.status == 426) {
                     this.use2FA();
                     return EMPTY
@@ -78,6 +77,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                 windowHandle = window.open(x.message, 'Auth', "height=630,width=630");
             } else if(x.status == 'success') {
                 windowHandle?.close();
+                this.modal.hideSpinner();
                 this.authComplete.next(true);
                 localStorage.setItem('access_token', x.message);
                 localStorage.setItem('refresh_token', x.message);

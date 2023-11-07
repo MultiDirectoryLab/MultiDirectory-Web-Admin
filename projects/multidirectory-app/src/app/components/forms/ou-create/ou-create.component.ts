@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
@@ -31,7 +31,7 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     constructor(
         private navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
-        private modalInejctor: ModalInjectDirective) {
+        @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective) {
         }
 
     

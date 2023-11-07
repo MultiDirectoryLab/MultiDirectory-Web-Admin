@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, Input, OnInit, ViewChild } from "@angular/core";
 import { MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
@@ -24,7 +24,7 @@ export class EntityPropertiesComponent implements OnInit {
         public navigation: LdapNavigationService, 
         public toastr: ToastrService, 
         private cdr: ChangeDetectorRef,
-        private modalControl: ModalInjectDirective,
+        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private attributes: AttributeService) {
     }
     ngOnInit(): void {

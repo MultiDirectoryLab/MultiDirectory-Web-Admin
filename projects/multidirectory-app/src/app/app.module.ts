@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { HotkeyModule } from 'angular2-hotkeys';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +39,8 @@ import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { environment } from '../environments/environment';
 import { translate } from '@ngneat/transloco';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { EditorsModule } from './components/ldap-browser/editors/editors.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,6 @@ import { translate } from '@ngneat/transloco';
     DomainSettingsComponent,
     AdminSettingsSecondComponent,
     OuCreateComponent,
-
     GroupCreateComponent,
     SearchPanelComponent,
     SearchUsersComponent,
@@ -87,6 +87,7 @@ import { translate } from '@ngneat/transloco';
     GroupSelectorModule,
     CatalogSelectorModule,
     TranslocoRootModule,
+    EditorsModule
   ],
   providers: [
     provideAnimations(),

@@ -3,6 +3,7 @@ import { ModalComponent } from "ng-modal-full-resizable";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
 import { ModalService } from "./modal.service";
+import { IdProvider } from "../../utils/id-provider";
 
 @Component({
     selector: 'md-modal',
@@ -16,6 +17,8 @@ import { ModalService } from "./modal.service";
     }]
 })
 export class MdModalComponent implements AfterViewInit, OnDestroy {
+    __ID = IdProvider.getUniqueId('modal');
+
     @ViewChild('modalRoot', { static: false }) modalRoot?: ModalComponent;
     @ViewChild(SpinnerHostDirective, { static: false }) spinnerHost?: SpinnerHostDirective;
     @Input() opened = false;

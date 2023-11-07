@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnDestroy, ViewChild } from "@angular/core";
 import { MdFormComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
@@ -36,7 +36,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         private api: MultidirectoryApiService,
         private toastr: ToastrService,
         private navigation: LdapNavigationService,
-        private modalControl: ModalInjectDirective) {}
+        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
     
     ngAfterViewInit(): void {
         this._form?.onValidChanges.pipe(

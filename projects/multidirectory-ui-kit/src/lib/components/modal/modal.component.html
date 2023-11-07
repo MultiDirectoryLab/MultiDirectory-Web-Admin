@@ -3,23 +3,24 @@
   class="ng-modal"
   [minHeight]="minHeight"
   [backdrop]="backdrop"
-  spinnerHost 
+  [spinnerHost]
+  [spinnerName]="__ID"
   [ngStyle]="
     { 'z-index': this.zIndex }
   "
   (closeModal)="onModalClose()"
   (openModal)="onModalOpen()">
-  <ng-container class="app-modal-header">
+  <ng-template #appModalHeader class="app-modal-header">
     <div class="header-wrapper">
       <ng-content select=".app-modal-header"></ng-content>
     </div> 
-  </ng-container>
+  </ng-template>
 
-  <ng-container class="app-modal-body">
+  <ng-template #appModalBody class="app-modal-body">
     <ng-content></ng-content>
-  </ng-container>
+  </ng-template>
 
-  <ng-container class="app-modal-footer">
+  <ng-template #appModalFooter class="app-modal-footer">
     <ng-content select=".app-modal-footer"></ng-content>
-  </ng-container>
+  </ng-template>
 </app-modal>

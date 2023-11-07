@@ -142,7 +142,8 @@
         "approve-delete": "Вы действительно хотите удалить объект?",
         "cancel": "Отмена",
         "delete": "Удалить",
-        "more": "Подробнее"
+        "more": "Подробнее",
+        "change-password": "Изменить пароль..."
     },
     "attributes-list": {
         "value": "Значение",
@@ -365,5 +366,12 @@
       "toggle-list-view": "Режим отображения - список",
       "toggle-detail-view": "Режим отображения - детали",
       "toggle-search-menu": "Показать меню поиска"
+    },
+    "change-password": {
+      "header": "Изменение пароля для ",
+      "password-label": "Пароль",
+      "password-repeat-label": "Повторите Пароль",
+      "cancel": "Отмена",
+      "finish": "Применить"
     }
 }

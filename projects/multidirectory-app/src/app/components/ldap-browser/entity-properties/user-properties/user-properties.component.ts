@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy } from "@angular/core";
+import { ChangeDetectorRef, Component, Inject, Input, OnDestroy } from "@angular/core";
 import { ModalInjectDirective, ModalService } from "multidirectory-ui-kit";
 import { Subject } from "rxjs";
 import { LdapAttributes } from "../../../../core/ldap/ldap-entity-proxy";
@@ -18,7 +18,7 @@ export class UserPropertiesComponent implements  OnDestroy {
     ];    
     
     constructor(
-        private modalControl: ModalInjectDirective,
+        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private cdr: ChangeDetectorRef) {}
     
     ngOnDestroy() {

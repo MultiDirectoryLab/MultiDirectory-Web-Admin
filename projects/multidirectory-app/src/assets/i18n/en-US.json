@@ -144,7 +144,8 @@
       "approve-delete": "Are you sure you want to delete the object?",
       "cancel": "Cancel",
       "delete": "Delete",
-      "more": "More details"
+      "more": "More details",
+      "change-password": "Change Password..."
     },
     "attributes-list": {
       "value": "Value",
@@ -367,6 +368,12 @@
       "toggle-detail-view": "View mode - detail",
       "toggle-search-menu": "Show the search panel",
       "hide-help": "Hide the help menu"
+    },
+    "change-password": {
+      "header": "Change password for ",
+      "password-label": "Password",
+      "password-repeat-label": "Repeat Password",
+      "cancel": "Cancel",
+      "finish": "Finish"
     }
-    
-  }
+}

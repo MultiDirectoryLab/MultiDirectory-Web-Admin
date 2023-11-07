@@ -1,16 +1,24 @@
-import { Component, EventEmitter, OnInit, Query, ViewChild } from "@angular/core";
-import { Observable, take } from "rxjs";
-import { MdModalComponent, MdFormComponent, DropdownOption, MultiselectComponent, ModalInjectDirective } from "multidirectory-ui-kit";
-import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
-import { AttributeListComponent } from "../../../ldap-browser/editors/attributes-list/attributes-list.component";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import { DropdownOption, MdFormComponent, ModalInjectDirective, MultiselectComponent } from "multidirectory-ui-kit";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
-import { GroupSelectorComponent } from "../../../forms/group-selector/group-selector.component";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
-import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
-import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model";
+import { IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
+import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
-import { IpOption, IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
-import { AccessPolicyIpListComponent } from "../access-policy-ip-list/access-policy-ip-list.component";
+import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
+import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { take } from "rxjs";
+
+export class MultiselectModel {
+    id: string = '';
+    title: string = '';
+    badge_title?: string;
+    selected = false;
+    key = '';
+
+    constructor(obj: Partial<MultiselectModel>) {
+        Object.assign(this, obj);
+    }
+}
 
 @Component({
     selector: 'app-access-policy-create',
@@ -31,7 +39,7 @@ export class AccessPolicyCreateComponent implements OnInit {
     ];
     groupQuery = '';
     availableGroups: MultiselectModel[] = [];
-    constructor(private api: MultidirectoryApiService, private modalControl: ModalInjectDirective) {}
+    constructor(private api: MultidirectoryApiService, @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
     ngOnInit(): void {
     
         this.accessClient = this.modalControl.contentOptions!.accessPolicy;

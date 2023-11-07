@@ -22,11 +22,15 @@ export default meta;
 type Story = StoryObj<DatagridComponent>;
 export const Primary: Story = {
     args: {
+        columns: [{name: "column"}]
+    },
+    parameters: {
+        mycol: [ { name: "mycol" }]
     },
     render: () => ({
         template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid></md-datagrid>
+                <md-datagrid [stretchHeight]="true" [columns]="mycol"></md-datagrid>
             </div>
         `,
     })

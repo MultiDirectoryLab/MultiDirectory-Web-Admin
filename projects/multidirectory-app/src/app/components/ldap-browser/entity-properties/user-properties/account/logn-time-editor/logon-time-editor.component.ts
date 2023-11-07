@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, ElementRef, Input, OnDestroy, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, ElementRef, Inject, Input, OnDestroy, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import BitSet from "bitset";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
@@ -52,7 +52,7 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
     private _selectionAllowance: number | null = null;
     private _unsubscribe = new Subject<void>();
 
-    constructor(private cdr: ChangeDetectorRef, private modalControl: ModalInjectDirective) {
+    constructor(private cdr: ChangeDetectorRef, @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {
     }
 
     ngAfterViewInit(): void {

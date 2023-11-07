@@ -23,6 +23,7 @@ import { SwapPolicyRequest } from "../models/policy/policy-swap-request";
 import { SwapPolicyResponse } from "../models/policy/policy-swap-response";
 import { SetupMultifactorRequest } from "../models/multifactor/setup-multifactor-request";
 import { GetMultifactorResponse } from "../models/multifactor/get-multifactor-response";
+import { ChangePasswordRequest } from "../models/user/change-password-request";
 
 @Injectable({
     providedIn: 'root'
@@ -131,5 +132,8 @@ export class MultidirectoryApiService {
 
     getMultifactor(): Observable<GetMultifactorResponse> {
         return this.httpClient.post<GetMultifactorResponse>('multifactor/get').execute();
+    }
+    changePassword(request: ChangePasswordRequest): Observable<boolean> {
+        return this.httpClient.patch<boolean>('auth/user/password', request).execute();
     }
 }

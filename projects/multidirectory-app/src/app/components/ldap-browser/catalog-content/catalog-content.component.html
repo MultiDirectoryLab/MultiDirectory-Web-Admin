@@ -102,6 +102,9 @@
 <ng-template modalInject #createGroupModal="modalInject">
     <app-group-create></app-group-create>
 </ng-template>
+<ng-template modalInject #changePasswordModal="modalInject">
+    <app-change-password></app-change-password>
+</ng-template>
 
 <md-modal #createObjectModal>
     TODO
@@ -129,6 +132,9 @@
 <md-dropdown-menu #contextMenu>
     <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">
         {{ "catalog-content.more" | transloco }}
+    </div>
+    <div class="dropdown-item" *ngIf="isSelectedRowsOfType(LdapEntityType.User)" (click)="contextMenu.close(); showChangePassword()">
+        {{ "catalog-content.change-password" | transloco }}
     </div>
     <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">
         {{ "catalog-content.delete" | transloco }}

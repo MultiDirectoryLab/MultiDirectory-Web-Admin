@@ -1,9 +1,61 @@
-<md-datagrid  #propGrid
-    [rows]="properties"
-    [columns]="propColumns"
-    [stretchHeight]="true"
-    pagerTitle="{{ 'grid.pager-title' | transloco}}"
-    fromTitle="{{ 'grid.from-title' | transloco}}"
-    emptyMessage="{{ 'grid.no-data' | transloco }}"
->
-</md-datagrid>
+<div class="entity-attributes-container">
+    <div>
+        <label>Attributes</label>
+    </div>
+    <md-datagrid  #propGrid
+        [rows]="properties"
+        [columns]="propColumns"
+        [stretchHeight]="true"
+        pagerTitle="{{ 'grid.pager-title' | transloco}}"
+        fromTitle="{{ 'grid.from-title' | transloco}}"
+        emptyMessage="{{ 'grid.no-data' | transloco }}"
+    >
+    </md-datagrid>
+
+    <div class="flex-row flex-space-between pt-8">
+        <md-button>Edit</md-button>
+        <md-button [mdDropdownContainer]="filterMenu" class="">Filter</md-button>
+    </div>
+</div>
+
+<md-dropdown-menu #filterMenu>
+    <div class="dropdown-item">
+        <md-checkbox name="show-with-values-only" id="show-with-values-only">
+            Show only the attributes that have values
+        </md-checkbox>
+    </div>
+    <div class="dropdown-item">
+        <md-checkbox name="show-writable-only" id="show-writable-only">
+            Show writable attributes only
+        </md-checkbox>
+    </div>
+
+    <label class="filter-label">Show attributes</label>
+    <div class="dropdown-item">
+        <md-checkbox name="mandatory-only" id="mandatory-only">
+            Mandatory
+        </md-checkbox>
+    </div>
+    <div class="dropdown-item">
+        <md-checkbox name="optional-only" id="optional-only">
+            Optional
+        </md-checkbox>
+    </div>
+
+    <label class="filter-label">Show read-only attributes</label>
+    <div class="dropdown-item">
+        <md-checkbox name="constructed-onl" id="mandatory-only">
+            Constructed
+        </md-checkbox>
+    </div>
+    <div class="dropdown-item">
+        <md-checkbox name="optional-only" id="optional-only">
+            Backlinks
+        </md-checkbox>
+    </div>
+    <div class="dropdown-item">
+        <md-checkbox name="optional-only" id="optional-only">
+            System-only
+        </md-checkbox>
+    </div>
+</md-dropdown-menu>
