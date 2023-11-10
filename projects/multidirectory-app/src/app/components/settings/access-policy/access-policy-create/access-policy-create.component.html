@@ -56,6 +56,24 @@
             </div>
         </div>
 
+        <div class="row pv-8" *ngIf="mfaAccess == MfaAccessEnum.SelectedGroups">
+            <div class="col-xs-4">{{ 'access-policy-create.mfa-groups' | transloco }}</div>
+            <div class="col-xs-6">
+                <md-multiselect 
+                    [suppressMenu]="true"
+                    [options]="availableMfaGroups"
+                    [(ngModel)]="mfaGroupsQuery"
+                    (onEnter)="checkMfaGroups()"
+                    notFoundText="{{ 'access-policy-create.group-not-found' | transloco}}"
+                    #mfaGroupSelector></md-multiselect>
+            </div>
+            <div class="col-xs-2">
+                <md-plane-button [hasBorder]="true" (click)="checkMfaGroups()">
+                    {{ "access-policy-create.check-groups" | transloco }}
+                </md-plane-button>
+            </div>
+        </div>
+
     </div>
 </md-form>
 <div class="app-modal-footer flex-row justify-end flex-gap-10">

@@ -6,6 +6,9 @@ import { ValidatorsModule } from "../../forms/validators/validators.module";
 import { TranslocoModule } from "@ngneat/transloco";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
+import { PropertyEditorComponent } from "./property-editors/property-editor.component";
+import { StringPropertyEditorComponent } from "./property-editors/typed-editors/string/string-property-editor.component";
+import { IntegerPropertyEditorComponent } from "./property-editors/typed-editors/integer/integer-property-editor.component";
 
 @NgModule({
     imports: [
@@ -15,7 +18,17 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
         TranslocoModule,
         MultidirectoryUiKitModule
     ],
-    declarations: [ AttributeListComponent, ChangePasswordComponent ],
-    exports: [AttributeListComponent, ChangePasswordComponent]
+    declarations: [ 
+        AttributeListComponent,
+        ChangePasswordComponent,
+        PropertyEditorComponent,
+        StringPropertyEditorComponent,
+        IntegerPropertyEditorComponent
+    ],
+    exports: [
+        AttributeListComponent,
+        ChangePasswordComponent,
+        PropertyEditorComponent
+    ]
 })
 export class EditorsModule {}

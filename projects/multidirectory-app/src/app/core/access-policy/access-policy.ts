@@ -7,6 +7,9 @@ export class AccessPolicy {
     enabled: boolean = false;
     groups: string[] = [];
     priority?: number;
+    mfaStatus?: number;
+    mfaGroups: string[] = [];
+    
     constructor(obj: Partial<AccessPolicy> = {}) {
         Object.assign(this, obj);
         this.id = undefined;

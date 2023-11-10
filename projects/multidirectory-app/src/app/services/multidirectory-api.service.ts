@@ -89,7 +89,9 @@ export class MultidirectoryApiService {
                     enabled: policy.enabled,
                     groups: policy.groups,
                     ipRange: policy.netmasks,
-                    priority: policy.priority
+                    priority: policy.priority,
+                    mfaStatus: policy.mfa_status,
+                    mfaGroups: policy.mfa_groups
                 });
                 accessPolicy.id = policy.id;
                 return accessPolicy;

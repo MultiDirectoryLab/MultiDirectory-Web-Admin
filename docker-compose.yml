@@ -6,7 +6,7 @@ services:
     build: .
     restart: 'no'
     environment:
-      - API_URL=http://api.localhost
+      - API_URL=http://md.localhost
     ports:
       - 9080:80
     labels:

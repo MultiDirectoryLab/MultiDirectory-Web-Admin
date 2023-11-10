@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { ErrorHandler, Inject, Injectable, Injector } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
@@ -16,6 +15,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error: any) {
         console.error(error);
-        this.toastr.error(error?.statusText ?? error?.message ?? error, error, { onActivateTick: true });
+        this.toastr.error(error?.statusText ?? error?.message ?? "Неизвестная ошибка", "Неизвестная ошибка", { onActivateTick: true });
     }
 }

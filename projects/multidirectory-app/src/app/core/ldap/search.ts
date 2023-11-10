@@ -126,5 +126,20 @@ export const SearchQueries = {
           "*"
         ]
       });
+    },
+
+    getSchema(): SearchRequest {
+      return new SearchRequest({
+          "base_object": "CN=Schema",
+          "scope": 0,
+          "deref_aliases": 0,
+          "size_limit": 0,
+          "time_limit": 0,
+          "types_only": false,
+          "filter": "(objectClass=*)",
+          "attributes": [
+            "*"
+          ]
+        });
     }
 };

@@ -1,4 +1,4 @@
 (function(window) {
     window["env"] = window["env"] || {};
-    window["env"]["multidirectoryApiUrl"] = "http://api.localhost/api";
+    window["env"]["multidirectoryApiUrl"] = "http://md.localhost/api";
 })(this);

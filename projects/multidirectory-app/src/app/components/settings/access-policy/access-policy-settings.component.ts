@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, switchMap, take, zip } from "rxjs";
+import { EMPTY, catchError, switchMap, take, zip } from "rxjs";
 import { AccessPolicy } from "../../../core/access-policy/access-policy";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
@@ -88,7 +88,7 @@ export class AccessPolicySettingsComponent implements OnInit {
             return;
         }
         this.accessClientCreateModal.open(
-            undefined,
+            { 'minHeight': 435 },
             { 'accessPolicy': new AccessPolicy(toEdit).setId(toEdit.id) }
         ).pipe(
             take(1),
@@ -109,7 +109,7 @@ export class AccessPolicySettingsComponent implements OnInit {
 
     onAddClick() {
         this.accessClientCreateModal?.open(
-            undefined,
+            { 'minHeight': 435 },
             { 'accessPolicy': new AccessPolicy() }
         ).pipe(
             take(1),
@@ -121,6 +121,11 @@ export class AccessPolicySettingsComponent implements OnInit {
                 client.priority = (this.clients.length + 1) * 10;
                 this.clients.push(new AccessPolicy(client));
                 return this.api.savePolicy(client);
+            }),
+            catchError(err => {
+                this.clients.pop();
+                this.toastr.error('Не удалось создать политику');
+                return EMPTY;
             }),
             switchMap(() => this.api.getPolicy())
         ).subscribe((clients) => {
