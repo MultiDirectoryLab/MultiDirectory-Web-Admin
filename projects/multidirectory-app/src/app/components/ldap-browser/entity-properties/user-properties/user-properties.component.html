@@ -1,4 +1,4 @@
-<md-tab-pane #tabs (tabChanged)="onTabChanged()">
+<md-tab-pane class="block h-100" #tabs (tabChanged)="onTabChanged()">
     <div class="tab-header">
         <md-tab [el]="generals.el" [isSelected]="true">
             {{ "user-properties-tabs.general" | transloco }}
@@ -20,7 +20,7 @@
         </md-tab>
     </div>
     <app-user-properties-general mdTab #generals="mdTab" [accessor]="accessor"></app-user-properties-general>
-    <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
+    <app-entity-attributes class="block h-100" mdTab #attributes="mdTab"></app-entity-attributes>
     <app-user-properties-address mdTab #address="mdTab"></app-user-properties-address>
     <app-user-properties-profile mdTab #profile="mdTab" [accessor]="accessor"></app-user-properties-profile>
     <app-user-properties-account mdTab #account="mdTab" ></app-user-properties-account>

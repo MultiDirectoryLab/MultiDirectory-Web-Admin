@@ -134,6 +134,13 @@ export class DatagridComponent implements AfterViewInit {
         this.grid.recalculate();
     }
 
+    redraw() {
+        if(!this.grid) {
+            return;
+        }
+        this.grid.recalculate();
+    }
+
     onTableContextMenu(contextMenuEvent:  ContextMenuEvent) {
         contextMenuEvent.event.stopPropagation();
         contextMenuEvent.event.preventDefault();

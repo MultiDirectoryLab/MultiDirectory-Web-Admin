@@ -5,4 +5,6 @@ export class PolicyResponse {
     netmasks: string[] = [];
     groups: string[] = [];
     priority = 0;
+    mfa_status = 0;
+    mfa_groups: string[] = [];
 }

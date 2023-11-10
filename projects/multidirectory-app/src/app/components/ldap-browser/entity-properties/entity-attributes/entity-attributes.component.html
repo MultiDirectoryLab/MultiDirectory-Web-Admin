@@ -5,15 +5,15 @@
     <md-datagrid  #propGrid
         [rows]="properties"
         [columns]="propColumns"
-        [stretchHeight]="true"
+        [stretchHeight]="false"
         pagerTitle="{{ 'grid.pager-title' | transloco}}"
         fromTitle="{{ 'grid.from-title' | transloco}}"
         emptyMessage="{{ 'grid.no-data' | transloco }}"
     >
     </md-datagrid>
 
-    <div class="flex-row flex-space-between pt-8">
-        <md-button>Edit</md-button>
+    <div class="flex-row flex-space-between pt-16">
+        <md-button (click)="onEditClick()">Edit</md-button>
         <md-button [mdDropdownContainer]="filterMenu" class="">Filter</md-button>
     </div>
 </div>
@@ -59,3 +59,7 @@
         </md-checkbox>
     </div>
 </md-dropdown-menu>
+
+<ng-template modalInject #propertyEditor="modalInject">
+    <app-property-editor></app-property-editor>
+</ng-template>

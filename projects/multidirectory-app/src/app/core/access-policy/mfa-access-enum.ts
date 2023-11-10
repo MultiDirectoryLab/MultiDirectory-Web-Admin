@@ -1,5 +1,5 @@
 export enum MfaAccessEnum {
-    Everyone = 0,
-    Noone = 1,
+    Noone = 0,
+    Everyone = 1,
     SelectedGroups = 2
 }

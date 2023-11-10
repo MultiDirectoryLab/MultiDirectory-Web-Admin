@@ -309,7 +309,8 @@
       "group-not-found": "No groups found",
       "check-groups": "Check",
       "cancel": "Cancel",
-      "approve": "Apply"
+      "approve": "Apply",
+      "mfa-groups": "MFA Groups"
     },
     "access-policy-ip-list": {
       "modal-header": "Valid addresses",
@@ -375,5 +376,8 @@
       "password-repeat-label": "Repeat Password",
       "cancel": "Cancel",
       "finish": "Finish"
+    },
+    "property-editor": {
+      "header": "Edit property "
     }
 }

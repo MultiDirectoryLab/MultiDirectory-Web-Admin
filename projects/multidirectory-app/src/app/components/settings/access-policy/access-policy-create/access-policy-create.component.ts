@@ -6,7 +6,7 @@ import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-p
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
-import { take } from "rxjs";
+import { Observable, map, take } from "rxjs";
 
 export class MultiselectModel {
     id: string = '';
@@ -29,8 +29,11 @@ export class AccessPolicyCreateComponent implements OnInit {
     @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
     @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
     @ViewChild('groupSelector', {static: true}) groupSelector!: MultiselectComponent;
+    @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
+
     accessClient = new AccessPolicy();
     ipAddresses = '';
+    MfaAccessEnum = MfaAccessEnum;
     mfaAccess = MfaAccessEnum.SelectedGroups;
     options: DropdownOption[] = [ 
         { title: 'Всем', value: MfaAccessEnum.Everyone },
@@ -39,6 +42,10 @@ export class AccessPolicyCreateComponent implements OnInit {
     ];
     groupQuery = '';
     availableGroups: MultiselectModel[] = [];
+
+    mfaGroupsQuery = '';
+    availableMfaGroups: MultiselectModel[] = [];
+
     constructor(private api: MultidirectoryApiService, @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
     ngOnInit(): void {
     
@@ -46,8 +53,15 @@ export class AccessPolicyCreateComponent implements OnInit {
         
         this.ipAddresses = this.accessClient.ipRange.join(', ');
 
-        this.mfaAccess = MfaAccessEnum.Everyone;
+        this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
         this.availableGroups = this.accessClient.groups.map(x => new MultiselectModel({
+            selected: true,
+            id: x,
+            title: x,
+            badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
+        }));
+
+        this.availableMfaGroups = this.accessClient.mfaGroups.map(x => new MultiselectModel({
             selected: true,
             id: x,
             title: x,
@@ -64,6 +78,8 @@ export class AccessPolicyCreateComponent implements OnInit {
 
     save() {
         this.accessClient.groups = this.groupSelector.selectedData.map(x => x.title);
+        this.accessClient.mfaStatus  = this.mfaAccess;
+        this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map(x => x.title) ?? [];
         this.modalControl.close(this.accessClient);
     }
 
@@ -91,9 +107,9 @@ export class AccessPolicyCreateComponent implements OnInit {
         });
     }
 
-    checkGroups() {
-        this.api.search(SearchQueries.findGroup(this.groupQuery, '', [])).subscribe(result => {
-            this.availableGroups = result.search_result.map(x => {
+    retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
+        return this.api.search(SearchQueries.findGroup(groupQuery, '', [])).pipe(map(result => {
+            return result.search_result.map(x => {
                 const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
                 return new MultiselectModel({
                     id: x.object_name,
@@ -101,8 +117,20 @@ export class AccessPolicyCreateComponent implements OnInit {
                     title: x.object_name,
                     badge_title: name?.[1] ?? x.object_name
                 });
-            });
-            this.groupSelector.showMenu();
-        })
+            })
+        }));
+    }
+
+    checkGroups() {
+        this.retrieveGroups(this.groupQuery).pipe(take(1)).subscribe(result => {
+            this.availableGroups = result; 
+            this.groupSelector.showMenu()
+        });
+    }
+    checkMfaGroups() {
+        this.retrieveGroups(this.mfaGroupsQuery).pipe(take(1)).subscribe(result => {
+            this.availableMfaGroups = result; 
+            this.mfaGroupSelector.showMenu()
+        });
     }
 }

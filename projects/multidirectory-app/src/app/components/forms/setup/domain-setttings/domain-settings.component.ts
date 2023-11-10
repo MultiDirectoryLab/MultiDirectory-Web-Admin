@@ -20,6 +20,7 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
     
     ngAfterViewInit(): void {
         this.setup.stepValid(this.form.valid);
+        this.setupRequest.domain = window.location.hostname;
         this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(valid => {
             this.setup.stepValid(valid);
         });

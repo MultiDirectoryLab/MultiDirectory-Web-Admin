@@ -310,7 +310,8 @@
         "group-not-found": "Группы не найдены",
         "check-groups": "Проверить",
         "cancel": "Отмена",
-        "approve": "Применить"
+        "approve": "Применить",
+        "mfa-groups": "Группы для MFA"
     },
     "access-policy-ip-list": {
         "modal-header": "Допустимые адреса",
@@ -373,5 +374,8 @@
       "password-repeat-label": "Повторите Пароль",
       "cancel": "Отмена",
       "finish": "Применить"
+    },
+    "property-editor": {
+      "header": "Редактирование свойства "
     }
 }
