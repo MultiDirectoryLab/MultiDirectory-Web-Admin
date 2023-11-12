@@ -48,7 +48,7 @@ export class AttributeService {
 
         const toReplace = Object.entries(attribute).filter((keyValue) => {
             const old = attribute['$' + keyValue[0]];
-            return !!old && (old.length !== keyValue[1].length || !old.every((v,i)=> v === keyValue[1][i]));
+            return !!old && (old.length !== keyValue[1].length || !old.every((v: any, i: any)=> v === keyValue[1][i]));
         }).map(keyValue => new ChangeDescription({
             operation: LdapOperation.Replace,
             attribute: new PartialAttribute({

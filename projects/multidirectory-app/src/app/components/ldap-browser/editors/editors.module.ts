@@ -9,6 +9,7 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { PropertyEditorComponent } from "./property-editors/property-editor.component";
 import { StringPropertyEditorComponent } from "./property-editors/typed-editors/string/string-property-editor.component";
 import { IntegerPropertyEditorComponent } from "./property-editors/typed-editors/integer/integer-property-editor.component";
+import { MultivaluedStringComponent } from "./property-editors/typed-editors/multivalued-string/multivalued-string.component";
 
 @NgModule({
     imports: [
@@ -23,12 +24,14 @@ import { IntegerPropertyEditorComponent } from "./property-editors/typed-editors
         ChangePasswordComponent,
         PropertyEditorComponent,
         StringPropertyEditorComponent,
-        IntegerPropertyEditorComponent
+        IntegerPropertyEditorComponent,
+        MultivaluedStringComponent
     ],
     exports: [
         AttributeListComponent,
         ChangePasswordComponent,
-        PropertyEditorComponent
+        PropertyEditorComponent,
+        MultivaluedStringComponent
     ]
 })
 export class EditorsModule {}

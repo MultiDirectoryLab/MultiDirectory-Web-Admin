@@ -162,6 +162,6 @@ export class TreeviewComponent implements OnInit {
     }
 
     redraw() {
-        this.cdr.detectChanges();
+       setTimeout(() => this.cdr.detectChanges());
     }
 }

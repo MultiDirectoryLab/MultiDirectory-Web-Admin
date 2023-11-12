@@ -98,7 +98,7 @@ export class EntityAttributesComponent implements AfterViewInit {
                         return;
                     }
                     accessor[attribute.name] = x;
-                    this.properties[indx].val = accessor[attribute.name];
+                    this.properties[indx].val = accessor[attribute.name][0];
                     this.cdr.detectChanges();
                 })
             })

@@ -11,7 +11,7 @@ export class PropertyEditorComponent implements OnInit {
     LdapPropertyType = LdapPropertyType;
     propertyType?: LdapPropertyType;
     propertyName = '';
-    propertyValue = '';
+    propertyValue: string = '';
     propertyTypes =  Object.values(LdapPropertyType).filter(x => Number.isNaN(Number(x))).map(x => new DropdownOption({
         title: String(x),
         value: x
@@ -29,6 +29,7 @@ export class PropertyEditorComponent implements OnInit {
     }
 
     finish() {
+        console.log(this.propertyValue);
         this.modalControl.close(this.propertyValue);
     }
 }
