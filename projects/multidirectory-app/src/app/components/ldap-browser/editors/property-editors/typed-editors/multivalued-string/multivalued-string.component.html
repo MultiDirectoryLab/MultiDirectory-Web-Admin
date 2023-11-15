@@ -1,0 +1,13 @@
+<div class="grid">
+    <div class="flex-column flex-grow-1">
+        <div class="row">
+            <label class="col-xs-4" for="newAttribute">{{ "attributes-list.value" | transloco }}</label>
+            <div class="col-xs-8">
+                <md-textbox [(ngModel)]="newAttribute" name="newAttribute"></md-textbox>
+            </div>
+        </div>
+    </div>
+    <md-plane-button [hasBorder]="true" (click)="addAttribute()">{{ "attributes-list.add" | transloco }}</md-plane-button>
+    <md-treeview #treeview class="border-solid-1 h-100 w-100" style="min-height: 200px;"></md-treeview>
+    <md-plane-button [hasBorder]="true" (click)="deleteAttribute()">{{ "attributes-list.delete" | transloco }}</md-plane-button>
+</div>

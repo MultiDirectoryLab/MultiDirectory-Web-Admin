@@ -32,17 +32,21 @@ export abstract class BaseViewComponent implements OnInit {
     }
 
     handleRightClick(event: any) {
-        const selected = this.getSelected();
-        if(selected.length == 0) {
+        let selected = this.getSelected();
+        if(selected.length == 0 && !!event.content?.entry) {
             this.setSelected([ event.content?.entry ]);
         }
         if(event instanceof PointerEvent) {
             event.preventDefault();
             event.stopPropagation();
         }
+        selected = this.getSelected();
+        if(!selected || selected.length == 0) {
+            return;
+        }
         this.onRightClick.emit({
             pointerEvent: (event instanceof PointerEvent)? event : event.event,
-            selected: this.getSelected() ?? []
+            selected: this.getSelected()
         });
     }
 
