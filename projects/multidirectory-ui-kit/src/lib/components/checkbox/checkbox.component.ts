@@ -29,5 +29,6 @@ export class CheckboxComponent extends BaseComponent {
     }
 
     this.value = !checked
+    this.change.emit(this.value);
   }
 }

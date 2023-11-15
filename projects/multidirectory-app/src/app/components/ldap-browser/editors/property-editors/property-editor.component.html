@@ -12,7 +12,8 @@
     <div>
         <ng-container [ngSwitch]="propertyType">
             <app-string-property-editor *ngSwitchCase="LdapPropertyType.String" [(propertyValue)]="propertyValue"></app-string-property-editor>
-            <app-integer-property-editor *ngSwitchCase="LdapPropertyType.Integer"></app-integer-property-editor>
+            <app-integer-property-editor *ngSwitchCase="LdapPropertyType.Integer" [(propertyValue)]="propertyValue"></app-integer-property-editor>
+            <app-multivalued-string-editor *ngSwitchCase="LdapPropertyType.MultivaluedString" [(propertyValue)]="propertyValue"></app-multivalued-string-editor>
         </ng-container>
     </div>
 

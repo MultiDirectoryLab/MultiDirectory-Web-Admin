@@ -1,7 +1,7 @@
 <div class="w-100 h-100">
   <ngx-datatable
     [columnMode]="ColumnMode.force"
-    [footerHeight]="36"
+    [footerHeight]="hideFooter ? 0 : 36"
     [headerHeight]="36"
     [summaryHeight]="300"
     rowHeight="auto"
@@ -12,10 +12,16 @@
     [selectionType]="SelectionType.multi"
     (activate)="onActivate($event)"
     [externalPaging]="externalPaging"
+    [scrollbarV]="scrollbarV"
+    [scrollbarH]="false"
     [count]="page.totalElements"
     [offset]="page.pageOffset"
     [limit]="page.size"
-    [ngStyle]="{height: stretchHeight? '100%' : 'auto' }"
+    [ngStyle]="{
+      height: stretchHeight? '100%' : 'auto',
+      display: 'block'
+    }"
+    [rowHeight]="scrollbarV ? 24 : 'auto'"
     (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     [messages]="{
@@ -41,14 +47,14 @@
         <div>Rows: {{ rowCount }} | Size: {{ pageSize }} | Current: {{ curPage }} | Offset: {{ offset }}</div>
       </div-->
 
-      <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+      <div  *ngIf="!scrollbarV"  class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
         <label class="pr-10">{{ pagerTitle }} </label>
         <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown> 
         <div>
           {{(curPage - 1) * pageSize + 1}}-{{ curPage * pageSize > rowCount ? rowCount : curPage * pageSize }} {{fromTitle}} {{rowCount}}
         </div>       
       </div>
-      <datatable-pager style="flex: 1 5 20%"
+      <datatable-pager  *ngIf="!scrollbarV"  style="flex: 1 5 20%"
         class="pager"
         [pagerLeftArrowIcon]="'datatable-icon-left'"
         [pagerRightArrowIcon]="'datatable-icon-right'"

@@ -37,10 +37,8 @@ import { GroupSelectorModule } from './components/forms/group-selector/group-sel
 import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
-import { environment } from '../environments/environment';
-import { translate } from '@ngneat/transloco';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { EditorsModule } from './components/ldap-browser/editors/editors.module';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
   declarations: [

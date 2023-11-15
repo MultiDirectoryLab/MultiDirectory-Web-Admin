@@ -42,6 +42,8 @@ export class DatagridComponent implements AfterViewInit {
     @Input() rows: any[] = [];
     @Input() columns: TableColumn[] = [];
     @Input() stretchHeight = false;
+    @Input() scrollbarV = false;
+    @Input() hideFooter = false
     @Output() doubleclick = new EventEmitter<InputEvent>();
     @Output() selectionChanged = new EventEmitter<any>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
@@ -91,12 +93,6 @@ export class DatagridComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.setPage(new Page());
-        if(this.grid.element.parentElement) {
-            new ResizeObserver(
-                this.handleGridResize.bind(this)
-            ).observe(this.grid.element.parentElement);
-        }
         if(this.name) {
             const size =  Number(localStorage.getItem(`gridSize_${this.name}`));
             if(!isNaN(size) && size > 0) {
@@ -122,16 +118,6 @@ export class DatagridComponent implements AfterViewInit {
             this.selectionChanged.emit(this.selected);
         }
         this.cdr.detectChanges();
-    }
-
-    handleGridResize(evt: ResizeObserverEntry[]) {
-        if(!this.grid) {
-            return;
-        }
-        if(evt[0].contentRect.width == 0 || evt[0].contentRect.height == 0) {
-            return;
-        }
-        this.grid.recalculate();
     }
 
     redraw() {
@@ -180,9 +166,7 @@ export class DatagridComponent implements AfterViewInit {
     }
 
     onFocus($event: FocusEvent) {
-        if(this.selected.length === 0) {
-            this.select(this.rows[0]);
-        }
+
     }
 
     onKeyDown(event: KeyboardEvent) {
@@ -204,6 +188,14 @@ export class DatagridComponent implements AfterViewInit {
             event = Object.assign(event, { row: this.selected[0] })
             this.doubleclick.emit(event);
         }
+    }
+
+    getRowHeight(row: any) {
+        return row?.height ?? 24;
+    }
+
+    resetScroll() {
+        this.grid?.bodyComponent?.scroller?.setOffset(0);
     }
 }
 

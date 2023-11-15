@@ -46,18 +46,15 @@
 }
 
 .more-container {
-    padding: 0 8px;
+    padding: 3px 8px;
     display: flex;
     flex-flow: column;
     justify-content: center;
     width: 5px;
-    margin-bottom: 1.05rem;
-
-    .more {
-        cursor: pointer;
-        &:hover {
-            border: 1px solid global.$md-dark-blue-2;
-        }
+    margin-bottom: 4px;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid global.$md-dark-blue-2;
     }
 }
 

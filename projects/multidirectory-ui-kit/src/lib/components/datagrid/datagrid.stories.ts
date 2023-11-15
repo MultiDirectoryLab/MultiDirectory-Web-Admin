@@ -1,5 +1,5 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { DatagridComponent } from './datagrid.component';
+import { DatagridComponent, Page } from './datagrid.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { CommonModule } from '@angular/common';
@@ -20,18 +20,56 @@ const meta: Meta<DatagridComponent> = {
 export default meta;
 
 type Story = StoryObj<DatagridComponent>;
-export const Primary: Story = {
+export const NonPaging: Story = {
     args: {
-        columns: [{name: "column"}]
+        columns: [ { name: "name" } ],
+        rows: Array.from(Array.from(Array(25).keys())).map(x => { return { name: x } }),
+        scrollbarV: true
     },
-    parameters: {
-        mycol: [ { name: "mycol" }]
+    play:  async ({ canvasElement }) => {
+        console.log('play')
     },
+    argTypes: { pageChanged: { action: 'clicked' } },
     render: () => ({
+        props: {
+            columns: [ { name: "name" } ],
+            rows: Array.from(Array.from(Array(25).keys())).map(x => { return { name: x } }),
+            pageChanged: () => { console.log('page') },
+            page: new Page({totalElements: 25, size: 5, pageNumber: 0})
+        },
         template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid [stretchHeight]="true" [columns]="mycol"></md-datagrid>
+                <md-datagrid 
+                    (pageChanged)="pageChanged"
+                    [page]="page"
+                    [stretchHeight]="true"
+                    [scrollbarV]="true"
+                    [columns]="columns" 
+                    [rows]="rows"></md-datagrid>
+            </div>
+        `,
+    })
+};
+
+export const Primary: Story = {
+    args: {
+        columns: [ { name: "name" } ],
+        rows: Array.from(Array.from(Array(25).keys())).map(x => { return { name: x } })
+    },
+    render: () => ({
+        props: {
+            columns: [ { name: "name" } ],
+            rows: Array.from(Array.from(Array(25).keys())).map(x => { return { name: x } }),
+            page: new Page({totalElements: 25, size: 5, pageNumber: 0})
+        },
+        template: `
+            <div style="height: 250px; padding: 1rem">
+                <md-datagrid 
+                    [page]="page"
+                    [columns]="columns" 
+                    [rows]="rows"></md-datagrid>
             </div>
         `,
     })
   };
+

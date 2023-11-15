@@ -1,17 +1,26 @@
 <div class="entity-attributes-container">
-    <div>
-        <label>Attributes</label>
+    <div class="flex-row flex-gap-10 mv-8">
+        <label for="search">Attribute</label>
+        <md-textbox name="search" [(ngModel)]="searchFilter"></md-textbox>
+        <md-plane-button [disabled]="!_searchFilter" [hasBorder]="true" (click)="onEditClick(_searchFilter)">Add</md-plane-button>
     </div>
-    <md-datagrid  #propGrid
-        [rows]="properties"
-        [columns]="propColumns"
-        [stretchHeight]="false"
-        pagerTitle="{{ 'grid.pager-title' | transloco}}"
-        fromTitle="{{ 'grid.from-title' | transloco}}"
-        emptyMessage="{{ 'grid.no-data' | transloco }}"
-    >
-    </md-datagrid>
-
+    <div style="height: 370px;">
+        <md-datagrid  #propGrid
+            [rows]="rows"
+            [columns]="propColumns"
+            [scrollbarV]="true"
+            [externalPaging]="true"
+            [page]="page"
+            [stretchHeight]="true"
+            [hideFooter]="true"
+            (doubleclick)="onEditClick()"
+            (pageChanged)="onPageChanged($event)"
+            pagerTitle="{{ 'grid.pager-title' | transloco}}"
+            fromTitle="{{ 'grid.from-title' | transloco}}"
+            emptyMessage="{{ 'grid.no-data' | transloco }}"
+        >
+        </md-datagrid>
+    </div>
     <div class="flex-row flex-space-between pt-16">
         <md-button (click)="onEditClick()">Edit</md-button>
         <md-button [mdDropdownContainer]="filterMenu" class="">Filter</md-button>
@@ -20,41 +29,41 @@
 
 <md-dropdown-menu #filterMenu>
     <div class="dropdown-item">
-        <md-checkbox name="show-with-values-only" id="show-with-values-only">
+        <md-checkbox name="show-with-values-only" id="show-with-values-only" [(ngModel)]="filter.showWithValuesOnly" (change)="onFilterChange()">
             Show only the attributes that have values
         </md-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-checkbox name="show-writable-only" id="show-writable-only">
+        <md-checkbox name="show-writable-only" id="show-writable-only" [disabled]="true">
             Show writable attributes only
         </md-checkbox>
     </div>
 
     <label class="filter-label">Show attributes</label>
     <div class="dropdown-item">
-        <md-checkbox name="mandatory-only" id="mandatory-only">
+        <md-checkbox name="mandatory-only" id="mandatory-only" [disabled]="true">
             Mandatory
         </md-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-checkbox name="optional-only" id="optional-only">
+        <md-checkbox name="optional-only" id="optional-only" [disabled]="true">
             Optional
         </md-checkbox>
     </div>
 
     <label class="filter-label">Show read-only attributes</label>
     <div class="dropdown-item">
-        <md-checkbox name="constructed-onl" id="mandatory-only">
+        <md-checkbox name="constructed-onl" id="mandatory-only" [disabled]="true">
             Constructed
         </md-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-checkbox name="optional-only" id="optional-only">
+        <md-checkbox name="optional-only" id="optional-only" [disabled]="true">
             Backlinks
         </md-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-checkbox name="optional-only" id="optional-only">
+        <md-checkbox name="optional-only" id="optional-only" [disabled]="true">
             System-only
         </md-checkbox>
     </div>

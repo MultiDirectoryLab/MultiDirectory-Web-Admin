@@ -7,6 +7,8 @@ import { DropdownMenuComponent } from "./dropdown-menu.component";
 export class DropdownContainerDirective implements OnInit {
     @Input() mdDropdownContainer!: DropdownMenuComponent;
     @Input() openMenuOnClick = true; 
+    @Input() mdDropdownXOffset = 0
+    @Input() mdDropdownYOffset = 0;
     constructor(private el: ElementRef) {
     }
     
@@ -26,8 +28,8 @@ export class DropdownContainerDirective implements OnInit {
     toggleMenu(focus = true, minWidth: number | undefined = undefined) {
         var rectObject = this.el.nativeElement.getBoundingClientRect();
         this.mdDropdownContainer.setPosition(
-            rectObject.x, 
-            rectObject.y + rectObject.height);
+            rectObject.x + this.mdDropdownXOffset, 
+            rectObject.y + rectObject.height + this.mdDropdownYOffset);
         this.mdDropdownContainer.setMinWidth(minWidth);
         this.mdDropdownContainer.toggle(this.el, focus);
     }
