@@ -77,6 +77,9 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         return this.grid.selected.map(x => x.entry);
     }
     override setSelected(selected: LdapEntity[]) {
+        if(!this.rows || this.rows.length == 0 || !selected) {
+            return;
+        }
         this.grid.selected = this.rows.filter( x => selected.findIndex(y => y.id == x.entry.id) > -1);
         this.navigation.setSelection(selected);
         this.cdr.detectChanges();

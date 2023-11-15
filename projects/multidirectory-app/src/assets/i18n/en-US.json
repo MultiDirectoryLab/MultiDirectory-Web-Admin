@@ -6,14 +6,14 @@
     },
     "multifactor-settings": {
       "mf-user-integration": {
-        "header": "Multifactor Users integrations",
+        "header": "Multifactor Users Integration",
         "apply": "Apply",
         "integration-success": "Integration Enabled",
         "integration-failed": "Error has occured",
         "integration-disabled": "Integration disabled"
       },
       "mf-admin-integration": {
-        "header": "Multifactor Admin integrations",
+        "header": "Multifactor Admin Integration",
         "apply": "Apply",
         "integration-success": "Integration Enabled",
         "integration-failed": "Error has occured",

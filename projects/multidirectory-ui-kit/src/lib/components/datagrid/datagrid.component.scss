@@ -5,11 +5,9 @@
 
 .ngx-datatable {
     border: 1px solid global.$md-neutral-300;
-    display: flex !important;
     flex-flow: column nowrap;
     width: 100%;
     .visible {
-        height: 100%;
         display: flex;
         flex-flow: column nowrap;
     }
@@ -41,6 +39,7 @@
     }
     .datatable-body {
         flex-grow: 1;
+        overflow-x: hidden;
     }
 
     .datatable-body-row {

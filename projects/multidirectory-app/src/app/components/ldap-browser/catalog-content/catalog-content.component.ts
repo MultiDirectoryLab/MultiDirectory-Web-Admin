@@ -133,7 +133,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateUser() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.error('Выберите каталог в котором будет создан пользователь');
+            this.toastr.info('Выберите каталог в котором будет создан пользователь');
             return;
         }
         this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
@@ -143,7 +143,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateGroup() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.error('Выберите каталог в котором будет создана группа');
+            this.toastr.info('Выберите каталог в котором будет создана группа');
             return;
         }
         this.createGroupModal?.open({ 'width': '580px' }).pipe(take(1)).subscribe(() => {
@@ -153,7 +153,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateOu() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.error('Выберите каталог в котором будет создана организационная единица');
+            this.toastr.info('Выберите каталог в котором будет создана организационная единица');
             return;
         }
         this.createOuModal?.open().pipe(take(1)).subscribe(x => {

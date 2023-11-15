@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { DropdownOption, ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapPropertyType } from "projects/multidirectory-app/src/app/core/ldap/property-type-resolver";
 
@@ -11,12 +11,12 @@ export class PropertyEditorComponent implements OnInit {
     LdapPropertyType = LdapPropertyType;
     propertyType?: LdapPropertyType;
     propertyName = '';
-    propertyValue: string = '';
+    propertyValue: string[] = [];
     propertyTypes =  Object.values(LdapPropertyType).filter(x => Number.isNaN(Number(x))).map(x => new DropdownOption({
         title: String(x),
         value: x
     }));
-    constructor(private modalControl: ModalInjectDirective) {
+    constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {
     }
     ngOnInit(): void {
         this.propertyType = this.modalControl.contentOptions?.['propertyType'];

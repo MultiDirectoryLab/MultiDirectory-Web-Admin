@@ -15,8 +15,8 @@
                     <label>{{user.display_name}}</label>
                     <label>{{user.mail}}</label>
                 </div>
-                <div class="more-container">
-                    <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
+                <div class="more-container" [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20">
+                    <img src="/assets/more_vert.svg" class="more" />
                 </div>
                 <md-dropdown-menu #loginMenu>
                     <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">{{ t('account-settings') }}</div>

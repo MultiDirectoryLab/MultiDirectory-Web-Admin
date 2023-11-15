@@ -1,8 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
-import { AttributeListEntry } from "../../../attributes-list/attributes-list.component";
+import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import { TreeviewComponent } from "multidirectory-ui-kit";
+import { AttributeListEntry } from "../../../attributes-list/attributes-list.component";
 import { TypedEditorBaseComponent } from "../typed-editor-base.component";
-import { id } from "@swimlane/ngx-datatable";
 
 @Component({
     selector: 'app-multivalued-string-editor',
@@ -14,10 +13,13 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
     newAttribute: string = '';
     type: string = '';
 
-    @Input() override set propertyValue(val: string) {
-        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '').join(';') ?? '';
+    @Input() override set propertyValue(val: string[]) {
+        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '') ?? '';
         this.treeview!.tree = [];
-        val.split(';').map(x => new AttributeListEntry({
+        if(!Array.isArray(val)) {
+            val = [val];
+        }
+        val.filter(x => !!x).map(x => new AttributeListEntry({
             name: x,
             id: x,
             type: this.type,
@@ -38,14 +40,14 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
             type: this.type,
             new: true,
         }));
-        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '').join(';') ?? '';
+        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '') ?? '';
         this.propertyValueChange.next(this._propertyValue);
         this.newAttribute = '';
     }
 
     deleteAttribute() {
         this.treeview!.tree = this.treeview?.tree.filter(x => !x.selected) ?? [];
-        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '').join(';') ?? '';
+        this._propertyValue = this.treeview?.tree.map(x => x?.name ?? '') ?? '';
         this.propertyValueChange.next(this._propertyValue);
         this.treeview!.redraw(); 
     }
