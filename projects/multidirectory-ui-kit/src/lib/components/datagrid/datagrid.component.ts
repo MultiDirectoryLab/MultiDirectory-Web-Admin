@@ -43,6 +43,7 @@ export class DatagridComponent implements AfterViewInit {
     @Input() columns: TableColumn[] = [];
     @Input() stretchHeight = false;
     @Input() scrollbarV = false;
+    @Input() hideFooter = false
     @Output() doubleclick = new EventEmitter<InputEvent>();
     @Output() selectionChanged = new EventEmitter<any>();
     @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
@@ -191,6 +192,10 @@ export class DatagridComponent implements AfterViewInit {
 
     getRowHeight(row: any) {
         return row?.height ?? 24;
+    }
+
+    resetScroll() {
+        this.grid?.bodyComponent?.scroller?.setOffset(0);
     }
 }
 

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { SearchQueries } from "../core/ldap/search";
-import { map, of, switchMap, zip } from "rxjs";
+import { map, of, switchMap, tap, zip } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { EntityAttribute } from "../components/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
 import { LdapNavigationService } from "./ldap-navigation.service";
@@ -13,7 +13,7 @@ export class LdapPropertiesService {
    
     constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private navigation: LdapNavigationService) {}
     
-    loadData() {
+    loadData(oldValues?: EntityAttribute[]) {
         return this.api.search(
             SearchQueries.getSchema()
         ).pipe(
@@ -44,6 +44,32 @@ export class LdapPropertiesService {
                     }))
                 )
             }),
+            tap(([attributes, values]) => {
+                if(!oldValues) {
+                    return;
+                }
+                oldValues.forEach(element => {
+                    if(!element.changed) {
+                        return;
+                    }
+                    if(Array.isArray(element.val)) {
+                        element.val = element.val.join(';')
+                    }
+                    const vals = values.filter(x => x.name == element.name);
+                    if(!vals || vals.length == 0) {
+                        values.push(element);
+                        return;
+                    }
+                    let newVal;
+                    if(vals.length > 1) {
+                        newVal = vals.map(x => x.val).join(';');
+                    } else {
+                        newVal = vals[0].val;
+                    }
+                    element.val = newVal;
+                    element.changed = true;
+                });
+            }),
             map(([attributes, values]) => {
                 if(!attributes) {
                     attributes = [];
@@ -54,9 +80,10 @@ export class LdapPropertiesService {
                     if(multipleValues.length <= 0) {
                         return attributes;
                     }
-                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x));
+                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x, val.changed));
                     if(indx >= 0) {
                         attributes[indx].val = newAttributes[0].val;
+                        attributes[indx].changed = newAttributes[0].changed;
                         newAttributes.slice(1).forEach(x => {
                             attributes!.splice(indx, 0, x);
                         });

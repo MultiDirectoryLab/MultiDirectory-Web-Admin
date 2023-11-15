@@ -1,7 +1,7 @@
 <div class="w-100 h-100">
   <ngx-datatable
     [columnMode]="ColumnMode.force"
-    [footerHeight]="36"
+    [footerHeight]="hideFooter ? 0 : 36"
     [headerHeight]="36"
     [summaryHeight]="300"
     rowHeight="auto"

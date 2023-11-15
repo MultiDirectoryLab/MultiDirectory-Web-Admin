@@ -12,7 +12,7 @@ import { Subject, filter, map, of, switchMap, take, tap, zip } from "rxjs";
 
 
 export class EntityAttribute { 
-    constructor(public name: string, public val: string) {}
+    constructor(public name: string, public val: string, public changed = false) {}
 }
 
 export class AttributeFilter {
@@ -36,6 +36,7 @@ export class EntityAttributesComponent implements OnInit {
         this._searchFilter = value;
         this.page.pageNumber = 1;
         this.rows = this.filterData(this.allRows);
+        this.propGrid?.resetScroll();
     }
     get searchFilter(): string {
         return this._searchFilter;
@@ -130,9 +131,10 @@ export class EntityAttributesComponent implements OnInit {
                         return;
                     }
                     accessor[attribute.name] = x;
+                    attribute.changed = true;
                     if(propertyDescription.isArray && Array.isArray(value)) {
                         this.rows = this.rows.filter(y => y.name !== attribute.name);
-                        const newValues = x.map((y: string) => new EntityAttribute(attribute.name, y));
+                        const newValues = x.map((y: string) => new EntityAttribute(attribute.name, y, true));
                         if(addNew) {
                            this.allRows = this.allRows.concat(...newValues);
                         } 
@@ -152,9 +154,12 @@ export class EntityAttributesComponent implements OnInit {
 
     onFilterChange() {
         this.page.pageNumber = 1;
-        this.properties.loadData().pipe(take(1)).subscribe(x => {
-            this.allRows = this.filterData(x);
+        this.properties.loadData(this.allRows).pipe(take(1)).subscribe(x => {
+            this.allRows = x;
+            this.rows = this.filterData(x);
+            this.propGrid?.resetScroll();
             this.onPageChanged(this.page)
+            
         })
     }
     onPageChanged(event: Page) {
