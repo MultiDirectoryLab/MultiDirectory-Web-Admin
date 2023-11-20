@@ -12,9 +12,9 @@ import { translate } from "@ngneat/transloco";
 })
 export class LdapPropertiesService {
    
-    constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private navigation: LdapNavigationService) {}
+    constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
-    loadData(oldValues?: EntityAttribute[]) {
+    loadData(entityId: string, oldValues?: EntityAttribute[]) {
         return this.api.search(
             SearchQueries.getSchema()
         ).pipe(
@@ -38,7 +38,7 @@ export class LdapPropertiesService {
             switchMap(attributes => {
                 return zip(
                     of(attributes), 
-                    this.api.search(SearchQueries.getProperites(this.navigation.selectedEntity?.[0]?.id ?? '')).pipe(map(x => {
+                    this.api.search(SearchQueries.getProperites(entityId ?? '')).pipe(map(x => {
                         return x.search_result[0].partial_attributes.flatMap( x => {
                             return new EntityAttribute(x.type, x.vals.join(';'));
                         });

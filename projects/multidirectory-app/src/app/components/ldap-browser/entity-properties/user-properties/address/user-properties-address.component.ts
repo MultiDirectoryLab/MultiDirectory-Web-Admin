@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from "@angular
 import { DropdownOption } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
+import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject, takeUntil } from "rxjs";
 
@@ -25,11 +26,11 @@ export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy 
     accessor: LdapAttributes = {};
     unsubscribe = new Subject();
 
-    constructor(private navigation: LdapNavigationService, private cdr: ChangeDetectorRef, private toastr: ToastrService) {
+    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef, private toastr: ToastrService) {
     }
     
     ngAfterViewInit(): void {
-        this.navigation._entityAccessorRx.pipe(
+        this.attributes._entityAccessorRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
             if(!x) {

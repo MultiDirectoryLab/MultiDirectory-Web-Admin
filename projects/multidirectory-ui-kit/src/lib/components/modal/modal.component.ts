@@ -27,7 +27,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     @Input() width: string = '';
     @Input() zIndex?: number;
 
-    @Output() onClose = new EventEmitter<void>();
+    @Output() onClose = new EventEmitter<string>();
     unsubscribe = new Subject<void>();
     
     constructor(
@@ -64,7 +64,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
     }
 
     onModalClose() {
-        this.onClose.next();
+        this.onClose.next(this.__ID);
         this.cdr.detectChanges();
     }
 

@@ -29,7 +29,7 @@
     </md-button>
 </div>
 
-<div class="w-100 h-100" *ngIf="selectedCatalog">
+<div class="w-100 h-100" [ngStyle]="{ visibility: selectedCatalog ? 'visible' : 'hidden' }">
     <ng-container [ngSwitch]="currentView">
         <app-table-view
             *ngSwitchCase="ViewMode.Table"

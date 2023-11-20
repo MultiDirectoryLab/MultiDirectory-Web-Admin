@@ -9,6 +9,7 @@ import { translate } from "@ngneat/transloco";
 import { LdapWindowsService } from "projects/multidirectory-app/src/app/services/ldap-windows.service";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 
 @Component({
     selector: 'app-member-of',
@@ -39,7 +40,7 @@ export class MemberOfComponent implements AfterViewInit {
         { name: translate('member-of.catalog-path'),  prop: 'path',  flexGrow: 3 },
     ];
 
-    constructor(private windows: LdapWindowsService, private navigation: LdapNavigationService) {}
+    constructor(private windows: LdapWindowsService, private navigation: LdapNavigationService, private attributes: AttributeService) {}
 
     ngAfterViewInit(): void {
          
@@ -79,5 +80,11 @@ export class MemberOfComponent implements AfterViewInit {
         if(!this.groupList?.selected?.[0]) {
             return;
         }
+        console.log(this.groupList.selected[0]);
+        const entity = <LdapEntity> await this.navigation.getEntityByDn(this.groupList.selected[0].dn);
+        if(!entity) {
+            return;
+        }
+        this.windows.openEntityProperiesModal(entity);
     }
 }

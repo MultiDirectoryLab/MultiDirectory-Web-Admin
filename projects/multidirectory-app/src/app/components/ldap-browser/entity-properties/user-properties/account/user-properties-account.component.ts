@@ -3,6 +3,7 @@ import BitSet from "bitset";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { UserAccountControlFlag } from "projects/multidirectory-app/src/app/core/ldap/user-account-control-flags";
+import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { take, tap } from "rxjs";
 
@@ -32,11 +33,11 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
         this.accessor['pwdLastSet'] = [ Date.now().toString() ];
     }
 
-    constructor(private navigation: LdapNavigationService, private cdr: ChangeDetectorRef) {
+    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef) {
     }
 
     ngAfterViewInit(): void {
-        this.navigation.entityAccessorRx().pipe(
+        this.attributes.entityAccessorRx().pipe(
             tap(accessor => { 
                 if(!accessor) {
                     return
