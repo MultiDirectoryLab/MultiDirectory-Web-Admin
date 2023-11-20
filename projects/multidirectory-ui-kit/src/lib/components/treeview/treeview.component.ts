@@ -101,7 +101,12 @@ export class TreeviewComponent implements OnInit {
                 return;
             }
             
-            if(node.selected && false) {
+            if(node.selected) {
+                this.loadChildren(node)?.subscribe(x => {
+                    node!.children = x;
+                    node!.childrenLoaded = true;
+                    this.cdr.detectChanges();
+                })
                 return;
             }
 
