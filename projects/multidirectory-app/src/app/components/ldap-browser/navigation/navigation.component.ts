@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             this.cdr.detectChanges();
         });
         this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
-            this.treeView?.selectNode(catalog, catalog?.parent?.id !== 'root');
+            this.treeView?.selectNode(catalog);
             this.cdr.detectChanges();
         });
     }
