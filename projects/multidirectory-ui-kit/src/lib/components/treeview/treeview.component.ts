@@ -89,7 +89,7 @@ export class TreeviewComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
-    selectNode(node: Treenode | null) {
+    selectNode(node: Treenode | null, forceExpand = false) {
             let nodePath: Treenode[] = [];
             let toSelect: Treenode | undefined;
 
@@ -101,7 +101,15 @@ export class TreeviewComponent implements OnInit {
                 return;
             }
             
-            if(node.selected && false) {
+            if(node.selected) {
+                this.loadChildren(node)?.subscribe(x => {
+                    node!.children = x;
+                    node!.childrenLoaded = true;
+                    if(forceExpand) {
+                        node!.expanded = true;
+                    }
+                    this.cdr.detectChanges();
+                })
                 return;
             }
 
