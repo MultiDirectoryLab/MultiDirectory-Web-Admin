@@ -9,6 +9,7 @@ export class PolicyCreateRequest {
     groups: string[] = [];
     priority?: number;
     mfa_status: number;
+    mfa_groups: string[] = [];
     constructor(policy: AccessPolicy) {
         this.id = policy.id;
         this.name = policy.name;
@@ -16,5 +17,6 @@ export class PolicyCreateRequest {
         this.groups = policy.groups;
         this.priority = policy.priority;   
         this.mfa_status = policy.mfaStatus ?? 0;
+        this.mfa_groups = policy.mfaGroups;
     }
 }
