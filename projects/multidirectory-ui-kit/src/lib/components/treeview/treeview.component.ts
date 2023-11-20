@@ -101,7 +101,7 @@ export class TreeviewComponent implements OnInit {
                 return;
             }
             
-            if(node.selected) {
+            if(node.selected && false) {
                 return;
             }
 

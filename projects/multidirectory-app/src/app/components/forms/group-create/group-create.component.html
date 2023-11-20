@@ -11,20 +11,20 @@
         <div class="row align-center pv-8">
             <div class="col-xs-6"><label for="repeatPassword" transloco="group-create.group-name"></label></div>
             <md-textbox class="col-xs-6" 
-                required
+                appRequired 
                 [(ngModel)]="setupRequest.groupName"
                 name="repeatPassword"></md-textbox>
         </div>
         <div class="row align-center pv-8">
             <div class="col-xs-6"><label for="repeatPassword" transloco="group-create.group-name-legacy"></label></div>
             <md-textbox class="col-xs-6" 
-                required
+                appRequired 
                 [(ngModel)]="setupRequest.groupNameLegacy"
                 name="repeatPassword"></md-textbox>
         </div>
 
         <div class="row align-center pv-8">
-            <md-radiogroup class="col-xs-6" #groupScope  required [drawBorder]="true"
+            <md-radiogroup class="col-xs-6" #groupScope  appRequired  [drawBorder]="true"
                 [(ngModel)]="setupRequest.groupScope" [title]="'group-create.group-scope-label' | transloco ">
                 <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">
                     <span transloco="group-create.group-scope-local"></span>
@@ -36,7 +36,7 @@
                     <span transloco="group-create.group-scope-universal"></span>
                 </md-radiobutton>
             </md-radiogroup>
-            <md-radiogroup class="col-xs-6 h-100" #groupType required [drawBorder]="true" 
+            <md-radiogroup class="col-xs-6 h-100" #groupType appRequired  [drawBorder]="true" 
                 [(ngModel)]="setupRequest.groupType" [title]="'group-create.group-type-label' | transloco ">
                 <md-radiobutton name="groupType" [group]="groupType" [value]="1">
                     <span transloco="group-create.group-type-security"></span>

@@ -14,14 +14,22 @@ export class LdapWindowsService {
         this._openEntityPropertiesModalRx.next(entity);
     }
 
-    private _toggleGloablSpinnerRx = new Subject<boolean>();
+    private _openChangePasswordModalRx = new Subject<LdapEntity>();
+    get openChangePasswordModalRx(): Observable<LdapEntity> {
+        return this._openChangePasswordModalRx.asObservable();
+    }
+    openChangePasswordModal(entity: LdapEntity) {
+        this._openChangePasswordModalRx.next(entity);
+    }
+
+    private _toggleGlobalSpinnerRx = new Subject<boolean>();
     get globalSpinnerRx(): Observable<boolean> {
-        return this._toggleGloablSpinnerRx.asObservable();
+        return this._toggleGlobalSpinnerRx.asObservable();
     }
     hideSpinner() {
-        this._toggleGloablSpinnerRx.next(false);
+        this._toggleGlobalSpinnerRx.next(false);
     }
     showSpinner() {
-        this._toggleGloablSpinnerRx.next(true);
+        this._toggleGlobalSpinnerRx.next(true);
     }
 }

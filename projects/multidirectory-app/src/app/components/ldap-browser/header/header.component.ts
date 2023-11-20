@@ -113,6 +113,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
     }
 
+    onChangePasswordClick() {
+        if(!this.app.userEntry) {
+            return;
+        }
+        this.ldapWindows.openChangePasswordModal(this.app.userEntry);
+    }
+
     onLogout() {
         this.logoutClick.next();
     }

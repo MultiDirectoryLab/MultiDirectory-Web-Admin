@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { MdModalComponent, ModalInjectDirective, Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { IpOption, IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
@@ -75,7 +76,7 @@ export class AccessPolicyIpListComponent implements OnInit {
             new IpAddressStatus().update(input)
         ); 
         if(!this._ipAddresses[this._ipAddresses.length - 1].valid) {
-            this.toastr.error('Формат адреса неверен');
+            this.toastr.error(translate('access-policy-ip-list.incorrect-ip-format'));
         }
         return;
     }

@@ -16,10 +16,11 @@ export function passwordMatchValidator(nameRe: RegExp): ValidatorFn {
   })
   export class PasswordMatchValidatorDirective implements Validator {
     @Input('appPasswordMatch') passwordInput!: string;
+    @Input() errorLabel = 'Passwords do not match';
 
     validate(control: AbstractControl): ValidationErrors | null {
         return control.value == this.passwordInput 
             ? null 
-            : { PasswordsDoNotMatch: 'Passwords do not match'};
+            : { PasswordsDoNotMatch: this.errorLabel };
     }
   }

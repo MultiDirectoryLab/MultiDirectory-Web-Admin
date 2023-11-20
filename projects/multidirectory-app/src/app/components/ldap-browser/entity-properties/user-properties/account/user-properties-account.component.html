@@ -1,11 +1,11 @@
 <div class="row align-start pv-8">
     <div class="col-xs-7 flex-column align-start flex-grow-1 flex-gap-10">
         <label for="login">{{ "user-properties.login-label" | transloco }}</label>
-        <md-textbox required name="login" *ngIf="accessor" [(ngModel)]="accessor.userPrincipleName"></md-textbox>
+        <md-textbox appRequired  name="login" *ngIf="accessor" [(ngModel)]="accessor.userPrincipleName"></md-textbox>
     </div>
     <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
         <label>{{ "user-properties.domain-label" | transloco }}</label>
-        <md-textbox required name="upnDomain"></md-textbox>
+        <md-textbox appRequired  name="upnDomain"></md-textbox>
     </div>
 </div>  
 <div class="row align-start pv-8">
@@ -49,7 +49,7 @@
                 {{ "user-properties.store-password-reversible" | transloco }}
             </md-checkbox>
             <!-- Account is disabled -->
-            <!-- Smart card is required for interactive log in -->
+            <!-- Smart card is appRequired  for interactive log in -->
             <!-- Account is sensitive and cannot be delegated -->
             <!-- Use only Kerberos DES encryption types with this account  -->
             <!-- This account supports Kerberos AES 128 bit encryption -->

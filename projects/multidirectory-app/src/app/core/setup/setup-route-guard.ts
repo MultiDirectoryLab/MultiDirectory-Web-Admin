@@ -3,6 +3,7 @@ import { EMPTY, Observable, catchError, map, of } from "rxjs";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class SetupRouteGuard  {
         return this.multidirectoryApi.checkSetup().pipe(
             catchError((err, caughtRx) => {
                 if(err.status == 0) {
-                    this.toast.error('Backend does not response');
+                    this.toast.error(translate('backend-status.backend-is-not-responding'));
                     this.router.navigate([ '/enable-backend' ]);
                     return of(true);
                 }

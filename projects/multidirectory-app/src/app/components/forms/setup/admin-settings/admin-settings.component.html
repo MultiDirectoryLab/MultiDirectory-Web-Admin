@@ -10,7 +10,7 @@
             <div class="flex-row flex-gap-10 flex-space-between justify-center">
                 <label class="textbox-label">{{ "setup.admin-settings.admin-login-label" | transloco }}</label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox required [(ngModel)]="setupRequest.username" 
+                    <md-textbox appRequired  [(ngModel)]="setupRequest.username" 
                     ></md-textbox>
                 </div>
             </div>
@@ -18,7 +18,7 @@
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
                 <label  class="textbox-label">{{ "setup.admin-settings.admin-password-label" | transloco }}</label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox required [password]="true" [(ngModel)]="setupRequest.password" 
+                    <md-textbox appRequired  [password]="true" [(ngModel)]="setupRequest.password" 
                         #passwordInput></md-textbox>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
                 <label  class="textbox-label">{{ "setup.admin-settings.admin-password-repeat-label" | transloco }}</label>
                 <div class="flex-column flex-grow-1">
-                    <md-textbox  required [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
+                    <md-textbox  appRequired  [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
                 </div>
             </div>   
         </div>

@@ -29,7 +29,7 @@
     </md-button>
 </div>
 
-<div class="w-100 h-100" *ngIf="selectedCatalog">
+<div class="w-100 h-100" [ngStyle]="{ visibility: selectedCatalog ? 'visible' : 'hidden' }">
     <ng-container [ngSwitch]="currentView">
         <app-table-view
             *ngSwitchCase="ViewMode.Table"
@@ -101,9 +101,6 @@
 </ng-template>
 <ng-template modalInject #createGroupModal="modalInject">
     <app-group-create></app-group-create>
-</ng-template>
-<ng-template modalInject #changePasswordModal="modalInject">
-    <app-change-password></app-change-password>
 </ng-template>
 
 <md-modal #createObjectModal>

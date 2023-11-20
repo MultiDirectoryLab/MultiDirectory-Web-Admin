@@ -9,16 +9,16 @@
 <div class="flex-row align-start justify-end flex-gap-10" style="min-height: 200px;">
     <md-form #form>
         <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
-        <md-textbox required [(ngModel)]="_setupRequest" name="ouname"></md-textbox>
+        <md-textbox appRequired  [(ngModel)]="_setupRequest" name="ouname"></md-textbox>
     </md-form>
 </div>
 <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
         <md-button (click)="onClose()">
-            {{ 'cancel' | transloco }}
+            {{ 'ou-create.cancel' | transloco }}
         </md-button>
         <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish($event)">
-            {{ 'apply' | transloco }}
+            {{ 'ou-create.apply' | transloco }}
         </md-button>
     </div>
 </div>

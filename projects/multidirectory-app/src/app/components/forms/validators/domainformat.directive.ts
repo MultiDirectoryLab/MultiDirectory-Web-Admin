@@ -10,9 +10,11 @@ import { AbstractControl, NG_VALIDATORS, PatternValidator, ValidationErrors, Val
   })
   export class DomainFormatValidatorDirective implements Validator {
     @Input('appDomainFormat') domainPattern!: string;
+    @Input('domainErrorMessage') domainErrorMessage = 'Check a domain format';
+
     patternValidator = new PatternValidator();
     validate(control: AbstractControl): ValidationErrors | null {
         const result = new RegExp(this.domainPattern).test(control.value);
-        return result? null : { 'DomainFormat' : true };
+        return result? null : { 'DomainFormat' : this.domainErrorMessage };
     }
   }

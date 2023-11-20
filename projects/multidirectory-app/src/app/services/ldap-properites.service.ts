@@ -5,22 +5,23 @@ import { map, of, switchMap, tap, zip } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { EntityAttribute } from "../components/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
 import { LdapNavigationService } from "./ldap-navigation.service";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LdapPropertiesService {
    
-    constructor(private api: MultidirectoryApiService, private toastr: ToastrService, private navigation: LdapNavigationService) {}
+    constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
-    loadData(oldValues?: EntityAttribute[]) {
+    loadData(entityId: string, oldValues?: EntityAttribute[]) {
         return this.api.search(
             SearchQueries.getSchema()
         ).pipe(
             map(schema => {
                 const types = schema.search_result?.[0]?.partial_attributes.find(x => x.type == "attributeTypes")?.vals
                 if(!types) {
-                    this.toastr.error('Не удалось получить схему');
+                    this.toastr.error(translate('entity-attributes.unable-retrieve-schema'));
                     return;           
                 }
                 const attributes: EntityAttribute[] = [];
@@ -37,7 +38,7 @@ export class LdapPropertiesService {
             switchMap(attributes => {
                 return zip(
                     of(attributes), 
-                    this.api.search(SearchQueries.getProperites(this.navigation.selectedEntity?.[0]?.id ?? '')).pipe(map(x => {
+                    this.api.search(SearchQueries.getProperites(entityId ?? '')).pipe(map(x => {
                         return x.search_result[0].partial_attributes.flatMap( x => {
                             return new EntityAttribute(x.type, x.vals.join(';'));
                         });

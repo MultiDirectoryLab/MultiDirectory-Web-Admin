@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { ChangePasswordRequest } from "projects/multidirectory-app/src/app/models/user/change-password-request";
@@ -49,7 +50,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnDestroy {
         this.modalControl.modal?.showSpinner();
         this.api.changePassword(this.changeRequest).pipe(
             catchError(err => {
-                this.toastr.error('Не удалось изменить пароль');
+                this.toastr.error(translate('change-password.unable-change-password'));
                 this.modalControl.close(false);
                 return EMPTY;
             })

@@ -2,13 +2,15 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnIn
 import { translate } from "@ngneat/transloco";
 import { ModalInjectDirective, ModalService, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
+import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { PropertyTypeResolver } from "projects/multidirectory-app/src/app/core/ldap/property-type-resolver";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
+import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { LdapPropertiesService } from "projects/multidirectory-app/src/app/services/ldap-properites.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { DatagridComponent } from "projects/multidirectory-ui-kit/src/public-api";
-import { Subject, filter, map, of, switchMap, take, tap, zip } from "rxjs";
+import { EMPTY, Subject, filter, map, of, switchMap, take, tap, zip } from "rxjs";
 
 
 export class EntityAttribute { 
@@ -29,6 +31,7 @@ export class EntityAttributesComponent implements OnInit {
     @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
     unsubscribe = new Subject<boolean>();
     filter = new AttributeFilter(true);
+    accessor: LdapAttributes | null = null;
     rows: any[] = [];
     allRows: any[] = [];
     _searchFilter = '';
@@ -48,14 +51,20 @@ export class EntityAttributesComponent implements OnInit {
     page = new Page({ pageNumber: 1, size: 20, totalElements: 4000 })
     constructor(
         private api: MultidirectoryApiService,
-        private navigation: LdapNavigationService,
+        private attributes: AttributeService,
         private cdr: ChangeDetectorRef,
         private properties: LdapPropertiesService,
         @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private toastr: ToastrService) {}
 
     ngOnInit(): void {
-        this.properties.loadData().pipe(take(1)).subscribe(x => {
+        this.attributes.entityAccessorRx().pipe(
+            switchMap(attr =>{ 
+                this.accessor = attr;
+                return !! attr? this.properties.loadData(<any>attr['$entitydn'][0]) : EMPTY
+            }),
+            take(1)
+        ).subscribe(x => {
             this.allRows = this.filterData(x);
             this.onPageChanged(this.page);
         })
@@ -79,7 +88,7 @@ export class EntityAttributesComponent implements OnInit {
         let attribute: EntityAttribute;
         if(!attributeName) {
             if(!this.propGrid || !this.propGrid.selected?.[0]) {
-                this.toastr.error('Выберите аттрибут для редактирования');
+                this.toastr.error(translate('entity-attributes.select-attribute'));
                 return;
             }
             attribute = this.propGrid.selected[0];
@@ -92,18 +101,18 @@ export class EntityAttributesComponent implements OnInit {
             let propertyDescription = PropertyTypeResolver.getDefault();
             let types = x.search_result?.[0]?.partial_attributes.find(x => x.type == "attributeTypes")?.vals
             if(!types) {
-                this.toastr.error('Не удалось получить схему');
+                this.toastr.error(translate('entity-attributes.unable-retieve-schema'));
                 return;           
 
             } 
             const attributeDescription = types.find(y => y.includes("NAME '" + attribute.name));
             if(!attributeDescription) {
-                console.log('Не удалось получить схему');
+                console.log(translate('entity-attributes.unable-retieve-schema'));
             } else {
                 const extractSyntax = /SYNTAX \'([\d+.]+)\'/gi;
                 const syntax = extractSyntax.exec(attributeDescription);
                 if(!syntax || syntax.length < 2) {
-                    this.toastr.error('Не удалось получить схему');
+                    this.toastr.error(translate('entity-attributes.unable-retieve-schema'));
                     return;           
                 }
                 const propertyDescriptionNullable = PropertyTypeResolver.getPropertyDescription(syntax[1]);
@@ -111,7 +120,7 @@ export class EntityAttributesComponent implements OnInit {
                     propertyDescription = propertyDescriptionNullable;
                 }
             }
-            this.navigation.entityAccessorRx().pipe(take(1)).subscribe(accessor => {
+            this.attributes.entityAccessorRx().pipe(take(1)).subscribe(accessor => {
                 if(!accessor || !propertyDescription) {
                     return;
                 }
@@ -154,7 +163,8 @@ export class EntityAttributesComponent implements OnInit {
 
     onFilterChange() {
         this.page.pageNumber = 1;
-        this.properties.loadData(this.allRows).pipe(take(1)).subscribe(x => {
+        const id = this.accessor ? <any>this.accessor['$entitydn'][0] : '';
+        this.properties.loadData(id, this.allRows).pipe(take(1)).subscribe(x => {
             this.allRows = x;
             this.rows = this.filterData(x);
             this.propGrid?.resetScroll();

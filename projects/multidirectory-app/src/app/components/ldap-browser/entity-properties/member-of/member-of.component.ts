@@ -6,6 +6,10 @@ import { DatagridComponent } from "multidirectory-ui-kit";
 import { Group } from "projects/multidirectory-app/src/app/core/groups/group";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 import { translate } from "@ngneat/transloco";
+import { LdapWindowsService } from "projects/multidirectory-app/src/app/services/ldap-windows.service";
+import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
+import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 
 @Component({
     selector: 'app-member-of',
@@ -35,6 +39,8 @@ export class MemberOfComponent implements AfterViewInit {
         { name: translate('member-of.name'),  prop: 'name',  flexGrow: 1 },
         { name: translate('member-of.catalog-path'),  prop: 'path',  flexGrow: 3 },
     ];
+
+    constructor(private windows: LdapWindowsService, private navigation: LdapNavigationService, private attributes: AttributeService) {}
 
     ngAfterViewInit(): void {
          
@@ -68,5 +74,17 @@ export class MemberOfComponent implements AfterViewInit {
             this.accessor.memberOf = this.accessor?.memberOf.filter(
                 x =>  ((this.groupList?.selected?.findIndex(y => y.dn == x) ?? -1) === -1));
         }
+    }
+
+    async openGroupProperties() {
+        if(!this.groupList?.selected?.[0]) {
+            return;
+        }
+        console.log(this.groupList.selected[0]);
+        const entity = <LdapEntity> await this.navigation.getEntityByDn(this.groupList.selected[0].dn);
+        if(!entity) {
+            return;
+        }
+        this.windows.openEntityProperiesModal(entity);
     }
 }

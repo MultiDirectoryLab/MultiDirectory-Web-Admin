@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Page } from "multidirectory-ui-kit";
-import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, of, skip, skipUntil, skipWhile, switchMap, take, tap } from "rxjs";
+import { Page, Treenode } from "multidirectory-ui-kit";
+import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, map, of, skip, skipUntil, skipWhile, switchMap, take, tap } from "rxjs";
 import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
@@ -136,6 +136,67 @@ export class LdapNavigationService {
         }
     }
 
+
+    async getEntityByDn(dn: string): Promise<Treenode | null> {
+        if(!this.ldapRoot) throw Error('Ldap root not found');
+
+        const rootDseDNs = this.getRootDse();
+
+        const dnParts = LdapNamesHelper.getDnParts(dn);
+        const selectedRoot = rootDseDNs.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
+        while(dnParts[dnParts.length - 1].type == 'dc' && dnParts.length > 0)
+            dnParts.pop();
+        
+        let currentNode = selectedRoot?.node;
+        let found: any;
+
+        for(let i = 0; i < dnParts.length && currentNode; i++) {
+            if(!!currentNode.loadChildren && currentNode.children == null)
+            {
+                const childRx = currentNode.loadChildren();
+                currentNode.children = !!childRx ? await lastValueFrom(childRx) : null;
+                currentNode.childrenLoaded = true;
+            }
+
+            if(!currentNode.children) {
+                continue;
+            }
+
+            const children = currentNode.children.map(x => {
+                return {
+                    node: x,
+                    dn: LdapNamesHelper.getDnParts(x?.id ?? '').filter(x => x.type !== 'dc')
+                }
+            });
+            
+            found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
+            if(!found && dnParts.length - i == 1) {
+                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntity);
+                return await lastValueFrom(contentRx.pipe(take(1)).pipe(map(x => {
+                    const children = x.map(y => {
+                        return {
+                            node: y,
+                            dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
+                        }
+                    });
+                    const ldapNode = <LdapEntity>currentNode!;
+                    ldapNode.childCount = x.length;
+                    const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
+                    if(foundIndex > -1) {
+                        return children[foundIndex].node;
+                    }
+                    return null;
+                })));
+            } else {
+                currentNode = found?.node;
+            }
+        }
+        if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
+            return currentNode;
+        }
+        return null;
+    }
+
     setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity[] | null = null) {
         if(!page) {
             page = new Page(this.page);
@@ -165,19 +226,4 @@ export class LdapNavigationService {
     getContent(catalog: LdapEntity, page: Page): Observable<LdapEntity[]> {
         return this.ldap.getContent(catalog.id, catalog, page);
     }
-
-    setEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
-        if(!entity) {
-            this._entityAccessorRx.next(null);
-            return of(null);
-        }
-        return this.attributes.get(entity).pipe(take(1), tap(accessor => {
-            this._entityAccessorRx.next(accessor);
-        }));
-    }
-
-    _entityAccessorRx = new BehaviorSubject<LdapAttributes | null>(null);
-    entityAccessorRx(): Observable<LdapAttributes | null> {
-        return this._entityAccessorRx.asObservable();
-    } 
 }

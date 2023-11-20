@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
+import { BehaviorSubject, Observable, map, of, take, tap } from "rxjs";
 import { ChangeDescription } from "../core/ldap/ldap-change";
 import { LdapEntity } from "../core/ldap/ldap-entity";
 import { LdapAttributes, LdapAttributesProxyHandler } from "../core/ldap/ldap-entity-proxy";
@@ -79,4 +79,19 @@ export class AttributeService {
         });
         return this.api.update(request);
     }
+
+    setEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
+        if(!entity) {
+            this._entityAccessorRx.next(null);
+            return of(null);
+        }
+        return this.get(entity).pipe(take(1), tap(accessor => {
+            this._entityAccessorRx.next(accessor);
+        }));
+    }
+
+    _entityAccessorRx = new BehaviorSubject<LdapAttributes | null>(null);
+    entityAccessorRx(): Observable<LdapAttributes | null> {
+        return this._entityAccessorRx.asObservable();
+    } 
 }

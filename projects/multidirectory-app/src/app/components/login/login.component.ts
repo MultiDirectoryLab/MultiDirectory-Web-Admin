@@ -6,6 +6,7 @@ import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import {  ToastrService } from "ngx-toastr";
 import { WebSocketService, WebsocketTokenHandle } from "../../core/websocket/websocket.service";
 import { LoginResponse } from "../../models/login/login-response";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-login',
@@ -53,7 +54,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                     return EMPTY
                 }
                 this.modal.hideSpinner();
-                this.toastr.error('Неверный логин или пароль');
+                this.toastr.error(translate('login.wrong-login'));
                 return EMPTY;
             }))
             .subscribe((response: LoginResponse) => {

@@ -7,11 +7,15 @@ import { LdapAttributes } from "../../../core/ldap/ldap-entity-proxy";
 import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
 import { AttributeService } from "../../../services/attributes.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-properties',
     styleUrls: ['./properties.component.scss'],
     templateUrl: './properties.component.html',
+    providers: [
+        { provide: AttributeService, useClass: AttributeService }
+    ]
 })
 export class EntityPropertiesComponent implements OnInit {
     EntityTypes = LdapEntityType;
@@ -21,19 +25,22 @@ export class EntityPropertiesComponent implements OnInit {
     unsubscribe = new Subject<boolean>();
 
     constructor(
-        public navigation: LdapNavigationService, 
         public toastr: ToastrService, 
         private cdr: ChangeDetectorRef,
         @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private attributes: AttributeService) {
     }
     ngOnInit(): void {
-        this._entityType = this.selectedEntity?.type ?? null;
-        if(!this.selectedEntity || !this._entityType) {
-            this.toastr.error('Для просмотра свойств необходимо выбрать сущность')
+        if(!this.modalControl.contentOptions?.selectedEntity) {
             return;
         }
-        this.navigation.setEntityAccessor(this.selectedEntity).pipe(
+        this.selectedEntity = this.modalControl.contentOptions.selectedEntity;
+        this._entityType = this.selectedEntity?.type ?? null;
+        if(!this.selectedEntity || !this._entityType) {
+            this.toastr.error(translate('properties-modal.select-entity'))
+            return;
+        }
+        this.attributes.setEntityAccessor(this.selectedEntity).pipe(
             take(1), 
             tap(accessor => { 
                 if(!accessor) {
@@ -52,7 +59,7 @@ export class EntityPropertiesComponent implements OnInit {
     }
     save() {
         this.modalControl.modal?.showSpinner();
-        this.navigation.entityAccessorRx().pipe(
+        this.attributes.entityAccessorRx().pipe(
             take(1),
             switchMap(accessor => {
                 if(!accessor) {
@@ -61,7 +68,7 @@ export class EntityPropertiesComponent implements OnInit {
                 return this.attributes.saveEntity(accessor);
             }),
             switchMap(() => {
-                return this.navigation.setEntityAccessor(undefined);
+                return this.attributes.setEntityAccessor(undefined);
             })
         ).subscribe({
             complete: () => {
