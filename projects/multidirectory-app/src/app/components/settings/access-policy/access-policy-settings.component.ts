@@ -5,8 +5,9 @@ import { AccessPolicy } from "../../../core/access-policy/access-policy";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { CdkDragDrop, CdkDragEnd } from "@angular/cdk/drag-drop";
-import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapWindowsService } from "../../../services/ldap-windows.service";
+import { ModalInjectDirective } from "multidirectory-ui-kit";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-access-policy-settings',
@@ -47,12 +48,12 @@ export class AccessPolicySettingsComponent implements OnInit {
             return;
         }
         if(this.clients.length <= 1) {
-            this.toastr.error('Один клиент должен быть включен');
+            this.toastr.error(translate('access-policy-settings.must-be-enabled'));
             return;
         }
         this.clients = this.clients.filter(x => x != client);
         if(!this.clients.some(x => x.enabled)) {
-            this.toastr.error('Один клиент должен быть включен');
+            this.toastr.error(translate('access-policy-settings.must-be-enabled'));
             this.clients[0].enabled = true;
             return;
         }
@@ -68,7 +69,7 @@ export class AccessPolicySettingsComponent implements OnInit {
             return;
         }
         if(!this.clients.some(x => x.enabled)) {
-            this.toastr.error('Один клиент должен быть включен');
+            this.toastr.error(translate('access-policy-settings.must-be-enabled'));
             const toRevert = this.clients.find(x => x.id == client.id);
             if(toRevert) {
                 setTimeout(() => toRevert.enabled = true);
@@ -124,7 +125,7 @@ export class AccessPolicySettingsComponent implements OnInit {
             }),
             catchError(err => {
                 this.clients.pop();
-                this.toastr.error('Не удалось создать политику');
+                this.toastr.error(translate('access-policy-settings.unable-to-create-policy'));
                 return EMPTY;
             }),
             switchMap(() => this.api.getPolicy())
@@ -141,7 +142,7 @@ export class AccessPolicySettingsComponent implements OnInit {
             this.clients[event.currentIndex], this.clients[event.previousIndex]
         ];
         if(!previous.id || !current.id) {
-            this.toastr.error('У этих политик не задан ID');
+            this.toastr.error(translate('access-policy-settings.policy-id-not-found'));
             return;
         }
         if(previous.id == current.id) {

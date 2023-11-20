@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { NgxSpinnerComponent, NgxSpinnerService } from "ngx-spinner";
+import { Component, Input, OnInit } from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'md-spinner',
@@ -8,7 +8,7 @@ import { NgxSpinnerComponent, NgxSpinnerService } from "ngx-spinner";
     host: { 'collision-id': 'MdSpinnerComponent' }
 })
 export class SpinnerComponent implements OnInit{
-    @Input() inputText = 'Подождите...';
+    @Input() spinnerText = 'Please, wait...';
     @Input() name = 'primary';
     @Input() fullscreen = false;
     constructor(private spinner: NgxSpinnerService) {}

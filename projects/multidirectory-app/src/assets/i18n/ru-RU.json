@@ -32,7 +32,8 @@
         "group-type-label": "Тип группы",
         "group-type-security": "Группа безопасности",
         "group-type-distribution": "Группа распространения",
-        "apply": "Готово"
+        "apply": "Готово",
+        "unable-create-group": "Не удалось создать группу"
     },
     "catalog-selector": {
         "modal-header": "Выберите каталог",
@@ -67,6 +68,9 @@
         "apply": "Создать"
     },
     "setup": {
+        "setup-complete": "Настройка выполнена",
+        "back": "Назад",
+        "next": "Далее",
         "admin-settings": {
             "header": "Этот мастер поможет завершить настройку Multidirectory",
             "admin-login-label": "Логин администратора",
@@ -88,6 +92,7 @@
         "back": "Назад",
         "next": "Далее",
         "finish": "Готово",
+        "unable-create-user": "Не удалось создать пользователя",
         "general-info": {
             "first-name-label": "Имя",
             "initials-label": "Инициалы",
@@ -143,7 +148,10 @@
         "cancel": "Отмена",
         "delete": "Удалить",
         "more": "Подробнее",
-        "change-password": "Изменить пароль..."
+        "change-password": "Изменить пароль...",
+        "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
+        "select-group-catalog": "Выберите каталог в котором будет создана группа",
+        "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
     },
     "attributes-list": {
         "value": "Значение",
@@ -153,7 +161,9 @@
     },
     "entity-attributes": {
         "name": "Имя",
-        "value": "Значение"
+        "value": "Значение",
+        "select-attribute": "Выберите аттрибут для редактирования",
+        "unable-retrieve-schema": "Не удалось получить схему"
     },
     "member-of": {
         "groups": "Группы:",
@@ -275,12 +285,14 @@
         "filter-settings": "Параметры фильтров...",
         "view-settings": "Настроить вид...",
         "account-settings": "Настройки аккаунта",
-        "logout": "Выход из системы"
+        "logout": "Выход из системы",
+        "change-password": "Изменить пароль"
     },
     "home": {
         "account-settings": "Настройки аккаунта",
         "logout":"Выход из системы",
-        "hotkeys": "Горячие клавиши"
+        "hotkeys": "Горячие клавиши",
+        "change-password":"Изменить пароль"
     },
     "search-users": {
         "name": "Имя: ",
@@ -299,7 +311,8 @@
     "login": {
         "name":"Логин",
         "password": "Пароль",
-        "login": "Войти"
+        "login": "Войти",
+        "wrong-login": "Неверный логин или пароль"
     },
     "access-policy-create": {
         "modal-header": "Добавить клиент",
@@ -318,11 +331,18 @@
         "header": "Адрес, маска подсети или диапазон",
         "expample": "Пример:",
         "cancel": "Отменить",
-        "approve": "Применить"
+        "approve": "Применить",
+        "incorrect-ip-format": "Формат адреса неверен"
     },
     "access-policy-settings": {
         "clients": "Клиенты",
-        "add": "Добавить"
+        "add": "Добавить",
+        "must-be-enabled": "Один клиент должен быть включен",
+        "unable-to-create-policy": "Не удалось создать политику",
+        "policy-id-not-found": "У этих политик не задан ID"
+    },
+    "access-policy": {
+        "client-does-not-exist": "Этого клиента не существует"
     },
     "settings-header": {
         "title": "Настройки"
@@ -357,7 +377,8 @@
     "properties-modal": {
         "modal-header": "Свойства",
         "close": "Закрыть",
-        "approve": "Применить"
+        "approve": "Применить",
+        "select-entity": "Для просмотра свойств необходимо выбрать сущность"
     },
     "hotkeys": {
       "toggle-help": "Показать/скрыть меню помощи",
@@ -366,16 +387,28 @@
       "toggle-big-icon-view": "Режим отображения - большие иконки",
       "toggle-list-view": "Режим отображения - список",
       "toggle-detail-view": "Режим отображения - детали",
-      "toggle-search-menu": "Показать меню поиска"
+      "toggle-search-menu": "Показать меню поиска",
+      "create-user": "Создать пользователя",
+      "create-group": "Создать группу",
+      "create-ou": "Создать организационную единицу",
+      "access-control": "Контроль доступа",
+      
     },
     "change-password": {
       "header": "Изменение пароля для ",
       "password-label": "Пароль",
       "password-repeat-label": "Повторите Пароль",
       "cancel": "Отмена",
-      "finish": "Применить"
+      "finish": "Применить",
+      "unable-change-password": "Не удалось изменить пароль"
     },
     "property-editor": {
       "header": "Редактирование свойства "
+    },
+    "spinner": {
+      "please-wait": "Подождите..."
+    },
+    "backend-status": {
+      "backend-is-not-responding": "Сервер не отвечает"
     }
 }

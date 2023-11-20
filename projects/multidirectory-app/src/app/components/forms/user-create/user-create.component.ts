@@ -9,6 +9,7 @@ import { ToastrService } from "ngx-toastr";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
+import { translate } from "@ngneat/transloco";
 
 @Component({
   selector: 'app-user-create',
@@ -92,7 +93,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     }))
     .pipe(catchError(err => {
       this.modalControl.modal?.hideSpinner();
-      this.toastr.error('Не удалось создать пользователя');
+      this.toastr.error(translate('user-create.unable-create-user'));
       return EMPTY;
     }))
     .subscribe(x => {

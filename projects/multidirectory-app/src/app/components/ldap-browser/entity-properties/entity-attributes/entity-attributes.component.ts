@@ -79,7 +79,7 @@ export class EntityAttributesComponent implements OnInit {
         let attribute: EntityAttribute;
         if(!attributeName) {
             if(!this.propGrid || !this.propGrid.selected?.[0]) {
-                this.toastr.error('Выберите аттрибут для редактирования');
+                this.toastr.error(translate('entity-attributes.select-attribute'));
                 return;
             }
             attribute = this.propGrid.selected[0];
@@ -92,18 +92,18 @@ export class EntityAttributesComponent implements OnInit {
             let propertyDescription = PropertyTypeResolver.getDefault();
             let types = x.search_result?.[0]?.partial_attributes.find(x => x.type == "attributeTypes")?.vals
             if(!types) {
-                this.toastr.error('Не удалось получить схему');
+                this.toastr.error(translate('entity-attributes.unable-retieve-schema'));
                 return;           
 
             } 
             const attributeDescription = types.find(y => y.includes("NAME '" + attribute.name));
             if(!attributeDescription) {
-                console.log('Не удалось получить схему');
+                console.log(translate('entity-attributes.unable-retieve-schema'));
             } else {
                 const extractSyntax = /SYNTAX \'([\d+.]+)\'/gi;
                 const syntax = extractSyntax.exec(attributeDescription);
                 if(!syntax || syntax.length < 2) {
-                    this.toastr.error('Не удалось получить схему');
+                    this.toastr.error(translate('entity-attributes.unable-retieve-schema'));
                     return;           
                 }
                 const propertyDescriptionNullable = PropertyTypeResolver.getPropertyDescription(syntax[1]);

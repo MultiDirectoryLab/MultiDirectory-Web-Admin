@@ -20,6 +20,7 @@
                 </div>
                 <md-dropdown-menu #loginMenu>
                     <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">{{ t('account-settings') }}</div>
+                    <div class="dropdown-item" (click)="loginMenu.close(); openChangePassword()">{{ t('change-password') }}</div>
                     <div class="dropdown-item" (click)="logout()">{{ t('logout') }}</div>
                 </md-dropdown-menu>
             </div>
@@ -36,4 +37,7 @@
     <ng-template modalInject #properties="modalInject">
         <app-properties #properties [selectedEntity]="properitesEntity"></app-properties>
     </ng-template>
+    <ng-template modalInject #changePasswordModal="modalInject">
+        <app-change-password></app-change-password>
+    </ng-template>    
 </ng-container>

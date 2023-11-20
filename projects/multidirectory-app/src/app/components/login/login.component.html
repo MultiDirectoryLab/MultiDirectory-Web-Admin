@@ -7,11 +7,11 @@
             <div class="flex-column flex-space-between h-100 flex-gap-20">
                 <div class="flex-row flex-space-between">
                     <label class="form-label">{{ 'login.name'| transloco }}</label>
-                    <md-textbox required [(ngModel)]="login" name="login"></md-textbox>
+                    <md-textbox appRequired  [(ngModel)]="login" name="login"></md-textbox>
                 </div>
                 <div class="flex-row flex-space-between">
                     <label class="form-label">{{ 'login.password' | transloco }}</label>
-                    <md-textbox required [password]="true" [autocomplete]="true" [(ngModel)]="password" name="password"></md-textbox>
+                    <md-textbox appRequired  [password]="true" [autocomplete]="true" [(ngModel)]="password" name="password"></md-textbox>
                 </div>
             </div>
             <input type="submit" hidden (click)="onLogin($event)"/>

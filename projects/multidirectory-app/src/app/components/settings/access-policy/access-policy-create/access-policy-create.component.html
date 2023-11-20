@@ -7,7 +7,7 @@
             <div class="col-xs-4">{{ "access-policy-create.domain" | transloco }}</div>
             <div class="col-xs-8">
                 <md-textbox 
-                    required 
+                    appRequired  
                     [(ngModel)]="accessClient.name">
                 </md-textbox>
             </div>
@@ -17,7 +17,7 @@
             <div class="col-xs-4">{{ "access-policy-create.ip-addresses" | transloco }}</div>
             <div class="col-xs-6">
                 <md-textbox 
-                    required 
+                    appRequired  
                     validIpAddress
                     (blur)="onIpChanged()"
                     [(ngModel)]="ipAddresses">
@@ -51,7 +51,7 @@
         <div class="row pv-8">
             <div class="col-xs-4">MFA</div>
             <div class="col-xs-8">
-                <md-dropdown class="w-100" [options]="options" [(ngModel)]="mfaAccess" required>
+                <md-dropdown class="w-100" [options]="options" [(ngModel)]="mfaAccess" appRequired >
                 </md-dropdown>
             </div>
         </div>

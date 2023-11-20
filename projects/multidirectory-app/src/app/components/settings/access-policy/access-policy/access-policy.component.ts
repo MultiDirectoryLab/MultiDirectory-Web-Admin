@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
@@ -38,7 +39,7 @@ export class AccessPolicyComponent implements AfterViewInit {
 
     onDeleteClick() {
         if(!this.accessClient) {
-            this.toastr.error('Этого клиента не существует');
+            this.toastr.error(translate('access-policy.client-does-not-exist'));
             return;
         }
         this.deleteClick.emit(this.accessClient);
@@ -46,7 +47,7 @@ export class AccessPolicyComponent implements AfterViewInit {
 
     onTurnOffClick() {
         if(!this.accessClient) {
-            this.toastr.error('Этого клиента не существует');
+            this.toastr.error(translate('access-policy.client-does-not-exist'));
             return;
         }
         console.log(this.accessClient.enabled);
@@ -57,7 +58,7 @@ export class AccessPolicyComponent implements AfterViewInit {
     
     onEditClick() {
         if(!this.accessClient) {
-            this.toastr.error('Этого клиента не существует');
+            this.toastr.error(translate('access-policy.client-does-not-exist'));
             return;
         }
         this.editClick.emit(this.accessClient);

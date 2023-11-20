@@ -7,6 +7,7 @@ import { LdapAttributes } from "../../../core/ldap/ldap-entity-proxy";
 import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
 import { AttributeService } from "../../../services/attributes.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-properties',
@@ -30,7 +31,7 @@ export class EntityPropertiesComponent implements OnInit {
     ngOnInit(): void {
         this._entityType = this.selectedEntity?.type ?? null;
         if(!this.selectedEntity || !this._entityType) {
-            this.toastr.error('Для просмотра свойств необходимо выбрать сущность')
+            this.toastr.error(translate('properties-modal.select-entity'))
             return;
         }
         this.navigation.setEntityAccessor(this.selectedEntity).pipe(

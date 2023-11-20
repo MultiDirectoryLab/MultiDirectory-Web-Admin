@@ -10,7 +10,7 @@
             <div class="flex-row flex-space-between  justify-center">
                 <label  class="textbox-label">UPN</label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox required [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
+                    <md-textbox appRequired  [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
                 </div>
             </div>
             
@@ -19,14 +19,14 @@
                     {{ "setup.admin-settings-second.display-name-label" | transloco }}
                 </label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox required [(ngModel)]="setupRequest.display_name"></md-textbox>
+                    <md-textbox appRequired  [(ngModel)]="setupRequest.display_name"></md-textbox>
                 </div>
             </div>
             
             <div class="flex-row flex-space-between  justify-center">
                 <label  class="textbox-label">Email</label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox required [(ngModel)]="setupRequest.mail"></md-textbox>
+                    <md-textbox appRequired  [(ngModel)]="setupRequest.mail"></md-textbox>
                 </div>
             </div>   
         </div>

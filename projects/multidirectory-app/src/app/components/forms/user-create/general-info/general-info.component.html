@@ -5,7 +5,8 @@
         </div>
         <div class="col-xs-5 flex-row align-start flex-grow-1 flex-gap-10">
             <md-textbox 
-                required class="w-100" name="first-name" 
+                appRequired
+                class="w-100" name="first-name" 
                 (change)="onNameChange()"
                 [(ngModel)]="setupRequest.firstName">
             </md-textbox>
@@ -25,7 +26,7 @@
         <div class="col-xs-3"><label for="last-name">{{ "user-create.general-info.last-name-label" | transloco}}</label></div>
         <md-textbox class="col-xs-9" 
             name="last-name"
-            required
+            appRequired 
             (change)="onNameChange()"
             [(ngModel)]="setupRequest.lastName">
         </md-textbox>
@@ -44,13 +45,13 @@
             <label for="login">
                 {{ "user-create.general-info.logon-name-label" | transloco }}
             </label>
-            <md-textbox required [(ngModel)]="setupRequest.upnLogin" name="login"></md-textbox>
+            <md-textbox appRequired  [(ngModel)]="setupRequest.upnLogin" name="login"></md-textbox>
         </div>
         <div class="col-xs-6 flex-column align-start flex-grow-1 flex-gap-10">
             <label>
                 {{ "user-create.general-info.domain-label" | transloco }}
             </label>
-            <md-dropdown required [options]="domains" [(ngModel)]="setupRequest.upnDomain" name="upnDomain"></md-dropdown>
+            <md-dropdown appRequired  [options]="domains" [(ngModel)]="setupRequest.upnDomain" name="upnDomain"></md-dropdown>
         </div>
     </div>  
 </md-form>

@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, O
 import { Router } from "@angular/router";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
-import { Subject, switchMap, takeUntil, tap } from "rxjs";
+import { Subject, switchMap, take, takeUntil, tap } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
@@ -23,6 +23,7 @@ import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
     @ViewChild('properties') properties!: ModalInjectDirective;
+    @ViewChild('changePasswordModal') changePasswordModal?: ModalInjectDirective
     get tree(): LdapEntity[] {
         return <LdapEntity[]>this.navigation.ldapRoot!;
     }
@@ -76,6 +77,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
             this.openEntityProperties(x);
+        });
+
+        this.ldapWindows.openChangePasswordModalRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(x => {
+            this.openChangePassword(x);
         })
     }
     ngAfterViewInit(): void {
@@ -106,6 +113,20 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             return;
         }
         this.openEntityProperties(this.app.userEntry);
+    }
+
+    openChangePassword(entity: LdapEntity | undefined = undefined) {
+        if(!entity) {
+            if(!this.app.userEntry) {
+                return;
+            }
+            entity = this.app.userEntry;
+        }
+        this.changePasswordModal?.open(undefined, { 
+            identity: entity.id, 
+            un: entity.name 
+        }).pipe(take(1)).subscribe(x => {
+        });
     }
 
     closeCheatsheet() {

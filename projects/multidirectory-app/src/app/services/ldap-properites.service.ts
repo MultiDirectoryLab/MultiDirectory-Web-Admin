@@ -5,6 +5,7 @@ import { map, of, switchMap, tap, zip } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { EntityAttribute } from "../components/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
 import { LdapNavigationService } from "./ldap-navigation.service";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,7 @@ export class LdapPropertiesService {
             map(schema => {
                 const types = schema.search_result?.[0]?.partial_attributes.find(x => x.type == "attributeTypes")?.vals
                 if(!types) {
-                    this.toastr.error('Не удалось получить схему');
+                    this.toastr.error(translate('entity-attributes.unable-retrieve-schema'));
                     return;           
                 }
                 const attributes: EntityAttribute[] = [];

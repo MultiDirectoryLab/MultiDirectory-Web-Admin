@@ -6,6 +6,7 @@ import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { SetupService } from "../../services/setup.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-setup',
@@ -56,7 +57,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
             })
         ).subscribe(res => {
             this.modal.hideSpinner();
-            this.toastr.success('Настройка выполнена');
+            this.toastr.success(translate('setup.setup-complete'));
             this.router.navigate(['/'])
         });
     }

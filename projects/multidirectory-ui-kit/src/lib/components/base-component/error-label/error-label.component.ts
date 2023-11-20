@@ -13,19 +13,22 @@ export class ErrorLabelComponent {
     
     getFirstError(): string | undefined{
          if(!!this.ngControl?.errors?.['required']) {
-            return 'required';
+            return this.ngControl?.errors?.['required'];
          }
          if(!!this.ngControl?.errors?.['pattern']) {
-            return 'pattern';
+            return this.ngControl?.errors?.['pattern'];
          }
          if(!!this.ngControl?.errors?.['PasswordsDoNotMatch']) {
-            return 'PasswordsDoNotMatch';
+            return this.ngControl?.errors?.['PasswordsDoNotMatch'];
          }
          if(!!this.ngControl?.errors?.['DomainFormat']) {
-            return 'DomainFormat';
+            return this.ngControl?.errors?.['DomainFormat'];
          }
          if(!!this.ngControl?.errors?.['IpAddress']) {
-            return 'IpAddress';
+            return this.ngControl?.errors?.['IpAddress'];
+         }
+         if(!!this.ngControl?.errors?.['MfKeyFormat']) {
+            return this.ngControl?.errors?.['MfKeyFormat'];
          }
          return undefined;
     }

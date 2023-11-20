@@ -75,8 +75,6 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right'}),
     HotkeyModule.forRoot({
       cheatSheetCloseEsc: true,
-      cheatSheetCloseEscDescription: ("hotkeys.hide-help"),
-      cheatSheetDescription:("hotkeys.toggle-help")
     }),
     AuthorizationModule,
     ValidatorsModule,

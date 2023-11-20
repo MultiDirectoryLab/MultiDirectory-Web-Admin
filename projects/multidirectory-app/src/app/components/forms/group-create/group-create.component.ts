@@ -8,6 +8,7 @@ import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { translate } from "@ngneat/transloco";
 
 @Component({
     selector: 'app-group-create',
@@ -73,7 +74,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
             ]
         })).pipe(catchError(err => {
             this.modalControl.modal?.hideSpinner();
-            this.toastr.error('Не удалось создать группу');
+            this.toastr.error(translate('group-create.unable-create-group'));
             this.modalControl.close(null);
             return EMPTY;
         })).subscribe(x => {

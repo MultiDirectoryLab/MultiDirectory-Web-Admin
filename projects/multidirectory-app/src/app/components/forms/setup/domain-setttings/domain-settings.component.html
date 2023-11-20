@@ -15,7 +15,7 @@
             <div class="flex-column flex-grow-1">
                 <md-textbox
                     appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
-                    required 
+                    appRequired  
                     [(ngModel)]="setupRequest.domain"
                 ></md-textbox>
                 <label  class="error-message"  #domainLabel></label>

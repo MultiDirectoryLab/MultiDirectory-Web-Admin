@@ -1,19 +1,21 @@
 <div *transloco="let t; read: 'multifactor-settings.mf-user-integration'" class="flex-column flex-gap-10 p-8 w-100">
-    <div class="flex-row flex-center">
-        <div class="title">
-            {{ t('header') }}
+    <md-form #form [autocomplete]="false">
+        <div class="flex-row flex-center">
+            <div class="title">
+                {{ t('header') }}
+            </div>
         </div>
-    </div>
-    <div class="mf-control-grid">
-        <label class="flex-gap-10" for="api-key">API Key</label>
-        <md-textbox name="api-key" [(ngModel)]="apiKey" class="col-xs-4"></md-textbox>
+        <div class="mf-control-grid">
+            <label class="flex-gap-10" for="api-key">API Key</label>
+            <md-textbox name="api-key" appMfKeyValidator [(ngModel)]="apiKey" class="col-xs-4"></md-textbox>
 
-        <label class="flex-gap-10"  for="api-secret">API Secret</label>
-        <md-textbox [password]="true" [(ngModel)]="apiSecret" name="api-secret" class="col-xs-4"></md-textbox>
-    </div>
+            <label class="flex-gap-10"  for="api-secret">API Secret</label>
+            <md-textbox [password]="true" appMfKeyValidator [isSecret]="true" [(ngModel)]="apiSecret" name="api-secret" class="col-xs-4"></md-textbox>
+        </div>
 
 
-    <div class="flex-row flex-end">
-        <md-button  (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
-    </div>
+        <div class="flex-row flex-end">
+            <md-button  (click)="apply()" [disabled]="!form.valid" [primary]="true">{{ t('apply') }}</md-button>
+        </div>
+    </md-form>
 </div>

@@ -13,6 +13,7 @@ import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
 import { ChangePasswordComponent } from "../editors/change-password/change-password.component";
+import { translate } from "@ngneat/transloco";
  
 @Component({
     selector: 'app-catalog-content',
@@ -25,7 +26,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
     @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
-    @ViewChild('changePasswordModal', { static: true }) changePasswordModal?: ModalInjectDirective
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     selectedCatalog: LdapEntity | null = null;
@@ -45,24 +45,25 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private contentView: ContentViewService,
         private ldapWindows: LdapWindowsService,
         private hotkeysService: HotkeysService) {
-            this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
-                this.openCreateUser();
-                return false;
-            }, undefined, 'Создать пользователя'));
-            this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
-                this.openCreateGroup();
-                return false;
-            }, undefined, 'Создать группу'));
-            this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
-                this.openCreateOu();
-                return false;
-            }, undefined, 'Создать организационную единицу'));
-            this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
-                return false;
-            }, undefined, 'Контроль доступа'));
         }
 
     ngOnInit(): void {
+        this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
+            this.openCreateUser();
+            return false;
+        }, undefined, translate('hotkeys.create-user')));
+        this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
+            this.openCreateGroup();
+            return false;
+        }, undefined, translate('hotkeys.create-group')));
+        this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
+            this.openCreateOu();
+            return false;
+        }, undefined, translate('hotkeys.create-ou')));
+        this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
+            return false;
+        }, undefined, translate('hotkeys.access-control')));
+        
         this.navigation.selectedCatalogRx.pipe(
             takeUntil(this.unsubscribe),
             switchMap((catalog) => {
@@ -133,7 +134,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateUser() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.info('Выберите каталог в котором будет создан пользователь');
+            this.toastr.info(translate('catalog-content.select-user-catalog'));
             return;
         }
         this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
@@ -143,7 +144,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateGroup() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.info('Выберите каталог в котором будет создана группа');
+            this.toastr.info(translate('catalog-content.select-group-catalog'));
             return;
         }
         this.createGroupModal?.open({ 'width': '580px' }).pipe(take(1)).subscribe(() => {
@@ -153,7 +154,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     openCreateOu() {
         if(!this.selectedCatalog?.entry) {
-            this.toastr.info('Выберите каталог в котором будет создана организационная единица');
+            this.toastr.info(translate('catalog-content.select-ou-catalog'));
             return;
         }
         this.createOuModal?.open().pipe(take(1)).subscribe(x => {
@@ -169,11 +170,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showChangePassword() {
-        this.changePasswordModal?.open(undefined, { 
-            identity: this.selectedRows?.[0]?.id, 
-            un: this.selectedRows?.[0]?.name 
-        }).pipe(take(1)).subscribe(x => {
-        });
+        if(!this.navigation.selectedEntity?.[0]) {
+            return;
+        }
+        this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);
     }
 
     loadData() {
