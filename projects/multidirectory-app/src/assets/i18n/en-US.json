@@ -1,4 +1,5 @@
 {
+    "please-check-errors": "Please, check the form errors",
     "multidirectory-settings": {
       "header": "Multidirectory Admin Panel Settings",
       "language": "Language",
@@ -259,7 +260,9 @@
       "home-catalog": "Home directory",
       "user-profile": "User profile",
       "local-path": "Local path",
-      "mount": "Mount"
+      "mount": "Connect",
+      "to": "To",
+      "login-shell": "Login Shell (UNIX)"
     },
     "user-properties-tabs": {
       "general": "General",

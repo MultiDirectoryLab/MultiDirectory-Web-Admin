@@ -8,4 +8,5 @@ import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ld
 })
 export class UserPropertiesProfileComponent {
     @Input() accessor: LdapAttributes | null = null;
+    homeDirectorySelection: number = 1
 }

@@ -1,4 +1,4 @@
-<select [id]="__ID" class="select-input" name="{{__ID}}" [(ngModel)]="value" (blur)="onBlur()">
+<select [id]="__ID" class="select-input" name="{{__ID}}" [(ngModel)]="value" (blur)="onBlur()" [disabled]="disabled">
   <option *ngFor="let option of options; let i = index " [ngValue]="getValue(option, i)">
     {{getTitle(option)}}
   </option>

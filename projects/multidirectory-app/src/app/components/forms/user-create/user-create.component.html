@@ -35,7 +35,7 @@
         <md-button *ngIf="createUserStepper.currentIndex > 0" (click)="createUserStepper.previous()">
             {{ "user-create.back" | transloco}}
         </md-button>
-        <md-button [disabled]="!formValid" (click)="createUserStepper.next()" [primary]="true">
+        <md-button (click)="nextStep()" [primary]="true">
             {{(createUserStepper.steps != null && (createUserStepper.currentIndex + 1 == createUserStepper.steps.length)  ? 
                 'user-create.finish' : 'user-create.next') | transloco }}
         </md-button>

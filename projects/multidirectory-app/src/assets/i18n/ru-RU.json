@@ -1,4 +1,5 @@
 {
+    "please-check-errors": "Пожалуйста, проверьте заполнение формы и исправьте ошибки",
     "multidirectory-settings": {
         "header": "Настройки панели управления Multidirectory" ,
         "language": "Язык",
@@ -259,7 +260,9 @@
         "home-catalog": "Домашний каталог",
         "user-profile": "Профиль пользователя",
         "local-path": "Локальный путь",
-        "mount": "Примонтировать"
+        "mount": "Примонтировать",
+        "to": "в",
+        "login-shell": "Login Shell (UNIX)"
     },
     "user-properties-tabs": {
         "general": "Общее",
@@ -391,8 +394,7 @@
       "create-user": "Создать пользователя",
       "create-group": "Создать группу",
       "create-ou": "Создать организационную единицу",
-      "access-control": "Контроль доступа",
-      
+      "access-control": "Контроль доступа"
     },
     "change-password": {
       "header": "Изменение пароля для ",

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { MdModalComponent } from "multidirectory-ui-kit";
+import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 import { SetupRequest } from "../../models/setup/setup-request";
@@ -16,6 +16,7 @@ import { translate } from "@ngneat/transloco";
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     setupRequest = new SetupRequest();
     @ViewChild('modal') modal!: MdModalComponent;
+    @ViewChild('stepper') stepper!: StepperComponent;
 
     stepValid = false;
     unsubscribe = new Subject<boolean>();
@@ -66,5 +67,16 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cdr.detectChanges();
         this.modal.modalRoot?.resizeToContentHeight();
         this.cdr.detectChanges();
+    }
+
+
+    showNextStep() {
+        console.log('NEXT');
+        if(!this.stepValid) {
+            this.setup.invalidate();
+            this.toastr.error(translate('please-check-errors'));
+            return;
+        }
+        this.stepper.next();
     }
 }

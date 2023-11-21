@@ -13,3 +13,4 @@
 <ng-template #content>
     <ng-content></ng-content>
 </ng-template>
+<md-error-label *ngIf="controlAccessor && (controlAccessor.dirty || controlAccessor.touched)" [ngControl]="controlAccessor"></md-error-label>

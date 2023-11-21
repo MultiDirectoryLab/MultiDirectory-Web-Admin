@@ -35,6 +35,9 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
 
     ngAfterViewInit(): void {
         this.setup.stepValid(this.form.valid);
+        this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+            this.form.validate();
+        });
         this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(valid => {
             this.setup.stepValid(valid);
         });

@@ -14,11 +14,18 @@ import { EMPTY, Subject, filter, map, of, switchMap, take, tap, zip } from "rxjs
 
 
 export class EntityAttribute { 
-    constructor(public name: string, public val: string, public changed = false) {}
+    constructor(
+        public name: string, 
+        public val: string, 
+        public changed = false,
+        public writable = true) {}
 }
 
 export class AttributeFilter {
-    constructor(public showWithValuesOnly = true) {}
+    constructor(
+        public showWithValuesOnly = true,
+        public showWritableOnly = false
+    ) {}
 }
 
 @Component({
@@ -54,7 +61,6 @@ export class EntityAttributesComponent implements OnInit {
         private attributes: AttributeService,
         private cdr: ChangeDetectorRef,
         private properties: LdapPropertiesService,
-        @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
         private toastr: ToastrService) {}
 
     ngOnInit(): void {
@@ -73,6 +79,9 @@ export class EntityAttributesComponent implements OnInit {
     filterData(result: EntityAttribute[]) {
         if(this.filter.showWithValuesOnly) {
             result = result.filter(x => !!x.val);
+        }
+        if(this.filter.showWritableOnly) {
+            result = result.filter(x => x.writable);
         }
         if(this._searchFilter){
             const req = this._searchFilter.toLocaleLowerCase();
