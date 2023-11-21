@@ -63,13 +63,18 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     onFinish(event: MouseEvent) {
         event.stopPropagation();
         event.preventDefault();
+        if(!this.formValid) {
+            this.toastr.error(translate('please-check-errors'));
+            this._form.validate();
+            return;
+        }
         this.modalControl?.modal?.showSpinner();
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest.groupName},` + this.selectedNode?.id,
             attributes: [
                 new PartialAttribute({
                     type: 'objectClass',
-                    vals: [ 'group', 'top' ]
+                    vals: [ 'group', 'top', 'posixGroup' ]
                 }),
             ]
         })).pipe(catchError(err => {

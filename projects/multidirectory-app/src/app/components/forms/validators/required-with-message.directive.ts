@@ -13,6 +13,7 @@ import { AbstractControl, NG_VALIDATORS, PatternValidator, RequiredValidator, Va
     @Input('errorLabel') errorLabel = 'This value is requried';
 
     override validate(control: AbstractControl): ValidationErrors | null {
-        return !!control.value ? null : { 'required' : this.errorLabel };
+        return control.value !== null && control.value !== undefined && control.value !== '' 
+          ? null : { 'required' : this.errorLabel };
     }
   }

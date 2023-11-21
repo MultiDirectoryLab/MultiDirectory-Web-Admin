@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { SetupRequest } from "../models/setup/setup-request";
 
 @Injectable({
@@ -15,5 +15,13 @@ export class SetupService {
 
     stepValid(valid: boolean) {
         this._stepValid.next(valid);
+    }
+
+    private _invalidateRx = new Subject<void>();
+    get invalidateRx() {
+        return this._invalidateRx.asObservable();
+    }
+    invalidate() {
+        this._invalidateRx.next();
     }
 }

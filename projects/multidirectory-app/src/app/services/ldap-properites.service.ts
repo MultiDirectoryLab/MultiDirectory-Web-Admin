@@ -11,7 +11,7 @@ import { translate } from "@ngneat/transloco";
     providedIn: 'root'
 })
 export class LdapPropertiesService {
-   
+    READONLY = ['distinguishedName', 'gidNumber', 'uidNumber']
     constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
     loadData(entityId: string, oldValues?: EntityAttribute[]) {

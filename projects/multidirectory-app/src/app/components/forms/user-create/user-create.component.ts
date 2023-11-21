@@ -57,7 +57,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
           attributes: [new PartialAttribute({
             type: 'objectClass',
             vals: ['user',
-            'top', 'person', 'organizationalPerson', 'posixAccount'
+            'top', 'person', 'organizationalPerson', 'posixAccount', 'shadowAccount'
           ]
         }),
         new PartialAttribute({
@@ -105,5 +105,14 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
   onClose(): void {
     this.setupRequest = new UserCreateRequest();
     this.stepper.reset();
+  }
+
+  nextStep() {
+    if(!this.formValid) {
+      this.setup.invalidate();
+      this.toastr.error(translate('please-check-errors'));
+      return;
+    }
+    this.stepper.next();
   }
 }

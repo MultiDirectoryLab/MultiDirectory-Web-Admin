@@ -27,6 +27,9 @@ export class UserCreatePasswordSettingsComponent {
     constructor(public setup: UserCreateService) {}
     ngAfterViewInit(): void {
         this.setup.stepValid(this.form.valid)
+        this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+            this.form.validate();
+        });
         this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
             this.setup.stepValid(this.form.valid);
         })

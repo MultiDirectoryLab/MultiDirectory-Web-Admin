@@ -54,6 +54,9 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    validate() {
+        this.inputs.forEach(x => x.control?.markAsTouched());
+    }
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();

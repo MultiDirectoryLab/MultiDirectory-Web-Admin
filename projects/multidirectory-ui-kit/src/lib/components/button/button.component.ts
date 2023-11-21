@@ -33,6 +33,8 @@ export class ButtonComponent implements AfterViewInit, OnDestroy {
 
     onKeydown($event: KeyboardEvent) {
         if($event.key == 'Enter' || $event.key == ' ') {
+            $event.stopPropagation();
+            $event.preventDefault();
             this.click.next($event);
         }
     }
