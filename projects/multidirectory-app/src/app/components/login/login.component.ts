@@ -84,6 +84,11 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
                 localStorage.setItem('access_token', x.message);
                 localStorage.setItem('refresh_token', x.message);
                 this.router.navigate(['/']);
+            } else if(x.status == 'closed') {
+                if(x.message) {
+                    this.toastr.error(x.message);
+                }
+                this.modal.hideSpinner();
             }
         });
         return this.authComplete.asObservable();

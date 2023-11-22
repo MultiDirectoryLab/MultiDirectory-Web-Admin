@@ -11,7 +11,7 @@ import { translate } from "@ngneat/transloco";
     providedIn: 'root'
 })
 export class LdapPropertiesService {
-    READONLY = ['distinguishedName', 'gidNumber', 'uidNumber']
+    READONLY = ['distinguishedName']
     constructor(private api: MultidirectoryApiService, private toastr: ToastrService) {}
     
     loadData(entityId: string, oldValues?: EntityAttribute[]) {
@@ -31,7 +31,8 @@ export class LdapPropertiesService {
                     if(!nameGroup || nameGroup.length < 2) {
                         continue;      
                     }
-                    attributes.push(new EntityAttribute(nameGroup[1], ''));
+                    const isWritable =  this.READONLY.findIndex(x => x == nameGroup![1]) < 0;
+                    attributes.push(new EntityAttribute(nameGroup[1], '', false, isWritable));
                 };
                 return attributes;
             }),
@@ -40,7 +41,8 @@ export class LdapPropertiesService {
                     of(attributes), 
                     this.api.search(SearchQueries.getProperites(entityId ?? '')).pipe(map(x => {
                         return x.search_result[0].partial_attributes.flatMap( x => {
-                            return new EntityAttribute(x.type, x.vals.join(';'));
+                            const isWritable =  this.READONLY.findIndex(y => y == x.type) < 0;
+                            return new EntityAttribute(x.type, x.vals.join(';'), false, isWritable);
                         });
                     }))
                 )
@@ -49,16 +51,16 @@ export class LdapPropertiesService {
                 if(!oldValues) {
                     return;
                 }
-                oldValues.forEach(element => {
-                    if(!element.changed) {
+                oldValues.forEach(oldValue => {
+                    if(!oldValue.changed) {
                         return;
                     }
-                    if(Array.isArray(element.val)) {
-                        element.val = element.val.join(';')
+                    if(Array.isArray(oldValue.val)) {
+                        oldValue.val = oldValue.val.join(';')
                     }
-                    const vals = values.filter(x => x.name == element.name);
+                    const vals = values.filter(x => x.name == oldValue.name);
                     if(!vals || vals.length == 0) {
-                        values.push(element);
+                        values.push(oldValue);
                         return;
                     }
                     let newVal;
@@ -67,8 +69,9 @@ export class LdapPropertiesService {
                     } else {
                         newVal = vals[0].val;
                     }
-                    element.val = newVal;
-                    element.changed = true;
+                    oldValue.val = newVal;
+                    oldValue.changed = true;
+                    oldValue.writable = this.READONLY.findIndex(x => x == oldValue.name) < 0;
                 });
             }),
             map(([attributes, values]) => {
@@ -81,7 +84,7 @@ export class LdapPropertiesService {
                     if(multipleValues.length <= 0) {
                         return attributes;
                     }
-                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x, val.changed));
+                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x, val.changed, val.writable));
                     if(indx >= 0) {
                         attributes[indx].val = newAttributes[0].val;
                         attributes[indx].changed = newAttributes[0].changed;

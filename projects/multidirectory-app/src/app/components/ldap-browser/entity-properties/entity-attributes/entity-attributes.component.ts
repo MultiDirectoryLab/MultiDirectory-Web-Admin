@@ -104,6 +104,10 @@ export class EntityAttributesComponent implements OnInit {
         } else {
             attribute = new EntityAttribute(attributeName, '');
         }
+        if(!attribute.writable) {
+            this.toastr.error(translate('entity-attributes.edit-not-allowed'))
+            return;
+        }
         return this.api.search(
             SearchQueries.getSchema()
         ).subscribe(x => {

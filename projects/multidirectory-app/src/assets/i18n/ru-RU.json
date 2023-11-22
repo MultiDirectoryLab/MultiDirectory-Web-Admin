@@ -164,7 +164,8 @@
         "name": "Имя",
         "value": "Значение",
         "select-attribute": "Выберите аттрибут для редактирования",
-        "unable-retrieve-schema": "Не удалось получить схему"
+        "unable-retrieve-schema": "Не удалось получить схему",
+        "edit-not-allowed": "Редактирование запрещено"
     },
     "member-of": {
         "groups": "Группы:",

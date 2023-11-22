@@ -34,7 +34,7 @@
         </md-checkbox>
     </div>
     <div class="dropdown-item">
-        <md-checkbox name="show-writable-only" id="show-writable-only" [disabled]="true">
+        <md-checkbox name="show-writable-only" id="show-writable-only" [(ngModel)]="filter.showWritableOnly" (change)="onFilterChange()">
             Show writable attributes only
         </md-checkbox>
     </div>
