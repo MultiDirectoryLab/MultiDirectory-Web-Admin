@@ -17,7 +17,7 @@ export class MfUserIntegrationComponent {
     apply() {
         this.api.setupMultifactor(this.apiKey, this.apiSecret, true).subscribe(result => {
             if(result) {
-                this.toastr.success(translate('mf-user-integration.integration-success'));
+                this.toastr.success(translate('multifactor-settings.mf-user-integration.integration-success'));
             }
         })
     }

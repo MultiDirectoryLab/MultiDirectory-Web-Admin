@@ -18,7 +18,7 @@ export class MfAdminIntegrationComponent {
     apply() {
         this.api.setupMultifactor(this.apiKey, this.apiSecret, false).subscribe(result => {
             if(result) {
-                this.toastr.success(translate('mf-admin-integration.integration-success'));
+                this.toastr.success(translate('multifactor-settings.mf-admin-integration.integration-success'));
             }
         })
     }

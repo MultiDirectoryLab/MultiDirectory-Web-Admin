@@ -24,7 +24,7 @@ export class EntityAttribute {
 export class AttributeFilter {
     constructor(
         public showWithValuesOnly = true,
-        public showWritableOnly = true
+        public showWritableOnly = false
     ) {}
 }
 
