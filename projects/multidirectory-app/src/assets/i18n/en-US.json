@@ -164,7 +164,8 @@
       "name": "Name",
       "value": "Value",
       "select-attribute": "Select an attribute to edit",
-      "unable-retrieve-schema": "Unable to retreive schema"
+      "unable-retrieve-schema": "Unable to retreive schema",
+      "edit-not-allowed": "The attribute editing is not allowed"
     },
     "member-of": {
       "groups": "Groups:",

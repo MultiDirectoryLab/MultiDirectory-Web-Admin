@@ -24,7 +24,7 @@ export class EntityAttribute {
 export class AttributeFilter {
     constructor(
         public showWithValuesOnly = true,
-        public showWritableOnly = false
+        public showWritableOnly = true
     ) {}
 }
 
@@ -103,6 +103,10 @@ export class EntityAttributesComponent implements OnInit {
             attribute = this.propGrid.selected[0];
         } else {
             attribute = new EntityAttribute(attributeName, '');
+        }
+        if(!attribute.writable) {
+            this.toastr.error(translate('entity-attributes.edit-not-allowed'))
+            return;
         }
         return this.api.search(
             SearchQueries.getSchema()

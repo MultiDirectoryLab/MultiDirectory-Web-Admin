@@ -31,7 +31,8 @@ export class LdapPropertiesService {
                     if(!nameGroup || nameGroup.length < 2) {
                         continue;      
                     }
-                    attributes.push(new EntityAttribute(nameGroup[1], ''));
+                    const isWritable =  this.READONLY.findIndex(x => x == nameGroup![1]) < 0;
+                    attributes.push(new EntityAttribute(nameGroup[1], '', false, isWritable));
                 };
                 return attributes;
             }),
@@ -40,7 +41,8 @@ export class LdapPropertiesService {
                     of(attributes), 
                     this.api.search(SearchQueries.getProperites(entityId ?? '')).pipe(map(x => {
                         return x.search_result[0].partial_attributes.flatMap( x => {
-                            return new EntityAttribute(x.type, x.vals.join(';'));
+                            const isWritable =  this.READONLY.findIndex(y => y == x.type) < 0;
+                            return new EntityAttribute(x.type, x.vals.join(';'), false, isWritable);
                         });
                     }))
                 )
@@ -69,6 +71,7 @@ export class LdapPropertiesService {
                     }
                     element.val = newVal;
                     element.changed = true;
+                    element.writable = this.READONLY.findIndex(x => x == element.name) < 0;
                 });
             }),
             map(([attributes, values]) => {
@@ -81,7 +84,7 @@ export class LdapPropertiesService {
                     if(multipleValues.length <= 0) {
                         return attributes;
                     }
-                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x, val.changed));
+                    const newAttributes = multipleValues.map(x => new EntityAttribute(val.name, x, val.changed, val.writable));
                     if(indx >= 0) {
                         attributes[indx].val = newAttributes[0].val;
                         attributes[indx].changed = newAttributes[0].changed;
