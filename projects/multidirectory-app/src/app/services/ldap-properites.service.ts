@@ -51,16 +51,16 @@ export class LdapPropertiesService {
                 if(!oldValues) {
                     return;
                 }
-                oldValues.forEach(element => {
-                    if(!element.changed) {
+                oldValues.forEach(oldValue => {
+                    if(!oldValue.changed) {
                         return;
                     }
-                    if(Array.isArray(element.val)) {
-                        element.val = element.val.join(';')
+                    if(Array.isArray(oldValue.val)) {
+                        oldValue.val = oldValue.val.join(';')
                     }
-                    const vals = values.filter(x => x.name == element.name);
+                    const vals = values.filter(x => x.name == oldValue.name);
                     if(!vals || vals.length == 0) {
-                        values.push(element);
+                        values.push(oldValue);
                         return;
                     }
                     let newVal;
@@ -69,9 +69,9 @@ export class LdapPropertiesService {
                     } else {
                         newVal = vals[0].val;
                     }
-                    element.val = newVal;
-                    element.changed = true;
-                    element.writable = this.READONLY.findIndex(x => x == element.name) < 0;
+                    oldValue.val = newVal;
+                    oldValue.changed = true;
+                    oldValue.writable = this.READONLY.findIndex(x => x == oldValue.name) < 0;
                 });
             }),
             map(([attributes, values]) => {

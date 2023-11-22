@@ -71,7 +71,6 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     showNextStep() {
-        console.log('NEXT');
         if(!this.stepValid) {
             this.setup.invalidate();
             this.toastr.error(translate('please-check-errors'));

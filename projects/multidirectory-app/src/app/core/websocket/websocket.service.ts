@@ -28,12 +28,21 @@ export class WebsocketTokenHandle {
             binaryType: 'blob',
             closeObserver: {
               next: (event: CloseEvent) => {
+                if(event.code > 0) {
+                    this._inputRx.next({ status: 'closed', message: event.code + ': ' + event.reason });
+                }
                 this.disconnect();
+              },
+              error: (error) => {
+                console.log('error');
               }
             },
             openObserver: {
               next: (event: Event) => {
                 console.log('WebSocket connected!');
+              },
+              error: (error) => {
+                console.log('error');
               }
             }
         };
