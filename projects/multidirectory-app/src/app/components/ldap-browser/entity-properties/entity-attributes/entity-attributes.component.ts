@@ -1,16 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild, forwardRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { translate } from "@ngneat/transloco";
-import { ModalInjectDirective, ModalService, Page } from "multidirectory-ui-kit";
+import { ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { PropertyTypeResolver } from "projects/multidirectory-app/src/app/core/ldap/property-type-resolver";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
-import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { LdapPropertiesService } from "projects/multidirectory-app/src/app/services/ldap-properites.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { DatagridComponent } from "projects/multidirectory-ui-kit/src/public-api";
-import { EMPTY, Subject, filter, map, of, switchMap, take, tap, zip } from "rxjs";
+import { EMPTY, Subject, switchMap, take } from "rxjs";
 
 
 export class EntityAttribute { 
@@ -33,7 +32,7 @@ export class AttributeFilter {
     templateUrl: './entity-attributes.component.html',
     styleUrls: ['./entity-attributes.component.scss']
 })
-export class EntityAttributesComponent implements OnInit {
+export class EntityAttributesComponent implements AfterViewInit {
     @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
     @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
     unsubscribe = new Subject<boolean>();
@@ -61,18 +60,21 @@ export class EntityAttributesComponent implements OnInit {
         private attributes: AttributeService,
         private cdr: ChangeDetectorRef,
         private properties: LdapPropertiesService,
+        private modalControl: ModalInjectDirective,
         private toastr: ToastrService) {}
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         this.attributes.entityAccessorRx().pipe(
             switchMap(attr =>{ 
                 this.accessor = attr;
                 return !! attr? this.properties.loadData(<any>attr['$entitydn'][0]) : EMPTY
             }),
             take(1)
-        ).subscribe(x => {
-            this.allRows = this.filterData(x);
-            this.onPageChanged(this.page);
+        ).subscribe({
+            next: x => {
+                this.allRows = this.filterData(x);
+                this.onPageChanged(this.page);
+            }
         })
     }
 

@@ -68,13 +68,13 @@ export class ModalInjectDirective implements OnInit, OnChanges {
         const wrapped = this.viewContainerRef.createComponent(MdModalComponent, {
             projectableNodes: nodes
         });
+        this._modal = wrapped.instance;
         if(modalOptions) {
             Object.entries(modalOptions).forEach(x => { wrapped.setInput(x[0], x[1])});
         }
         if(contentOptions) {
             this.contentOptions = contentOptions;
         }
-        this._modal = wrapped.instance;
         this.cdr.detectChanges();   
         this._modal!.open();
         this._modal!.modalRoot?.calcBodyHeight();

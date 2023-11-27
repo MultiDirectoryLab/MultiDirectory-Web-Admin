@@ -14,7 +14,7 @@
           "integration-disabled": "Интеграция выключена"
         },
         "mf-admin-integration": {
-          "header": "Подключение к Мультфактору для администратором",
+          "header": "Подключение к Мультфактору для администраторов",
           "apply": "Применить",
           "integration-success": "Интеграция включена",
           "integration-failed": "Произошла ошибка",
@@ -413,5 +413,11 @@
     },
     "backend-status": {
       "backend-is-not-responding": "Сервер не отвечает"
+    },
+    "errors": {
+        "entry-already-exists": "Сущность с таким именем уже существует",
+        "unknown-error": "Неизвестная ошибка",
+        "filter-error": "Ошибка фильтра",
+        "forbidden": "Доступ запрещен"
     }
 }

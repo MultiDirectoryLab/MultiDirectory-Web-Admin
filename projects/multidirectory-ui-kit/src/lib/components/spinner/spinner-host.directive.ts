@@ -1,10 +1,10 @@
-import { AfterViewInit, ComponentRef, Directive, ElementRef, Input, Renderer2, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ComponentRef, Directive, ElementRef, Input, OnInit, Renderer2, ViewContainerRef } from '@angular/core';
 import { SpinnerComponent } from './spinner.component';
 
 @Directive({
   selector: '[spinnerHost]',
 })
-export class SpinnerHostDirective implements AfterViewInit {
+export class SpinnerHostDirective implements OnInit {
     @Input() spinnerName = '';
 
     public spinner?: SpinnerComponent;
@@ -15,7 +15,7 @@ export class SpinnerHostDirective implements AfterViewInit {
         public viewContainerRef: ViewContainerRef) { 
     }
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         this.spinnerRef = this.viewContainerRef.createComponent(SpinnerComponent);
         this.spinner = this.spinnerRef.instance;
         this.spinner.name = this.spinnerName;

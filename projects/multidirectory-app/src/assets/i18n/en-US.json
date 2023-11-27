@@ -413,5 +413,11 @@
     },
     "backend-status": {
       "backend-is-not-responding": "Backend is not responding"
+    },
+    "errors": {
+        "entry-already-exists": "Entry with that name already exists",
+        "unknown-error": "Unknown Error",
+        "filter-error": "Filter Error",
+        "forbidden": "Access is Forbidden"
     }
 }
