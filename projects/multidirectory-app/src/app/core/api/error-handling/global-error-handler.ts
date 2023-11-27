@@ -1,4 +1,5 @@
 import { ErrorHandler, Inject, Injectable, Injector } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable()
@@ -15,6 +16,10 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error: any) {
         console.error(error);
-        this.toastr.error(error?.statusText ?? error?.message ?? "Неизвестная ошибка", "Неизвестная ошибка", { onActivateTick: true });
+        this.toastr.error(
+            error?.statusText ?? error?.message ?? translate("errors.unknown-error"), 
+            translate("errors.unknown-error"), 
+            { onActivateTick: true }
+        );
     }
 }

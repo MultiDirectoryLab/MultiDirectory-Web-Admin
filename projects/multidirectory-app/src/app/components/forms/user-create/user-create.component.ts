@@ -74,7 +74,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
         }),
         new PartialAttribute({
           type: 'displayName',
-          vals: [this.setupRequest.upnLogin]
+          vals: [this.setupRequest.fullName]
         }),
         new PartialAttribute({
           type: 'givenName',

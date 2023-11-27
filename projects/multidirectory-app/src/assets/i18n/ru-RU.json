@@ -413,5 +413,11 @@
     },
     "backend-status": {
       "backend-is-not-responding": "Сервер не отвечает"
+    },
+    "errors": {
+        "entry-already-exists": "Сущность с таким именем уже существует",
+        "unknown-error": "Неизвестная ошибка",
+        "filter-error": "Ошибка фильтра",
+        "forbidden": "Доступ запрещен"
     }
 }

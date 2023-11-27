@@ -8,7 +8,6 @@ export class ApiAdapter<Settings extends AdapterSettings> {
     constructor(private httpClient: HttpClient, private _settings: Settings, private toastr: ToastrService) {}
 
     getBaseUrl(resource: string): URL {
-        
         return new URL(this._settings.baseUrl + '/' + resource);
     }
     post<T>(resource: string, body: any = null, ): PostRequest<T> {
