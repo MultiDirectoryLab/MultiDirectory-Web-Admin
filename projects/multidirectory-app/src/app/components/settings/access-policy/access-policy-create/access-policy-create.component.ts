@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { DropdownOption, MdFormComponent, ModalInjectDirective, MultiselectComponent } from "multidirectory-ui-kit";
 import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
 import { IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
@@ -36,9 +37,9 @@ export class AccessPolicyCreateComponent implements OnInit {
     MfaAccessEnum = MfaAccessEnum;
     mfaAccess = MfaAccessEnum.SelectedGroups;
     options: DropdownOption[] = [ 
-        { title: 'Всем', value: MfaAccessEnum.Everyone },
-        { title: 'Никому', value: MfaAccessEnum.Noone },
-        { title: 'Выбранным группам', value: MfaAccessEnum.SelectedGroups }
+        { title: translate('access-policy-create.everyone'), value: MfaAccessEnum.Everyone },
+        { title: translate('access-policy-create.noone'), value: MfaAccessEnum.Noone },
+        { title: translate('access-policy-create.selectedgroups'), value: MfaAccessEnum.SelectedGroups }
     ];
     groupQuery = '';
     availableGroups: MultiselectModel[] = [];
@@ -51,7 +52,7 @@ export class AccessPolicyCreateComponent implements OnInit {
     
         this.accessClient = this.modalControl.contentOptions!.accessPolicy;
         
-        this.ipAddresses = this.accessClient.ipRange.join(', ');
+        this.ipAddresses = this.accessClient.ipRange.map((x: any) => x instanceof Object? x.start + '-' + x.end : x).join(', ');
 
         this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
         this.availableGroups = this.accessClient.groups.map(x => new MultiselectModel({
@@ -89,15 +90,16 @@ export class AccessPolicyCreateComponent implements OnInit {
             if(!result) {
                 return;
             }
-            this.ipAddresses = result.join(', ');
-            this.accessClient.ipRange = result;
+            this.ipAddresses = result.map((x: any) => x instanceof Object? x.start + '-' + x.end : x).join(', ');
+            this.accessClient.ipRange = this.accessClient.ipRange = result;
         });
     }
 
     onIpChanged() {
-        this.accessClient.ipRange = this.ipAddresses.split(',').map(x => {
+        this.accessClient.ipRange = this.accessClient.ipRange = this.ipAddresses.split(',').map(x => {
+            x = x.trim()
             if(x.includes('-')) {
-                const parts = x.split('-');
+                const parts = x.split('-').map(x => x.trim());
                 return new IpRange({
                     start: parts[0],
                     end: parts[1]

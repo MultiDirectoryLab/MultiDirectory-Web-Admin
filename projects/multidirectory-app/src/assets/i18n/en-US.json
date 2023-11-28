@@ -275,7 +275,7 @@
       "members": "Members"
     },
     "header": {
-      "folder": "Catalog",
+      "folder": "Container",
       "select-folder": "Select a Catalog",
       "add-remove-columns": "Add/remove columns...",
       "hide-left-panel": "Hide Tree",
@@ -325,7 +325,10 @@
       "check-groups": "Check",
       "cancel": "Cancel",
       "approve": "Apply",
-      "mfa-groups": "MFA Groups"
+      "mfa-groups": "MFA Groups",
+      "everyone": "Everyone",
+      "noone": "Nobody",
+      "selectedgroups": "Selected Groups"
     },
     "access-policy-ip-list": {
       "modal-header": "Valid addresses",
