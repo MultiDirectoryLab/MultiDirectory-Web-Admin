@@ -336,7 +336,7 @@
     "access-policy-ip-list": {
         "modal-header": "Допустимые адреса",
         "header": "Адрес, маска подсети или диапазон",
-        "expample": "Пример:",
+        "example": "Пример:",
         "cancel": "Отменить",
         "approve": "Применить",
         "incorrect-ip-format": "Формат адреса неверен"
