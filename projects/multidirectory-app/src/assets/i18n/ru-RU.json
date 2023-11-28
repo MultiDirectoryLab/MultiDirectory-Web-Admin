@@ -276,7 +276,7 @@
     },
     "header": {
         "folder": "Контейнер",
-        "select-folder": "Выберите каталог",
+        "select-folder": "Выберите контейнер",
         "add-remove-columns": "Добавить/удалить столбцы...",
         "hide-left-panel": "Скрыть дерево",
         "small-icons": "Маленькие иконки",

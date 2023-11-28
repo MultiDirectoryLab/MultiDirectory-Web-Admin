@@ -276,7 +276,7 @@
     },
     "header": {
       "folder": "Container",
-      "select-folder": "Select a Catalog",
+      "select-folder": "Select a Container",
       "add-remove-columns": "Add/remove columns...",
       "hide-left-panel": "Hide Tree",
       "small-icons": "Small Icons",
