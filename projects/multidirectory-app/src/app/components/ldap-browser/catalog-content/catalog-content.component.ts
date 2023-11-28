@@ -147,7 +147,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.info(translate('catalog-content.select-group-catalog'));
             return;
         }
-        this.createGroupModal?.open({ 'width': '580px' }).pipe(take(1)).subscribe(() => {
+        this.createGroupModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
             this.loadData();
         });
     }
@@ -157,7 +157,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             this.toastr.info(translate('catalog-content.select-ou-catalog'));
             return;
         }
-        this.createOuModal?.open().pipe(take(1)).subscribe(x => {
+        this.createOuModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(x => {
             this.loadData();
         });
     }
