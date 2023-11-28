@@ -33,7 +33,7 @@
         "group-type-label": "Тип группы",
         "group-type-security": "Группа безопасности",
         "group-type-distribution": "Группа распространения",
-        "apply": "Готово",
+        "apply": "Сохранить",
         "unable-create-group": "Не удалось создать группу"
     },
     "catalog-selector": {
@@ -66,7 +66,7 @@
         "header": "Добавить в: ",
         "ouname-label": "Введите название организационного подразделения",
         "cancel": "Отмена",
-        "apply": "Создать"
+        "apply": "Сохранить"
     },
     "setup": {
         "setup-complete": "Настройка выполнена",
@@ -92,7 +92,7 @@
         "add-to": "Добавить в:",
         "back": "Назад",
         "next": "Далее",
-        "finish": "Готово",
+        "finish": "Сохранить",
         "unable-create-user": "Не удалось создать пользователя",
         "general-info": {
             "first-name-label": "Имя",

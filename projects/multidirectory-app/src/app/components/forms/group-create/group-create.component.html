@@ -13,18 +13,17 @@
             <md-textbox class="col-xs-6" 
                 appRequired 
                 [(ngModel)]="setupRequest.groupName"
-                name="repeatPassword"></md-textbox>
+                name="groupName"></md-textbox>
         </div>
-        <div class="row align-center pv-8">
+        <div class="row align-center pv-8"  style="display: none" >
             <div class="col-xs-6"><label for="repeatPassword" transloco="group-create.group-name-legacy"></label></div>
             <md-textbox class="col-xs-6" 
-                appRequired 
                 [(ngModel)]="setupRequest.groupNameLegacy"
                 name="repeatPassword"></md-textbox>
         </div>
 
-        <div class="row align-center pv-8">
-            <md-radiogroup class="col-xs-6" #groupScope  appRequired  [drawBorder]="true"
+        <div class="row align-center pv-8" style="display: none">
+            <md-radiogroup class="col-xs-6" #groupScope   [drawBorder]="true"
                 [(ngModel)]="setupRequest.groupScope" [title]="'group-create.group-scope-label' | transloco ">
                 <md-radiobutton name="groupScope" [group]="groupScope" [value]="1">
                     <span transloco="group-create.group-scope-local"></span>
@@ -36,7 +35,7 @@
                     <span transloco="group-create.group-scope-universal"></span>
                 </md-radiobutton>
             </md-radiogroup>
-            <md-radiogroup class="col-xs-6 h-100" #groupType appRequired  [drawBorder]="true" 
+            <md-radiogroup class="col-xs-6 h-100" #groupType style="display: none"   [drawBorder]="true" 
                 [(ngModel)]="setupRequest.groupType" [title]="'group-create.group-type-label' | transloco ">
                 <md-radiobutton name="groupType" [group]="groupType" [value]="1">
                     <span transloco="group-create.group-type-security"></span>
@@ -47,7 +46,6 @@
             </md-radiogroup>
         </div>
     </md-form>
-    <hr />
 </div>
 <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
