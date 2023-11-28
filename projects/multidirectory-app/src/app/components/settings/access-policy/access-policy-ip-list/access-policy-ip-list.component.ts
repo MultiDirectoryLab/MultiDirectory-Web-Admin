@@ -12,7 +12,7 @@ export class IpAddressStatus {
 
     constructor(address: IpOption = '', valid: boolean = false) {
         this.address = address;
-        this.title = typeof this.address == 'string' ? this.address : `${this.address.start}-${this.address.end}}` 
+        this.title = typeof this.address == 'string' ? this.address : `${this.address.start}-${this.address.end}` 
         this.validate();
     }
 
@@ -21,6 +21,15 @@ export class IpAddressStatus {
         const validSubnet = new RegExp(/^(?:\d{1,3}\.?){4}(?:\/\d{1,3})?$/);
         this.valid = false;
         if(typeof (this.address) == 'string') {
+            if(this.address.includes('-')) {
+                const parts = this.address.split('-').map(x => x.trim());
+                this.address = new IpRange({
+                    start: parts[0],
+                    end: parts[1]
+                });
+                this.valid = [this.address.end, this.address.start].every(x => x.match(validIp) || x.match(validSubnet));
+                return this;
+            }
             this.valid = !!this.address.match(validIp) || !!this.address.match(validSubnet);
         } else {
             this.valid = [this.address.end, this.address.start].every(x => x.match(validIp) || x.match(validSubnet));
@@ -31,7 +40,7 @@ export class IpAddressStatus {
     update(input: string) {
         this.title = input;
         if(input.includes('-')) {
-            const parts = input.split('-');
+            const parts = input.split('-').map(x => x.trim());
             const validIp = new RegExp(/^(?:\d{1,3}\.?){4}$/);
             const validSubnet = new RegExp(/^(?:\d{1,3}\.?){4}(?:\/\d{1,3})?$/);
             if(parts.length == 2 && parts.every(x => x.match(validIp) || x.match(validSubnet))) {
@@ -72,6 +81,9 @@ export class AccessPolicyIpListComponent implements OnInit {
     }
 
     addEntry(input: string) {
+        if(input.trim() == '') {
+            return;
+        }
         this._ipAddresses.push(
             new IpAddressStatus().update(input)
         ); 

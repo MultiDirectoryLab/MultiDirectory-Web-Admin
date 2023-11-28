@@ -22,7 +22,7 @@ export class AccessPolicyComponent implements AfterViewInit {
     @Input() set accessClient(accessClient: AccessPolicy | null) {
         this._accessClient = accessClient;
         if(this._accessClient) {
-            this.ipAddress = this._accessClient.ipRange.join(', ');
+            this.ipAddress = this._accessClient.ipRange.map(x => x instanceof Object ? x.start + '-' + x.end : x).join(', ');
             this.groups = this._accessClient.groups.map(x => {
                 const name = new RegExp(Constants.RegexGetNameFromDn).exec(x);
                 return name?.[1] ?? x;
@@ -31,6 +31,7 @@ export class AccessPolicyComponent implements AfterViewInit {
     } 
 
     ipAddress = '';
+
     groups = '';
     constructor(private toastr: ToastrService, private cdr: ChangeDetectorRef) {}
 

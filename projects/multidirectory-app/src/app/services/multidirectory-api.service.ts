@@ -88,7 +88,17 @@ export class MultidirectoryApiService {
                     name: policy.name,
                     enabled: policy.enabled,
                     groups: policy.groups,
-                    ipRange: policy.netmasks,
+                    ipRange: policy.raw.map(x => {
+                        if(typeof x == 'string' && x.includes('IPv4Address')) {
+                            const matchRegex = new RegExp(/(?:IPv4Address\(\'([^']*)'\))/gi);
+                            const result = Array.from(x.matchAll(matchRegex))
+                            if(!result || result?.length < 2) {
+                                return x;
+                            }
+                            return result[0][1] + '-' + result[1][1]
+                        }
+                        return x;
+                    }),
                     priority: policy.priority,
                     mfaStatus: policy.mfa_status,
                     mfaGroups: policy.mfa_groups

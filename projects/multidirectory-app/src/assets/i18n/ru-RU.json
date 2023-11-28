@@ -275,7 +275,7 @@
         "members": "Членство"
     },
     "header": {
-        "folder": "Каталог",
+        "folder": "Контейнер",
         "select-folder": "Выберите каталог",
         "add-remove-columns": "Добавить/удалить столбцы...",
         "hide-left-panel": "Скрыть дерево",
@@ -328,7 +328,10 @@
         "check-groups": "Проверить",
         "cancel": "Отмена",
         "approve": "Применить",
-        "mfa-groups": "Группы для MFA"
+        "mfa-groups": "Группы для MFA",
+        "everyone": "Everyone",
+        "noone": "Nobody",
+        "selectedgroups": "Выбранным группам"
     },
     "access-policy-ip-list": {
         "modal-header": "Допустимые адреса",
