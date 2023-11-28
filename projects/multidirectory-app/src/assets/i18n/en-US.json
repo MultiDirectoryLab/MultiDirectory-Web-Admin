@@ -276,7 +276,7 @@
     },
     "header": {
       "folder": "Container",
-      "select-folder": "Select a Catalog",
+      "select-folder": "Select a Container",
       "add-remove-columns": "Add/remove columns...",
       "hide-left-panel": "Hide Tree",
       "small-icons": "Small Icons",
@@ -333,7 +333,7 @@
     "access-policy-ip-list": {
       "modal-header": "Valid addresses",
       "header": "Address, subnet mask or range",
-      "expample": "Example:",
+      "example": "Example:",
       "cancel": "Cancel",
       "approve": "Apply",
       "incorrect-ip-format": "Incorrect format of an IP Address"
