@@ -320,7 +320,7 @@
     },
     "access-policy-create": {
         "modal-header": "Добавить клиент",
-        "domain": "Домен",
+        "domain": "Имя",
         "ip-addresses": "IP Адреса",
         "add": "Добавить",
         "access-group": "Группы доступа",

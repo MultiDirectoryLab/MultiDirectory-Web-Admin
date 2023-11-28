@@ -317,7 +317,7 @@
     },
     "access-policy-create": {
       "modal-header": "Add a client",
-      "domain": "Domain",
+      "domain": "Name",
       "ip-addresses": "IP Addresses",
       "add": "Add",
       "access-group": "Access groups",
