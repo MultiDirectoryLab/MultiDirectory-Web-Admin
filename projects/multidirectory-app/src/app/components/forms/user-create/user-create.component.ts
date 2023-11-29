@@ -107,8 +107,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
   }
   
   onClose(): void {
-    this.setupRequest = new UserCreateRequest();
-    this.stepper.reset();
+    this.modalControl?.close(null);
   }
 
   nextStep() {

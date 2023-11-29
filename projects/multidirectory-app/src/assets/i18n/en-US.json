@@ -41,6 +41,7 @@
       "group-type-label": "Group type",
       "group-type-security": "Security group",
       "group-type-distribution": "Distribution group",
+      "cancel": "Cancel",
       "apply": "Save",
       "unable-create-group": "Unable to create group",
       "description": "Description"
@@ -94,6 +95,7 @@
     "user-create": {
       "modal-header": "New object - User",
       "add-to": "Add to:",
+      "cancel": "Cancel",
       "back": "Back",
       "next": "next",
       "finish": "Save",

@@ -35,6 +35,7 @@
         "group-type-label": "Тип группы",
         "group-type-security": "Группа безопасности",
         "group-type-distribution": "Группа распространения",
+        "cancel": "Отменить",
         "apply": "Сохранить",
         "unable-create-group": "Не удалось создать группу",
         "description": "Описание"
@@ -94,6 +95,7 @@
     "user-create": {
         "modal-header": "Новый объект - Пользователь",
         "add-to": "Добавить в:",
+        "cancel": "Отмена",
         "back": "Назад",
         "next": "Далее",
         "finish": "Сохранить",
