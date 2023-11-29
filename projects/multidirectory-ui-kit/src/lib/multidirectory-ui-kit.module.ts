@@ -39,6 +39,7 @@ import { MultiselectComponent } from './components/multiselect/multiselect.compo
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     MultiselectBadgeComponent,
     MultiselectComponent,
     TooltipComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    AlertComponent
   ],
   imports: [
     CommonModule,
@@ -115,7 +117,8 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     GroupComponent,
     MultiselectComponent,
     TooltipComponent,
-    DatepickerComponent
+    DatepickerComponent,
+    AlertComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

@@ -18,7 +18,7 @@ import { AbstractControl, NG_VALIDATORS, PatternValidator, ValidationErrors, Val
 
 
     validate(control: AbstractControl): ValidationErrors | null {
-        const format = this.isSecret ? this.secretFormat : this.keyFormat;
+        const format = new RegExp(this.isSecret ? this.secretFormat : this.keyFormat);
 
         return format.test(control.value) ? null : { 
           'MfKeyFormat' : this.isSecret ? this.secretErrorLabel : this.keyErrorLabel

@@ -11,14 +11,16 @@
         "apply": "Apply",
         "integration-success": "Integration Enabled",
         "integration-failed": "Error has occured",
-        "integration-disabled": "Integration disabled"
+        "integration-disabled": "Integration disabled",
+        "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for all users:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Multidirectory</b>';</li>\n<li>On the resource's page you will see the <b>'NAS Identifier'</b> and <b>'Shared Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
       },
       "mf-admin-integration": {
         "header": "Multifactor Admin Integration",
         "apply": "Apply",
         "integration-success": "Integration Enabled",
         "integration-failed": "Error has occured",
-        "integration-disabled": "Integration disabled"
+        "integration-disabled": "Integration disabled",
+        "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for an admin entrance:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Web-Site</b>';</li>\n<li>On the resource's page you will see the <b>'API Key'</b> and <b>'API Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
       }
     },
     "catalog-selector": {
@@ -290,7 +292,9 @@
       "view-settings": "Customize View...",
       "account-settings": "Account Settings",
       "logout": "Sign Out",
-      "change-password": "Change Password"
+      "change-password": "Change Password",
+      "container-path-copied": "DN was copied to clipboard",
+      "container-path-copy-error": "An error has occured during DN copying: "
     },
     "home": {
       "account-settings": "Account Settings",

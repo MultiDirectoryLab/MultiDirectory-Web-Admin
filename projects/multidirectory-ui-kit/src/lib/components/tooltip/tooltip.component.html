@@ -4,10 +4,15 @@
         'tooltip-visible': tooltipVisible
     }"
     [ngStyle]="{
-        'minWidth': width + 'px'
+        'minWidth': width + 'px',
+        'maxWidth': width + 'px',
     }"
     >
-        <ng-content></ng-content>
+        <div class="relative" [ngStyle]="{
+            'left': left + 'px'
+        }">
+            <ng-content></ng-content>
+        </div>
     </div>
 </div>
 
