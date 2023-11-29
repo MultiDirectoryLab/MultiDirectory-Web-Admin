@@ -83,7 +83,7 @@ export class DatagridComponent implements AfterViewInit {
      }
 
     SelectionType = SelectionType;
-    pageSizes: DropdownOption[] = [ 
+    @Input() pageSizes: DropdownOption[] = [ 
         { title: '5', value: 5 },
         { title: '10', value: 10 },
         { title: '15', value: 15 },
@@ -93,13 +93,15 @@ export class DatagridComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
+        this.page.size = this.pageSizes?.[0]?.value ?? this.page.size;
         if(this.name) {
             const size =  Number(localStorage.getItem(`gridSize_${this.name}`));
-            if(!isNaN(size) && size > 0) {
+            if(!isNaN(size) && size > 0 && this.pageSizes.findIndex(x => x.value == size) > -1) {
                 this.page.size = size;
                 this.cdr.detectChanges();
-            }
+            } 
         }
+
     }
     
     select(row: any) {

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, forwardRef } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
-import { DatagridComponent, DropdownMenuComponent, Page, Treenode } from "multidirectory-ui-kit";
+import { DatagridComponent, DropdownMenuComponent, DropdownOption, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject } from "rxjs";
@@ -25,7 +25,13 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     columns: TableColumn[] = [];
     rows: TableRow[] = [];
     unsubscribe = new Subject<void>();
-
+    pageSizes: DropdownOption[] = [
+        { title: '15', value: 15 },
+        { title: '20', value: 20 },
+        { title: '30', value: 30 },
+        { title: '50', value: 50 },
+        { title: '100', value: 100 }
+    ]
     constructor(
         private navigation: LdapNavigationService,
         private windows: LdapWindowsService,
