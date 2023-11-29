@@ -3,4 +3,5 @@ export class GroupCreateRequest {
     public groupNameLegacy: string = ''; 
     public groupType = '';
     public groupScope = '';
+    public description = '';
 }

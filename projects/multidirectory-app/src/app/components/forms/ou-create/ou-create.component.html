@@ -6,12 +6,19 @@
     <div class="place">{{ 'ou-create.header' | transloco }} {{selectedNode?.name ?? ''}}</div>
 </div>  
 <hr />
-<div class="flex-row align-start justify-end flex-gap-10" style="min-height: 200px;">
+<div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px;">
     <md-form #form>
-        <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
-        <md-textbox appRequired  [(ngModel)]="_setupRequest" name="ouname"></md-textbox>
+        <div class="flex-column align-start justify-end flex-gap-10" >
+                <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
+                <md-textbox appRequired  [(ngModel)]="_setupRequest" name="ouname"></md-textbox>
+        </div>
+        <div class="flex-column align-start flex-space-between flex-gap-10">
+            <label for="description">{{ 'ou-create.description' | transloco }}</label>
+            <md-textarea [expandWidth]="true"  [(ngModel)]="description" name="description"></md-textarea>
+        </div>
     </md-form>
-</div>
+</div>  
+
 <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
         <md-button (click)="onClose()">

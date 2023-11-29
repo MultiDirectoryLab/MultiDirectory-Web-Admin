@@ -4,6 +4,7 @@ export class UserCreateRequest {
     initials = '';
     lastName = '';
     fullName = '';
+    description = '';
     upnLogin= '';
     upnDomain = '';
     domainLogin = '';

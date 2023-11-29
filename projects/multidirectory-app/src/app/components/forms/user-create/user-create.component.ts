@@ -65,6 +65,10 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
           vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
         }),
         new PartialAttribute({
+          type: 'description',
+          vals: [this.setupRequest.description]
+        }),
+        new PartialAttribute({
           type: 'sAMAccountName',
           vals: [this.setupRequest.upnLogin]
         }),

@@ -36,7 +36,8 @@
         "group-type-security": "Группа безопасности",
         "group-type-distribution": "Группа распространения",
         "apply": "Сохранить",
-        "unable-create-group": "Не удалось создать группу"
+        "unable-create-group": "Не удалось создать группу",
+        "description": "Описание"
     },
     "catalog-selector": {
         "modal-header": "Выберите каталог",
@@ -68,7 +69,8 @@
         "header": "Добавить в: ",
         "ouname-label": "Введите название организационного подразделения",
         "cancel": "Отмена",
-        "apply": "Сохранить"
+        "apply": "Сохранить",
+        "description": "Описание"
     },
     "setup": {
         "setup-complete": "Настройка выполнена",
@@ -104,7 +106,8 @@
             "logon-name-label": "Имя для входа:",
             "domain-label": "Домен",
             "legacy-logon-name-label": "Имя для входа(pre-Windows 2000):",
-            "legacy-domain-label": "Домен"
+            "legacy-domain-label": "Домен",
+            "description": "Описание"
         },
         "password-settings": {
             "password-label": "Пароль",
