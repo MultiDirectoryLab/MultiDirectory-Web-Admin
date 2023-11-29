@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import BitSet from "bitset";
-import { ModalInjectDirective } from "multidirectory-ui-kit";
+import { DropdownOption, ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { UserAccountControlFlag } from "projects/multidirectory-app/src/app/core/ldap/user-account-control-flags";
 import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
@@ -14,10 +14,10 @@ import { take, tap } from "rxjs";
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
     UserAccountControlFlag = UserAccountControlFlag;
-
+    domains: DropdownOption[] = []
     accessor!: LdapAttributes;
     uacBitSet?: BitSet;
-
+    upnDomain?: DropdownOption;
     get userShouldChangePassword(): boolean {
         return this.accessor?.['pwdLastSet']?.[0] === '0';
     }
@@ -33,7 +33,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
         this.accessor['pwdLastSet'] = [ Date.now().toString() ];
     }
 
-    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef) {
+    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {
     }
 
     ngAfterViewInit(): void {
@@ -54,6 +54,11 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
         ).subscribe(() => {
             this.cdr.detectChanges();
         });
+        this.domains = this.navigation.getRootDse().map(x => new DropdownOption({
+            title: x.node?.name,
+            value: x.node?.name
+        }));
+        this.upnDomain = this.domains?.[0]?.value;
     }
 
     @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;

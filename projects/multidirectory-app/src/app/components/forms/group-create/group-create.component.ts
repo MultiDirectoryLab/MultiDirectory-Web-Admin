@@ -76,6 +76,10 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
                     type: 'objectClass',
                     vals: [ 'group', 'top', 'posixGroup' ]
                 }),
+                new PartialAttribute({
+                    type: 'description',
+                    vals: [ this.setupRequest.description ]
+                }),
             ]
         })).pipe(catchError(err => {
             this.modalControl.modal?.hideSpinner();

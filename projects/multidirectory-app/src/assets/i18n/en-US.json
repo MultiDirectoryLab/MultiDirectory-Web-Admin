@@ -42,7 +42,8 @@
       "group-type-security": "Security group",
       "group-type-distribution": "Distribution group",
       "apply": "Save",
-      "unable-create-group": "Unable to create group"
+      "unable-create-group": "Unable to create group",
+      "description": "Description"
     },
     "entity-type-selector": {
       "modal-header": "Object Types",
@@ -68,7 +69,8 @@
       "header": "Add to:",
       "ouname-label": "Enter the name of the organizational unit",
       "cancel": "Cancel",
-      "apply": "Save"
+      "apply": "Save",
+      "description": "Description"
     },
     "setup": {
       "setup-complete": "Setup has completed successfully",
@@ -104,7 +106,8 @@
         "logon-name-label": "Login name:",
         "domain-label": "Domain",
         "legacy-logon-name-label": "Login(pre-Windows 2000):",
-        "legacy-domain-label": "Domain"
+        "legacy-domain-label": "Domain",
+        "description": "Description"
       },
       "password-settings": {
         "password-label": "Password",

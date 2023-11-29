@@ -18,6 +18,7 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('form') form!: MdFormComponent;
 
     _setupRequest = '';
+    description = ''
     @Input() set setupRequest(request: string) {
         this._setupRequest = request;
         this.form?.inputs.forEach(x => x.reset());
@@ -56,13 +57,20 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
         event.preventDefault();
         this.api.create(new CreateEntryRequest({
             entry: `cn=${this.setupRequest},` + this.selectedNode?.id,
-            attributes: [new PartialAttribute({
-              type: 'objectClass',
-              vals: [
-              'top', 'container', 'organizationalUnit'
-              ]
-            }),
-          ]
+            attributes: [
+                new PartialAttribute({
+                    type: 'objectClass',
+                    vals: [
+                    'top', 'container', 'organizationalUnit'
+                    ]
+                }),
+                new PartialAttribute({
+                    type: 'description',
+                    vals: [
+                        this.description
+                    ]
+                })
+            ]
         })).subscribe(x => {
           this.modalInejctor.close(x);
         });
