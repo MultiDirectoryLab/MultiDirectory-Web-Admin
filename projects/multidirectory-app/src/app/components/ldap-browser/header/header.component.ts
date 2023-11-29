@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
     selectedCatalog: LdapEntity | null = null;
+    containerName = '';
     ldapRoots: LdapEntity[] = [];
 
     ViewMode = ViewMode;
@@ -82,6 +83,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
         this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
             this.selectedCatalog = catalog;
+            const catalogId = catalog?.id 
+            if(!!catalogId) {
+                this.containerName = catalogId;
+            } else if(catalog?.entry?.object_name?.trim()) {
+                this.containerName = catalog?.entry?.object_name?.trim();
+            } else {
+                this.containerName = '';
+            }
             this.cdr.detectChanges();
         })
     }
