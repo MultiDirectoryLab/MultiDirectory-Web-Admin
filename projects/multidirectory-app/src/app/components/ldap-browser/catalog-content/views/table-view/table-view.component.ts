@@ -62,7 +62,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
             name: node.name ?? '',
             type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
             entry: node,
-            description: '',
+            description:  node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
         });
 
         this.grid.totalElements = this.selectedCatalog!.childCount!;

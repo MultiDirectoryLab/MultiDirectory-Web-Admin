@@ -9,6 +9,12 @@
     align-items: center;
     user-select: none;
 }
+.container-name {
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
 
 .header {
     padding-left: 1rem;

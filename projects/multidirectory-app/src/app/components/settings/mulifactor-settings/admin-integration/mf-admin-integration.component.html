@@ -3,7 +3,14 @@
         <div class="flex-row flex-center">
             <div class="title">
                 {{ t('header') }}
+                
             </div>
+            <md-tooltip class="help" [width]="550" [left]="-250" [iconPath]="'assets/info-circle.svg'">
+                <div [innerHTML]="t('help')"></div>
+            </md-tooltip>
+        </div>
+        <div class="flex-row flex-center">
+            
         </div>
         <div class="mf-control-grid">
             <label class="flex-gap-10" for="api-key">API Key</label>

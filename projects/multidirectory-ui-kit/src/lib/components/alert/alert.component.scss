@@ -1,0 +1,10 @@
+@use '../../styles/global' as global;
+
+.alert {
+    padding: 1rem 0.5rem;
+    width: 100%;
+    border-radius: 8px;
+    &.alert-info {
+        background-color: global.$md-white-blue-2;
+    }
+}

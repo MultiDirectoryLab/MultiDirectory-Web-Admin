@@ -10,6 +10,7 @@ export class TooltipComponent implements OnInit, OnDestroy{
     @Input() iconPath = 'info-circle.svg';
     @Input() delay = 200;
     @Input() width = 140;
+    @Input() left = 150;
     tooltipVisible = false;
     unsubscribe = new Subject<boolean>();
 

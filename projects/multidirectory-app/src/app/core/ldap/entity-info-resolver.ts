@@ -1,5 +1,6 @@
 import { translate } from "@ngneat/transloco";
 import { LdapEntityType } from "./ldap-entity-type";
+import { LdapEntity } from "./ldap-entity";
 
 export class EntityInfoResolver {
     static IconMap = new Map<LdapEntityType, string>([
@@ -51,5 +52,10 @@ export class EntityInfoResolver {
 
     static isExpandable(objectClass?: string[]) {
         return objectClass?.includes('container') || objectClass?.includes('builtinDomain');
+    }
+
+    static getNodeDescription(entry: LdapEntity) {
+        const attrIndex = entry.entry?.partial_attributes?.findIndex(x => x.type == 'description') ?? -1;
+        return attrIndex > -1 ? entry.entry!.partial_attributes[attrIndex].vals[0] : '';
     }
 }

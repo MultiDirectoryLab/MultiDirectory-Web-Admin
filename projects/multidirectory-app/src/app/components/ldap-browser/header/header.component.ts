@@ -10,6 +10,7 @@ import { MenuService } from "../../../services/menu.service";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { translate } from "@ngneat/transloco";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-header',
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private contentViewService: ContentViewService,
         private hotkeysService: HotkeysService,
         private ldapWindows: LdapWindowsService,
+        private toastr: ToastrService,
         private menu: MenuService,
         private cdr: ChangeDetectorRef) 
     {
@@ -120,6 +122,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
             return;
         }
         this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
+    }
+    onCopyDn($event: any) {
+        navigator.clipboard.writeText(this.containerName).then(() => {
+            this.toastr.success(translate('header.container-path-copied'));
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+            this.toastr.error(translate('header.container-path-copy-error'), err);
+        });
     }
 
     onChangePasswordClick() {

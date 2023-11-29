@@ -14,13 +14,16 @@
     .tooltip {
         display: none;
         position: fixed;
-        left: 50%;
-        background-color: global.$md-neutral-800;
-        color: #fff;
-        padding: 1rem;
-        border-radius: 6px;
+        z-index: 99;
         &.tooltip-visible {
             display: block;
+        }
+        .relative {
+            position: relative;
+            background-color: global.$md-neutral-800;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 6px;
         }
     }
     
