@@ -104,7 +104,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
 
     openEntityProperties(entity: LdapEntity) {
-        this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity });
+        this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1)).subscribe(x => {
+            this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
+        });
     }
     openAccountSettings() {
         if(!this.app.userEntry) {
