@@ -1,27 +1,4 @@
-<div class="fullscreen bg-white grid" *transloco="let t; read: 'settings'">
-    <div>
-        <img src="/assets/logo_login.svg" class="logo-img"/>
-    </div>
-    <div>
-        <app-settings-header></app-settings-header>
-    </div>
-    <div class="bg-white-neutral flex-column">
-        <app-settings-navigation></app-settings-navigation>
-        <div class="flex-row footer">
-            <div class="avatar"><img src="/assets/avatar_placeholder.svg" class="avatar-img"/></div>
-            <div class="user-info column">
-                <label>{{user?.display_name}}</label>
-                <label>{{user?.mail}}</label>
-            </div>
-            <div class="more-container">
-                <img src="/assets/more_vert.svg" class="more" [mdDropdownContainer]="loginMenu" />
-            </div>
-            <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="loginMenu.close(); logout()">{{t('logout')}}</div>
-            </md-dropdown-menu>
-        </div>
-    </div>
-    <div class="bg-white body">
-        <router-outlet></router-outlet>
-    </div>
+<div class="bg-white body">
+    <router-outlet></router-outlet>
 </div>
+    

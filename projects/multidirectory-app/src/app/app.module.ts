@@ -39,6 +39,9 @@ import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { EditorsModule } from './components/ldap-browser/editors/editors.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { AppLayoutComponent } from './components/app-layout/app-layout.component';
+import { AppSettingsModule } from './components/settings/app-settings.module';
 
 @NgModule({
   declarations: [
@@ -61,13 +64,16 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     SearchPanelComponent,
     SearchUsersComponent,
     SearchResultComponent,
-    BackendNotRespondedComponent
+    BackendNotRespondedComponent,
+    AppLayoutComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule, 
     DragDropModule,
     AppRoutingModule,
+    AppSettingsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,

@@ -22,10 +22,10 @@ describe('MdModalComponent', () => {
         fixture.detectChanges();
         component.openButton!.nativeElement.click();
         fixture.detectChanges();
-        expect(component.ModalComponent!.modalRoot!.visible).toBeTrue();
+        expect(component.modal!.modalRoot!.visible).toBeTrue();
         component.closeButton!.nativeElement.click();
         fixture.detectChanges();
-        expect(component.ModalComponent!.modalRoot!.visible).toBeFalse();
+        expect(component.modal!.modalRoot!.visible).toBeFalse();
     });
 
     it('should render body', () => {

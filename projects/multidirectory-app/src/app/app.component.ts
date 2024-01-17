@@ -14,7 +14,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   title = 'multidirectory-app';
   @ViewChild('spinner', {static: true}) spinner!: SpinnerComponent;
 
-  constructor(private windows: LdapWindowsService) {}
+  constructor(private windows: LdapWindowsService) {
+  }
+
   ngAfterViewInit(): void {
     this.windows.globalSpinnerRx.pipe(
       takeUntil(this.unsubscribe)
@@ -26,6 +28,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
+  
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();

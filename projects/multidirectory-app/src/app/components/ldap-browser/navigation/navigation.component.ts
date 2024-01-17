@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
-import { Page, TreeviewComponent } from "multidirectory-ui-kit";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { TreeviewComponent } from "multidirectory-ui-kit";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { NavigationEnd, Router, RouterEvent, Scroll } from "@angular/router";
+import { NavigationNode } from "../../../core/navigation/navigation-node";
+import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
 
 @Component({
     selector: 'app-navigation',
@@ -12,20 +14,75 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 export class NavigationComponent implements OnInit, OnDestroy {
     @ViewChild('treeView', { static: true } ) treeView?: TreeviewComponent;
     private unsubscribe = new Subject<void>();
-    ldapRoots: LdapEntity[] = [];
+    navigationTree: NavigationNode[] = []
+
     constructor(
         private navigation: LdapNavigationService,
-        private cdr: ChangeDetectorRef) {}
+        private cdr: ChangeDetectorRef,
+        private router: Router) {
+        }
     
     ngOnInit(): void {
-        this.navigation.ldapRootRx.pipe(takeUntil(this.unsubscribe)).subscribe(roots => {
-            this.ldapRoots = roots;
-            this.cdr.detectChanges();
+       this.initTree();
+       this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: any) => this.handleRouteChange(event))
+    }
+
+    handleRouteChange(event: RouterEvent) {
+        if(event instanceof Scroll) {
+            event = event.routerEvent;
+        }
+        if(!(event instanceof NavigationEnd)) {
+            return
+        }
+        let url = event.urlAfterRedirects;
+        if(url.startsWith('/')) {
+            url = url.substring(1);
+        }
+        let node: NavigationNode = new NavigationNode({});
+        TreeSearchHelper.traverseTree(this.navigationTree, (n: NavigationNode, path) => {
+            n.selected = false;
+            if(!n.route) {
+                return;
+            }
+            let nodeUrl = n.route.join('/')
+            if(nodeUrl.startsWith('/')) {
+                nodeUrl = nodeUrl.substring(1);
+            }
+            if(nodeUrl == url) {
+                node = n;
+            }
         });
-        this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
-            this.treeView?.selectNode(catalog);
-            this.cdr.detectChanges();
-        });
+        this.treeView?.selectNode(node);
+    }
+
+    private initTree() {
+        this.navigationTree = [
+            new NavigationNode({ 
+                id: 'root', 
+                name: 'MultiDirectory',
+                selectable: true,
+                // route: root
+                route: ['/'],
+                children: [
+                    new NavigationNode({
+                        id: 'accessPolicy',
+                        name: 'Access Policies',
+                        selectable: true,
+                        route: ['access-policy'],
+                        // route: access policy
+                        loadChildren: () => {
+                            
+                        }
+                    }),
+                    new NavigationNode({
+                        id: 'savedQueries',
+                        name: 'Saved Queries',
+                        selectable: true,
+                        route: ['/saved-queries'],
+                    })
+                ]
+            })
+        ]
     }
 
     ngOnDestroy(): void {
@@ -33,9 +90,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    handleNodeSelection(node: LdapEntity) {
-        const page = new Page(Object.assign({}, this.navigation.page));
-        page.pageNumber = 1;
-        this.navigation.setCatalog(node, page);
+    handleNodeSelection(node: NavigationNode) {
+        if(!!node.route) {
+            this.router.navigate(node.route)
+        }
     }
 }

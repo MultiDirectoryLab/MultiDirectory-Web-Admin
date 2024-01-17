@@ -1,14 +1,16 @@
-@use '../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
-
+@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 :host {
-    height: 100%;
     display: flex;
-    flex-flow: column;
+    height: 100%;
+    flex-flow: column wrap;
 }
-.right-pane {
+.sidebar {
+    z-index: 999;
+    display: flex;
+    flex-flow: column wrap;
     flex-grow: 1;
-    min-width: 0;
 }
+
 .treeview {
     flex-grow: 1;
     flex-shrink: 1;
@@ -22,6 +24,7 @@
         max-height: 50px;
     }
 }
+
 .user-info {
     flex-grow: 1;
 }
@@ -40,7 +43,6 @@
     background-color: global.$md-blue;
 }
 
-
 :host ::ng-deep .selected:not(.focused) .tree-icon {
     filter:  brightness(0%) invert(100%);
 }
@@ -57,7 +59,6 @@
         border: 1px solid global.$md-dark-blue-2;
     }
 }
-
 
 .left-pane {
     border-right: 1px solid lightgrey;

@@ -6,6 +6,9 @@ import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
 import { LdapAttributes } from "../core/ldap/ldap-entity-proxy";
 import { AttributeService } from "./attributes.service";
+import { LdapEntityType } from "../core/ldap/ldap-entity-type";
+import { translate } from "@ngneat/transloco";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -48,12 +51,38 @@ export class LdapNavigationService {
 
     constructor(
         private ldap: LdapLoader,
-        private attributes: AttributeService) {}
+        private router: Router) {}
     
     init() {
-      this.ldap.getRoot()
-        .subscribe(roots => {
-            this._ldapRootRx.next(roots);
+      return this.ldap.getRoot()
+        .subscribe(servers => {
+            const root = new LdapEntity({
+                name: translate('ldap-builder.root-dse-name'),
+                type: LdapEntityType.Root,
+                expanded: true,
+                id: 'root'
+            });
+            servers.forEach(x => x.parent  = root);
+
+            root.children = [
+                new LdapEntity({ name: translate("ldap-builder.saved-queries"), type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
+                new LdapEntity({ 
+                    name: translate("ldap-builder.access-policies"), 
+                    type: LdapEntityType.Folder, 
+                    selectable: true, 
+                    id: 'access-policy', 
+                    parent: root,
+                    clickAction: (node) => { 
+                        this.router.navigate(['/access-policy']).then(x => {
+                            if(x) {
+                                this.setSelection([node])
+                            }
+                        })
+                    }
+                }),
+                ...servers
+            ];
+            this._ldapRootRx.next([root]);
         });   
     }
 
@@ -83,10 +112,10 @@ export class LdapNavigationService {
         let found: any;
 
         for(let i = 0; i < dnParts.length && currentNode; i++) {
-            if(!!currentNode.loadChildren && currentNode.children == null)
+            if(!!currentNode.loadChildren && !currentNode.children)
             {
                 const childRx = currentNode.loadChildren();
-                currentNode.children = !!childRx ? await lastValueFrom(childRx) : null;
+                currentNode.children = !!childRx ? await lastValueFrom(childRx) : undefined;
                 currentNode.childrenLoaded = true;
             }
 
@@ -137,7 +166,7 @@ export class LdapNavigationService {
     }
 
 
-    async getEntityByDn(dn: string): Promise<Treenode | null> {
+    async getEntityByDn(dn: string): Promise<Treenode | undefined> {
         if(!this.ldapRoot) throw Error('Ldap root not found');
 
         const rootDseDNs = this.getRootDse();
@@ -151,10 +180,10 @@ export class LdapNavigationService {
         let found: any;
 
         for(let i = 0; i < dnParts.length && currentNode; i++) {
-            if(!!currentNode.loadChildren && currentNode.children == null)
+            if(!!currentNode.loadChildren && !currentNode.children)
             {
                 const childRx = currentNode.loadChildren();
-                currentNode.children = !!childRx ? await lastValueFrom(childRx) : null;
+                currentNode.children = !!childRx ? await lastValueFrom(childRx) : undefined;
                 currentNode.childrenLoaded = true;
             }
 
@@ -185,7 +214,7 @@ export class LdapNavigationService {
                     if(foundIndex > -1) {
                         return children[foundIndex].node;
                     }
-                    return null;
+                    return undefined;
                 })));
             } else {
                 currentNode = found?.node;
@@ -194,7 +223,7 @@ export class LdapNavigationService {
         if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
             return currentNode;
         }
-        return null;
+        return undefined;
     }
 
     setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity[] | null = null) {

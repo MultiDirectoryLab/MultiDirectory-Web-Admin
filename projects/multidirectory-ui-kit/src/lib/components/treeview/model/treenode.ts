@@ -6,11 +6,11 @@ export class Treenode {
     selectable = false;
     selected: boolean = false;
     expanded: boolean = false;
-    children: Treenode[] | null = null;
+    children?: Treenode[];
     childrenLoaded = false;
-    parent: Treenode | null = null;
+    parent?: Treenode;
     focused: boolean = false;
-    loadChildren: (() => Observable<Treenode[]>) | null = null;
+    loadChildren?: (() => Observable<Treenode[]>);
 
     constructor(obj: Partial<Treenode>) {
         Object.assign(this, obj);

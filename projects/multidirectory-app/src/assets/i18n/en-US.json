@@ -374,7 +374,8 @@
     },
     "ldap-builder": {
       "root-dse-name": "MultiDirectory Users & Computers",
-      "saved-queries": "Saved queries"
+      "saved-queries": "Saved queries",
+      "access-policies": "Access Policies"
     },
     "grid": {
       "no-data": "No data to display...",
