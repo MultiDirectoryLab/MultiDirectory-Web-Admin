@@ -8,45 +8,37 @@ import { EntityInfoResolver } from "./entity-info-resolver";
 import { LdapEntityType } from "./ldap-entity-type";
 import { LdapEntity } from "./ldap-entity";
 import { translate } from "@ngneat/transloco";
+import { Route, Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LdapLoader {
-    constructor(private api: MultidirectoryApiService) {}
+    constructor(private api: MultidirectoryApiService, private router: Router) {}
 
     getRoot(): Observable<LdapEntity[]> {
         return this.api.search(SearchQueries.RootDse).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
-                    const root = new LdapEntity({
-                        name: translate('ldap-builder.root-dse-name'),
-                        type: LdapEntityType.Root,
-                        expanded: true,
-                        id: 'root'
-                    });
+                   
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
                     const serverNode = new LdapEntity({ 
                             name: LdapLoader.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapEntityType.Server,
                             selectable: true,
                             entry: x,
-                            parent: root, 
+                            parent: undefined, 
                             id: namingContext?.vals[0] ?? ''
                         },
                     );
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
-
-                    root.children = [
-                        new LdapEntity({ name: translate("ldap-builder.saved-queries"), type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
-                        serverNode,
-                    ]
-                    return root;
+ 
+                    return serverNode;
                 }    
             ))
         );
     }
 
-    getChild(dn: string, parent: LdapEntity | null = null): Observable<Treenode[]> {
+    getChild(dn: string, parent: LdapEntity | undefined = undefined): Observable<Treenode[]> {
         return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapLoader.getSingleAttribute(x, 'name');

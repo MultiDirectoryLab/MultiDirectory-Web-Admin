@@ -2,12 +2,12 @@
 
 :host {
     background-color: #FAFAFA;
-    height: 100%;
     padding: 1rem;
     display: flex;
     flex-flow: column nowrap;
     user-select: none;
     overflow: auto;
+    height: 100%;
 }
 
 .control-pane {

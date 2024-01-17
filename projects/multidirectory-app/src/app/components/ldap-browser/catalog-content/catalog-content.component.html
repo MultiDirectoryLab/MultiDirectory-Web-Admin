@@ -28,8 +28,7 @@
         </span>
     </md-button>
 </div>
-
-<div class="w-100 h-100" [ngStyle]="{ visibility: selectedCatalog ? 'visible' : 'hidden' }">
+<div [ngStyle]="{ display: selectedCatalog ? 'block' : 'none' }" class="flex-column-expanded">
     <ng-container [ngSwitch]="currentView">
         <app-table-view
             *ngSwitchCase="ViewMode.Table"

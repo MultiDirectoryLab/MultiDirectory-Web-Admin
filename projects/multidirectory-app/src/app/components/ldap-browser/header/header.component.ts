@@ -11,6 +11,7 @@ import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-header',
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private ldapWindows: LdapWindowsService,
         private toastr: ToastrService,
         private menu: MenuService,
-        private cdr: ChangeDetectorRef) 
+        private cdr: ChangeDetectorRef,
+        private router: Router) 
     {
         this.hotkeysService.add(new Hotkey('ctrl+h', (event: KeyboardEvent): boolean => {
             this.onChange(!this.navigationalPanelInvisible);
@@ -111,7 +113,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.hotkeysService.cheatSheetToggle.next(true);
     }
     closeCatalog() {
-        this.navigation.setCatalog(null);
+        this.router.navigate(['/'])
         this.cdr.detectChanges();
     }
     openAccessControl() {

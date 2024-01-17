@@ -1,19 +1,18 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
 import { Subject, switchMap, take, takeUntil, tap } from "rxjs";
+import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapLoader } from "../../../core/ldap/ldap-loader";
+import { SearchQueries } from "../../../core/ldap/search";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
+import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
-import { SearchQueries } from "../../../core/ldap/search";
-import { LdapWindowsService } from "../../../services/ldap-windows.service";
-import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
-import { LdapLoader } from "../../../core/ldap/ldap-loader";
-import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
 
 @Component({
     selector: 'app-home',
@@ -37,8 +36,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
     @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
     unsubscribe = new Subject<boolean>();
+
     constructor(
-        private router: Router, 
+        private activatedRoute: ActivatedRoute,
         private navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef,
@@ -85,18 +85,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.openChangePassword(x);
         })
     }
+
     ngAfterViewInit(): void {
-        setTimeout(() => this.navigation.init());
     }
+
     ngOnDestroy(): void {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();
-    }
-
-    logout() {
-        localStorage.clear();
-        this.app.user = new WhoamiResponse({});
-        this.router.navigate(['/login'])
     }
 
     helpMenuClick() {
@@ -108,6 +103,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
         });
     }
+
     openAccountSettings() {
         if(!this.app.userEntry) {
             return;

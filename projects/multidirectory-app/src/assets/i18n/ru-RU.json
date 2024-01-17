@@ -374,7 +374,8 @@
     },
     "ldap-builder": {
       "root-dse-name": "Пользователи Multidirectory",
-      "saved-queries": "Cохраненные запросы"
+      "saved-queries": "Cохраненные запросы",
+      "access-policies": "Политики доступа"
     },
 
     "grid": {

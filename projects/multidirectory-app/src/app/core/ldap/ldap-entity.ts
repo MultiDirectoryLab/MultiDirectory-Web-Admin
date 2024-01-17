@@ -4,13 +4,14 @@ import { SearchEntry } from "../../models/entry/search-response";
 import { EntityInfoResolver } from "./entity-info-resolver";
 
 export class LdapEntity extends Treenode {
-    override parent: LdapEntity | null = null;
-
+    override parent?: LdapEntity;
     type: LdapEntityType = LdapEntityType.None;
     entry?: SearchEntry;
     icon?: string;
     childCount?: number;
     expandable = true;
+    clickAction?: ((node: LdapEntity)=>void) = undefined;
+
     constructor(obj: Partial<LdapEntity>) {
         super({});
         Object.assign(this, obj);

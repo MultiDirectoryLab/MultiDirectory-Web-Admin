@@ -16,7 +16,7 @@ describe('ButtonComp', () => {
     });
 
     it('#clicked() should emit', async () => {
-        const clickSpy = spyOn(component, 'emitClick');
+        const clickSpy = spyOn(component, 'click');
 
         let button = fixture.debugElement.nativeElement.querySelector('button');
         button.click();

@@ -4,22 +4,78 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthRouteGuard } from './core/authorization/auth-route-guard';
 import { SetupComponent } from './components/setup/setup.component';
 import { SetupRouteGuard } from './core/setup/setup-route-guard';
-import { AppSettingsComponent } from './components/settings/app-settings.component';
-import { HomeComponent } from './components/ldap-browser/home/home.component';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
+import { AppLayoutComponent } from './components/app-layout/app-layout.component';
+import { HomeComponent } from './components/ldap-browser/home/home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/ldap-browser/header/header.component';
+import { AccessPolicySettingsComponent } from './components/settings/access-policy/access-policy-settings.component';
+import { MultifactorSettingsComponent } from './components/settings/mulifactor-settings/multifactor-settings.component';
+import { MultidirectorySettingsComponent } from './components/settings/multidirectory-settings/multidirectory-settings.component';
+import { AppSettingsNavigationComponent } from './components/settings/navigation/app-settings-navigation.component';
+import { NavigationComponent } from './components/ldap-browser/navigation/navigation.component';
+import { AccessPolicyComponent } from './components/settings/access-policy/access-policy/access-policy.component';
 
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
   { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard, AuthRouteGuard ] },
   {
     path: 'settings',
-    component: AppSettingsComponent, 
+    component: AppLayoutComponent, 
     canActivate: [ AuthRouteGuard ],
-    loadChildren: () => import('./components/settings/app-settings.module').then(m => m.AppSettingsModule)
+    children: [
+      {
+        path: '',
+        component: AccessPolicySettingsComponent,
+        canActivate: [ AuthRouteGuard ]
+      },
+      {
+          path: 'multifactor',
+          component: MultifactorSettingsComponent,
+          canActivate: [ AuthRouteGuard ]
+      },
+      {
+          path: 'multidirectory',
+          component: MultidirectorySettingsComponent,
+      },
+      { 
+        path: '',
+        component: SidebarComponent,
+        outlet: 'sidebar',
+        children: [{ path: '', component: AppSettingsNavigationComponent}] 
+      },
+      { path: '', component: HeaderComponent, outlet: 'header' },
+    ]
   },
-  { path: '', component: HomeComponent, canActivate: [ AuthRouteGuard ]},
+  { 
+    path: '',
+    component: AppLayoutComponent,
+    canActivate: [ AuthRouteGuard ],
+    children: [
+      { 
+        path: '',
+        component: SidebarComponent,
+        outlet: 'sidebar',
+        children: [{ path: '', component: NavigationComponent }] 
+      },
+      { path: '', component: HeaderComponent, outlet: 'header' },
+      
+      { 
+        path: 'access-policy',
+        component: AccessPolicySettingsComponent,
+        canActivate: [ AuthRouteGuard ],
+      },
+      {
+        path: '', 
+        children: [
+          { path: '', component: HomeComponent },
+          { path: ':query', component: HomeComponent},
+        ]
+      }
+    ]
+  },
   { path: 'enable-backend', component: BackendNotRespondedComponent },
-  { path: '**', redirectTo: ''}
+  { path: '**', redirectTo: '/catalog'}
 ];
 
 @NgModule({
