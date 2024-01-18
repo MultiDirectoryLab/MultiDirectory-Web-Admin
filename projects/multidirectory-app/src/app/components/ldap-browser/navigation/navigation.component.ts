@@ -69,10 +69,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
                         name: 'Access Policies',
                         selectable: true,
                         route: ['access-policy'],
-                        // route: access policy
-                        loadChildren: () => {
-                            
-                        }
                     }),
                     new NavigationNode({
                         id: 'savedQueries',

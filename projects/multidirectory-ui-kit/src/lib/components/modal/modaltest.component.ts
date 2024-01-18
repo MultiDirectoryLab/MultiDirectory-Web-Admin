@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import { MdModalComponent } from "./modal.component";
+import { ModalInjectDirective } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'app-modal-test',
@@ -21,8 +22,7 @@ import { MdModalComponent } from "./modal.component";
     `
 })
 export class ModalTestComponent {
-    @ViewChild('modal', { static: true } ) modal?: MdModalComponent;
-    @ViewChild('openBtn', { static: true }) openButton?: ElementRef<HTMLButtonElement>;
+    @ViewChild('modal', { static: true } ) modal?: ModalInjectDirective;
     @ViewChild('closeButton', { static: true }) closeButton?: ElementRef<HTMLButtonElement>;
 
     open() {

@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
 @Component({
     selector: 'md-button',
     templateUrl: './button.component.html',
     styleUrls: ['./button.component.scss']
 })
-export class ButtonComponent implements AfterViewInit, OnDestroy {
+export class ButtonComponent implements OnInit, OnDestroy {
     @Input() label = '';
     @Input() disabled = false;
     @Input() primary = false;
@@ -15,14 +15,16 @@ export class ButtonComponent implements AfterViewInit, OnDestroy {
     constructor(private el: ElementRef) {}
   
 
-    ngAfterViewInit(): void {
-        this.unlistenClick =  this.el.nativeElement.addEventListener('click', (event: any) => {
-            event.stopPropagation();
-            if(this.disabled) {
-                return;
-            }
-            this.click.emit(event);
-        }, true);
+    ngOnInit(): void {
+        this.unlistenClick =  this.el.nativeElement.addEventListener('click', this.handleClickEvent.bind(this), true);
+    }
+
+    handleClickEvent(event: any) {
+        event.stopPropagation();
+        if(this.disabled) {
+            return;
+        }
+        this.click.emit(event);
     }
 
     ngOnDestroy(): void {
