@@ -19,7 +19,7 @@ import { IdProvider } from "../../utils/id-provider";
 export class MdModalComponent implements AfterViewInit, OnDestroy {
     __ID = IdProvider.getUniqueId('modal');
 
-    @ViewChild('modalRoot', { static: true }) modalRoot?: ModalComponent;
+    @ViewChild('modalRoot', { static: true, read: ModalComponent }) modalRoot?: ModalComponent;
     @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
     @Input() opened = false;
     @Input() backdrop = true;

@@ -19,7 +19,7 @@ import { AccessPolicyComponent } from './components/settings/access-policy/acces
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
   { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard, AuthRouteGuard ] },
-  {
+  { 
     path: 'settings',
     component: AppLayoutComponent, 
     canActivate: [ AuthRouteGuard ],
