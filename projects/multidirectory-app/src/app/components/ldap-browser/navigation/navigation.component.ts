@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
+import { Subject, take, takeUntil } from "rxjs";
 import { TreeviewComponent } from "multidirectory-ui-kit";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { NavigationEnd, Router, RouterEvent, Scroll } from "@angular/router";
 import { NavigationNode } from "../../../core/navigation/navigation-node";
 import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
+import { AppNavigationService } from "../../../services/app-navigation.service";
 
 @Component({
     selector: 'app-navigation',
@@ -17,14 +18,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
     navigationTree: NavigationNode[] = []
 
     constructor(
-        private navigation: LdapNavigationService,
+        private navigation: AppNavigationService,
         private cdr: ChangeDetectorRef,
         private router: Router) {
         }
     
     ngOnInit(): void {
-       this.initTree();
-       this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: any) => this.handleRouteChange(event))
+        this.navigation.buildNavigationRoot().pipe(take(1)).subscribe(x => {
+            this.navigationTree = x;
+        });
+        this.router.events.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe((event: any) => this.handleRouteChange(event))
     }
 
     handleRouteChange(event: RouterEvent) {
@@ -53,32 +58,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
             }
         });
         this.treeView?.selectNode(node);
-    }
-
-    private initTree() {
-        this.navigationTree = [
-            new NavigationNode({ 
-                id: 'root', 
-                name: 'MultiDirectory',
-                selectable: true,
-                // route: root
-                route: ['/'],
-                children: [
-                    new NavigationNode({
-                        id: 'accessPolicy',
-                        name: 'Access Policies',
-                        selectable: true,
-                        route: ['access-policy'],
-                    }),
-                    new NavigationNode({
-                        id: 'savedQueries',
-                        name: 'Saved Queries',
-                        selectable: true,
-                        route: ['/saved-queries'],
-                    })
-                ]
-            })
-        ]
     }
 
     ngOnDestroy(): void {

@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from "@angular/core";
-import { MdModalComponent } from "./modal.component";
-import { ModalInjectDirective } from "multidirectory-ui-kit";
+import { ModalInjectDirective } from "./modal-inject.directive";
 
 @Component({
     selector: 'app-modal-test',
