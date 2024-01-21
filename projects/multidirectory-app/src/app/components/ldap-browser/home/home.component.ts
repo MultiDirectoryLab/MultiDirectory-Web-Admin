@@ -5,7 +5,6 @@ import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
 import { Subject, switchMap, take, takeUntil, tap } from "rxjs";
 import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
-import { LdapLoader } from "../../../core/ldap/ldap-loader";
 import { SearchQueries } from "../../../core/ldap/search";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
@@ -13,6 +12,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
+import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
 
 @Component({
     selector: 'app-home',
@@ -52,7 +52,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
-            const displayName = LdapLoader.getSingleAttribute(searchEntry, 'name');
+            const displayName = LdapTreeLoader.getSingleAttribute(searchEntry, 'name');
             const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass');
             const entry = new LdapEntity({
                 name: displayName,

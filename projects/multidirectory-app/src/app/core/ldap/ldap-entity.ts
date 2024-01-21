@@ -1,13 +1,12 @@
-import { Treenode } from "multidirectory-ui-kit";
 import { LdapEntityType } from "./ldap-entity-type";
 import { SearchEntry } from "../../models/entry/search-response";
 import { EntityInfoResolver } from "./entity-info-resolver";
+import { NavigationNode } from "../navigation/navigation-node";
 
-export class LdapEntity extends Treenode {
+export class LdapEntity extends NavigationNode {
     override parent?: LdapEntity;
     type: LdapEntityType = LdapEntityType.None;
     entry?: SearchEntry;
-    icon?: string;
     childCount?: number;
     expandable = true;
     clickAction?: ((node: LdapEntity)=>void) = undefined;

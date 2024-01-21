@@ -1,0 +1,86 @@
+import { TestBed, fakeAsync, tick } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { getTranslocoModule } from "../../../testing/transloco-testing";
+import { NavigationComponent } from "./navigation.component";
+import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
+import { getLdapTreeLoaderMock } from "../../../testing/ldap-tree-loader-mock";
+import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
+import { NavigationEnd, Router, RouterEvent } from "@angular/router";
+import { Subject, of } from "rxjs";
+
+describe('Navigation Component Test Suit', () => {
+    let routerSpy: any;
+    let routerEventSubj = new Subject<RouterEvent>();
+    beforeEach(async () => {
+        routerSpy = jasmine.createSpyObj(Router, ['navigate' ]);
+        routerSpy.navigate.and.returnValue(of(new NavigationEnd(0, '/', '/')));
+        routerSpy.events = routerEventSubj.asObservable();
+
+        await TestBed.configureTestingModule({
+          imports: [
+            RouterTestingModule,
+            MultidirectoryUiKitModule,
+            getTranslocoModule()
+          ],
+          declarations: [
+            NavigationComponent
+          ],
+          providers: [
+            { provide: Router, useValue: routerSpy },
+            { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock() }
+          ] 
+        }).compileComponents();
+      });
+    
+      it('should create the component', () => {
+        const fixture = TestBed.createComponent(NavigationComponent);
+        const navigation = fixture.componentInstance;
+        expect(navigation).toBeTruthy();
+        fixture.detectChanges();
+        expect(navigation.navigationTree).toBeDefined();
+        expect(navigation.navigationTree.length).toBeGreaterThan(0);
+      });
+
+      it('should toggle node on click', fakeAsync(async () => {
+        const fixture = TestBed.createComponent(NavigationComponent);
+        const navigation = fixture.componentInstance;
+        fixture.detectChanges();
+        tick();
+        fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(fixture.nativeElement.outerHTML).toContain('tree-label');
+            const testNode1 = navigation.navigationTree[0];
+            let treeNode = fixture.debugElement.nativeElement.querySelector('.tree-item-wrapper[data-id=' + testNode1.id + ']');
+            expect(testNode1.selectable).toBeTrue();
+            expect(testNode1.selected).toBeFalse();
+            treeNode.click()
+            expect(testNode1.selected).toBeTrue();
+            expect(routerSpy.navigate).toHaveBeenCalled();
+
+        })
+      }));
+
+      it('should highlight node on route change', fakeAsync(async () => {
+        const fixture = TestBed.createComponent(NavigationComponent);
+        const navigation = fixture.componentInstance;
+        fixture.detectChanges();
+        tick();
+        fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            const testNode1 = navigation.navigationTree[0];
+            const testNode2 = navigation.navigationTree[1];
+            expect(testNode1.route).toContain('access-policy');
+            expect(testNode1.selected).toBeFalse();
+            expect(testNode2.route).toContain('saved-queries');
+            expect(testNode2.selected).toBeFalse();
+            
+            routerEventSubj.next(new NavigationEnd(1, '/access-policy', '/access-policy'));
+            expect(testNode1.selected).toBeTrue();
+            expect(testNode2.selected).toBeFalse();
+
+            routerEventSubj.next(new NavigationEnd(1, '/saved-queries', '/saved-queries'));
+            expect(testNode1.selected).toBeFalse();
+            expect(testNode2.selected).toBeTrue();
+        })
+      }))
+})

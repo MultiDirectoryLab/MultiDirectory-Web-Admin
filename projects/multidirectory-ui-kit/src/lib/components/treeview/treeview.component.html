@@ -14,7 +14,9 @@
             [ngClass]="{
                 selected: data.selected,
                 focused: data.focused
-            }">
+            }"
+            [attr.data-id]="data.id"
+            >
             <span class="tree-item" [ngClass]="{
                 expanded: data.expanded,
                 expandable: (data.children?.length > 0 || !!data.loadChildren),

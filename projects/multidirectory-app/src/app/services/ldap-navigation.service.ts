@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Page, Treenode } from "multidirectory-ui-kit";
 import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, map, of, skip, skipUntil, skipWhile, switchMap, take, tap } from "rxjs";
-import { LdapLoader } from "../core/ldap/ldap-loader";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntity } from "../core/ldap/ldap-entity";
 import { LdapAttributes } from "../core/ldap/ldap-entity-proxy";
@@ -9,6 +8,7 @@ import { AttributeService } from "./attributes.service";
 import { LdapEntityType } from "../core/ldap/ldap-entity-type";
 import { translate } from "@ngneat/transloco";
 import { Router } from "@angular/router";
+import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
 
 @Injectable({
     providedIn: 'root'
@@ -50,11 +50,13 @@ export class LdapNavigationService {
     }
 
     constructor(
-        private ldap: LdapLoader,
+        private ldap: LdapTreeLoader,
         private router: Router) {}
     
+
+    // TODO REMOVE IT
     init() {
-      return this.ldap.getRoot()
+      return this.ldap.get()
         .subscribe(servers => {
             const root = new LdapEntity({
                 name: translate('ldap-builder.root-dse-name'),
