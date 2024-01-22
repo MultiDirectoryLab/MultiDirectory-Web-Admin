@@ -11,12 +11,14 @@ import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-tree-loader
 })
 export class AppNavigationService {
     loaders: NodeLoader[] = [
-        new AccessPolicyNodeLoader(),
+        this.accessPolicyNodeLoader,
         new SavedQueriesNodeLoader(),
         this.ldapTreeLoader
     ]
 
-    constructor(private ldapTreeLoader: LdapTreeLoader) {}
+    constructor(
+        private ldapTreeLoader: LdapTreeLoader,
+        private accessPolicyNodeLoader: AccessPolicyNodeLoader) {}
 
     buildNavigationRoot(): Observable<NavigationNode[]> {
         const branches = this.loaders.map(x => x.get());

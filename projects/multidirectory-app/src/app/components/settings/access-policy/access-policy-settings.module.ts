@@ -11,19 +11,22 @@ import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-poli
 import { TranslocoModule } from "@ngneat/transloco";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { GroupSelectorModule } from "../../forms/group-selector/group-selector.module";
+import { AccessPolicyViewComponent } from "./access-policy-view/access-policy-view.component";
 
 @NgModule({
     declarations: [ 
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
-        AccessPolicyIpListComponent
+        AccessPolicyIpListComponent,
+        AccessPolicyViewComponent
     ],
     exports: [
         AccessPolicySettingsComponent,
         AccessPolicyComponent,
         AccessPolicyCreateComponent,
-        AccessPolicyIpListComponent
+        AccessPolicyIpListComponent,
+        AccessPolicyViewComponent
     ],
     imports: [
         CommonModule,

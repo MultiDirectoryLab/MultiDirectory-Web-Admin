@@ -27,7 +27,8 @@ export class LdapTreeLoader implements NodeLoader {
                             selectable: true,
                             entry: x,
                             parent: undefined, 
-                            id: namingContext?.vals[0] ?? ''
+                            id: namingContext?.vals[0] ?? '',
+                            route: ['/']
                         },
                     );
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
@@ -49,7 +50,8 @@ export class LdapTreeLoader implements NodeLoader {
                         selectable: true,
                         entry: x,
                         id: x.object_name,
-                        parent: parent
+                        parent: parent,
+                        route: ['/']
                     });
                     node.loadChildren = () => this.getChild(x.object_name, node);
                     return node;
@@ -71,7 +73,8 @@ export class LdapTreeLoader implements NodeLoader {
                         expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
                         entry: x,
                         id: x.object_name,
-                        parent: parentNode
+                        parent: parentNode,
+                        route: ['/']
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;

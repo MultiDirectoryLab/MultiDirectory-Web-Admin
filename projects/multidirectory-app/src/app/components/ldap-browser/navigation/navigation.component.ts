@@ -29,7 +29,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
         });
         this.router.events.pipe(
             takeUntil(this.unsubscribe)
-        ).subscribe((event: any) => this.handleRouteChange(event))
+        ).subscribe((event: any) => {
+            console.log(event);
+            this.handleRouteChange(event);
+        })
     }
 
     handleRouteChange(event: RouterEvent) {
@@ -39,6 +42,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if(!(event instanceof NavigationEnd)) {
             return
         }
+        console.log(event)
         let url = event.urlAfterRedirects;
         if(url.startsWith('/')) {
             url = url.substring(1);
@@ -67,7 +71,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     handleNodeSelection(node: NavigationNode) {
         if(!!node.route) {
-            this.router.navigate(node.route)
+            this.router.navigate(node.route, { state: { skipTreeUpdate: true } });
         }
     }
 }
