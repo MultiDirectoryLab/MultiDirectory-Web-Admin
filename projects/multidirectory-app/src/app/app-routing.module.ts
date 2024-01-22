@@ -15,6 +15,7 @@ import { MultidirectorySettingsComponent } from './components/settings/multidire
 import { AppSettingsNavigationComponent } from './components/settings/navigation/app-settings-navigation.component';
 import { NavigationComponent } from './components/ldap-browser/navigation/navigation.component';
 import { AccessPolicyComponent } from './components/settings/access-policy/access-policy/access-policy.component';
+import { AccessPolicyViewComponent } from './components/settings/access-policy/access-policy-view/access-policy-view.component';
 
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
@@ -62,8 +63,11 @@ const routes: Routes = [
       
       { 
         path: 'access-policy',
-        component: AccessPolicySettingsComponent,
         canActivate: [ AuthRouteGuard ],
+        children: [
+          {path: '', component: AccessPolicySettingsComponent},
+          {path: ':id', component: AccessPolicyViewComponent}
+        ]
       },
       {
         path: '', 
