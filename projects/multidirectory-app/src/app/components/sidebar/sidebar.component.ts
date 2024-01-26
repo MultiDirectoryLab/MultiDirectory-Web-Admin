@@ -12,7 +12,6 @@ import { LdapEntity } from "../../core/ldap/ldap-entity";
 })
 export class SidebarComponent implements AfterViewInit, OnDestroy {
     unsubscribe = new Subject<void>();
-    showLeftPane = true;
     
     get user(): WhoamiResponse {
         return this.app.user;
@@ -22,11 +21,7 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
     }
   
     ngAfterViewInit(): void {
-        this.app.navigationalPanelVisibleRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(x => {
-            this.showLeftPane = x;
-        })
+
     }
 
     

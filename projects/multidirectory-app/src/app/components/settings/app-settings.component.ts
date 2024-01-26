@@ -14,11 +14,6 @@ export class AppSettingsComponent implements OnDestroy {
     unsubscribe = new Subject<void>();
 
     constructor(private app: AppSettingsService, private router: Router) {
-        this.app.userRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(user => {
-            this.user = user;
-        });
     }
 
     ngOnDestroy(): void {

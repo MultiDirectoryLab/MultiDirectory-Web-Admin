@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { Subject, noop, takeUntil } from "rxjs";
-import { ViewMode } from "../catalog-content/view-modes";
+import { ViewMode } from "../../ldap-browser/catalog-content/view-modes";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { AppSettingsService } from "../../../services/app-settings.service";
@@ -41,6 +41,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     get user(): WhoamiResponse | undefined {
         return this.app.user;
     }
+
+    // TODO: TOO MUCH SERVICES
     constructor(
         private app: AppSettingsService,
         private navigation: LdapNavigationService,

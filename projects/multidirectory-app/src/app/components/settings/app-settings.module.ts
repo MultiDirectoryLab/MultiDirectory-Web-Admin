@@ -7,7 +7,6 @@ import { RouterModule } from "@angular/router";
 import { AppSettingsNavigationComponent } from "./navigation/app-settings-navigation.component";
 import { MultifactorSettingsComponent } from "./mulifactor-settings/multifactor-settings.component";
 import { AppSettingsRoutingModule } from "./app-settings-routes.module";
-import { AppSettingsHeaderComponent } from "./header/app-settings-header.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MultidirectorySettingsComponent } from "./multidirectory-settings/multidirectory-settings.component";
 import { MfAdminIntegrationComponent } from "./mulifactor-settings/admin-integration/mf-admin-integration.component";
@@ -32,7 +31,6 @@ import { TranslocoModule } from "@ngneat/transloco";
     declarations: [
         AppSettingsComponent,
         AppSettingsNavigationComponent,
-        AppSettingsHeaderComponent,
         MultifactorSettingsComponent,
         MultidirectorySettingsComponent,
         MfAdminIntegrationComponent,
@@ -43,10 +41,8 @@ import { TranslocoModule } from "@ngneat/transloco";
         AppSettingsNavigationComponent,
         MultifactorSettingsComponent,
         AppSettingsRoutingModule,
-        AppSettingsHeaderComponent,
         MultidirectorySettingsComponent
     ]
 })
 export class AppSettingsModule {
-
 }

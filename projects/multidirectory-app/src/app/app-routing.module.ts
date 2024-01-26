@@ -8,13 +8,12 @@ import { BackendNotRespondedComponent } from './components/errors/backend-does-n
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { HomeComponent } from './components/ldap-browser/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HeaderComponent } from './components/ldap-browser/header/header.component';
+import { HeaderComponent } from './components/app-layout/header/header.component';
 import { AccessPolicySettingsComponent } from './components/settings/access-policy/access-policy-settings.component';
 import { MultifactorSettingsComponent } from './components/settings/mulifactor-settings/multifactor-settings.component';
 import { MultidirectorySettingsComponent } from './components/settings/multidirectory-settings/multidirectory-settings.component';
 import { AppSettingsNavigationComponent } from './components/settings/navigation/app-settings-navigation.component';
-import { NavigationComponent } from './components/ldap-browser/navigation/navigation.component';
-import { AccessPolicyComponent } from './components/settings/access-policy/access-policy/access-policy.component';
+import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { AccessPolicyViewComponent } from './components/settings/access-policy/access-policy-view/access-policy-view.component';
 
 const routes: Routes = [

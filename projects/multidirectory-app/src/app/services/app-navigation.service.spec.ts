@@ -2,9 +2,13 @@ import { of, take } from "rxjs";
 import { NavigationNode } from "../core/navigation/navigation-node";
 import { AppNavigationService } from "./app-navigation.service";
 import { TestBed } from "@angular/core/testing";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
+import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 import { LdapEntity } from "../core/ldap/ldap-entity";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
+import { MultidirectoryApiService } from "./multidirectory-api.service";
+import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
+import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loader-mock";
 
 describe('NavigationServiceSuite', () => {
     let naviagtionService: AppNavigationService;
@@ -14,7 +18,9 @@ describe('NavigationServiceSuite', () => {
         TestBed.configureTestingModule({
             declarations: [],    
             providers: [
+                { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock()},
                 { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock()},
+                { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock()},
                 { provide: AppNavigationService, useClass: AppNavigationService }
             ]
          }).compileComponents();
@@ -31,14 +37,13 @@ describe('NavigationServiceSuite', () => {
     it('Navigationservice should return first level consists of different types of nodes', () => {
         naviagtionService.buildNavigationRoot().pipe(take(1)).subscribe(tree => {    
             expect(tree[0]).toBeInstanceOf(NavigationNode);
-            expect(tree[0].id).toEqual('accessPolicy');
-            expect(tree[0].loadChildren).toBeTruthy();
+            expect(tree[0].id).toEqual('access-policy-root');
 
             expect(tree[1]).toBeInstanceOf(NavigationNode);
             expect(tree[1].id).toEqual('savedQueries');
 
             expect(tree[2]).toBeInstanceOf(LdapEntity);
-            expect(tree[2].id).toEqual('ldap-root');
+            expect(tree[2].id).toEqual('dc=test,dc=local');
         });
     })
 });

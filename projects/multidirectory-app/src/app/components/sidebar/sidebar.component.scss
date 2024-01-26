@@ -2,12 +2,12 @@
 :host {
     display: flex;
     height: 100%;
-    flex-flow: column wrap;
+    flex-flow: column nowrap;
 }
 .sidebar {
     z-index: 999;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column nowrap;
     flex-grow: 1;
 }
 
@@ -37,6 +37,7 @@
 
 .logo-img {
     pointer-events: none;
+    user-select: none;
     min-height: 50px !important;
     height: 50px !important;
     overflow: hidden;
