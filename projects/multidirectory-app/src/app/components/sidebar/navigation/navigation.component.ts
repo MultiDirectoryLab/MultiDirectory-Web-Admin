@@ -6,6 +6,7 @@ import { NavigationEnd, Router, RouterEvent, Scroll } from "@angular/router";
 import { NavigationNode } from "../../../core/navigation/navigation-node";
 import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
 import { AppNavigationService } from "../../../services/app-navigation.service";
+import { LdapEntity } from "../../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-navigation',
@@ -19,6 +20,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     constructor(
         private navigation: AppNavigationService,
+        private ldapNavigation: LdapNavigationService,
         private cdr: ChangeDetectorRef,
         private router: Router) {
         }
@@ -26,11 +28,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.navigation.buildNavigationRoot().pipe(take(1)).subscribe(x => {
             this.navigationTree = x;
+            const rootDse = <LdapEntity[]>x.filter(x => x instanceof LdapEntity);
+            this.ldapNavigation.setRootDse(rootDse);
         });
         this.router.events.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe((event: any) => {
-            console.log(event);
             this.handleRouteChange(event);
         })
     }
@@ -42,7 +45,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if(!(event instanceof NavigationEnd)) {
             return
         }
-        console.log(event)
         let url = event.urlAfterRedirects;
         if(url.startsWith('/')) {
             url = url.substring(1);
@@ -71,7 +73,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     handleNodeSelection(node: NavigationNode) {
         if(!!node.route) {
-            this.router.navigate(node.route, { state: { skipTreeUpdate: true } });
+            this.router.navigate(node.route, { 
+                queryParams: { 
+                    "distinguishedName": node.data 
+                }
+            });
         }
     }
 }

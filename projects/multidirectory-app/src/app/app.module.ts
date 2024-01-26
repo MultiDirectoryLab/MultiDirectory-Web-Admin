@@ -20,9 +20,9 @@ import { GridItemComponent } from './components/ldap-browser/catalog-content/vie
 import { IconViewComponent } from './components/ldap-browser/catalog-content/views/icon-view/icon-view.component';
 import { TableViewComponent } from './components/ldap-browser/catalog-content/views/table-view/table-view.component';
 import { PropertiesModule } from './components/ldap-browser/entity-properties/properties.module';
-import { HeaderComponent } from './components/ldap-browser/header/header.component';
+import { HeaderComponent } from './components/app-layout/header/header.component';
 import { HomeComponent } from './components/ldap-browser/home/home.component';
-import { NavigationComponent } from './components/ldap-browser/navigation/navigation.component';
+import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { SearchResultComponent } from './components/ldap-browser/search-panel/seaarch-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './components/ldap-browser/search-panel/seaarch-forms/search-users/search-users.component';
 import { SearchPanelComponent } from './components/ldap-browser/search-panel/search-panel.component';

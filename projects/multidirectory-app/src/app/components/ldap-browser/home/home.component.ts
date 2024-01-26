@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, O
 import { ActivatedRoute } from "@angular/router";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
-import { Subject, switchMap, take, takeUntil, tap } from "rxjs";
+import { Subject, combineLatest, switchMap, take, takeUntil, tap, zip } from "rxjs";
 import { EntityInfoResolver } from "../../../core/ldap/entity-info-resolver";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { SearchQueries } from "../../../core/ldap/search";
@@ -12,7 +12,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
-import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
+import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 
 @Component({
     selector: 'app-home',
@@ -31,48 +31,27 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     get user(): WhoamiResponse {
         return this.app.user;
     }
-    showLeftPane = false;
     @ViewChild('treeView') treeView?: TreeviewComponent;
     @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
     @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
     unsubscribe = new Subject<boolean>();
 
     constructor(
-        private activatedRoute: ActivatedRoute,
         private navigation: LdapNavigationService,
-        private api: MultidirectoryApiService,
-        private cdr: ChangeDetectorRef,
         private ldapWindows: LdapWindowsService,
-        private app: AppSettingsService) {
-        this.app.userRx.pipe(
-            takeUntil(this.unsubscribe),
-            tap(user => {
-                 this.app.user = user;
-            }),
-            switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
-        ).subscribe(userSearch => {
-            const searchEntry =  userSearch.search_result[0];
-            const displayName = LdapTreeLoader.getSingleAttribute(searchEntry, 'name');
-            const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass');
-            const entry = new LdapEntity({
-                name: displayName,
-                type: EntityInfoResolver.getNodeType(objectClass?.vals), 
-                selectable: true,
-                expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
-                entry: searchEntry,
-                id: searchEntry.object_name,
-            });
-            this.app.userEntry = entry;
-            this.app.user!.jpegPhoto = userSearch.search_result?.[0]?.partial_attributes?.find(x => x.type == 'photoBase64')?.vals?.[0] ?? undefined;
-            this.cdr.detectChanges();
-        });
-        this.app.navigationalPanelVisibleRx.pipe(
+        private activatedRoute: ActivatedRoute,
+        private app: AppSettingsService,
+        private cdr: ChangeDetectorRef) {
+        combineLatest([this.activatedRoute.queryParams, this.navigation.ldapRootRx]).pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
-            this.showLeftPane = x;
-            this.catalogContent?.redraw();
+            const dn = !!x[0].distinguishedName? x[0].distinguishedName : x[1][0].id;
+
+            this.navigation.goTo(dn).then(x => {
+                this.cdr.detectChanges();
+            });
         })
-        
+
         this.ldapWindows.openEntityPropertiesModalRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {

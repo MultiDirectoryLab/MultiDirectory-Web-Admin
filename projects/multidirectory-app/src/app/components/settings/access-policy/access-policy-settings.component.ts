@@ -31,9 +31,7 @@ export class AccessPolicySettingsComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private api: MultidirectoryApiService,
-        private windows: LdapWindowsService,
-        private navigation: LdapNavigationService) {
-        this.navigation.init();
+        private windows: LdapWindowsService) { ;
     }
     ngOnInit(): void {
         this.windows.showSpinner();
@@ -136,7 +134,6 @@ export class AccessPolicySettingsComponent implements OnInit {
 
     onDrop(event: CdkDragDrop<string[]>) {
         const previous = this.clients[event.previousIndex];
-        console.log(previous);
         const current = this.clients[event.currentIndex];
         [this.clients[event.previousIndex], this.clients[event.currentIndex]] = [
             this.clients[event.currentIndex], this.clients[event.previousIndex]

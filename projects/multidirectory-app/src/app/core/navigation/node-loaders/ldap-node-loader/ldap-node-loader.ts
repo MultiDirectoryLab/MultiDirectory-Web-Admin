@@ -1,6 +1,5 @@
 import { Page, Treenode } from "multidirectory-ui-kit";
 import { Observable, map, tap } from "rxjs";
-import { Router } from "@angular/router";
 import { NodeLoader } from "../node-loader";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { Injectable } from "@angular/core";
@@ -14,13 +13,14 @@ import { EntityInfoResolver } from "../../../ldap/entity-info-resolver";
     providedIn: 'root'
 })
 export class LdapTreeLoader implements NodeLoader {
-    constructor(private api: MultidirectoryApiService, private router: Router) {}
+    constructor(private api: MultidirectoryApiService) {}
 
     get(): Observable<LdapEntity[]> {
         return this.api.search(SearchQueries.RootDse).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
-                   
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
+                    const rootDn = x.partial_attributes.find(x => x.type == 'rootDomainNamingContext');
+
                     const serverNode = new LdapEntity({ 
                             name: LdapTreeLoader.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapEntityType.Server,
@@ -28,11 +28,11 @@ export class LdapTreeLoader implements NodeLoader {
                             entry: x,
                             parent: undefined, 
                             id: namingContext?.vals[0] ?? '',
-                            route: ['/']
+                            route: ['/'],
+                            data: rootDn?.vals?.[0] ?? ''
                         },
                     );
                     serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
- 
                     return serverNode;
                 }    
             ))
@@ -51,14 +51,14 @@ export class LdapTreeLoader implements NodeLoader {
                         entry: x,
                         id: x.object_name,
                         parent: parent,
-                        route: ['/']
+                        route: ['/'],
+                        data: x.object_name
                     });
                     node.loadChildren = () => this.getChild(x.object_name, node);
                     return node;
                 }))
             );
     }
-
 
     getContent(parent: string, parentNode: LdapEntity, page?: Page): Observable<LdapEntity[]> {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
@@ -74,7 +74,8 @@ export class LdapTreeLoader implements NodeLoader {
                         entry: x,
                         id: x.object_name,
                         parent: parentNode,
-                        route: ['/']
+                        route: ['/'],
+                        data: x.id
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;

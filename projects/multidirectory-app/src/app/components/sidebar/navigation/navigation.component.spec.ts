@@ -2,11 +2,16 @@ import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { getTranslocoModule } from "../../../testing/transloco-testing";
 import { NavigationComponent } from "./navigation.component";
-import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
+import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 import { getLdapTreeLoaderMock } from "../../../testing/ldap-tree-loader-mock";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { NavigationEnd, Router, RouterEvent } from "@angular/router";
 import { Subject, of } from "rxjs";
+import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { getMultidirectoryApiMock } from "../../../testing/multidirectory-api-mock.service";
+import { AccessPolicyNodeLoader } from "../../../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { getAccessPolicyNodeLoaderMock } from "../../../testing/access-policy-node-loader-mock";
+import { SavedQueriesNodeLoader } from "../../../core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader";
 
 describe('Navigation Component Test Suit', () => {
     let routerSpy: any;
@@ -27,7 +32,10 @@ describe('Navigation Component Test Suit', () => {
           ],
           providers: [
             { provide: Router, useValue: routerSpy },
-            { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock() }
+            { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock() },
+            { provide: SavedQueriesNodeLoader, useValue: getLdapTreeLoaderMock() },
+            { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
+            { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() }
           ] 
         }).compileComponents();
       });
@@ -53,10 +61,10 @@ describe('Navigation Component Test Suit', () => {
             let treeNode = fixture.debugElement.nativeElement.querySelector('.tree-item-wrapper[data-id=' + testNode1.id + ']');
             expect(testNode1.selectable).toBeTrue();
             expect(testNode1.selected).toBeFalse();
-            treeNode.click()
+            treeNode.click();
+            tick();
+            fixture.detectChanges();
             expect(testNode1.selected).toBeTrue();
-            expect(routerSpy.navigate).toHaveBeenCalled();
-
         })
       }));
 

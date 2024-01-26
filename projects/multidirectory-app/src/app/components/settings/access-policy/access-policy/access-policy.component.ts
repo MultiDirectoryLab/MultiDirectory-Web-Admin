@@ -51,7 +51,6 @@ export class AccessPolicyComponent implements AfterViewInit {
             this.toastr.error(translate('access-policy.client-does-not-exist'));
             return;
         }
-        console.log(this.accessClient.enabled);
         this.turnOffClick.emit(this.accessClient);
         this.cdr.detectChanges();
     }

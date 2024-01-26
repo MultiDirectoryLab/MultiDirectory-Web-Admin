@@ -29,7 +29,6 @@ export class PropertyEditorComponent implements OnInit {
     }
 
     finish() {
-        console.log(this.propertyValue);
         this.modalControl.close(this.propertyValue);
     }
 }

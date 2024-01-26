@@ -1,14 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Page, Treenode } from "multidirectory-ui-kit";
-import { BehaviorSubject, EMPTY, Observable, Subject, lastValueFrom, map, of, skip, skipUntil, skipWhile, switchMap, take, tap } from "rxjs";
-import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
-import { LdapEntity } from "../core/ldap/ldap-entity";
-import { LdapAttributes } from "../core/ldap/ldap-entity-proxy";
-import { AttributeService } from "./attributes.service";
-import { LdapEntityType } from "../core/ldap/ldap-entity-type";
-import { translate } from "@ngneat/transloco";
 import { Router } from "@angular/router";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-tree-loader/ldap-tree-loader";
+import { Page, Treenode } from "multidirectory-ui-kit";
+import { BehaviorSubject, Observable, Subject, lastValueFrom, map, take } from "rxjs";
+import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
+import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 
 @Injectable({
     providedIn: 'root'
@@ -50,49 +46,17 @@ export class LdapNavigationService {
     }
 
     constructor(
-        private ldap: LdapTreeLoader,
-        private router: Router) {}
+        private ldap: LdapTreeLoader) {}
     
-
-    // TODO REMOVE IT
-    init() {
-      return this.ldap.get()
-        .subscribe(servers => {
-            const root = new LdapEntity({
-                name: translate('ldap-builder.root-dse-name'),
-                type: LdapEntityType.Root,
-                expanded: true,
-                id: 'root'
-            });
-            servers.forEach(x => x.parent  = root);
-
-            root.children = [
-                new LdapEntity({ name: translate("ldap-builder.saved-queries"), type: LdapEntityType.Folder, selectable: true, id: 'saved', parent: root }),
-                new LdapEntity({ 
-                    name: translate("ldap-builder.access-policies"), 
-                    type: LdapEntityType.Folder, 
-                    selectable: true, 
-                    id: 'access-policy', 
-                    parent: root,
-                    clickAction: (node) => { 
-                        this.router.navigate(['/access-policy']).then(x => {
-                            if(x) {
-                                this.setSelection([node])
-                            }
-                        })
-                    }
-                }),
-                ...servers
-            ];
-            this._ldapRootRx.next([root]);
-        });   
+    setRootDse(root: LdapEntity[]) {
+        this._ldapRootRx.next(root)
     }
 
     getRootDse() {
-        if(!this.ldapRoot) throw Error('Ldap root not found');
-
-        const rootDse = this.ldapRoot.flatMap(x => x.children?.filter(x => x.id !== 'saved'));
-        return rootDse.map(x => { 
+        if(!this.ldapRoot) {
+            throw Error('Ldap root not found');
+        }
+        return this.ldapRoot.map(x => { 
             return {
                 node: x,
                 dn: LdapNamesHelper.getDnParts(x?.id ?? '')
@@ -107,12 +71,15 @@ export class LdapNavigationService {
 
         const dnParts = LdapNamesHelper.getDnParts(dn);
         const selectedRoot = rootDseDNs.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
-        while(dnParts[dnParts.length - 1].type == 'dc' && dnParts.length > 0)
+        while(dnParts.length > 0 && dnParts[dnParts.length - 1].type == 'dc')
             dnParts.pop();
         
         let currentNode = selectedRoot?.node;
         let found: any;
-
+        if(dnParts.length == 0) {
+            this.setCatalog(<LdapEntity>currentNode, null, null);
+            return;
+        }
         for(let i = 0; i < dnParts.length && currentNode; i++) {
             if(!!currentNode.loadChildren && !currentNode.children)
             {
