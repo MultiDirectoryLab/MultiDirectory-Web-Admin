@@ -45,11 +45,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         combineLatest([this.activatedRoute.queryParams, this.navigation.ldapRootRx]).pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
-            const dn = !!x[0].distinguishedName? x[0].distinguishedName : x[1][0].id;
-
-            this.navigation.goTo(dn).then(x => {
-                this.cdr.detectChanges();
-            });
+            if(x[1].length > 0) {
+                const dn = !!x[0].distinguishedName? x[0].distinguishedName : x[1][0].id;
+                this.navigation.goTo(dn).then(x => {
+                    this.cdr.detectChanges();
+                });
+            }
         })
 
         this.ldapWindows.openEntityPropertiesModalRx.pipe(

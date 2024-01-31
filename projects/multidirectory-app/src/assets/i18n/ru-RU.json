@@ -360,6 +360,13 @@
     "access-policy": {
         "client-does-not-exist": "Этого клиента не существует"
     },
+    "password-policy-settings": {
+        "clients": "Password Policies",
+        "add": "Add",
+        "must-be-enabled": "One client must be enabled",
+        "unable-to-create-policy": "Unable to create policy",
+        "policy-id-not-found": "The policy has not ID"
+    },
     "settings-header": {
         "title": "Настройки"
     },

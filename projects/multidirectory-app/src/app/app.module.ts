@@ -42,6 +42,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { AppSettingsModule } from './components/settings/app-settings.module';
+import { PasswordPolicyModule } from './components/password-policy/password-policy.module';
 
 @NgModule({
   declarations: [
