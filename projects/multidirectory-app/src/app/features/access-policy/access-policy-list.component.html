@@ -1,0 +1,30 @@
+<div class="flex-column flex-gap-10 p-8">
+    <div class="flex-row flex-space-between ">
+        <div class="title">
+        </div>
+        <div class="flex-row align-center">
+            <md-button (click)="onAddClick()">
+              {{ "access-policy-settings.add" | transloco }}
+            </md-button>
+        </div>
+    </div>
+    <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="policy-list">
+        <div
+            cdkDrag
+            cdkDragBoundary=".policy-list"
+            class="access-policy-wrapper"
+             *ngFor="let client of clients; let i = index">
+                <app-acccess-policy
+                    [accessClient]="client" 
+                    [index]="i + 1" 
+                    (turnOffClick)="onTurnOffClick($event)"
+                    (editClick)="onEditClick($event)"
+                    (deleteClick)="onDeleteClick($event)">
+                </app-acccess-policy>
+        </div>
+    </div>
+</div>
+
+<ng-template modalInject #createModal="modalInject">
+    <app-access-policy-create #createModal></app-access-policy-create>
+</ng-template>

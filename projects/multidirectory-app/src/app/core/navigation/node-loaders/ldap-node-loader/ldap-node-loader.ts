@@ -1,4 +1,3 @@
-import { Page, Treenode } from "multidirectory-ui-kit";
 import { Observable, map, tap } from "rxjs";
 import { NodeLoader } from "../node-loader";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
@@ -8,6 +7,7 @@ import { SearchQueries } from "../../../ldap/search";
 import { SearchEntry, SearchResponse } from "projects/multidirectory-app/src/app/models/entry/search-response";
 import { LdapEntityType } from "../../../ldap/ldap-entity-type";
 import { EntityInfoResolver } from "../../../ldap/entity-info-resolver";
+import { Page, Treenode } from "multidirectory-ui-kit";
  
 @Injectable({
     providedIn: 'root'

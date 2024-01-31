@@ -1,8 +1,7 @@
 <ng-container *transloco="let t">
     <div class="header-container">
         <div class="header">
-            <label *ngIf="selectedCatalog" class="bold">{{ t("header.folder") }}: <a class="container-name" (click)="onCopyDn($event)">{{ containerName }}</a></label>
-            <label *ngIf="!selectedCatalog" class="bold">{{ t("header.select-folder") }}</label>
+            <router-outlet name="header"></router-outlet>
         </div>
         <div class="control-panel">
             <md-plane-button *ngIf="navigationalPanelInvisible" [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>

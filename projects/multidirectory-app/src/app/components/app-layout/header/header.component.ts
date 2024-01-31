@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { Subject, noop, takeUntil } from "rxjs";
-import { ViewMode } from "../../ldap-browser/catalog-content/view-modes";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { AppSettingsService } from "../../../services/app-settings.service";
@@ -12,6 +11,7 @@ import { LdapWindowsService } from "../../../services/ldap-windows.service";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { ViewMode } from "../../../features/ldap-browser/catalog-content/view-modes";
 
 @Component({
     selector: 'app-header',
@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
     selectedCatalog: LdapEntity | null = null;
-    containerName = '';
     ldapRoots: LdapEntity[] = [];
 
     ViewMode = ViewMode;
@@ -87,18 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.navigation.ldapRootRx.subscribe(x => {
             this.ldapRoots = x;
         });
-        this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
-            this.selectedCatalog = catalog;
-            const catalogId = catalog?.id 
-            if(!!catalogId) {
-                this.containerName = catalogId;
-            } else if(catalog?.entry?.object_name?.trim()) {
-                this.containerName = catalog?.entry?.object_name?.trim();
-            } else {
-                this.containerName = '';
-            }
-            this.cdr.detectChanges();
-        })
+       
     }
 
     ngOnDestroy(): void {
@@ -127,14 +115,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
         this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
     }
-    onCopyDn($event: any) {
-        navigator.clipboard.writeText(this.containerName).then(() => {
-            this.toastr.success(translate('header.container-path-copied'));
-        }).catch(err => {
-            console.error('Could not copy text: ', err);
-            this.toastr.error(translate('header.container-path-copy-error'), err);
-        });
-    }
+
 
     onChangePasswordClick() {
         if(!this.app.userEntry) {

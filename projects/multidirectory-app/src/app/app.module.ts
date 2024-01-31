@@ -15,17 +15,8 @@ import { AdminSettingsComponent } from './components/forms/setup/admin-settings/
 import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
 import { UserCreateModule } from './components/forms/user-create/user-create.module';
 import { ValidatorsModule } from './components/forms/validators/validators.module';
-import { CatalogContentComponent } from './components/ldap-browser/catalog-content/catalog-content.component';
-import { GridItemComponent } from './components/ldap-browser/catalog-content/views/icon-view/grid-item/grid-item.component';
-import { IconViewComponent } from './components/ldap-browser/catalog-content/views/icon-view/icon-view.component';
-import { TableViewComponent } from './components/ldap-browser/catalog-content/views/table-view/table-view.component';
-import { PropertiesModule } from './components/ldap-browser/entity-properties/properties.module';
 import { HeaderComponent } from './components/app-layout/header/header.component';
-import { HomeComponent } from './components/ldap-browser/home/home.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { SearchResultComponent } from './components/ldap-browser/search-panel/seaarch-forms/search-result/search-result.component';
-import { SearchUsersComponent } from './components/ldap-browser/search-panel/seaarch-forms/search-users/search-users.component';
-import { SearchPanelComponent } from './components/ldap-browser/search-panel/search-panel.component';
 import { LoginComponent } from './components/login/login.component';
 import { SetupComponent } from './components/setup/setup.component';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
@@ -37,25 +28,23 @@ import { GroupSelectorModule } from './components/forms/group-selector/group-sel
 import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
-import { EditorsModule } from './components/ldap-browser/editors/editors.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { AppSettingsModule } from './components/settings/app-settings.module';
-import { PasswordPolicyModule } from './components/password-policy/password-policy.module';
+import { EditorsModule } from './features/ldap-browser/editors/editors.module';
+import { SearchResultComponent } from './features/ldap-browser/search-panel/seaarch-forms/search-result/search-result.component';
+import { SearchUsersComponent } from './features/ldap-browser/search-panel/seaarch-forms/search-users/search-users.component';
+import { SearchPanelComponent } from './features/ldap-browser/search-panel/search-panel.component';
+import { PropertiesModule } from './features/ldap-browser/entity-properties/properties.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HideControlBar,
-    HomeComponent,
     HeaderComponent,
     NavigationComponent,
-    CatalogContentComponent,
-    TableViewComponent,
-    IconViewComponent,
-    GridItemComponent,
     SetupComponent,
     AdminSettingsComponent,
     DomainSettingsComponent,

@@ -6,16 +6,15 @@ import { SetupComponent } from './components/setup/setup.component';
 import { SetupRouteGuard } from './core/setup/setup-route-guard';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { HomeComponent } from './components/ldap-browser/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HeaderComponent } from './components/app-layout/header/header.component';
-import { AccessPolicySettingsComponent } from './components/settings/access-policy/access-policy-settings.component';
 import { MultifactorSettingsComponent } from './components/settings/mulifactor-settings/multifactor-settings.component';
 import { MultidirectorySettingsComponent } from './components/settings/multidirectory-settings/multidirectory-settings.component';
 import { AppSettingsNavigationComponent } from './components/settings/navigation/app-settings-navigation.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { AccessPolicyViewComponent } from './components/settings/access-policy/access-policy-view/access-policy-view.component';
-import { PasswordPolicyListComponent } from './components/password-policy/password-policy-list.component';
+import { AccessPolicySettingsComponent } from './features/access-policy/access-policy-list.component';
+import { AccessPolicyViewComponent } from './features/access-policy/access-policy-view/access-policy-view.component';
+import { HomeComponent } from './features/ldap-browser/home/home.component';
+import { LdapBrowserHeaderComponent } from './features/ldap-browser/ldap-browser-header/ldap-browser-header.component';
 
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
@@ -44,8 +43,7 @@ const routes: Routes = [
         component: SidebarComponent,
         outlet: 'sidebar',
         children: [{ path: '', component: AppSettingsNavigationComponent}] 
-      },
-      { path: '', component: HeaderComponent, outlet: 'header' },
+      }
     ]
   },
   { 
@@ -59,32 +57,21 @@ const routes: Routes = [
         outlet: 'sidebar',
         children: [{ path: '', component: NavigationComponent }] 
       },
-      { path: '', component: HeaderComponent, outlet: 'header' },
-      
       { 
         path: 'access-policy',
         canActivate: [ AuthRouteGuard ],
-        children: [
-          {path: '', component: AccessPolicySettingsComponent},
-          {path: ':id', component: AccessPolicyViewComponent}
-        ]
+        loadChildren: () => import('./features/access-policy/access-policy.module')
+        .then(x => x.AccessPolicyModule)
       },
       { 
         path: 'password-policy',
         canActivate: [ AuthRouteGuard ],
-        //children: [
-        //  {path: '', component: PasswordPolicyListComponent},
-        //  {path: ':id', component: AccessPolicyViewComponent}
-        //]
-        loadChildren: () => import('./components/password-policy/password-policy-routing.module')
-                              .then(x => x.PasswordPolicyRoutingModule)
+        loadChildren: () => import('./features/password-policy/password-policy.module')
+                              .then(x => x.PasswordPolicyModule)
       },
       {
         path: '', 
-        children: [
-          { path: '', component: HomeComponent },
-          { path: ':query', component: HomeComponent},
-        ]
+        loadChildren: () => import('./features/ldap-browser/ldap-browser.module').then(x => x.LdapBrowserModule)
       }
     ]
   },
