@@ -3,9 +3,8 @@ import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { SearchQueries } from "../core/ldap/search";
 import { map, of, switchMap, tap, zip } from "rxjs";
 import { ToastrService } from "ngx-toastr";
-import { EntityAttribute } from "../components/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
-import { LdapNavigationService } from "./ldap-navigation.service";
 import { translate } from "@ngneat/transloco";
+import { EntityAttribute } from "../features/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
 
 @Injectable({
     providedIn: 'root'

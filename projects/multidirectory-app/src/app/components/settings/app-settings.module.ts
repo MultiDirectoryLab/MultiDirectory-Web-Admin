@@ -11,7 +11,6 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MultidirectorySettingsComponent } from "./multidirectory-settings/multidirectory-settings.component";
 import { MfAdminIntegrationComponent } from "./mulifactor-settings/admin-integration/mf-admin-integration.component";
 import { MfUserIntegrationComponent } from "./mulifactor-settings/user-integration/mf-user-integration.component";
-import { AccessPolicyModule } from "./access-policy/access-policy-settings.module";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { TranslocoModule } from "@ngneat/transloco";
 
@@ -25,7 +24,6 @@ import { TranslocoModule } from "@ngneat/transloco";
         DragDropModule,
         TranslocoModule,
         MultidirectoryUiKitModule,
-        AccessPolicyModule,
         RouterModule
     ],
     declarations: [

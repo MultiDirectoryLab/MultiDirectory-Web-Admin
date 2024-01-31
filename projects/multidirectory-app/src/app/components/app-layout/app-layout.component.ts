@@ -6,6 +6,7 @@ import { SearchQueries } from "../../core/ldap/search";
 import { LdapEntity } from "../../core/ldap/ldap-entity";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
     selector: 'app-layout',
@@ -20,7 +21,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         private app: AppSettingsService,
         private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef) {}
-    
     ngOnInit(): void {
         this.app.navigationalPanelVisibleRx.pipe(
             takeUntil(this.unsubscribe)
