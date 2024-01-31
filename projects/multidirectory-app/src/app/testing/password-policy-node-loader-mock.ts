@@ -1,3 +1,4 @@
+import { of } from "rxjs";
 import { NavigationNode } from "../core/navigation/navigation-node";
 
 export function getPasswordPolicyLoaderMock() {

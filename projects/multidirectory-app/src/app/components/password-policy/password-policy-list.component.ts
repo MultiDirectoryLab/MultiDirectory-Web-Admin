@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { switchMap } from "rxjs";
 import { PasswordPolicy } from "../../core/password-policy/password-policy";
 import { LdapWindowsService } from "../../services/ldap-windows.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { ModalInjectDirective } from "multidirectory-ui-kit";
 
 @Component({
     selector: 'password-policy-list',
@@ -11,6 +12,8 @@ import { MultidirectoryApiService } from "../../services/multidirectory-api.serv
     styleUrls: ['./password-policy-list.component.scss']
 })
 export class PasswordPolicyListComponent {
+    @ViewChild('modalInject') appCratePolicyModal?: ModalInjectDirective;
+
     properties: any[] = [];
 
     clients: PasswordPolicy[] = [];
@@ -45,6 +48,6 @@ export class PasswordPolicyListComponent {
     }
 
     onAddClick() {
-        alert('todo')
+        this.appCratePolicyModal?.open({});
     }
 }
