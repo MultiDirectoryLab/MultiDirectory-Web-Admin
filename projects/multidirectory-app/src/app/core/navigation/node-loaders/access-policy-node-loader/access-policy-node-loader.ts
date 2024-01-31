@@ -25,7 +25,7 @@ export class AccessPolicyNodeLoader implements NodeLoader {
     }
 
     getChildren(): Observable<NavigationNode[]> {
-        const result = this.api.getPolicy().pipe(
+        const result = this.api.getAccessPolicy().pipe(
             map(
                 x => x.map(policy => new NavigationNode({
                     id: 'policy ' + policy.id,

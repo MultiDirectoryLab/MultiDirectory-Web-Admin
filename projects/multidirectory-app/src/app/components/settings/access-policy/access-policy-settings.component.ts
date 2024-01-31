@@ -35,7 +35,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     }
     ngOnInit(): void {
         this.windows.showSpinner();
-        this.api.getPolicy().subscribe(x => {
+        this.api.getAccessPolicy().subscribe(x => {
             this.clients = x;
             this.windows.hideSpinner();
         });
@@ -55,8 +55,8 @@ export class AccessPolicySettingsComponent implements OnInit {
             this.clients[0].enabled = true;
             return;
         }
-        this.api.deletePolicy(client.id).pipe(
-            switchMap(() => this.api.getPolicy())
+        this.api.deleteAccessPolicy(client.id).pipe(
+            switchMap(() => this.api.getAccessPolicy())
         ).subscribe((clients) => {
             this.clients = clients;
         });
@@ -75,8 +75,8 @@ export class AccessPolicySettingsComponent implements OnInit {
             this.cdr.detectChanges();
             return;
         }
-        this.api.switchPolicy(client.id).pipe(
-            switchMap(x => this.api.getPolicy())
+        this.api.switchAccessPolicy(client.id).pipe(
+            switchMap(x => this.api.getAccessPolicy())
         ).subscribe(x => {
             this.clients = x;
         })
@@ -98,9 +98,9 @@ export class AccessPolicySettingsComponent implements OnInit {
                 const ind = this.clients.findIndex(x => x.id == toEdit.id);
                 this.clients[ind] = new AccessPolicy(client);
                 this.clients[ind].setId(client.id);
-                return this.api.editPolicy(this.clients[ind]);
+                return this.api.editAccessPolicy(this.clients[ind]);
             }),
-            switchMap(() => this.api.getPolicy())
+            switchMap(() => this.api.getAccessPolicy())
         ).subscribe((clients) => {
             this.clients = clients;
         });
@@ -119,14 +119,14 @@ export class AccessPolicySettingsComponent implements OnInit {
                 delete client.id;
                 client.priority = (this.clients.length + 1) * 10;
                 this.clients.push(new AccessPolicy(client));
-                return this.api.savePolicy(client);
+                return this.api.saveAccessPolicy(client);
             }),
             catchError(err => {
                 this.clients.pop();
                 this.toastr.error(translate('access-policy-settings.unable-to-create-policy'));
                 return EMPTY;
             }),
-            switchMap(() => this.api.getPolicy())
+            switchMap(() => this.api.getAccessPolicy())
         ).subscribe((clients) => {
             this.clients = clients;
         });
@@ -145,8 +145,8 @@ export class AccessPolicySettingsComponent implements OnInit {
         if(previous.id == current.id) {
             return;
         }
-        this.api.swapPolicies(previous.id, current.id).pipe(
-            switchMap(() => this.api.getPolicy())
+        this.api.swapAccessPolicies(previous.id, current.id).pipe(
+            switchMap(() => this.api.getAccessPolicy())
         ).subscribe(result => {
             this.clients = result;
         })

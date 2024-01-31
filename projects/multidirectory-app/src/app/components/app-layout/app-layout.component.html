@@ -1,5 +1,5 @@
 <div class="bg-white-neutral flex-row" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
-    <div class="left-pane">
+    <div *ngIf="showLeftPane" class="left-pane">
         <router-outlet name="sidebar"></router-outlet>
     </div>
     <div class="right-pane w-100">

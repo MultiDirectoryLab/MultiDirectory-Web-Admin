@@ -17,13 +17,13 @@ import { UpdateEntryRequest } from "../models/entry/update-request";
 import { AccessPolicy } from "../core/access-policy/access-policy";
 import { PolicyCreateRequest } from "../models/policy/policy-create-request";
 import { PolicyResponse } from "../models/policy/policy-get-response";
-import { PolicyDeleteRequest } from "../models/policy/policy-delete-request";
 import { PolicyPutRequest } from "../models/policy/policy-put-request";
 import { SwapPolicyRequest } from "../models/policy/policy-swap-request";
 import { SwapPolicyResponse } from "../models/policy/policy-swap-response";
 import { SetupMultifactorRequest } from "../models/multifactor/setup-multifactor-request";
 import { GetMultifactorResponse } from "../models/multifactor/get-multifactor-response";
 import { ChangePasswordRequest } from "../models/user/change-password-request";
+import { PasswordPolicy } from "../core/password-policy/password-policy";
 
 @Injectable({
     providedIn: 'root'
@@ -79,7 +79,7 @@ export class MultidirectoryApiService {
             .execute();
     }
 
-    getPolicy(): Observable<AccessPolicy[]> {
+    getAccessPolicy(): Observable<AccessPolicy[]> {
         return this.httpClient.get<PolicyResponse[]>('policy')
             .execute()
             .pipe(map(response => response.map(policy => {
@@ -108,24 +108,38 @@ export class MultidirectoryApiService {
             })));
     }
 
-    savePolicy(client: AccessPolicy): Observable<boolean> {
+
+    getPasswordPolicy(): Observable<PasswordPolicy[]> {
+        return this.httpClient.get<PolicyResponse[]>('policy')
+            .execute()
+            .pipe(map(response => response.map(policy => {
+                const accessPolicy = new PasswordPolicy({
+                    id: policy.id,
+                    name: policy.name,
+                });
+                accessPolicy.id = policy.id;
+                return accessPolicy;
+            })));
+    }
+
+    saveAccessPolicy(client: AccessPolicy): Observable<boolean> {
         return this.httpClient.post<boolean>('policy', new PolicyCreateRequest(client)).execute();
     }
 
-    deletePolicy(policyId: number): Observable<boolean> {
+    deleteAccessPolicy(policyId: number): Observable<boolean> {
         return this.httpClient.delete<boolean>(`policy/${policyId}`).execute();
     }
 
-    editPolicy(policy: AccessPolicy): Observable<boolean> {
+    editAccessPolicy(policy: AccessPolicy): Observable<boolean> {
         const editPolicyRequest = new PolicyPutRequest(policy)
         return this.httpClient.put<boolean>(`policy`, editPolicyRequest).execute();
     }
 
-    switchPolicy(policyId: number): Observable<boolean> {
+    switchAccessPolicy(policyId: number): Observable<boolean> {
         return this.httpClient.patch<boolean>(`policy/${policyId}`).execute();
     }
 
-    swapPolicies(previousPolicyId: number, currentPolicyId: number) {
+    swapAccessPolicies(previousPolicyId: number, currentPolicyId: number) {
         const request = new SwapPolicyRequest({
             first_policy_id: previousPolicyId,
             second_policy_id: currentPolicyId

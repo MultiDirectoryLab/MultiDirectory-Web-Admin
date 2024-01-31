@@ -15,6 +15,7 @@ import { MultidirectorySettingsComponent } from './components/settings/multidire
 import { AppSettingsNavigationComponent } from './components/settings/navigation/app-settings-navigation.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { AccessPolicyViewComponent } from './components/settings/access-policy/access-policy-view/access-policy-view.component';
+import { PasswordPolicyListComponent } from './components/password-policy/password-policy-list.component';
 
 const routes: Routes = [
   { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
@@ -67,6 +68,16 @@ const routes: Routes = [
           {path: '', component: AccessPolicySettingsComponent},
           {path: ':id', component: AccessPolicyViewComponent}
         ]
+      },
+      { 
+        path: 'password-policy',
+        canActivate: [ AuthRouteGuard ],
+        //children: [
+        //  {path: '', component: PasswordPolicyListComponent},
+        //  {path: ':id', component: AccessPolicyViewComponent}
+        //]
+        loadChildren: () => import('./components/password-policy/password-policy-routing.module')
+                              .then(x => x.PasswordPolicyRoutingModule)
       },
       {
         path: '', 
