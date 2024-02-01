@@ -78,7 +78,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.openEntityProperties(x);
         });
-
+        
         this.ldapWindows.openChangePasswordModalRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {

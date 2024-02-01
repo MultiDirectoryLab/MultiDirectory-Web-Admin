@@ -28,9 +28,13 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
             } else {
                 this.accessor['pwdLastSet'] = ['0'];
             }
+            this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
+            this.accessor['userAccountControl'] = [ this.uacBitSet?.toString(10) ];
             return;
         }
         this.accessor['pwdLastSet'] = [ Date.now().toString() ];
+        this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
+        this.accessor['userAccountControl'] = [ this.uacBitSet?.toString(10) ];
     }
 
     constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {
