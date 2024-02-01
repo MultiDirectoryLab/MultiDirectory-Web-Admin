@@ -8,24 +8,12 @@ import { HotkeyModule } from 'angular2-hotkeys';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GroupCreateComponent } from './components/forms/group-create/group-create.component';
-import { OuCreateComponent } from './components/forms/ou-create/ou-create.component';
-import { AdminSettingsSecondComponent } from './components/forms/setup/admin-settings-second/admin-settings-second.component';
-import { AdminSettingsComponent } from './components/forms/setup/admin-settings/admin-settings.component';
-import { DomainSettingsComponent } from './components/forms/setup/domain-setttings/domain-settings.component';
-import { UserCreateModule } from './components/forms/user-create/user-create.module';
-import { ValidatorsModule } from './components/forms/validators/validators.module';
 import { HeaderComponent } from './components/app-layout/header/header.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { LoginComponent } from './components/login/login.component';
-import { SetupComponent } from './components/setup/setup.component';
 import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { AuthorizationModule } from './core/authorization/authorization.module';
-import { HideControlBar } from './core/hidecontrolbar.directive';
-import { GroupSelectorModule } from './components/forms/group-selector/group-selector.module';
-import { CatalogSelectorModule } from './components/forms/catalog-selector/catalog-selector.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
@@ -41,16 +29,8 @@ import { PropertiesModule } from './features/ldap-browser/entity-properties/prop
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    HideControlBar,
     HeaderComponent,
     NavigationComponent,
-    SetupComponent,
-    AdminSettingsComponent,
-    DomainSettingsComponent,
-    AdminSettingsSecondComponent,
-    OuCreateComponent,
-    GroupCreateComponent,
     SearchPanelComponent,
     SearchUsersComponent,
     SearchResultComponent,
@@ -73,11 +53,7 @@ import { PropertiesModule } from './features/ldap-browser/entity-properties/prop
       cheatSheetCloseEsc: true,
     }),
     AuthorizationModule,
-    ValidatorsModule,
-    UserCreateModule,
     PropertiesModule,
-    GroupSelectorModule,
-    CatalogSelectorModule,
     TranslocoRootModule,
     EditorsModule
   ],

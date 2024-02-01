@@ -3,10 +3,10 @@ import { Router } from "@angular/router";
 import { MdModalComponent, StepperComponent } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
-import { SetupRequest } from "../../models/setup/setup-request";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { SetupService } from "../../services/setup.service";
 import { translate } from "@ngneat/transloco";
+import { SetupRequest } from "../../../models/setup/setup-request";
+import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { SetupService } from "../../../services/setup.service";
 
 @Component({
     selector: 'app-setup',

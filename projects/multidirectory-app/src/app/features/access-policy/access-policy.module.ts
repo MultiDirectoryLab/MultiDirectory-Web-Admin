@@ -9,10 +9,10 @@ import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-poli
 import { TranslocoModule } from "@ngneat/transloco";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { AccessPolicyViewComponent } from "./access-policy-view/access-policy-view.component";
-import { GroupSelectorModule } from "../../components/forms/group-selector/group-selector.module";
-import { ValidatorsModule } from "../../components/forms/validators/validators.module";
 import { AccessPolicyRoutingModule } from "./access-policy-routing.module";
 import { AccessPolicyHeaderComponent } from "./access-policy-header/access-policy-header.component";
+import { ValidatorsModule } from "../../core/validators/validators.module";
+import { GroupSelectorModule } from "../forms/group-selector/group-selector.module";
 
 @NgModule({
     declarations: [ 

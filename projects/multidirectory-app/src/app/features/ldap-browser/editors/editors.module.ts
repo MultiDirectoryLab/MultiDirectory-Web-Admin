@@ -9,7 +9,7 @@ import { PropertyEditorComponent } from "./property-editors/property-editor.comp
 import { StringPropertyEditorComponent } from "./property-editors/typed-editors/string/string-property-editor.component";
 import { IntegerPropertyEditorComponent } from "./property-editors/typed-editors/integer/integer-property-editor.component";
 import { MultivaluedStringComponent } from "./property-editors/typed-editors/multivalued-string/multivalued-string.component";
-import { ValidatorsModule } from "../../../components/forms/validators/validators.module";
+import { ValidatorsModule } from "../../../core/validators/validators.module";
 
 @NgModule({
     imports: [

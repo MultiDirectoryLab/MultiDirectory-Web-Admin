@@ -16,7 +16,7 @@ import { TranslocoModule } from "@ngneat/transloco";
 import { GroupPropertiesComponent } from "./group-properties/group-properties.component";
 import { MembersComponent } from "./members/members.component";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
-import { GroupSelectorModule } from "../../../components/forms/group-selector/group-selector.module";
+import { AppFormsModule } from "../../forms/forms.module";
 
 @NgModule({
     imports: [
@@ -24,7 +24,7 @@ import { GroupSelectorModule } from "../../../components/forms/group-selector/gr
         MultidirectoryUiKitModule,
         FormsModule,
         EditorsModule,
-        GroupSelectorModule,
+        AppFormsModule,
         TranslocoModule
     ],
     declarations: [
