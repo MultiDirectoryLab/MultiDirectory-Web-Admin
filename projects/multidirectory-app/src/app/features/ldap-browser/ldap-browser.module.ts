@@ -8,13 +8,14 @@ import { LdapBrowserHeaderComponent } from "./ldap-browser-header/ldap-browser-h
 import { TranslocoModule } from "@ngneat/transloco";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { FormsModule } from "@angular/forms";
-import { ValidatorsModule } from "../../components/forms/validators/validators.module";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { CommonModule } from "@angular/common";
 import { LdapBrowserRoutingModule } from "./ldap-browser-routing.module";
 import { HomeComponent } from "./home/home.component";
 import { HotkeyModule } from "angular2-hotkeys";
 import { PropertiesModule } from "./entity-properties/properties.module";
+import { ValidatorsModule } from "../../core/validators/validators.module";
+import { AppFormsModule } from "../forms/forms.module";
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { PropertiesModule } from "./entity-properties/properties.module";
         EditorsModule,
         HotkeyModule,
         PropertiesModule,
-        LdapBrowserRoutingModule
+        LdapBrowserRoutingModule,
+        AppFormsModule
     ],
     exports: []
 })
