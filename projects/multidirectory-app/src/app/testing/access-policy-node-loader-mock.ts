@@ -1,5 +1,5 @@
 import { of } from "rxjs";
-import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { NavigationNode } from "../core/navigation/navigation-node";
 
 export function getAccessPolicyNodeLoaderMock() {

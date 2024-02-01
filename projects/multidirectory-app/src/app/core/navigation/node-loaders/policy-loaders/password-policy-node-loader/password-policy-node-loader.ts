@@ -1,8 +1,9 @@
 import { Observable, map, of } from "rxjs";
-import { NavigationNode } from "../../navigation-node";
-import { NodeLoader } from "../node-loader";
+import { NavigationNode } from "../../../navigation-node";
+import { NodeLoader } from "../../node-loader";
 import { Injectable } from "@angular/core";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class PasswordPolicyNodeLoader implements NodeLoader
         return of([
             new NavigationNode({
                 id: 'password-policy-root',
-                name: 'Password Policy',
+                name: translate('navigation.policy-loader.password-policy-root-node'),
                 route: ['password-policy'],
                 selectable: true,
                 icon: 'assets/keyicons.svg',

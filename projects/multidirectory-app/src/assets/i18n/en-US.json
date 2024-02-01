@@ -439,5 +439,13 @@
         "unknown-error": "Unknown Error",
         "filter-error": "Filter Error",
         "forbidden": "Access is Forbidden"
+    },
+    "navigation": {
+        "policy-loader": {
+            "root-node-name": "Server Policies",
+            "access-policy-root-name": "Access Policies",
+            "password-policy-root-node": "Password Policies"
+
+        }
     }
 }

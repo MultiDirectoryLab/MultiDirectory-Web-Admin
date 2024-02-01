@@ -7,7 +7,7 @@ import { LdapEntity } from "../core/ldap/ldap-entity";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
-import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loader-mock";
 
 describe('NavigationServiceSuite', () => {
