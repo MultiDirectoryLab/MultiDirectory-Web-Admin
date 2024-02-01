@@ -439,5 +439,12 @@
         "unknown-error": "Неизвестная ошибка",
         "filter-error": "Ошибка фильтра",
         "forbidden": "Доступ запрещен"
+    },
+    "navigation": {
+        "policy-loader": {
+            "root-node-name": "Политики сервера",
+            "access-policy-root-name": "Политики доступа",
+            "password-policy-root-node": "Парольные политики"
+        }
     }
 }

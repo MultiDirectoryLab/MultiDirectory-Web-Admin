@@ -1,9 +1,9 @@
-import { Treenode } from "multidirectory-ui-kit";
-import { NavigationNode } from "../../navigation-node";
+import { NavigationNode } from "../../../navigation-node";
 import { Observable, map, of } from "rxjs";
-import { NodeLoader } from "../node-loader";
+import { NodeLoader } from "../../node-loader";
 import { Injectable } from "@angular/core";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { translate } from "@ngneat/transloco";
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,7 @@ export class AccessPolicyNodeLoader implements NodeLoader {
         return of([
             new NavigationNode({
                 id: 'accessPolicy',
-                name: 'Access Policies',
+                name: translate('navigation.policy-loader.access-policy-root-name'),
                 selectable: true,
                 route: ['access-policy'],
                 icon: 'assets/lock.svg',

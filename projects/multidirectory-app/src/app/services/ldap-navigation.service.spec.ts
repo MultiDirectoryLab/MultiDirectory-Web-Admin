@@ -1,6 +1,6 @@
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { LdapNavigationService } from "./ldap-navigation.service";
-import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loader-mock";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";

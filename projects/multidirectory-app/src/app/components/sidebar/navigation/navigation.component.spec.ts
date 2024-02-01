@@ -9,7 +9,7 @@ import { NavigationEnd, Router, RouterEvent } from "@angular/router";
 import { Subject, of } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { getMultidirectoryApiMock } from "../../../testing/multidirectory-api-mock.service";
-import { AccessPolicyNodeLoader } from "../../../core/navigation/node-loaders/access-policy-node-loader/access-policy-node-loader";
+import { AccessPolicyNodeLoader } from "../../../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { getAccessPolicyNodeLoaderMock } from "../../../testing/access-policy-node-loader-mock";
 import { SavedQueriesNodeLoader } from "../../../core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader";
 

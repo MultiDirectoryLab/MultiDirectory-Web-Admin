@@ -43,6 +43,10 @@
 }
 .expand-mark {
     cursor: pointer;
+    span {
+        min-width: 10px;
+        display: inline-block;
+    }
 }
 .tree-item-wrapper {
     cursor: pointer;
