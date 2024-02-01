@@ -29,7 +29,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
     @ViewChild('treeView') treeView?: TreeviewComponent;
     @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
-    @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
     unsubscribe = new Subject<boolean>();
 
     constructor(
@@ -70,10 +69,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    helpMenuClick() {
-        this.helpcheatSheet.toggleCheatSheet();
-    }
-
     openEntityProperties(entity: LdapEntity) {
         this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1)).subscribe(x => {
             this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
@@ -99,9 +94,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
             un: entity.name 
         }).pipe(take(1)).subscribe(x => {
         });
-    }
-
-    closeCheatsheet() {
-        this.helpcheatSheet.toggleCheatSheet();
     }
 }

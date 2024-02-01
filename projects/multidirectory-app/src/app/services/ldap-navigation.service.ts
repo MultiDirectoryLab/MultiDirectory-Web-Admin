@@ -18,7 +18,7 @@ export class LdapNavigationService {
         return this._ldapRootRx.value;
     }
 
-    private _selectedCatalogRx = new Subject<LdapEntity | null>();
+    private _selectedCatalogRx = new BehaviorSubject<LdapEntity | null>(null);
     get selectedCatalogRx(): Observable<LdapEntity | null> {
         return this._selectedCatalogRx.asObservable();
     }

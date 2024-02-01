@@ -19,12 +19,12 @@ import { BackendNotRespondedComponent } from './components/errors/backend-does-n
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { AppSettingsModule } from './components/settings/app-settings.module';
 import { EditorsModule } from './features/ldap-browser/editors/editors.module';
 import { SearchResultComponent } from './features/ldap-browser/search-panel/seaarch-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './features/ldap-browser/search-panel/seaarch-forms/search-users/search-users.component';
 import { SearchPanelComponent } from './features/ldap-browser/search-panel/search-panel.component';
 import { PropertiesModule } from './features/ldap-browser/entity-properties/properties.module';
+import { AppSettingsModule } from './features/settings/app-settings.module';
 
 @NgModule({
   declarations: [
