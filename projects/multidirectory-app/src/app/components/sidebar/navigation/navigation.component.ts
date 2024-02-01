@@ -21,7 +21,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
     constructor(
         private navigation: AppNavigationService,
         private ldapNavigation: LdapNavigationService,
-        private cdr: ChangeDetectorRef,
         private router: Router) {
         }
     
@@ -34,7 +33,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.router.events.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe((event: any) => {
-            this.handleRouteChange(event);
+            //this.handleRouteChange(event);
         })
     }
 

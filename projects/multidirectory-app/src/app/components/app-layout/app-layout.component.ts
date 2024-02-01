@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subject, switchMap, takeUntil, tap } from "rxjs";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { LdapTreeLoader } from "../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
@@ -6,7 +6,7 @@ import { SearchQueries } from "../../core/ldap/search";
 import { LdapEntity } from "../../core/ldap/ldap-entity";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { RouterOutlet } from "@angular/router";
+import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 
 @Component({
     selector: 'app-layout',
@@ -14,6 +14,8 @@ import { RouterOutlet } from "@angular/router";
     styleUrls: ['./app-layout.component.scss']
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
+    @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
+
     showLeftPane = true;
     private unsubscribe = new Subject<void>();
 
@@ -55,5 +57,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
+    }
+
+    closeCheatsheet() {
+        this.helpcheatSheet.toggleCheatSheet();
     }
 }
