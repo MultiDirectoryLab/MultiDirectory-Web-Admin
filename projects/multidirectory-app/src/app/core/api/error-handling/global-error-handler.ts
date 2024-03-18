@@ -16,6 +16,11 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error: any) {
         console.error(error);
+        if(error.error?.detail) {
+            for(let i of error.error.detail) {
+                this.toastr.error(i.msg)
+            }
+        }
         this.toastr.error(
             error?.statusText ?? error?.message ?? translate("errors.unknown-error"), 
             translate("errors.unknown-error"), 
