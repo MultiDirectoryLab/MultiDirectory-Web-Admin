@@ -1,0 +1,67 @@
+@use '../../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+:host {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+.right-pane {
+    flex-grow: 1;
+    min-width: 0;
+}
+.treeview {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: auto;
+}
+
+.avatar {
+    user-select: none;
+    padding: 0 8px;
+    .avatar-img {
+        max-height: 50px;
+    }
+}
+.user-info {
+    flex-grow: 1;
+}
+
+.footer {
+    border-top: 1px solid lightgray;
+    padding-top: 8px;
+    user-select: none;
+}
+
+.logo-img {
+    pointer-events: none;
+    min-height: 50px !important;
+    height: 50px !important;
+    overflow: hidden;
+    background-color: global.$md-blue;
+}
+
+
+:host ::ng-deep .selected:not(.focused) .tree-icon {
+    filter:  brightness(0%) invert(100%);
+}
+
+.more-container {
+    padding: 3px 8px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 5px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    &:hover {
+        border: 1px solid global.$md-dark-blue-2;
+    }
+}
+
+
+.left-pane {
+    border-right: 1px solid lightgrey;
+    display: flex;
+    flex-flow: column nowrap;
+    user-select: none;
+}

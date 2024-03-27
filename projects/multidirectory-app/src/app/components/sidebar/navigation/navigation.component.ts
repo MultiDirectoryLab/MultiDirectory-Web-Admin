@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Subject, take, takeUntil } from "rxjs";
-import { Treenode, TreeviewComponent } from "multidirectory-ui-kit";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { NavigationEnd, Router, RouterEvent, Scroll } from "@angular/router";
-import { NavigationNode } from "../../../core/navigation/navigation-node";
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, EventType, NavigationEnd, Params, Router, RouterEvent, Scroll } from "@angular/router";
+import { TreeviewComponent } from "multidirectory-ui-kit";
 import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
-import { AppNavigationService } from "../../../services/app-navigation.service";
+import { Subject, combineLatest, take, takeUntil } from "rxjs";
 import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
+import { NavigationNode } from "../../../core/navigation/navigation-node";
+import { AppNavigationService } from "../../../services/app-navigation.service";
+import { NavigationRoot } from "../../../core/navigation/navigation-entry-point";
 
 @Component({
     selector: 'app-navigation',
@@ -18,26 +18,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private unsubscribe = new Subject<void>();
     navigationTree: NavigationNode[] = []
 
-    constructor(
-        private navigation: AppNavigationService,
-        private ldapNavigation: LdapNavigationService,
-        private router: Router) {
-        }
+    constructor(private navigation: AppNavigationService) {
+    }   
     
     ngOnInit(): void {
-        this.navigation.buildNavigationRoot().pipe(take(1)).subscribe(x => {
-            this.navigationTree = x;
-            const rootDse = <LdapEntryNode[]>x.filter(x => x instanceof LdapEntryNode);
-            this.ldapNavigation.setRootDse(rootDse);
-        });
-        this.router.events.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe((event: any) => {
-            this.handleRouteChange(event);
-        })
+        this.navigation.navigationRx
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(([navigationTree, navigationEvent, query]) => {
+                this.navigationTree = navigationTree;
+                this.handleRouteChange(navigationTree, navigationEvent, query);
+            });
     }
 
-    handleRouteChange(event: RouterEvent) {
+    handleRouteChange(navigationTree: NavigationNode[], event: RouterEvent, queryParams: Params) {
         if(event instanceof Scroll) {
             event = event.routerEvent;
         }
@@ -52,7 +45,17 @@ export class NavigationComponent implements OnInit, OnDestroy {
         let node: NavigationNode | undefined;
         // Что у нас есть в node, по чему мы можем идентифицировать узел?
         if(url == '') {
-            this.treeView.select(undefined);
+            this.treeView.select(null);
+            return;
+        }
+        if(url.startsWith('ldap?')) {
+            const dn = queryParams['distinguishedName'];
+            this.navigation.goTo([navigationTree[2] as LdapEntryNode], dn).then(node => {
+                if(!node) {
+                    return;
+                }
+                this.treeView.select(node);
+            });
             return;
         }
         TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode, path) => {
@@ -81,12 +84,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     handleNodeSelection(node: NavigationNode) {
-        if(!!node.route) {
-            this.router.navigate(node.route, { 
-                queryParams: { 
-                    "distinguishedName": node.data 
-                }
-            });
-        }
+        this.navigation.navigate(node);
     }
 }

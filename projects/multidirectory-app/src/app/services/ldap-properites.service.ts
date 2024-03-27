@@ -4,7 +4,7 @@ import { SearchQueries } from "../core/ldap/search";
 import { map, of, switchMap, tap, zip } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { translate } from "@ngneat/transloco";
-import { EntityAttribute } from "../features/ldap-browser/entity-properties/entity-attributes/entity-attributes.component";
+import { EntityAttribute } from "../features/ldap-browser/components/entity-properties/entity-attributes/entity-attributes.component";
 
 @Injectable({
     providedIn: 'root'

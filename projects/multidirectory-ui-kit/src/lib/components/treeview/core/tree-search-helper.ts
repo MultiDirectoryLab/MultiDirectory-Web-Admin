@@ -1,17 +1,17 @@
 import { Treenode } from "../model/treenode";
 
 export class TreeSearchHelper {
-    static findNextSibling(tree: Treenode[], currentNode: Treenode): Treenode | undefined {
+    static findNextSibling(tree: Treenode[], currentNode: Treenode): Treenode | null {
         if(!currentNode?.parent) {
             const foundIndex = tree.findIndex(x => x.id == currentNode.id);
             if(foundIndex >= 0) {
                 return currentNode.children?.[0] ?? null;
             }
-            return;
+            return null;
         }
         const parent = currentNode.parent;
         if(!parent.children) {
-            return;
+            return null;
         }
         const currentIndex = parent.children?.findIndex(x => x.id ==  currentNode?.id);
         if(currentIndex + 1 >= parent.children.length) {
@@ -20,7 +20,7 @@ export class TreeSearchHelper {
         return parent.children[currentIndex + 1];
     }
 
-    static findNext(tree: Treenode[], currentNode: Treenode): Treenode | undefined {
+    static findNext(tree: Treenode[], currentNode: Treenode): Treenode | null {
         if(currentNode.expanded && currentNode.children && currentNode.children.length > 0) {
             return currentNode.children[0];
         }
@@ -35,7 +35,7 @@ export class TreeSearchHelper {
         return child;
     }
 
-    static findPrevious(tree: Treenode[], currentNode: Treenode): Treenode | undefined {
+    static findPrevious(tree: Treenode[], currentNode: Treenode): Treenode | null {
         const parent = currentNode.parent;
         if(!parent) {
             const currentIndex = tree.findIndex(x => x.id == currentNode.id);
@@ -49,7 +49,7 @@ export class TreeSearchHelper {
             if(!!parent.children?.[currentIndex - 1]) {
                 return this.findLastDeepestLeaf(parent.children?.[currentIndex - 1]);
             }
-            return;
+            return null;
         }
 
         return parent;

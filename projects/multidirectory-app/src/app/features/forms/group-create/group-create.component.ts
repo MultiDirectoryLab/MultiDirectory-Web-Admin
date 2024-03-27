@@ -6,7 +6,6 @@ import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { translate } from "@ngneat/transloco";
 
@@ -36,7 +35,6 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private api: MultidirectoryApiService,
         private toastr: ToastrService,
-        private navigation: LdapNavigationService,
         @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
     
     ngAfterViewInit(): void {
@@ -45,7 +43,6 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.formValid = x;
         });
-        this.selectedNode = this.navigation.selectedCatalog;
     }
 
     ngOnDestroy(): void {

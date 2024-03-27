@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HomeComponent } from "./home/home.component";
-import { LdapBrowserHeaderComponent } from "./ldap-browser-header/ldap-browser-header.component";
+import { HomeComponent } from "./components/home/home.component";
+import { LdapBrowserHeaderComponent } from "./components/ldap-browser-header/ldap-browser-header.component";
 
 @NgModule({
     imports: [

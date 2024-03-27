@@ -60,9 +60,8 @@ export class LdapEntryLoader implements NodeLoader {
             );
     }
 
-    getContent(parent: string, parentNode: LdapEntryNode, page?: Page): Observable<LdapEntryNode[]> {
+    getContent(parent: string,  page?: Page): Observable<LdapEntryNode[]> {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
-            tap(x => parentNode.childCount = x.total_objects ),
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
@@ -73,9 +72,8 @@ export class LdapEntryLoader implements NodeLoader {
                         expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
                         entry: x,
                         id: x.object_name,
-                        parent: parentNode,
                         route: ['ldap'],
-                        data: x.id
+                        data: x.object_name
                     });
                     node.loadChildren = () => this.getChild(x.object_name);
                     return node;

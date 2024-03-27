@@ -5,7 +5,6 @@ import { DropdownOption, MdFormComponent } from "multidirectory-ui-kit";
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
-import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 
 @Component({
     selector: 'app-user-create-general-info', 
@@ -28,7 +27,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
 
     unsubscribe = new Subject<void>();
     domains: DropdownOption[] = []
-    constructor(public setup: UserCreateService, private navigation: LdapNavigationService) {}
+    constructor(public setup: UserCreateService) {}
     ngAfterViewInit(): void {
         this.setup.stepValid(this.form.valid)
         this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
@@ -38,10 +37,6 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
             this.setup.stepValid(this.form.valid);
         })
 
-        this.domains = this.navigation.getRootDse().map(x => new DropdownOption({
-            title: x.node?.name,
-            value: x.node?.name
-        }));
         this.setupRequest.upnDomain = this.domains?.[0]?.value;
     }
 

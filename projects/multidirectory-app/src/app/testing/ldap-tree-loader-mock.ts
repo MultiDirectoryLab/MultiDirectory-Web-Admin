@@ -47,7 +47,7 @@ export function getLdapTreeLoaderMock() {
         })
     ];
     zeroLevelRoot[0].children = childFirstLevel;
-    zeroLevelRoot[0].childCount = childFirstLevel.length;
+    //zeroLevelRoot[0].childCount = childFirstLevel.length;
     // Provide the dummy/mock data to sortNumberData method.
     ldapTreeLoaderSpy.get.and.returnValue(of(zeroLevelRoot));
 

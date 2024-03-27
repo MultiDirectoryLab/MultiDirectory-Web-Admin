@@ -1,15 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { Subject } from "rxjs";
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, Output, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { translate } from "@ngneat/transloco";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
+import { Subject } from "rxjs";
+import { ViewMode } from "../../../features/ldap-browser/components/catalog-content/view-modes";
+import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
+import { AppWindowsService } from "../../../services/app-windows.service";
 import { ContentViewService } from "../../../services/content-view.service";
 import { MenuService } from "../../../services/menu.service";
-import { WhoamiResponse } from "../../../models/whoami/whoami-response";
-import { AppWindowsService } from "../../../services/app-windows.service";
-import { translate } from "@ngneat/transloco";
-import { Router } from "@angular/router";
-import { ViewMode } from "../../../features/ldap-browser/catalog-content/view-modes";
 
 @Component({
     selector: 'app-header',
