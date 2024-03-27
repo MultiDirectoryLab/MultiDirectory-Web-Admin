@@ -5,6 +5,8 @@ import { SetupRouteGuard } from './core/setup/setup-route-guard';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
+import { PlaceholderComponent } from './components/app-layout/placeholder/placeholder.component';
+import { PlaceholderHeaderComponent } from './components/app-layout/placeholder/placeholder-header/placeholder-header.component';
 
 const routes: Routes = [
   { 
@@ -42,13 +44,17 @@ const routes: Routes = [
         loadChildren: () => import('./features/password-policy/password-policy.module').then(x => x.PasswordPolicyModule)
       },
       {
-        path: '', 
+        path: 'ldap', 
         loadChildren: () => import('./features/ldap-browser/ldap-browser.module').then(x => x.LdapBrowserModule)
+      },
+      {
+        path: '', 
+        loadChildren: () => import('./components/app-layout/placeholder/placeholder.module').then(x => x.PlaceholderModule)
       }
     ]
   },
   { path: 'enable-backend', component: BackendNotRespondedComponent },
-  { path: '**', redirectTo: '/catalog'}
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

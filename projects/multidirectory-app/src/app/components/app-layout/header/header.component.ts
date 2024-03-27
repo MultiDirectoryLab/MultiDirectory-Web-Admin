@@ -1,15 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { Subject, noop, takeUntil } from "rxjs";
+import { Subject } from "rxjs";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { ContentViewService } from "../../../services/content-view.service";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppWindowsService } from "../../../services/app-windows.service";
 import { translate } from "@ngneat/transloco";
-import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { ViewMode } from "../../../features/ldap-browser/catalog-content/view-modes";
 
@@ -18,7 +16,7 @@ import { ViewMode } from "../../../features/ldap-browser/catalog-content/view-mo
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnDestroy {
     @Output() helpMenuClick = new EventEmitter<MouseEvent>();
     @Output() accountSettingsClicked = new EventEmitter<void>();
     @Output() logoutClick = new EventEmitter<void>();
@@ -26,8 +24,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef; 
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
-    selectedCatalog: LdapEntryNode | null = null;
-    ldapRoots: LdapEntryNode[] = [];
 
     ViewMode = ViewMode;
     get contentView(): ViewMode {
@@ -44,11 +40,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // TODO: TOO MUCH SERVICES
     constructor(
         private app: AppSettingsService,
-        private navigation: LdapNavigationService,
         private contentViewService: ContentViewService,
         private hotkeysService: HotkeysService,
         private ldapWindows: AppWindowsService,
-        private toastr: ToastrService,
         private menu: MenuService,
         private cdr: ChangeDetectorRef,
         private router: Router) 
@@ -58,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             return false; // Prevent bubbling
         }, undefined, translate('hotkeys.toggle-navbar')));
         this.hotkeysService.add(new Hotkey('esc', (event: KeyboardEvent): boolean => {
-            this.navigation.setCatalog(null);
+            this.router.navigate(['/']);
             return false; // Prevent bubbling
         }, undefined, translate('hotkeys.toggle-small-icon-view')));
         this.hotkeysService.add(new Hotkey('f1', (event: KeyboardEvent): boolean => {
@@ -81,12 +75,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.searchBtn?.nativeElement.click();
             return false;
         }, undefined, translate('hotkeys.toggle-search-menu')));
-    }
-    ngOnInit(): void {
-        this.navigation.ldapRootRx.subscribe(x => {
-            this.ldapRoots = x;
-        });
-       
     }
 
     ngOnDestroy(): void {

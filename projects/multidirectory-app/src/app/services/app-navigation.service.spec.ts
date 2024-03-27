@@ -2,7 +2,7 @@ import { of, take } from "rxjs";
 import { NavigationNode } from "../core/navigation/navigation-node";
 import { AppNavigationService } from "./app-navigation.service";
 import { TestBed } from "@angular/core/testing";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
@@ -20,7 +20,7 @@ describe('NavigationServiceSuite', () => {
             declarations: [],    
             providers: [
                 { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock()},
-                { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock()},
+                { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock()},
                 { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock()},
                 { provide: AppNavigationService, useClass: AppNavigationService }
             ],

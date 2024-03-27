@@ -1,11 +1,11 @@
 import { of } from "rxjs";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { LdapEntryType } from "../core/ldap/ldap-entity-type";
 
 export function getLdapTreeLoaderMock() {
     // Create jasmine spy object 
-    let ldapTreeLoaderSpy = jasmine.createSpyObj(LdapTreeLoader, ['get', 'getContent', 'getChild']);
+    let ldapTreeLoaderSpy = jasmine.createSpyObj(LdapEntryLoader, ['get', 'getContent', 'getChild']);
     const zeroLevelRoot = [
         new LdapEntryNode({
             id: 'dc=test,dc=local',

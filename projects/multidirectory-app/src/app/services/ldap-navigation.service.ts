@@ -4,7 +4,7 @@ import { Page, Treenode } from "multidirectory-ui-kit";
 import { BehaviorSubject, Observable, Subject, lastValueFrom, map, take } from "rxjs";
 import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 
 @Injectable({
     providedIn: 'root'
@@ -46,7 +46,7 @@ export class LdapNavigationService {
     }
 
     constructor(
-        private ldap: LdapTreeLoader) {}
+        private ldap: LdapEntryLoader) {}
     
     setRootDse(root: LdapEntryNode[]) {
         this._ldapRootRx.next(root)

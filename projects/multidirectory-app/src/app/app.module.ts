@@ -25,6 +25,8 @@ import { SearchUsersComponent } from './features/ldap-browser/search-panel/seaar
 import { SearchPanelComponent } from './features/ldap-browser/search-panel/search-panel.component';
 import { PropertiesModule } from './features/ldap-browser/entity-properties/properties.module';
 import { AppSettingsModule } from './features/settings/app-settings.module';
+import { PlaceholderComponent } from './components/app-layout/placeholder/placeholder.component';
+import { PlaceholderHeaderComponent } from './components/app-layout/placeholder/placeholder-header/placeholder-header.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,7 @@ import { AppSettingsModule } from './features/settings/app-settings.module';
     SearchResultComponent,
     BackendNotRespondedComponent,
     AppLayoutComponent,
-    SidebarComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,7 @@ import { AppSettingsModule } from './features/settings/app-settings.module';
     AuthorizationModule,
     PropertiesModule,
     TranslocoRootModule,
-    EditorsModule
+    EditorsModule,
   ],
   providers: [
     provideAnimations(),

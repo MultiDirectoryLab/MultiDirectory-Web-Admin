@@ -12,7 +12,7 @@ import { Page, Treenode } from "multidirectory-ui-kit";
 @Injectable({
     providedIn: 'root'
 })
-export class LdapTreeLoader implements NodeLoader {
+export class LdapEntryLoader implements NodeLoader {
     constructor(private api: MultidirectoryApiService) {}
 
     get(): Observable<LdapEntryNode[]> {
@@ -22,13 +22,13 @@ export class LdapTreeLoader implements NodeLoader {
                     const rootDn = x.partial_attributes.find(x => x.type == 'rootDomainNamingContext');
 
                     const serverNode = new LdapEntryNode({ 
-                            name: LdapTreeLoader.getSingleAttribute(x, 'dnsHostName'),
+                            name: LdapEntryLoader.getSingleAttribute(x, 'dnsHostName'),
                             type: LdapEntryType.Server,
                             selectable: true,
                             entry: x,
                             parent: undefined, 
                             id: namingContext?.vals[0] ?? '',
-                            route: ['/'],
+                            route: ['ldap'],
                             data: rootDn?.vals?.[0] ?? ''
                         },
                     );
@@ -42,7 +42,7 @@ export class LdapTreeLoader implements NodeLoader {
     getChild(dn: string, parent: LdapEntryNode | undefined = undefined): Observable<Treenode[]> {
         return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
-                    const displayName = LdapTreeLoader.getSingleAttribute(x, 'name');
+                    const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapEntryNode({
                         name: displayName,
@@ -51,7 +51,7 @@ export class LdapTreeLoader implements NodeLoader {
                         entry: x,
                         id: x.object_name,
                         parent: parent,
-                        route: ['/'],
+                        route: ['ldap'],
                         data: x.object_name
                     });
                     node.loadChildren = () => this.getChild(x.object_name, node);
@@ -64,7 +64,7 @@ export class LdapTreeLoader implements NodeLoader {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
             tap(x => parentNode.childCount = x.total_objects ),
             map((res: SearchResponse) => res.search_result.map(x => {
-                    const displayName = LdapTreeLoader.getSingleAttribute(x, 'name');
+                    const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
                     const node = new LdapEntryNode({
                         name: displayName,
@@ -74,7 +74,7 @@ export class LdapTreeLoader implements NodeLoader {
                         entry: x,
                         id: x.object_name,
                         parent: parentNode,
-                        route: ['/'],
+                        route: ['ldap'],
                         data: x.id
                     });
                     node.loadChildren = () => this.getChild(x.object_name);

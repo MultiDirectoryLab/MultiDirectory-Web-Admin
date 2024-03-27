@@ -51,7 +51,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
         // Поиск узла для выбора в дереве
         let node: NavigationNode | undefined;
         // Что у нас есть в node, по чему мы можем идентифицировать узел?
-
+        if(url == '') {
+            this.treeView.select(undefined);
+            return;
+        }
         TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode, path) => {
             n.selected = false;
             if(!n.route) {

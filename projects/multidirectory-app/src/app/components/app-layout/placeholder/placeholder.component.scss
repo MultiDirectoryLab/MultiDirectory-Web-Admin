@@ -1,0 +1,9 @@
+.logo-placeholder {
+    user-select: none;
+    pointer-events: none;
+    filter: grayscale(60%) opacity(0.55);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateX(20%) translateY(-15%) rotate(15deg);
+}
