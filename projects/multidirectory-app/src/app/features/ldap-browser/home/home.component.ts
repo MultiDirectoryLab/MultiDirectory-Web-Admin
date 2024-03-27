@@ -7,7 +7,7 @@ import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { LdapWindowsService } from "../../../services/ldap-windows.service";
+import { AppWindowsService } from "../../../services/app-windows.service";
 import { CatalogContentComponent } from "../catalog-content/catalog-content.component";
 
 @Component({
@@ -33,7 +33,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
     constructor(
         private navigation: LdapNavigationService,
-        private ldapWindows: LdapWindowsService,
+        private ldapWindows: AppWindowsService,
         private activatedRoute: ActivatedRoute,
         private app: AppSettingsService,
         private cdr: ChangeDetectorRef) {

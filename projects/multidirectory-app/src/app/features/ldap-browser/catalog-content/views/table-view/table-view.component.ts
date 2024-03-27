@@ -8,7 +8,7 @@ import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { translate } from "@ngneat/transloco";
-import { LdapWindowsService } from "projects/multidirectory-app/src/app/services/ldap-windows.service";
+import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 
 @Component({
     selector: 'app-table-view',
@@ -34,7 +34,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     ]
     constructor(
         private navigation: LdapNavigationService,
-        private windows: LdapWindowsService,
+        private windows: AppWindowsService,
         private cdr: ChangeDetectorRef
     ) {
         super();

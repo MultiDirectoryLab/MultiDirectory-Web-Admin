@@ -33,7 +33,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.router.events.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe((event: any) => {
-            //this.handleRouteChange(event);
+            this.handleRouteChange(event);
         })
     }
 
@@ -48,16 +48,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if(url.startsWith('/')) {
             url = url.substring(1);
         }
+        // Поиск узла для выбора в дереве
         let node: NavigationNode = new NavigationNode({});
+        // Что у нас есть в node, по чему мы можем идентифицировать узел?
+
         TreeSearchHelper.traverseTree(this.navigationTree, (n: NavigationNode, path) => {
             n.selected = false;
             if(!n.route) {
                 return;
             }
+            // Что такое nodeUrl?
             let nodeUrl = n.route.join('/')
             if(nodeUrl.startsWith('/')) {
                 nodeUrl = nodeUrl.substring(1);
             }
+            // Мы ищем узел в LDAP каталоге по query и это плохо
             if(nodeUrl == url) {
                 node = n;
             }

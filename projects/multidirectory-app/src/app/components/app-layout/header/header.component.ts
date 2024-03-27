@@ -7,7 +7,7 @@ import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MenuService } from "../../../services/menu.service";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
-import { LdapWindowsService } from "../../../services/ldap-windows.service";
+import { AppWindowsService } from "../../../services/app-windows.service";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private navigation: LdapNavigationService,
         private contentViewService: ContentViewService,
         private hotkeysService: HotkeysService,
-        private ldapWindows: LdapWindowsService,
+        private ldapWindows: AppWindowsService,
         private toastr: ToastrService,
         private menu: MenuService,
         private cdr: ChangeDetectorRef,

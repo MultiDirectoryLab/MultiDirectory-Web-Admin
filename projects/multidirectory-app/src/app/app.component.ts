@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { LdapWindowsService } from './services/ldap-windows.service';
+import { AppWindowsService } from './services/app-windows.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SpinnerComponent } from 'multidirectory-ui-kit';
 
@@ -14,7 +14,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   title = 'multidirectory-app';
   @ViewChild('spinner', {static: true}) spinner!: SpinnerComponent;
 
-  constructor(private windows: LdapWindowsService) {
+  constructor(private windows: AppWindowsService) {
   }
 
   ngAfterViewInit(): void {

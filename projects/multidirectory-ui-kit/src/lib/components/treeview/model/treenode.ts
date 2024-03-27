@@ -2,14 +2,15 @@ import { Observable } from "rxjs";
 
 export class Treenode {    
     id: string = '';
-    name?: string;
+    name: string = '';
+
     selectable = false;
-    selected: boolean = false;
-    expanded: boolean = false;
-    children?: Treenode[];
-    childrenLoaded = false;
+    selected = false;
+    expanded = false;
+    focused = false;
+
+    children: Treenode[] = [];
     parent?: Treenode;
-    focused: boolean = false;
     loadChildren?: (() => Observable<Treenode[]>);
 
     constructor(obj: Partial<Treenode>) {

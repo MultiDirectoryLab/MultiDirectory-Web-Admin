@@ -6,7 +6,7 @@ import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loa
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
 import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
-import { AppNavigationService } from "./app-navigation.service";
+import { getTranslocoModule } from "../testing/transloco-testing";
 
 describe('LdapNavigationServiceTestSuit', () => {
     let ldapTreeLoader: LdapTreeLoader;
@@ -19,6 +19,9 @@ describe('LdapNavigationServiceTestSuit', () => {
                 { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock()},
                 { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock()},
                 { provide: LdapNavigationService, useClass: LdapNavigationService },
+            ],
+            imports: [
+                getTranslocoModule()
             ]
         }).compileComponents()
     });

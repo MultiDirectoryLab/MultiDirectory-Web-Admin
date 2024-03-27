@@ -6,7 +6,7 @@ import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
 import { LdapEntity } from "../../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../../models/entry/delete-request";
 import { ContentViewService } from "../../../services/content-view.service";
-import { LdapWindowsService } from "../../../services/ldap-windows.service";
+import { AppWindowsService } from "../../../services/app-windows.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { ViewMode } from "./view-modes";
@@ -42,7 +42,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private contentView: ContentViewService,
-        private ldapWindows: LdapWindowsService,
+        private ldapWindows: AppWindowsService,
         private hotkeysService: HotkeysService) {
         }
 

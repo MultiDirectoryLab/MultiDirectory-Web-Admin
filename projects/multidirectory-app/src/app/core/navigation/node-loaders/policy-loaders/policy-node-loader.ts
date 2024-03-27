@@ -23,6 +23,7 @@ export class PolicyNodeLoaders implements NodeLoader {
             new NavigationNode({
                 name: translate('navigation.policy-loader.root-node-name'),
                 icon: 'assets/keyicons.svg',
+                id: 'server-policy-root',
                 loadChildren: () => this.getChildren()
             })
         ]);

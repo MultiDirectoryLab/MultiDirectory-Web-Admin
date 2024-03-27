@@ -8,7 +8,6 @@
             <div class="avatar">
                 <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img"/>
                 <img *ngIf="!!user.jpegPhoto" [src]="('data:image/jpg;base64,' + user.jpegPhoto)" class="avatar-img"/>
-    
             </div>
             <div class="user-info column">
                 <label>{{user.display_name}}</label>
