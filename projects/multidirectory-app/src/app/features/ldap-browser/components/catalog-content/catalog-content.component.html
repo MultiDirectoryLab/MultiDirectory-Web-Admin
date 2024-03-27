@@ -1,0 +1,134 @@
+<div class="control-pane flex-row align-center">
+    <div class="button-wrapper">
+        <md-plane-button class="search control-button" [mdDropdownContainer]="createMenu">
+            <div class="flex-row flex-space-between flex-gap-10">
+                <img class="color-change-blue-white" [src]="'assets/add_blue.svg'"/>
+                <img class="color-change-blue-white" [src]="'assets/arrow_drop_down_blue.svg'" *ngIf="!createMenu.dropdownVisible"/>
+                <img class="color-change-white-blue" [src]="'assets/arrow_drop_up_white.svg'" *ngIf="createMenu.dropdownVisible"/>
+            </div>
+        </md-plane-button>
+    </div>
+
+    <md-button (click)="openCreateUser()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/person_add.svg'"/>
+            {{ "catalog-content.create-user" | transloco }}
+        </span>
+    </md-button>
+    <md-button  (click)="openCreateGroup()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group.svg'" style="transform: scale(1.35)"/>
+            {{ "catalog-content.create-group" | transloco }}
+        </span>
+    </md-button>
+    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/group_add.svg'"/>
+            {{ "catalog-content.create-object" | transloco }}
+        </span>
+    </md-button>
+</div>
+<div [ngStyle]="{ display: 'block' }" class="flex-column-expanded">
+    <ng-container [ngSwitch]="currentView">
+        <app-table-view
+            *ngSwitchCase="ViewMode.Table"
+            (pageChanged)="pageChanged($event)"
+            (onRightClick)="showContextMenu($event)"
+            [selectedCatalog]="selectedCatalog"
+        ></app-table-view>
+
+        <app-icon-view
+            *ngSwitchCase="ViewMode.SmallIcons"
+            (onRightClick)="showContextMenu($event)"
+            (pageChanged)="pageChanged($event)"
+            [selectedCatalog]="selectedCatalog"
+        ></app-icon-view>
+        <app-icon-view
+            [big]="true"
+            *ngSwitchCase="ViewMode.BigIcons"
+            (onRightClick)="showContextMenu($event)"
+        ></app-icon-view>
+        <app-icon-view
+            *ngSwitchCase="ViewMode.Details"
+            (onRightClick)="showContextMenu($event)"
+        ></app-icon-view>
+    </ng-container>
+</div>
+ 
+<md-dropdown-menu #helpMenu>
+    <div class="dropdown-item">
+        {{ "catalog-content.help" | transloco }}
+    </div>
+</md-dropdown-menu> 
+
+<md-dropdown-menu #createMenu>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">
+        {{ "catalog-content.group" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.computer" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.contact" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">
+        {{ "catalog-content.ou" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.common-folder" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">
+        {{ "catalog-content.printer" | transloco }}
+    </div>
+    <div class="dropdown-item"(click)="createMenu.close(); openCreateUser()">
+        {{ "catalog-content.user" | transloco }}
+    </div>
+    <div class="dropdown-item disabled hidden">msDS-ShadowPrincipalContainer</div>
+    <div class="dropdown-item disabled hidden">msExchDynamic DistributionList</div>
+    <div class="dropdown-item disabled hidden">mslmaging-PSP</div>
+    <div class="dropdown-item disabled hidden">MSMQ Queue Alias</div>
+</md-dropdown-menu> 
+<ng-template modalInject #createUserModal="modalInject">
+    <app-user-create></app-user-create>
+</ng-template>
+<ng-template modalInject #createOuModal="modalInject">
+    <app-ou-create #createOuModal></app-ou-create>
+</ng-template>
+<ng-template modalInject #createGroupModal="modalInject">
+    <app-group-create></app-group-create>
+</ng-template>
+
+<md-modal #createObjectModal>
+    TODO
+</md-modal> 
+
+<md-modal #deleteConfirmation>
+    <div class="app-modal-header">
+        {{ "catalog-content.approve-delete-header" | transloco }}
+
+    </div> 
+    {{ "catalog-content.approve-delete" | transloco }}
+
+    <ng-container class="app-modal-footer">
+        <div class="flex-row align-center justify-end flex-gap-10">
+            <md-button (click)="deleteConfirmation.close()">
+                {{ "catalog-content.cancel" | transloco }}
+            </md-button>
+            <md-button [primary]="true" (click)="deleteConfirmation.close(); deleteSelectedEntry()">
+                {{ "catalog-content.delete" | transloco }}
+            </md-button>
+        </div>
+    </ng-container>
+</md-modal>
+
+<md-dropdown-menu #contextMenu>
+    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">
+        {{ "catalog-content.more" | transloco }}
+    </div>
+    <div class="dropdown-item" *ngIf="isSelectedRowsOfType(LdapEntityType.User)" (click)="contextMenu.close(); showChangePassword()">
+        {{ "catalog-content.change-password" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">
+        {{ "catalog-content.delete" | transloco }}
+    </div>
+</md-dropdown-menu> 

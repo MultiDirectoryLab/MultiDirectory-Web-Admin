@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { MdModalComponent, TreeviewComponent } from "multidirectory-ui-kit";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { Observable, Subject, takeUntil } from "rxjs";
 import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 
@@ -17,8 +16,6 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
     private _selectedNode?: LdapEntryNode;
     ldapRoots: LdapEntryNode[] = [];
 
-
-    constructor(private navigation: LdapNavigationService, private cdr: ChangeDetectorRef) {}
     ngAfterViewInit(): void {
         this.treeView?.onNodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
             this._selectedNode = <LdapEntryNode>x;
@@ -31,10 +28,10 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
     }
     
     open(): Observable<LdapEntryNode | null> {
-        this.navigation.ldapRootRx.pipe(takeUntil(this.unsubscribe)).subscribe(roots => {
+        /*this.navigation.ldapRootRx.pipe(takeUntil(this.unsubscribe)).subscribe(roots => {
             this.ldapRoots = roots;
             this.cdr.detectChanges();
-        });
+        });*/
         this.modal?.open();
         return this._result.asObservable();
     }

@@ -3,7 +3,6 @@ import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidi
 import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest } from "../../../models/entry/create-request";
-import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
  
@@ -30,7 +29,6 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     formValid = false;
 
     constructor(
-        private navigation: LdapNavigationService,
         private api: MultidirectoryApiService,
         @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective) {
         }
@@ -43,7 +41,7 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.formValid = x;
         });
-        this.selectedNode = this.navigation.selectedCatalog;
+        //this.selectedNode = this.navigation.selectedCatalog;
     }
 
     ngOnDestroy(): void {

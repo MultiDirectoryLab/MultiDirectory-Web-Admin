@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from "@angular/core";
-import { Observable, Subject, lastValueFrom, of } from "rxjs";
+import { Observable, Subject, lastValueFrom, of, take } from "rxjs";
 import { Treenode } from "./model/treenode";
 import { TreeSearchHelper } from "./core/tree-search-helper";
 import { ExpandStrategy } from "./model/expand-strategy";
@@ -44,7 +44,7 @@ export class TreeviewComponent implements OnInit {
     }
 
     private setNodeSelected(node: Treenode) {
-        this.setNodeFocused(undefined);
+        this.setNodeFocused(null);
         if(node.selectable) {
             TreeSearchHelper.traverseTree(this.tree, (node , path)=> { node.selected = false; });
             node.selected = true;
@@ -54,7 +54,7 @@ export class TreeviewComponent implements OnInit {
         }
     }
 
-    private setNodeFocused(node?: Treenode) {
+    private setNodeFocused(node: Treenode | null) {
         TreeSearchHelper.traverseTree(this.tree, (node, path) => {node.focused = false}, []);
         this._focusedNode = null;
         if(node) {
@@ -82,7 +82,7 @@ export class TreeviewComponent implements OnInit {
         });
     }
 
-    select(toSelect?: Treenode) {
+    select(toSelect: Treenode | null) {
         let nodePath: Treenode[] = [];
 
         if(!toSelect) {
@@ -95,7 +95,7 @@ export class TreeviewComponent implements OnInit {
         }
         
         if(toSelect.selected) {
-            this.loadChildren(toSelect).subscribe(x => {
+            this.loadChildren(toSelect).pipe(take(1)).subscribe(x => {
                 toSelect!.children = x;
                 this.cdr.detectChanges();
             })
@@ -117,9 +117,9 @@ export class TreeviewComponent implements OnInit {
             x.selected = false;
         });
 
-        toSelect!.selected = true;
-        toSelect!.expanded = true;
-        this.loadChildren(toSelect).subscribe(x => {
+        toSelect.selected = true;
+        toSelect.expanded = true;
+        this.loadChildren(toSelect).pipe(take(1)).subscribe(x => {
             toSelect!.children = x;
             this.cdr.detectChanges();
         })
