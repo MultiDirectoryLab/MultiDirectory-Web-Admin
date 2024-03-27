@@ -82,7 +82,7 @@ export class TreeviewComponent implements OnInit {
         });
     }
 
-    select(toSelect: Treenode | null) {
+    select(toSelect?: Treenode) {
         let nodePath: Treenode[] = [];
 
         if(!toSelect) {

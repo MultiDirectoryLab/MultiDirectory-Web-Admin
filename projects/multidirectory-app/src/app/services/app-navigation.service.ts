@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, mergeMap, of, take, zip } from "rxjs";
 import { NavigationNode } from "../core/navigation/navigation-node";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { NodeLoader } from "../core/navigation/node-loaders/node-loader";
 import { SavedQueriesNodeLoader } from "../core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader";
 import { PolicyNodeLoaders } from "../core/navigation/node-loaders/policy-loaders/policy-node-loader";
@@ -17,7 +17,7 @@ export class AppNavigationService {
     ]
 
     constructor(
-        private ldapTreeLoader: LdapTreeLoader,
+        private ldapTreeLoader: LdapEntryLoader,
         private policyNodeLoader: PolicyNodeLoaders) {}
 
     buildNavigationRoot(): Observable<NavigationNode[]> {

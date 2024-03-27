@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { LdapNavigationService } from "./ldap-navigation.service";
 import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
-import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loader-mock";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
 import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
@@ -9,14 +9,14 @@ import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { getTranslocoModule } from "../testing/transloco-testing";
 
 describe('LdapNavigationServiceTestSuit', () => {
-    let ldapTreeLoader: LdapTreeLoader;
+    let ldapTreeLoader: LdapEntryLoader;
     let ldapNaviagtionService: LdapNavigationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock()},
-                { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock()},
+                { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock()},
                 { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock()},
                 { provide: LdapNavigationService, useClass: LdapNavigationService },
             ],
@@ -27,7 +27,7 @@ describe('LdapNavigationServiceTestSuit', () => {
     });
 
     beforeEach( () => {
-        ldapTreeLoader = TestBed.inject(LdapTreeLoader);
+        ldapTreeLoader = TestBed.inject(LdapEntryLoader);
         ldapNaviagtionService = TestBed.inject(LdapNavigationService);
     });
 

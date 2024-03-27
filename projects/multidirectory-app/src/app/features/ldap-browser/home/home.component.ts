@@ -30,6 +30,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     @ViewChild('treeView') treeView?: TreeviewComponent;
     @ViewChild('catalogContent') catalogContent?: CatalogContentComponent;
     unsubscribe = new Subject<boolean>();
+    ldapRoots: LdapEntryNode[] = [];
 
     constructor(
         private navigation: LdapNavigationService,
@@ -59,6 +60,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.openChangePassword(x);
         })
+
+        this.navigation.ldapRootRx.subscribe(x => {
+            this.ldapRoots = x;
+        });
     }
 
     ngAfterViewInit(): void {

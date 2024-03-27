@@ -2,7 +2,7 @@ import { TestBed, fakeAsync, tick } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { getTranslocoModule } from "../../../testing/transloco-testing";
 import { NavigationComponent } from "./navigation.component";
-import { LdapTreeLoader } from "../../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { getLdapTreeLoaderMock } from "../../../testing/ldap-tree-loader-mock";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { NavigationEnd, Router, RouterEvent } from "@angular/router";
@@ -33,7 +33,7 @@ describe('Navigation Component Test Suit', () => {
           ],
           providers: [
             { provide: Router, useValue: routerSpy },
-            { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock() },
+            { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
             { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
             { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
             { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() }

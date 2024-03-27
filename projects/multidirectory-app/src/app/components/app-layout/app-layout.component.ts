@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subject, switchMap, takeUntil, tap } from "rxjs";
 import { AppSettingsService } from "../../services/app-settings.service";
-import { LdapTreeLoader } from "../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
+import { LdapEntryLoader } from "../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { SearchQueries } from "../../core/ldap/search";
 import { LdapEntryNode } from "../../core/ldap/ldap-entity";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
@@ -38,7 +38,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
             switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
-            const displayName = LdapTreeLoader.getSingleAttribute(searchEntry, 'name');
+            const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
             const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass');
             const entry = new LdapEntryNode({
                 name: displayName,
