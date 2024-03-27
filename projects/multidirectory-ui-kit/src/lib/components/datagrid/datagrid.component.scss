@@ -1,8 +1,4 @@
 @use '../../styles/global.scss';
-:host {
-    width: 100%;
-    position: relative;
-}
 
 .ngx-datatable {
     border: 1px solid global.$md-neutral-300;
@@ -10,11 +6,9 @@
     width: 100%;
 
     position: absolute !important;
-    height: auto !important;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     width: 100%;
 
     .visible {
@@ -82,3 +76,6 @@
     height: 24px;
 }
 
+.relative {
+    position: relative;
+}

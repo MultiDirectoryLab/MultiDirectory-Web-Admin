@@ -12,6 +12,7 @@ import { getMultidirectoryApiMock } from "../../../testing/multidirectory-api-mo
 import { AccessPolicyNodeLoader } from "../../../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { getAccessPolicyNodeLoaderMock } from "../../../testing/access-policy-node-loader-mock";
 import { SavedQueriesNodeLoader } from "../../../core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader";
+import { getSavedQueriesLoaderMock } from "../../../testing/saved-queries-node-loader-mock";
 
 describe('Navigation Component Test Suit', () => {
     let routerSpy: any;
@@ -33,7 +34,7 @@ describe('Navigation Component Test Suit', () => {
           providers: [
             { provide: Router, useValue: routerSpy },
             { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock() },
-            { provide: SavedQueriesNodeLoader, useValue: getLdapTreeLoaderMock() },
+            { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
             { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
             { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() }
           ] 
@@ -57,7 +58,7 @@ describe('Navigation Component Test Suit', () => {
         fixture.whenStable().then(() => {
             fixture.detectChanges();
             expect(fixture.nativeElement.outerHTML).toContain('tree-label');
-            const testNode1 = navigation.navigationTree[0];
+            const testNode1 = navigation.navigationTree[1];
             let treeNode = fixture.debugElement.nativeElement.querySelector('.tree-item-wrapper[data-id=' + testNode1.id + ']');
             expect(testNode1.selectable).toBeTrue();
             expect(testNode1.selected).toBeFalse();
@@ -75,14 +76,14 @@ describe('Navigation Component Test Suit', () => {
         tick();
         fixture.whenStable().then(() => {
             fixture.detectChanges();
-            const testNode1 = navigation.navigationTree[0];
+            const testNode1 = navigation.navigationTree[2];
             const testNode2 = navigation.navigationTree[1];
-            expect(testNode1.route).toContain('access-policy');
+            expect(testNode1.route![0]).toContain('/');
             expect(testNode1.selected).toBeFalse();
-            expect(testNode2.route).toContain('saved-queries');
+            expect(testNode2.route![0]).toContain('saved-queries');
             expect(testNode2.selected).toBeFalse();
             
-            routerEventSubj.next(new NavigationEnd(1, '/access-policy', '/access-policy'));
+            routerEventSubj.next(new NavigationEnd(1, '/', '/'));
             expect(testNode1.selected).toBeTrue();
             expect(testNode2.selected).toBeFalse();
 

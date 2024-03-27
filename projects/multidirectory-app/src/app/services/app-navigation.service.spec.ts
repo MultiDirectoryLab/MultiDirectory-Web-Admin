@@ -9,6 +9,7 @@ import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
 import { AccessPolicyNodeLoader } from "../core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader";
 import { getAccessPolicyNodeLoaderMock } from "../testing/access-policy-node-loader-mock";
+import { getTranslocoModule } from "../testing/transloco-testing";
 
 describe('NavigationServiceSuite', () => {
     let naviagtionService: AppNavigationService;
@@ -22,6 +23,9 @@ describe('NavigationServiceSuite', () => {
                 { provide: LdapTreeLoader, useValue: getLdapTreeLoaderMock()},
                 { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock()},
                 { provide: AppNavigationService, useClass: AppNavigationService }
+            ],
+            imports: [
+                getTranslocoModule()
             ]
          }).compileComponents();
       });
@@ -35,9 +39,11 @@ describe('NavigationServiceSuite', () => {
     })
 
     it('Navigationservice should return first level consists of different types of nodes', () => {
-        naviagtionService.buildNavigationRoot().pipe(take(1)).subscribe(tree => {    
+        naviagtionService.buildNavigationRoot().pipe(
+            take(1)
+        ).subscribe(tree => {    
             expect(tree[0]).toBeInstanceOf(NavigationNode);
-            expect(tree[0].id).toEqual('access-policy-root');
+            expect(tree[0].id).toEqual('server-policy-root');
 
             expect(tree[1]).toBeInstanceOf(NavigationNode);
             expect(tree[1].id).toEqual('savedQueries');

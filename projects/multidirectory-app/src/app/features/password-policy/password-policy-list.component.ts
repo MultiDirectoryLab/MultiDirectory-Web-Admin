@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { switchMap } from "rxjs";
 import { PasswordPolicy } from "../../core/password-policy/password-policy";
-import { LdapWindowsService } from "../../services/ldap-windows.service";
+import { AppWindowsService } from "../../services/app-windows.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 
@@ -19,7 +19,7 @@ export class PasswordPolicyListComponent {
     clients: PasswordPolicy[] = [];
     constructor(
         private api: MultidirectoryApiService,
-        private windows: LdapWindowsService) { ;
+        private windows: AppWindowsService) { ;
     }
     ngOnInit(): void {
         this.windows.showSpinner();

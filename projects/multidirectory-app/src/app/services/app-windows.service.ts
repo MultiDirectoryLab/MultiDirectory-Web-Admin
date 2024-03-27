@@ -5,7 +5,7 @@ import { LdapEntity } from "../core/ldap/ldap-entity";
 @Injectable({
     providedIn: 'root'
 })
-export class LdapWindowsService {
+export class AppWindowsService {
     private _openEntityPropertiesModalRx = new Subject<LdapEntity>();
     get openEntityPropertiesModalRx(): Observable<LdapEntity> {
         return this._openEntityPropertiesModalRx.asObservable();

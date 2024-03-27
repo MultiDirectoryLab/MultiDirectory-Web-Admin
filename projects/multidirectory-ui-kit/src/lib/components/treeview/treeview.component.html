@@ -19,7 +19,7 @@
             >
             <span class="tree-item" [ngClass]="{
                 expanded: data.expanded,
-                expandable: (data.children?.length > 0 || !!data.loadChildren),
+                expandable: data.children.length > 0 || !data.expanded,
                 selected: data.selected,
                 focused: data.focused
             }"
@@ -28,7 +28,7 @@
             }">
                 <label
                     class="expand-mark"
-                    *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
+                    *ngIf="data.children.length > 0 || !data.expanded"
                 >
                     <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
                             ? '&nbsp;&nbsp;' : data.expanded
@@ -53,5 +53,5 @@
 
 <ng-template #defaultLabel let-data>
     <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{data.name}}</md-checkbox>
-    <label  *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
+    <label *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
 </ng-template>

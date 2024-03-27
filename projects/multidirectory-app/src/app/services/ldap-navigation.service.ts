@@ -84,8 +84,7 @@ export class LdapNavigationService {
             if(!!currentNode.loadChildren && !currentNode.children)
             {
                 const childRx = currentNode.loadChildren();
-                currentNode.children = !!childRx ? await lastValueFrom(childRx) : undefined;
-                currentNode.childrenLoaded = true;
+                currentNode.children = !!childRx ? await lastValueFrom(childRx) : [];
             }
 
             if(!currentNode.children) {
@@ -149,14 +148,13 @@ export class LdapNavigationService {
         let found: any;
 
         for(let i = 0; i < dnParts.length && currentNode; i++) {
-            if(!!currentNode.loadChildren && !currentNode.children)
+            if(!!currentNode.loadChildren)
             {
                 const childRx = currentNode.loadChildren();
-                currentNode.children = !!childRx ? await lastValueFrom(childRx) : undefined;
-                currentNode.childrenLoaded = true;
+                currentNode.children = !!childRx ? await lastValueFrom(childRx) : [];
             }
 
-            if(!currentNode.children) {
+            if(currentNode.children.length == 0) {
                 continue;
             }
 

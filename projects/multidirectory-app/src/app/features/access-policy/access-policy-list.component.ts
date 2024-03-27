@@ -4,7 +4,7 @@ import { EMPTY, catchError, switchMap, take, zip } from "rxjs";
 import { translate } from "@ngneat/transloco";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { LdapWindowsService } from "../../services/ldap-windows.service";
+import { AppWindowsService } from "../../services/app-windows.service";
 import { AccessPolicy } from "../../core/access-policy/access-policy";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
@@ -30,7 +30,7 @@ export class AccessPolicySettingsComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private toastr: ToastrService,
         private api: MultidirectoryApiService,
-        private windows: LdapWindowsService) { ;
+        private windows: AppWindowsService) { ;
     }
     ngOnInit(): void {
         this.windows.showSpinner();

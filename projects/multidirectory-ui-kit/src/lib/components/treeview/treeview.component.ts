@@ -75,7 +75,6 @@ export class TreeviewComponent implements OnInit {
         }
         this.expand(node, !node.expanded).subscribe(x => {
             node.children = x;
-            node.childrenLoaded = true;
             if(node.selectable) {
                 this.select(node);
             }
@@ -102,9 +101,8 @@ export class TreeviewComponent implements OnInit {
             }
             
             if(node.selected) {
-                this.loadChildren(node)?.subscribe(x => {
-                    node!.children = x;
-                    node!.childrenLoaded = true;
+                this.loadChildren(node).subscribe(x => {
+                    node.children = x;
                     this.cdr.detectChanges();
                 })
                 return;
@@ -117,19 +115,26 @@ export class TreeviewComponent implements OnInit {
                     toSelect = n;
                 }
             });
+
             nodePath.forEach(x => {
                 x.expanded = true;
                 x.selected = false;
             });
-            if(!!toSelect) {
-                this.loadChildren(toSelect)?.subscribe(x => {
-                    toSelect!.children = x;
-                    toSelect!.childrenLoaded = true;
-                    toSelect!.selected = true;
-                    toSelect!.expanded = true;
-                    this.cdr.detectChanges();
-                })
+
+            if(!toSelect) {
+                return;
             }
+
+            this.loadChildren(toSelect).subscribe(x => {
+                if(!toSelect) {
+                    return;
+                }
+                toSelect.children = x;
+                toSelect.selected = true;
+                toSelect.expanded = true;
+                this.cdr.detectChanges();
+            })
+
             this.cdr.detectChanges();
     }
 
