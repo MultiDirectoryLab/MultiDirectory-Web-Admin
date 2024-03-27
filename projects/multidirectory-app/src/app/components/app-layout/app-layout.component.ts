@@ -3,7 +3,7 @@ import { Subject, switchMap, takeUntil, tap } from "rxjs";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { LdapTreeLoader } from "../../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 import { SearchQueries } from "../../core/ldap/search";
-import { LdapEntity } from "../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../core/ldap/ldap-entity";
 import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
@@ -40,7 +40,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
             const searchEntry =  userSearch.search_result[0];
             const displayName = LdapTreeLoader.getSingleAttribute(searchEntry, 'name');
             const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass');
-            const entry = new LdapEntity({
+            const entry = new LdapEntryNode({
                 name: displayName,
                 type: EntityInfoResolver.getNodeType(objectClass?.vals), 
                 selectable: true,

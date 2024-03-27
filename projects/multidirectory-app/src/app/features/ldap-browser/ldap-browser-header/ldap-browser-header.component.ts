@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
 import { Subject, takeUntil } from "rxjs";
 
@@ -11,7 +11,7 @@ import { Subject, takeUntil } from "rxjs";
     styleUrls: ['./ldap-browser-header.component.scss'],
 })
 export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy{
-    selectedCatalog: LdapEntity | null = null;
+    selectedCatalog: LdapEntryNode | null = null;
     containerName = '';
     unsubscribe = new Subject<boolean>();
 

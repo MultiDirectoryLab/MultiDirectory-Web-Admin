@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 import { ModalInjectDirective, TreeviewComponent } from "multidirectory-ui-kit";
 import { Subject, combineLatest, take, takeUntil } from "rxjs";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { WhoamiResponse } from "../../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
@@ -19,10 +19,10 @@ import { CatalogContentComponent } from "../catalog-content/catalog-content.comp
 export class HomeComponent implements AfterViewInit, OnDestroy {
     @ViewChild('properties') properties!: ModalInjectDirective;
     @ViewChild('changePasswordModal') changePasswordModal?: ModalInjectDirective
-    get tree(): LdapEntity[] {
-        return <LdapEntity[]>this.navigation.ldapRoot!;
+    get tree(): LdapEntryNode[] {
+        return <LdapEntryNode[]>this.navigation.ldapRoot!;
     }
-    rootDse: LdapEntity[] = [];
+    rootDse: LdapEntryNode[] = [];
 
     get user(): WhoamiResponse {
         return this.app.user;
@@ -69,7 +69,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.unsubscribe.complete();
     }
 
-    openEntityProperties(entity: LdapEntity) {
+    openEntityProperties(entity: LdapEntryNode) {
         this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1)).subscribe(x => {
             this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
         });
@@ -82,7 +82,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.openEntityProperties(this.app.userEntry);
     }
 
-    openChangePassword(entity: LdapEntity | undefined = undefined) {
+    openChangePassword(entity: LdapEntryNode | undefined = undefined) {
         if(!entity) {
             if(!this.app.userEntry) {
                 return;

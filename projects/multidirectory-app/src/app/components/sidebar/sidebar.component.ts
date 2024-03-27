@@ -3,7 +3,7 @@ import { WhoamiResponse } from "../../models/whoami/whoami-response";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
-import { LdapEntity } from "../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-sidebar',
@@ -38,14 +38,14 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
         this.openEntityProperties(this.app.userEntry);
     }
 
-    openEntityProperties(entity: LdapEntity) {
+    openEntityProperties(entity: LdapEntryNode) {
         return;
         //this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1)).subscribe(x => {
         //    this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
         //});
     }
 
-    openChangePassword(entity: LdapEntity | undefined = undefined) {
+    openChangePassword(entity: LdapEntryNode | undefined = undefined) {
     }
     
     ngOnDestroy(): void {

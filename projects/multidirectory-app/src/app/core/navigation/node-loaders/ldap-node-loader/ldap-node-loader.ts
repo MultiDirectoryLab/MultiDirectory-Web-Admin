@@ -2,10 +2,10 @@ import { Observable, map, tap } from "rxjs";
 import { NodeLoader } from "../node-loader";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { Injectable } from "@angular/core";
-import { LdapEntity } from "../../../ldap/ldap-entity";
+import { LdapEntryNode } from "../../../ldap/ldap-entity";
 import { SearchQueries } from "../../../ldap/search";
 import { SearchEntry, SearchResponse } from "projects/multidirectory-app/src/app/models/entry/search-response";
-import { LdapEntityType } from "../../../ldap/ldap-entity-type";
+import { LdapEntryType } from "../../../ldap/ldap-entity-type";
 import { EntityInfoResolver } from "../../../ldap/entity-info-resolver";
 import { Page, Treenode } from "multidirectory-ui-kit";
  
@@ -15,15 +15,15 @@ import { Page, Treenode } from "multidirectory-ui-kit";
 export class LdapTreeLoader implements NodeLoader {
     constructor(private api: MultidirectoryApiService) {}
 
-    get(): Observable<LdapEntity[]> {
+    get(): Observable<LdapEntryNode[]> {
         return this.api.search(SearchQueries.RootDse).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const namingContext = x.partial_attributes.find(x => x.type == 'namingContexts');
                     const rootDn = x.partial_attributes.find(x => x.type == 'rootDomainNamingContext');
 
-                    const serverNode = new LdapEntity({ 
+                    const serverNode = new LdapEntryNode({ 
                             name: LdapTreeLoader.getSingleAttribute(x, 'dnsHostName'),
-                            type: LdapEntityType.Server,
+                            type: LdapEntryType.Server,
                             selectable: true,
                             entry: x,
                             parent: undefined, 
@@ -39,12 +39,12 @@ export class LdapTreeLoader implements NodeLoader {
         );
     }
 
-    getChild(dn: string, parent: LdapEntity | undefined = undefined): Observable<Treenode[]> {
+    getChild(dn: string, parent: LdapEntryNode | undefined = undefined): Observable<Treenode[]> {
         return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapTreeLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
-                    const node = new LdapEntity({
+                    const node = new LdapEntryNode({
                         name: displayName,
                         type: EntityInfoResolver.getNodeType(objectClass?.vals),
                         selectable: true,
@@ -60,13 +60,13 @@ export class LdapTreeLoader implements NodeLoader {
             );
     }
 
-    getContent(parent: string, parentNode: LdapEntity, page?: Page): Observable<LdapEntity[]> {
+    getContent(parent: string, parentNode: LdapEntryNode, page?: Page): Observable<LdapEntryNode[]> {
         return this.api.search(SearchQueries.getContent(parent, page)).pipe(
             tap(x => parentNode.childCount = x.total_objects ),
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapTreeLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
-                    const node = new LdapEntity({
+                    const node = new LdapEntryNode({
                         name: displayName,
                         type: EntityInfoResolver.getNodeType(objectClass?.vals), 
                         selectable: true,

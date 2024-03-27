@@ -2,9 +2,9 @@ import { ChangeDetectorRef, Component, Inject, Input, OnInit, ViewChild } from "
 import { MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { LdapAttributes } from "../../../core/ldap/ldap-entity-proxy";
-import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
+import { LdapEntryType } from "../../../core/ldap/ldap-entity-type";
 import { AttributeService } from "../../../services/attributes.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { translate } from "@ngneat/transloco";
@@ -18,9 +18,9 @@ import { translate } from "@ngneat/transloco";
     ]
 })
 export class EntityPropertiesComponent implements OnInit {
-    EntityTypes = LdapEntityType;
-    @Input() selectedEntity: LdapEntity | null= null;
-    _entityType: LdapEntityType | null = null;
+    EntityTypes = LdapEntryType;
+    @Input() selectedEntity: LdapEntryNode | null= null;
+    _entityType: LdapEntryType | null = null;
     accessor!: LdapAttributes;
     unsubscribe = new Subject<boolean>();
 

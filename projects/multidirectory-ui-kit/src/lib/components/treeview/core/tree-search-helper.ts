@@ -55,12 +55,12 @@ export class TreeSearchHelper {
         return parent;
     }
 
-    static traverseTree(tree: Treenode[], action: (node: Treenode, path: Treenode[]) => void, path: Treenode[] = []) {
+    static traverseTree<NodeType extends Treenode>(tree: NodeType[], action: (node: NodeType, path: NodeType[]) => void, path: NodeType[] = []) {
         tree.forEach(node => {
             path.push(node);
             action(node, path);
             if(node.children) {
-                TreeSearchHelper.traverseTree(node.children, action, path);
+                TreeSearchHelper.traverseTree<NodeType>(node.children as NodeType[], action, path);
             }
             path.pop();
         });

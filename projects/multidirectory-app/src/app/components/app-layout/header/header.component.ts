@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { Subject, noop, takeUntil } from "rxjs";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { AppSettingsService } from "../../../services/app-settings.service";
 import { ContentViewService } from "../../../services/content-view.service";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
@@ -26,8 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef; 
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
-    selectedCatalog: LdapEntity | null = null;
-    ldapRoots: LdapEntity[] = [];
+    selectedCatalog: LdapEntryNode | null = null;
+    ldapRoots: LdapEntryNode[] = [];
 
     ViewMode = ViewMode;
     get contentView(): ViewMode {

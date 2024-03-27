@@ -1,5 +1,5 @@
 import { ChangeDescription } from "./ldap-change";
-import { LdapEntity } from "./ldap-entity";
+import { LdapEntryNode } from "./ldap-entity";
 import { PartialAttribute } from "./ldap-partial-attribute";
 
 export class Trackable<T> {
@@ -25,9 +25,9 @@ export class LdapAttributes {
 
 export class LdapAttributesProxyHandler {
     _original: LdapAttributes;
-    _entity: LdapEntity;
+    _entity: LdapEntryNode;
     _changes: ChangeDescription[] = [];
-    constructor(entity: LdapEntity, attributes: LdapAttributes) {
+    constructor(entity: LdapEntryNode, attributes: LdapAttributes) {
         this._original = JSON.parse(JSON.stringify(attributes));
         this._entity = entity;
     }
