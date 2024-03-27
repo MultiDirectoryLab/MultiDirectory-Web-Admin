@@ -9,7 +9,7 @@
 
 
 <ng-template #treeNode let-data let-level="level">
-    <md-tree-item (click)="handleNodeClick($event, data)">
+    <md-tree-item (click)="handleNodeClick($event, data)" (contextmenu)="handleRightClick($event, data)">
         <div class="tree-item-wrapper" 
             [ngClass]="{
                 selected: data.selected,

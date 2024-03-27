@@ -49,7 +49,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
             url = url.substring(1);
         }
         // Поиск узла для выбора в дереве
-        let node: NavigationNode = new NavigationNode({});
+        let node: NavigationNode | undefined;
         // Что у нас есть в node, по чему мы можем идентифицировать узел?
 
         TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode, path) => {
@@ -67,7 +67,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 node = n;
             }
         });
-        this.treeView.selectNode(node);
+        if(!!node) {
+            this.treeView.select(node);
+        }
     }
 
     ngOnDestroy(): void {

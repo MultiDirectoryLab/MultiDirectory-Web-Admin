@@ -17,8 +17,8 @@ export class TreeviewComponent implements OnInit {
     @Input() checkboxes = false;
     @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
     @Output() onNodeSelect = new EventEmitter<Treenode>();
-    _nodeSelected: Treenode | null = null;
-    _nodeFocused: Treenode | null = null;
+    private _selectedNode: Treenode | null = null;
+    private _focusedNode: Treenode | null = null;
 
     constructor(private cdr: ChangeDetectorRef) {}
     ngOnInit(): void {
@@ -27,16 +27,15 @@ export class TreeviewComponent implements OnInit {
         }
     }
 
-    loadChildren(node: Treenode): Observable<Treenode[]> {
-        if(!!node.loadChildren && (node.children == null || this.expandStrategy == ExpandStrategy.AlwaysUpdate))
+    private loadChildren(node: Treenode): Observable<Treenode[]> {
+        if(!!node.loadChildren && this.expandStrategy == ExpandStrategy.AlwaysUpdate)
         {
             return node.loadChildren ? node.loadChildren() : of([]);
         }
-        return of(node.children ?? []);
+        return of(node.children);
     }
 
-    // Расширить этот узел
-    expand(node: Treenode, state: boolean = true): Observable<Treenode[]> {
+    private setNodeExpanded(node: Treenode, state: boolean = true): Observable<Treenode[]> {
         node.expanded = state;
         if(node.expanded) {
             return this.loadChildren(node);
@@ -44,43 +43,24 @@ export class TreeviewComponent implements OnInit {
         return of(node.children ?? []);
     }
 
-    // Выбрать этот узел
-    select(node: Treenode) {
-        this.focus(null);
+    private setNodeSelected(node: Treenode) {
+        this.setNodeFocused(undefined);
         if(node.selectable) {
             TreeSearchHelper.traverseTree(this.tree, (node , path)=> { node.selected = false; });
             node.selected = true;
-            this._nodeSelected = node;
+            this._selectedNode = node;
             this.onNodeSelect.emit(node);
             this.cdr.detectChanges();
         }
     }
 
-    focus(node: Treenode | null = null) {
+    private setNodeFocused(node?: Treenode) {
         TreeSearchHelper.traverseTree(this.tree, (node, path) => {node.focused = false}, []);
-        this._nodeFocused = null;
+        this._focusedNode = null;
         if(node) {
             node.focused = true;
-            this._nodeFocused = node;
+            this._focusedNode = node;
         }
-    }
-
-    handleNodeClick(event: Event | null, node: Treenode) {
-        if(event) {
-            event.stopPropagation();
-        }
-        if(!node.selected && node.selectable && node.expanded) {
-            this.select(node);
-            return;
-        }
-        this.expand(node, !node.expanded).subscribe(x => {
-            node.children = x;
-            if(node.selectable) {
-                this.select(node);
-            }
-            this.cdr.detectChanges();
-        });
-    
     }
 
     addRoot(node: Treenode) {
@@ -88,82 +68,89 @@ export class TreeviewComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
-    selectNode(node: Treenode | null) {
-            let nodePath: Treenode[] = [];
-            let toSelect: Treenode | undefined;
-
-            if(!node) {
-                TreeSearchHelper.traverseTree(this.tree, (n, path) => {
-                    n.selected = false; 
-                });
-                this.cdr.detectChanges();
-                return;
+    expand(node: Treenode) {
+        if(!node.selected && node.selectable && node.expanded) {
+            this.setNodeSelected(node);
+            return;
+        }
+        this.setNodeExpanded(node, !node.expanded).subscribe(x => {
+            node.children = x;
+            if(node.selectable) {
+                this.setNodeSelected(node);
             }
-            
-            if(node.selected) {
-                this.loadChildren(node).subscribe(x => {
-                    node.children = x;
-                    this.cdr.detectChanges();
-                })
-                return;
-            }
+            this.cdr.detectChanges();
+        });
+    }
 
+    select(toSelect: Treenode | null) {
+        let nodePath: Treenode[] = [];
+
+        if(!toSelect) {
+            // Clear the selection
             TreeSearchHelper.traverseTree(this.tree, (n, path) => {
                 n.selected = false; 
-                if(n.id == node.id) {
-                    nodePath = [...path];
-                    toSelect = n;
-                }
             });
-
-            nodePath.forEach(x => {
-                x.expanded = true;
-                x.selected = false;
-            });
-
-            if(!toSelect) {
-                return;
-            }
-
+            this.cdr.detectChanges();
+            return;
+        }
+        
+        if(toSelect.selected) {
             this.loadChildren(toSelect).subscribe(x => {
-                if(!toSelect) {
-                    return;
-                }
-                toSelect.children = x;
-                toSelect.selected = true;
-                toSelect.expanded = true;
+                toSelect!.children = x;
                 this.cdr.detectChanges();
             })
+            return;
+        }
 
+        // Search a tree for a toSelect rote path 
+        TreeSearchHelper.traverseTree(this.tree, (n, path) => {
+            n.selected = false; 
+            if(n.id == toSelect!.id) {
+                nodePath = [...path];
+                toSelect = n;
+            }
+        });
+
+        // Expand Every Node on the route path
+        nodePath.forEach(x => {
+            x.expanded = true;
+            x.selected = false;
+        });
+
+        toSelect!.selected = true;
+        toSelect!.expanded = true;
+        this.loadChildren(toSelect).subscribe(x => {
+            toSelect!.children = x;
             this.cdr.detectChanges();
+        })
     }
 
     @HostListener('keydown', ['$event']) 
     handleKeyEvent(event: KeyboardEvent) {
-        if(!this._nodeFocused) {
-            this._nodeFocused =  this._nodeSelected ?? this.tree[0];
+        if(!this._focusedNode) {
+            this._focusedNode =  this._selectedNode ?? this.tree[0];
         }
         if(event.key == 'ArrowUp') {
             // parent 
-            let nextNode = TreeSearchHelper.findPrevious(this.tree, this._nodeFocused);
-            this.focus(nextNode);
+            let nextNode = TreeSearchHelper.findPrevious(this.tree, this._focusedNode);
+            this.setNodeFocused(nextNode);
         }
         if(event.key == 'ArrowDown') {
-            const sibling = TreeSearchHelper.findNext(this.tree, this._nodeFocused);
+            const sibling = TreeSearchHelper.findNext(this.tree, this._focusedNode);
             if(sibling) {
-                this.focus(sibling);
+                this.setNodeFocused(sibling);
             }
         } 
         if(event.key == 'ArrowRight' || event.key == 'Enter') {
             // expand + child 
-            let nextNode = this._nodeFocused ?? null;
+            let nextNode = this._focusedNode ?? null;
             if(nextNode) {
-                this.handleNodeClick(null, nextNode);
+                this.expand(nextNode);
             }
         }
         if(event.key == 'ArrowLeft') {
             // parent + collapse
-            let nextNode = this._nodeFocused;
+            let nextNode = this._focusedNode;
             if(nextNode?.parent && nextNode?.parent?.id !== 'root') {
                 nextNode.expanded = false;
                 this.cdr.detectChanges();
@@ -171,7 +158,17 @@ export class TreeviewComponent implements OnInit {
         }
     }
 
+    handleNodeClick(event: Event, node: Treenode) {
+        event.stopPropagation();
+        this.expand(node);
+    }
+
+    handleRightClick(event: Event, node: Treenode) {
+        event.stopPropagation();
+        alert('clck' + node.id);
+    }
+
     redraw() {
-       setTimeout(() => this.cdr.detectChanges());
+       this.cdr.detectChanges();
     }
 }
