@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import { SpinnerComponent } from "multidirectory-ui-kit";
 import { catchError, throwError } from "rxjs";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { SearchQueries } from "../../../core/ldap/search";
 import { SearchMode } from "../../../core/search/search-mode";
 import { SearchResult } from "../../../core/search/search-result";
@@ -18,10 +18,10 @@ import { translate } from "@ngneat/transloco";
     styleUrls: ['./search-panel.component.scss']
 })
 export class SearchPanelComponent implements AfterViewInit {
-    _ldapRoots: LdapEntity[] | null = null;
+    _ldapRoots: LdapEntryNode[] | null = null;
 
-    get ldapRoots(): LdapEntity[] | null { return this._ldapRoots; }
-    @Input() set ldapRoots(ldapRoots: LdapEntity[] | null) {
+    get ldapRoots(): LdapEntryNode[] | null { return this._ldapRoots; }
+    @Input() set ldapRoots(ldapRoots: LdapEntryNode[] | null) {
         this._ldapRoots = ldapRoots;
         this._ldapRoots?.forEach(v => this.searchSources.push({
             title: v.name!, 

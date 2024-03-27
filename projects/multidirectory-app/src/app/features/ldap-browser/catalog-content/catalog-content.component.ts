@@ -3,7 +3,7 @@ import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { DeleteEntryRequest } from "../../../models/entry/delete-request";
 import { ContentViewService } from "../../../services/content-view.service";
 import { AppWindowsService } from "../../../services/app-windows.service";
@@ -11,7 +11,7 @@ import { LdapNavigationService } from "../../../services/ldap-navigation.service
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { LdapEntityType } from "../../../core/ldap/ldap-entity-type";
+import { LdapEntryType } from "../../../core/ldap/ldap-entity-type";
 import { translate } from "@ngneat/transloco";
  
 @Component({
@@ -27,9 +27,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
-    selectedCatalog: LdapEntity | null = null;
-    rows: LdapEntity[] = [];
-    selectedRows: LdapEntity[] = [];
+    selectedCatalog: LdapEntryNode | null = null;
+    rows: LdapEntryNode[] = [];
+    selectedRows: LdapEntryNode[] = [];
 
     unsubscribe = new Subject<void>();
 
@@ -108,8 +108,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         })
     }
 
-    LdapEntityType = LdapEntityType;
-    isSelectedRowsOfType(selectedRowsType: LdapEntityType) {
+    LdapEntityType = LdapEntryType;
+    isSelectedRowsOfType(selectedRowsType: LdapEntryType) {
         return this.selectedRows.every(x => x.type == selectedRowsType);
     }
     ngOnDestroy(): void {

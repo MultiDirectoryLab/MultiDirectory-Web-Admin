@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnDestroy, 
 import { MdFormComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
@@ -19,7 +19,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
     private _unsubscribe = new Subject<boolean>();
     private _setupRequest = new GroupCreateRequest();
-    selectedNode: LdapEntity | null = null;
+    selectedNode: LdapEntryNode | null = null;
     formValid: boolean = false;
 
 

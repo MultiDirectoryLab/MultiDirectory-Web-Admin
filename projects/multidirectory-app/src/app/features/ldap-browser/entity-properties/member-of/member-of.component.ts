@@ -7,7 +7,7 @@ import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 import { translate } from "@ngneat/transloco";
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { GroupSelectorComponent } from "../../../forms/group-selector/group-selector.component";
 
@@ -80,7 +80,7 @@ export class MemberOfComponent implements AfterViewInit {
         if(!this.groupList?.selected?.[0]) {
             return;
         }
-        const entity = <LdapEntity> await this.navigation.getEntityByDn(this.groupList.selected[0].dn);
+        const entity = <LdapEntryNode> await this.navigation.getEntityByDn(this.groupList.selected[0].dn);
         if(!entity) {
             return;
         }

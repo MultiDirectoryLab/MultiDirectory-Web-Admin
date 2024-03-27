@@ -6,7 +6,7 @@ import { LdapNavigationService } from "projects/multidirectory-app/src/app/servi
 import { Subject } from "rxjs";
 import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { translate } from "@ngneat/transloco";
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 
@@ -56,7 +56,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
     }
 
-    override setContent(nodes: LdapEntity[], selectedNodes: LdapEntity[] = []) {
+    override setContent(nodes: LdapEntryNode[], selectedNodes: LdapEntryNode[] = []) {
         this.rows = nodes.map(node => <TableRow>{
             icon: node.icon ?? '',
             name: node.name ?? '',
@@ -78,10 +78,10 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         this.cdr.detectChanges();
     }
 
-    override getSelected(): LdapEntity[] {
+    override getSelected(): LdapEntryNode[] {
         return this.grid.selected.map(x => x.entry);
     }
-    override setSelected(selected: LdapEntity[]) {
+    override setSelected(selected: LdapEntryNode[]) {
         if(!this.rows || this.rows.length == 0 || !selected) {
             return;
         }

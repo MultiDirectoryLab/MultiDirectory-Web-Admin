@@ -7,7 +7,7 @@ import { MultidirectoryApiService } from "../../../services/multidirectory-api.s
 import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { ToastrService } from "ngx-toastr";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
 import { translate } from "@ngneat/transloco";
 
@@ -17,7 +17,7 @@ import { translate } from "@ngneat/transloco";
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
-  catalog: LdapEntity | null = null;
+  catalog: LdapEntryNode | null = null;
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();

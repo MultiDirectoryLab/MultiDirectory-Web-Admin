@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Page, Treenode } from "multidirectory-ui-kit";
 import { BehaviorSubject, Observable, Subject, lastValueFrom, map, take } from "rxjs";
-import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
 
@@ -10,29 +10,29 @@ import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader
     providedIn: 'root'
 })
 export class LdapNavigationService {
-    private _ldapRootRx = new BehaviorSubject<LdapEntity[]>([]);
-    get ldapRootRx(): Observable<LdapEntity[]> {
+    private _ldapRootRx = new BehaviorSubject<LdapEntryNode[]>([]);
+    get ldapRootRx(): Observable<LdapEntryNode[]> {
         return this._ldapRootRx.asObservable();
     }
-    get ldapRoot(): LdapEntity[] {
+    get ldapRoot(): LdapEntryNode[] {
         return this._ldapRootRx.value;
     }
 
-    private _selectedCatalogRx = new BehaviorSubject<LdapEntity | null>(null);
-    get selectedCatalogRx(): Observable<LdapEntity | null> {
+    private _selectedCatalogRx = new BehaviorSubject<LdapEntryNode | null>(null);
+    get selectedCatalogRx(): Observable<LdapEntryNode | null> {
         return this._selectedCatalogRx.asObservable();
     }
-    private _selectedCatalog: LdapEntity | null = null;
-    get selectedCatalog(): LdapEntity | null {
+    private _selectedCatalog: LdapEntryNode | null = null;
+    get selectedCatalog(): LdapEntryNode | null {
         return this._selectedCatalog;
     }
 
-    private _selectedEntityRx = new Subject<LdapEntity[] | null>();
-    get selectedEntityRx(): Observable<LdapEntity[] | null> {
+    private _selectedEntityRx = new Subject<LdapEntryNode[] | null>();
+    get selectedEntityRx(): Observable<LdapEntryNode[] | null> {
         return this._selectedEntityRx.asObservable();
     }
-    private _selectedEntity: LdapEntity[] | null = null;
-    get selectedEntity(): LdapEntity[] | null {
+    private _selectedEntity: LdapEntryNode[] | null = null;
+    get selectedEntity(): LdapEntryNode[] | null {
         return this._selectedEntity;
     }
 
@@ -48,7 +48,7 @@ export class LdapNavigationService {
     constructor(
         private ldap: LdapTreeLoader) {}
     
-    setRootDse(root: LdapEntity[]) {
+    setRootDse(root: LdapEntryNode[]) {
         this._ldapRootRx.next(root)
     }
 
@@ -77,7 +77,7 @@ export class LdapNavigationService {
         let currentNode = selectedRoot?.node;
         let found: any;
         if(dnParts.length == 0) {
-            this.setCatalog(<LdapEntity>currentNode, null, null);
+            this.setCatalog(<LdapEntryNode>currentNode, null, null);
             return;
         }
         for(let i = 0; i < dnParts.length && currentNode; i++) {
@@ -100,7 +100,7 @@ export class LdapNavigationService {
             
             found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
             if(!found && dnParts.length - i == 1) {
-                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntity);
+                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntryNode);
                 contentRx.pipe(take(1)).subscribe(x => {
                     const children = x.map(y => {
                         return {
@@ -108,7 +108,7 @@ export class LdapNavigationService {
                             dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const ldapNode = <LdapEntity>currentNode!;
+                    const ldapNode = <LdapEntryNode>currentNode!;
                     ldapNode.childCount = x.length;
                     const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
                     if(foundIndex > -1) {
@@ -129,7 +129,7 @@ export class LdapNavigationService {
             }
         }
         if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
-            this.setCatalog(<LdapEntity>currentNode, null, null);
+            this.setCatalog(<LdapEntryNode>currentNode, null, null);
         }
     }
 
@@ -167,7 +167,7 @@ export class LdapNavigationService {
             
             found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
             if(!found && dnParts.length - i == 1) {
-                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntity);
+                const contentRx = this.ldap.getContent(currentNode.id, currentNode as LdapEntryNode);
                 return await lastValueFrom(contentRx.pipe(take(1)).pipe(map(x => {
                     const children = x.map(y => {
                         return {
@@ -175,7 +175,7 @@ export class LdapNavigationService {
                             dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const ldapNode = <LdapEntity>currentNode!;
+                    const ldapNode = <LdapEntryNode>currentNode!;
                     ldapNode.childCount = x.length;
                     const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
                     if(foundIndex > -1) {
@@ -193,7 +193,7 @@ export class LdapNavigationService {
         return undefined;
     }
 
-    setCatalog(catalog: LdapEntity | null, page: Page | null = null, selection: LdapEntity[] | null = null) {
+    setCatalog(catalog: LdapEntryNode | null, page: Page | null = null, selection: LdapEntryNode[] | null = null) {
         if(!page) {
             page = new Page(this.page);
             page.pageNumber = 1;
@@ -204,7 +204,7 @@ export class LdapNavigationService {
         this._selectedCatalogRx.next(this._selectedCatalog);
     }
 
-    setPage(page: Page | null = null, selection: LdapEntity[] | null = null) {
+    setPage(page: Page | null = null, selection: LdapEntryNode[] | null = null) {
         if(!page) {
             page =  new Page(this.page);
             page.pageNumber = 1;
@@ -214,12 +214,12 @@ export class LdapNavigationService {
         this._pageRx.next(this._page);
     }
 
-    setSelection(selection: LdapEntity[] | null = null) {
+    setSelection(selection: LdapEntryNode[] | null = null) {
         this._selectedEntity = selection;
         this._selectedEntityRx.next(this._selectedEntity);
     }
 
-    getContent(catalog: LdapEntity, page: Page): Observable<LdapEntity[]> {
+    getContent(catalog: LdapEntryNode, page: Page): Observable<LdapEntryNode[]> {
         return this.ldap.getContent(catalog.id, catalog, page);
     }
 }

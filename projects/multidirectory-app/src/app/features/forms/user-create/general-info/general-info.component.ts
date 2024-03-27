@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewC
 import { Subject, takeUntil } from "rxjs";
 import { AbstractControl } from "@angular/forms";
 import { DropdownOption, MdFormComponent } from "multidirectory-ui-kit";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
 import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
@@ -13,7 +13,7 @@ import { LdapNavigationService } from "projects/multidirectory-app/src/app/servi
     templateUrl: './general-info.component.html'
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
-    @Input() selectedNode: LdapEntity | null = null;
+    @Input() selectedNode: LdapEntryNode | null = null;
     private _setupRequest!: UserCreateRequest;
     @Input() set setupRequest(request: UserCreateRequest) {
         this._setupRequest = request;

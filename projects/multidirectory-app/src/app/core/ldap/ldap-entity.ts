@@ -1,17 +1,17 @@
-import { LdapEntityType } from "./ldap-entity-type";
+import { LdapEntryType } from "./ldap-entity-type";
 import { SearchEntry } from "../../models/entry/search-response";
 import { EntityInfoResolver } from "./entity-info-resolver";
 import { NavigationNode } from "../navigation/navigation-node";
 
-export class LdapEntity extends NavigationNode {
-    override parent?: LdapEntity;
-    type: LdapEntityType = LdapEntityType.None;
+export class LdapEntryNode extends NavigationNode {
+    override parent?: LdapEntryNode;
+    type: LdapEntryType = LdapEntryType.None;
     entry?: SearchEntry;
-    childCount?: number;
+    childCount: number = 0;
     expandable = true;
-    clickAction?: ((node: LdapEntity)=>void) = undefined;
+    clickAction?: ((node: LdapEntryNode)=>void) = undefined;
 
-    constructor(obj: Partial<LdapEntity>) {
+    constructor(obj: Partial<LdapEntryNode>) {
         super({});
         Object.assign(this, obj);
         this.icon = EntityInfoResolver.resolveIcon(this.type);

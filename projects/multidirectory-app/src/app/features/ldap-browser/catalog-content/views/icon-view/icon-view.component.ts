@@ -5,7 +5,7 @@ import { GridItemComponent } from "./grid-item/grid-item.component";
 import { DropdownMenuComponent, PagerComponent } from "multidirectory-ui-kit";
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
 import { LdapNavigationService } from "projects/multidirectory-app/src/app/services/ldap-navigation.service";
-import { LdapEntity } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-icon-view',
@@ -22,7 +22,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
     @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
     @ViewChild('pager') pager!: PagerComponent;
-    items: LdapEntity[] = [];
+    items: LdapEntryNode[] = [];
     alignItems = true;
     constructor(public toast: ToastrService, private cdr: ChangeDetectorRef, private navigation: LdapNavigationService) {
         super()
@@ -30,7 +30,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     ngAfterViewInit(): void {
     }
 
-    override setContent(items: LdapEntity[], selectedNodes: LdapEntity[]): void {
+    override setContent(items: LdapEntryNode[], selectedNodes: LdapEntryNode[]): void {
         if(items.length > this.page.size) {
             items = items.slice(0, this.page.size);
         }
@@ -42,10 +42,10 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.pager.updatePager();
         this.cdr.detectChanges();
     }
-    override getSelected(): LdapEntity[] {
+    override getSelected(): LdapEntryNode[] {
         return this.items.filter(x => x.selected);
     }
-    override setSelected(selected: LdapEntity[]): void {
+    override setSelected(selected: LdapEntryNode[]): void {
         this.items.forEach(i => i.selected = false);
         selected.filter(i => !!i).forEach(i => i.selected = true);
         this.cdr.detectChanges();
@@ -64,7 +64,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.gridMenu.toggle();
     }
 
-    drop(event: CdkDragDrop<LdapEntity[]>) {
+    drop(event: CdkDragDrop<LdapEntryNode[]>) {
         moveItemInArray(this.items, event.previousIndex, event.currentIndex);
     }
  
@@ -105,7 +105,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
             return Number(pos[0]) == yPos && Number(pos[1]) == xPos;
         });
     }
-    selectCatalog(item: LdapEntity) {
+    selectCatalog(item: LdapEntryNode) {
         this.navigation.setCatalog(item);
     }
 

@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subject, take, takeUntil } from "rxjs";
-import { TreeviewComponent } from "multidirectory-ui-kit";
+import { Treenode, TreeviewComponent } from "multidirectory-ui-kit";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
 import { NavigationEnd, Router, RouterEvent, Scroll } from "@angular/router";
 import { NavigationNode } from "../../../core/navigation/navigation-node";
 import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
 import { AppNavigationService } from "../../../services/app-navigation.service";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-navigation',
@@ -14,7 +14,7 @@ import { LdapEntity } from "../../../core/ldap/ldap-entity";
     templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-    @ViewChild('treeView', { static: true } ) treeView?: TreeviewComponent;
+    @ViewChild('treeView', { static: true } ) treeView!: TreeviewComponent;
     private unsubscribe = new Subject<void>();
     navigationTree: NavigationNode[] = []
 
@@ -27,7 +27,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.navigation.buildNavigationRoot().pipe(take(1)).subscribe(x => {
             this.navigationTree = x;
-            const rootDse = <LdapEntity[]>x.filter(x => x instanceof LdapEntity);
+            const rootDse = <LdapEntryNode[]>x.filter(x => x instanceof LdapEntryNode);
             this.ldapNavigation.setRootDse(rootDse);
         });
         this.router.events.pipe(
@@ -52,7 +52,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         let node: NavigationNode = new NavigationNode({});
         // Что у нас есть в node, по чему мы можем идентифицировать узел?
 
-        TreeSearchHelper.traverseTree(this.navigationTree, (n: NavigationNode, path) => {
+        TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode, path) => {
             n.selected = false;
             if(!n.route) {
                 return;
@@ -67,7 +67,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 node = n;
             }
         });
-        this.treeView?.selectNode(node);
+        this.treeView.selectNode(node);
     }
 
     ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import { Subject, takeUntil } from "rxjs";
 import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
 import { CreateEntryRequest } from "../../../models/entry/create-request";
 import { LdapNavigationService } from "../../../services/ldap-navigation.service";
-import { LdapEntity } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
  
 @Component({
@@ -13,7 +13,7 @@ import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
     styleUrls: ['./ou-create.component.scss']
 })
 export class OuCreateComponent implements AfterViewInit, OnDestroy {
-    selectedNode: LdapEntity | null = null;
+    selectedNode: LdapEntryNode | null = null;
     @Output() onCreate = new EventEmitter<void>();
     @ViewChild('form') form!: MdFormComponent;
 

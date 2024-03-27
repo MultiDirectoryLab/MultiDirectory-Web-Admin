@@ -1,6 +1,6 @@
-import { LdapEntity } from "../ldap/ldap-entity";
+import { LdapEntryNode } from "../ldap/ldap-entity";
 
 export interface SearchResult {
     name: string,
-    entry: LdapEntity | null;
+    entry: LdapEntryNode | null;
 }

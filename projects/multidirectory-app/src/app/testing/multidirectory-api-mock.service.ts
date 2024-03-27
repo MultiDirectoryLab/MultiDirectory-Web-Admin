@@ -1,7 +1,7 @@
 import { of } from "rxjs";
 import { MultidirectoryApiService } from "../services/multidirectory-api.service";
 import { LoginResponse } from "../models/login/login-response";
-import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../core/ldap/ldap-entity";
 
 export function getMultidirectoryApiMock() {
     // Create jasmine spy object 
@@ -13,13 +13,13 @@ export function getMultidirectoryApiMock() {
     const loginResponse = <LoginResponse>{ access_token: 'xxx', refresh_token: 'xxx', type: 'user' };
     multidirectoryApiServiceMock.login.and.returnValue(of(loginResponse));
     multidirectoryApiServiceMock.search.and.returnValue(of([
-        new LdapEntity({
+        new LdapEntryNode({
             id: 'search-result-1'
         }),
-        new LdapEntity({
+        new LdapEntryNode({
             id: 'search-result-2'
         }),
-        new LdapEntity({
+        new LdapEntryNode({
             id: 'search-result-3'
         }),
     ]));

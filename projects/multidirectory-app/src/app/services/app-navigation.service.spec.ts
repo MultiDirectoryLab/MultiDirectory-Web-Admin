@@ -3,7 +3,7 @@ import { NavigationNode } from "../core/navigation/navigation-node";
 import { AppNavigationService } from "./app-navigation.service";
 import { TestBed } from "@angular/core/testing";
 import { LdapTreeLoader } from "../core/navigation/node-loaders/ldap-node-loader/ldap-node-loader";
-import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { getLdapTreeLoaderMock } from "../testing/ldap-tree-loader-mock";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
 import { getMultidirectoryApiMock } from "../testing/multidirectory-api-mock.service";
@@ -48,7 +48,7 @@ describe('NavigationServiceSuite', () => {
             expect(tree[1]).toBeInstanceOf(NavigationNode);
             expect(tree[1].id).toEqual('savedQueries');
 
-            expect(tree[2]).toBeInstanceOf(LdapEntity);
+            expect(tree[2]).toBeInstanceOf(LdapEntryNode);
             expect(tree[2].id).toEqual('dc=test,dc=local');
         });
     })

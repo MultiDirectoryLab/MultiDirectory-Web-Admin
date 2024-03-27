@@ -1,4 +1,4 @@
-export enum LdapEntityType {
+export enum LdapEntryType {
     None = 0,
     Root = 1,
     Folder = 2,
