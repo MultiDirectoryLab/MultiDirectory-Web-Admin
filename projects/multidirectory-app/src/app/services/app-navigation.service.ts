@@ -8,7 +8,8 @@ import { NavigationRoot } from "../core/navigation/navigation-entry-point";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 
-type NavigationEvent = [NavigationNode[], NavigationEnd, Params]
+export type NavigationEvent = [NavigationNode[], NavigationEnd, Params]
+
 @Injectable({
     providedIn: 'root'
 })
@@ -45,6 +46,10 @@ export class AppNavigationService {
                 "distinguishedName": node.data 
             }
         });
+    }
+    
+    reload() {
+        this.router.navigate([], {onSameUrlNavigation: 'reload'});
     }
 
     async goTo(rootDse: LdapEntryNode[], dn: string): Promise<LdapEntryNode | undefined> {

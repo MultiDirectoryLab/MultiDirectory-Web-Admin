@@ -44,12 +44,12 @@ export const SearchQueries = {
         });
     },
 
-    getContent(baseObject: string, page?: Page): SearchRequest {
+    getContent(baseObject: string): SearchRequest {
       const req = new SearchRequest({
           "base_object": baseObject,
           "scope": 1,
           "deref_aliases": 0,
-          "size_limit": page?.size ?? 0,
+          "size_limit": 999, // to do restore paging
           "time_limit": 0,
           "types_only": false,
           "filter": "(objectClass=*)",
@@ -60,9 +60,6 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
-        if(page) {
-          req.page_number = page.pageNumber;
-        }
         return req;
     },
 

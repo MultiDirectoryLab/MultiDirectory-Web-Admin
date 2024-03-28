@@ -60,8 +60,8 @@ export class LdapEntryLoader implements NodeLoader {
             );
     }
 
-    getContent(parent: string,  page?: Page): Observable<LdapEntryNode[]> {
-        return this.api.search(SearchQueries.getContent(parent, page)).pipe(
+    getContent(parent: string): Observable<LdapEntryNode[]> {
+        return this.api.search(SearchQueries.getContent(parent)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
                     const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');

@@ -1,19 +1,16 @@
 import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { translate } from "@ngneat/transloco";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { EMPTY, Subject, concat, switchMap, take, takeUntil } from "rxjs";
-import { ViewMode } from "./view-modes";
-import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { translate } from "@ngneat/transloco";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
-import { DeleteEntryRequest } from "projects/multidirectory-app/src/app/models/entry/delete-request";
+import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 import { ContentViewService } from "projects/multidirectory-app/src/app/services/content-view.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { Subject, take, takeUntil } from "rxjs";
+import { ViewMode } from "./view-modes";
+import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
  
 @Component({
     selector: 'app-catalog-content',
@@ -27,10 +24,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-
-    selectedCatalog: LdapEntryNode | null = null;
-    rows: LdapEntryNode[] = [];
-    selectedRows: LdapEntryNode[] = [];
 
     unsubscribe = new Subject<void>();
 
@@ -64,19 +57,13 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
             return false;
         }, undefined, translate('hotkeys.access-control')));
+
         this.navigation.navigationRx
-            .pipe(
-                takeUntil(this.unsubscribe),
-                switchMap(([navigationTree, navigationEvent, query]) => {
-                    // this.selectedCatalog = catalog;
-                    const dn = query['distinguishedName'];
-                    return this.ldapLoader.getContent(dn, new Page());
-                 }) 
-        ).subscribe(rows => {
-            this.rows = rows
-            this.view?.setContent(this.rows, []);
-            this.cdr.detectChanges();
-        });
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe((e) => {
+                this.view?.updateContent(e);
+                this.cdr.detectChanges();
+            });
         /*
         this.navigation.selectedCatalogRx.pipe(
             takeUntil(this.unsubscribe),
@@ -111,68 +98,45 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                 this.view?.setContent(this.rows, this.selectedRows);
                 this.cdr.detectChanges();
             });
-
+*/
         this.contentView.contentViewRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
             this.currentView = x;
             this.cdr.detectChanges();
-            if(this.selectedCatalog) {
-                this.navigation.setCatalog(this.selectedCatalog);
-            }
-        })*/
+        })
     }
 
-    LdapEntityType = LdapEntryType;
-    isSelectedRowsOfType(selectedRowsType: LdapEntryType) {
-        return this.selectedRows.every(x => x.type == selectedRowsType);
-    }
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
     
     deleteSelectedEntry() {
-        concat(...this.selectedRows.map(x => 
+        /*concat(...this.selectedRows.map(x => 
             this.api.delete(new DeleteEntryRequest({
                 entry: (<any>x.entry).object_name
             }))
         )).subscribe(x => {
             this.loadData();
-        });
-    }
-
-    redraw() {
-        this.loadData();
+        });*/
     }
 
     openCreateUser() {
-        if(!this.selectedCatalog?.entry) {
-            this.toastr.info(translate('catalog-content.select-user-catalog'));
-            return;
-        }
         this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            this.loadData();
+            //this.loadData();
         });
     }
 
     openCreateGroup() {
-        if(!this.selectedCatalog?.entry) {
-            this.toastr.info(translate('catalog-content.select-group-catalog'));
-            return;
-        }
         this.createGroupModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            this.loadData();
+            //this.loadData();
         });
     }
 
     openCreateOu() {
-        if(!this.selectedCatalog?.entry) {
-            this.toastr.info(translate('catalog-content.select-ou-catalog'));
-            return;
-        }
         this.createOuModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(x => {
-            this.loadData();
+            //this.loadData();
         });
     }
 
@@ -191,12 +155,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);*/
     }
 
-    loadData() {
-        if(this.selectedCatalog) {
-            //this.navigation.setCatalog(this.selectedCatalog, this.navigation.page);
-        }
-    }
-
     pageChanged(page: Page) {
         //this.navigation.setPage(page);
         this.cdr.detectChanges();
@@ -204,7 +162,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     showContextMenu(event: RightClickEvent) {
         this.contextMenuRef.setPosition(event.pointerEvent.x, event.pointerEvent.y);
-        this.selectedRows = event.selected;
+//        this.selectedRows = event.selected;
         this.contextMenuRef.toggle();
     }
 

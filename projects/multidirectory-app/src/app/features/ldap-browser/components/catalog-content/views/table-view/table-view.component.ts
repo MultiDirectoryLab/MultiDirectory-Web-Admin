@@ -2,13 +2,14 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, O
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { DatagridComponent, DropdownMenuComponent, DropdownOption, Page, Treenode } from "multidirectory-ui-kit";
 import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
-import { Subject } from "rxjs";
+import { Subject, take } from "rxjs";
 import { TableRow } from "./table-row";
 import { BaseViewComponent } from "../base-view.component";
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { translate } from "@ngneat/transloco";
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
-import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
+import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
+import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 
 @Component({
     selector: 'app-table-view',
@@ -34,7 +35,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     ]
     constructor(
         private appNavigation: AppNavigationService,
-        private navigation: AppNavigationService,
+        private ldapLoader: LdapEntryLoader,
         private windows: AppWindowsService,
         private cdr: ChangeDetectorRef
     ) {
@@ -57,18 +58,21 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
     }
 
-    override setContent(nodes: LdapEntryNode[], selectedNodes: LdapEntryNode[] = []) {
-        this.rows = nodes.map(node => <TableRow>{
-            icon: node.icon ?? '',
-            name: node.name ?? '',
-            type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
-            entry: node,
-            description:  node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
-        });
-        this.page = new Page({ pageNumber: 1, totalElements: this.rows.length,   size: this.rows.length });
-        this.grid.totalElements = this.rows.length;
-        this.grid.selected = this.rows.filter( x => selectedNodes.findIndex(y => y.id == x.entry.id) > -1);
-        this.cdr.detectChanges();
+    override updateContent(e: NavigationEvent) {
+        const dn = e[2]['distinguishedName'];
+        this.ldapLoader.getContent(dn).pipe(
+            take(1)
+        ).subscribe(rows => {
+            this.rows = rows.map(node => <TableRow>{
+                icon: node.icon ?? '',
+                name: node.name ?? '',
+                type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
+                entry: node,
+                description:  node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
+            });
+            this.grid.totalElements = this.rows.length;
+            this.cdr.detectChanges();
+        })
     }
 
     override getSelected(): LdapEntryNode[] {
@@ -82,6 +86,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         //this.navigation.setSelection(selected);
         this.cdr.detectChanges();
     }
+    
     onSingleClick(event: any) {
         //this.navigation.setSelection(event.map((x: TableRow) => x.entry));
     }
