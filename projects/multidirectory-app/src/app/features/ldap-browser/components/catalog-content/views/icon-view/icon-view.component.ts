@@ -2,9 +2,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, 
 import { ToastrService } from "ngx-toastr";
 import { BaseViewComponent } from "../base-view.component";
 import { GridItemComponent } from "./grid-item/grid-item.component";
-import { DropdownMenuComponent, PagerComponent } from "multidirectory-ui-kit";
+import { DropdownMenuComponent, Page, PagerComponent } from "multidirectory-ui-kit";
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
+import { take } from "rxjs";
+import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-icon-view',
@@ -23,24 +27,28 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     @ViewChild('pager') pager!: PagerComponent;
     items: LdapEntryNode[] = [];
     alignItems = true;
-    constructor(public toast: ToastrService, private cdr: ChangeDetectorRef) {
+    constructor(
+        public toast: ToastrService,
+        private cdr: ChangeDetectorRef,
+        private ldapLoader: LdapEntryLoader, 
+        private navigation: AppNavigationService) {
         super()
     }
+    
     ngAfterViewInit(): void {
+        this.navigation.reload();
     }
 
-    override setContent(items: LdapEntryNode[], selectedNodes: LdapEntryNode[]): void {
-        if(items.length > this.page.size) {
-            items = items.slice(0, this.page.size);
-        }
-        this.items = items;
-        //this.page.totalElements = this.selectedCatalog!.childCount!;
-        this.items.forEach(element => {
-            element.selected = selectedNodes.findIndex(y => y.id == element.id) > -1;
-        });
-        this.pager.updatePager();
-        this.cdr.detectChanges();
+    override updateContent(e: NavigationEvent) {
+        const dn = e[2]['distinguishedName'];
+        this.ldapLoader.getContent(dn).pipe(take(1)).subscribe(rows => {
+            this.items = rows;
+            this.pager.updatePager();
+            //this.grid.selected = this.rows.filter( x => .findIndex(y => y.id == x.entry.id) > -1);
+            this.cdr.detectChanges();
+        })
     }
+
     override getSelected(): LdapEntryNode[] {
         return this.items.filter(x => x.selected);
     }
