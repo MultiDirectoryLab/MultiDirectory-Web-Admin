@@ -64,11 +64,11 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
             take(1)
         ).subscribe(rows => {
             this.rows = rows.map(node => <TableRow>{
-                icon: node.icon ?? '',
-                name: node.name ?? '',
+                icon: node.icon,
+                name: node.name,
                 type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
                 entry: node,
-                description:  node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
+                description: node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
             });
             this.grid.totalElements = this.rows.length;
             this.cdr.detectChanges();
