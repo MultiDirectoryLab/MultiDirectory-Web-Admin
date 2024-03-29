@@ -3,7 +3,7 @@ import { LdapEntryType } from "./ldap-entity-type";
 import { LdapEntryNode } from "./ldap-entity";
 
 export class EntityInfoResolver {
-    static IconMap = new Map<LdapEntryType, string>([
+    private static IconMap = new Map<LdapEntryType, string>([
         [ LdapEntryType.None, 'assets/folder.svg' ],
         [ LdapEntryType.Folder, 'assets/folder.svg'],
         [ LdapEntryType.Root, 'assets/snippet_folder.svg'],
@@ -13,7 +13,7 @@ export class EntityInfoResolver {
         [ LdapEntryType.OU, 'assets/folder.svg'],
     ]);
 
-    static TypeNameMap = new Map<LdapEntryType, () => string>([
+    private static TypeNameMap = new Map<LdapEntryType, () => string>([
         [ LdapEntryType.None, () =>  '' ],
         [ LdapEntryType.Folder, () => translate('entity-info-resolver.catalog') ],
         [ LdapEntryType.Root,  () => translate('entity-info-resolver.root') ],
@@ -23,7 +23,7 @@ export class EntityInfoResolver {
         [ LdapEntryType.OU,  () => translate('entity-info-resolver.organizational-unit') ]
     ]);
 
-    static TypeMap = new Map<string, LdapEntryType>([
+    private static TypeMap = new Map<string, LdapEntryType>([
         ['user', LdapEntryType.User],
         ['group', LdapEntryType.Group],
         ['organizationalUnit', LdapEntryType.OU]
@@ -38,8 +38,8 @@ export class EntityInfoResolver {
         return this.TypeNameMap.get(type)?.() ?? '';
     }
 
-    static getNodeType(objectClass?: string[]): LdapEntryType {
-        if(!objectClass || objectClass.length <= 0) {
+    static getNodeType(objectClass: string[]): LdapEntryType {
+        if(objectClass.length <= 0) {
             return LdapEntryType.None;
         }
         

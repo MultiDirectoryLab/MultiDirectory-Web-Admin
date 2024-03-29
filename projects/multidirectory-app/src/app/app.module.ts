@@ -21,19 +21,14 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { EditorsModule } from './features/ldap-browser/components/editors/editors.module';
 import { PropertiesModule } from './features/ldap-browser/components/entity-properties/properties.module';
-import { SearchResultComponent } from './features/ldap-browser/components/search-panel/seaarch-forms/search-result/search-result.component';
-import { SearchUsersComponent } from './features/ldap-browser/components/search-panel/seaarch-forms/search-users/search-users.component';
-import { SearchPanelComponent } from './features/ldap-browser/components/search-panel/search-panel.component';
 import { AppSettingsModule } from './features/settings/app-settings.module';
+import { SearchPanelModule } from './features/search/search-panel.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     NavigationComponent,
-    SearchPanelComponent,
-    SearchUsersComponent,
-    SearchResultComponent,
     BackendNotRespondedComponent,
     AppLayoutComponent,
     SidebarComponent
@@ -56,6 +51,8 @@ import { AppSettingsModule } from './features/settings/app-settings.module';
     PropertiesModule,
     TranslocoRootModule,
     EditorsModule,
+
+    SearchPanelModule
   ],
   providers: [
     provideAnimations(),

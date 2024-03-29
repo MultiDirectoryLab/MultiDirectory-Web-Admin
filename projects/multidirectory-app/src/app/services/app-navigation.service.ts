@@ -52,8 +52,11 @@ export class AppNavigationService {
         this.router.navigate([], {onSameUrlNavigation: 'reload'});
     }
 
-    async goTo(rootDse: LdapEntryNode[], dn: string): Promise<LdapEntryNode | undefined> {
+    async goTo(dn: string, rootDse: LdapEntryNode[] = []): Promise<LdapEntryNode | undefined> {
         const targetDnParts = LdapNamesHelper.getDnParts(dn);
+        if(rootDse.length == 0) {
+            rootDse = await lastValueFrom(this.ldapTreeLoader.get());
+        }
         const selectedRoot = rootDse.find(x => LdapNamesHelper.dnContain(targetDnParts, LdapNamesHelper.getDnParts(x.id)));
         while(targetDnParts.length > 0 && targetDnParts[targetDnParts.length - 1].type == 'dc')
             targetDnParts.pop();
@@ -61,8 +64,7 @@ export class AppNavigationService {
         let currentNode = selectedRoot;
         let found: any;
         if(targetDnParts.length == 0) {
-            //this.setCatalog(<LdapEntryNode>currentNode, null, null);
-            return;
+            return currentNode;
         }
         for(let i = 0; i < targetDnParts.length && currentNode; i++) {
             if(!!currentNode.loadChildren && currentNode.children.length == 0)
@@ -85,26 +87,28 @@ export class AppNavigationService {
             found = children.find(x => LdapNamesHelper.dnContain(targetDnParts, x.dn));
             if(!found && targetDnParts.length - i == 1) {
                 const contentRx = this.ldapTreeLoader.getContent(currentNode.id);
-                contentRx.pipe(take(1)).subscribe(x => {
+                const searchContentResultRx = contentRx.pipe(take(1), map(x => {
                     const children = x.map(y => {
                         return {
                             node: y,
                             dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
                         }
                     });
-                    const ldapNode = <LdapEntryNode>currentNode!;
                     const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(targetDnParts, x.dn));
                     if(foundIndex > -1) {
-                        // found
+                        return children[foundIndex];
                     }
-                })
-                return;
+                    return;
+                }))
+                const searchContentResult = await lastValueFrom(searchContentResultRx);
+                if(searchContentResult) {
+                    return currentNode;
+                }
             } else {
                 currentNode = found?.node;
             }
         }
         if(!!currentNode && found && LdapNamesHelper.dnEqual(targetDnParts, found!.dn)) {
-            //this.setCatalog(<LdapEntryNode>currentNode, null, null);
             return currentNode;
         }
         return;

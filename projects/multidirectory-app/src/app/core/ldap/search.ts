@@ -80,9 +80,9 @@ export const SearchQueries = {
     },
 
 
-    findByName(name: string, data?: LdapEntryNode): SearchRequest {
+    findByName(name: string, baseObject: string): SearchRequest {
       return new SearchRequest({
-          "base_object": data?.entry?.id ?? '',
+          "base_object": baseObject,
           "scope": 2,
           "deref_aliases": 0,
           "size_limit": 0,

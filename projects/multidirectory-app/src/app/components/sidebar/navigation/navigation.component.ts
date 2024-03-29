@@ -50,7 +50,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
         if(url.startsWith('ldap?')) {
             const dn = queryParams['distinguishedName'];
-            this.navigation.goTo([navigationTree[2] as LdapEntryNode], dn).then(node => {
+            this.navigation.goTo(dn, [navigationTree[2] as LdapEntryNode]).then(node => {
                 if(!node) {
                     return;
                 }
