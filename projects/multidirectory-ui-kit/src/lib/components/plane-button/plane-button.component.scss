@@ -10,20 +10,20 @@
     justify-content: center;
     user-select: none;
     &:disabled {
-        color: global.$md-neutral-400;
+        color: var(--md-neutral-400);
     }
     &:not(.disabled):hover {
         cursor: pointer;
     }
     &.plane-button-primary {
-        background-color: global.$md-white;
+        background-color: var(--md-white);
         &.plane-button-primary:hover {
-            background-color: global.$md-dark-blue-2;
+            background-color: var(--md-dark-blue-2);
         }
     }
 
     &.has-border {
-        border: 1px solid global.$md-dark-blue-2;
+        border: 1px solid var(--md-dark-blue-2);
         width: 100%;
         display: flex;
         flex-flow: row nowrap;
@@ -35,7 +35,7 @@
         align-items: center;
 
         &:hover {
-            background-color: global.$md-neutral-100;
+            background-color: var(--md-neutral-100);
         }
     }
 }

@@ -29,7 +29,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         ).subscribe(x => {
             this.showLeftPane = x;
         })
-        
+
         this.app.userRx.pipe(
             takeUntil(this.unsubscribe),
             tap(user => {

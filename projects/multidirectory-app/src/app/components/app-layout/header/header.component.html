@@ -37,6 +37,11 @@
             </md-shift-checkbox>
         </div>
         <div class="dropdown-item">
+            <md-shift-checkbox [ngModel]="darkMode" (ngModelChange)="onDarkMode($event)">
+                <label>{{ t("header.dark-mode") }}</label>
+            </md-shift-checkbox>
+        </div>
+        <div class="dropdown-item">
             <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">
                 <label>{{ t('header.small-icons') }}</label>
                 <label>F1</label>

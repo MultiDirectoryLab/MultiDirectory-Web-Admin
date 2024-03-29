@@ -52,11 +52,11 @@
     cursor: pointer;
     padding-left: 4px;
     &.selected {
-        background-color: global.$md-dark-blue-3;
-        color: global.$md-white;
+        background-color: var(--md-dark-blue-3);
+        color: var(--md-white);
     }
     &.focused {
-        background-color: global.$md-neutral-150;
+        background-color: var(--md-neutral-150);
         color: black;
     }
 }

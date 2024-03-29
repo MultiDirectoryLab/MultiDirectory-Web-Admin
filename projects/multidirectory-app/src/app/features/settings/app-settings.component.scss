@@ -1,7 +1,7 @@
 @use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
 :host {
-    background-color: global.$md-white;
+    background-color: var(--md-white);
     height: 100%;
     width: 100%;
     flex-flow: column nowrap;
@@ -32,7 +32,7 @@
     .more {
         cursor: pointer;
         &:hover {
-            border: 1px solid global.$md-dark-blue-2;
+            border: 1px solid var(--md-dark-blue-2);
         }
     }
 }

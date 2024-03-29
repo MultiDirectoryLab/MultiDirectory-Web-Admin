@@ -10,7 +10,7 @@
     flex-flow: row nowrap;
     gap: 4px;
     border-radius: 4px;
-    background-color: global.$md-neutral-150;
+    background-color: var(--md-neutral-150);
     color: black;
     max-width: 100%;
     overflow: hidden;

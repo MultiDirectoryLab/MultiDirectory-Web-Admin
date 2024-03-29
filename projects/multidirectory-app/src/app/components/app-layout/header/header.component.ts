@@ -23,6 +23,7 @@ export class HeaderComponent implements OnDestroy {
     @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef; 
     unsubscribe = new Subject<boolean>();
     navigationalPanelInvisible = false;
+    darkMode = false;
 
     ViewMode = ViewMode;
     get contentView(): ViewMode {
@@ -74,6 +75,11 @@ export class HeaderComponent implements OnDestroy {
             this.searchBtn?.nativeElement.click();
             return false;
         }, undefined, translate('hotkeys.toggle-search-menu')));
+
+        this.hotkeysService.add(new Hotkey('ctrl+d', (event: KeyboardEvent): boolean => {
+            this.onDarkMode(!this.darkMode);
+            return false;
+        }, undefined, translate('hotkeys.toggle-search-menu')));
     }
 
     ngOnDestroy(): void {
@@ -85,6 +91,11 @@ export class HeaderComponent implements OnDestroy {
         this.navigationalPanelInvisible = value;
         this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
         window.dispatchEvent(new Event('resize'));
+    }
+
+    onDarkMode(value: boolean) {
+        this.darkMode = value;
+        this.app.setDarkMode(this.darkMode);
     }
     showHelp() {
         this.hotkeysService.cheatSheetToggle.next(true);

@@ -1,7 +1,7 @@
 @use '../../styles/global.scss';
 
 .ngx-datatable {
-    border: 1px solid global.$md-neutral-300;
+    border: 1px solid var(--md-neutral-300);
     flex-flow: column nowrap;
     width: 100%;
 
@@ -18,11 +18,11 @@
     }
     .datatable-header {
         z-index: 2;
-        border-bottom: 1px solid global.$md-neutral-300;
+        border-bottom: 1px solid var(--md-neutral-300);
 
         .datatable-header-cell {
             text-transform: uppercase;
-            color: global.$md-dark-blue-4;
+            color: var(--md-dark-blue-4);
             padding: 4px 8px;
 
             cursor: pointer;
@@ -48,14 +48,14 @@
     }
 
     .datatable-body-row {
-        border-bottom: 1px solid global.$md-neutral-300;
+        border-bottom: 1px solid var(--md-neutral-300);
         padding: 4px 8px;
         &:hover {
-            background-color: global.$md-neutral-150;
+            background-color: var(--md-neutral-150);
         }
         &.active {
-            color: global.$md-white;
-            background-color: global.$md-dark-blue-4;
+            color: var(--md-white);
+            background-color: var(--md-dark-blue-4);
         }
     }
     .datatable-body-cell {

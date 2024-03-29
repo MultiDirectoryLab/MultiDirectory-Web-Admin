@@ -22,10 +22,10 @@
 }
 
 .grid-item:hover {
-    background-color: global.$md-white-blue-2;
+    background-color: var(--md-white-blue-2);
 }
 .grid-item.selected {
-    background-color: global.$md-blue;
+    background-color: var(--md-blue);
     color: white;
     .row-icon {
         filter: brightness(0) invert(1);

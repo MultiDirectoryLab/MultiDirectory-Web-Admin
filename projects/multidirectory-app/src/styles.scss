@@ -51,7 +51,7 @@
     border: none;
 }
 :focus-visible {
-    outline: global.$md-dark-blue-3 auto 2px;;
+    outline: var(--md-dark-blue-3) auto 2px;;
 }
 .pt-16 {
     padding-top: 16px;
@@ -74,10 +74,10 @@
     border: 1px solid black;
 }
 .bg-white-neutral {
-    background: global.$md-neutral-100;
+    background: var(--md-neutral-100);
 }
 .bg-white {
-    background: global.$md-white;
+    background: var(--md-white);
 }
 .title {
     font-size: 20px;

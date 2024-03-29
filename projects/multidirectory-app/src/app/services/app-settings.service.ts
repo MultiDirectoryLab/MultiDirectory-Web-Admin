@@ -14,6 +14,15 @@ export class AppSettingsService {
     setNavigationalPanelVisiblity(state: boolean) {
         this.navigationalPanelVisibleRx.next(state);
     }
+
+    private _darkModeRx = new BehaviorSubject<boolean>(false);
+    get darkModeRx() {
+        return this._darkModeRx.asObservable();
+    }
+    setDarkMode(state: boolean) {
+        this._darkModeRx.next(state);
+    }
+
     userEntry?: LdapEntryNode;
     private _user: WhoamiResponse = new WhoamiResponse({});
     get user(): WhoamiResponse {
