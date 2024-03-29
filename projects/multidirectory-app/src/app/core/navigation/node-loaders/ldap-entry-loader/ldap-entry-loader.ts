@@ -43,10 +43,10 @@ export class LdapEntryLoader implements NodeLoader {
         return this.api.search(SearchQueries.getChild(dn)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
-                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass')!;
                     const node = new LdapEntryNode({
                         name: displayName,
-                        type: EntityInfoResolver.getNodeType(objectClass?.vals),
+                        type: EntityInfoResolver.getNodeType(objectClass.vals),
                         selectable: true,
                         entry: x,
                         id: x.object_name,
@@ -64,10 +64,10 @@ export class LdapEntryLoader implements NodeLoader {
         return this.api.search(SearchQueries.getContent(parent)).pipe(
             map((res: SearchResponse) => res.search_result.map(x => {
                     const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
-                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass');
+                    const objectClass =  x.partial_attributes.find(x => x.type == 'objectClass')!;
                     const node = new LdapEntryNode({
                         name: displayName,
-                        type: EntityInfoResolver.getNodeType(objectClass?.vals), 
+                        type: EntityInfoResolver.getNodeType(objectClass.vals), 
                         selectable: true,
                         expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
                         entry: x,

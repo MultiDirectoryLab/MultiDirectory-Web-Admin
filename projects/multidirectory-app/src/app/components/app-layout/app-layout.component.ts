@@ -35,21 +35,24 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
             tap(user => {
                  this.app.user = user;
             }),
-            switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, undefined)))
+            switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, '')))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
             const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
-            const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass');
+            const objectClass =  searchEntry.partial_attributes.find(x => x.type == 'objectClass')!;
             const entry = new LdapEntryNode({
                 name: displayName,
-                type: EntityInfoResolver.getNodeType(objectClass?.vals), 
+                type: EntityInfoResolver.getNodeType(objectClass.vals), 
                 selectable: true,
-                expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
+                expandable: EntityInfoResolver.isExpandable(objectClass.vals),
                 entry: searchEntry,
                 id: searchEntry.object_name,
             });
             this.app.userEntry = entry;
-            this.app.user!.jpegPhoto = userSearch.search_result?.[0]?.partial_attributes?.find(x => x.type == 'photoBase64')?.vals?.[0] ?? undefined;
+            const photo = searchEntry.partial_attributes.find(x => x.type == 'photoBase64');
+            if(!!photo && photo.vals.length > 0) {
+                this.app.user.jpegPhoto = photo.vals[0] ?? undefined;
+            }
             this.cdr.detectChanges();
         });
     }
