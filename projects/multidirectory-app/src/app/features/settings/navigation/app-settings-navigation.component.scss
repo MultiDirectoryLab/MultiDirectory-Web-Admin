@@ -22,11 +22,11 @@ div.nav {
             
         }
         &:hover {
-            background-color: global.$md-white;
+            background-color: var(--md-white);
         }
         &.selected {
-            background-color: global.$md-blue;
-            color: global.$md-white;
+            background-color: var(--md-blue);
+            color: var(--md-white);
         }
     }
 

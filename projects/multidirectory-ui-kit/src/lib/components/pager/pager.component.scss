@@ -17,7 +17,7 @@
     padding: 0 4px !important;
     li {
         padding: 4px !important;
-        border: 1px solid global.$md-dark-blue-3;
+        border: 1px solid var(--md-dark-blue-3);
         height: 14px;
         width: 14px;
         font-size: 14px;
@@ -29,7 +29,7 @@
         text-decoration: none;
 
         a {
-            color: global.$md-dark-blue-3;
+            color: var(--md-dark-blue-3);
             text-decoration: none;
 
             i:before {
@@ -38,7 +38,7 @@
             }
         }
         &.active {
-            background-color: global.$md-dark-blue-3;
+            background-color: var(--md-dark-blue-3);
             a {
                 color: white;
             }

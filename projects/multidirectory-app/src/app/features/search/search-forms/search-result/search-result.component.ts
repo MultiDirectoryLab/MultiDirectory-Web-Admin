@@ -22,7 +22,7 @@ export class SearchResultComponent {
                 if(!node) {
                     return;
                 }
-                this.navigation.navigate(node)
+                this.navigation.navigate(node);
                 this.cdr.detectChanges();
             });
         }

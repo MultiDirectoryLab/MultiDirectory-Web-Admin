@@ -37,7 +37,7 @@
     min-height: 50px !important;
     height: 50px !important;
     overflow: hidden;
-    background-color: global.$md-blue;
+    background-color: var(--md-blue);
 }
 
 
@@ -54,7 +54,7 @@
     margin-bottom: 4px;
     cursor: pointer;
     &:hover {
-        border: 1px solid global.$md-dark-blue-2;
+        border: 1px solid var(--md-dark-blue-2);
     }
 }
 

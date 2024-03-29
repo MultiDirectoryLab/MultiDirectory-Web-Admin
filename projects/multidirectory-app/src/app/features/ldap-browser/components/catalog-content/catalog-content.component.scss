@@ -1,7 +1,7 @@
 @use '../../../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
 :host {
-    background-color: #FAFAFA;
+    background-color: var(--md-white);
     padding: 1rem;
     display: flex;
     flex-flow: column nowrap;
@@ -22,7 +22,7 @@
         color: black !important;
     }
     &:hover, &.dark-blue {
-        background-color: global.$md-dark-blue !important;
+        background-color: var(--md-dark-blue) !important;
         .color-change-blue-white {
             filter: brightness(0) invert(1);
         }

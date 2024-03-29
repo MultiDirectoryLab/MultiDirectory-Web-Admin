@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { AppWindowsService } from './services/app-windows.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SpinnerComponent } from 'multidirectory-ui-kit';
+import { AppSettingsService } from './services/app-settings.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
 
   title = 'multidirectory-app';
+  darkMode = false
   @ViewChild('spinner', {static: true}) spinner!: SpinnerComponent;
 
-  constructor(private windows: AppWindowsService) {
+  constructor(private windows: AppWindowsService, private app: AppSettingsService) {
   }
 
   ngAfterViewInit(): void {
@@ -27,6 +29,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         this.spinner.hide();
       }
     });
+
+    this.app.darkModeRx.pipe(
+        takeUntil(this.unsubscribe)
+    ).subscribe(x => {
+        this.darkMode = x;
+    })
   }
   
   ngOnDestroy(): void {
