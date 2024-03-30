@@ -24,7 +24,9 @@
         max-height: 50px;
     }
 }
-
+::ng-deep .dark-theme .sidebar .avatar-img {
+    filter: invert(0.9) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
+}
 .user-info {
     flex-grow: 1;
 }
@@ -42,6 +44,9 @@
     height: 50px !important;
     overflow: hidden;
     background-color: var(--md-blue);
+}
+ ::ng-deep .dark-theme .logo-img {
+    filter: invert(0.3) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
 
 :host ::ng-deep .selected:not(.focused) .tree-icon {

@@ -13,7 +13,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
 
   title = 'multidirectory-app';
-  darkMode = false
+  darkMode = false;
   @ViewChild('spinner', {static: true}) spinner!: SpinnerComponent;
 
   constructor(private windows: AppWindowsService, private app: AppSettingsService) {

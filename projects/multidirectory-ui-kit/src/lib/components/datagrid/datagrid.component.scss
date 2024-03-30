@@ -52,10 +52,11 @@
         padding: 4px 8px;
         &:hover {
             background-color: var(--md-neutral-150);
+            color: var(--md-black);
         }
         &.active {
             color: var(--md-white);
-            background-color: var(--md-dark-blue-4);
+            background-color: var(--md-dark-blue-3);
         }
     }
     .datatable-body-cell {

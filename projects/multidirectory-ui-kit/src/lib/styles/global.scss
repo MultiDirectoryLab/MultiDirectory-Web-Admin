@@ -24,24 +24,29 @@
 }
 
 .dark-theme * {
-    --md-white: #090909;
-    --md-neutral-100: #1a1a1a;
-    --md-neutral-150: #291a1a;
+    --md-white: #202124;
+    --md-neutral-100: #171819;
+    --md-neutral-150: #221819;
     --md-neutral-200: #232323;
-    --md-neutral-300: #363636;
-    --md-neutral-400: #5a5a5a;
-    --md-neutral-600: #878787;
-    --md-neutral-800: #b0b0b0;
-    --md-neutral-1000: #e3e3e3;
-    --md-white-blue-2: #291a1a;
-    --md-white-blue: #8a5d36;
-    --md-blue: #c7864b;
-    --md-dark-blue: #dea97b;
-    --md-dark-blue-2: #c7a587;
-    --md-dark-blue-3: #b2977e;
-    --md-dark-blue-4: #b8906d;
-    --md-red: #1a9696;
-    --md-black: #d9d9d9;
+    --md-neutral-300: #2c2d2e;
+    --md-neutral-600: #696a6b;
+    --md-neutral-800: #87888a;
+    --md-neutral-1000: #adaeb0;
+    --md-white-blue-2: #463f45;
+    --md-white-blue: #7d6554;
+    --md-blue: #3879B4;
+    --md-dark-blue: #215684;
+    --md-dark-blue-2: #385A78;
+    --md-dark-blue-3: #4D6881;
+    --md-dark-blue-4: #476F92;
+    --md-red: #177576;
+    --md-black: #D6D7D8;
+
+    input, select {
+        color: var(--md-black);
+        background-color: var(--md-neutral-100);
+        border: 1px solid #30363d;
+    }
 }
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
