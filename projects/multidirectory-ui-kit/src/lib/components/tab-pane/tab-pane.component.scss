@@ -10,7 +10,7 @@
         position: relative;
         top: 2px;
         padding: 4px 8px;
-        border: 1px solid lightgrey;
+        border: 1px solid var(--md-neutral-300);
         border-right: none;
         background-color: var(--md-neutral-100);
         &.selected {
@@ -18,7 +18,7 @@
             position: relative;
             top: 1px;
             z-index: 3;
-            background-color: white;
+            background-color: var(--md-white);
             border-bottom: none;
         }
         & * {
@@ -27,12 +27,12 @@
     }
  
     .tab:hover {
-        background-color: white;
+        background-color: var(--md-white);
     }
 
     md-tab:last-child  {
         .tab {
-            border-right: 1px solid lightgrey;
+            border-right: 1px solid  var(--md-neutral-300);
         }
 
         

@@ -9,6 +9,7 @@
     align-items: center;
     user-select: none;
 }
+
 .container-name {
     cursor: pointer;
     &:hover {
@@ -35,5 +36,11 @@
         & img {
             filter: invert(37%) sepia(85%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
         }
+    }
+}
+
+::ng-deep .dark-theme .control-button {
+     img {
+        filter: invert(100%) sepia(0%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
     }
 }
