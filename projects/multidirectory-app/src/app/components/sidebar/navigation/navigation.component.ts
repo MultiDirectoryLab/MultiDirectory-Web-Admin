@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, EventType, NavigationEnd, Params, Router, RouterEvent, Scroll } from "@angular/router";
-import { TreeviewComponent } from "multidirectory-ui-kit";
+import { NavigationEnd, Params, RouterEvent, Scroll } from "@angular/router";
+import { DropdownMenuComponent, TreeviewComponent } from "multidirectory-ui-kit";
 import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
-import { Subject, combineLatest, take, takeUntil } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
 import { NavigationNode } from "../../../core/navigation/navigation-node";
 import { AppNavigationService } from "../../../services/app-navigation.service";
-import { NavigationRoot } from "../../../core/navigation/navigation-entry-point";
+import { AppWindowsService } from "../../../services/app-windows.service";
+import { RightClickEvent } from "dist/multidirectory-ui-kit/lib/components/treeview/model/right-click-event";
 
 @Component({
     selector: 'app-navigation',
@@ -15,10 +16,12 @@ import { NavigationRoot } from "../../../core/navigation/navigation-entry-point"
 })
 export class NavigationComponent implements OnInit, OnDestroy {
     @ViewChild('treeView', { static: true } ) treeView!: TreeviewComponent;
+    @ViewChild('contextMenu', { static: true } ) contextMenu!: DropdownMenuComponent;
+
     private unsubscribe = new Subject<void>();
     navigationTree: NavigationNode[] = []
 
-    constructor(private navigation: AppNavigationService) {
+    constructor(private navigation: AppNavigationService, private windows: AppWindowsService) {
     }   
     
     ngOnInit(): void {
@@ -85,5 +88,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
     handleNodeSelection(node: NavigationNode) {
         this.navigation.navigate(node);
+    }
+
+    handleNodeRightClick(event: RightClickEvent) {
+        this.contextMenu.setPosition(event.event.x, event.event.y);
+        this.contextMenu.open();
     }
 }

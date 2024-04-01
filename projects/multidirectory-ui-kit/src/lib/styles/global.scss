@@ -42,7 +42,7 @@
     --md-red: #177576;
     --md-black: #D6D7D8;
 
-    input, select {
+    input, select, textarea {
         color: var(--md-black);
         background-color: var(--md-neutral-100);
         border: 1px solid #30363d;

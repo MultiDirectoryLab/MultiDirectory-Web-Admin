@@ -3,6 +3,7 @@
     [nodeLabel]="mdTreeModal"
     class="treeview" 
     (onNodeSelect)="handleNodeSelection($any($event))"
+    (onNodeRightClick)="handleNodeRightClick($any($event))"
     #treeView>
 </md-treeview>
 
@@ -10,3 +11,15 @@
     <img class="tree-icon" [src]="data.icon"/>
     <label class="tree-label">{{data.name}}</label>
 </ng-template>
+
+<md-dropdown-menu #contextMenu>
+    <div class="dropdown-item" (click)="contextMenu.close()">
+        {{ "catalog-content.more" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="contextMenu.close();">
+        {{ "catalog-content.change-password" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="contextMenu.close();">
+        {{ "catalog-content.delete" | transloco }}
+    </div>
+</md-dropdown-menu> 
