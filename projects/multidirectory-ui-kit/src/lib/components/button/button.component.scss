@@ -1,7 +1,7 @@
 @use '../../styles/global' as global;
 
 
-.md-button {
+::ng-deep .md-button {
     @include global.use-inter-typography(700, 12px, 140%);
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -43,5 +43,11 @@
             background-color: var(--md-neutral-200);
             color: var(--md-neutral-800);
         }
+    }
+}
+
+::ng-deep .dark-theme {
+    .md-button {
+        color: var(--md-black);
     }
 }

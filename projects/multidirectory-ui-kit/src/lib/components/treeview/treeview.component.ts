@@ -3,6 +3,7 @@ import { Observable, Subject, lastValueFrom, of, take } from "rxjs";
 import { Treenode } from "./model/treenode";
 import { TreeSearchHelper } from "./core/tree-search-helper";
 import { ExpandStrategy } from "./model/expand-strategy";
+import { RightClickEvent } from "./model/right-click-event";
 
 @Component({
     selector: 'md-treeview',
@@ -17,6 +18,7 @@ export class TreeviewComponent implements OnInit {
     @Input() checkboxes = false;
     @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
     @Output() onNodeSelect = new EventEmitter<Treenode>();
+    @Output() onNodeRightClick = new EventEmitter<RightClickEvent>();
     private _selectedNode: Treenode | null = null;
     private _focusedNode: Treenode | null = null;
 
@@ -163,9 +165,11 @@ export class TreeviewComponent implements OnInit {
         this.expand(node);
     }
 
-    handleRightClick(event: Event, node: Treenode) {
+    handleRightClick(event: MouseEvent, node: Treenode) {
         event.stopPropagation();
-        alert('clck' + node.id);
+        event.preventDefault();
+        
+        this.onNodeRightClick.emit({ event: event, node: node });
     }
 
     redraw() {
