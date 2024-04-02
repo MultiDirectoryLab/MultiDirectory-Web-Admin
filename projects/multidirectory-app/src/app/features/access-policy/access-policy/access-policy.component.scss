@@ -1,10 +1,11 @@
+
 .client-grid {
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 32px 32px 200px 200px 1fr 64px 32px   ;
-    border: 1px solid lightgrey;
+    border: 1px solid var(--md-neutral-400);
     border-radius: 8px;
-    background-color: white;
+    background-color: var(--md-white);
     min-height: 48px;
     .cell-drag-drop {
         grid-column: 1;
