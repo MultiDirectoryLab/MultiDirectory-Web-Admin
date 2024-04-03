@@ -4,7 +4,7 @@ import { DatagridComponent } from "multidirectory-ui-kit";
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 import { translate } from "@ngneat/transloco";
 import { Member } from "projects/multidirectory-app/src/app/core/groups/member";
-import { GroupSelectorComponent } from "../../../../forms/group-selector/group-selector.component";
+import { GroupSelectorComponent } from "../../forms/group-selector/group-selector.component";
 
 @Component({
     selector: 'app-members',

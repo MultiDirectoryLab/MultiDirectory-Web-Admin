@@ -8,7 +8,8 @@ import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/lda
 import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
 import { take } from "rxjs";
 import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NavigationRoot } from "projects/multidirectory-app/src/app/core/navigation/navigation-entry-point";
 
 @Component({
     selector: 'app-icon-view',
@@ -31,7 +32,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         public toast: ToastrService,
         private cdr: ChangeDetectorRef,
         private ldapLoader: LdapEntryLoader, 
-        private navigation: AppNavigationService) {
+        private navigation: AppNavigationService,
+        private route: ActivatedRoute) {
         super()
     }
     
@@ -39,12 +41,10 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.navigation.reload();
     }
 
-    override updateContent(e: NavigationEvent) {
-        const dn = e[2]['distinguishedName'];
-        this.ldapLoader.getContent(dn).pipe(take(1)).subscribe(rows => {
+    override updateContent() {
+        this.ldapLoader.getContent(this.route.snapshot.queryParams['distinguishedName']).pipe(take(1)).subscribe(rows => {
             this.items = rows;
             this.pager.updatePager();
-            //this.grid.selected = this.rows.filter( x => .findIndex(y => y.id == x.entry.id) > -1);
             this.cdr.detectChanges();
         })
     }

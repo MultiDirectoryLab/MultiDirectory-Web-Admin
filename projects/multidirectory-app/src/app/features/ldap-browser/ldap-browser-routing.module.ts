@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { HomeComponent } from "./components/home/home.component";
 import { LdapBrowserHeaderComponent } from "./components/ldap-browser-header/ldap-browser-header.component";
+import { CatalogContentComponent } from "./components/catalog-content/catalog-content.component";
 
 @NgModule({
     imports: [
         RouterModule.forChild([
-            { path: '', component: HomeComponent },
-            { path: ':query', component: HomeComponent},
+            { path: '', component: CatalogContentComponent },
+            { path: ':query', component: CatalogContentComponent},
             { 
                 path: '',
                 component: LdapBrowserHeaderComponent,

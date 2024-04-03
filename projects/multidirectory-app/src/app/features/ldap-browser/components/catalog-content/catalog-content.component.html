@@ -85,15 +85,6 @@
     <div class="dropdown-item disabled hidden">mslmaging-PSP</div>
     <div class="dropdown-item disabled hidden">MSMQ Queue Alias</div>
 </md-dropdown-menu> 
-<ng-template modalInject #createUserModal="modalInject">
-    <app-user-create></app-user-create>
-</ng-template>
-<ng-template modalInject #createOuModal="modalInject">
-    <app-ou-create #createOuModal></app-ou-create>
-</ng-template>
-<ng-template modalInject #createGroupModal="modalInject">
-    <app-group-create></app-group-create>
-</ng-template>
 
 <md-modal #createObjectModal>
     TODO
@@ -117,15 +108,3 @@
         </div>
     </ng-container>
 </md-modal>
-
-<md-dropdown-menu #contextMenu>
-    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">
-        {{ "catalog-content.more" | transloco }}
-    </div>
-    <div class="dropdown-item" (click)="contextMenu.close(); showChangePassword()">
-        {{ "catalog-content.change-password" | transloco }}
-    </div>
-    <div class="dropdown-item" (click)="contextMenu.close(); deleteConfirmation.open()">
-        {{ "catalog-content.delete" | transloco }}
-    </div>
-</md-dropdown-menu> 

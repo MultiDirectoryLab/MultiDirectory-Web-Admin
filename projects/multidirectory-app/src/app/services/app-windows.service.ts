@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, of, pipe, switchMap, take } from "rxjs";
 import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { TreeItemComponent } from "dist/multidirectory-ui-kit/lib/components/treeview/tree-item.component";
 import { NavigationNode } from "../core/navigation/navigation-node";
@@ -9,11 +9,19 @@ import { NavigationNode } from "../core/navigation/navigation-node";
 })
 export class AppWindowsService {
     private _openEntityPropertiesModalRx = new Subject<LdapEntryNode>();
+    private _closeEntityPropertiesModalRx = new Subject<LdapEntryNode>();
     get openEntityPropertiesModalRx(): Observable<LdapEntryNode> {
         return this._openEntityPropertiesModalRx.asObservable();
     }
-    openEntityProperiesModal(entity: LdapEntryNode) {
+    get closeEntityPropertiesModalRx(): Observable<LdapEntryNode> {
+        return this._closeEntityPropertiesModalRx.pipe(take(1));
+    }
+    openEntityProperiesModal(entity: LdapEntryNode): Observable<LdapEntryNode> {
         this._openEntityPropertiesModalRx.next(entity);
+        return this.closeEntityPropertiesModalRx;
+    }
+    closeEntityPropertiesModal(entity: LdapEntryNode) {
+        return this._closeEntityPropertiesModalRx.next(entity);
     }
 
     private _openChangePasswordModalRx = new Subject<LdapEntryNode>();
@@ -42,5 +50,30 @@ export class AppWindowsService {
     }
     showContextMenu(node: NavigationNode) {
         this._showContextMenuRx.next();
+    }
+
+
+    private _showCreateOuMenuRx = new Subject<LdapEntryNode>();
+    get showCreateOuMenuRx(): Observable<LdapEntryNode> {
+        return this._showCreateOuMenuRx.asObservable();
+    }
+    openCreateOu() {
+        //throw new Error("Method not implemented.");
+    }
+
+    private _showCreateGroupOuRx = new Subject<LdapEntryNode>();
+    get showCreateGroupMenuRx(): Observable<LdapEntryNode> {
+        return this._showCreateGroupOuRx.asObservable();
+    }
+    openCreateGroup() {
+        throw new Error("Method not implemented.");
+    }
+
+    private _showCreateUserRx = new Subject<LdapEntryNode>();
+    get showCreateUserRx(): Observable<LdapEntryNode> {
+        return this._showCreateUserRx.asObservable();
+    }
+    openCreateUser() {
+        throw new Error("Method not implemented.");
     }
 }

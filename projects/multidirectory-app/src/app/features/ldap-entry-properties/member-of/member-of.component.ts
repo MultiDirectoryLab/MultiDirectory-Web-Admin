@@ -9,7 +9,7 @@ import { AppWindowsService } from "projects/multidirectory-app/src/app/services/
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
-import { GroupSelectorComponent } from "../../../../forms/group-selector/group-selector.component";
+import { GroupSelectorComponent } from "../../forms/group-selector/group-selector.component";
 
 @Component({
     selector: 'app-member-of',

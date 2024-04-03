@@ -8,7 +8,6 @@ import { UserPropertiesAddressComponent } from "./user-properties/address/user-p
 import { UserPropertiesProfileComponent } from "./user-properties/profile/user-properties-profile.component";
 import { UserPropertiesAccountComponent } from "./user-properties/account/user-properties-account.component";
 import { FormsModule } from "@angular/forms";
-import { EditorsModule } from "../editors/editors.module";
 import { MemberOfComponent } from "./member-of/member-of.component";
 import { AvatarUploadComponent } from "./avatar-upload/avatar-upload.component";
 import { LogonTimeEditorComponent } from "./user-properties/account/logn-time-editor/logon-time-editor.component";
@@ -16,7 +15,8 @@ import { TranslocoModule } from "@ngneat/transloco";
 import { GroupPropertiesComponent } from "./group-properties/group-properties.component";
 import { MembersComponent } from "./members/members.component";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
-import { AppFormsModule } from "../../../forms/forms.module";
+import { AppFormsModule } from "../forms/forms.module";
+import { EditorsModule } from "../ldap-browser/components/editors/editors.module";
 
 @NgModule({
     imports: [
