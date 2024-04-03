@@ -33,7 +33,7 @@ export abstract class BaseViewComponent implements OnInit {
 
     handleRightClick(event: any) {
         let selected = this.getSelected();
-        if(selected.length == 0 && !!event.content?.entry) {
+        if(!!event.content?.entry) {
             this.setSelected([ event.content?.entry ]);
         }
         if(event instanceof PointerEvent) {
@@ -50,7 +50,7 @@ export abstract class BaseViewComponent implements OnInit {
         });
     }
 
-    abstract updateContent(e: NavigationEvent): void;
+    abstract updateContent(): void;
     abstract getSelected(): LdapEntryNode[];
     abstract setSelected(selected: LdapEntryNode[]): void;
     

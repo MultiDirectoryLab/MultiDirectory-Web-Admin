@@ -10,6 +10,7 @@ import { translate } from "@ngneat/transloco";
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
 import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 
 @Component({
     selector: 'app-table-view',
@@ -22,7 +23,6 @@ import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/naviga
 export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
     @ViewChild('grid', { static: true }) grid!: DatagridComponent;
     @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
-
     columns: TableColumn[] = [];
     rows: TableRow[] = [];
     unsubscribe = new Subject<void>();
@@ -37,7 +37,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         private appNavigation: AppNavigationService,
         private ldapLoader: LdapEntryLoader,
         private windows: AppWindowsService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private route: ActivatedRoute
     ) {
         super();
     }
@@ -58,8 +59,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
     }
 
-    override updateContent(e: NavigationEvent) {
-        const dn = e[2]['distinguishedName'];
+    updateContentInner(dn: string) {
         this.ldapLoader.getContent(dn).pipe(
             take(1)
         ).subscribe(rows => {
@@ -75,6 +75,10 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         })
     }
 
+    override updateContent() {
+        this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
+    }
+
     override getSelected(): LdapEntryNode[] {
         return this.grid.selected.map(x => x.entry);
     }
@@ -86,10 +90,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         //this.navigation.setSelection(selected);
         this.cdr.detectChanges();
     }
-    
-    onSingleClick(event: any) {
-        //this.navigation.setSelection(event.map((x: TableRow) => x.entry));
-    }
+
     onDoubleClick(event: any) {
         const entry = event?.row?.entry;
         if(event?.row?.name == '...') {
@@ -97,7 +98,9 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         } else if(entry && entry.expandable) {
             this.appNavigation.navigate(entry);
         } else if(entry && !entry.expandable) {
-            this.windows.openEntityProperiesModal(entry);
+            this.windows.openEntityProperiesModal(entry).pipe(take(1)).subscribe(x => {
+                this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
+            });
         }
         this.cdr.detectChanges();
     }

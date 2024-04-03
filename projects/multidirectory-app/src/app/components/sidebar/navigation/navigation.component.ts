@@ -8,6 +8,7 @@ import { NavigationNode } from "../../../core/navigation/navigation-node";
 import { AppNavigationService } from "../../../services/app-navigation.service";
 import { AppWindowsService } from "../../../services/app-windows.service";
 import { RightClickEvent } from "dist/multidirectory-ui-kit/lib/components/treeview/model/right-click-event";
+import { ContextMenuService } from "../../../services/contextmenu.service";
 
 @Component({
     selector: 'app-navigation',
@@ -16,12 +17,11 @@ import { RightClickEvent } from "dist/multidirectory-ui-kit/lib/components/treev
 })
 export class NavigationComponent implements OnInit, OnDestroy {
     @ViewChild('treeView', { static: true } ) treeView!: TreeviewComponent;
-    @ViewChild('contextMenu', { static: true } ) contextMenu!: DropdownMenuComponent;
 
     private unsubscribe = new Subject<void>();
     navigationTree: NavigationNode[] = []
 
-    constructor(private navigation: AppNavigationService, private windows: AppWindowsService) {
+    constructor(private navigation: AppNavigationService, private contextMenu: ContextMenuService) {
     }   
     
     ngOnInit(): void {
@@ -57,7 +57,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 if(!node) {
                     return;
                 }
-                this.treeView.select(node);
+                if(!node.selected) {
+                    this.treeView.select(node);
+                }
             });
             return;
         }
@@ -91,7 +93,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
     }
 
     handleNodeRightClick(event: RightClickEvent) {
-        this.contextMenu.setPosition(event.event.x, event.event.y);
-        this.contextMenu.open();
+        if(event.node instanceof LdapEntryNode) {
+            this.treeView.focus(event.node);
+            this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, event.node);
+        }
     }
 }

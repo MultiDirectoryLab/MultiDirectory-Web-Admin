@@ -12,9 +12,6 @@ import { CatalogContentComponent } from "./components/catalog-content/catalog-co
 import { GridItemComponent } from "./components/catalog-content/views/icon-view/grid-item/grid-item.component";
 import { IconViewComponent } from "./components/catalog-content/views/icon-view/icon-view.component";
 import { TableViewComponent } from "./components/catalog-content/views/table-view/table-view.component";
-import { EditorsModule } from "./components/editors/editors.module";
-import { PropertiesModule } from "./components/entity-properties/properties.module";
-import { HomeComponent } from "./components/home/home.component";
 import { LdapBrowserHeaderComponent } from "./components/ldap-browser-header/ldap-browser-header.component";
 
 @NgModule({
@@ -24,7 +21,6 @@ import { LdapBrowserHeaderComponent } from "./components/ldap-browser-header/lda
         IconViewComponent,
         GridItemComponent,
         LdapBrowserHeaderComponent,
-        HomeComponent
     ],
     imports: [
         CommonModule,
@@ -33,9 +29,7 @@ import { LdapBrowserHeaderComponent } from "./components/ldap-browser-header/lda
         FormsModule,
         TranslocoModule,
         DragDropModule,
-        EditorsModule,
-        HotkeyModule,
-        PropertiesModule,
+        HotkeyModule,        
         LdapBrowserRoutingModule,
         AppFormsModule
     ],

@@ -4,26 +4,22 @@ import { AppSettingsService } from "../../services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
 import { LdapEntryNode } from "../../core/ldap/ldap-entity";
+import { AppWindowsService } from "../../services/app-windows.service";
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: [ './sidebar.component.scss' ]
 })
-export class SidebarComponent implements AfterViewInit, OnDestroy {
-    unsubscribe = new Subject<void>();
+export class SidebarComponent implements OnDestroy {
+    private unsubscribe = new Subject<void>();
     
     get user(): WhoamiResponse {
         return this.app.user;
     }
 
-    constructor(private app: AppSettingsService, private router: Router) {        
+    constructor(private app: AppSettingsService, private router: Router, private windows: AppWindowsService) {        
     }
-  
-    ngAfterViewInit(): void {
-
-    }
-
     
     logout() {
         localStorage.clear();
@@ -35,17 +31,14 @@ export class SidebarComponent implements AfterViewInit, OnDestroy {
         if(!this.app.userEntry) {
             return;
         }
-        this.openEntityProperties(this.app.userEntry);
+        this.windows.openEntityProperiesModal(this.app.userEntry);
     }
 
-    openEntityProperties(entity: LdapEntryNode) {
-        return;
-        //this.properties!.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1)).subscribe(x => {
-        //    this.navigation.setCatalog(this.navigation.selectedCatalog, this.navigation.page, [entity]);
-        //});
-    }
-
-    openChangePassword(entity: LdapEntryNode | undefined = undefined) {
+    openChangePassword() {
+        if(!this.app.userEntry) {
+            return;
+        }
+        this.windows.openChangePasswordModal(this.app.userEntry);
     }
     
     ngOnDestroy(): void {

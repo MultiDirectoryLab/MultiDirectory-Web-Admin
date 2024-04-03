@@ -5,8 +5,6 @@ import { SetupRouteGuard } from './core/setup/setup-route-guard';
 import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { PlaceholderComponent } from './components/app-layout/placeholder/placeholder.component';
-import { PlaceholderHeaderComponent } from './components/app-layout/placeholder/placeholder-header/placeholder-header.component';
 
 const routes: Routes = [
   { 

@@ -11,6 +11,9 @@ import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/se
 import { Subject, take, takeUntil } from "rxjs";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
+import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
+import { ContextMenuService } from "projects/multidirectory-app/src/app/services/contextmenu.service";
  
 @Component({
     selector: 'app-catalog-content',
@@ -18,40 +21,35 @@ import { BaseViewComponent, RightClickEvent } from "./views/base-view.component"
     styleUrls: ['./catalog-content.component.scss'],
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {      
-    @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
-    @ViewChild('createUserModal', { static: true}) createUserModal?: ModalInjectDirective;
-    @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
-    @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
 
     unsubscribe = new Subject<void>();
-
+    LdapEntryType = LdapEntryType;
     ViewMode = ViewMode;
     currentView = this.contentView.contentView;
+    private _selectedRows: LdapEntryNode[] = [];
 
     constructor(
         private navigation: AppNavigationService,
-        private ldapLoader: LdapEntryLoader,
-        private api: MultidirectoryApiService,
         private cdr: ChangeDetectorRef,
-        private toastr: ToastrService,
         private contentView: ContentViewService,
-        private ldapWindows: AppWindowsService,
+        private windows: AppWindowsService,
+        private contextMenu: ContextMenuService,
         private hotkeysService: HotkeysService) {
         }
 
     ngOnInit(): void {
         this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
-            this.openCreateUser();
+            this.windows.openCreateUser();
             return false;
         }, undefined, translate('hotkeys.create-user')));
         this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
-            this.openCreateGroup();
+            this.windows.openCreateGroup();
             return false;
         }, undefined, translate('hotkeys.create-group')));
         this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
-            this.openCreateOu();
+            this.windows.openCreateOu();
             return false;
         }, undefined, translate('hotkeys.create-ou')));
         this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
@@ -61,7 +59,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         this.navigation.navigationRx
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((e) => {
-                this.view?.updateContent(e);
+                this.view?.updateContent();
                 this.cdr.detectChanges();
             });
         /*
@@ -122,38 +120,20 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         });*/
     }
 
-    openCreateUser() {
-        this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            //this.loadData();
-        });
-    }
-
-    openCreateGroup() {
-        this.createGroupModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            //this.loadData();
-        });
-    }
-
-    openCreateOu() {
-        this.createOuModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(x => {
-            //this.loadData();
-        });
-    }
-
+   
     showEntryProperties() { 
-        /*
-        if(!this.navigation.selectedEntity?.[0]) {
-            return;
-        }
-        this.ldapWindows.openEntityProperiesModal(this.navigation.selectedEntity[0]);*/
+        this.windows.openEntityProperiesModal(this._selectedRows[0]).pipe(take(1)).subscribe(x => {
+            this.view?.updateContent()
+        })
     }
 
     showChangePassword() {
-        /*if(!this.navigation.selectedEntity?.[0]) {
-            return;
-        }
-        this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);*/
+        //this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);
     }
+
+    openCreateUser() {}
+    openCreateGroup() {}
+    openCreateOu() {}
 
     pageChanged(page: Page) {
         //this.navigation.setPage(page);
@@ -161,9 +141,11 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showContextMenu(event: RightClickEvent) {
+        this.contextMenu.showContextMenuOnNode(event.pointerEvent.x, event.pointerEvent.y, event.selected[0]);
+        /*
         this.contextMenuRef.setPosition(event.pointerEvent.x, event.pointerEvent.y);
-//        this.selectedRows = event.selected;
-        this.contextMenuRef.toggle();
+        this._selectedRows = event.selected;
+        this.contextMenuRef.toggle();*/
     }
 
     
@@ -175,5 +157,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             //this.navigation.setCatalog(null);
         }
     }
+
+
 }
 

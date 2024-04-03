@@ -41,6 +41,8 @@ export class TreeviewComponent implements OnInit {
         node.expanded = state;
         if(node.expanded) {
             return this.loadChildren(node);
+        } else {
+            node.children.forEach(x => this.setNodeExpanded(x, false));
         }
         return of(node.children ?? []);
     }
@@ -95,15 +97,7 @@ export class TreeviewComponent implements OnInit {
             this.cdr.detectChanges();
             return;
         }
-        
-        if(toSelect.selected) {
-            this.loadChildren(toSelect).pipe(take(1)).subscribe(x => {
-                toSelect!.children = x;
-                this.cdr.detectChanges();
-            })
-            return;
-        }
-
+ 
         // Search a tree for a toSelect rote path 
         TreeSearchHelper.traverseTree(this.tree, (n, path) => {
             n.selected = false; 
@@ -126,7 +120,10 @@ export class TreeviewComponent implements OnInit {
             this.cdr.detectChanges();
         })
     }
-
+    focus(node: Treenode) {
+        TreeSearchHelper.traverseTree(this.tree, (n, path) => { n.focused = false; });
+        node.focused = true;
+    }
     @HostListener('keydown', ['$event']) 
     handleKeyEvent(event: KeyboardEvent) {
         if(!this._focusedNode) {
