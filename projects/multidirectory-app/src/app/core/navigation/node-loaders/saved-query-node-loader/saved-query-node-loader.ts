@@ -9,7 +9,7 @@ export class SavedQueriesNodeLoader implements NodeLoader {
                 id: 'savedQueries',
                 name: 'Saved Queries',
                 selectable: true,
-                route: ['saved-queries'],
+                route: [''],
                 icon: 'assets/snippet_folder.svg'
                 //loadChildren: this.getChildren.bind(this)
             })

@@ -15,11 +15,13 @@ export class AppSettingsService {
         this.navigationalPanelVisibleRx.next(state);
     }
 
-    private _darkModeRx = new BehaviorSubject<boolean>(false);
+    private _darkMode: boolean= localStorage.getItem('dark-mode') == 'true';
+    private _darkModeRx = new BehaviorSubject<boolean>(this._darkMode);
     get darkModeRx() {
         return this._darkModeRx.asObservable();
     }
     setDarkMode(state: boolean) {
+        localStorage.setItem('dark-mode', state ? 'true' : 'false');
         this._darkModeRx.next(state);
     }
 
@@ -48,7 +50,6 @@ export class AppSettingsService {
         localStorage.setItem('locale', lang);
         this.translocoService.setActiveLang(lang);
     }
-
     private _languageRx = new Subject<string>();
     get languageRx(): Observable<string> {
         return this._languageRx.asObservable();
