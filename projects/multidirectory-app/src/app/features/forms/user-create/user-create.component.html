@@ -4,26 +4,23 @@
 <div>
     <div class="flex-row align-center flex-gap-10">
         <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
-        <div class="place">{{ "user-create.add-to" | transloco}} {{ catalog?.name }}</div>
+        <div class="place">{{ "user-create.add-to" | transloco}} {{ parentDn }}</div>
     </div>  
     <hr />
     <md-stepper #createUserStepper (onFinish)="onFinish()">
         <ng-template mdStep>
             <app-user-create-general-info 
-                [setupRequest]="setupRequest"
-                [selectedNode]="catalog">
+                [setupRequest]="setupRequest">
             </app-user-create-general-info>
         </ng-template>
         <ng-template mdStep>
             <app-user-create-password-settings
-                [setupRequest]="setupRequest"
-                [selectedNode]="catalog">
+                [setupRequest]="setupRequest">
             </app-user-create-password-settings>
         </ng-template>
         <ng-template mdStep>
             <app-user-create-summary
-                [setupRequest]="setupRequest"
-                [selectedNode]="catalog">
+                [setupRequest]="setupRequest">
             </app-user-create-summary>
         </ng-template>
     </md-stepper>

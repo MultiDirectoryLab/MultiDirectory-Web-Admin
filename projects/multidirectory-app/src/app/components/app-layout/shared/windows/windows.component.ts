@@ -82,7 +82,7 @@ export class WindowsComponent implements AfterViewInit {
         this.createUserModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
             take(1)
         ).subscribe(x => {
-            this.ldapWindows.closeCreateGroup(parentDn);
+            this.ldapWindows.closeCreateUser(parentDn);
         });
     }
 
