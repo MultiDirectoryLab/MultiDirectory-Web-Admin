@@ -42,7 +42,7 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
             return;
         }
         this.windows.openEntityProperiesModal(this.entry).pipe(take(1)).subscribe(x => {
-            alert('2');
+            this.windows.closeEntityPropertiesModal(x);
         })
     }
     showChangePassword() {}
