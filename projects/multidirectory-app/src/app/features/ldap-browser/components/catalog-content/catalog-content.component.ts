@@ -14,6 +14,7 @@ import { BaseViewComponent, RightClickEvent } from "./views/base-view.component"
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
 import { ContextMenuService } from "projects/multidirectory-app/src/app/services/contextmenu.service";
+import { ActivatedRoute } from "@angular/router";
  
 @Component({
     selector: 'app-catalog-content',
@@ -23,12 +24,11 @@ import { ContextMenuService } from "projects/multidirectory-app/src/app/services
 export class CatalogContentComponent implements OnInit, OnDestroy {      
     @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
     @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-
+    private _selectedRows: LdapEntryNode[] = [];
     unsubscribe = new Subject<void>();
     LdapEntryType = LdapEntryType;
     ViewMode = ViewMode;
     currentView = this.contentView.contentView;
-    private _selectedRows: LdapEntryNode[] = [];
 
     constructor(
         private navigation: AppNavigationService,
@@ -36,20 +36,21 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private contentView: ContentViewService,
         private windows: AppWindowsService,
         private contextMenu: ContextMenuService,
-        private hotkeysService: HotkeysService) {
+        private hotkeysService: HotkeysService,
+        private activatedRoute: ActivatedRoute) {
         }
 
     ngOnInit(): void {
         this.hotkeysService.add(new Hotkey('ctrl+a', (event: KeyboardEvent): boolean => {
-            this.windows.openCreateUser();
+            this.openCreateUser();
             return false;
         }, undefined, translate('hotkeys.create-user')));
         this.hotkeysService.add(new Hotkey('ctrl+g', (event: KeyboardEvent): boolean => {
-            this.windows.openCreateGroup();
+            this.openCreateGroup();
             return false;
         }, undefined, translate('hotkeys.create-group')));
         this.hotkeysService.add(new Hotkey('ctrl+u', (event: KeyboardEvent): boolean => {
-            this.windows.openCreateOu();
+            this.openCreateOu()
             return false;
         }, undefined, translate('hotkeys.create-ou')));
         this.hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
@@ -62,41 +63,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
                 this.view?.updateContent();
                 this.cdr.detectChanges();
             });
-        /*
-        this.navigation.selectedCatalogRx.pipe(
-            takeUntil(this.unsubscribe),
-            switchMap((catalog) => {
-               // this.selectedCatalog = catalog;
-                if(!this.selectedCatalog) {
-                    this.cdr.detectChanges();
-                    return EMPTY;
-                }
-                this.selectedRows = this.navigation.selectedEntity ? this.navigation.selectedEntity : [];
-                return this.navigation.getContent(this.selectedCatalog, this.navigation.page);
-            }),
-        ).subscribe(x => {
-            this.rows = x;
-            if(this.view) {
-                this.view.selectedCatalog = this.selectedCatalog; 
-            }
-            this.view?.setContent(this.rows, this.selectedRows);
-            this.cdr.detectChanges();
-        });
-
-        this.navigation.pageRx.pipe(
-            takeUntil(this.unsubscribe),
-            switchMap((page) => {
-                if(!this.selectedCatalog) {
-                    return EMPTY;
-                }
-                return this.navigation.getContent(this.selectedCatalog, page);
-            })).subscribe(x => {
-                this.rows = x;
-                this.view!.selectedCatalog = this.selectedCatalog; 
-                this.view?.setContent(this.rows, this.selectedRows);
-                this.cdr.detectChanges();
-            });
-*/
+     
         this.contentView.contentViewRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {
@@ -131,33 +98,29 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         //this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);
     }
 
-    openCreateUser() {}
-    openCreateGroup() {}
-    openCreateOu() {}
+    openCreateUser() {
+        const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+        this.windows.openCreateUser(dn).pipe(take(1)).subscribe(x => {
+            this.view?.updateContent();
+        })
+    }
+    
+    openCreateGroup() {
+        const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+        this.windows.openCreateGroup(dn).pipe(take(1)).subscribe(x => {
+            this.view?.updateContent();
+        })
+    }
 
-    pageChanged(page: Page) {
-        //this.navigation.setPage(page);
-        this.cdr.detectChanges();
+    openCreateOu() {
+        const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+        this.windows.openCreateOu(dn).pipe(take(1)).subscribe(x => {
+            this.navigation.reload()
+        })
     }
 
     showContextMenu(event: RightClickEvent) {
         this.contextMenu.showContextMenuOnNode(event.pointerEvent.x, event.pointerEvent.y, event.selected[0]);
-        /*
-        this.contextMenuRef.setPosition(event.pointerEvent.x, event.pointerEvent.y);
-        this._selectedRows = event.selected;
-        this.contextMenuRef.toggle();*/
     }
-
-    
-    @HostListener('keydown', ['$event']) 
-    handleKeyEvent(event: KeyboardEvent) {
-        if(event.key == 'Escape') {
-            event.stopPropagation();
-            event.preventDefault();
-            //this.navigation.setCatalog(null);
-        }
-    }
-
-
 }
 

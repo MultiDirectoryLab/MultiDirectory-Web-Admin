@@ -12,21 +12,13 @@ import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
     styleUrls: ['./ou-create.component.scss']
 })
 export class OuCreateComponent implements AfterViewInit, OnDestroy {
-    selectedNode: LdapEntryNode | null = null;
     @Output() onCreate = new EventEmitter<void>();
     @ViewChild('form') form!: MdFormComponent;
-
-    _setupRequest = '';
-    description = ''
-    @Input() set setupRequest(request: string) {
-        this._setupRequest = request;
-        this.form?.inputs.forEach(x => x.reset());
-    }
-    get setupRequest(): string {
-        return this._setupRequest;
-    }
-    unsubscribe = new Subject<void>();
+    private _unsubscribe = new Subject<void>();
     formValid = false;
+    parentDn = '';
+    description = ''
+    ouName = '';
 
     constructor(
         private api: MultidirectoryApiService,
@@ -37,24 +29,23 @@ export class OuCreateComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.formValid = this.form.valid;
         this.form.onValidChanges.pipe(
-            takeUntil(this.unsubscribe)
+            takeUntil(this._unsubscribe)
         ).subscribe(x => {
             this.formValid = x;
         });
-        //this.selectedNode = this.navigation.selectedCatalog;
+        this.parentDn = this.modalInejctor.contentOptions?.['parentDn'] ?? '';
     }
 
     ngOnDestroy(): void {
-        this.setupRequest = '';
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
+        this._unsubscribe.next();
+        this._unsubscribe.complete();
     }
 
     onFinish(event: MouseEvent) {
         event.stopPropagation();
         event.preventDefault();
         this.api.create(new CreateEntryRequest({
-            entry: `cn=${this.setupRequest},` + this.selectedNode?.id,
+            entry: `ou=${this.ouName},` + this.parentDn,
             attributes: [
                 new PartialAttribute({
                     type: 'objectClass',
