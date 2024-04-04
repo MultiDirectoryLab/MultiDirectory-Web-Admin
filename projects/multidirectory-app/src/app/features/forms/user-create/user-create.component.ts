@@ -16,12 +16,13 @@ import { translate } from "@ngneat/transloco";
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements AfterViewInit, OnDestroy {
-  catalog: LdapEntryNode | null = null;
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
   unsubscribe = new Subject<void>();
   formValid = false;
+  parentDn = '';
+
   constructor(
     private setup: UserCreateService, 
     private api: MultidirectoryApiService,
@@ -31,82 +32,82 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
       this.setup.onStepValid.pipe(
         takeUntil(this.unsubscribe)
-      ).subscribe(x => {
+        ).subscribe(x => {
           this.formValid = x;
       });
-
+        
       if(this.modalControl) {
         this.modalControl.modal?.resize();
       }
+      this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
     }
       
-      ngOnDestroy(): void {
-        this.setupRequest = new UserCreateRequest();
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
-      }
+    ngOnDestroy(): void {
+      this.unsubscribe.next();
+      this.unsubscribe.complete();
+    }
       
-      
-      onFinish() {
-        this.modalControl.modal?.showSpinner();
-        this.api.create(new CreateEntryRequest({
-          entry: `cn=${this.setupRequest.upnLogin},` + this.catalog?.id,
-          attributes: [new PartialAttribute({
-            type: 'objectClass',
-            vals: ['user',
-            'top', 'person', 'organizationalPerson', 'posixAccount', 'shadowAccount'
-          ]
-        }),
-        new PartialAttribute({
-          type: 'mail',
-          vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
-        }),
-        new PartialAttribute({
-          type: 'description',
-          vals: [this.setupRequest.description]
-        }),
-        new PartialAttribute({
-          type: 'sAMAccountName',
-          vals: [this.setupRequest.upnLogin]
-        }),
-        new PartialAttribute({
-          type: 'userPrincipalName',
-          vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
-        }),
-        new PartialAttribute({
-          type: 'displayName',
-          vals: [this.setupRequest.fullName]
-        }),
-        new PartialAttribute({
-          type: 'givenName',
-          vals: [this.setupRequest.firstName]
-        }),
-        new PartialAttribute({
-          type: 'initials',
-          vals: [this.setupRequest.initials]
-        }),
-        new PartialAttribute({
-          type: 'surname',
-          vals: [this.setupRequest.lastName]
-        }),
-      ],
-      password: this.setupRequest.password
-    }))
-    .pipe(catchError(err => {
-      this.modalControl.modal?.hideSpinner();
-      this.toastr.error(translate('user-create.unable-create-user'));
-      return EMPTY;
-    }))
-    .subscribe(x => {
-      this.modalControl.modal?.hideSpinner();
-      this.modalControl?.close(x);
-    });
+    onFinish() {
+      this.modalControl.modal?.showSpinner();
+      this.api.create(new CreateEntryRequest({
+          entry: `cn=${this.setupRequest.upnLogin},` + this.parentDn,
+          attributes: [
+            new PartialAttribute({
+                type: 'objectClass',
+                vals: ['user',
+                'top', 'person', 'organizationalPerson', 'posixAccount', 'shadowAccount'
+              ]
+            }),
+            new PartialAttribute({
+              type: 'mail',
+              vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
+            }),
+            new PartialAttribute({
+              type: 'description',
+              vals: [this.setupRequest.description]
+            }),
+            new PartialAttribute({
+              type: 'sAMAccountName',
+              vals: [this.setupRequest.upnLogin]
+            }),
+            new PartialAttribute({
+              type: 'userPrincipalName',
+              vals: [this.setupRequest.upnLogin  + '@' + this.setupRequest.upnDomain]
+            }),
+            new PartialAttribute({
+              type: 'displayName',
+              vals: [this.setupRequest.fullName]
+            }),
+            new PartialAttribute({
+              type: 'givenName',
+              vals: [this.setupRequest.firstName]
+            }),
+            new PartialAttribute({
+              type: 'initials',
+              vals: [this.setupRequest.initials]
+            }),
+            new PartialAttribute({
+              type: 'surname',
+              vals: [this.setupRequest.lastName]
+            }),
+          ],
+          password: this.setupRequest.password
+        }))
+        .pipe(catchError(err => {
+          this.modalControl.modal?.hideSpinner();
+          this.toastr.error(translate('user-create.unable-create-user'));
+          return EMPTY;
+        }))
+        .subscribe(x => {
+          this.modalControl.modal?.hideSpinner();
+          this.modalControl?.close(x);
+        });
   }
   
   onClose(): void {
     this.modalControl?.close(null);
   }
-
+  
   nextStep() {
     if(!this.formValid) {
       this.setup.invalidate();
