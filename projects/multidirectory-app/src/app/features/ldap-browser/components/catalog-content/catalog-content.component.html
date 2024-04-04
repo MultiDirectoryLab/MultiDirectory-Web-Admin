@@ -32,13 +32,11 @@
     <ng-container [ngSwitch]="currentView">
         <app-table-view
             *ngSwitchCase="ViewMode.Table"
-            (pageChanged)="pageChanged($event)"
             (onRightClick)="showContextMenu($event)"
         ></app-table-view>
         <app-icon-view
             *ngSwitchCase="ViewMode.SmallIcons"
             (onRightClick)="showContextMenu($event)"
-            (pageChanged)="pageChanged($event)"
         ></app-icon-view>
         <app-icon-view
             [big]="true"

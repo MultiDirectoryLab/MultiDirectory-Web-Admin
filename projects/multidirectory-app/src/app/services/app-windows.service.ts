@@ -53,27 +53,53 @@ export class AppWindowsService {
     }
 
 
-    private _showCreateOuMenuRx = new Subject<LdapEntryNode>();
-    get showCreateOuMenuRx(): Observable<LdapEntryNode> {
+    private _showCreateOuMenuRx = new Subject<string>();
+    private _closeCreateOuMenuRx = new Subject<string>();
+    get showCreateOuMenuRx(): Observable<string> {
         return this._showCreateOuMenuRx.asObservable();
     }
-    openCreateOu() {
-        //throw new Error("Method not implemented.");
+    get closeCreateOuMenuRx(): Observable<string> {
+        return this._closeCreateOuMenuRx.asObservable();
+    }
+    openCreateOu(parentDn: string) {
+        this._showCreateOuMenuRx.next(parentDn);
+        return this.closeCreateOuMenuRx;
+    }
+    closeCreateOu(parentDn: string) {
+        return this._closeCreateOuMenuRx.next(parentDn);
     }
 
-    private _showCreateGroupOuRx = new Subject<LdapEntryNode>();
-    get showCreateGroupMenuRx(): Observable<LdapEntryNode> {
-        return this._showCreateGroupOuRx.asObservable();
+
+    private _showCreateUserMenuRx = new Subject<string>();
+    private _closeCreateUserMenuRx = new Subject<string>();
+    get showCreateUserMenuRx(): Observable<string> {
+        return this._showCreateUserMenuRx.asObservable();
     }
-    openCreateGroup() {
-        throw new Error("Method not implemented.");
+    get closeCreateUserMenuRx(): Observable<string> {
+        return this._closeCreateUserMenuRx.asObservable();
+    }
+    openCreateUser(parentDn: string) {
+        this._showCreateUserMenuRx.next(parentDn);
+        return this.closeCreateUserMenuRx;
+    }
+    closeCreateUser(parentDn: string) {
+        return this._closeCreateUserMenuRx.next(parentDn);
     }
 
-    private _showCreateUserRx = new Subject<LdapEntryNode>();
-    get showCreateUserRx(): Observable<LdapEntryNode> {
-        return this._showCreateUserRx.asObservable();
+    
+    private _showCreateGroupMenuRx = new Subject<string>();
+    private _closeCreateGroupMenuRx = new Subject<string>();
+    get showCreateGroupMenuRx(): Observable<string> {
+        return this._showCreateGroupMenuRx.asObservable();
     }
-    openCreateUser() {
-        throw new Error("Method not implemented.");
+    get closeCreateGroupMenuRx(): Observable<string> {
+        return this._closeCreateGroupMenuRx.asObservable();
+    }
+    openCreateGroup(parentDn: string) {
+        this._showCreateGroupMenuRx.next(parentDn);
+        return this.closeCreateGroupMenuRx;
+    }
+    closeCreateGroup(parentDn: string) {
+        return this._closeCreateGroupMenuRx.next(parentDn);
     }
 }

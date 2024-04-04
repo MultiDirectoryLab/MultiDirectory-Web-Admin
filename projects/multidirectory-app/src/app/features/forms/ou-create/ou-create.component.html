@@ -3,14 +3,14 @@
 </div>
 <div class="flex-row align-center flex-gap-10">
     <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img"/></div>
-    <div class="place">{{ 'ou-create.header' | transloco }} {{selectedNode?.name ?? ''}}</div>
+    <div class="place">{{ 'ou-create.header' | transloco }} {{this.parentDn}}</div>
 </div>  
 <hr />
 <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px;">
     <md-form #form>
         <div class="flex-column align-start justify-end flex-gap-10" >
                 <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
-                <md-textbox appRequired  [(ngModel)]="_setupRequest" name="ouname"></md-textbox>
+                <md-textbox appRequired  [(ngModel)]="ouName" name="ouname"></md-textbox>
         </div>
         <div class="flex-column align-start flex-space-between flex-gap-10">
             <label for="description">{{ 'ou-create.description' | transloco }}</label>

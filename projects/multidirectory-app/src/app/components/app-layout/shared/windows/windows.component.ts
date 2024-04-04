@@ -11,9 +11,9 @@ import { ModalInjectDirective } from "ng-modal-full-resizable/lib/injectable/inj
     templateUrl: './windows.component.html'
 })
 export class WindowsComponent implements AfterViewInit {
-    @ViewChild('createUserModal', { static: true}) createUserModal?: ModalInjectDirective;
-    @ViewChild('createGroupModal', { static: true}) createGroupModal?: ModalInjectDirective;
-    @ViewChild('createOuModal', { static: true}) createOuModal?: ModalInjectDirective;
+    @ViewChild('createUserModal', { static: true}) createUserModal!: ModalInjectDirective;
+    @ViewChild('createGroupModal', { static: true}) createGroupModal!: ModalInjectDirective;
+    @ViewChild('createOuModal', { static: true}) createOuModal!: ModalInjectDirective;
     @ViewChild('properties') properties!: ModalInjectDirective;
     @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective
     private unsubscribe = new Subject<void>();
@@ -34,12 +34,23 @@ export class WindowsComponent implements AfterViewInit {
             this.openChangePassword(x);
         });
 
+        this.ldapWindows.showCreateUserMenuRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(parentDn => {
+            this.openCreateUser(parentDn);
+        });
 
         this.ldapWindows.showCreateGroupMenuRx.pipe(
             takeUntil(this.unsubscribe)
-        ).subscribe(x => {
-            this.openCreateGroup();
-        })
+        ).subscribe(parentDn => {
+            this.openCreateGroup(parentDn);
+        });
+
+        this.ldapWindows.showCreateOuMenuRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(parentDn => {
+            this.openCreateOu(parentDn);
+        });
     }
     
     openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
@@ -67,21 +78,27 @@ export class WindowsComponent implements AfterViewInit {
         });
     }
 
-    openCreateUser() {
-        this.createUserModal?.open({ 'width': '600px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            //this.loadData();
+    openCreateUser(parentDn: string) {
+        this.createUserModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
+            take(1)
+        ).subscribe(x => {
+            this.ldapWindows.closeCreateGroup(parentDn);
         });
     }
 
-    openCreateGroup() {
-        this.createGroupModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(() => {
-            //this.loadData();
+    openCreateGroup(parentDn: string) {
+        this.createGroupModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
+            take(1)
+        ).subscribe(x => {
+            this.ldapWindows.closeCreateGroup(parentDn);
         });
     }
 
-    openCreateOu() {
-        this.createOuModal?.open({ 'width': '580px', 'minHeight': 485 }).pipe(take(1)).subscribe(x => {
-            //this.loadData();
+    openCreateOu(parentDn: string) {
+        this.createOuModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
+            take(1)
+        ).subscribe(x => {
+            this.ldapWindows.closeCreateOu(parentDn);
         });
     }
 

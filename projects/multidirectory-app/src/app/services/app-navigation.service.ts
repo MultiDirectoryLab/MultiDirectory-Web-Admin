@@ -1,14 +1,17 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Params, Router, Scroll } from "@angular/router";
+import { ActivatedRoute, Navigation, NavigationEnd, Params, Router, Scroll } from "@angular/router";
 import { Treenode } from "multidirectory-ui-kit";
-import { Observable, combineLatest, debounce, debounceTime, filter, lastValueFrom, map, merge, of, startWith, take, tap, zip } from "rxjs";
+import { Observable, combineLatest, debounce, debounceTime, filter, lastValueFrom, map, merge, of, skipUntil, skipWhile, startWith, take, tap, zip } from "rxjs";
 import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { NavigationNode } from "../core/navigation/navigation-node";
 import { NavigationRoot } from "../core/navigation/navigation-entry-point";
 import { LdapNamesHelper } from "../core/ldap/ldap-names-helper";
 import { LdapEntryLoader } from "../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-
-export type NavigationEvent = [NavigationNode[], NavigationEnd, Params]
+export interface NavigationEventWrapper {
+    event: NavigationEnd;
+    navigation: Navigation | null;
+}
+export type NavigationEvent = [NavigationNode[], NavigationEventWrapper]
 
 @Injectable({
     providedIn: 'root'
@@ -16,19 +19,22 @@ export type NavigationEvent = [NavigationNode[], NavigationEnd, Params]
 export class AppNavigationService {
     private get _navigationEndRx() {
         return this.router.events.pipe(
-            filter((event): event is Scroll => event instanceof Scroll),
-            filter((event): event is Scroll => event.routerEvent instanceof NavigationEnd),
-            map(event => event.routerEvent as NavigationEnd),
-            startWith(new NavigationEnd(0, '' , ''))
+            filter(x => x instanceof NavigationEnd),
+            map(event => <NavigationEventWrapper>{
+                    event: event,
+                    navigation: this.router.getCurrentNavigation()
+                }),
+            startWith(<NavigationEventWrapper>{
+                event: { 
+                    id: 0,
+                    url: this.router.routerState.snapshot.url
+                }
+            })
         );
     }
 
-    private get _queryRx() {
-        return  this.activatedRoute.queryParams.pipe(startWith({}));
-    }
-
     get navigationRx(): Observable<NavigationEvent> {
-        return combineLatest<NavigationEvent>([this.navigationRoot.nodes, this._navigationEndRx, this._queryRx]).pipe(debounceTime(50))
+        return combineLatest<NavigationEvent>([this.navigationRoot.nodes,this._navigationEndRx]);
     }
     
     constructor(
@@ -49,7 +55,13 @@ export class AppNavigationService {
     }
     
     reload() {
-        this.router.navigate([], {onSameUrlNavigation: 'reload'});
+        this.router.navigate([], {
+            onSameUrlNavigation: 'reload',
+            queryParams: this.activatedRoute.snapshot.queryParams,
+            state: {
+                'reloadSelection': true
+            }
+        });
     }
 
     async goTo(dn: string, rootDse: LdapEntryNode[] = []): Promise<LdapEntryNode | undefined> {

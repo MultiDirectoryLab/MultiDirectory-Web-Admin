@@ -17,19 +17,9 @@ import { translate } from "@ngneat/transloco";
 export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
     private _unsubscribe = new Subject<boolean>();
-    private _setupRequest = new GroupCreateRequest();
-    selectedNode: LdapEntryNode | null = null;
+    setupRequest = new GroupCreateRequest()
     formValid: boolean = false;
-
-
-    @Input() set setupRequest(request: GroupCreateRequest) {
-        this._setupRequest = request;
-        this._form?.inputs.forEach(x => x.reset());
-        this.cdr.detectChanges();
-    }
-    get setupRequest(): GroupCreateRequest {
-        return this._setupRequest;
-    }
+    parentDn = '';
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -43,12 +33,12 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         ).subscribe(x => {
             this.formValid = x;
         });
+        this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
     }
 
     ngOnDestroy(): void {
         this._unsubscribe.next(true);
         this._unsubscribe.complete()
-        this.setupRequest = new GroupCreateRequest();
     }
 
 
@@ -67,7 +57,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
         }
         this.modalControl?.modal?.showSpinner();
         this.api.create(new CreateEntryRequest({
-            entry: `cn=${this.setupRequest.groupName},` + this.selectedNode?.id,
+            entry: `cn=${this.setupRequest.groupName},` + this.parentDn,
             attributes: [
                 new PartialAttribute({
                     type: 'objectClass',
