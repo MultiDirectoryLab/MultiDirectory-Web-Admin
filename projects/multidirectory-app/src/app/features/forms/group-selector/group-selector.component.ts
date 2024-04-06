@@ -9,6 +9,7 @@ import { MultidirectoryApiService } from "../../../services/multidirectory-api.s
 import { SearchQueries } from "../../../core/ldap/search";
 import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model";
 import { Constants } from "../../../core/constants";
+import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 
 @Component({
     selector: 'app-group-selector',
@@ -26,12 +27,14 @@ export class GroupSelectorComponent implements OnInit {
     name = '';
     availableGroups: MultiselectModel[] = [];
     result = new Subject<MultiselectModel[] | null>();
-    constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef) {}
+    constructor(private api: MultidirectoryApiService, private cdr: ChangeDetectorRef, private ldapLoader: LdapEntryLoader) {}
     ngOnInit(): void {
         this.entityTypes = ENTITY_TYPES;
         this.entityTypeDisplay = ENTITY_TYPES.map(x => x.name).join(' ИЛИ ');
-        //const root = this.navigation.getRootDse();
-        //this.selectedCatalogDn = root[0].node?.id ?? '';
+        this.ldapLoader.get().pipe(take(1)).subscribe(x => {
+            const root = x;
+            this.selectedCatalogDn = root[0].id ?? '';
+        });
     }
 
     open(): Subject<MultiselectModel[] | null> {

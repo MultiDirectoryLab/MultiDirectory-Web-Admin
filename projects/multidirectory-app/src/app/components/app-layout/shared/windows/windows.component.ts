@@ -14,6 +14,7 @@ export class WindowsComponent implements AfterViewInit {
     @ViewChild('createUserModal', { static: true}) createUserModal!: ModalInjectDirective;
     @ViewChild('createGroupModal', { static: true}) createGroupModal!: ModalInjectDirective;
     @ViewChild('createOuModal', { static: true}) createOuModal!: ModalInjectDirective;
+    @ViewChild('createComputerModal', { static: true}) createComputerModal!: ModalInjectDirective;
     @ViewChild('properties') properties!: ModalInjectDirective;
     @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective
     private unsubscribe = new Subject<void>();
@@ -50,6 +51,12 @@ export class WindowsComponent implements AfterViewInit {
             takeUntil(this.unsubscribe)
         ).subscribe(parentDn => {
             this.openCreateOu(parentDn);
+        });
+
+        this.ldapWindows.showCreateComputerMenuRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(parentDn => {
+            this.openCreateComputer(parentDn);
         });
     }
     
@@ -99,6 +106,14 @@ export class WindowsComponent implements AfterViewInit {
             take(1)
         ).subscribe(x => {
             this.ldapWindows.closeCreateOu(parentDn);
+        });
+    }
+
+    openCreateComputer(parentDn: string) {
+        this.createComputerModal.open({ 'width': '580px', 'minHeight': 525 }, { 'parentDn': parentDn }).pipe(
+            take(1)
+        ).subscribe(x => {
+            this.ldapWindows.closeCreateComputer(parentDn);
         });
     }
 

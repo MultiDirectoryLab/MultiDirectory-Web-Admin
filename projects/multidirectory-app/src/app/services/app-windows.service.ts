@@ -102,4 +102,21 @@ export class AppWindowsService {
     closeCreateGroup(parentDn: string) {
         return this._closeCreateGroupMenuRx.next(parentDn);
     }
+
+
+    private _showCreateComputerMenuRx = new Subject<string>();
+    private _closeCreateComputerMenuRx = new Subject<string>();
+    get showCreateComputerMenuRx(): Observable<string> {
+        return this._showCreateComputerMenuRx.asObservable();
+    }
+    get closeCreateComputerMenuRx(): Observable<string> {
+        return this._closeCreateComputerMenuRx.asObservable();
+    }
+    openCreateComputer(parentDn: string) {
+        this._showCreateComputerMenuRx.next(parentDn);
+        return this.closeCreateComputerMenuRx;
+    }
+    closeCreateComputer(parentDn: string) {
+        return this._closeCreateOuMenuRx.next(parentDn);
+    }
 }

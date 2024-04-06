@@ -3,6 +3,7 @@ import BitSet from "bitset";
 import { DropdownOption, ModalInjectDirective } from "multidirectory-ui-kit";
 import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
 import { UserAccountControlFlag } from "projects/multidirectory-app/src/app/core/ldap/user-account-control-flags";
+import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
 import { take, tap } from "rxjs";
 
@@ -36,7 +37,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
         this.accessor['userAccountControl'] = [ this.uacBitSet?.toString(10) ];
     }
 
-    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef) {
+    constructor(private attributes: AttributeService, private cdr: ChangeDetectorRef, private nodeLoader: LdapEntryLoader) {
     }
 
     ngAfterViewInit(): void {
@@ -57,11 +58,14 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
         ).subscribe(() => {
             this.cdr.detectChanges();
         });
-        this.domains = []/*this.navigation.getRootDse().map(x => new DropdownOption({
-            title: x.node?.name,
-            value: x.node?.name
-        }));*/
-        this.upnDomain = this.domains?.[0]?.value;
+        
+        this.nodeLoader.get().pipe(take(1)).subscribe(domains => {
+            this.domains = domains.map(x => new DropdownOption({
+                title: x.name,
+                value: x.id
+            }));
+            this.upnDomain = this.domains?.[0]?.value;
+        });
     }
 
     @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;

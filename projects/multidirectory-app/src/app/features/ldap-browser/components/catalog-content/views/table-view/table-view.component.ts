@@ -23,9 +23,12 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
     @ViewChild('grid', { static: true }) grid!: DatagridComponent;
     @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+    private _dn = '';
+    page = new Page();
     columns: TableColumn[] = [];
     rows: TableRow[] = [];
     unsubscribe = new Subject<void>();
+    
     pageSizes: DropdownOption[] = [
         { title: '15', value: 15 },
         { title: '20', value: 20 },
@@ -43,8 +46,11 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         super();
     }
 
-    override ngOnInit(): void {
-        super.ngOnInit();
+    ngOnInit(): void {
+        const pageSize = localStorage.getItem('gridSize_table-view');
+        if(pageSize && !isNaN(parseFloat(pageSize))) {
+            this.page.size = Math.floor(parseFloat(pageSize));
+        }
         this.columns = [
             { name: translate("table-view.name-column"), cellTemplate: this.iconColumn, flexGrow: 1 },
             { name: translate("table-view.type-column"), prop: 'type', flexGrow: 1 },
@@ -59,7 +65,16 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
     }
 
+    onPageChanged(event: Page) {
+        this.page = event;
+        this.updateContent();
+    }
+    
     updateContentInner(dn: string) {
+        if(dn !== this._dn) {
+            this.page.pageNumber = 1;
+            this._dn = dn;
+        }
         this.ldapLoader.getContent(dn).pipe(
             take(1)
         ).subscribe(rows => {
@@ -70,7 +85,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
                 entry: node,
                 description: node.entry ? EntityInfoResolver.getNodeDescription(node) : ''
             });
-            this.grid.totalElements = this.rows.length;
+            this.grid.page.totalElements = this.rows.length;
+            this.rows = this.rows.slice(this.page.pageOffset * this.page.size, this.page.pageOffset * this.page.size + this.page.size);
             this.cdr.detectChanges();
         })
     }

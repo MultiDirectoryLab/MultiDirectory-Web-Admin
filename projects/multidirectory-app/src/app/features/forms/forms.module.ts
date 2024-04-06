@@ -13,6 +13,7 @@ import { ValidatorsModule } from "../../core/validators/validators.module";
 import { UserCreateSummaryComponent } from "./user-create/summary/summary.component";
 import { UserCreatePasswordSettingsComponent } from "./user-create/password-settings/password-settings.component";
 import { UserCreateGeneralInfoComponent } from "./user-create/general-info/general-info.component";
+import { ComputerCreateComponent } from "./computer-create/computer-create.component";
 
 @NgModule({
     declarations: [
@@ -22,12 +23,14 @@ import { UserCreateGeneralInfoComponent } from "./user-create/general-info/gener
         UserCreateSummaryComponent,
         UserCreatePasswordSettingsComponent,
         UserCreateGeneralInfoComponent,
+        ComputerCreateComponent
     ],
     exports: [
         GroupCreateComponent,
         OuCreateComponent,
         UserCreateComponent,
-        GroupSelectorModule
+        GroupSelectorModule,
+        ComputerCreateComponent
     ],
     imports: [
         CatalogSelectorModule,
