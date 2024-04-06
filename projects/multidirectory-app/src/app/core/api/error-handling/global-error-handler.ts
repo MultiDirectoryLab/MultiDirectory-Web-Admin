@@ -23,7 +23,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         }
         this.toastr.error(
             error?.statusText ?? error?.message ?? translate("errors.unknown-error"), 
-            translate("errors.unknown-error"), 
+            '', 
             { onActivateTick: true }
         );
     }

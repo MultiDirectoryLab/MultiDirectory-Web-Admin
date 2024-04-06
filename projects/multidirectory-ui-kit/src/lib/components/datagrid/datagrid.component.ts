@@ -69,19 +69,6 @@ export class DatagridComponent implements AfterViewInit {
          return this.page.size;
      }
 
-     set pageNumber(number: number) {
-        this.page.pageNumber = number;
-     }
-     get pageNumber(): number {
-        return this.page.pageNumber;
-     }
-     set totalElements(number: number) {
-        this.page.totalElements = number;
-     }
-     get totalElements(): number {
-        return this.page.totalElements;
-     }
-
     SelectionType = SelectionType;
     @Input() pageSizes: DropdownOption[] = [ 
         { title: '5', value: 5 },

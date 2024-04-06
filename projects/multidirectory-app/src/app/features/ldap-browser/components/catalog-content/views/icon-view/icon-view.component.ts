@@ -28,6 +28,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     @ViewChild('pager') pager!: PagerComponent;
     items: LdapEntryNode[] = [];
     alignItems = true;
+    page = new Page();
+    
     constructor(
         public toast: ToastrService,
         private cdr: ChangeDetectorRef,
@@ -56,6 +58,10 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
         this.items.forEach(i => i.selected = false);
         selected.filter(i => !!i).forEach(i => i.selected = true);
         this.cdr.detectChanges();
+    }
+
+    onPageChanged(page: Page) {
+
     }
 
     resetItems() {

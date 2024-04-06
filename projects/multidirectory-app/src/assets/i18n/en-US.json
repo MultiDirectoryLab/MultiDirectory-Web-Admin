@@ -73,6 +73,19 @@
       "apply": "Save",
       "description": "Description"
     },
+    "computer-create": {
+      "modal-header": "New object - Computer",
+      "header": "Add to:",
+      "computername-label": "Computer name:",
+      "computernamelegacy-label": "Computer name (pre-Windows 2000):",
+      "account-description": "The following user or group can join this computer to a domain",
+      "user-or-group": "User or Group",
+      "change": "Change...",
+      "assigns-legacy-account": "Assign this computer account as a pre-Windows 2000 account",
+      "cancel": "Cancel",
+      "apply": "Save",
+      "description": "Description"
+    },
     "setup": {
       "setup-complete": "Setup has completed successfully",
       "back": "Back",
@@ -143,6 +156,7 @@
       "create-user": "Create a user",
       "create-group": "Create a group",
       "create-object": "Add object",
+      "create-computer": "Add a computer",
       "help": "Help",
       "group": "Group",
       "computer": "Computer",
@@ -396,6 +410,7 @@
       "domain-controller": "Domain controller",
       "user": "User",
       "security-group": "Security group",
+      "computer": "Computer",
       "organizational-unit": "Organizational Unit"
     },
     "properties-modal": {

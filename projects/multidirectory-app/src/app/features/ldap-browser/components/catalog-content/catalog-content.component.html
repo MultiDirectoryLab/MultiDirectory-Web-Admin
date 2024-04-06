@@ -27,6 +27,12 @@
             {{ "catalog-content.create-object" | transloco }}
         </span>
     </md-button>
+    <md-button (click)="openCreateComputer()">
+        <span class="flex-row flex-space-between flex-gap-10">
+            <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px;"/>
+            {{ "catalog-content.create-computer" | transloco }}
+        </span>
+    </md-button>
 </div>
 <div [ngStyle]="{ display: 'block' }" class="flex-column-expanded">
     <ng-container [ngSwitch]="currentView">

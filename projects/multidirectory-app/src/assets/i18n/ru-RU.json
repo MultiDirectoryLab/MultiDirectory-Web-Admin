@@ -73,6 +73,19 @@
         "apply": "Сохранить",
         "description": "Описание"
     },
+    "computer-create": {
+        "modal-header":"Новый объект - Компьютер",
+        "header": "Добавить в: ",
+        "computername-label": "Название компьютера",
+        "computernamelegacy-label": "Название компьютера (pre-Windows 2000):",
+        "account-description": "Нижеуказанный пользователь или группа могут присоединить этот компьютер к домену",
+        "user-or-group": "Пользователь или группа",
+        "change": "Изменить...",
+        "assign-legacy-account": "Назначить аккаунт этого компьютера как устаревший pre-Windows 2000",
+        "cancel": "Отменить",
+        "apply": "Сохранить",
+        "description": "Описание"
+    },
     "setup": {
         "setup-complete": "Настройка выполнена",
         "back": "Назад",
@@ -143,6 +156,7 @@
         "create-user": "Создать пользователя",
         "create-group": "Создать группу",
         "create-object": "Добавить объект",
+        "create-computer": "Добавить компьютер",
         "help": "Помощь",
         "group": "Группа",
         "computer": "Компьютер",
@@ -396,6 +410,7 @@
       "root": "Корень",
       "domain-controller": "Контроллер домена",
       "user": "Пользователь",
+      "computer": "Компьютер",
       "security-group": "Группа безопасности",
       "organizational-unit": "Организационная единица"
     },
