@@ -24,6 +24,8 @@ import { SetupMultifactorRequest } from "../models/multifactor/setup-multifactor
 import { GetMultifactorResponse } from "../models/multifactor/get-multifactor-response";
 import { ChangePasswordRequest } from "../models/user/change-password-request";
 import { PasswordPolicy } from "../core/password-policy/password-policy";
+import { PasswordPolicyGetResponse } from "../models/password-policy/password-policy-get-response";
+import { PasswordPolicyPutRequest } from "../models/password-policy/password-policy-put-request";
 
 @Injectable({
     providedIn: 'root'
@@ -108,20 +110,6 @@ export class MultidirectoryApiService {
             })));
     }
 
-
-    getPasswordPolicy(): Observable<PasswordPolicy[]> {
-        return this.httpClient.get<PolicyResponse[]>('policy')
-            .execute()
-            .pipe(map(response => response.map(policy => {
-                const accessPolicy = new PasswordPolicy({
-                    id: policy.id,
-                    name: policy.name,
-                });
-                accessPolicy.id = policy.id;
-                return accessPolicy;
-            })));
-    }
-
     saveAccessPolicy(client: AccessPolicy): Observable<boolean> {
         return this.httpClient.post<boolean>('policy', new PolicyCreateRequest(client)).execute();
     }
@@ -159,7 +147,29 @@ export class MultidirectoryApiService {
     getMultifactor(): Observable<GetMultifactorResponse> {
         return this.httpClient.post<GetMultifactorResponse>('multifactor/get').execute();
     }
+
     changePassword(request: ChangePasswordRequest): Observable<boolean> {
         return this.httpClient.patch<boolean>('auth/user/password', request).execute();
+    }
+
+    getPasswordPolicy(): Observable<PasswordPolicy> {
+        return this.httpClient.get<PasswordPolicyGetResponse>('password-policy')
+            .execute()
+            .pipe(map(policy => {
+                const passwordPolicy = new PasswordPolicy({
+                    id: 1,
+                    name: policy.name,
+                    enforcePasswordHistory: policy.password_history_length,
+                    minimumPasswordAge: policy.minimum_password_age_days,
+                    maximumPasswordAge: policy.maximum_password_age_days,
+                    minimumPasswordLength: policy.minimum_password_length,
+                    passwordMustMeetComplexityRequirements: policy.password_must_meet_complexity_requirements
+                });
+                return passwordPolicy;
+            }));
+    }
+
+    savePasswordPolicy(client: PasswordPolicy): Observable<boolean> {
+        return this.httpClient.put<boolean>('password-policy', new PasswordPolicyPutRequest(client)).execute();
     }
 }

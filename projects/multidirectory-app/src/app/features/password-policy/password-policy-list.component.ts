@@ -24,7 +24,7 @@ export class PasswordPolicyListComponent {
     ngOnInit(): void {
         this.windows.showSpinner();
         this.api.getPasswordPolicy().subscribe(x => {
-            this.clients = x;
+            this.clients = [x];
             this.windows.hideSpinner();
         });
     }
