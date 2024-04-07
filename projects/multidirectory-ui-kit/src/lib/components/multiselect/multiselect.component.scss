@@ -4,7 +4,7 @@
     display: flex;
     flex-flow: row nowrap;
     min-width: 32px;
-    border: 1px solid black;
+    border: 1px solid var(--md-black);
     border-radius: 5px;
     padding: 2px;
     .multiselect-badges {

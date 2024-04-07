@@ -74,7 +74,6 @@
         </div>
     </md-form>
     <div class="flex-row justify-end flex-gap-10">
-        <md-button (click)="close()">{{ "access-policy-create.cancel" | transloco }}</md-button>
         <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">{{ "access-policy-create.approve" | transloco }}</md-button>
     </div>
 </div>
