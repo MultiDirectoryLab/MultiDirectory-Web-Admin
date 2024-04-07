@@ -10,6 +10,8 @@ import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/sea
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
 import { Observable, map, take } from "rxjs";
 import { MultiselectModel } from "../access-policy-create/access-policy-create.component";
+import { ActivatedRoute } from "@angular/router";
+import { AppWindowsService } from "../../../services/app-windows.service";
 
 @Component({
     selector: 'app-access-policy-view',
@@ -37,27 +39,34 @@ export class AccessPolicyViewComponent {
     mfaGroupsQuery = '';
     availableMfaGroups: MultiselectModel[] = [];
 
-    constructor(private api: MultidirectoryApiService) {}
+    constructor(private api: MultidirectoryApiService, private activatedRoute: ActivatedRoute, private windows: AppWindowsService) {}
     ngOnInit(): void {
-    
-        //this.accessClient = this.modalControl.contentOptions!.accessPolicy;
+        this.windows.showSpinner();
+        this.api.getAccessPolicy().subscribe({
+            next: policies => {
+                this.windows.hideSpinner();
+                this.accessClient = policies.find(x => x.id == this.activatedRoute.snapshot.params.id) ?? new AccessPolicy();
+                this.ipAddresses = this.accessClient.ipRange.map((x: any) => x instanceof Object? x.start + '-' + x.end : x).join(', ');
+
+                this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
+                this.availableGroups = this.accessClient.groups.map(x => new MultiselectModel({
+                    selected: true,
+                    id: x,
+                    title: x,
+                    badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
+                }));
         
-        this.ipAddresses = this.accessClient.ipRange.map((x: any) => x instanceof Object? x.start + '-' + x.end : x).join(', ');
-
-        this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
-        this.availableGroups = this.accessClient.groups.map(x => new MultiselectModel({
-            selected: true,
-            id: x,
-            title: x,
-            badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
-        }));
-
-        this.availableMfaGroups = this.accessClient.mfaGroups.map(x => new MultiselectModel({
-            selected: true,
-            id: x,
-            title: x,
-            badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
-        }));
+                this.availableMfaGroups = this.accessClient.mfaGroups.map(x => new MultiselectModel({
+                    selected: true,
+                    id: x,
+                    title: x,
+                    badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x
+                }));
+            },
+            error: () => {
+                this.windows.hideSpinner();
+            }
+        });
     }
 
     close() {
@@ -70,6 +79,10 @@ export class AccessPolicyViewComponent {
         this.accessClient.groups = this.groupSelector.selectedData.map(x => x.title);
         this.accessClient.mfaStatus  = this.mfaAccess;
         this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map(x => x.title) ?? [];
+        this.windows.showSpinner();
+        this.api.editAccessPolicy(this.accessClient).subscribe(x => {
+            this.windows.hideSpinner();
+        })
     }
 
     changeIpAdressAttribute( ) {

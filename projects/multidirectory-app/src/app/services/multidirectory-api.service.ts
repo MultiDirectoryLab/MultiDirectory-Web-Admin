@@ -172,4 +172,9 @@ export class MultidirectoryApiService {
     savePasswordPolicy(client: PasswordPolicy): Observable<boolean> {
         return this.httpClient.put<boolean>('password-policy', new PasswordPolicyPutRequest(client)).execute();
     }
+
+    deletePasswordPolicy(): Observable<boolean> {
+        return this.httpClient.delete<boolean>('password-policy').execute();
+    }
+
 }

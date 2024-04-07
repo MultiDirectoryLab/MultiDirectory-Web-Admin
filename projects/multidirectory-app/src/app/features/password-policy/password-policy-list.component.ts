@@ -5,6 +5,7 @@ import { PasswordPolicy } from "../../core/password-policy/password-policy";
 import { AppWindowsService } from "../../services/app-windows.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'password-policy-list',
@@ -19,6 +20,7 @@ export class PasswordPolicyListComponent {
     clients: PasswordPolicy[] = [];
     constructor(
         private api: MultidirectoryApiService,
+        private router: Router,
         private windows: AppWindowsService) { ;
     }
     ngOnInit(): void {
@@ -34,15 +36,15 @@ export class PasswordPolicyListComponent {
             return;
         }
         this.clients = this.clients.filter(x => x != client);
-        this.api.deleteAccessPolicy(client.id).pipe(
-            switchMap(() => this.api.getAccessPolicy())
+        this.api.deletePasswordPolicy().pipe(
+            switchMap(() => this.api.getPasswordPolicy())
         ).subscribe((clients) => {
-            this.clients = clients.map(x => <PasswordPolicy><unknown>x);
+            this.clients = [clients];
         });
     }
 
     onEditClick(toEdit: PasswordPolicy) {
-        alert('todo')
+        this.router.navigate(['password-policy', toEdit.id]);
     }
 
     onAddClick() {

@@ -86,4 +86,7 @@
     height: 20px;
     width: 20px;
 }
+::ng-deep .dark-theme .control-button-logo {
+    filter: invert(100%);
+}
 
