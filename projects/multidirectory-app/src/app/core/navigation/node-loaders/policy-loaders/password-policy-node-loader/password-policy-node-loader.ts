@@ -8,9 +8,9 @@ import { translate } from "@ngneat/transloco";
 @Injectable({
     providedIn: 'root'
 })
-export class PasswordPolicyNodeLoader implements NodeLoader
-{
+export class PasswordPolicyNodeLoader implements NodeLoader {
     constructor(private api: MultidirectoryApiService) {}
+    
     get(): Observable<NavigationNode[]> {
         return of([
             new NavigationNode({
@@ -25,16 +25,16 @@ export class PasswordPolicyNodeLoader implements NodeLoader
     }
 
     getChildren(): Observable<NavigationNode[]> {
-        const result = this.api.getAccessPolicy().pipe(
+        const result = this.api.getPasswordPolicy().pipe(
             map(
-                x => x.map(policy => new NavigationNode({
+                policy => [new NavigationNode({
                     id: 'password-policy ' + policy.id,
                     name: policy.name,
                     selectable: true,
                     expanded: true,
                     icon: 'assets/keyicons.svg',
                     route: ['password-policy', policy.id]
-                }))
+                })]
             )
         );
         return result;

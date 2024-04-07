@@ -22,11 +22,5 @@ export class PasswordPolicy {
 
     constructor(obj: Partial<PasswordPolicy> = {}) {
         Object.assign(this, obj);
-        this.id = undefined;
-    }
-
-    setId(id: number) {
-        this.id = id;
-        return this;
     }
 }
