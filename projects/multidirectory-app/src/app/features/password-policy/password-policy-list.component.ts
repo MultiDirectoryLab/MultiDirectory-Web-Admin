@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
+import { Component, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { switchMap } from "rxjs";
 import { PasswordPolicy } from "../../core/password-policy/password-policy";
 import { AppWindowsService } from "../../services/app-windows.service";
 import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { ModalInjectDirective } from "multidirectory-ui-kit";
-import { Router } from "@angular/router";
 
 @Component({
     selector: 'password-policy-list',
