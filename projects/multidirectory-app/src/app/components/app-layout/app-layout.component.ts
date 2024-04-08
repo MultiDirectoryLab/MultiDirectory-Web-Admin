@@ -24,7 +24,8 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         private api: MultidirectoryApiService,
         private nodeLoader: LdapEntryLoader,
         private cdr: ChangeDetectorRef) {}
-    ngOnInit(): void {
+
+    ngOnInit() {
         this.app.navigationalPanelVisibleRx.pipe(
             takeUntil(this.unsubscribe)
         ).subscribe(x => {

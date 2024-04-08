@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
-import { DropdownOption, SpinnerComponent } from "multidirectory-ui-kit";
-import { catchError, map, mapTo, throwError } from "rxjs";
+import { SpinnerComponent } from "multidirectory-ui-kit";
+import { catchError, map, switchMap, throwError } from "rxjs";
 import { translate } from "@ngneat/transloco";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { SearchResult } from "projects/multidirectory-app/src/app/features/search/models/search-result";
@@ -10,6 +10,7 @@ import { SearchResultComponent } from "./search-forms/search-result/search-resul
 import { SearchUsersComponent } from "./search-forms/search-users/search-users.component";
 import { SearchSource } from "./models/search-source";
 import { SearchSourceProvider } from "./services/search-source-provider";
+import { LdapEntryLoader } from "../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
  
 @Component({
     selector: 'app-search-panel',
@@ -35,6 +36,7 @@ export class SearchPanelComponent implements AfterViewInit {
     constructor(
         private api: MultidirectoryApiService, 
         private searchSourceProvider: SearchSourceProvider,
+        private ldapLoader: LdapEntryLoader,
         private cdr: ChangeDetectorRef) {}
     
     ngAfterViewInit(): void {
@@ -58,11 +60,12 @@ export class SearchPanelComponent implements AfterViewInit {
             return;
         }
         this.spinner.show();
-        this.api.search(SearchQueries.findByName(query, '')).pipe(
+        this.ldapLoader.get().pipe(
+            switchMap(x => this.api.search(SearchQueries.findByName(query, x[0].id))),
             catchError(err => {
                 this.spinner.hide();
                 return throwError(() => err);
-            })
+            }),
         ).subscribe(res => {
             this.searchResults = res.search_result.map(node => <SearchResult>{
                 name: node.object_name,
