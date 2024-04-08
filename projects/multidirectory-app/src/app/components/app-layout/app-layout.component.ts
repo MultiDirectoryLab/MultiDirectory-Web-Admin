@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Subject, switchMap, takeUntil, tap } from "rxjs";
+import { Subject, combineLatest, switchMap, takeUntil, tap } from "rxjs";
 import { AppSettingsService } from "../../services/app-settings.service";
 import { LdapEntryLoader } from "../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { SearchQueries } from "../../core/ldap/search";
@@ -22,6 +22,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     constructor(
         private app: AppSettingsService,
         private api: MultidirectoryApiService,
+        private nodeLoader: LdapEntryLoader,
         private cdr: ChangeDetectorRef) {}
     ngOnInit(): void {
         this.app.navigationalPanelVisibleRx.pipe(
@@ -30,12 +31,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
             this.showLeftPane = x;
         })
 
-        this.app.userRx.pipe(
+        combineLatest([this.app.userRx, this.nodeLoader.get()]).pipe(
             takeUntil(this.unsubscribe),
-            tap(user => {
+            tap(([user, roots]) => {
                  this.app.user = user;
             }),
-            switchMap(user => this.api.search(SearchQueries.findByName(user.display_name, '')))
+            switchMap(([user, roots]) => this.api.search(SearchQueries.findByName(user.display_name, roots[0].id)))
         ).subscribe(userSearch => {
             const searchEntry =  userSearch.search_result[0];
             const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
