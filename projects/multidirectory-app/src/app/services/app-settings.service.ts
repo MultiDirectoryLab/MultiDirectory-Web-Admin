@@ -15,7 +15,7 @@ export class AppSettingsService {
         this.navigationalPanelVisibleRx.next(state);
     }
 
-    private _darkMode: boolean= localStorage.getItem('dark-mode') == 'true';
+    private _darkMode: boolean = localStorage.getItem('dark-mode') == 'true';
     private _darkModeRx = new BehaviorSubject<boolean>(this._darkMode);
     get darkModeRx() {
         return this._darkModeRx.asObservable();

@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { Subject, takeUntil } from "rxjs";
 
 @Component({
@@ -10,27 +10,22 @@ import { Subject, takeUntil } from "rxjs";
     styleUrls: ['./ldap-browser-header.component.scss'],
 })
 export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy{
-    selectedCatalog: LdapEntryNode | null = null;
+    private unsubscribe = new Subject<boolean>();
+    selectedCatalogDn = '';
     containerName = '';
-    unsubscribe = new Subject<boolean>();
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private toastr: ToastrService) {}
+        private activatedRoute: ActivatedRoute,
+        private toastr: ToastrService,
+        private cdr: ChangeDetectorRef
+    ) {}
 
     ngAfterViewInit(): void {
-        /*this.navigation.selectedCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe(catalog => {
-            this.selectedCatalog = catalog;
-            const catalogId = catalog?.id 
-            if(!!catalogId) {
-                this.containerName = catalogId;
-            } else if(catalog?.entry?.object_name?.trim()) {
-                this.containerName = catalog?.entry?.object_name?.trim();
-            } else {
-                this.containerName = '';
-            }
+        this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
+            this.selectedCatalogDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+            this.containerName = this.selectedCatalogDn;
             this.cdr.detectChanges();
-        })*/
+        })
     }
     
     onCopyDn($event: any) {
@@ -41,6 +36,7 @@ export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy{
             this.toastr.error(translate('header.container-path-copy-error'), err);
         });
     }
+    
     ngOnDestroy(): void {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();
