@@ -90,7 +90,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     handleNodeRightClick(event: RightClickEvent) {
         if(event.node instanceof LdapEntryNode) {
             this.treeView.focus(event.node);
-            this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, event.node);
+            this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
         }
     }
 }

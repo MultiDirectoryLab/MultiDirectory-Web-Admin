@@ -5,7 +5,7 @@ import { LdapEntryNode } from "../core/ldap/ldap-entity";
 export interface ContextMenuRequest {
     openX: number;
     openY: number;
-    entry: LdapEntryNode;
+    entries: LdapEntryNode[];
 }
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ContextMenuService {
     get contextMenuOnNodeRx(): Observable<ContextMenuRequest> {
         return this._contextMenuOnNode.asObservable();
     }
-    showContextMenuOnNode(xPos: number, yPos: number, entry: LdapEntryNode) {
-        return this._contextMenuOnNode.next({ entry, openX: xPos, openY: yPos });
+    showContextMenuOnNode(xPos: number, yPos: number, entries: LdapEntryNode[]) {
+        return this._contextMenuOnNode.next({ entries, openX: xPos, openY: yPos });
     }
 }

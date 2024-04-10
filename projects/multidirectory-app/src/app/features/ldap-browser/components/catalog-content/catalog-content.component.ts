@@ -8,13 +8,14 @@ import { AppNavigationService } from "projects/multidirectory-app/src/app/servic
 import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
 import { ContentViewService } from "projects/multidirectory-app/src/app/services/content-view.service";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
-import { Subject, take, takeUntil } from "rxjs";
+import { Subject, concat, take, takeUntil } from "rxjs";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
 import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
 import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
 import { ContextMenuService } from "projects/multidirectory-app/src/app/services/contextmenu.service";
 import { ActivatedRoute } from "@angular/router";
+import { DeleteEntryRequest } from "projects/multidirectory-app/src/app/models/entry/delete-request";
  
 @Component({
     selector: 'app-catalog-content',
@@ -35,6 +36,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         private cdr: ChangeDetectorRef,
         private contentView: ContentViewService,
         private windows: AppWindowsService,
+        private api: MultidirectoryApiService,
         private contextMenu: ContextMenuService,
         private hotkeysService: HotkeysService,
         private activatedRoute: ActivatedRoute) {
@@ -78,13 +80,13 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
     
     deleteSelectedEntry() {
-        /*concat(...this.selectedRows.map(x => 
+        concat(...this._selectedRows.map(x => 
             this.api.delete(new DeleteEntryRequest({
                 entry: (<any>x.entry).object_name
             }))
         )).subscribe(x => {
-            this.loadData();
-        });*/
+            this.view?.updateContent()
+        });
     }
 
    
@@ -127,7 +129,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     }
 
     showContextMenu(event: RightClickEvent) {
-        this.contextMenu.showContextMenuOnNode(event.pointerEvent.x, event.pointerEvent.y, event.selected[0]);
+        this.contextMenu.showContextMenuOnNode(event.pointerEvent.x, event.pointerEvent.y, event.selected);
     }
 }
 

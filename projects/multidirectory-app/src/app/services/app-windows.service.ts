@@ -119,4 +119,21 @@ export class AppWindowsService {
     closeCreateComputer(parentDn: string) {
         return this._closeCreateOuMenuRx.next(parentDn);
     }
+
+    
+    private _showDeleteEntryConfirmationRx = new Subject<string[]>();
+    private _closeDeleteEntryConfirmationRx = new Subject<string[]>();
+    get showDeleteEntryConfirmationRx(): Observable<string[]> {
+        return this._showDeleteEntryConfirmationRx.asObservable();
+    }
+    get closeDeleteEntryConfirmationRx(): Observable<string[]> {
+        return this._closeDeleteEntryConfirmationRx.asObservable();
+    }
+    openDeleteEntryConfirmation(toDeleteDNs: string[]) {
+        this._showDeleteEntryConfirmationRx.next(toDeleteDNs);
+        return this.closeDeleteEntryConfirmationRx;
+    }
+    closeDeleteEntryConfirmation(toDeleteDNs: string[]) {
+        return this._closeDeleteEntryConfirmationRx.next(toDeleteDNs);
+    }
 }

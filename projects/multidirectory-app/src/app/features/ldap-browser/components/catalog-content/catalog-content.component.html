@@ -75,6 +75,9 @@
     <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">
         {{ "catalog-content.ou" | transloco }}
     </div>
+    <div class="dropdown-item" (click)="createMenu.close(); openCreateComputer()">
+        {{ "catalog-content.computer" | transloco }}
+    </div>
     <div class="dropdown-item disabled hidden">
         {{ "catalog-content.common-folder" | transloco }}
     </div>
@@ -94,21 +97,3 @@
     TODO
 </md-modal> 
 
-<md-modal #deleteConfirmation>
-    <div class="app-modal-header">
-        {{ "catalog-content.approve-delete-header" | transloco }}
-
-    </div> 
-    {{ "catalog-content.approve-delete" | transloco }}
-
-    <ng-container class="app-modal-footer">
-        <div class="flex-row align-center justify-end flex-gap-10">
-            <md-button (click)="deleteConfirmation.close()">
-                {{ "catalog-content.cancel" | transloco }}
-            </md-button>
-            <md-button [primary]="true" (click)="deleteConfirmation.close(); deleteSelectedEntry()">
-                {{ "catalog-content.delete" | transloco }}
-            </md-button>
-        </div>
-    </ng-container>
-</md-modal>
