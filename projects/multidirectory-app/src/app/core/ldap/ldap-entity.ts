@@ -7,7 +7,6 @@ export class LdapEntryNode extends NavigationNode {
     override parent?: LdapEntryNode;
     type: LdapEntryType = LdapEntryType.None;
     entry?: SearchEntry;
-    expandable = true;
     clickAction?: ((node: LdapEntryNode)=>void) = undefined;
 
     constructor(obj: Partial<LdapEntryNode>) {
