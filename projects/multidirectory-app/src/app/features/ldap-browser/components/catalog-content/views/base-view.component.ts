@@ -18,7 +18,7 @@ export abstract class BaseViewComponent {
 
     handleRightClick(event: any) {
         let selected = this.getSelected();
-        if(!!event.content?.entry) {
+        if(!!event.content?.entry && !selected.includes(event.content?.entry)) {
             this.setSelected([ event.content?.entry ]);
         }
         if(event instanceof PointerEvent) {

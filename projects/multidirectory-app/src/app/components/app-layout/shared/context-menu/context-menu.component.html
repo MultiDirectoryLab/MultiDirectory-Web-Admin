@@ -5,7 +5,7 @@
     <div class="dropdown-item"  *ngIf="isSelectedRowsOfType(LdapEntryType.User)" (click)="contextMenu.close(); showChangePassword()">
         {{ "catalog-content.change-password" | transloco }}
     </div>
-    <div class="dropdown-item" (click)="contextMenu.close(); showDeleteConfirmation()">
+    <div class="dropdown-item" (click)="contextMenu.close(); showDeleteConfirmation($event)">
         {{ "catalog-content.delete" | transloco }}
     </div>
 </md-dropdown-menu> 
