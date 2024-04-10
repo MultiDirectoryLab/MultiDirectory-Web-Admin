@@ -95,8 +95,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
         }))
         .pipe(catchError(err => {
           this.modalControl.modal?.hideSpinner();
-          this.toastr.error(translate('user-create.unable-create-user'));
-          return EMPTY;
+          throw(err);
         }))
         .subscribe(x => {
           this.modalControl.modal?.hideSpinner();

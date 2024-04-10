@@ -14,6 +14,8 @@
         width: 100%;
         max-width: 100%;
         .multiselect-input {
+            border: 1px solid var(--md-neutral-1000);
+            border-radius: 3px;
             flex-grow: 1;
             width: 100%;
             max-width: 100%;
