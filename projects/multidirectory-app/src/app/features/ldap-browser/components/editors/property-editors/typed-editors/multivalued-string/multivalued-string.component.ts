@@ -9,7 +9,7 @@ import { TypedEditorBaseComponent } from "../typed-editor-base.component";
     styleUrls: ['./multivalued-string.component.scss']
 }) 
 export class MultivaluedStringComponent extends TypedEditorBaseComponent {
-    @ViewChild('treeview', {static: true}) treeview: TreeviewComponent | null = null;
+    @ViewChild('treeview', {static: true}) treeview!: TreeviewComponent;
     newAttribute: string = '';
     type: string = '';
 
@@ -19,13 +19,17 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
         if(!Array.isArray(val)) {
             val = [val];
         }
-        val.filter(x => !!x).map(x => new AttributeListEntry({
+        const tree = val.filter(x => !!x).map(x => new AttributeListEntry({
             name: x,
             id: x,
             type: this.type,
-            selectable: true
-        })).forEach(x => this.treeview!.tree.push(x));
-        this.treeview?.redraw();
+            selectable: true,
+            expandable: false
+        }));
+        setTimeout(() => {
+            this.treeview.tree = tree;
+            this.treeview.redraw();
+        })
     }
 
     constructor(private cdr: ChangeDetectorRef) {

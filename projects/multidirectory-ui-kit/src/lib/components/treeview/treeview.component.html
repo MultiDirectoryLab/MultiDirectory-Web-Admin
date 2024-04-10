@@ -19,7 +19,7 @@
             >
             <span class="tree-item" [ngClass]="{
                 expanded: data.expanded,
-                expandable: data.children.length > 0 || !data.expanded,
+                expandable: (data.children.length > 0 || !data.expanded) && data.expandable,
                 selected: data.selected,
                 focused: data.focused
             }"
@@ -28,7 +28,7 @@
             }">
                 <label
                     class="expand-mark"
-                    *ngIf="data.children.length > 0 || !data.expanded"
+                    *ngIf="(data.children.length > 0 || !data.expanded) && data.expandable"
                 >
                     <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
                             ? '&nbsp;&nbsp;' : data.expanded

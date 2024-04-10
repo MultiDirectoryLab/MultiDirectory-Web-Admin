@@ -7,6 +7,7 @@ export class Treenode {
     selectable = false;
     selected = false;
     expanded = false;
+    expandable = true;
     focused = false;
 
     children: Treenode[] = [];
