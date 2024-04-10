@@ -80,6 +80,8 @@ export class HeaderComponent implements OnDestroy {
             this.onDarkMode(!this.darkMode);
             return false;
         }, undefined, translate('hotkeys.toggle-search-menu')));
+
+        this.darkMode = localStorage.getItem('dark-mode') == 'true';
     }
 
     ngOnDestroy(): void {
@@ -97,16 +99,20 @@ export class HeaderComponent implements OnDestroy {
         this.darkMode = value;
         this.app.setDarkMode(this.darkMode);
     }
+    
     showHelp() {
         this.hotkeysService.cheatSheetToggle.next(true);
     }
+    
     closeCatalog() {
         this.router.navigate(['/'])
         this.cdr.detectChanges();
     }
+    
     openAccessControl() {
         this.menu.showAccessControlMenu();
     }
+
     onAccountSettingsClick() {
         if(!this.app.userEntry) {
             return;

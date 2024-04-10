@@ -121,7 +121,7 @@ export class WindowsComponent implements AfterViewInit {
         this.createComputerModal.open({ 'width': '580px', 'minHeight': 525 }, { 'parentDn': parentDn }).pipe(
             take(1)
         ).subscribe(x => {
-            this.ldapWindows.closeCreateComputer(parentDn);
+            this.ldapWindows.closeCreateComputer(x);
         });
     }
 

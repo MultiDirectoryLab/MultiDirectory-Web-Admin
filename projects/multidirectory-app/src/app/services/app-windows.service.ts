@@ -117,7 +117,7 @@ export class AppWindowsService {
         return this.closeCreateComputerMenuRx;
     }
     closeCreateComputer(parentDn: string) {
-        return this._closeCreateOuMenuRx.next(parentDn);
+        return this._closeCreateComputerMenuRx.next(parentDn);
     }
 
     

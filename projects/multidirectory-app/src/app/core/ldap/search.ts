@@ -49,7 +49,7 @@ export const SearchQueries = {
           "base_object": baseObject,
           "scope": 1,
           "deref_aliases": 0,
-          "size_limit": 999, // to do restore paging
+          "size_limit": 0, 
           "time_limit": 0,
           "types_only": false,
           "filter": "(objectClass=*)",
