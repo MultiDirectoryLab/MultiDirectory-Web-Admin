@@ -18,15 +18,26 @@
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
                 <label  class="textbox-label">{{ "setup.admin-settings.admin-password-label" | transloco }}</label>
                 <div class="flex-column  flex-grow-1">
-                    <md-textbox appRequired  [password]="true" [(ngModel)]="setupRequest.password" 
-                        #passwordInput></md-textbox>
+                    <md-textbox 
+                        appRequired 
+                        [password]="true"
+                        [appPasswordMatch]="repeatPassword"
+                        [(ngModel)]="setupRequest.password" 
+                        (keyup)="checkModel()"
+                        #passwordInput="ngModel"></md-textbox>
                 </div>
             </div>
             
             <div class="flex-row flex-gap-10  flex-space-between  justify-center">
                 <label  class="textbox-label">{{ "setup.admin-settings.admin-password-repeat-label" | transloco }}</label>
                 <div class="flex-column flex-grow-1">
-                    <md-textbox  appRequired  [appPasswordMatch]="setupRequest.password" [password]="true" [(ngModel)]="setupRequest.repeatPassword"></md-textbox>
+                    <md-textbox  
+                        appRequired 
+                        [appPasswordMatch]="passwordInput"
+                        [password]="true" 
+                        (keyup)="checkModel()"
+                        [(ngModel)]="setupRequest.repeatPassword"
+                        #repeatPassword="ngModel"></md-textbox>
                 </div>
             </div>   
         </div>

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild, forwardRef } from "@angular/core";
-import { MdFormComponent } from "multidirectory-ui-kit";
+import { MdFormComponent, TextboxComponent } from "multidirectory-ui-kit";
 import { SetupService } from "projects/multidirectory-app/src/app/services/setup.service";
 import { Subject, takeUntil } from "rxjs";
 import { SetupRequest } from "../../../models/setup/setup-request";
@@ -19,6 +19,9 @@ import { SetupRequest } from "../../../models/setup/setup-request";
 export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
     @Input() setupRequest!: SetupRequest;
     @ViewChild('form') form!: MdFormComponent;
+    @ViewChild('passwordInput') passwordInput!: TextboxComponent;
+    @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
+
     unsubscribe = new Subject<void>();
 
     constructor(private setup: SetupService) {}
@@ -33,6 +36,10 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
         this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(valid => {
             this.setup.stepValid(valid);
         });
+    }
+
+    checkModel() {
+        this.form.validate();
     }
 
     ngOnDestroy(): void {
