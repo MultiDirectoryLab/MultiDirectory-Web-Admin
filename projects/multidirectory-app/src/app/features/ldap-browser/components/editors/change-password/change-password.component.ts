@@ -60,6 +60,10 @@ export class ChangePasswordComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    checkModel() {
+        this.form.validate();
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.next(true);
         this.unsubscribe.complete();

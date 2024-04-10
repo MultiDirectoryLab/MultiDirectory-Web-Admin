@@ -1,5 +1,5 @@
 import { Directive, Input } from "@angular/core";
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from "@angular/forms";
+import { AbstractControl, NG_VALIDATORS, NgControl, ValidationErrors, Validator, ValidatorFn } from "@angular/forms";
 export function passwordMatchValidator(nameRe: RegExp): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const forbidden = nameRe.test(control.value);
@@ -15,11 +15,11 @@ export function passwordMatchValidator(nameRe: RegExp): ValidatorFn {
     }]
   })
   export class PasswordMatchValidatorDirective implements Validator {
-    @Input('appPasswordMatch') passwordInput!: string;
+    @Input('appPasswordMatch') passwordInput!: NgControl;
     @Input() errorLabel = 'Passwords do not match';
 
     validate(control: AbstractControl): ValidationErrors | null {
-        return control.value == this.passwordInput 
+        return control.value == this.passwordInput.value 
             ? null 
             : { PasswordsDoNotMatch: this.errorLabel };
     }

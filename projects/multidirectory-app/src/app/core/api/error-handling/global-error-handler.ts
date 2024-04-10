@@ -18,7 +18,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         console.error(error);
         if(error.error?.detail) {
             for(let i of error.error.detail) {
-                this.toastr.error(i.msg)
+                this.toastr.error(i?.msg ?? i)
             }
         }
         this.toastr.error(

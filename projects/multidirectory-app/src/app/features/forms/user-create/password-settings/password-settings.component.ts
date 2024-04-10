@@ -39,4 +39,8 @@ export class UserCreatePasswordSettingsComponent {
         this.unsubscribe.complete();
     } 
 
+    checkModel() {
+        this.form.validate();
+    }
+
 }
