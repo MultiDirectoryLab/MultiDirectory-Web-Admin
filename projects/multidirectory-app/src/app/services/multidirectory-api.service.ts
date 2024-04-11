@@ -26,6 +26,7 @@ import { ChangePasswordRequest } from "../models/user/change-password-request";
 import { PasswordPolicy } from "../core/password-policy/password-policy";
 import { PasswordPolicyGetResponse } from "../models/password-policy/password-policy-get-response";
 import { PasswordPolicyPutRequest } from "../models/password-policy/password-policy-put-request";
+import { GetAcpPageResponse } from "../models/login/get-acp-response";
 
 @Injectable({
     providedIn: 'root'
@@ -177,4 +178,10 @@ export class MultidirectoryApiService {
         return this.httpClient.delete<boolean>('password-policy').execute();
     }
 
+    getMultifactorACP(login: string, password: string): Observable<GetAcpPageResponse> {
+        const payload = new HttpParams()
+            .set('username', login)
+            .set('password', password);
+        return this.httpClient.post<GetAcpPageResponse>('multifactor/connect', payload).useUrlEncodedForm().execute();
+    }
 }

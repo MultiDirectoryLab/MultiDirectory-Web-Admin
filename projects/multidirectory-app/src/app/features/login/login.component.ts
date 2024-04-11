@@ -68,29 +68,11 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     private authComplete = new Subject<boolean>();
     use2FA() {
         let windowHandle: WindowProxy | null = null;
-        this.wssHandle = this.wss.connect('multifactor/connect');
-        this.wssHandle.inputRx.pipe(takeUntil(this.unsubscribe)).subscribe(x => {
-            if(x.status == 'connected') {
-                this.wssHandle?.send({
-                    'username': this.login,
-                    'password': this.password
-                });
-            } else if(x.status == 'pending') {
-                windowHandle = window.open(x.message, 'Auth', "height=630,width=630");
-            } else if(x.status == 'success') {
-                windowHandle?.close();
-                this.modal.hideSpinner();
-                this.authComplete.next(true);
-                localStorage.setItem('access_token', x.message);
-                localStorage.setItem('refresh_token', x.message);
-                this.router.navigate(['/']);
-            } else if(x.status == 'closed') {
-                if(x.message) {
-                    this.toastr.error(x.message);
-                }
-                this.modal.hideSpinner();
-            }
-        });
+        this.api.getMultifactorACP(this.login, this.password).pipe(
+            take(1)
+        ).subscribe(resp => {
+            document.location = resp.message;
+        })
         return this.authComplete.asObservable();
     }
 }
