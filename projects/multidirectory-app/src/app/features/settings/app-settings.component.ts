@@ -3,6 +3,7 @@ import { AppSettingsService } from "../../services/app-settings.service";
 import { WhoamiResponse } from "../../models/whoami/whoami-response";
 import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
+import { TokenStorageHelper } from "../../core/authorization/token-storage-helper";
 
 @Component({
     selector: 'app-settings',
@@ -22,7 +23,7 @@ export class AppSettingsComponent implements OnDestroy {
     }
 
     logout() {
-        localStorage.clear();
+        TokenStorageHelper.clear();
         this.app.user = new WhoamiResponse({});
         this.router.navigate(['/login']);
     }

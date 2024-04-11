@@ -8,15 +8,24 @@ export class TokenStorageHelper {
                 return cookie.split(';').shift();
              }
         }
-        return ''
+        return '';
     }
+
+    static setCookie(cname: string, cvalue: string, exdays: number) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
     static clear() {
+        TokenStorageHelper.setCookie('access_token', '', -1)
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
     }
 
     static getAccessToken(): string | null {
-        const cookieToken = this.getCookie('accessToken')
+        const cookieToken = this.getCookie('access_token')
         if(cookieToken) {
             return cookieToken;
         }
