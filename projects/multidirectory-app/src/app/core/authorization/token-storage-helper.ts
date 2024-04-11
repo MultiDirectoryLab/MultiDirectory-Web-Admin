@@ -1,10 +1,25 @@
 export class TokenStorageHelper {
+    static getCookie(name: string) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (!!parts && parts.length === 2) {
+             const cookie= parts.pop();
+             if(cookie) {
+                return cookie.split(';').shift();
+             }
+        }
+        return ''
+    }
     static clear() {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
     }
 
     static getAccessToken(): string | null {
+        const cookieToken = this.getCookie('accessToken')
+        if(cookieToken) {
+            return cookieToken;
+        }
         return localStorage.getItem('access_token');
     }
 
