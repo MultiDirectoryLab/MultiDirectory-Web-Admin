@@ -13,7 +13,7 @@
     
             <div class="row pv-8">
                 <div class="col-xs-4">{{ "access-policy-create.ip-addresses" | transloco }}</div>
-                <div class="col-xs-6">
+                <div class="col-xs-7">
                     <md-textbox 
                         appRequired  
                         validIpAddress
@@ -21,7 +21,7 @@
                         [(ngModel)]="ipAddresses">
                     </md-textbox>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                     <md-plane-button class="w-100" [hasBorder]="true" (click)="changeIpAdressAttribute()">
                         {{  'access-policy-create.add' | transloco }}
                     </md-plane-button>
@@ -30,7 +30,7 @@
     
             <div class="row pv-8">
                 <div class="col-xs-4">{{ 'access-policy-create.access-group' | transloco }}</div>
-                <div class="col-xs-6">
+                <div class="col-xs-7">
                     <md-multiselect 
                         [suppressMenu]="true"
                         [options]="availableGroups"
@@ -39,7 +39,7 @@
                         notFoundText="{{ 'access-policy-create.group-not-found' | transloco}}"
                         #groupSelector></md-multiselect>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                     <md-plane-button [hasBorder]="true" (click)="checkGroups()">
                         {{ "access-policy-create.check-groups" | transloco }}
                     </md-plane-button>
@@ -56,7 +56,7 @@
     
             <div class="row pv-8" *ngIf="mfaAccess == MfaAccessEnum.SelectedGroups">
                 <div class="col-xs-4">{{ 'access-policy-create.mfa-groups' | transloco }}</div>
-                <div class="col-xs-6">
+                <div class="col-xs-7">
                     <md-multiselect 
                         [suppressMenu]="true"
                         [options]="availableMfaGroups"
@@ -65,7 +65,7 @@
                         notFoundText="{{ 'access-policy-create.group-not-found' | transloco}}"
                         #mfaGroupSelector></md-multiselect>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                     <md-plane-button [hasBorder]="true" (click)="checkMfaGroups()">
                         {{ "access-policy-create.check-groups" | transloco }}
                     </md-plane-button>

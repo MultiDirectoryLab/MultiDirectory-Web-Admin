@@ -23,7 +23,7 @@ export class ResultCodeInterceptor implements HttpInterceptor {
                 if(this.messages.has(resp.body.resultCode)) {
                     const errData = this.messages.get(resp.body.resultCode)!;
 
-                    throw new HttpErrorResponse({ status: errData[0], statusText: resp.body.errorMessage});
+                    throw new HttpErrorResponse({ status: errData[0], statusText: translate(errData[1])});
                 }
                 throw new HttpErrorResponse({ status: 500, statusText: translate('errors.unknown-error')});
              })

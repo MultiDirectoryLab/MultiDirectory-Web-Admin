@@ -80,7 +80,7 @@ export class MemberOfComponent implements AfterViewInit {
         if(!this.groupList?.selected?.[0]) {
             return;
         }
-        const entity = <LdapEntryNode> await this.navigation.getEntityByDn(this.groupList.selected[0].dn);
+        const entity = <LdapEntryNode> await this.navigation.goTo(this.groupList.selected[0].dn);
         if(!entity) {
             return;
         }

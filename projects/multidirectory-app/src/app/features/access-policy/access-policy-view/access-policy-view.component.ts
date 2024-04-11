@@ -8,10 +8,14 @@ import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-p
 import { Constants } from "projects/multidirectory-app/src/app/core/constants";
 import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
 import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
-import { Observable, map, take } from "rxjs";
+import { Observable, map, of, switchMap, take } from "rxjs";
 import { MultiselectModel } from "../access-policy-create/access-policy-create.component";
 import { ActivatedRoute } from "@angular/router";
 import { AppWindowsService } from "../../../services/app-windows.service";
+import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { AppNavigationService } from "../../../services/app-navigation.service";
+import { group } from "@angular/animations";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: 'app-access-policy-view',
@@ -39,7 +43,13 @@ export class AccessPolicyViewComponent {
     mfaGroupsQuery = '';
     availableMfaGroups: MultiselectModel[] = [];
 
-    constructor(private api: MultidirectoryApiService, private activatedRoute: ActivatedRoute, private windows: AppWindowsService) {}
+    constructor(
+        private api: MultidirectoryApiService,
+        private navigation: AppNavigationService,
+        private activatedRoute: ActivatedRoute,
+        private toastr: ToastrService,
+        private windows: AppWindowsService) {}
+
     ngOnInit(): void {
         this.windows.showSpinner();
         this.api.getAccessPolicy().subscribe({
@@ -111,17 +121,24 @@ export class AccessPolicyViewComponent {
     }
 
     retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
-        return this.api.search(SearchQueries.findGroup(groupQuery, '', [])).pipe(map(result => {
-            return result.search_result.map(x => {
-                const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
-                return new MultiselectModel({
-                    id: x.object_name,
-                    selected: false,
-                    title: x.object_name,
-                    badge_title: name?.[1] ?? x.object_name
-                });
-            })
-        }));
+        if(groupQuery.length < 2) {
+            this.toastr.error(translate('errors.empty-filter'));
+            return of([]);
+        }
+        return this.navigation.getRoot().pipe(
+            take(1),
+            switchMap(root => this.api.search(SearchQueries.findGroup(groupQuery, root?.[0]?.id ?? '', []))),
+            map(result => {
+                return result.search_result.map(x => {
+                    const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+                    return new MultiselectModel({
+                        id: x.object_name,
+                        selected: false,
+                        title: x.object_name,
+                        badge_title: name?.[1] ?? x.object_name
+                    });
+                })
+            }));
     }
 
     checkGroups() {
