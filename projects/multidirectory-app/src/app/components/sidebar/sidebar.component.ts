@@ -5,6 +5,7 @@ import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
 import { LdapEntryNode } from "../../core/ldap/ldap-entity";
 import { AppWindowsService } from "../../services/app-windows.service";
+import { TokenStorageHelper } from "../../core/authorization/token-storage-helper";
 
 @Component({
     selector: 'app-sidebar',
@@ -22,7 +23,7 @@ export class SidebarComponent implements OnDestroy {
     }
     
     logout() {
-        localStorage.clear();
+        TokenStorageHelper.clear();
         this.app.user = new WhoamiResponse({});
         this.router.navigate(['/login'])
     }
