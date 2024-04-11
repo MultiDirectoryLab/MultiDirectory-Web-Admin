@@ -4,9 +4,9 @@
     display: flex;
     flex-flow: row nowrap;
     min-width: 32px;
-    border: 1px solid var(--md-black);
     border-radius: 5px;
     padding: 2px;
+    border: 1px solid var(--md-neutral-1000);
     .multiselect-badges {
         display: flex;
         flex-flow: row wrap;
@@ -14,7 +14,6 @@
         width: 100%;
         max-width: 100%;
         .multiselect-input {
-            border: 1px solid var(--md-neutral-1000);
             border-radius: 3px;
             flex-grow: 1;
             width: 100%;

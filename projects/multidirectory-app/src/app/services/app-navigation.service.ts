@@ -126,64 +126,12 @@ export class AppNavigationService {
         return;
     }
 
-
-    async getEntityByDn(dn: string): Promise<Treenode | undefined> {
-        /*if(!this.ldapRoot) throw Error('Ldap root not found');
-
-        const rootDseDNs = this.getRootDse();
-
-        const dnParts = LdapNamesHelper.getDnParts(dn);
-        const selectedRoot = rootDseDNs.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
-        while(dnParts[dnParts.length - 1].type == 'dc' && dnParts.length > 0)
-            dnParts.pop();
-        
-        let currentNode = selectedRoot?.node;
-        let found: any;
-
-        for(let i = 0; i < dnParts.length && currentNode; i++) {
-            if(!!currentNode.loadChildren)
-            {
-                const childRx = currentNode.loadChildren();
-                currentNode.children = !!childRx ? await lastValueFrom(childRx) : [];
-            }
-
-            if(currentNode.children.length == 0) {
-                continue;
-            }
-
-            const children = currentNode.children.map(x => {
-                return {
-                    node: x,
-                    dn: LdapNamesHelper.getDnParts(x?.id ?? '').filter(x => x.type !== 'dc')
-                }
-            });
-            
-            found = children.find(x => LdapNamesHelper.dnContain(dnParts, x.dn));
-            if(!found && dnParts.length - i == 1) {
-                const contentRx = this.ldapTreeLoader.getContent(currentNode.id, currentNode as LdapEntryNode);
-                return await lastValueFrom(contentRx.pipe(take(1)).pipe(map(x => {
-                    const children = x.map(y => {
-                        return {
-                            node: y,
-                            dn: LdapNamesHelper.getDnParts(y?.id ?? '').filter(z => z.type !== 'dc')
-                        }
-                    });
-                    const ldapNode = <LdapEntryNode>currentNode!;
-                    ldapNode.childCount = x.length;
-                    const foundIndex = children.findIndex(x => LdapNamesHelper.dnEqual(dnParts, x.dn));
-                    if(foundIndex > -1) {
-                        return children[foundIndex].node;
-                    }
-                    return undefined;
-                })));
-            } else {
-                currentNode = found?.node;
-            }
+    private _ldapRoot: LdapEntryNode[] = [];
+    getRoot(): Observable<LdapEntryNode[]> {
+        if(this._ldapRoot.length !== 0) {
+            return of(this._ldapRoot);
         }
-        if(!!currentNode && found && LdapNamesHelper.dnEqual(dnParts, found!.dn)) {
-            return currentNode;
-        }*/
-        return undefined;
+        return this.ldapTreeLoader.get();
     }
 
 }
