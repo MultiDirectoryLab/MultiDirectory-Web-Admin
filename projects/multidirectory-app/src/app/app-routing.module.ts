@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthRouteGuard } from './core/authorization/auth-route-guard';
 import { SetupRouteGuard } from './core/setup/setup-route-guard';
-import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
+import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 
 const routes: Routes = [
   { 
@@ -51,7 +51,8 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'enable-backend', component: BackendNotRespondedComponent },
+  { path: 'enable-backend', component: DisplayErrorComponent, data: { message: 'Backend is not available at the moment' } },
+  { path: 'mfa_token_error', component: DisplayErrorComponent, data: { message: 'There is something wrong with 2FA token configuration' } },
   { path: '**', redirectTo: ''}
 ];
 
