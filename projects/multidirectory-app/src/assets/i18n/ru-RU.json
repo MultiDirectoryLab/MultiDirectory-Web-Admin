@@ -370,17 +370,25 @@
         "add": "Добавить",
         "must-be-enabled": "Один клиент должен быть включен",
         "unable-to-create-policy": "Не удалось создать политику",
-        "policy-id-not-found": "У этих политик не задан ID"
+        "policy-id-not-found": "У этих политик не задан ID",
+        "header": "Политики доступа"
     },
     "access-policy": {
         "client-does-not-exist": "Этого клиента не существует"
     },
     "password-policy-settings": {
-        "clients": "Password Policies",
-        "add": "Add",
-        "must-be-enabled": "One client must be enabled",
-        "unable-to-create-policy": "Unable to create policy",
-        "policy-id-not-found": "The policy has not ID"
+        "clients": "Парольные политики",
+        "add": "Добавить"
+    },
+    "password-policy-create": {
+        "title": "Название",
+        "max-password-age": "Максимальный срок давности пароля",
+        "min-password-age": "Минимальные срок давности пароля",
+        "min-password-length": "Минимальная длина пароля",
+        "enforce-password-history": "Не допускать повторений N предыдущих паролей",
+        "password-complexity-requirements": "Пароль должен удовлевтворять требованиями сложности",
+        "approve": "Применить",
+        "properties": "Свойства"
     },
     "settings-header": {
         "title": "Настройки"

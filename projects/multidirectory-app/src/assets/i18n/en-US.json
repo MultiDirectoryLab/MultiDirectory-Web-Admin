@@ -367,7 +367,8 @@
       "add": "Add",
       "must-be-enabled": "One client must be enabled",
       "unable-to-create-policy": "Unable to create policy",
-      "policy-id-not-found": "The policy has not ID"
+      "policy-id-not-found": "The policy has not ID",
+      "header": "Access policies"
     },
     "access-policy": {
         "client-does-not-exist": "The client does not exist"
@@ -378,6 +379,16 @@
       "must-be-enabled": "One client must be enabled",
       "unable-to-create-policy": "Unable to create policy",
       "policy-id-not-found": "The policy has not ID"
+    },
+    "password-policy-create": {
+      "title": "Title",
+      "max-password-age": "Maximum Password Age",
+      "min-password-age": "Minimum Password Age",
+      "min-password-length": "Minimum Password Length",
+      "enforce-password-history": "Enforce Password History",
+      "password-complexity-requirements": "Password Must Meet Complexity Requirements",
+      "approve": "Approve",
+      "properties": "Properties"
     },
     "settings-header": {
       "title": "Settings"
