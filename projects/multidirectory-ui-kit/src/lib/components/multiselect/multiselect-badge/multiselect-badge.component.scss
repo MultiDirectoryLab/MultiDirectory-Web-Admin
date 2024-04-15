@@ -10,8 +10,8 @@
     flex-flow: row nowrap;
     gap: 4px;
     border-radius: 4px;
-    background-color: global.$md-neutral-150;
-    color: black;
+    background-color: var(--md-neutral-150);
+    color: var(--md-black);
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;    
@@ -25,4 +25,7 @@
     &:focus-within {
         background: white;
     }
+}
+::ng-deep .dark-theme .close-icon img {
+    filter: invert(100%);
 }

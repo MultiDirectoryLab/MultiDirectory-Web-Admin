@@ -20,7 +20,7 @@
         }
         .relative {
             position: relative;
-            background-color: global.$md-neutral-800;
+            background-color: var(--md-neutral-800);
             color: #fff;
             padding: 1rem;
             border-radius: 6px;

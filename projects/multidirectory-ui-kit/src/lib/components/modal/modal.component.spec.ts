@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, tick } from "@angular/core/testing";
 import { MdModalComponent } from "./modal.component";
 import { ModalModule } from "ng-modal-full-resizable";
 import { ModalTestComponent } from "./modaltest.component";
+import { ModalInjectDirective } from "./modal-inject.directive";
 
 describe('MdModalComponent', () => {
     let fixture: ComponentFixture<ModalTestComponent>;
@@ -10,7 +11,8 @@ describe('MdModalComponent', () => {
     beforeEach(async () => {
         TestBed.configureTestingModule({
             imports: [ModalModule],
-            declarations: [ ModalTestComponent, MdModalComponent ]
+            declarations: [ ModalTestComponent, MdModalComponent, ModalInjectDirective ],
+            teardown: { destroyAfterEach: false }
         }).compileComponents().then(_ => {
             fixture = TestBed
                 .createComponent(ModalTestComponent)
@@ -20,17 +22,17 @@ describe('MdModalComponent', () => {
 
     it('should open and close md modal', () => {
         fixture.detectChanges();
-        component.openButton!.nativeElement.click();
+        component.open();
         fixture.detectChanges();
-        expect(component.ModalComponent!.modalRoot!.visible).toBeTrue();
-        component.closeButton!.nativeElement.click();
+        expect(component.modal!.modal!.modalRoot!.visible).toBeTrue();
+        component.modal?.close();
         fixture.detectChanges();
-        expect(component.ModalComponent!.modalRoot!.visible).toBeFalse();
+        expect(component.modal!.modal?.modalRoot?.visible).toBeFalse();
     });
 
     it('should render body', () => {
         fixture.detectChanges();
-        component.openButton!.nativeElement.click();
+        component.open();
         fixture.detectChanges();
         const bannerElement: HTMLElement = fixture.nativeElement.querySelector('.ui-modal-body');
         expect(bannerElement.innerText).toContain('rem Ipsum is sim');

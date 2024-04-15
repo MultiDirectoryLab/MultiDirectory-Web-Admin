@@ -1,9 +1,0 @@
-<div [ngStyle]="{ display: (rows != undefined) ? 'block' : 'none' }">
-    <md-datagrid name="search-result"
-        pagerTitle="{{ 'grid.pager-title' | transloco}}"
-        fromTitle="{{ 'grid.from-title' | transloco}}"
-        emptyMessage="{{ 'grid.no-data' | transloco }}"
-        [columns]="columns"
-        [rows]="rows ?? []"
-        (doubleclick)="goTo($event)"></md-datagrid>
-</div>

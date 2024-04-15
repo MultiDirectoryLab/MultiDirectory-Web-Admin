@@ -10,7 +10,7 @@
     position: relative;
     flex-flow: column nowrap;
     padding: 1rem;
-    border: 1px solid global.$md-neutral-300;
+    border: 1px solid var(--md-neutral-300);
     border-top: transparent;
     height: 100%;
     .label-container {
@@ -22,12 +22,12 @@
         display: flex;
         flex-flow: row nowrap;
         .before-title {
-            border-top: 1px solid global.$md-neutral-300;
+            border-top: 1px solid var(--md-neutral-300);
             width: 5%;
             margin-left: -8px;
         }
         .after-title {
-            border-top: 1px solid global.$md-neutral-300;
+            border-top: 1px solid var(--md-neutral-300);
             width: 100%;
             margin-right: -7px;
         }

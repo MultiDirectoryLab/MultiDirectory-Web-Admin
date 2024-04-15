@@ -5,6 +5,6 @@
     width: 100%;
     border-radius: 8px;
     &.alert-info {
-        background-color: global.$md-white-blue-2;
+        background-color: var(--md-white-blue-2);
     }
 }

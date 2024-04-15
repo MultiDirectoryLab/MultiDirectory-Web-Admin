@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, map, of, take, tap } from "rxjs";
 import { ChangeDescription } from "../core/ldap/ldap-change";
-import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { LdapAttributes, LdapAttributesProxyHandler } from "../core/ldap/ldap-entity-proxy";
 import { PartialAttribute } from "../core/ldap/ldap-partial-attribute";
 import { SearchQueries } from "../core/ldap/search";
@@ -15,7 +15,7 @@ import { MultidirectoryApiService } from "./multidirectory-api.service";
 export class AttributeService {
     constructor(private api: MultidirectoryApiService) {}
 
-    load(node: LdapEntity): Observable<PartialAttribute[]> {
+    load(node: LdapEntryNode): Observable<PartialAttribute[]> {
         return this.api.search(
             SearchQueries.getProperites(node.id ?? '')
         ).pipe(
@@ -25,7 +25,7 @@ export class AttributeService {
         );
     }
 
-    get(node: LdapEntity): Observable<LdapAttributes> {
+    get(node: LdapEntryNode): Observable<LdapAttributes> {
         return this.load(node).pipe(map(props => {
             const attributes = new LdapAttributes(props);
             const handler = new LdapAttributesProxyHandler(node, attributes);
@@ -80,7 +80,7 @@ export class AttributeService {
         return this.api.update(request);
     }
 
-    setEntityAccessor(entity?: LdapEntity): Observable<LdapAttributes | null> {
+    setEntityAccessor(entity?: LdapEntryNode): Observable<LdapAttributes | null> {
         if(!entity) {
             this._entityAccessorRx.next(null);
             return of(null);

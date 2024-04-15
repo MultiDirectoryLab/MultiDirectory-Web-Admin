@@ -9,15 +9,17 @@
 
 
 <ng-template #treeNode let-data let-level="level">
-    <md-tree-item (click)="handleNodeClick($event, data)">
+    <md-tree-item (click)="handleNodeClick($event, data)" (contextmenu)="handleRightClick($event, data)">
         <div class="tree-item-wrapper" 
             [ngClass]="{
                 selected: data.selected,
                 focused: data.focused
-            }">
+            }"
+            [attr.data-id]="data.id"
+            >
             <span class="tree-item" [ngClass]="{
                 expanded: data.expanded,
-                expandable: (data.children?.length > 0 || !!data.loadChildren),
+                expandable: (data.children.length > 0 || !data.expanded) && data.expandable,
                 selected: data.selected,
                 focused: data.focused
             }"
@@ -26,7 +28,7 @@
             }">
                 <label
                     class="expand-mark"
-                    *ngIf="(data.children?.length > 0 || !!data.loadChildren)"
+                    *ngIf="(data.children.length > 0 || !data.expanded) && data.expandable"
                 >
                     <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
                             ? '&nbsp;&nbsp;' : data.expanded
@@ -51,5 +53,5 @@
 
 <ng-template #defaultLabel let-data>
     <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{data.name}}</md-checkbox>
-    <label  *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
+    <label *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
 </ng-template>

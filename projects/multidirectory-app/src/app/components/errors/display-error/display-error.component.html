@@ -1,0 +1,13 @@
+<md-modal #modal [opened]="true" class="paddingless" appHideControlbar [width]="'330px'">
+    <ng-container class="app-modal-header">
+        <img src="/assets/logo_login_transparent.svg" class="logo-img"/>
+    </ng-container>
+    <div class="w-100 h-100 p-16 flex-column flex-align-center flex-justify-center">
+        <md-form #loginForm [autocomplete]="false">
+            {{errorMessage}}
+        </md-form>
+    </div>
+    <ng-container class="app-modal-footer flex-row flex-justify-center">
+        <md-button (click)="retry()" [primary]="true">Retry</md-button>
+    </ng-container>
+</md-modal>

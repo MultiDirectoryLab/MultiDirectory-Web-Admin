@@ -3,6 +3,7 @@
 :host {
     display: flex;
     height: 100%;
+    position: relative;
 }
 
 .scrollable {
@@ -10,7 +11,12 @@
 }
 .treeview-container {
     padding: 1rem;
-    width: 100%
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
 }
 
 .w-300 {
@@ -43,16 +49,20 @@
 }
 .expand-mark {
     cursor: pointer;
+    span {
+        min-width: 10px;
+        display: inline-block;
+    }
 }
 .tree-item-wrapper {
     cursor: pointer;
     padding-left: 4px;
     &.selected {
-        background-color: global.$md-dark-blue-3;
-        color: global.$md-white;
+        background-color: var(--md-dark-blue-3);
+        color: var(--md-white);
     }
     &.focused {
-        background-color: global.$md-neutral-150;
+        background-color: var(--md-neutral-150);
         color: black;
     }
 }

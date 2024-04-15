@@ -4,8 +4,9 @@
     flex-flow: column nowrap;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+    background: var(--md-white);
     .ui-modal-header {
-        background-color: global.$md-dark-blue;
+        background-color: var(--md-dark-blue);
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
         .ui-titlebar {

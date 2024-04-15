@@ -8,8 +8,8 @@
 .fullscreen {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    position: absolute;
+    //overflow: hidden;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -51,10 +51,13 @@
     border: none;
 }
 :focus-visible {
-    outline: global.$md-dark-blue-3 auto 2px;;
+    outline: var(--md-dark-blue-3) auto 2px;;
 }
 .pt-16 {
     padding-top: 16px;
+}
+.p-32 {
+    padding: 32px;
 }
 .mv-8 {
     margin-top: 8px;
@@ -71,10 +74,10 @@
     border: 1px solid black;
 }
 .bg-white-neutral {
-    background: global.$md-neutral-100;
+    background: var(--md-neutral-100);
 }
 .bg-white {
-    background: global.$md-white;
+    background: var(--md-white);
 }
 .title {
     font-size: 20px;
@@ -90,4 +93,36 @@
 }
 .block {
     display: block;
+}
+.flex-column-expanded {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    flex-grow: 1;
+}
+
+/* width */
+::-webkit-scrollbar {
+width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: var(--md-neutral-100); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: var(--md-neutral-300); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background:var(--md-neutral-400)
+}
+
+
+.cfp-hotkeys {
+    background-color: var(--md-white);
+    color: var(--md-black);
 }

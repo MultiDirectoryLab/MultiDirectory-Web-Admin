@@ -1,0 +1,10 @@
+@use './../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
+.left-pane {
+    display: block;
+}
+.right-pane {
+    display: flex;
+    flex-flow: column;
+    background-color: var(--md-white);
+}

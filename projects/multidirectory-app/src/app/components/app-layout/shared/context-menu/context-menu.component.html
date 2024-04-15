@@ -1,0 +1,11 @@
+<md-dropdown-menu #contextMenu>
+    <div class="dropdown-item" (click)="contextMenu.close(); showEntryProperties()">
+        {{ "catalog-content.more" | transloco }}
+    </div>
+    <div class="dropdown-item"  *ngIf="isSelectedRowsOfType(LdapEntryType.User)" (click)="contextMenu.close(); showChangePassword()">
+        {{ "catalog-content.change-password" | transloco }}
+    </div>
+    <div class="dropdown-item" (click)="contextMenu.close(); showDeleteConfirmation($event)">
+        {{ "catalog-content.delete" | transloco }}
+    </div>
+</md-dropdown-menu> 

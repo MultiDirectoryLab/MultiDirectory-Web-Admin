@@ -73,6 +73,19 @@
         "apply": "Сохранить",
         "description": "Описание"
     },
+    "computer-create": {
+        "modal-header":"Новый объект - Компьютер",
+        "header": "Добавить в: ",
+        "computername-label": "Название компьютера",
+        "computernamelegacy-label": "Название компьютера (pre-Windows 2000):",
+        "account-description": "Нижеуказанный пользователь или группа могут присоединить этот компьютер к домену",
+        "user-or-group": "Пользователь или группа",
+        "change": "Изменить...",
+        "assign-legacy-account": "Назначить аккаунт этого компьютера как устаревший pre-Windows 2000",
+        "cancel": "Отменить",
+        "apply": "Сохранить",
+        "description": "Описание"
+    },
     "setup": {
         "setup-complete": "Настройка выполнена",
         "back": "Назад",
@@ -143,6 +156,7 @@
         "create-user": "Создать пользователя",
         "create-group": "Создать группу",
         "create-object": "Добавить объект",
+        "create-computer": "Добавить компьютер",
         "help": "Помощь",
         "group": "Группа",
         "computer": "Компьютер",
@@ -286,6 +300,7 @@
         "select-folder": "Выберите контейнер",
         "add-remove-columns": "Добавить/удалить столбцы...",
         "hide-left-panel": "Скрыть дерево",
+        "dark-mode": "Темная тема",
         "small-icons": "Маленькие иконки",
         "big-icons": "Большие иконки",
         "list": "Список",
@@ -360,6 +375,13 @@
     "access-policy": {
         "client-does-not-exist": "Этого клиента не существует"
     },
+    "password-policy-settings": {
+        "clients": "Password Policies",
+        "add": "Add",
+        "must-be-enabled": "One client must be enabled",
+        "unable-to-create-policy": "Unable to create policy",
+        "policy-id-not-found": "The policy has not ID"
+    },
     "settings-header": {
         "title": "Настройки"
     },
@@ -374,7 +396,8 @@
     },
     "ldap-builder": {
       "root-dse-name": "Пользователи Multidirectory",
-      "saved-queries": "Cохраненные запросы"
+      "saved-queries": "Cохраненные запросы",
+      "access-policies": "Политики доступа"
     },
 
     "grid": {
@@ -387,6 +410,7 @@
       "root": "Корень",
       "domain-controller": "Контроллер домена",
       "user": "Пользователь",
+      "computer": "Компьютер",
       "security-group": "Группа безопасности",
       "organizational-unit": "Организационная единица"
     },
@@ -430,6 +454,14 @@
         "entry-already-exists": "Сущность с таким именем уже существует",
         "unknown-error": "Неизвестная ошибка",
         "filter-error": "Ошибка фильтра",
+        "empty-filter": "Фильтр не указан, пожалуйста, начните вводить название",
         "forbidden": "Доступ запрещен"
+    },
+    "navigation": {
+        "policy-loader": {
+            "root-node-name": "Политики сервера",
+            "access-policy-root-name": "Политики доступа",
+            "password-policy-root-node": "Парольные политики"
+        }
     }
 }

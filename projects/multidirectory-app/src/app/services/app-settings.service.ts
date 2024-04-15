@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, tap } from "rxjs";
 import { WhoamiResponse } from "../models/whoami/whoami-response";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
-import { LdapEntity } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "../core/ldap/ldap-entity";
 import { TranslocoService } from "@ngneat/transloco";
 
 @Injectable({
@@ -14,7 +14,18 @@ export class AppSettingsService {
     setNavigationalPanelVisiblity(state: boolean) {
         this.navigationalPanelVisibleRx.next(state);
     }
-    userEntry?: LdapEntity;
+
+    private _darkMode: boolean = localStorage.getItem('dark-mode') == 'true';
+    private _darkModeRx = new BehaviorSubject<boolean>(this._darkMode);
+    get darkModeRx() {
+        return this._darkModeRx.asObservable();
+    }
+    setDarkMode(state: boolean) {
+        localStorage.setItem('dark-mode', state ? 'true' : 'false');
+        this._darkModeRx.next(state);
+    }
+
+    userEntry?: LdapEntryNode;
     private _user: WhoamiResponse = new WhoamiResponse({});
     get user(): WhoamiResponse {
         return this._user;
@@ -39,7 +50,6 @@ export class AppSettingsService {
         localStorage.setItem('locale', lang);
         this.translocoService.setActiveLang(lang);
     }
-
     private _languageRx = new Subject<string>();
     get languageRx(): Observable<string> {
         return this._languageRx.asObservable();

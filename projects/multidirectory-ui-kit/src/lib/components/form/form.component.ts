@@ -50,13 +50,18 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
         combineLatest(this.inputValidators).pipe(
             takeUntil(this.unsubscribe),
         ).subscribe(va => {
-            this._valid.next(va.every(x => x == 'VALID'));
+            this._valid.next(va.every(x => x == 'VALID' || x == 'DISABLED'));
         });
     }
 
     validate() {
-        this.inputs.forEach(x => x.control?.markAsTouched());
+        this.inputs.forEach(x => {
+            if(x.control?.dirty) {
+                x.control?.updateValueAndValidity()
+            }
+        });
     }
+    
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.complete();

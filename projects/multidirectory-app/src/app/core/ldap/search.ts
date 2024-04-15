@@ -1,6 +1,6 @@
 import { Page } from "multidirectory-ui-kit";
 import { SearchRequest } from "../../models/entry/search-request";
-import { LdapEntity } from "./ldap-entity";
+import { LdapEntryNode } from "./ldap-entity";
 
 export const SearchQueries = {
   RootDse: {
@@ -44,12 +44,12 @@ export const SearchQueries = {
         });
     },
 
-    getContent(baseObject: string, page?: Page): SearchRequest {
+    getContent(baseObject: string): SearchRequest {
       const req = new SearchRequest({
           "base_object": baseObject,
           "scope": 1,
           "deref_aliases": 0,
-          "size_limit": page?.size ?? 0,
+          "size_limit": 0, 
           "time_limit": 0,
           "types_only": false,
           "filter": "(objectClass=*)",
@@ -60,9 +60,6 @@ export const SearchQueries = {
             "objectClass"
           ]
         });
-        if(page) {
-          req.page_number = page.pageNumber;
-        }
         return req;
     },
 
@@ -83,9 +80,9 @@ export const SearchQueries = {
     },
 
 
-    findByName(name: string, data?: LdapEntity): SearchRequest {
+    findByName(name: string, baseObject: string): SearchRequest {
       return new SearchRequest({
-          "base_object": data?.entry?.id ?? '',
+          "base_object": baseObject,
           "scope": 2,
           "deref_aliases": 0,
           "size_limit": 0,

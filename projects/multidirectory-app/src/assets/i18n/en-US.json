@@ -73,6 +73,19 @@
       "apply": "Save",
       "description": "Description"
     },
+    "computer-create": {
+      "modal-header": "New object - Computer",
+      "header": "Add to:",
+      "computername-label": "Computer name:",
+      "computernamelegacy-label": "Computer name (pre-Windows 2000):",
+      "account-description": "The following user or group can join this computer to a domain",
+      "user-or-group": "User or Group",
+      "change": "Change...",
+      "assigns-legacy-account": "Assign this computer account as a pre-Windows 2000 account",
+      "cancel": "Cancel",
+      "apply": "Save",
+      "description": "Description"
+    },
     "setup": {
       "setup-complete": "Setup has completed successfully",
       "back": "Back",
@@ -143,6 +156,7 @@
       "create-user": "Create a user",
       "create-group": "Create a group",
       "create-object": "Add object",
+      "create-computer": "Add a computer",
       "help": "Help",
       "group": "Group",
       "computer": "Computer",
@@ -286,6 +300,7 @@
       "select-folder": "Select a Container",
       "add-remove-columns": "Add/remove columns...",
       "hide-left-panel": "Hide Tree",
+      "dark-mode": "Dark Mode",
       "small-icons": "Small Icons",
       "big-icons": "Large Icons",
       "list": "List",
@@ -357,6 +372,13 @@
     "access-policy": {
         "client-does-not-exist": "The client does not exist"
     },
+    "password-policy-settings": {
+      "clients": "Password Policies",
+      "add": "Add",
+      "must-be-enabled": "One client must be enabled",
+      "unable-to-create-policy": "Unable to create policy",
+      "policy-id-not-found": "The policy has not ID"
+    },
     "settings-header": {
       "title": "Settings"
     },
@@ -374,7 +396,8 @@
     },
     "ldap-builder": {
       "root-dse-name": "MultiDirectory Users & Computers",
-      "saved-queries": "Saved queries"
+      "saved-queries": "Saved queries",
+      "access-policies": "Access Policies"
     },
     "grid": {
       "no-data": "No data to display...",
@@ -387,6 +410,7 @@
       "domain-controller": "Domain controller",
       "user": "User",
       "security-group": "Security group",
+      "computer": "Computer",
       "organizational-unit": "Organizational Unit"
     },
     "properties-modal": {
@@ -430,6 +454,15 @@
         "entry-already-exists": "Entry with that name already exists",
         "unknown-error": "Unknown Error",
         "filter-error": "Filter Error",
+        "empty-filter": "Filter is empty, please fill the form",
         "forbidden": "Access is Forbidden"
+    },
+    "navigation": {
+        "policy-loader": {
+            "root-node-name": "Server Policies",
+            "access-policy-root-name": "Access Policies",
+            "password-policy-root-node": "Password Policies"
+
+        }
     }
 }

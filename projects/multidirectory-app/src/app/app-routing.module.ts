@@ -1,24 +1,58 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
 import { AuthRouteGuard } from './core/authorization/auth-route-guard';
-import { SetupComponent } from './components/setup/setup.component';
 import { SetupRouteGuard } from './core/setup/setup-route-guard';
-import { AppSettingsComponent } from './components/settings/app-settings.component';
-import { HomeComponent } from './components/ldap-browser/home/home.component';
-import { BackendNotRespondedComponent } from './components/errors/backend-does-not-responded/backend-not-responded.component';
+import { AppLayoutComponent } from './components/app-layout/app-layout.component';
+import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
+import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 
 const routes: Routes = [
-  { path: 'setup', component: SetupComponent, canActivate: [ SetupRouteGuard ]  },
-  { path: 'login', component: LoginComponent, canActivate: [ SetupRouteGuard, AuthRouteGuard ] },
-  {
-    path: 'settings',
-    component: AppSettingsComponent, 
-    canActivate: [ AuthRouteGuard ],
-    loadChildren: () => import('./components/settings/app-settings.module').then(m => m.AppSettingsModule)
+  { 
+    path: 'setup', 
+    canActivate: [ SetupRouteGuard ],
+    loadChildren: () => import('./features/setup/setup.module').then(x => x.SetupModule)
   },
-  { path: '', component: HomeComponent, canActivate: [ AuthRouteGuard ]},
-  { path: 'enable-backend', component: BackendNotRespondedComponent },
+  { 
+    path: 'login', 
+    canActivate: [ SetupRouteGuard, AuthRouteGuard ],
+    loadChildren: () => import('./features/login/login.module').then(x => x.LoginModule)
+  },
+  { 
+    path: 'settings',
+    component: AppLayoutComponent, 
+    canActivate: [ AuthRouteGuard ],
+    loadChildren: () => import('./features/settings/app-settings.module').then(x => x.AppSettingsModule)
+  },
+  { 
+    path: '',
+    component: AppLayoutComponent,
+    canActivate: [ AuthRouteGuard ],
+    children: [
+      { 
+        path: '',
+        component: NavigationComponent,
+        outlet: 'sidebar',
+      },
+      { 
+        path: 'access-policy',
+        loadChildren: () => import('./features/access-policy/access-policy.module').then(x => x.AccessPolicyModule)
+      },
+      { 
+        path: 'password-policy',
+        loadChildren: () => import('./features/password-policy/password-policy.module').then(x => x.PasswordPolicyModule)
+      },
+      {
+        path: 'ldap', 
+        loadChildren: () => import('./features/ldap-browser/ldap-browser.module').then(x => x.LdapBrowserModule)
+      },
+      {
+        path: '', 
+        loadChildren: () => import('./components/app-layout/placeholder/placeholder.module').then(x => x.PlaceholderModule)
+      }
+    ]
+  },
+  { path: 'enable-backend', component: DisplayErrorComponent, data: { message: 'Backend is not available at the moment' } },
+  { path: 'mfa_token_error', component: DisplayErrorComponent, data: { message: 'There is something wrong with 2FA token configuration' } },
   { path: '**', redirectTo: ''}
 ];
 
