@@ -56,7 +56,13 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
         })
     }
 
-    showChangePassword() {}
+    showChangePassword() {
+        if(this.entries.length < 1) {
+            return;
+        }
+        this.windows.openChangePasswordModal(this.entries[0]);
+    }
+
     showDeleteConfirmation(event: Event) {
         event.preventDefault();
         event.stopPropagation();
