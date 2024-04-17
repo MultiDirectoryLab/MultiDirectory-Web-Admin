@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div>
-                <md-checkbox  [(ngModel)]="isLegacyAccount">{{ 'computer-create.assigns-legacy-account' | transloco }}</md-checkbox>
+                <md-checkbox [disabled]="true"  [(ngModel)]="isLegacyAccount">{{ 'computer-create.assigns-legacy-account' | transloco }}</md-checkbox>
             </div>
         </div>
         <div class="flex-column align-start flex-space-between flex-gap-10 pt-16">
