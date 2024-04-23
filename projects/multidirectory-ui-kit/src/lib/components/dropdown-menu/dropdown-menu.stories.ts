@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { DropdownMenuComponent } from "./dropdown-menu.component";
-import { ButtonComponent } from "../button/button.component";
+import { ButtonComponent } from "@button/button.component";
 import { DropdownContainerDirective } from "./dropdown-container.directive";
 
 const meta: Meta<DropdownMenuComponent> = {

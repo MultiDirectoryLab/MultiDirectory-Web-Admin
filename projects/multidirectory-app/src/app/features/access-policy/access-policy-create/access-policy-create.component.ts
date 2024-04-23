@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { DropdownOption, MdFormComponent, ModalInjectDirective, MultiselectComponent } from "multidirectory-ui-kit";
-import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
-import { IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
-import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
-import { Constants } from "projects/multidirectory-app/src/app/core/constants";
-import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { AccessPolicy } from "@core/access-policy/access-policy";
+import { IpRange } from "@core/access-policy/access-policy-ip-address";
+import { MfaAccessEnum } from "@core/access-policy/mfa-access-enum";
+import { Constants } from "@core/constants";
+import { SearchQueries } from "@core/ldap/search";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Observable, map, switchMap, take } from "rxjs";
-import { AppNavigationService } from "../../../services/app-navigation.service";
+import { AppNavigationService } from "@services/app-navigation.service";
 
 export class MultiselectModel {
     id: string = '';

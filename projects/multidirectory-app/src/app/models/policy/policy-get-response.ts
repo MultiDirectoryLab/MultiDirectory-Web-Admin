@@ -1,4 +1,4 @@
-import { IpRange } from "../../core/access-policy/access-policy-ip-address";
+import { IpRange } from "@core/access-policy/access-policy-ip-address";
 
 export class PolicyResponse {
     enabled: boolean = false;

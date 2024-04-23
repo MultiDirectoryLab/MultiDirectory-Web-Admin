@@ -15,8 +15,8 @@ import { TranslocoModule } from "@ngneat/transloco";
 import { GroupPropertiesComponent } from "./group-properties/group-properties.component";
 import { MembersComponent } from "./members/members.component";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
-import { AppFormsModule } from "../forms/forms.module";
-import { EditorsModule } from "../ldap-browser/components/editors/editors.module";
+import { EditorsModule } from "@features/ldap-browser/components/editors/editors.module";
+import { AppFormsModule } from "@features/forms/forms.module";
 
 @NgModule({
     imports: [

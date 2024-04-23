@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, forwardRef } from "@angular/core";
 import { ModalComponent } from "ng-modal-full-resizable";
 import { Observable, Subject, takeUntil } from "rxjs";
-import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
 import { ModalService } from "./modal.service";
+import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
 import { IdProvider } from "../../utils/id-provider";
 
 @Component({

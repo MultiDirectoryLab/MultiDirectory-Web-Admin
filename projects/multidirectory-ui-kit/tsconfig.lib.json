@@ -7,6 +7,9 @@
     "declarationMap": true,
     "inlineSources": true,
     "types": [],
+    "paths": {
+      "@components/*": ["projects/multidirectory-ui-kit/src/lib/components/*"],
+    }
   },
   "exclude": [
     "src/test.ts",

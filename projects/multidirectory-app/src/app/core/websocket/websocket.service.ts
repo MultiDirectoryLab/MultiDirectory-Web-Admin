@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import { MultidirectoryAdapterSettings } from "@core/api/adapter-settings";
 import { Observable, Subject, tap } from "rxjs";
 import { WebSocketSubject, WebSocketSubjectConfig} from 'rxjs/webSocket';
-import { AdapterSettings, MultidirectoryAdapterSettings } from "../api/adapter-settings";
 
 export enum WebsocketState {
     INITIAL = 'INITIAL', 

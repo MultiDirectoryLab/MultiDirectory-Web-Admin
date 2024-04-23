@@ -2,11 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnDestroy, 
 import { MdFormComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
-import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
-import { CreateEntryRequest } from "../../../models/entry/create-request";
-import { GroupCreateRequest } from "../../../models/group-create/group-create.request";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { PartialAttribute } from "@core/ldap/ldap-partial-attribute";
+import { CreateEntryRequest } from "@models/entry/create-request";
+import { GroupCreateRequest } from "@models/group-create/group-create.request";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { translate } from "@ngneat/transloco";
 
 @Component({

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CatalogSelectorComponent } from "./catalog-selector.component";
 import { TranslocoModule } from "@ngneat/transloco";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
-import { ValidatorsModule } from "../../../core/validators/validators.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
 
 @NgModule({
     imports: [

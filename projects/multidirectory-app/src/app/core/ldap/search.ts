@@ -1,5 +1,5 @@
 import { Page } from "multidirectory-ui-kit";
-import { SearchRequest } from "../../models/entry/search-request";
+import { SearchRequest } from "@models/entry/search-request";
 import { LdapEntryNode } from "./ldap-entity";
 
 export const SearchQueries = {

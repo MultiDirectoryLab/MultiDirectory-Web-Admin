@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, tap } from "rxjs";
-import { WhoamiResponse } from "../models/whoami/whoami-response";
+import { WhoamiResponse } from "@models/whoami/whoami-response";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
-import { LdapEntryNode } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 import { TranslocoService } from "@ngneat/transloco";
 
 @Injectable({

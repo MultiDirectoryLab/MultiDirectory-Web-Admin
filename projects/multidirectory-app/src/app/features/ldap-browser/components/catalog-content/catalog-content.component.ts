@@ -3,19 +3,19 @@ import { translate } from "@ngneat/transloco";
 import { Hotkey, HotkeysService } from "angular2-hotkeys";
 import { DropdownMenuComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
-import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
-import { ContentViewService } from "projects/multidirectory-app/src/app/services/content-view.service";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { AppNavigationService } from "@services/app-navigation.service";
+import { AppWindowsService } from "@services/app-windows.service";
+import { ContentViewService } from "@services/content-view.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Subject, concat, take, takeUntil } from "rxjs";
 import { ViewMode } from "./view-modes";
 import { BaseViewComponent, RightClickEvent } from "./views/base-view.component";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
-import { ContextMenuService } from "projects/multidirectory-app/src/app/services/contextmenu.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapEntryType } from "@core/ldap/ldap-entity-type";
+import { ContextMenuService } from "@services/contextmenu.service";
 import { ActivatedRoute } from "@angular/router";
-import { DeleteEntryRequest } from "projects/multidirectory-app/src/app/models/entry/delete-request";
+import { DeleteEntryRequest } from "@models/entry/delete-request";
  
 @Component({
     selector: 'app-catalog-content',

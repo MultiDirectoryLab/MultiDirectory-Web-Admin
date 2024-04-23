@@ -10,7 +10,7 @@ import { PasswordPolicyListItemComponent } from "./password-policy-list-item/pas
 import { PasswordPolicyListComponent } from "./password-policy-list.component";
 import { PasswordPolicyRoutingModule } from "./password-policy-routing.module";
 import { PasswordPolicyComponent } from "./password-policy/password-policy.component";
-import { ValidatorsModule } from "../../core/validators/validators.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
 
 @NgModule({
     imports: [

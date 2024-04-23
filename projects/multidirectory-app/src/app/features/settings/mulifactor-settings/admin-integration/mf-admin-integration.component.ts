@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { take } from "rxjs";
 
 @Component({

@@ -1,6 +1,5 @@
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
-import { Constants } from "../constants";
 import { Injectable } from "@angular/core";
 import { TokenStorageHelper } from "./token-storage-helper";
 

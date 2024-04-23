@@ -1,7 +1,7 @@
 import { of } from "rxjs";
-import { MultidirectoryApiService } from "../services/multidirectory-api.service";
-import { LoginResponse } from "../models/login/login-response";
-import { LdapEntryNode } from "../core/ldap/ldap-entity";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
+import { LoginResponse } from "@models/login/login-response";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 
 export function getMultidirectoryApiMock() {
     // Create jasmine spy object 

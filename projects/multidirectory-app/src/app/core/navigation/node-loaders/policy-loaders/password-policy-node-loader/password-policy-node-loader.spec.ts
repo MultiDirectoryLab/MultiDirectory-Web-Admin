@@ -1,7 +1,7 @@
 import { take } from "rxjs";
 import { PasswordPolicyNodeLoader } from "./password-policy-node-loader"
 import { TestBed } from "@angular/core/testing";
-import { getPasswordPolicyLoaderMock } from "projects/multidirectory-app/src/app/testing/password-policy-node-loader-mock";
+import { getPasswordPolicyLoaderMock } from "@testing/password-policy-node-loader-mock";
 
 describe('PasswordPolicyNodeLoader Test Suit', () => {
     let passwordPolicyLoader: PasswordPolicyNodeLoader;

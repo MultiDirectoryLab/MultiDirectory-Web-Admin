@@ -1,15 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { MdModalComponent, MultiselectComponent } from "multidirectory-ui-kit";
-import { EntityTypeSelectorComponent } from "../entity-type-selector/entity-type-selector.component";
 import { Subject, catchError, take, throwError } from "rxjs";
-import { EntityType } from "../../../core/entities/entities-type";
-import { CatalogSelectorComponent } from "../catalog-selector/catalog-selector.component";
-import { ENTITY_TYPES } from "../../../core/entities/entities-available-types";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { SearchQueries } from "../../../core/ldap/search";
+import { EntityType } from "@core/entities/entities-type";
+import { ENTITY_TYPES } from "@core/entities/entities-available-types";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
+import { SearchQueries } from "@core/ldap/search";
 import { MultiselectModel } from "projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model";
-import { Constants } from "../../../core/constants";
-import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { Constants } from "@core/constants";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { CatalogSelectorComponent } from "../catalog-selector/catalog-selector.component";
+import { EntityTypeSelectorComponent } from "../entity-type-selector/entity-type-selector.component";
 
 @Component({
     selector: 'app-group-selector',

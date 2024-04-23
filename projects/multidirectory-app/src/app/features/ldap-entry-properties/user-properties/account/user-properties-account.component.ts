@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import BitSet from "bitset";
 import { DropdownOption, ModalInjectDirective } from "multidirectory-ui-kit";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
-import { UserAccountControlFlag } from "projects/multidirectory-app/src/app/core/ldap/user-account-control-flags";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
+import { UserAccountControlFlag } from "@core/ldap/user-account-control-flags";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { AttributeService } from "@services/attributes.service";
 import { take, tap } from "rxjs";
 
 @Component({

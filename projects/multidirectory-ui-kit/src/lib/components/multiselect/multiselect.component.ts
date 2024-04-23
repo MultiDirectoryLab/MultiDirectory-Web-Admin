@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, forwardRef } from "@angular/core";
 import { MultiselectModel } from "./mutliselect-model";
-import { DropdownContainerDirective } from "../dropdown-menu/dropdown-container.directive";
-import { BaseComponent } from "../base-component/base.component";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { BaseComponent } from "../base-component/base.component";
+import { DropdownContainerDirective } from "../dropdown-menu/dropdown-container.directive";
 
 @Component({
     selector: 'md-multiselect',

@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Router } from "@angular/router";
 import { EMPTY, Subject, catchError, skipWhile, switchMap, take, takeUntil } from "rxjs";
 import { MdFormComponent, MdModalComponent } from "multidirectory-ui-kit";
 import {  ToastrService } from "ngx-toastr";
-import { WebSocketService, WebsocketTokenHandle } from "../../core/websocket/websocket.service";
-import { LoginResponse } from "../../models/login/login-response";
+import { WebSocketService, WebsocketTokenHandle } from "@core/websocket/websocket.service";
+import { LoginResponse } from "@models/login/login-response";
 import { translate } from "@ngneat/transloco";
 
 @Component({

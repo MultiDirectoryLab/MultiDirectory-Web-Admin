@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject, of, pipe, switchMap, take } from "rxjs";
-import { LdapEntryNode } from "../core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 import { TreeItemComponent } from "dist/multidirectory-ui-kit/lib/components/treeview/tree-item.component";
-import { NavigationNode } from "../core/navigation/navigation-node";
+import { NavigationNode } from "@core/navigation/navigation-node";
 
 @Injectable({
     providedIn: 'root'

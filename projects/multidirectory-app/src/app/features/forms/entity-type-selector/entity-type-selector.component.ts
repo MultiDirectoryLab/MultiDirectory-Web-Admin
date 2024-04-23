@@ -1,8 +1,8 @@
 import { Component, ViewChild } from "@angular/core";
 import { MdModalComponent, Treenode } from "multidirectory-ui-kit";
-import { ENTITY_TYPES } from "../../../core/entities/entities-available-types";
+import { ENTITY_TYPES } from "@core/entities/entities-available-types";
 import { Observable, Subject } from "rxjs";
-import { EntityType } from "../../../core/entities/entities-type";
+import { EntityType } from "@core/entities/entities-type";
 
 @Component({
     selector: 'app-entity-type-selector',

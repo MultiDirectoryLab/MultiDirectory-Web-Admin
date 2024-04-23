@@ -1,9 +1,9 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
 import { take } from "rxjs";
 import { translate } from "@ngneat/transloco";
-import { AttributeListComponent } from "../../../ldap-browser/components/editors/attributes-list/attributes-list.component";
+import { AttributeListComponent } from "@features/ldap-browser/components/editors/attributes-list/attributes-list.component";
 
 @Component({
     selector: 'app-user-properties-general',

@@ -17,9 +17,12 @@
       "multidirectory-ui-kit": [
         "dist/multidirectory-ui-kit"
       ],
-      "@components/*": ["projects/multidirectory-app/src/app/components"],
-      "@services/*": ["projects/multidirectory-app/src/app/app/services"],
-      "@core/*": ["projects/multidirectory-app/src/app/app/core"] 
+      "@components/*": ["projects/multidirectory-app/src/components/*"],
+      "@services/*": ["projects/multidirectory-app/src/app/services/*"],
+      "@core/*": ["projects/multidirectory-app/src/app/core/*"],
+      "@models/*": ["projects/multidirectory-app/src/app/models/*"],
+      "@features/*": ["projects/multidirectory-app/src/app/features/*"],
+      "@testing/*": ["projects/multidirectory-app/src/app/testing/*"]
     },
     "declaration": false,
     "downlevelIteration": true,

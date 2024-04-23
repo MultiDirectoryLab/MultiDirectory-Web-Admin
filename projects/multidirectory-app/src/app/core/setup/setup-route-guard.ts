@@ -1,6 +1,6 @@
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { EMPTY, Observable, catchError, map, of } from "rxjs";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { translate } from "@ngneat/transloco";

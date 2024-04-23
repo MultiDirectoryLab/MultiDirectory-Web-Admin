@@ -5,15 +5,15 @@ import { GroupCreateComponent } from "./group-create/group-create.component";
 import { OuCreateComponent } from "./ou-create/ou-create.component";
 import { UserCreateComponent } from "./user-create/user-create.component";
 import { GroupSelectorModule } from "./group-selector/group-selector.module";
-import { TranslocoRootModule } from "../../transloco-root.module";
-import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { ValidatorsModule } from "../../core/validators/validators.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
 import { UserCreateSummaryComponent } from "./user-create/summary/summary.component";
 import { UserCreatePasswordSettingsComponent } from "./user-create/password-settings/password-settings.component";
 import { UserCreateGeneralInfoComponent } from "./user-create/general-info/general-info.component";
 import { ComputerCreateComponent } from "./computer-create/computer-create.component";
+import { TranslocoRootModule } from "../../transloco-root.module";
+import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 
 @NgModule({
     declarations: [

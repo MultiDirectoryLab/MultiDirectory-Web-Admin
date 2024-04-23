@@ -1,7 +1,7 @@
 import { LdapEntryType } from "./ldap-entity-type";
-import { SearchEntry } from "../../models/entry/search-response";
+import { SearchEntry } from "@models/entry/search-response";
 import { EntityInfoResolver } from "./entity-info-resolver";
-import { NavigationNode } from "../navigation/navigation-node";
+import { NavigationNode } from "@core/navigation/navigation-node";
 
 export class LdapEntryNode extends NavigationNode {
     override parent?: LdapEntryNode;

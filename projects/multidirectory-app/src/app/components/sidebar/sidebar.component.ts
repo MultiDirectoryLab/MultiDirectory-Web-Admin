@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy } from "@angular/core";
-import { WhoamiResponse } from "../../models/whoami/whoami-response";
-import { AppSettingsService } from "../../services/app-settings.service";
+import { WhoamiResponse } from "@models/whoami/whoami-response";
+import { AppSettingsService } from "@services/app-settings.service";
 import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
-import { LdapEntryNode } from "../../core/ldap/ldap-entity";
-import { AppWindowsService } from "../../services/app-windows.service";
-import { TokenStorageHelper } from "../../core/authorization/token-storage-helper";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { AppWindowsService } from "@services/app-windows.service";
+import { TokenStorageHelper } from "@core/authorization/token-storage-helper";
 
 @Component({
     selector: 'app-sidebar',

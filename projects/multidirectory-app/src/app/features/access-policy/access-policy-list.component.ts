@@ -3,9 +3,9 @@ import { ToastrService } from "ngx-toastr";
 import { EMPTY, catchError, switchMap, take, zip } from "rxjs";
 import { translate } from "@ngneat/transloco";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
-import { AppWindowsService } from "../../services/app-windows.service";
-import { AccessPolicy } from "../../core/access-policy/access-policy";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
+import { AppWindowsService } from "@services/app-windows.service";
+import { AccessPolicy } from "@core/access-policy/access-policy";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 @Component({

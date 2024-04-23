@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
 import { translate } from "@ngneat/transloco";
-import { SearchResult } from "projects/multidirectory-app/src/app/features/search/models/search-result";
-import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
+import { SearchResult } from "@features/search/models/search-result";
+import { AppNavigationService } from "@services/app-navigation.service";
 
 @Component({
     selector: 'app-search-result',

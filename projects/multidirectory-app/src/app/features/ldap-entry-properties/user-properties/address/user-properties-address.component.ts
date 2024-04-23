@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
 import { DropdownOption } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
-import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
+import { AttributeService } from "@services/attributes.service";
 import { Subject, takeUntil } from "rxjs";
 
 @Component({

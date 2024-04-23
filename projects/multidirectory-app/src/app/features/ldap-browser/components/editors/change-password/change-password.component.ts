@@ -2,8 +2,8 @@ import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from "@angular
 import { translate } from "@ngneat/transloco";
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { ChangePasswordRequest } from "projects/multidirectory-app/src/app/models/user/change-password-request";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { ChangePasswordRequest } from "@models/user/change-password-request";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { EMPTY, Subject, catchError, takeUntil } from "rxjs";
 
 

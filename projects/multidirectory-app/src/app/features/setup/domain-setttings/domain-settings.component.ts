@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { SetupService } from "projects/multidirectory-app/src/app/services/setup.service";
+import { SetupService } from "@services/setup.service";
 import { MdFormComponent } from "multidirectory-ui-kit";
 import { Subject, takeUntil } from "rxjs";
-import { SetupRequest } from "../../../models/setup/setup-request";
+import { SetupRequest } from "@models/setup/setup-request";
 
 @Component({
     selector: 'app-domain-settings',

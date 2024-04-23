@@ -1,5 +1,5 @@
 import { OnInit, Component } from "@angular/core";
-import { AppSettingsService } from "../../../services/app-settings.service";
+import { AppSettingsService } from "@services/app-settings.service";
 import { DropdownOption } from "multidirectory-ui-kit";
 import { Router } from "@angular/router";
 

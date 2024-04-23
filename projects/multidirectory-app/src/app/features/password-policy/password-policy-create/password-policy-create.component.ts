@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { PasswordPolicy } from "../../../core/password-policy/password-policy";
+import { PasswordPolicy } from "@core/password-policy/password-policy";
 import { MdFormComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 
 @Component({

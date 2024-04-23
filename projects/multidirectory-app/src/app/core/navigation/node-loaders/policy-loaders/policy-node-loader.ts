@@ -1,10 +1,10 @@
-import { Observable, flatMap, mergeMap, of, take, zip } from "rxjs";
-import { NavigationNode } from "../../navigation-node";
-import { NodeLoader } from "../node-loader";
 import { Injectable } from "@angular/core";
 import { AccessPolicyNodeLoader } from "./access-policy-node-loader/access-policy-node-loader";
 import { PasswordPolicyNodeLoader } from "./password-policy-node-loader/password-policy-node-loader";
 import { translate } from "@ngneat/transloco";
+import { NavigationNode } from "@core/navigation/navigation-node";
+import { Observable, of, zip, take, mergeMap } from "rxjs";
+import { NodeLoader } from "../node-loader";
 
 @Injectable({
     providedIn: 'root'

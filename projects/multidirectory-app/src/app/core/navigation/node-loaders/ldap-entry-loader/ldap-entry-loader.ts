@@ -1,13 +1,13 @@
 import { Observable, map, tap } from "rxjs";
-import { NodeLoader } from "../node-loader";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Injectable } from "@angular/core";
-import { LdapEntryNode } from "../../../ldap/ldap-entity";
-import { SearchQueries } from "../../../ldap/search";
-import { SearchEntry, SearchResponse } from "projects/multidirectory-app/src/app/models/entry/search-response";
-import { LdapEntryType } from "../../../ldap/ldap-entity-type";
-import { EntityInfoResolver } from "../../../ldap/entity-info-resolver";
+import { SearchEntry, SearchResponse } from "@models/entry/search-response";
 import { Page, Treenode } from "multidirectory-ui-kit";
+import { EntityInfoResolver } from "@core/ldap/entity-info-resolver";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapEntryType } from "@core/ldap/ldap-entity-type";
+import { SearchQueries } from "@core/ldap/search";
+import { NodeLoader } from "../node-loader";
  
 @Injectable({
     providedIn: 'root'

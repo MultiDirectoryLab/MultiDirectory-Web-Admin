@@ -1,5 +1,5 @@
-import { AccessPolicy } from "../../core/access-policy/access-policy";
-import { IpOption } from "../../core/access-policy/access-policy-ip-address";
+import { AccessPolicy } from "@core/access-policy/access-policy";
+import { IpOption } from "@core/access-policy/access-policy-ip-address";
 
 export class PolicyPutRequest {
     id?: number;

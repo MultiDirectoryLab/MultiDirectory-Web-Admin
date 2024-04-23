@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { ToastrService } from "ngx-toastr";
 import { take } from "rxjs";
 

@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, map, of, take, tap } from "rxjs";
-import { ChangeDescription } from "../core/ldap/ldap-change";
-import { LdapEntryNode } from "../core/ldap/ldap-entity";
-import { LdapAttributes, LdapAttributesProxyHandler } from "../core/ldap/ldap-entity-proxy";
-import { PartialAttribute } from "../core/ldap/ldap-partial-attribute";
-import { SearchQueries } from "../core/ldap/search";
-import { LdapChange, LdapOperation, UpdateEntryRequest } from "../models/entry/update-request";
-import { UpdateEntryResponse } from "../models/entry/update-response";
+import { ChangeDescription } from "@core/ldap/ldap-change";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapAttributes, LdapAttributesProxyHandler } from "@core/ldap/ldap-entity-proxy";
+import { PartialAttribute } from "@core/ldap/ldap-partial-attribute";
+import { SearchQueries } from "@core/ldap/search";
+import { LdapChange, LdapOperation, UpdateEntryRequest } from "@models/entry/update-request";
+import { UpdateEntryResponse } from "@models/entry/update-response";
 import { MultidirectoryApiService } from "./multidirectory-api.service";
 
 @Injectable({

@@ -4,8 +4,8 @@ import { FirstStepComponent } from "./steps/first-step.component";
 import { SecondStepComponent } from "./steps/second-step.component";
 import { ThirdStepComponent } from "./steps/third-step.component";
 import { FormsModule } from "@angular/forms";
-import { MultidirectoryUiKitModule } from "../../multidirectory-ui-kit.module";
 import { CommonModule } from "@angular/common";
+import { MultidirectoryUiKitModule } from "../../multidirectory-ui-kit.module";
 
 export class TestData {
     firstStep: string = '';

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { MdModalComponent, TreeviewComponent } from "multidirectory-ui-kit";
 import { Observable, Subject, takeUntil } from "rxjs";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-catalog-selector',

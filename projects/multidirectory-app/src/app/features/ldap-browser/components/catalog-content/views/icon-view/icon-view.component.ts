@@ -1,15 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, QueryList, ViewChild, ViewChildren, forwardRef } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { BaseViewComponent } from "../base-view.component";
 import { GridItemComponent } from "./grid-item/grid-item.component";
 import { DropdownMenuComponent, Page, PagerComponent } from "multidirectory-ui-kit";
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from "@angular/cdk/drag-drop";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { AppNavigationService, NavigationEvent } from "@services/app-navigation.service";
 import { take } from "rxjs";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavigationRoot } from "projects/multidirectory-app/src/app/core/navigation/navigation-entry-point";
+import { NavigationRoot } from "@core/navigation/navigation-entry-point";
+import { BaseViewComponent } from "../base-view.component";
 
 @Component({
     selector: 'app-icon-view',

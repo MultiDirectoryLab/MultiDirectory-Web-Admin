@@ -1,8 +1,8 @@
 import { Meta, StoryObj, moduleMetadata } from "@storybook/angular";
 import { MultiselectComponent } from "./multiselect.component";
 import { MultiselectBadgeComponent } from "./multiselect-badge/multiselect-badge.component";
-import { DropdownMenuComponent } from "../dropdown-menu/dropdown-menu.component";
-import { DropdownContainerDirective } from "../dropdown-menu/dropdown-container.directive";
+import { DropdownMenuComponent } from "@dropdown-menu/dropdown-menu.component";
+import { DropdownContainerDirective } from "@dropdown-menu/dropdown-container.directive";
 import { MultiselectModel } from "./mutliselect-model";
 
 const meta: Meta<MultiselectComponent> = {

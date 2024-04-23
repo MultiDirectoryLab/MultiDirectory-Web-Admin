@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { DropdownOption, ModalInjectDirective } from "multidirectory-ui-kit";
-import { LdapPropertyType } from "projects/multidirectory-app/src/app/core/ldap/property-type-resolver";
+import { LdapPropertyType } from "@core/ldap/property-type-resolver";
 
 @Component({
     selector: 'app-property-editor',

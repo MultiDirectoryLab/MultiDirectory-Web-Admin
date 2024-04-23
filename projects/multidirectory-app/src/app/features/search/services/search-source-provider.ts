@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { SearchSource } from "../models/search-source";
-import { SearchType } from "../models/search-type";
-import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { Observable, map, of } from "rxjs";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { SearchType } from "../models/search-type";
+import { SearchSource } from "../models/search-source";
 
 
 @Injectable()

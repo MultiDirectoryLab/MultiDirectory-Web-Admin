@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
-import { SetupRequest } from "../models/setup/setup-request";
+import { SetupRequest } from "@models/setup/setup-request";
 
 @Injectable({
     providedIn: 'root'

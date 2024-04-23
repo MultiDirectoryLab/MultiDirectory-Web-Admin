@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
-import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { UserCreateRequest } from "@models/user-create/user-create.request";
+import { UserCreateService } from "@services/user-create.service";
 
 @Component({
     selector: 'app-user-create-summary',

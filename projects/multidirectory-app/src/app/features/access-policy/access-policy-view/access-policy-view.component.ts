@@ -2,20 +2,20 @@ import { Component, ViewChild } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { DropdownOption, MdFormComponent, MultiselectComponent } from "multidirectory-ui-kit";
 import { ModalInjectDirective } from "ng-modal-full-resizable/lib/injectable/injectable.directive";
-import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
-import { IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
-import { MfaAccessEnum } from "projects/multidirectory-app/src/app/core/access-policy/mfa-access-enum";
-import { Constants } from "projects/multidirectory-app/src/app/core/constants";
-import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { AccessPolicy } from "@core/access-policy/access-policy";
+import { IpRange } from "@core/access-policy/access-policy-ip-address";
+import { MfaAccessEnum } from "@core/access-policy/mfa-access-enum";
+import { Constants } from "@core/constants";
+import { SearchQueries } from "@core/ldap/search";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Observable, map, of, switchMap, take } from "rxjs";
-import { MultiselectModel } from "../access-policy-create/access-policy-create.component";
 import { ActivatedRoute } from "@angular/router";
-import { AppWindowsService } from "../../../services/app-windows.service";
-import { LdapEntryLoader } from "../../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-import { AppNavigationService } from "../../../services/app-navigation.service";
+import { AppWindowsService } from "@services/app-windows.service";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { AppNavigationService } from "@services/app-navigation.service";
 import { group } from "@angular/animations";
 import { ToastrService } from "ngx-toastr";
+import { MultiselectModel } from "../access-policy-create/access-policy-create.component";
 
 @Component({
     selector: 'app-access-policy-view',

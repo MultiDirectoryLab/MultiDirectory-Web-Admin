@@ -12,7 +12,7 @@ import { MfAdminIntegrationComponent } from "./mulifactor-settings/admin-integra
 import { MfUserIntegrationComponent } from "./mulifactor-settings/user-integration/mf-user-integration.component";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { TranslocoModule } from "@ngneat/transloco";
-import { ValidatorsModule } from "../../core/validators/validators.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
 
 @NgModule({
     imports: [

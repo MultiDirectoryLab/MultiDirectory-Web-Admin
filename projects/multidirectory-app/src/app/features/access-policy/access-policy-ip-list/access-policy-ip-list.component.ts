@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } f
 import { translate } from "@ngneat/transloco";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { IpOption, IpRange } from "projects/multidirectory-app/src/app/core/access-policy/access-policy-ip-address";
+import { IpOption, IpRange } from "@core/access-policy/access-policy-ip-address";
 
 export class IpAddressStatus {
     title: string = '';

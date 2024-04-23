@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, catchError, switchMap } from "rxjs";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { TokenStorageHelper } from "./token-storage-helper";
 
 @Injectable()

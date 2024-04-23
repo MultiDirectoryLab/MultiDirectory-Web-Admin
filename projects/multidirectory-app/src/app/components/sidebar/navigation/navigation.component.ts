@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Params, Route, Router, RouterEvent, Scroll } from "@angular/router";
-import { DropdownMenuComponent, TreeviewComponent } from "multidirectory-ui-kit";
-import { TreeSearchHelper } from "projects/multidirectory-ui-kit/src/lib/components/treeview/core/tree-search-helper";
+import { ActivatedRoute } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
-import { NavigationNode } from "../../../core/navigation/navigation-node";
-import { AppNavigationService, NavigationEventWrapper } from "../../../services/app-navigation.service";
-import { AppWindowsService } from "../../../services/app-windows.service";
-import { RightClickEvent } from "dist/multidirectory-ui-kit/lib/components/treeview/model/right-click-event";
-import { ContextMenuService } from "../../../services/contextmenu.service";
+import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from "multidirectory-ui-kit";
+import { AppNavigationService, NavigationEventWrapper } from "@services/app-navigation.service";
+import { ContextMenuService } from "@services/contextmenu.service";
+import { NavigationNode } from "@core/navigation/navigation-node";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 
 @Component({
     selector: 'app-navigation',

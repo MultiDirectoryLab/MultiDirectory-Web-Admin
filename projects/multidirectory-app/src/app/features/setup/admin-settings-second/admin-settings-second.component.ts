@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { Subject, takeUntil } from "rxjs";
-import { SetupService } from "projects/multidirectory-app/src/app/services/setup.service";
+import { SetupService } from "@services/setup.service";
 import { MdFormComponent } from "multidirectory-ui-kit";
-import { SetupRequest } from "../../../models/setup/setup-request";
+import { SetupRequest } from "@models/setup/setup-request";
 
 @Component({
     selector: 'app-admin-settings-second',

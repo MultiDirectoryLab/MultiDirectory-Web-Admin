@@ -1,9 +1,9 @@
 import { Observable, map, of } from "rxjs";
-import { NavigationNode } from "../../../navigation-node";
-import { NodeLoader } from "../../node-loader";
 import { Injectable } from "@angular/core";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { translate } from "@ngneat/transloco";
+import { NavigationNode } from "@core/navigation/navigation-node";
+import { NodeLoader } from "../../node-loader";
 
 @Injectable({
     providedIn: 'root'

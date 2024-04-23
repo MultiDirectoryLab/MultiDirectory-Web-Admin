@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, Input, ViewChild } from "@angular/core";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
 import { DatagridComponent } from "multidirectory-ui-kit";
-import { Constants } from "projects/multidirectory-app/src/app/core/constants";
+import { Constants } from "@core/constants";
 import { translate } from "@ngneat/transloco";
-import { Member } from "projects/multidirectory-app/src/app/core/groups/member";
-import { GroupSelectorComponent } from "../../forms/group-selector/group-selector.component";
+import { Member } from "@core/groups/member";
+import { GroupSelectorComponent } from "@features/forms/group-selector/group-selector.component";
 
 @Component({
     selector: 'app-members',

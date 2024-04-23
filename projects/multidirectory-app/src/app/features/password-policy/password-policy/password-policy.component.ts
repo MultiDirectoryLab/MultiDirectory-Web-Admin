@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MdFormComponent } from "multidirectory-ui-kit";
-import { PasswordPolicy } from "../../../core/password-policy/password-policy";
+import { PasswordPolicy } from "@core/password-policy/password-policy";
 import { ActivatedRoute } from "@angular/router";
-import { AppWindowsService } from "../../../services/app-windows.service";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
+import { AppWindowsService } from "@services/app-windows.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 
 @Component({
     selector: 'app-password-policy',

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from "@angular/core";
-import { DropdownOption } from "../dropdown/dropdown.component";
 import { Page } from "../datagrid/datagrid.component";
+import { DropdownOption } from "../dropdown/dropdown.component";
 
 @Component({
     selector: 'md-pager',

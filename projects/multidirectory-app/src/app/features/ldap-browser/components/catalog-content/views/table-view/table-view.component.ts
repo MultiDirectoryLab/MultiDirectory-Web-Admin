@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild, forwardRef } from "@angular/core";
 import { TableColumn } from "@swimlane/ngx-datatable";
 import { DatagridComponent, DropdownMenuComponent, DropdownOption, Page, Treenode } from "multidirectory-ui-kit";
-import { EntityInfoResolver } from "projects/multidirectory-app/src/app/core/ldap/entity-info-resolver";
+import { EntityInfoResolver } from "@core/ldap/entity-info-resolver";
 import { Subject, take } from "rxjs";
 import { TableRow } from "./table-row";
-import { BaseViewComponent } from "../base-view.component";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 import { translate } from "@ngneat/transloco";
-import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
-import { AppNavigationService, NavigationEvent } from "projects/multidirectory-app/src/app/services/app-navigation.service";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { AppWindowsService } from "@services/app-windows.service";
+import { AppNavigationService, NavigationEvent } from "@services/app-navigation.service";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
+import { BaseViewComponent } from "../base-view.component";
 
 @Component({
     selector: 'app-table-view',

@@ -2,15 +2,15 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from "@
 import { SpinnerComponent } from "multidirectory-ui-kit";
 import { catchError, map, switchMap, throwError } from "rxjs";
 import { translate } from "@ngneat/transloco";
-import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
-import { SearchResult } from "projects/multidirectory-app/src/app/features/search/models/search-result";
-import { SearchType } from "projects/multidirectory-app/src/app/features/search/models/search-type";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { SearchQueries } from "@core/ldap/search";
+import { SearchResult } from "@features/search/models/search-result";
+import { SearchType } from "@features/search/models/search-type";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { SearchResultComponent } from "./search-forms/search-result/search-result.component";
 import { SearchUsersComponent } from "./search-forms/search-users/search-users.component";
 import { SearchSource } from "./models/search-source";
 import { SearchSourceProvider } from "./services/search-source-provider";
-import { LdapEntryLoader } from "../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
  
 @Component({
     selector: 'app-search-panel',

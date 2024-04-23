@@ -7,9 +7,9 @@ import { CommonModule } from "@angular/common";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { FormsModule } from "@angular/forms";
 import { SetupRoutingModule } from "./setup-routing.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
+import { ModalControlModule } from "@core/modal-control/modal-control.module";
 import { TranslocoRootModule } from "../../transloco-root.module";
-import { ValidatorsModule } from "../../core/validators/validators.module";
-import { ModalControlModule } from "../../core/modal-control/modal-control.module";
 
 @NgModule({
     declarations: [

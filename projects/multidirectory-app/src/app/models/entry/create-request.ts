@@ -1,4 +1,4 @@
-import { PartialAttribute } from "../../core/ldap/ldap-partial-attribute";
+import { PartialAttribute } from "@core/ldap/ldap-partial-attribute";
 
  
 export class CreateEntryRequest {

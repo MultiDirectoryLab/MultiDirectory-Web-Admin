@@ -1,6 +1,6 @@
 import { Component, Input, Output, forwardRef } from "@angular/core";
-import { BaseComponent } from "../base-component/base.component";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { BaseComponent } from "../base-component/base.component";
 
 
 export class DropdownOption {

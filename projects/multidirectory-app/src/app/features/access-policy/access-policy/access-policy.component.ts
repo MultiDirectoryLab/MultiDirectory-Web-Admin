@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
-import { AccessPolicy } from "projects/multidirectory-app/src/app/core/access-policy/access-policy";
-import { Constants } from "projects/multidirectory-app/src/app/core/constants";
+import { AccessPolicy } from "@core/access-policy/access-policy";
+import { Constants } from "@core/constants";
 
 @Component({
     selector: 'app-acccess-policy',

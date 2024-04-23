@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Subject, combineLatest, switchMap, takeUntil, tap } from "rxjs";
-import { AppSettingsService } from "../../services/app-settings.service";
-import { LdapEntryLoader } from "../../core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
-import { SearchQueries } from "../../core/ldap/search";
-import { LdapEntryNode } from "../../core/ldap/ldap-entity";
-import { EntityInfoResolver } from "../../core/ldap/entity-info-resolver";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { AppSettingsService } from "@services/app-settings.service";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { SearchQueries } from "@core/ldap/search";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { EntityInfoResolver } from "@core/ldap/entity-info-resolver";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { HotkeysCheatsheetComponent } from "angular2-hotkeys";
 
 @Component({

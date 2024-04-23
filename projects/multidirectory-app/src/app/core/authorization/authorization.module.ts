@@ -1,9 +1,9 @@
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import { ResultCodeInterceptor } from "../api/error-handling/result-code-interceptor";
 import { EnsureBearerInterceptor } from "./ensure-bearer-interceptor";
 import { RefreshTokenInterceptor } from "./refresh-token-interceptor";
 import { StaleTokenInterceptor } from "./stale-token-interceptor";
+import { ResultCodeInterceptor } from "@core/api/error-handling/result-code-interceptor";
 
 @NgModule({
     providers: [

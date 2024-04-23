@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from "@angular/core";
-import { AppSettingsService } from "../../services/app-settings.service";
-import { WhoamiResponse } from "../../models/whoami/whoami-response";
+import { AppSettingsService } from "@services/app-settings.service";
+import { WhoamiResponse } from "@models/whoami/whoami-response";
 import { Subject, takeUntil } from "rxjs";
 import { Router } from "@angular/router";
-import { TokenStorageHelper } from "../../core/authorization/token-storage-helper";
+import { TokenStorageHelper } from "@core/authorization/token-storage-helper";
 
 @Component({
     selector: 'app-settings',

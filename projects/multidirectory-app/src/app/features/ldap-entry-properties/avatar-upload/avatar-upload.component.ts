@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
 
 @Component({
     selector: 'app-avatar-upload',

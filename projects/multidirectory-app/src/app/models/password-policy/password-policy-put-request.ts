@@ -1,4 +1,4 @@
-import { PasswordPolicy } from "../../core/password-policy/password-policy";
+import { PasswordPolicy } from "@core/password-policy/password-policy";
 
 export class PasswordPolicyPutRequest {
     "name": string;

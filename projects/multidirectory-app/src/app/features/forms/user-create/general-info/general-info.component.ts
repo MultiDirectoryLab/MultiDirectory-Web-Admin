@@ -2,10 +2,10 @@ import { AfterViewInit, Component, Input, OnDestroy, QueryList, ViewChild, ViewC
 import { Subject, take, takeUntil } from "rxjs";
 import { AbstractControl } from "@angular/forms";
 import { DropdownOption, MdFormComponent } from "multidirectory-ui-kit";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { UserCreateService } from "projects/multidirectory-app/src/app/services/user-create.service";
-import { UserCreateRequest } from "projects/multidirectory-app/src/app/models/user-create/user-create.request";
-import { LdapEntryLoader } from "projects/multidirectory-app/src/app/core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { UserCreateService } from "@services/user-create.service";
+import { UserCreateRequest } from "@models/user-create/user-create.request";
+import { LdapEntryLoader } from "@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader";
 
 @Component({
     selector: 'app-user-create-general-info', 

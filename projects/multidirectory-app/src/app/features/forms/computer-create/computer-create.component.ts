@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { Subject, take, takeUntil } from "rxjs";
-import { MultidirectoryApiService } from "../../../services/multidirectory-api.service";
-import { CreateEntryRequest } from "../../../models/entry/create-request";
-import { LdapEntryNode } from "../../../core/ldap/ldap-entity";
-import { PartialAttribute } from "../../../core/ldap/ldap-partial-attribute";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
+import { CreateEntryRequest } from "@models/entry/create-request";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { PartialAttribute } from "@core/ldap/ldap-partial-attribute";
 import { GroupSelectorComponent } from "../group-selector/group-selector.component";
  
 @Component({

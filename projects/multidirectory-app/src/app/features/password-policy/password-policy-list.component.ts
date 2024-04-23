@@ -2,9 +2,9 @@ import { Component, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalInjectDirective } from "multidirectory-ui-kit";
 import { switchMap } from "rxjs";
-import { PasswordPolicy } from "../../core/password-policy/password-policy";
-import { AppWindowsService } from "../../services/app-windows.service";
-import { MultidirectoryApiService } from "../../services/multidirectory-api.service";
+import { PasswordPolicy } from "@core/password-policy/password-policy";
+import { AppWindowsService } from "@services/app-windows.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 
 @Component({
     selector: 'password-policy-list',

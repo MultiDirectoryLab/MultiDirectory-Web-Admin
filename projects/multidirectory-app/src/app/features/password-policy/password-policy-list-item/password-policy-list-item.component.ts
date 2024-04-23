@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { translate } from "@ngneat/transloco";
 import { ToastrService } from "ngx-toastr";
-import { PasswordPolicy } from "../../../core/password-policy/password-policy";
+import { PasswordPolicy } from "@core/password-policy/password-policy";
 
 @Component({
     selector: 'app-password-policy-list-item',

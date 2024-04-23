@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core
 import { ContextmenuType } from "@swimlane/ngx-datatable";
 import { ContextMenuEvent } from "multidirectory-ui-kit";
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
 
 
 @Component({

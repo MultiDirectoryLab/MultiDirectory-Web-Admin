@@ -1,5 +1,5 @@
+import { NavigationNode } from "@core/navigation/navigation-node";
 import { Observable, of } from "rxjs";
-import { NavigationNode } from "../../navigation-node";
 import { NodeLoader } from "../node-loader";
 
 export class SavedQueriesNodeLoader implements NodeLoader {

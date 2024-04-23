@@ -7,12 +7,12 @@ import { AccessPolicyComponent } from "./access-policy/access-policy.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { AccessPolicyIpListComponent } from "./access-policy-ip-list/access-policy-ip-list.component";
 import { TranslocoModule } from "@ngneat/transloco";
-import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 import { AccessPolicyViewComponent } from "./access-policy-view/access-policy-view.component";
 import { AccessPolicyRoutingModule } from "./access-policy-routing.module";
 import { AccessPolicyHeaderComponent } from "./access-policy-header/access-policy-header.component";
-import { ValidatorsModule } from "../../core/validators/validators.module";
-import { GroupSelectorModule } from "../forms/group-selector/group-selector.module";
+import { ValidatorsModule } from "@core/validators/validators.module";
+import { GroupSelectorModule } from "@features/forms/group-selector/group-selector.module";
+import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
 
 @NgModule({
     declarations: [ 

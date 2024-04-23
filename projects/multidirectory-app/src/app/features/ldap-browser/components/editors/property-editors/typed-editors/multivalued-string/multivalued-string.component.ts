@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Input, ViewChild } from "@angular/core";
 import { TreeviewComponent } from "multidirectory-ui-kit";
 import { AttributeListEntry } from "../../../attributes-list/attributes-list.component";
 import { TypedEditorBaseComponent } from "../typed-editor-base.component";
-
 @Component({
     selector: 'app-multivalued-string-editor',
     templateUrl: './multivalued-string.component.html',

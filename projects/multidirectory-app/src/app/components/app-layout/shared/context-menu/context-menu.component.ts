@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { DropdownMenuComponent } from "multidirectory-ui-kit";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
-import { DeleteEntryRequest } from "projects/multidirectory-app/src/app/models/entry/delete-request";
-import { AppNavigationService } from "projects/multidirectory-app/src/app/services/app-navigation.service";
-import { AppWindowsService } from "projects/multidirectory-app/src/app/services/app-windows.service";
-import { ContextMenuService } from "projects/multidirectory-app/src/app/services/contextmenu.service";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapEntryType } from "@core/ldap/ldap-entity-type";
+import { DeleteEntryRequest } from "@models/entry/delete-request";
+import { AppNavigationService } from "@services/app-navigation.service";
+import { AppWindowsService } from "@services/app-windows.service";
+import { ContextMenuService } from "@services/contextmenu.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { Subject, concat, take, takeUntil } from "rxjs";
 
 @Component({

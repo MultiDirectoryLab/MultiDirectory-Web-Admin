@@ -3,10 +3,10 @@ import { MdModalComponent, ModalInjectDirective } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
 import { EMPTY, Subject, of, switchMap, take, tap } from "rxjs";
 import { translate } from "@ngneat/transloco";
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
-import { LdapEntryType } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-type";
-import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
+import { LdapEntryType } from "@core/ldap/ldap-entity-type";
+import { AttributeService } from "@services/attributes.service";
 
 @Component({
     selector: 'app-properties',

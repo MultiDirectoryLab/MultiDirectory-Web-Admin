@@ -2,12 +2,12 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from "@angular
 import { translate } from "@ngneat/transloco";
 import { DatagridComponent, ModalInjectDirective, Page } from "multidirectory-ui-kit";
 import { ToastrService } from "ngx-toastr";
-import { LdapAttributes } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity-proxy";
-import { PropertyTypeResolver } from "projects/multidirectory-app/src/app/core/ldap/property-type-resolver";
-import { SearchQueries } from "projects/multidirectory-app/src/app/core/ldap/search";
-import { AttributeService } from "projects/multidirectory-app/src/app/services/attributes.service";
-import { LdapPropertiesService } from "projects/multidirectory-app/src/app/services/ldap-properites.service";
-import { MultidirectoryApiService } from "projects/multidirectory-app/src/app/services/multidirectory-api.service";
+import { LdapAttributes } from "@core/ldap/ldap-entity-proxy";
+import { PropertyTypeResolver } from "@core/ldap/property-type-resolver";
+import { SearchQueries } from "@core/ldap/search";
+import { AttributeService } from "@services/attributes.service";
+import { LdapPropertiesService } from "@services/ldap-properites.service";
+import { MultidirectoryApiService } from "@services/multidirectory-api.service";
 import { EMPTY, Subject, switchMap, take } from "rxjs";
 
 

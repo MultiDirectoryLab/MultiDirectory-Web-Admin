@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ViewChild } from "@angular/core";
-import { AppWindowsService } from "../../../../services/app-windows.service";
+import { AppWindowsService } from "@services/app-windows.service";
 import { Observable, Subject, switchMap, take, takeUntil } from "rxjs";
-import { LdapEntryNode } from "../../../../core/ldap/ldap-entity";
-import { AppSettingsService } from "../../../../services/app-settings.service";
+import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { AppSettingsService } from "@services/app-settings.service";
 import { ModalInjectDirective } from "ng-modal-full-resizable/lib/injectable/injectable.directive";
 
 @Component({
