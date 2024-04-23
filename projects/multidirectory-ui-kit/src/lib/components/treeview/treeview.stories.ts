@@ -32,12 +32,12 @@ export const Primary: StoryObj<TreeviewComponent> = {
               new Treenode({
                 name: 'child11',
                 expanded: false,
-                children: null
+                children: []
               }),
               new Treenode({
                 name: 'child12',
                 expanded: false,
-                children: null
+                children: []
               })
             ]
           }),
@@ -48,12 +48,12 @@ export const Primary: StoryObj<TreeviewComponent> = {
               new Treenode({
                 name: 'child21',
                 expanded: false,
-                children: null
+                children: []
               }),
               new Treenode({
                 name: 'child22',
                 expanded: false,
-                children: null
+                children: []
               })
             ]
           }),
@@ -66,37 +66,38 @@ export const Primary: StoryObj<TreeviewComponent> = {
           new Treenode({
             name: 'child1',
             expanded: false,
+            children: [],
             loadChildren: () => of([
               new Treenode({
                 name: 'child11',
                 expanded: false,
-                children: null
+                children: []
               }),
               new Treenode({
                 name: 'child12',
                 expanded: false,
-                children: null
+                children: []
               })
             ])
           }),
           new Treenode({
             name: 'child2',
             expanded: false,
+            children: [],
             loadChildren: () => of([
               new Treenode({
                 name: 'child21',
                 expanded: false,
-                children: null
+                children: []
               }),
               new Treenode({
                 name: 'child22',
                 expanded: false,
-                children: null
+                children: []
               })
             ])
           }),
         ]
       })
-    
     ]},
 };
