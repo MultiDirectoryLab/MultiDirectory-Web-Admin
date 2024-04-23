@@ -171,6 +171,7 @@
         "delete": "Удалить",
         "more": "Подробнее",
         "change-password": "Изменить пароль...",
+        "modify-dn": "Задать Distinguished Name...",
         "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
         "select-group-catalog": "Выберите каталог в котором будет создана группа",
         "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
@@ -471,5 +472,15 @@
             "access-policy-root-name": "Политики доступа",
             "password-policy-root-node": "Парольные политики"
         }
+    },
+    "modify-dn": {
+        "modal-header": "Изменить Distingushed Name для записи",
+        "entry": "Запись",
+        "newrdn": "Новый RDN",
+        "new_superior": "Новый родитель",
+        "deleteoldrdn": "Удалить старый RDN",
+        "change": "Изменить...",
+        "cancel": "Отменить",
+        "apply": "Применить"
     }
 }

@@ -14,6 +14,7 @@ import { UserCreateGeneralInfoComponent } from "./user-create/general-info/gener
 import { ComputerCreateComponent } from "./computer-create/computer-create.component";
 import { TranslocoRootModule } from "../../transloco-root.module";
 import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
+import { ModifyDnComponent } from "./modify-dn/modify-dn.component";
 
 @NgModule({
     declarations: [
@@ -23,14 +24,16 @@ import { MultidirectoryUiKitModule } from "multidirectory-ui-kit";
         UserCreateSummaryComponent,
         UserCreatePasswordSettingsComponent,
         UserCreateGeneralInfoComponent,
-        ComputerCreateComponent
+        ComputerCreateComponent,
+        ModifyDnComponent
     ],
     exports: [
         GroupCreateComponent,
         OuCreateComponent,
         UserCreateComponent,
         GroupSelectorModule,
-        ComputerCreateComponent
+        ComputerCreateComponent,
+        ModifyDnComponent
     ],
     imports: [
         CatalogSelectorModule,

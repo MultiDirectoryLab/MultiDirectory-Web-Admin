@@ -171,6 +171,7 @@
       "delete": "Delete",
       "more": "More details",
       "change-password": "Change Password...",
+      "modify-dn": "Modify Distinguished Name...",
       "select-user-catalog": "Select a catalog where an user will be created",
       "select-group-catalog": "Select a catalog where a group will be created",
       "select-ou-catalog": "Select a catalog where an organizational unit will be created"
@@ -475,5 +476,15 @@
             "password-policy-root-node": "Password Policies"
 
         }
+    },
+    "modify-dn": {
+      "modal-header": "Modify Distingushed Name for the entry",
+      "entry": "Entry",
+      "newrdn": "New RDN",
+      "new_superior": "New Superior",
+      "deleteoldrdn": "Delete old RDN",
+      "change": "Change...",
+      "cancel": "Cancel",
+      "apply": "Apply"
     }
 }

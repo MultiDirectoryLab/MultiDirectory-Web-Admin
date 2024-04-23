@@ -16,8 +16,9 @@ export class WindowsComponent implements AfterViewInit {
     @ViewChild('createOuModal', { static: true}) createOuModal!: ModalInjectDirective;
     @ViewChild('createComputerModal', { static: true}) createComputerModal!: ModalInjectDirective;
     @ViewChild('properties') properties!: ModalInjectDirective;
-    @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective
-    @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective
+    @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective;
+    @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective;
+    @ViewChild('modifyDnModal') modifyDnModal!: ModalInjectDirective;
     private unsubscribe = new Subject<void>();
     
 
@@ -65,6 +66,12 @@ export class WindowsComponent implements AfterViewInit {
             takeUntil(this.unsubscribe)
         ).subscribe(toDeleteDNs => {
             this.openDeleteRowsConfirmation(toDeleteDNs);
+        })
+
+        this.ldapWindows.showModifyDnRx.pipe(
+            takeUntil(this.unsubscribe)
+        ).subscribe(toModifyDn => {
+            this.openModifyDn(toModifyDn);
         })
     }
     
@@ -131,6 +138,14 @@ export class WindowsComponent implements AfterViewInit {
             take(1)
         ).subscribe(x => {
             this.ldapWindows.closeDeleteEntryConfirmation(x)
+        })
+    }
+    
+    openModifyDn(toModifyDn: string) {
+        this.modifyDnModal.open({'width': '580px'}, { "toModifyDn": toModifyDn }).pipe(
+            take(1)
+        ).subscribe(x => {
+            this.ldapWindows.closeModifyDn(x)
         })
     }
 }

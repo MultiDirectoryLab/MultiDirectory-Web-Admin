@@ -80,4 +80,15 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
             }
         })
     }
+
+    showModifyDn(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const firstEntry = this.entries[0];
+        this.windows.openModifyDn(firstEntry.id).pipe(
+            take(1)
+        ).subscribe(modifyRequest => {
+            alert(modifyRequest)
+        })
+    }
 }

@@ -136,4 +136,20 @@ export class AppWindowsService {
     closeDeleteEntryConfirmation(toDeleteDNs: string[]) {
         return this._closeDeleteEntryConfirmationRx.next(toDeleteDNs);
     }
+
+    private _showModifyDnRx = new Subject<string>();
+    private _closeModifyDnRx = new Subject<string>();
+    get showModifyDnRx(): Observable<string> {
+        return this._showModifyDnRx.asObservable();
+    }
+    get closeModifyDnRx(): Observable<string> {
+        return this._closeModifyDnRx.asObservable();
+    }
+    openModifyDn(modifyDn: string) {
+        this._showModifyDnRx.next(modifyDn);
+        return this._closeModifyDnRx;
+    }
+    closeModifyDn(modifyDn: string) {
+        return this._closeModifyDnRx.next(modifyDn);
+    }
 }
