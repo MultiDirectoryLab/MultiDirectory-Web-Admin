@@ -10,7 +10,8 @@
     "storybook": "ng run multidirectory-ui-kit:storybook",
     "build-storybook": "ng run multidirectory-ui-kit:build-storybook",
     "lint": "ng lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test-headless": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
