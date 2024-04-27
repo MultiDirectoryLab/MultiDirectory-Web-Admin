@@ -4,8 +4,9 @@ module.exports = {
     {
       files: ['*.ts'],
       parserOptions: {
-        project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
+        project: ['tsconfig.*?.json'],
         createDefaultProgram: true,
+        tsconfigRootDir: __dirname,
       },
       extends: ['plugin:@angular-eslint/recommended'],
       rules: {},
