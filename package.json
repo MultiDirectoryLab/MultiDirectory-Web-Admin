@@ -9,7 +9,8 @@
     "test": "ng test",
     "storybook": "ng run multidirectory-ui-kit:storybook",
     "build-storybook": "ng run multidirectory-ui-kit:build-storybook",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
