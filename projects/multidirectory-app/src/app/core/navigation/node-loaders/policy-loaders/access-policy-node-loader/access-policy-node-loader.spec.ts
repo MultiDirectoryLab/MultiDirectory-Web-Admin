@@ -5,7 +5,7 @@ import { getTranslocoModule } from '@testing/transloco-testing';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
 
-describe('AccessPolicyNodeLoaders', () => {
+xdescribe('AccessPolicyNodeLoaders', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

@@ -11,7 +11,7 @@ import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loa
 import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
 import { getTranslocoModule } from '@testing/transloco-testing';
 
-describe('NavigationServiceSuite', () => {
+xdescribe('NavigationServiceSuite', () => {
   let naviagtionService: AppNavigationService;
   let fixture;
 

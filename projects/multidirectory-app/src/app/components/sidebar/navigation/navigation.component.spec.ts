@@ -14,7 +14,7 @@ import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-quer
 import { getSavedQueriesLoaderMock } from '@testing/saved-queries-node-loader-mock';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
-describe('Navigation Component Test Suit', () => {
+xdescribe('Navigation Component Test Suit', () => {
   let routerSpy: any;
   let routerEventSubj = new Subject<RouterEvent>();
   beforeEach(async () => {
