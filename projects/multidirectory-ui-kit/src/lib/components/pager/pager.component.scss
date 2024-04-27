@@ -5,6 +5,7 @@
     flex-flow: row nowrap;
     align-items: baseline;
 }
+
 .page-count, .empty-row {
     padding-left: 0.5rem;
 }
@@ -15,6 +16,7 @@
     flex-flow: row nowrap !important;
     gap: 4px !important;
     padding: 0 4px !important;
+
     li {
         padding: 4px !important;
         border: 1px solid var(--md-dark-blue-3);
@@ -32,13 +34,15 @@
             color: var(--md-dark-blue-3);
             text-decoration: none;
 
-            i:before {
+            i::before {
                 position: relative;
                 top: 2px;
             }
         }
+
         &.active {
             background-color: var(--md-dark-blue-3);
+
             a {
                 color: white;
             }

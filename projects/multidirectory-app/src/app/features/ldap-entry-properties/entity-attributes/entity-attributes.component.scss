@@ -2,9 +2,11 @@
     padding: 0.5rem;
     padding-bottom: 0.5rem;
 }
-.filter:not(:first) {
+
+.filter:not(:first-child) {
     padding-top: 0;
 }
+
 .filter-label {
     padding: 0;
     padding-left: 6px;

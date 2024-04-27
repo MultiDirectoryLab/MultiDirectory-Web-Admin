@@ -1,9 +1,11 @@
 @use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+
 :host {
     display: flex;
     height: 100%;
     flex-flow: column nowrap;
 }
+
 .sidebar {
     z-index: 9;
     display: flex;
@@ -20,13 +22,16 @@
 .avatar {
     user-select: none;
     padding: 0 8px;
+
     .avatar-img {
         max-height: 50px;
     }
 }
+
 ::ng-deep .dark-theme .sidebar .avatar-img {
     filter: invert(0.9) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
+
 .user-info {
     flex-grow: 1;
 }
@@ -45,6 +50,7 @@
     overflow: hidden;
     background-color: var(--md-blue);
 }
+
  ::ng-deep .dark-theme .logo-img {
     filter: invert(0.3) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
@@ -61,6 +67,7 @@
     width: 5px;
     margin-bottom: 4px;
     cursor: pointer;
+
     &:hover {
         border: 1px solid var(--md-dark-blue-2);
     }

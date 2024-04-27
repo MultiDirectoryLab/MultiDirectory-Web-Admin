@@ -18,15 +18,19 @@
 
 .button-wrapper {
     height: 30px;
+
     md-button {
         color: black !important;
     }
+
     &:hover, &.dark-blue {
         background-color: var(--md-dark-blue) !important;
+
         .color-change-blue-white {
             filter: brightness(0) invert(1);
         }
     }
+
     .color-change-white-blue:not(:hover) {
         filter: invert(45%) sepia(34%) saturate(919%) hue-rotate(167deg) brightness(90%) contrast(88%);
     }
@@ -42,6 +46,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .logo-placeholder {
     user-select: none;
     pointer-events: none;

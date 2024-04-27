@@ -4,7 +4,7 @@
 
 
 :root {
-    --md-white: #FFFFFF;
+    --md-white: #FFF;
     --md-neutral-100: #F1F1F1;
     --md-neutral-150: #D6E5F2;
     --md-neutral-200: #DCDCDC;
@@ -71,6 +71,7 @@ h1, .h1 {
 
 h2, .h2 {
     @include use-inter-typography(400, 32px, 44.8px);
+
     &.bold {
         @include use-inter-typography(700, 32px, 44.8px);
     }
@@ -83,9 +84,11 @@ label.bold {
 label, p, div, select {
     @include use-inter-typography(400, 14px, 25.2px)
 }
+
 span.accented {
     @include use-inter-typography(500, 14px, 25.2px)
 }
+
 div{
     @include use-inter-typography(400, 14px, 25.2px)
 }
@@ -98,82 +101,103 @@ div{
 .flex-space-between {
     justify-content: space-between;
 }
+
 .flex-space-around {
     justify-content: space-around;
 }
+
 .flex-center {
     justify-content: center;
 }
+
 .flex-end {
     justify-content: end;
 }
+
 .flex-row {
     display: flex;
     flex-flow: row nowrap;
 }
+
 .flex-column {
     display: flex;
     flex-flow: column nowrap;
 }
+
 .align-center {
     align-items: center;
 }
+
 .justify-end {
     justify-content: end;
 }
+
 .align-end {
     align-items: end;
 }
+
 .w-100 {
     width: 100%;
 }
+
 .h-100 {
     height: 100%;
 }
+
 .p-0 {
     padding: 0;
 }
+
 .p-4 {
     padding: 4px;
 }
+
 .p-8 {
     padding: 8px;
 }
+
 .pv-8 {
     padding: 8px 0;
 }
+
 .mb-16 {
     margin-bottom: 16px;
 }
+
 .text-nowrap {
     white-space: nowrap;
 }
+
 .text-justify {
     text-align: justify;
 }
+
 .pr-8 {
     padding-right: 8px;
 }
+
 .pl-8 {
     padding-left: 8px;
 }
+
 .pl-16 {
     padding-left: 16px;
 }
+
 .page-size-select .select-input {
     height: 24px;
 }
 
-.ngx-datatable .datatable-footer .datatable-pager .pager, 
 .ngx-datatable .datatable-footer .datatable-pager .pager {
     display: flex !important;
     list-style: none !important;
     flex-flow: row nowrap !important;
     gap: 4px !important;
     padding: 0 4px !important;
+
     li {
         padding: 4px !important;
-        border: 1px solidvar(--md-dark-blue-3);
+        border: 1px solid var(--md-dark-blue-3);
         height: 24px;
         width: 24px;
         font-size: 14px;
@@ -188,22 +212,26 @@ div{
             color:var(--md-dark-blue-3);
             text-decoration: none;
 
-            i:before {
+            i::before {
                 position: relative;
                 top: 2px;
             }
         }
+
         &.active {
             background-color:var(--md-dark-blue-3);
+
             a {
                 color: white;
             }
         }
     }
 }
+
 .borderless {
     border: none;
 }
+
 .transparent {
     background-color: transparent;
 }
@@ -215,11 +243,12 @@ dp-calendar-nav {
         gap: 8px;
         align-items: center;
     }
+
     .dp-nav-header-btn,
     .dp-calendar-nav-left,
     .dp-calendar-nav-right {
         @include use-inter-typography(700, 12px, 140%);
-        letter-spacing: -0.03em;
+
         text-transform: uppercase;
         border: none;
         padding: 7.5px 16px;
@@ -227,8 +256,9 @@ dp-calendar-nav {
         line-height: 17px;
         letter-spacing: -0.03em;
         text-align: center;
+
         &:not(.md-button-primary) {
-            box-shadow: none; //0px 0px 3px rgba(0, 0, 0, 0.15);
+            box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
             border: none !important;
             color:var(--md-neutral-600);
             background: white;
@@ -245,30 +275,35 @@ dp-calendar-nav {
             }
         }
     }
+
     .dp-current-location-btn {
         display: none;
     }
+
     & .dp-calendar-nav-container {
         height: 40px !important;
     }
     
     
 }
+
 .dp-calendar-weekday {
     @include use-inter-typography(400, 14px, 25.2px);
+
     border: none !important;
     outline: none !important;
     user-select: none;
     cursor: auto;
 }
+
 .dp-calendar-day,
 .dp-calendar-month {
-    background-color:var(--md-white);
+    background-color: var(--md-white);
     border: none;
     outline: none;
 
     &:hover {
-        border: 1px solidvar(--md-dark-blue);
+        border: 1px solid var(--md-dark-blue);
     }
 }
  

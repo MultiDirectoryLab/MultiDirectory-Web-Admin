@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run multidirectory-ui-kit:storybook",
-    "build-storybook": "ng run multidirectory-ui-kit:build-storybook"
+    "build-storybook": "ng run multidirectory-ui-kit:build-storybook",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +37,11 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.6",
+    "@angular-eslint/builder": "16.3.1",
+    "@angular-eslint/eslint-plugin": "16.3.1",
+    "@angular-eslint/eslint-plugin-template": "16.3.1",
+    "@angular-eslint/schematics": "16.3.1",
+    "@angular-eslint/template-parser": "16.3.1",
     "@angular/cli": "~16.1.6",
     "@angular/compiler-cli": "^16.1.7",
     "@storybook/addon-essentials": "^7.2.0",
@@ -48,16 +54,27 @@
     "@types/jasmine": "~4.0.0",
     "@types/jest": "^29.5.0",
     "@types/mousetrap": "^1.6.11",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jasmine": "^4.1.3",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^9.0.11",
     "jasmine-core": "~4.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "lint-staged": "^15.2.2",
     "ng-packagr": "^16.1.0",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook": "^7.2.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-prettier": "^5.0.0",
     "typescript": "~4.9.5"
   }
 }

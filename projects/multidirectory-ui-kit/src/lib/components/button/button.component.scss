@@ -3,9 +3,8 @@
 
 ::ng-deep .md-button {
     @include global.use-inter-typography(700, 12px, 140%);
-    letter-spacing: -0.03em;
+
     text-transform: uppercase;
-    border: none;
     padding: 7.5px 16px;
     border-radius: 3px;
     color: var(--md-neutral-800);
@@ -13,8 +12,9 @@
     letter-spacing: -0.03em;
     border: 1px solid var(--md-white);
     text-align: center;
+
     &:not(.md-button-primary) {
-        box-shadow: none; //0px 0px 3px rgba(0, 0, 0, 0.15);
+        box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
         border: 1px solid var(--md-neutral-400);
         color: var(--md-neutral-600);
         background: var(--md-white);
@@ -34,6 +34,7 @@
     &.md-button-primary {
         background-color: var(--md-blue);
         color: white;
+
         &:hover:not(:disabled) {
             background-color: var(--md-neutral-150);
             color: var(--md-neutral-800);

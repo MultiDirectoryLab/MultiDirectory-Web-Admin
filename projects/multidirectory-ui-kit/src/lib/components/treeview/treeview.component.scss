@@ -9,13 +9,11 @@
 .scrollable {
     overflow: auto;
 }
+
 .treeview-container {
     padding: 1rem;
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     overflow-y: auto;
 }
 
@@ -39,33 +37,41 @@
     &:not(.expandable) {
         padding-right: 4px;
     }
+
     &.expandable {
         padding-left: 8px;
         margin-left: -12px;
     }
 }
+
 .tree-label {
     cursor: pointer !important;
 }
+
 .expand-mark {
     cursor: pointer;
+
     span {
         min-width: 10px;
         display: inline-block;
     }
 }
+
 .tree-item-wrapper {
     cursor: pointer;
     padding-left: 4px;
+
     &.selected {
         background-color: var(--md-dark-blue-3);
         color: var(--md-white);
     }
+
     &.focused {
         background-color: var(--md-neutral-150);
         color: black;
     }
 }
+
 md-checkbox {
     display: inline-block;
 }

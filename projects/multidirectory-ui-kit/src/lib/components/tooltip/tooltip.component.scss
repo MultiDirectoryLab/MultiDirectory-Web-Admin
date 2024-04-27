@@ -1,11 +1,12 @@
 @use '../../styles/global';
+
 .tooltip-icon-wrapper {
     cursor: pointer;
     position: relative;
     display: inline-block;
-
     width: 24px;
     height: 24px;
+
     .tooltip-icon {
         width: 24px;
         height: 24px;
@@ -15,9 +16,11 @@
         display: none;
         position: fixed;
         z-index: 99;
+
         &.tooltip-visible {
             display: block;
         }
+
         .relative {
             position: relative;
             background-color: var(--md-neutral-800);

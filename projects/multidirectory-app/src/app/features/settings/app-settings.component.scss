@@ -31,6 +31,7 @@
 
     .more {
         cursor: pointer;
+
         &:hover {
             border: 1px solid var(--md-dark-blue-2);
         }
@@ -48,10 +49,12 @@
 .avatar {
     user-select: none;
     padding: 0 8px;
+
     .avatar-img {
         max-height: 50px;
     }
 }
+
 .user-info {
     flex-grow: 1;
 }
@@ -62,8 +65,4 @@
     user-select: none;
 }
 
-.logo-img {
-    pointer-events: none;
-    height: 50px !important;
-    overflow: hidden;
-}
+ 

@@ -7,23 +7,27 @@
     border-radius: 5px;
     padding: 2px;
     border: 1px solid var(--md-neutral-1000);
+
     .multiselect-badges {
         display: flex;
         flex-flow: row wrap;
         height: fit-content;
         width: 100%;
         max-width: 100%;
+
         .multiselect-input {
             border-radius: 3px;
             flex-grow: 1;
             width: 100%;
             max-width: 100%;
             height: fit-content;
+
             &:focus-visible {
                 outline: none;
             }
         }
     }
+
     &:focus-within,
     &:focus-visible {
         outline: auto;

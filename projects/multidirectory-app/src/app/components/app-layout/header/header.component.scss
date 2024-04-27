@@ -12,6 +12,7 @@
 
 .container-name {
     cursor: pointer;
+
     &:hover {
         text-decoration: underline;
     }
@@ -26,13 +27,16 @@
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
+
     .control-button {
         height: 100%;
-        padding: 0px 8px;
+        padding: 0 8px;
         border-left: 1px solid var(--md-neutral-300);
     }
+
     .control-button:hover {
         background-color: var(--md-white);
+
         & img {
             filter: invert(37%) sepia(85%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
         }
@@ -40,7 +44,7 @@
 }
 
 ::ng-deep .dark-theme .control-button {
-     img {
-        filter: invert(100%) sepia(0%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
-    }
+    img {
+       filter: invert(100%) sepia(0%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
+   }
 }
