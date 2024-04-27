@@ -1,8 +1,16 @@
 <div class="nav" *transloco="let t; read: 'settings-navigation'">
-    <div class="nav-item" routerLink="/settings/"
-        [ngClass]="{'selected': url.endsWith('multidirectory') || url.endsWith('settings') }" 
-        >{{ t("md-settings")}}</div>
-    <div class="nav-item"
-        [ngClass]="{'selected': url.endsWith('multifactor') }" 
-        routerLink="/settings/multifactor">{{ t("mf-settings") }}</div>
+  <div
+    class="nav-item"
+    routerLink="/settings/"
+    [ngClass]="{ selected: url.endsWith('multidirectory') || url.endsWith('settings') }"
+  >
+    {{ t('md-settings') }}
+  </div>
+  <div
+    class="nav-item"
+    [ngClass]="{ selected: url.endsWith('multifactor') }"
+    routerLink="/settings/multifactor"
+  >
+    {{ t('mf-settings') }}
+  </div>
 </div>

@@ -1,6 +1,8 @@
 <div class="flex-column flex-start flex-align-center">
+  <app-mf-admin-integration [apiKey]="apiKey" [apiSecret]="apiSecret"></app-mf-admin-integration>
 
-    <app-mf-admin-integration [apiKey]="apiKey" [apiSecret]="apiSecret"></app-mf-admin-integration>
-
-    <app-mf-user-integration [apiKey]="ldapApiKey" [apiSecret]="ldapApiSecret"></app-mf-user-integration>
+  <app-mf-user-integration
+    [apiKey]="ldapApiKey"
+    [apiSecret]="ldapApiSecret"
+  ></app-mf-user-integration>
 </div>

@@ -1,26 +1,34 @@
 <ng-container *transloco="let t; read: 'home'">
-    <img src="/assets/logo_login.svg" class="logo-img"/>
-    <div class="sidebar">
-        <div class="treeview">
-            <router-outlet name="sidebar"></router-outlet>
-        </div>
-        <div class="flex-row footer">
-            <div class="avatar">
-                <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img"/>
-                <img *ngIf="!!user.jpegPhoto" [src]="('data:image/jpg;base64,' + user.jpegPhoto)" class="avatar-img"/>
-            </div>
-            <div class="user-info column">
-                <label>{{user.display_name}}</label>
-                <label>{{user.mail}}</label>
-            </div>
-            <div class="more-container" [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20">
-                <img src="/assets/more_vert.svg" class="more" />
-            </div>
-            <md-dropdown-menu #loginMenu>
-                <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">{{ t('account-settings') }}</div>
-                <div class="dropdown-item" (click)="loginMenu.close(); openChangePassword()">{{ t('change-password') }}</div>
-                <div class="dropdown-item" (click)="logout()">{{ t('logout') }}</div>
-            </md-dropdown-menu>
-        </div>
+  <img src="/assets/logo_login.svg" class="logo-img" />
+  <div class="sidebar">
+    <div class="treeview">
+      <router-outlet name="sidebar"></router-outlet>
     </div>
+    <div class="flex-row footer">
+      <div class="avatar">
+        <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img" />
+        <img
+          *ngIf="!!user.jpegPhoto"
+          [src]="'data:image/jpg;base64,' + user.jpegPhoto"
+          class="avatar-img"
+        />
+      </div>
+      <div class="user-info column">
+        <label>{{ user.display_name }}</label>
+        <label>{{ user.mail }}</label>
+      </div>
+      <div class="more-container" [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20">
+        <img src="/assets/more_vert.svg" class="more" />
+      </div>
+      <md-dropdown-menu #loginMenu>
+        <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">
+          {{ t('account-settings') }}
+        </div>
+        <div class="dropdown-item" (click)="loginMenu.close(); openChangePassword()">
+          {{ t('change-password') }}
+        </div>
+        <div class="dropdown-item" (click)="logout()">{{ t('logout') }}</div>
+      </md-dropdown-menu>
+    </div>
+  </div>
 </ng-container>

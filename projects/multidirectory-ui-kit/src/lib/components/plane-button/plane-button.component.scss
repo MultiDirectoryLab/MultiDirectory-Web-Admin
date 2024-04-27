@@ -1,50 +1,50 @@
 @use '../../styles/global' as global;
 
 .plane-button-container {
-    background-color: transparent;
-    border: none;
-    height: 100%;
+  background-color: transparent;
+  border: none;
+  height: 100%;
 
-    /* padding: 8px; */
+  /* padding: 8px; */
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  user-select: none;
+
+  &:disabled {
+    color: var(--md-neutral-400);
+  }
+
+  &:not(.disabled):hover {
+    cursor: pointer;
+  }
+
+  &.plane-button-primary {
+    background-color: var(--md-white);
+
+    &.plane-button-primary:hover {
+      background-color: var(--md-dark-blue-2);
+    }
+  }
+
+  &.has-border {
+    border: 1px solid var(--md-dark-blue-2);
+    width: 100%;
     display: flex;
-    flex-flow: column;
+    flex-flow: row nowrap;
     justify-content: center;
-    user-select: none;
+    height: 21px;
+    font-size: 11px;
+    border-radius: 2px;
+    align-items: center;
 
-    &:disabled {
-        color: var(--md-neutral-400);
+    &:hover {
+      background-color: var(--md-neutral-100);
     }
-
-    &:not(.disabled):hover {
-        cursor: pointer;
-    }
-
-    &.plane-button-primary {
-        background-color: var(--md-white);
-
-        &.plane-button-primary:hover {
-            background-color: var(--md-dark-blue-2);
-        }
-    }
-
-    &.has-border {
-        border: 1px solid var(--md-dark-blue-2);
-        width: 100%;
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: center;
-        height: 21px;
-        font-size: 11px;
-        border-radius: 2px;
-        align-items: center;
-
-        &:hover {
-            background-color: var(--md-neutral-100);
-        }
-    }
+  }
 }
 
 .plane-button {
-    border: none;
-    height: 20px;
+  border: none;
+  height: 20px;
 }

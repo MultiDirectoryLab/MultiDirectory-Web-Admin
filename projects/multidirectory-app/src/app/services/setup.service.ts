@@ -1,27 +1,27 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
-import { SetupRequest } from "@models/setup/setup-request";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { SetupRequest } from '@models/setup/setup-request';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class SetupService {
-    setupRequest = new SetupRequest();
+  setupRequest = new SetupRequest();
 
-    private _stepValid = new BehaviorSubject<boolean>(false);
-    get onStepValid() {
-        return this._stepValid.asObservable();
-    }
+  private _stepValid = new BehaviorSubject<boolean>(false);
+  get onStepValid() {
+    return this._stepValid.asObservable();
+  }
 
-    stepValid(valid: boolean) {
-        this._stepValid.next(valid);
-    }
+  stepValid(valid: boolean) {
+    this._stepValid.next(valid);
+  }
 
-    private _invalidateRx = new Subject<void>();
-    get invalidateRx() {
-        return this._invalidateRx.asObservable();
-    }
-    invalidate() {
-        this._invalidateRx.next();
-    }
+  private _invalidateRx = new Subject<void>();
+  get invalidateRx() {
+    return this._invalidateRx.asObservable();
+  }
+  invalidate() {
+    this._invalidateRx.next();
+  }
 }

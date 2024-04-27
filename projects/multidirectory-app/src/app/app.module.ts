@@ -24,52 +24,56 @@ import { AppSettingsModule } from './features/settings/app-settings.module';
 import { SearchPanelModule } from './features/search/search-panel.module';
 import { PropertiesModule } from './features/ldap-entry-properties/properties.module';
 import { WindowsComponent } from './components/app-layout/shared/windows/windows.component';
-import { AppFormsModule } from "./features/forms/forms.module";
+import { AppFormsModule } from './features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        NavigationComponent,
-        DisplayErrorComponent,
-        AppLayoutComponent,
-        SidebarComponent 
-    ],
-    providers: [
-        provideAnimations(),
-        {
-            provide: 'apiAdapter',
-            useFactory: (adapterSettings: MultidirectoryAdapterSettings, httpClient: HttpClient, toastr: ToastrService) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
-            deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService]
-        },
-        {
-            provide: ErrorHandler,
-            useClass: GlobalErrorHandler
-        }
-    ],
-    bootstrap: [AppComponent],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        DragDropModule,
-        AppRoutingModule,
-        AppSettingsModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        MultidirectoryUiKitModule,
-        ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-        HotkeyModule.forRoot({
-            cheatSheetCloseEsc: true,
-        }),
-        AuthorizationModule,
-        TranslocoRootModule,
-        EditorsModule,
-        PropertiesModule,
-        SearchPanelModule,
-        AppFormsModule,
-        SharedComponentsModule
-    ]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    NavigationComponent,
+    DisplayErrorComponent,
+    AppLayoutComponent,
+    SidebarComponent,
+  ],
+  providers: [
+    provideAnimations(),
+    {
+      provide: 'apiAdapter',
+      useFactory: (
+        adapterSettings: MultidirectoryAdapterSettings,
+        httpClient: HttpClient,
+        toastr: ToastrService,
+      ) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
+      deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService],
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    DragDropModule,
+    AppRoutingModule,
+    AppSettingsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    MultidirectoryUiKitModule,
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+    HotkeyModule.forRoot({
+      cheatSheetCloseEsc: true,
+    }),
+    AuthorizationModule,
+    TranslocoRootModule,
+    EditorsModule,
+    PropertiesModule,
+    SearchPanelModule,
+    AppFormsModule,
+    SharedComponentsModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

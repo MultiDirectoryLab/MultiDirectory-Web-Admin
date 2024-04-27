@@ -1,4 +1,4 @@
 export interface GetAcpPageResponse {
-    message: string;
-    status: string;
+  message: string;
+  status: string;
 }

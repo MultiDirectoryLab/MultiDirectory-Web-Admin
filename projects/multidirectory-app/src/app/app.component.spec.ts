@@ -6,13 +6,8 @@ import { getTranslocoModule } from './testing/transloco-testing';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        getTranslocoModule()
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterTestingModule, getTranslocoModule()],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
@@ -21,5 +16,4 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });

@@ -2,28 +2,24 @@ module.exports = {
   root: true,
   overrides: [
     {
-      files: ["*.ts"],
+      files: ['*.ts'],
       parserOptions: {
-        project: [
-          "tsconfig.*?.json",
-          "e2e/tsconfig.json"
-        ],
-        createDefaultProgram: true
+        project: ['tsconfig.*?.json', 'e2e/tsconfig.json'],
+        createDefaultProgram: true,
       },
-      extends: ["plugin:@angular-eslint/recommended"],
-      rules: {
-      }
+      extends: ['plugin:@angular-eslint/recommended'],
+      rules: {},
     },
     {
-      files: ["*.component.html"],
-      extends: ["plugin:@angular-eslint/template/recommended"],
+      files: ['*.component.html'],
+      extends: ['plugin:@angular-eslint/template/recommended'],
       rules: {
-        "max-len": ["error", { "code": 140 }]
-      }
+        'max-len': ['error', { code: 140 }],
+      },
     },
     {
-      files: ["*.component.ts"],
-      extends: ["plugin:@angular-eslint/template/process-inline-templates"]
+      files: ['*.component.ts'],
+      extends: ['plugin:@angular-eslint/template/process-inline-templates'],
     },
     {
       files: ['src/**/*.spec.ts', 'src/**/*.d.ts'],
@@ -39,6 +35,6 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
       },
-    }
-  ]
-}
+    },
+  ],
+};

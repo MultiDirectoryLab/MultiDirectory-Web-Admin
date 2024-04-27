@@ -1,28 +1,41 @@
-<div *transloco="let t; read: 'multifactor-settings.mf-admin-integration'" class="flex-column flex-gap-10 p-8 w-100">
-    <md-form #form [autocomplete]="false">
-        <div class="flex-row flex-center">
-            <div class="title">
-                {{ t('header') }}
-                
-            </div>
-            <md-tooltip class="help" [width]="550" [left]="-250" [iconPath]="'assets/info-circle.svg'">
-                <div [innerHTML]="t('help')"></div>
-            </md-tooltip>
-        </div>
-        <div class="flex-row flex-center">
-            
-        </div>
-        <div class="mf-control-grid">
-            <label class="flex-gap-10" for="api-key">API Key</label>
-            <md-textbox [(ngModel)]="apiKey" appMfKeyValidator name="api-key" class="col-xs-4"></md-textbox>
+<div
+  *transloco="let t; read: 'multifactor-settings.mf-admin-integration'"
+  class="flex-column flex-gap-10 p-8 w-100"
+>
+  <md-form #form [autocomplete]="false">
+    <div class="flex-row flex-center">
+      <div class="title">
+        {{ t('header') }}
+      </div>
+      <md-tooltip class="help" [width]="550" [left]="-250" [iconPath]="'assets/info-circle.svg'">
+        <div [innerHTML]="t('help')"></div>
+      </md-tooltip>
+    </div>
+    <div class="flex-row flex-center"></div>
+    <div class="mf-control-grid">
+      <label class="flex-gap-10" for="api-key">API Key</label>
+      <md-textbox
+        [(ngModel)]="apiKey"
+        appMfKeyValidator
+        name="api-key"
+        class="col-xs-4"
+      ></md-textbox>
 
-            <label class="flex-gap-10"  for="api-secret">API Secret</label>
-            <md-textbox [(ngModel)]="apiSecret" appMfKeyValidator [isSecret]="true"  [password]="true" name="api-secret" class="col-xs-4"></md-textbox>
-        </div>
+      <label class="flex-gap-10" for="api-secret">API Secret</label>
+      <md-textbox
+        [(ngModel)]="apiSecret"
+        appMfKeyValidator
+        [isSecret]="true"
+        [password]="true"
+        name="api-secret"
+        class="col-xs-4"
+      ></md-textbox>
+    </div>
 
-
-        <div class="flex-row flex-end">
-            <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true">{{ t('apply') }}</md-button>
-        </div>
-    </md-form>
+    <div class="flex-row flex-end">
+      <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true">{{
+        t('apply')
+      }}</md-button>
+    </div>
+  </md-form>
 </div>

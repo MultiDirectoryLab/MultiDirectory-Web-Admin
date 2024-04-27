@@ -1,97 +1,110 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output, Renderer2, ViewChild, forwardRef } from "@angular/core";
-import { ModalComponent } from "ng-modal-full-resizable";
-import { Observable, Subject, takeUntil } from "rxjs";
-import { ModalService } from "./modal.service";
-import { SpinnerHostDirective } from "../spinner/spinner-host.directive";
-import { IdProvider } from "../../utils/id-provider";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  Renderer2,
+  ViewChild,
+  forwardRef,
+} from '@angular/core';
+import { ModalComponent } from 'ng-modal-full-resizable';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { ModalService } from './modal.service';
+import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
+import { IdProvider } from '../../utils/id-provider';
 
 @Component({
-    selector: 'md-modal',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [{
-        provide: ModalService,
-        useClass: ModalService,
-        multi: false
-    }]
+  selector: 'md-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: ModalService,
+      useClass: ModalService,
+      multi: false,
+    },
+  ],
 })
 export class MdModalComponent implements AfterViewInit, OnDestroy {
-    __ID = IdProvider.getUniqueId('modal');
+  __ID = IdProvider.getUniqueId('modal');
 
-    @ViewChild('modalRoot', { static: true, read: ModalComponent }) modalRoot?: ModalComponent;
-    @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
-    @Input() opened = false;
-    @Input() backdrop = true;
-    @Input() minHeight = 0;
-    @Input() width: string = '';
-    @Input() zIndex?: number;
-    unsubscribe = new Subject<void>();
-    
-    constructor(
-        private cdr: ChangeDetectorRef,
-        private renderer: Renderer2,
-        private modal: ModalService) {
-        this.modal.resizeRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(() => this.resize());
-    }
+  @ViewChild('modalRoot', { static: true, read: ModalComponent }) modalRoot?: ModalComponent;
+  @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
+  @Input() opened = false;
+  @Input() backdrop = true;
+  @Input() minHeight = 0;
+  @Input() width: string = '';
+  @Input() zIndex?: number;
+  unsubscribe = new Subject<void>();
 
-    resize() {
-        this.cdr.detectChanges();
-    }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private renderer: Renderer2,
+    private modal: ModalService,
+  ) {
+    this.modal.resizeRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.resize());
+  }
 
-    ngOnDestroy(): void {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
-    }
+  resize() {
+    this.cdr.detectChanges();
+  }
 
-    open(): Observable<boolean> | null {
-        this.modalRoot?.show();
-        this.cdr.detectChanges();
-        return this.modalRoot?.openModal.asObservable() ?? null;
-    }
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 
-    onModalOpen() {
-        if(this.width) {
-            this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
-        }
-        this.modalRoot?.center();
-        this.modalRoot?.moveOnTop();
-        this.cdr.detectChanges();
-    }
+  open(): Observable<boolean> | null {
+    this.modalRoot?.show();
+    this.cdr.detectChanges();
+    return this.modalRoot?.openModal.asObservable() ?? null;
+  }
 
-    onModalClose() {
-        this.cdr.detectChanges();
+  onModalOpen() {
+    if (this.width) {
+      this.renderer.setStyle(this.modalRoot?.modalRoot.nativeElement, 'width', this.width);
     }
+    this.modalRoot?.center();
+    this.modalRoot?.moveOnTop();
+    this.cdr.detectChanges();
+  }
 
-    center() {
-        this.modalRoot?.center();
-    }
+  onModalClose() {
+    this.cdr.detectChanges();
+  }
 
-    close() {   
-        this.modalRoot?.hide();
-        this.cdr.detectChanges();
-    }
+  center() {
+    this.modalRoot?.center();
+  }
 
-    showSpinner() {
-        this.spinnerHost?.show();
-    }
+  close() {
+    this.modalRoot?.hide();
+    this.cdr.detectChanges();
+  }
 
-    hideSpinner() {
-        this.spinnerHost?.hide();
+  showSpinner() {
+    this.spinnerHost?.show();
+  }
+
+  hideSpinner() {
+    this.spinnerHost?.hide();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.opened) {
+      this.open();
+      this.modalRoot?.calcBodyHeight();
+      this.modalRoot?.center();
+      this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
+      this.cdr.detectChanges();
     }
-    
-    ngAfterViewInit(): void {
-        if(this.opened) {
-            this.open();
-            this.modalRoot?.calcBodyHeight();
-            this.modalRoot?.center();
-            this.renderer.setStyle(this.modalRoot?.modalBody.nativeElement, 'display', 'flex');
-            this.cdr.detectChanges();
-        }
-        this.modalRoot?.closeModal.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-            this.cdr.detectChanges();
-        });
-    }
+    this.modalRoot?.closeModal.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
 }

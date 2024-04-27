@@ -1,14 +1,14 @@
 .radiobutton-container {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: baseline;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: baseline;
 }
 
 .radiobutton-label {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
 }

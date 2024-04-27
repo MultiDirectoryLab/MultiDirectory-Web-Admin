@@ -1,15 +1,17 @@
 <div class="flex-row align-center pointer">
-    <label class="switch" for="checkbox">
-        <input 
-            [id]="__ID"
-            [disabled]="disabled"
-            [(ngModel)]="value"
-            (blur)="onBlur()"
-            (change)="onChange($event)"
-            #checkbox
-            type="checkbox" id="checkbox" />
-    </label>
-    <div class="label" (click)="onLabelClick($event, checkbox.checked)">
-        <ng-content></ng-content>
-    </div>
+  <label class="switch" for="checkbox">
+    <input
+      [id]="__ID"
+      [disabled]="disabled"
+      [(ngModel)]="value"
+      (blur)="onBlur()"
+      (change)="onChange($event)"
+      #checkbox
+      type="checkbox"
+      id="checkbox"
+    />
+  </label>
+  <div class="label" (click)="onLabelClick($event, checkbox.checked)">
+    <ng-content></ng-content>
+  </div>
 </div>

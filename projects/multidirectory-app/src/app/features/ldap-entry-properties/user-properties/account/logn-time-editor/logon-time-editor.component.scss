@@ -1,110 +1,117 @@
 .logon-map {
-    display: grid;
-    grid-template-columns: 100px repeat(24, 1fr);
-    grid-template-rows: repeat(9, 1fr) ;
-    user-select: none;
+  display: grid;
+  grid-template-columns: 100px repeat(24, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  user-select: none;
 }
 
 .logon-selector {
-    cursor: pointer;
-    border: 1px solid grey;
-    background-color: white;
+  cursor: pointer;
+  border: 1px solid grey;
+  background-color: white;
 }
 
 .logon-enabled {
-    background-color: blue;
+  background-color: blue;
 }
 
 .logon-switch {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: start;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: start;
 }
 
 .logon-day {
-    padding: 4px;
-    border: 1px solid grey;
-    grid-column: 1;
+  padding: 4px;
+  border: 1px solid grey;
+  grid-column: 1;
 
-    &:hover {
-        background-color: lightgrey;
-    }
+  &:hover {
+    background-color: lightgrey;
+  }
 }
 
 .logon-hour {
-    border: 1px solid grey;
-    padding: 0;
+  border: 1px solid grey;
+  padding: 0;
 
-    .logon-hour-click {
-        font-size: 12px;
-        text-align: center;
-    }
+  .logon-hour-click {
+    font-size: 12px;
+    text-align: center;
+  }
 
-    &:hover {
-        background-color: lightgrey;
-    }
+  &:hover {
+    background-color: lightgrey;
+  }
 }
 
 .logon-selected {
-    .selection-overlay {
-        width: 100%;
-        height: 100%;
-        z-index: 2;
-        background-color: rgb(53 19 44 / 30%) !important;
-        & .logon-select-row-start { border-top: 1px solid black;}
-        & .logon-select-column-start { border-left: 1px solid black; }
-        & .logon-select-column-end { border-right: 1px solid black; }
-        & .logon-select-row-end { border-bottom: 1px solid black; }
+  .selection-overlay {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgb(53 19 44 / 30%) !important;
+    & .logon-select-row-start {
+      border-top: 1px solid black;
     }
-
+    & .logon-select-column-start {
+      border-left: 1px solid black;
+    }
+    & .logon-select-column-end {
+      border-right: 1px solid black;
+    }
+    & .logon-select-row-end {
+      border-bottom: 1px solid black;
+    }
+  }
 }
 
 .icon-midnight {
-    grid-row: 1;
-    grid-column: 2 / 4;
+  grid-row: 1;
+  grid-column: 2 / 4;
 
-    img {
-        width: 16px; 
-        height: 16px;
-    }
+  img {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .icon-midday {
-    grid-row: 1;
-    grid-column: 13 / 15;
-    flex-flow: row nowrap;
-    display: flex;
-    justify-content: center;
+  grid-row: 1;
+  grid-column: 13 / 15;
+  flex-flow: row nowrap;
+  display: flex;
+  justify-content: center;
 
-    img {
-        width: 16px; 
-        height: 16px;
-    }
+  img {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .icon-dayend {
-    grid-row: 1;
-    grid-column: 24 / 26;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: end;
+  grid-row: 1;
+  grid-column: 24 / 26;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: end;
 
-    img {
-        width: 16px; 
-        height: 16px;
-    }
+  img {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .logon-cell-example-allowed {
-    width: 8px; 
-    height: 16px; 
-    background: blue;
+  width: 8px;
+  height: 16px;
+  background: blue;
 }
 
 .logon-cell-example-denied {
-    width: 8px; 
-    height: 16px;
-    background: white;
-    border: 1px solid black;
+  width: 8px;
+  height: 16px;
+  background: white;
+  border: 1px solid black;
 }

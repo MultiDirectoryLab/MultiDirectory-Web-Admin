@@ -1,30 +1,37 @@
-
-<div class="app-modal-header">
-    {{ 'property-editor.header' | transloco }} {{ propertyName }}
-</div>
+<div class="app-modal-header">{{ 'property-editor.header' | transloco }} {{ propertyName }}</div>
 <div class="flex-column flex-gap-10">
-    <div class="flex-row flex-space-between">
-        <div>Attribute: {{ propertyName }}</div>
-        <div>
-            <md-dropdown class="page-size-select" [options]="propertyTypes" [(ngModel)]="propertyType"></md-dropdown> 
-        </div>
-    </div>
+  <div class="flex-row flex-space-between">
+    <div>Attribute: {{ propertyName }}</div>
     <div>
-        <ng-container [ngSwitch]="propertyType">
-            <app-string-property-editor *ngSwitchCase="LdapPropertyType.String" [(propertyValue)]="propertyValue"></app-string-property-editor>
-            <app-integer-property-editor *ngSwitchCase="LdapPropertyType.Integer" [(propertyValue)]="propertyValue"></app-integer-property-editor>
-            <app-multivalued-string-editor *ngSwitchCase="LdapPropertyType.MultivaluedString" [(propertyValue)]="propertyValue"></app-multivalued-string-editor>
-        </ng-container>
+      <md-dropdown
+        class="page-size-select"
+        [options]="propertyTypes"
+        [(ngModel)]="propertyType"
+      ></md-dropdown>
     </div>
-
+  </div>
+  <div>
+    <ng-container [ngSwitch]="propertyType">
+      <app-string-property-editor
+        *ngSwitchCase="LdapPropertyType.String"
+        [(propertyValue)]="propertyValue"
+      ></app-string-property-editor>
+      <app-integer-property-editor
+        *ngSwitchCase="LdapPropertyType.Integer"
+        [(propertyValue)]="propertyValue"
+      ></app-integer-property-editor>
+      <app-multivalued-string-editor
+        *ngSwitchCase="LdapPropertyType.MultivaluedString"
+        [(propertyValue)]="propertyValue"
+      ></app-multivalued-string-editor>
+    </ng-container>
+  </div>
 </div>
 
 <div class="app-modal-footer flex-row flex-space-between">
-    <div>
-
-    </div>
-    <div class="flex-row flex-gap-10">
-        <md-button (click)="close()">Cancel</md-button>
-        <md-button [primary]="true" (click)="finish()">Apply</md-button>
-    </div>
+  <div></div>
+  <div class="flex-row flex-gap-10">
+    <md-button (click)="close()">Cancel</md-button>
+    <md-button [primary]="true" (click)="finish()">Apply</md-button>
+  </div>
 </div>

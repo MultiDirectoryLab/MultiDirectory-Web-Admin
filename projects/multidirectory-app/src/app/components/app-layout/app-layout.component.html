@@ -1,12 +1,19 @@
-<div class="bg-white-neutral flex-row" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
-    <div *ngIf="showLeftPane" class="left-pane">
-        <app-sidebar></app-sidebar>
-    </div>
-    <div class="right-pane w-100">
-        <app-header></app-header>
-        <router-outlet></router-outlet>
-        <hotkeys-cheatsheet title="{{ 'hotkeys' | transloco }}" #helpcheatSheet (keydown)="closeCheatsheet()"></hotkeys-cheatsheet> 
-    </div>
+<div
+  class="bg-white-neutral flex-row"
+  style="position: fixed; top: 0; bottom: 0; left: 0; right: 0"
+>
+  <div *ngIf="showLeftPane" class="left-pane">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="right-pane w-100">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <hotkeys-cheatsheet
+      title="{{ 'hotkeys' | transloco }}"
+      #helpcheatSheet
+      (keydown)="closeCheatsheet()"
+    ></hotkeys-cheatsheet>
+  </div>
 </div>
 <app-windows></app-windows>
 <app-context-menu></app-context-menu>

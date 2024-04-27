@@ -79,16 +79,16 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     TooltipComponent,
     DatepickerComponent,
     AlertComponent,
-    AutofocusDirective
+    AutofocusDirective,
   ],
   imports: [
     CommonModule,
     ModalModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     NgxDatatableModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    DpDatePickerModule
+    DpDatePickerModule,
   ],
   exports: [
     ButtonComponent,
@@ -121,8 +121,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     TooltipComponent,
     DatepickerComponent,
     AlertComponent,
-    AutofocusDirective
+    AutofocusDirective,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class MultidirectoryUiKitModule { }
+export class MultidirectoryUiKitModule {}

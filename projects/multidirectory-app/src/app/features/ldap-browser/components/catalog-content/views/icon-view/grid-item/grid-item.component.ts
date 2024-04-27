@@ -1,31 +1,30 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
-import { ContextmenuType } from "@swimlane/ngx-datatable";
-import { ContextMenuEvent } from "multidirectory-ui-kit";
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ContextmenuType } from '@swimlane/ngx-datatable';
+import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { LdapEntryNode } from "@core/ldap/ldap-entity";
-
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
 
 @Component({
-    selector: 'app-grid-item',
-    styleUrls: ['./grid-item.component.scss'],
-    templateUrl: 'grid-item.component.html'
+  selector: 'app-grid-item',
+  styleUrls: ['./grid-item.component.scss'],
+  templateUrl: 'grid-item.component.html',
 })
 export class GridItemComponent {
   @Input() big = false;
   @Input() item!: LdapEntryNode;
-  @Output() clickOnItem = new EventEmitter<MouseEvent>;
-  @Output() doubleClickOnItem = new EventEmitter<Event>;
-  @Output() rightClick = new EventEmitter<ContextMenuEvent>;
+  @Output() clickOnItem = new EventEmitter<MouseEvent>();
+  @Output() doubleClickOnItem = new EventEmitter<Event>();
+  @Output() rightClick = new EventEmitter<ContextMenuEvent>();
 
   @ViewChild(CdkDrag) drag!: CdkDrag;
   draggable = {
-      data: "myDragData",
-      effectAllowed: 'copyMove',
-      disable: false,
-      handle: false
+    data: 'myDragData',
+    effectAllowed: 'copyMove',
+    disable: false,
+    handle: false,
   };
   isSelected = false;
- 
+
   onClick($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -44,7 +43,7 @@ export class GridItemComponent {
     this.rightClick.next({
       content: this.item,
       event: $event,
-      type: ContextmenuType.body
+      type: ContextmenuType.body,
     });
   }
 }

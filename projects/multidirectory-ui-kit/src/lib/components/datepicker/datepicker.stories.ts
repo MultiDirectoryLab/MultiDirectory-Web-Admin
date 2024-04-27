@@ -5,16 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 const meta: Meta<DatepickerComponent> = {
-    title: 'Components/Datepicker',
-    component: DatepickerComponent,
-    tags: ['autodocs'],
-    decorators: [
-      moduleMetadata({
-        imports: [DpDatePickerModule, FormsModule, CommonModule],
-        declarations: [DatepickerComponent]
-      })
-    ]
-}
+  title: 'Components/Datepicker',
+  component: DatepickerComponent,
+  tags: ['autodocs'],
+  decorators: [
+    moduleMetadata({
+      imports: [DpDatePickerModule, FormsModule, CommonModule],
+      declarations: [DatepickerComponent],
+    }),
+  ],
+};
 
 export default meta;
 
@@ -26,7 +26,7 @@ export const Primary: Story = {
       {{value}}
     `,
     props: {
-      value: ''
-    }
-  })
-}
+      value: '',
+    },
+  }),
+};

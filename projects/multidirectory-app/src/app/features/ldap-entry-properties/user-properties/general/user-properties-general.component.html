@@ -1,74 +1,97 @@
 <ng-container *ngIf="accessor">
-    <div class="flex-row align-center flex-gap-10 p-8">
-        <div class="avatar">
-            <app-avatar-upload [accessor]="accessor"></app-avatar-upload>
-        </div>
-        <div class="place">{{accessor.displayName}}</div>
-    </div>  
-    <hr />
-    <div class="row align-start pv-8">
-        <div class="col-xs-4">
-            <label for="givenName">{{ "user-properties-generals.name" | transloco }}</label>
-        </div>
-        <div class="col-xs-4 flex-row align-start flex-grow-1 flex-gap-10">
-            <md-textbox 
-                 [(ngModel)]="accessor.givenName"
-                appRequired  class="w-100" name="givenName" id="givenName">
-            </md-textbox>
-        </div>
-        <div class="col-xs-2">
-            <label for="initials">{{ "user-properties-generals.initials" | transloco }}</label>
-        </div>
-        <div class="col-xs-2">
-            <md-textbox name="initials" [(ngModel)]="accessor.initials">
-            </md-textbox>
-        </div>
-    </div>  
-
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="surname">{{ "user-properties-generals.last-name" | transloco }}</label></div>
-        <md-textbox class="col-xs-8" 
-            [(ngModel)]="accessor.surname"
-            name="surname">
-        </md-textbox>
+  <div class="flex-row align-center flex-gap-10 p-8">
+    <div class="avatar">
+      <app-avatar-upload [accessor]="accessor"></app-avatar-upload>
     </div>
-
-
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="display-name">{{ "user-properties-generals.full-name" | transloco }}</label></div>
-        <md-textbox class="col-xs-8" name="display-name" [(ngModel)]="accessor.displayName"></md-textbox>
+    <div class="place">{{ accessor.displayName }}</div>
+  </div>
+  <hr />
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="givenName">{{ 'user-properties-generals.name' | transloco }}</label>
     </div>
-
-
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="description">{{ "user-properties-generals.description" | transloco }}</label></div>
-        <md-textbox class="col-xs-8" name="description" [(ngModel)]="accessor.description"></md-textbox>
+    <div class="col-xs-4 flex-row align-start flex-grow-1 flex-gap-10">
+      <md-textbox
+        [(ngModel)]="accessor.givenName"
+        appRequired
+        class="w-100"
+        name="givenName"
+        id="givenName"
+      >
+      </md-textbox>
     </div>
+    <div class="col-xs-2">
+      <label for="initials">{{ 'user-properties-generals.initials' | transloco }}</label>
+    </div>
+    <div class="col-xs-2">
+      <md-textbox name="initials" [(ngModel)]="accessor.initials"> </md-textbox>
+    </div>
+  </div>
 
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="surname">{{ 'user-properties-generals.last-name' | transloco }}</label>
+    </div>
+    <md-textbox class="col-xs-8" [(ngModel)]="accessor.surname" name="surname"> </md-textbox>
+  </div>
 
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="office">{{ "user-properties-generals.office" | transloco }}</label></div>
-        <md-textbox class="col-xs-8" name="office" [(ngModel)]="accessor.office"></md-textbox>
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="display-name">{{ 'user-properties-generals.full-name' | transloco }}</label>
     </div>
-    <hr />
+    <md-textbox
+      class="col-xs-8"
+      name="display-name"
+      [(ngModel)]="accessor.displayName"
+    ></md-textbox>
+  </div>
 
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="phone">{{ "user-properties-generals.phone" | transloco }}</label></div>
-        <md-textbox class="col-xs-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
-        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')">
-            {{ "user-properties-generals.other" | transloco }}
-        </md-plane-button></div>
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="description">{{ 'user-properties-generals.description' | transloco }}</label>
     </div>
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="email">Email</label></div>
-        <md-textbox class="col-xs-8" name="email" [(ngModel)]="accessor.mail"></md-textbox>
+    <md-textbox class="col-xs-8" name="description" [(ngModel)]="accessor.description"></md-textbox>
+  </div>
+
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="office">{{ 'user-properties-generals.office' | transloco }}</label>
     </div>
-    <div class="row align-start pv-8">
-        <div class="col-xs-4"><label for="homepage">{{ "user-properties-generals.webpage" | transloco }}</label></div>
-        <md-textbox class="col-xs-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
-        <div class="col-xs-2"><md-plane-button [hasBorder]="true" (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')">
-            {{ "user-properties-generals.other" | transloco }}
-        </md-plane-button></div>
+    <md-textbox class="col-xs-8" name="office" [(ngModel)]="accessor.office"></md-textbox>
+  </div>
+  <hr />
+
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="phone">{{ 'user-properties-generals.phone' | transloco }}</label>
     </div>
+    <md-textbox class="col-xs-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
+    <div class="col-xs-2">
+      <md-plane-button
+        [hasBorder]="true"
+        (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
+      >
+        {{ 'user-properties-generals.other' | transloco }}
+      </md-plane-button>
+    </div>
+  </div>
+  <div class="row align-start pv-8">
+    <div class="col-xs-4"><label for="email">Email</label></div>
+    <md-textbox class="col-xs-8" name="email" [(ngModel)]="accessor.mail"></md-textbox>
+  </div>
+  <div class="row align-start pv-8">
+    <div class="col-xs-4">
+      <label for="homepage">{{ 'user-properties-generals.webpage' | transloco }}</label>
+    </div>
+    <md-textbox class="col-xs-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
+    <div class="col-xs-2">
+      <md-plane-button
+        [hasBorder]="true"
+        (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
+      >
+        {{ 'user-properties-generals.other' | transloco }}
+      </md-plane-button>
+    </div>
+  </div>
 </ng-container>
 <app-attribute-list #attributeList></app-attribute-list>

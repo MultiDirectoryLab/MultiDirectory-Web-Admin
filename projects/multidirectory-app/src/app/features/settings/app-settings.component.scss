@@ -1,68 +1,62 @@
 @use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
 :host {
-    background-color: var(--md-white);
-    height: 100%;
-    width: 100%;
-    flex-flow: column nowrap;
-    user-select: none;
+  background-color: var(--md-white);
+  height: 100%;
+  width: 100%;
+  flex-flow: column nowrap;
+  user-select: none;
 }
 
 .grid {
-    display: grid;
-    grid-template-rows: 50px 1fr;
-    grid-template-columns: 315px 1fr;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 315px 1fr;
 }
 
 .logo-img {
-    pointer-events: none;
-    height: 50px !important;
-    overflow: hidden;
+  pointer-events: none;
+  height: 50px !important;
+  overflow: hidden;
 }
-
 
 .more-container {
-    padding: 3px 8px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    width: 5px;
-    margin-bottom: 4px;
+  padding: 3px 8px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 5px;
+  margin-bottom: 4px;
 
-    .more {
-        cursor: pointer;
+  .more {
+    cursor: pointer;
 
-        &:hover {
-            border: 1px solid var(--md-dark-blue-2);
-        }
+    &:hover {
+      border: 1px solid var(--md-dark-blue-2);
     }
+  }
 }
 
-
-
 .body {
-    padding: 0 1rem;
-    overflow-y: auto;
-} 
-
+  padding: 0 1rem;
+  overflow-y: auto;
+}
 
 .avatar {
-    user-select: none;
-    padding: 0 8px;
+  user-select: none;
+  padding: 0 8px;
 
-    .avatar-img {
-        max-height: 50px;
-    }
+  .avatar-img {
+    max-height: 50px;
+  }
 }
 
 .user-info {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .footer {
-    border-top: 1px solid lightgray;
-    padding-top: 8px;
-    user-select: none;
+  border-top: 1px solid lightgray;
+  padding-top: 8px;
+  user-select: none;
 }
-
- 

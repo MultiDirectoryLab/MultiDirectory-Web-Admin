@@ -1,12 +1,11 @@
 <div *transloco="let t; read: 'search-users'" class="row">
-    <div class="col-xs-1 col-xs-1">
-        <label>{{ t("name") }}</label>
-    </div>
-    <div class="col-xs-8 col-xs-8">
-        <md-textbox [(ngModel)]="searchQuery" class="search-input">
-        </md-textbox>
-    </div>
-    <div class="col-xs-3 col-xs-3">
-        <md-button (click)="clear()">{{ t("reset") }}</md-button>
-    </div>
+  <div class="col-xs-1 col-xs-1">
+    <label>{{ t('name') }}</label>
+  </div>
+  <div class="col-xs-8 col-xs-8">
+    <md-textbox [(ngModel)]="searchQuery" class="search-input"> </md-textbox>
+  </div>
+  <div class="col-xs-3 col-xs-3">
+    <md-button (click)="clear()">{{ t('reset') }}</md-button>
+  </div>
 </div>

@@ -1,81 +1,81 @@
 @use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 
 :host {
-    display: flex;
-    height: 100%;
-    flex-flow: column nowrap;
+  display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
 }
 
 .sidebar {
-    z-index: 9;
-    display: flex;
-    flex-flow: column nowrap;
-    flex-grow: 1;
+  z-index: 9;
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
 }
 
 .treeview {
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
 }
 
 .avatar {
-    user-select: none;
-    padding: 0 8px;
+  user-select: none;
+  padding: 0 8px;
 
-    .avatar-img {
-        max-height: 50px;
-    }
+  .avatar-img {
+    max-height: 50px;
+  }
 }
 
 ::ng-deep .dark-theme .sidebar .avatar-img {
-    filter: invert(0.9) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
+  filter: invert(0.9) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
 
 .user-info {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .footer {
-    border-top: 1px solid lightgray;
-    padding-top: 8px;
-    user-select: none;
+  border-top: 1px solid lightgray;
+  padding-top: 8px;
+  user-select: none;
 }
 
 .logo-img {
-    pointer-events: none;
-    user-select: none;
-    min-height: 50px !important;
-    height: 50px !important;
-    overflow: hidden;
-    background-color: var(--md-blue);
+  pointer-events: none;
+  user-select: none;
+  min-height: 50px !important;
+  height: 50px !important;
+  overflow: hidden;
+  background-color: var(--md-blue);
 }
 
- ::ng-deep .dark-theme .logo-img {
-    filter: invert(0.3) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
+::ng-deep .dark-theme .logo-img {
+  filter: invert(0.3) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
 
 :host ::ng-deep .selected:not(.focused) .tree-icon {
-    filter:  brightness(0%) invert(100%);
+  filter: brightness(0%) invert(100%);
 }
 
 .more-container {
-    padding: 3px 8px;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    width: 5px;
-    margin-bottom: 4px;
-    cursor: pointer;
+  padding: 3px 8px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 5px;
+  margin-bottom: 4px;
+  cursor: pointer;
 
-    &:hover {
-        border: 1px solid var(--md-dark-blue-2);
-    }
+  &:hover {
+    border: 1px solid var(--md-dark-blue-2);
+  }
 }
 
 .left-pane {
-    border-right: 1px solid lightgrey;
-    display: flex;
-    flex-flow: column nowrap;
-    user-select: none;
+  border-right: 1px solid lightgrey;
+  display: flex;
+  flex-flow: column nowrap;
+  user-select: none;
 }

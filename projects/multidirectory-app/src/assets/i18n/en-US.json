@@ -1,490 +1,489 @@
 {
-    "please-check-errors": "Please, check the form errors",
-    "multidirectory-settings": {
-      "header": "Multidirectory Admin Panel Settings",
-      "language": "Language",
-      "apply": "Apply"
-    },
-    "multifactor-settings": {
-      "mf-user-integration": {
-        "header": "Multifactor Users Integration",
-        "apply": "Apply",
-        "integration-success": "Integration Enabled",
-        "integration-failed": "Error has occured",
-        "integration-disabled": "Integration disabled",
-        "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for all users:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Multidirectory</b>';</li>\n<li>On the resource's page you will see the <b>'NAS Identifier'</b> and <b>'Shared Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
-      },
-      "mf-admin-integration": {
-        "header": "Multifactor Admin Integration",
-        "apply": "Apply",
-        "integration-success": "Integration Enabled",
-        "integration-failed": "Error has occured",
-        "integration-disabled": "Integration disabled",
-        "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for an admin entrance:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Web-Site</b>';</li>\n<li>On the resource's page you will see the <b>'API Key'</b> and <b>'API Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
-      }
-    },
-    "catalog-selector": {
-      "modal-header": "Select a catalog",
-      "header": "Select a location to start search from",
-      "cancel": "Cancel",
-      "apply": "Apply"
-    },
-    "group-create": {
-      "header": "New object - Group",
-      "addto": "Add to",
-      "group-name": "Group name",
-      "group-name-legacy": "Group name (Pre-windows 2000)",
-      "group-scope-label": "Group scope",
-      "group-scope-local": "Domain local",
-      "group-scope-global": "Global",
-      "group-scope-universal": "Universal",
-      "group-type-label": "Group type",
-      "group-type-security": "Security group",
-      "group-type-distribution": "Distribution group",
-      "cancel": "Cancel",
-      "apply": "Save",
-      "unable-create-group": "Unable to create group",
-      "description": "Description"
-    },
-    "entity-type-selector": {
-      "modal-header": "Object Types",
-      "header": "Select the types of objects you want to find:",
+  "please-check-errors": "Please, check the form errors",
+  "multidirectory-settings": {
+    "header": "Multidirectory Admin Panel Settings",
+    "language": "Language",
+    "apply": "Apply"
+  },
+  "multifactor-settings": {
+    "mf-user-integration": {
+      "header": "Multifactor Users Integration",
       "apply": "Apply",
-      "cancel": "Cancel"
+      "integration-success": "Integration Enabled",
+      "integration-failed": "Error has occured",
+      "integration-disabled": "Integration disabled",
+      "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for all users:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Multidirectory</b>';</li>\n<li>On the resource's page you will see the <b>'NAS Identifier'</b> and <b>'Shared Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
     },
-    "group-selector": {
-      "modal-header": "Group selection",
-      "header": "Select a group type:",
-      "object-types": "Group types...",
-      "from-place": "From place:",
-      "places": "Places...",
-      "name-prompt": "Enter a name to find an object:",
-      "not-found-text": "Groups not found",
-      "check-name": "Check name...",
-      "additional-parameters": "Additional parameters",
-      "cancel": "Cancel",
-      "apply": "Apply"
-    },
-    "ou-create": {
-      "modal-header": "New object - Organizational unit",
-      "header": "Add to:",
-      "ouname-label": "Enter the name of the organizational unit",
-      "cancel": "Cancel",
-      "apply": "Save",
-      "description": "Description"
-    },
-    "computer-create": {
-      "modal-header": "New object - Computer",
-      "header": "Add to:",
-      "computername-label": "Computer name:",
-      "computernamelegacy-label": "Computer name (pre-Windows 2000):",
-      "account-description": "The following user or group can join this computer to a domain",
-      "user-or-group": "User or Group",
-      "change": "Change...",
-      "assigns-legacy-account": "Assign this computer account as a pre-Windows 2000 account",
-      "cancel": "Cancel",
-      "apply": "Save",
-      "description": "Description"
-    },
-    "setup": {
-      "setup-complete": "Setup has completed successfully",
-      "back": "Back",
-      "next": "Next",
-      "admin-settings": {
-        "header": "This wizard will help you complete the Multidirectory setup",
-        "admin-login-label": "Administrator login",
-        "admin-password-label": "Password",
-        "admin-password-repeat-label": "Repeat password"
-      },
-      "admin-settings-second": {
-        "header": "This wizard will help you complete the Multidirectory setup",
-        "display-name-label": "Display name"
-      },
-      "domain-settings": {
-        "header": "This wizard will help you complete the Multidirectory setup",
-        "domain-label": "Domain"
-      }
-    },
-    "user-create": {
-      "modal-header": "New object - User",
-      "add-to": "Add to:",
-      "cancel": "Cancel",
-      "back": "Back",
-      "next": "next",
-      "finish": "Save",
-      "unable-create-user": "Unable to create user",
-      "general-info": {
-        "first-name-label": "Name",
-        "initials-label": "Initials",
-        "last-name-label": "Surname",
-        "full-name-label": "Full name",
-        "logon-name-label": "Login name:",
-        "domain-label": "Domain",
-        "legacy-logon-name-label": "Login(pre-Windows 2000):",
-        "legacy-domain-label": "Domain",
-        "description": "Description"
-      },
-      "password-settings": {
-        "password-label": "Password",
-        "repeat-password-label": "Repeat password",
-        "user-should-change-password": "The user must change the password the next time they log in",
-        "user-unable-change-password": "User cannot change password",
-        "password-never-expires": "Password does not expire",
-        "account-disabled": "Account disabled"
-      },
-      "summary": {
-        "header": "Finish",
-        "full-name-label": "Full name",
-        "logon-name-label": "Login name:",
-        "additional-settings": "Additional settings:"
-      }
-    },
-    "icon-view": {
-      "align-grid": "Align to Grid",
-      "reset": "Reset",
-      "pagerTitle": "Page Size",
-      "fromTitle": "from"
-    },
-    "table-view": {
-        "pagerTitle": "Page Size",
-        "fromTitle": "from",
-        "name-column": "Name",
-        "type-column": "Type",
-        "description-column": "Description"
-    },
-    "catalog-content": {
-      "create-user": "Create a user",
-      "create-group": "Create a group",
-      "create-object": "Add object",
-      "create-computer": "Add a computer",
-      "help": "Help",
-      "group": "Group",
-      "computer": "Computer",
-      "contact": "Contact",
-      "ou": "Organizational unit",
-      "common-folder": "a shared folder",
-      "printer": "Printer",
-      "user": "User",
-      "approve-delete-header": "Confirmation required",
-      "approve-delete": "Are you sure you want to delete the object?",
-      "cancel": "Cancel",
-      "delete": "Delete",
-      "more": "More details",
-      "change-password": "Change Password...",
-      "modify-dn": "Modify Distinguished Name...",
-      "select-user-catalog": "Select a catalog where an user will be created",
-      "select-group-catalog": "Select a catalog where a group will be created",
-      "select-ou-catalog": "Select a catalog where an organizational unit will be created"
-    },
-    "attributes-list": {
-      "value": "Value",
-      "add": "Add",
+    "mf-admin-integration": {
+      "header": "Multifactor Admin Integration",
       "apply": "Apply",
-      "delete": "Delete"
+      "integration-success": "Integration Enabled",
+      "integration-failed": "Error has occured",
+      "integration-disabled": "Integration disabled",
+      "help": "<div class='pl-16'>This section controls integration between Multidirectory and Multifactor. To enable two-factor verification for an admin entrance:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Web-Site</b>';</li>\n<li>On the resource's page you will see the <b>'API Key'</b> and <b>'API Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
+    }
+  },
+  "catalog-selector": {
+    "modal-header": "Select a catalog",
+    "header": "Select a location to start search from",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "group-create": {
+    "header": "New object - Group",
+    "addto": "Add to",
+    "group-name": "Group name",
+    "group-name-legacy": "Group name (Pre-windows 2000)",
+    "group-scope-label": "Group scope",
+    "group-scope-local": "Domain local",
+    "group-scope-global": "Global",
+    "group-scope-universal": "Universal",
+    "group-type-label": "Group type",
+    "group-type-security": "Security group",
+    "group-type-distribution": "Distribution group",
+    "cancel": "Cancel",
+    "apply": "Save",
+    "unable-create-group": "Unable to create group",
+    "description": "Description"
+  },
+  "entity-type-selector": {
+    "modal-header": "Object Types",
+    "header": "Select the types of objects you want to find:",
+    "apply": "Apply",
+    "cancel": "Cancel"
+  },
+  "group-selector": {
+    "modal-header": "Group selection",
+    "header": "Select a group type:",
+    "object-types": "Group types...",
+    "from-place": "From place:",
+    "places": "Places...",
+    "name-prompt": "Enter a name to find an object:",
+    "not-found-text": "Groups not found",
+    "check-name": "Check name...",
+    "additional-parameters": "Additional parameters",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "ou-create": {
+    "modal-header": "New object - Organizational unit",
+    "header": "Add to:",
+    "ouname-label": "Enter the name of the organizational unit",
+    "cancel": "Cancel",
+    "apply": "Save",
+    "description": "Description"
+  },
+  "computer-create": {
+    "modal-header": "New object - Computer",
+    "header": "Add to:",
+    "computername-label": "Computer name:",
+    "computernamelegacy-label": "Computer name (pre-Windows 2000):",
+    "account-description": "The following user or group can join this computer to a domain",
+    "user-or-group": "User or Group",
+    "change": "Change...",
+    "assigns-legacy-account": "Assign this computer account as a pre-Windows 2000 account",
+    "cancel": "Cancel",
+    "apply": "Save",
+    "description": "Description"
+  },
+  "setup": {
+    "setup-complete": "Setup has completed successfully",
+    "back": "Back",
+    "next": "Next",
+    "admin-settings": {
+      "header": "This wizard will help you complete the Multidirectory setup",
+      "admin-login-label": "Administrator login",
+      "admin-password-label": "Password",
+      "admin-password-repeat-label": "Repeat password"
     },
-    "entity-attributes": {
-      "name": "Name",
-      "value": "Value",
-      "select-attribute": "Select an attribute to edit",
-      "unable-retrieve-schema": "Unable to retreive schema",
-      "edit-not-allowed": "The attribute editing is not allowed"
+    "admin-settings-second": {
+      "header": "This wizard will help you complete the Multidirectory setup",
+      "display-name-label": "Display name"
     },
-    "member-of": {
-      "groups": "Groups:",
-      "name": "Name",
-      "catalog-path": "Directory in a Multidirectory domain",
-      "add": "Add",
-      "delete": "Delete",
-      "primary-group": "Main group: ",
-      "make-primary": "Make primary",
-      "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients."
-    },
-    "members": {
-      "members": "Members:",
-      "name": "Name",
-      "catalog-path": "Directory in a Multidirectory domain",
-      "add": "Add",
-      "delete": "Delete"
-    },
-    "logon-time-editor": { 
-      "modal-header": "Entry hours for",
-      "login-allowed": "Entry allowed",
-      "login-disabled": "No entry",
-      "starts-from": "beginning with",
-      "finish-to": "By",
-      "cancel": "Cancel",
-      "apply": "Apply",
-
-      "every": "All",
-      "monday": "Monday",
-      "tuesday": "Tuesday",
-      "wednesday": "Wednesday",
-      "thursday": "Thursday",
-      "friday": "Friday",
-      "saturday": "Saturday",
-      "sunday": "Sunday",
-
-      "from-monday": "From Monday",
-      "from-tuesday": "From Tuesday",
-      "from-wednesday": "From Wednesday",
-      "from-thursday": "From Thursday",
-      "from-friday": "From Friday",
-      "from-saturday": "From Saturday",
-      "from-sunday": "From Sunday",
-      "to-monday": "to Monday",
-      "to-tuesday": "to Tuesday",
-      "to-wednesday": "to Wednesday",
-      "to-thursday": "to Thursday",
-      "to-friday": "to Friday",
-      "to-saturday": "to Saturday",
-      "to-sunday": "to Sunday"
-    },
-    "user-properties": {
-      "login-label": "Login name:",
+    "domain-settings": {
+      "header": "This wizard will help you complete the Multidirectory setup",
+      "domain-label": "Domain"
+    }
+  },
+  "user-create": {
+    "modal-header": "New object - User",
+    "add-to": "Add to:",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "next",
+    "finish": "Save",
+    "unable-create-user": "Unable to create user",
+    "general-info": {
+      "first-name-label": "Name",
+      "initials-label": "Initials",
+      "last-name-label": "Surname",
+      "full-name-label": "Full name",
+      "logon-name-label": "Login name:",
       "domain-label": "Domain",
-      "legacy-login-label": "Login(pre-Windows 2000):",
-      "login-time": "Hours for entry",
-      "login-resources": "Login Resources",
-      "unlock-account": "Unblock account",
-      "user-should-change-password": "The user must change the password on the next log in",
+      "legacy-logon-name-label": "Login(pre-Windows 2000):",
+      "legacy-domain-label": "Domain",
+      "description": "Description"
+    },
+    "password-settings": {
+      "password-label": "Password",
+      "repeat-password-label": "Repeat password",
+      "user-should-change-password": "The user must change the password the next time they log in",
       "user-unable-change-password": "User cannot change password",
       "password-never-expires": "Password does not expire",
-      "account-disabled": "Account disabled",
-      "password-settings-title": "Password settings",
-      "password-expire-title": "Account expiration",
-      "never": "Never",
-      "expires-label": "Ends:",
-      "store-password-reversible": "Store password using reversible encryption"
+      "account-disabled": "Account disabled"
     },
-    "user-address": {
-      "street": "Street",
-      "postal-address": "Mailbox",
-      "city": "City",
-      "area": "Region",
-      "postal-code": "Postcode",
-      "country": "Country"
-    },
-    "user-properties-generals": {
-      "name": "Name",
-      "initials": "Initials",
-      "last-name": "Surname",
-      "full-name": "Full name",
-      "description": "Description",
-      "office": "Office",
-      "phone": "Phone number",
-      "phones": "Phones",
-      "webpage": "Webpage",
-      "webpages": "Web pages",
-      "other": "Other..."
-    },
-    "user-properties-profile": {
-      "profile-path": "Path to profile",
-      "logon-script": "Logon",
-      "home-catalog": "Home directory",
-      "user-profile": "User profile",
-      "local-path": "Local path",
-      "mount": "Connect",
-      "to": "To",
-      "login-shell": "Login Shell (UNIX)"
-    },
-    "user-properties-tabs": {
-      "general": "General",
-      "attributes": "Attributes",
-      "address": "Address",
-      "account": "Account",
-      "profile": "Profile",
-      "groups": "Groups",
-      "members": "Members"
-    },
-    "header": {
-      "folder": "Container",
-      "select-folder": "Select a Container",
-      "add-remove-columns": "Add/remove columns...",
-      "hide-left-panel": "Hide Tree",
-      "dark-mode": "Dark Mode",
-      "small-icons": "Small Icons",
-      "big-icons": "Large Icons",
-      "list": "List",
-      "details": "Details",
-      "multidirectory-settings": "Multidirectory Settings",
-      "users-etc": "Users, Contacts, Groups and Computers as Containers",
-      "additional-features": "Additional Functions...",
-      "filter-settings": "Filter Options...",
-      "view-settings": "Customize View...",
-      "account-settings": "Account Settings",
-      "logout": "Sign Out",
-      "change-password": "Change Password",
-      "container-path-copied": "DN was copied to clipboard",
-      "container-path-copy-error": "An error has occured during DN copying: "
-    },
-    "home": {
-      "account-settings": "Account Settings",
-      "logout": "Sign Out",
-      "hotkeys": "Hotkeys",
-      "change-password":"Change Password"
-    },
-    "search-users": {
-      "name": "Name:",
-      "reset": "Reset"
-    },
-    "search-panel": {
-      "search-label": "Search by:",
-      "in-label": "AT:",
-      "search": "Find",
-      "search-spinner-label": "Search...",
-      "user-search-type": "Users, Contacts and Groups"
-    },
-    "login": {
-      "name": "Login",
-      "password": "Password",
-      "login": "Log in",
-      "wrong-login": "Incorrect login or password"
-    },
-    "access-policy-create": {
-      "modal-header": "Add a client",
-      "domain": "Name",
-      "ip-addresses": "IP Addresses",
-      "add": "Add",
-      "access-group": "Access groups",
-      "group-not-found": "No groups found",
-      "check-groups": "Check",
-      "cancel": "Cancel",
-      "approve": "Apply",
-      "mfa-groups": "MFA Groups",
-      "everyone": "Everyone",
-      "noone": "Nobody",
-      "selectedgroups": "Selected Groups"
-    },
-    "access-policy-ip-list": {
-      "modal-header": "Valid addresses",
-      "header": "Address, subnet mask or range",
-      "example": "Example:",
-      "cancel": "Cancel",
-      "approve": "Apply",
-      "incorrect-ip-format": "Incorrect format of an IP Address"
-    },
-    "access-policy-settings": {
-      "clients": "Clients",
-      "add": "Add",
-      "must-be-enabled": "One client must be enabled",
-      "unable-to-create-policy": "Unable to create policy",
-      "policy-id-not-found": "The policy has not ID",
-      "header": "Access policies"
-    },
-    "access-policy": {
-        "client-does-not-exist": "The client does not exist"
-    },
-    "password-policy-settings": {
-      "clients": "Password Policies",
-      "add": "Add",
-      "must-be-enabled": "One client must be enabled",
-      "unable-to-create-policy": "Unable to create policy",
-      "policy-id-not-found": "The policy has not ID"
-    },
-    "password-policy-create": {
-      "title": "Title",
-      "max-password-age": "Maximum Password Age",
-      "min-password-age": "Minimum Password Age",
-      "min-password-length": "Minimum Password Length",
-      "enforce-password-history": "Enforce Password History",
-      "password-complexity-requirements": "Password Must Meet Complexity Requirements",
-      "approve": "Approve",
-      "properties": "Properties"
-    },
-    "settings-header": {
-      "title": "Settings"
-    },
-    "settings-navigation": {
-      "md-settings": "Multidirectory Settings",
-      "access-control": "Access Control",
-      "mf-settings": "Multifactor Integration"
-    },
-    "settings": {
-      "account-settings": "Account Settings",
-      "logout": "Sign Out"
-    },
-    "search-result": {
-        "name": "Name"
-    },
-    "ldap-builder": {
-      "root-dse-name": "MultiDirectory Users & Computers",
-      "saved-queries": "Saved queries",
-      "access-policies": "Access Policies"
-    },
-    "grid": {
-      "no-data": "No data to display...",
-      "pager-title": "Page Size",
-      "from-title": "from"
-    },
-    "entity-info-resolver": {
-      "catalog": "Catalog",
-      "root": "Root",
-      "domain-controller": "Domain controller",
-      "user": "User",
-      "security-group": "Security group",
-      "computer": "Computer",
-      "organizational-unit": "Organizational Unit"
-    },
-    "properties-modal": {
-      "modal-header": "Properties",
-      "close": "Close",
-      "approve": "Apply",
-      "select-entity": "You need to select an entity to see it's properties"
-    },
-    "hotkeys": {
-      "toggle-help": "Toggle the help menu",
-      "toggle-navbar": "Toggle the navigation panel",
-      "toggle-small-icon-view": "View mode - small icons",
-      "toggle-big-icon-view": "View mode - big icons",
-      "toggle-list-view": "View mode - list",
-      "toggle-detail-view": "View mode - detail",
-      "toggle-search-menu": "Show the search panel",
-      "hide-help": "Hide the help menu",
-      "create-user": "Create a user",
-      "create-group": "Create a group",
-      "create-ou": "Create an organizational unit",
-      "access-control": "Access Control"
-    },
-    "change-password": {
-      "header": "Change password for ",
-      "password-label": "Password",
-      "password-repeat-label": "Repeat Password",
-      "cancel": "Cancel",
-      "finish": "Finish",
-      "unable-change-password": "Unable to change password"
-    },
-    "property-editor": {
-      "header": "Edit property "
-    },
-    "spinner": {
-      "please-wait": "Please, wait..."
-    },
-    "backend-status": {
-      "backend-is-not-responding": "Backend is not responding"
-    },
-    "errors": {
-        "entry-already-exists": "Entry with that name already exists",
-        "unknown-error": "Unknown Error",
-        "filter-error": "Filter Error",
-        "empty-filter": "Filter is empty, please fill the form",
-        "forbidden": "Access is Forbidden"
-    },
-    "navigation": {
-        "policy-loader": {
-            "root-node-name": "Server Policies",
-            "access-policy-root-name": "Access Policies",
-            "password-policy-root-node": "Password Policies"
-
-        }
-    },
-    "modify-dn": {
-      "modal-header": "Modify Distingushed Name for the entry",
-      "entry": "Entry",
-      "newrdn": "New RDN",
-      "new_superior": "New Superior",
-      "deleteoldrdn": "Delete old RDN",
-      "change": "Change...",
-      "cancel": "Cancel",
-      "apply": "Apply"
+    "summary": {
+      "header": "Finish",
+      "full-name-label": "Full name",
+      "logon-name-label": "Login name:",
+      "additional-settings": "Additional settings:"
     }
+  },
+  "icon-view": {
+    "align-grid": "Align to Grid",
+    "reset": "Reset",
+    "pagerTitle": "Page Size",
+    "fromTitle": "from"
+  },
+  "table-view": {
+    "pagerTitle": "Page Size",
+    "fromTitle": "from",
+    "name-column": "Name",
+    "type-column": "Type",
+    "description-column": "Description"
+  },
+  "catalog-content": {
+    "create-user": "Create a user",
+    "create-group": "Create a group",
+    "create-object": "Add object",
+    "create-computer": "Add a computer",
+    "help": "Help",
+    "group": "Group",
+    "computer": "Computer",
+    "contact": "Contact",
+    "ou": "Organizational unit",
+    "common-folder": "a shared folder",
+    "printer": "Printer",
+    "user": "User",
+    "approve-delete-header": "Confirmation required",
+    "approve-delete": "Are you sure you want to delete the object?",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "more": "More details",
+    "change-password": "Change Password...",
+    "modify-dn": "Modify Distinguished Name...",
+    "select-user-catalog": "Select a catalog where an user will be created",
+    "select-group-catalog": "Select a catalog where a group will be created",
+    "select-ou-catalog": "Select a catalog where an organizational unit will be created"
+  },
+  "attributes-list": {
+    "value": "Value",
+    "add": "Add",
+    "apply": "Apply",
+    "delete": "Delete"
+  },
+  "entity-attributes": {
+    "name": "Name",
+    "value": "Value",
+    "select-attribute": "Select an attribute to edit",
+    "unable-retrieve-schema": "Unable to retreive schema",
+    "edit-not-allowed": "The attribute editing is not allowed"
+  },
+  "member-of": {
+    "groups": "Groups:",
+    "name": "Name",
+    "catalog-path": "Directory in a Multidirectory domain",
+    "add": "Add",
+    "delete": "Delete",
+    "primary-group": "Main group: ",
+    "make-primary": "Make primary",
+    "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients."
+  },
+  "members": {
+    "members": "Members:",
+    "name": "Name",
+    "catalog-path": "Directory in a Multidirectory domain",
+    "add": "Add",
+    "delete": "Delete"
+  },
+  "logon-time-editor": {
+    "modal-header": "Entry hours for",
+    "login-allowed": "Entry allowed",
+    "login-disabled": "No entry",
+    "starts-from": "beginning with",
+    "finish-to": "By",
+    "cancel": "Cancel",
+    "apply": "Apply",
+
+    "every": "All",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+
+    "from-monday": "From Monday",
+    "from-tuesday": "From Tuesday",
+    "from-wednesday": "From Wednesday",
+    "from-thursday": "From Thursday",
+    "from-friday": "From Friday",
+    "from-saturday": "From Saturday",
+    "from-sunday": "From Sunday",
+    "to-monday": "to Monday",
+    "to-tuesday": "to Tuesday",
+    "to-wednesday": "to Wednesday",
+    "to-thursday": "to Thursday",
+    "to-friday": "to Friday",
+    "to-saturday": "to Saturday",
+    "to-sunday": "to Sunday"
+  },
+  "user-properties": {
+    "login-label": "Login name:",
+    "domain-label": "Domain",
+    "legacy-login-label": "Login(pre-Windows 2000):",
+    "login-time": "Hours for entry",
+    "login-resources": "Login Resources",
+    "unlock-account": "Unblock account",
+    "user-should-change-password": "The user must change the password on the next log in",
+    "user-unable-change-password": "User cannot change password",
+    "password-never-expires": "Password does not expire",
+    "account-disabled": "Account disabled",
+    "password-settings-title": "Password settings",
+    "password-expire-title": "Account expiration",
+    "never": "Never",
+    "expires-label": "Ends:",
+    "store-password-reversible": "Store password using reversible encryption"
+  },
+  "user-address": {
+    "street": "Street",
+    "postal-address": "Mailbox",
+    "city": "City",
+    "area": "Region",
+    "postal-code": "Postcode",
+    "country": "Country"
+  },
+  "user-properties-generals": {
+    "name": "Name",
+    "initials": "Initials",
+    "last-name": "Surname",
+    "full-name": "Full name",
+    "description": "Description",
+    "office": "Office",
+    "phone": "Phone number",
+    "phones": "Phones",
+    "webpage": "Webpage",
+    "webpages": "Web pages",
+    "other": "Other..."
+  },
+  "user-properties-profile": {
+    "profile-path": "Path to profile",
+    "logon-script": "Logon",
+    "home-catalog": "Home directory",
+    "user-profile": "User profile",
+    "local-path": "Local path",
+    "mount": "Connect",
+    "to": "To",
+    "login-shell": "Login Shell (UNIX)"
+  },
+  "user-properties-tabs": {
+    "general": "General",
+    "attributes": "Attributes",
+    "address": "Address",
+    "account": "Account",
+    "profile": "Profile",
+    "groups": "Groups",
+    "members": "Members"
+  },
+  "header": {
+    "folder": "Container",
+    "select-folder": "Select a Container",
+    "add-remove-columns": "Add/remove columns...",
+    "hide-left-panel": "Hide Tree",
+    "dark-mode": "Dark Mode",
+    "small-icons": "Small Icons",
+    "big-icons": "Large Icons",
+    "list": "List",
+    "details": "Details",
+    "multidirectory-settings": "Multidirectory Settings",
+    "users-etc": "Users, Contacts, Groups and Computers as Containers",
+    "additional-features": "Additional Functions...",
+    "filter-settings": "Filter Options...",
+    "view-settings": "Customize View...",
+    "account-settings": "Account Settings",
+    "logout": "Sign Out",
+    "change-password": "Change Password",
+    "container-path-copied": "DN was copied to clipboard",
+    "container-path-copy-error": "An error has occured during DN copying: "
+  },
+  "home": {
+    "account-settings": "Account Settings",
+    "logout": "Sign Out",
+    "hotkeys": "Hotkeys",
+    "change-password": "Change Password"
+  },
+  "search-users": {
+    "name": "Name:",
+    "reset": "Reset"
+  },
+  "search-panel": {
+    "search-label": "Search by:",
+    "in-label": "AT:",
+    "search": "Find",
+    "search-spinner-label": "Search...",
+    "user-search-type": "Users, Contacts and Groups"
+  },
+  "login": {
+    "name": "Login",
+    "password": "Password",
+    "login": "Log in",
+    "wrong-login": "Incorrect login or password"
+  },
+  "access-policy-create": {
+    "modal-header": "Add a client",
+    "domain": "Name",
+    "ip-addresses": "IP Addresses",
+    "add": "Add",
+    "access-group": "Access groups",
+    "group-not-found": "No groups found",
+    "check-groups": "Check",
+    "cancel": "Cancel",
+    "approve": "Apply",
+    "mfa-groups": "MFA Groups",
+    "everyone": "Everyone",
+    "noone": "Nobody",
+    "selectedgroups": "Selected Groups"
+  },
+  "access-policy-ip-list": {
+    "modal-header": "Valid addresses",
+    "header": "Address, subnet mask or range",
+    "example": "Example:",
+    "cancel": "Cancel",
+    "approve": "Apply",
+    "incorrect-ip-format": "Incorrect format of an IP Address"
+  },
+  "access-policy-settings": {
+    "clients": "Clients",
+    "add": "Add",
+    "must-be-enabled": "One client must be enabled",
+    "unable-to-create-policy": "Unable to create policy",
+    "policy-id-not-found": "The policy has not ID",
+    "header": "Access policies"
+  },
+  "access-policy": {
+    "client-does-not-exist": "The client does not exist"
+  },
+  "password-policy-settings": {
+    "clients": "Password Policies",
+    "add": "Add",
+    "must-be-enabled": "One client must be enabled",
+    "unable-to-create-policy": "Unable to create policy",
+    "policy-id-not-found": "The policy has not ID"
+  },
+  "password-policy-create": {
+    "title": "Title",
+    "max-password-age": "Maximum Password Age",
+    "min-password-age": "Minimum Password Age",
+    "min-password-length": "Minimum Password Length",
+    "enforce-password-history": "Enforce Password History",
+    "password-complexity-requirements": "Password Must Meet Complexity Requirements",
+    "approve": "Approve",
+    "properties": "Properties"
+  },
+  "settings-header": {
+    "title": "Settings"
+  },
+  "settings-navigation": {
+    "md-settings": "Multidirectory Settings",
+    "access-control": "Access Control",
+    "mf-settings": "Multifactor Integration"
+  },
+  "settings": {
+    "account-settings": "Account Settings",
+    "logout": "Sign Out"
+  },
+  "search-result": {
+    "name": "Name"
+  },
+  "ldap-builder": {
+    "root-dse-name": "MultiDirectory Users & Computers",
+    "saved-queries": "Saved queries",
+    "access-policies": "Access Policies"
+  },
+  "grid": {
+    "no-data": "No data to display...",
+    "pager-title": "Page Size",
+    "from-title": "from"
+  },
+  "entity-info-resolver": {
+    "catalog": "Catalog",
+    "root": "Root",
+    "domain-controller": "Domain controller",
+    "user": "User",
+    "security-group": "Security group",
+    "computer": "Computer",
+    "organizational-unit": "Organizational Unit"
+  },
+  "properties-modal": {
+    "modal-header": "Properties",
+    "close": "Close",
+    "approve": "Apply",
+    "select-entity": "You need to select an entity to see it's properties"
+  },
+  "hotkeys": {
+    "toggle-help": "Toggle the help menu",
+    "toggle-navbar": "Toggle the navigation panel",
+    "toggle-small-icon-view": "View mode - small icons",
+    "toggle-big-icon-view": "View mode - big icons",
+    "toggle-list-view": "View mode - list",
+    "toggle-detail-view": "View mode - detail",
+    "toggle-search-menu": "Show the search panel",
+    "hide-help": "Hide the help menu",
+    "create-user": "Create a user",
+    "create-group": "Create a group",
+    "create-ou": "Create an organizational unit",
+    "access-control": "Access Control"
+  },
+  "change-password": {
+    "header": "Change password for ",
+    "password-label": "Password",
+    "password-repeat-label": "Repeat Password",
+    "cancel": "Cancel",
+    "finish": "Finish",
+    "unable-change-password": "Unable to change password"
+  },
+  "property-editor": {
+    "header": "Edit property "
+  },
+  "spinner": {
+    "please-wait": "Please, wait..."
+  },
+  "backend-status": {
+    "backend-is-not-responding": "Backend is not responding"
+  },
+  "errors": {
+    "entry-already-exists": "Entry with that name already exists",
+    "unknown-error": "Unknown Error",
+    "filter-error": "Filter Error",
+    "empty-filter": "Filter is empty, please fill the form",
+    "forbidden": "Access is Forbidden"
+  },
+  "navigation": {
+    "policy-loader": {
+      "root-node-name": "Server Policies",
+      "access-policy-root-name": "Access Policies",
+      "password-policy-root-node": "Password Policies"
+    }
+  },
+  "modify-dn": {
+    "modal-header": "Modify Distingushed Name for the entry",
+    "entry": "Entry",
+    "newrdn": "New RDN",
+    "new_superior": "New Superior",
+    "deleteoldrdn": "Delete old RDN",
+    "change": "Change...",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  }
 }

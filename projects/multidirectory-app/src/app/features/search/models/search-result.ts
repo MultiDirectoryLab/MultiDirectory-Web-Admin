@@ -1,6 +1,6 @@
-import { LdapEntryNode } from "@core/ldap/ldap-entity";
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
 
 export interface SearchResult {
-    name: string,
-    entry: LdapEntryNode;
+  name: string;
+  entry: LdapEntryNode;
 }

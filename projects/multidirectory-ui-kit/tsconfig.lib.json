@@ -8,11 +8,8 @@
     "inlineSources": true,
     "types": [],
     "paths": {
-      "@components/*": ["projects/multidirectory-ui-kit/src/lib/components/*"],
+      "@components/*": ["projects/multidirectory-ui-kit/src/lib/components/*"]
     }
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

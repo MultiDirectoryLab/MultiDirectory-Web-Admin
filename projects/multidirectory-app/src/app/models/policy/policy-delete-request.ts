@@ -1,3 +1,3 @@
 export class PolicyDeleteRequest {
-    constructor(private policy_id: string) {}
+  constructor(private policy_id: string) {}
 }

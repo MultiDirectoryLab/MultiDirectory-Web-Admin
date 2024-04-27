@@ -14,9 +14,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "multidirectory-ui-kit": [
-        "dist/multidirectory-ui-kit"
-      ],
+      "multidirectory-ui-kit": ["dist/multidirectory-ui-kit"],
       "@components/*": ["projects/multidirectory-app/src/components/*"],
       "@services/*": ["projects/multidirectory-app/src/app/services/*"],
       "@core/*": ["projects/multidirectory-app/src/app/core/*"],
@@ -31,10 +29,7 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "useDefineForClassFields": false
   },
   "angularCompilerOptions": {

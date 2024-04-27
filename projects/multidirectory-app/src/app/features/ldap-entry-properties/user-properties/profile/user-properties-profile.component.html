@@ -1,58 +1,74 @@
 <ng-container *ngIf="accessor">
-    <div class="row align-center" style="margin-top: 24px;">
-        <div class="col-xs-12">
-            <md-group title="{{ 'user-properties-profile.user-profile' | transloco }}">
-                <div class="row align-start">
-                    <div class="col-xs-4">
-                        <label for="profile-path">
-                            {{ "user-properties-profile.profile-path" | transloco }}
-                        </label>
-                    </div>
-                    <md-textbox class="col-xs-8 w-100" name="profile-path" [(ngModel)]="accessor.profilePath"></md-textbox>
-                </div>
-                <div class="row align-start">
-                    <div class="col-xs-4">
-                        <label for="full-name">
-                            {{ "user-properties-profile.logon-script" | transloco }}
-                        </label>
-                    </div>
-                    <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.scriptPath"></md-textbox>
-                </div>
-                <div class="row align-start">
-                    <div class="col-xs-4">
-                        <label for="full-name">
-                            {{ "user-properties-profile.login-shell" | transloco }}
-                        </label>
-                    </div>
-                    <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.loginShell"></md-textbox>
-                </div>
-            </md-group>
+  <div class="row align-center" style="margin-top: 24px">
+    <div class="col-xs-12">
+      <md-group title="{{ 'user-properties-profile.user-profile' | transloco }}">
+        <div class="row align-start">
+          <div class="col-xs-4">
+            <label for="profile-path">
+              {{ 'user-properties-profile.profile-path' | transloco }}
+            </label>
+          </div>
+          <md-textbox
+            class="col-xs-8 w-100"
+            name="profile-path"
+            [(ngModel)]="accessor.profilePath"
+          ></md-textbox>
         </div>
+        <div class="row align-start">
+          <div class="col-xs-4">
+            <label for="full-name">
+              {{ 'user-properties-profile.logon-script' | transloco }}
+            </label>
+          </div>
+          <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.scriptPath"></md-textbox>
+        </div>
+        <div class="row align-start">
+          <div class="col-xs-4">
+            <label for="full-name">
+              {{ 'user-properties-profile.login-shell' | transloco }}
+            </label>
+          </div>
+          <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.loginShell"></md-textbox>
+        </div>
+      </md-group>
+    </div>
+  </div>
+
+  <md-radiogroup
+    #radiogroup
+    [(ngModel)]="homeDirectorySelection"
+    [drawBorder]="true"
+    style="margin-top: 32px"
+    title="{{ 'user-properties-profile.home-catalog' | transloco }}"
+  >
+    <div class="row align-center flex-gap-10">
+      <div class="flex-row flex-align-center col-xs-4 flex-gap-10">
+        <md-radiobutton [group]="radiogroup" [value]="1"> </md-radiobutton>
+        <label>{{ 'user-properties-profile.local-path' | transloco }}</label>
+      </div>
+      <md-textbox
+        class="col-xs-8 w-100"
+        [disabled]="homeDirectorySelection !== 1"
+        [(ngModel)]="accessor.homeDirectory"
+      ></md-textbox>
     </div>
 
-    <md-radiogroup #radiogroup [(ngModel)]="homeDirectorySelection" [drawBorder]="true" style="margin-top: 32px;"
-         title="{{ 'user-properties-profile.home-catalog' | transloco }}">
-        <div class="row align-center flex-gap-10">
-            <div class="flex-row flex-align-center col-xs-4 flex-gap-10">
-                <md-radiobutton [group]="radiogroup" [value]="1">
-                </md-radiobutton>
-                <label>{{ 'user-properties-profile.local-path' | transloco }}</label>
-            </div>
-            <md-textbox class="col-xs-8 w-100" [disabled]="homeDirectorySelection !== 1" [(ngModel)]="accessor.homeDirectory"></md-textbox>
-        </div>
-        
-        <div class="row align-center w-100">
-            <div class="col-xs-4 flex-row flex-align-center flex-gap-10">
-                <md-radiobutton [group]="radiogroup" [value]="2">
-                </md-radiobutton>
-                <label>{{ 'user-properties-profile.mount' | transloco }}</label>
-            </div>
-            <div class="col-xs-8 w-100 flex-row flex-align-center flex-gap-10">
-                <md-dropdown [options]="['C:', 'Z:', 'D:']" [ngModel]="'C:'" [disabled]="homeDirectorySelection !== 2" style="width: 48px;">
-                </md-dropdown>
-                <label>{{ 'user-properties-profile.to' | transloco }}: </label>
-                <md-textbox class="w-100" [disabled]="homeDirectorySelection !== 2"></md-textbox>
-            </div>
-        </div>
-    </md-radiogroup>
+    <div class="row align-center w-100">
+      <div class="col-xs-4 flex-row flex-align-center flex-gap-10">
+        <md-radiobutton [group]="radiogroup" [value]="2"> </md-radiobutton>
+        <label>{{ 'user-properties-profile.mount' | transloco }}</label>
+      </div>
+      <div class="col-xs-8 w-100 flex-row flex-align-center flex-gap-10">
+        <md-dropdown
+          [options]="['C:', 'Z:', 'D:']"
+          [ngModel]="'C:'"
+          [disabled]="homeDirectorySelection !== 2"
+          style="width: 48px"
+        >
+        </md-dropdown>
+        <label>{{ 'user-properties-profile.to' | transloco }}: </label>
+        <md-textbox class="w-100" [disabled]="homeDirectorySelection !== 2"></md-textbox>
+      </div>
+    </div>
+  </md-radiogroup>
 </ng-container>

@@ -1,54 +1,53 @@
 @use '../../styles/global' as global;
 
-
 ::ng-deep .md-button {
-    @include global.use-inter-typography(700, 12px, 140%);
+  @include global.use-inter-typography(700, 12px, 140%);
 
-    text-transform: uppercase;
-    padding: 7.5px 16px;
-    border-radius: 3px;
-    color: var(--md-neutral-800);
-    line-height: 17px;
-    letter-spacing: -0.03em;
-    border: 1px solid var(--md-white);
-    text-align: center;
+  text-transform: uppercase;
+  padding: 7.5px 16px;
+  border-radius: 3px;
+  color: var(--md-neutral-800);
+  line-height: 17px;
+  letter-spacing: -0.03em;
+  border: 1px solid var(--md-white);
+  text-align: center;
 
-    &:not(.md-button-primary) {
-        box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
-        border: 1px solid var(--md-neutral-400);
-        color: var(--md-neutral-600);
-        background: var(--md-white);
-        line-height: 16px;
+  &:not(.md-button-primary) {
+    box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--md-neutral-400);
+    color: var(--md-neutral-600);
+    background: var(--md-white);
+    line-height: 16px;
 
-        &:hover:not(:disabled) {
-            background: #F1F1F1;
-            background-color: var(--md-neutral-100);
-        }
-
-        &:disabled {
-            color: var(--md-neutral-400);
-            background-color: var(--md-neutral-200);
-        }
+    &:hover:not(:disabled) {
+      background: #f1f1f1;
+      background-color: var(--md-neutral-100);
     }
 
-    &.md-button-primary {
-        background-color: var(--md-blue);
-        color: white;
-
-        &:hover:not(:disabled) {
-            background-color: var(--md-neutral-150);
-            color: var(--md-neutral-800);
-        }
-
-        &:disabled {
-            background-color: var(--md-neutral-200);
-            color: var(--md-neutral-800);
-        }
+    &:disabled {
+      color: var(--md-neutral-400);
+      background-color: var(--md-neutral-200);
     }
+  }
+
+  &.md-button-primary {
+    background-color: var(--md-blue);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: var(--md-neutral-150);
+      color: var(--md-neutral-800);
+    }
+
+    &:disabled {
+      background-color: var(--md-neutral-200);
+      color: var(--md-neutral-800);
+    }
+  }
 }
 
 ::ng-deep .dark-theme {
-    .md-button {
-        color: var(--md-black);
-    }
+  .md-button {
+    color: var(--md-black);
+  }
 }

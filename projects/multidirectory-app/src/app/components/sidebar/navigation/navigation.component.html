@@ -1,13 +1,14 @@
-<md-treeview 
-    [tree]="navigationTree"
-    [nodeLabel]="mdTreeModal"
-    class="treeview" 
-    (onNodeSelect)="handleNodeSelection($any($event))"
-    (onNodeRightClick)="handleNodeRightClick($any($event))"
-    #treeView>
+<md-treeview
+  [tree]="navigationTree"
+  [nodeLabel]="mdTreeModal"
+  class="treeview"
+  (onNodeSelect)="handleNodeSelection($any($event))"
+  (onNodeRightClick)="handleNodeRightClick($any($event))"
+  #treeView
+>
 </md-treeview>
 
 <ng-template #mdTreeModal let-data>
-    <img class="tree-icon" [src]="data.icon"/>
-    <label class="tree-label">{{data.name}}</label>
+  <img class="tree-icon" [src]="data.icon" />
+  <label class="tree-label">{{ data.name }}</label>
 </ng-template>

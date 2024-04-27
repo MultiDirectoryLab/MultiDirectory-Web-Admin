@@ -1,24 +1,27 @@
-
 <div *ngIf="accessClient" class="client-grid p-8">
-    <div class="cell-drag-drop">
-        <img class="control-button-logo" [src]="'assets/draggable.svg'" />
-    </div>
-    <div class="cell-index">{{index}}</div> 
-    <div class="cell-domain" [ngClass]="{ 'cell-domain-expand': !groups }">{{accessClient.name}}</div>
-    <div class="cell-ip">
-        {{ipAddress}}
-    </div>
-    <div class="cell-groups"> {{groups}} </div>
-    <div class="cell-control-buttons">
-        <md-plane-button class="control-button" (click)="onEditClick()">
-            <img class="control-button-logo" [src]="'assets/pencil.svg'" />
-        </md-plane-button>
-        <md-plane-button class="control-button" (click)="onDeleteClick()">
-            <img class="control-button-logo" [src]="'assets/trash.svg'" />
-        </md-plane-button>
-    </div>
-    <div class="cell-switches">
-        <md-shift-checkbox [(ngModel)]="accessClient.enabled" (click)="onTurnOffClick()"></md-shift-checkbox>
-    </div>
-
+  <div class="cell-drag-drop">
+    <img class="control-button-logo" [src]="'assets/draggable.svg'" />
+  </div>
+  <div class="cell-index">{{ index }}</div>
+  <div class="cell-domain" [ngClass]="{ 'cell-domain-expand': !groups }">
+    {{ accessClient.name }}
+  </div>
+  <div class="cell-ip">
+    {{ ipAddress }}
+  </div>
+  <div class="cell-groups">{{ groups }}</div>
+  <div class="cell-control-buttons">
+    <md-plane-button class="control-button" (click)="onEditClick()">
+      <img class="control-button-logo" [src]="'assets/pencil.svg'" />
+    </md-plane-button>
+    <md-plane-button class="control-button" (click)="onDeleteClick()">
+      <img class="control-button-logo" [src]="'assets/trash.svg'" />
+    </md-plane-button>
+  </div>
+  <div class="cell-switches">
+    <md-shift-checkbox
+      [(ngModel)]="accessClient.enabled"
+      (click)="onTurnOffClick()"
+    ></md-shift-checkbox>
+  </div>
 </div>

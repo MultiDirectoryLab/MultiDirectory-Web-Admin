@@ -1,34 +1,38 @@
 <div class="admin-settings">
-    <div class="flex-row flex-space-between">
-        <span class="pv-8 accented mb-16">
-            {{ "setup.admin-settings-second.header" | transloco }}
-            <hr>
-        </span>
-    </div>
-    <md-form #form>
-        <div class="flex-column flex-gap-20">
-            <div class="flex-row flex-space-between  justify-center">
-                <label  class="textbox-label">UPN</label>
-                <div class="flex-column  flex-grow-1">
-                    <md-textbox appRequired appAutofocus [(ngModel)]="setupRequest.user_principal_name"></md-textbox>
-                </div>
-            </div>
-            
-            <div class="flex-row flex-space-between  justify-center">
-                <label  class="textbox-label">
-                    {{ "setup.admin-settings-second.display-name-label" | transloco }}
-                </label>
-                <div class="flex-column  flex-grow-1">
-                    <md-textbox appRequired  [(ngModel)]="setupRequest.display_name"></md-textbox>
-                </div>
-            </div>
-            
-            <div class="flex-row flex-space-between  justify-center">
-                <label  class="textbox-label">Email</label>
-                <div class="flex-column  flex-grow-1">
-                    <md-textbox appRequired  [(ngModel)]="setupRequest.mail"></md-textbox>
-                </div>
-            </div>   
+  <div class="flex-row flex-space-between">
+    <span class="pv-8 accented mb-16">
+      {{ 'setup.admin-settings-second.header' | transloco }}
+      <hr />
+    </span>
+  </div>
+  <md-form #form>
+    <div class="flex-column flex-gap-20">
+      <div class="flex-row flex-space-between justify-center">
+        <label class="textbox-label">UPN</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            appAutofocus
+            [(ngModel)]="setupRequest.user_principal_name"
+          ></md-textbox>
         </div>
-    </md-form>
+      </div>
+
+      <div class="flex-row flex-space-between justify-center">
+        <label class="textbox-label">
+          {{ 'setup.admin-settings-second.display-name-label' | transloco }}
+        </label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox appRequired [(ngModel)]="setupRequest.display_name"></md-textbox>
+        </div>
+      </div>
+
+      <div class="flex-row flex-space-between justify-center">
+        <label class="textbox-label">Email</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox appRequired [(ngModel)]="setupRequest.mail"></md-textbox>
+        </div>
+      </div>
+    </div>
+  </md-form>
 </div>

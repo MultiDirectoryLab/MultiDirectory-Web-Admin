@@ -1,11 +1,11 @@
 md-textbox {
-    height: 32px;
+  height: 32px;
 }
 
 :host ::ng-deep md-textbox.search-input .input-container {
-    height: 32px;
+  height: 32px;
 }
 
 :host ::ng-deep md-textbox.search-input input {
-    height: 100%;
+  height: 100%;
 }

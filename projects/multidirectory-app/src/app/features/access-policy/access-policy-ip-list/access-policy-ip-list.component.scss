@@ -1,36 +1,35 @@
-// help input addbutton 
+// help input addbutton
 // 1111111111111 controlbtn
 // item list
 
-
 .grid-layout {
-    display: grid;
-    grid-template-columns: 1fr 90px 140px;
-    grid-template-rows: repeat(5, 1fr);
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 90px 140px;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 1rem;
 }
 
 .cell-input {
-    grid-column: 1 / 6;
-    grid-row: 1;
+  grid-column: 1 / 6;
+  grid-row: 1;
 }
 
 .cell-entries {
-    grid-row: 2 / 6;
-    grid-column: 1 / 6;
-    border: 1px solid lightgray;
+  grid-row: 2 / 6;
+  grid-column: 1 / 6;
+  border: 1px solid lightgray;
 }
 
 :host ::ng-deep .button-width-100 {
-    button {
-        width: 100px;
-    }
+  button {
+    width: 100px;
+  }
 }
 
 .ip-list-entry {
-    background-color: red;
+  background-color: red;
 
-    &.valid {
-        background-color: transparent;
-    }
+  &.valid {
+    background-color: transparent;
+  }
 }

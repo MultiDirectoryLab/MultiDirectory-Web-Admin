@@ -1,4 +1,4 @@
 export class LoginRequest {
-    username = '';
-    password = '';
+  username = '';
+  password = '';
 }

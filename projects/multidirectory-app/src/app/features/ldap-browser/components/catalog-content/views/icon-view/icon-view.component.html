@@ -1,35 +1,44 @@
 <div class="icon-grid-container">
-        <div class="icon-grid" [ngClass]="{'big-icon': big}"
-                (contextmenu)="showGridContextMenu($event)" #grid
-                (click)="clickOutside($event)"
-                (focus)="onGetFocus()"
-                tabindex="0">
-                <div *ngFor="let item of items" 
-                        class="grid-item"
-                        cdkDrag
-                        cdkDragBoundary=".icon-grid"
-                        (cdkDragEnded)="onDrop($event)"
-                        >
-                        <app-grid-item
-                                [big]="big"
-                                (clickOnItem)="setSelected([item])"
-                                (doubleClickOnItem)="selectCatalog(item)"
-                                (rightClick)="handleRightClick($event)"
-                                [item]="item"></app-grid-item>
-                </div>
-        </div>
-        <md-pager
-                #pager
-                [name]="'iconView'"
-                pagerTitle="{{ 'icon-view.pagerTitle' | transloco}}"
-                fromTitle="{{ 'icon-view.fromTitle' | transloco }}"
-                (pageChanged)="onPageChanged($event)" 
-                [page]="page"></md-pager>
+  <div
+    class="icon-grid"
+    [ngClass]="{ 'big-icon': big }"
+    (contextmenu)="showGridContextMenu($event)"
+    #grid
+    (click)="clickOutside($event)"
+    (focus)="onGetFocus()"
+    tabindex="0"
+  >
+    <div
+      *ngFor="let item of items"
+      class="grid-item"
+      cdkDrag
+      cdkDragBoundary=".icon-grid"
+      (cdkDragEnded)="onDrop($event)"
+    >
+      <app-grid-item
+        [big]="big"
+        (clickOnItem)="setSelected([item])"
+        (doubleClickOnItem)="selectCatalog(item)"
+        (rightClick)="handleRightClick($event)"
+        [item]="item"
+      ></app-grid-item>
+    </div>
+  </div>
+  <md-pager
+    #pager
+    [name]="'iconView'"
+    pagerTitle="{{ 'icon-view.pagerTitle' | transloco }}"
+    fromTitle="{{ 'icon-view.fromTitle' | transloco }}"
+    (pageChanged)="onPageChanged($event)"
+    [page]="page"
+  ></md-pager>
 </div>
 
 <md-dropdown-menu #gridMenu>
-        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
-                <md-checkbox [(ngModel)]="alignItems">{{ "icon-view.align-grid" | transloco }}</md-checkbox>
-        </div>
-        <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">{{ "icon-view.reset" | transloco }}</div>
+  <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
+    <md-checkbox [(ngModel)]="alignItems">{{ 'icon-view.align-grid' | transloco }}</md-checkbox>
+  </div>
+  <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
+    {{ 'icon-view.reset' | transloco }}
+  </div>
 </md-dropdown-menu>

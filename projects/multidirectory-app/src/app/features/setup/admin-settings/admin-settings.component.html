@@ -1,46 +1,52 @@
 <div class="admin-settings">
-    <div class="flex-row flex-space-between">
-        <span class="pv-8 accented mb-16">
-            {{ "setup.admin-settings.header" | transloco }}
-            <hr>
-        </span>
-    </div>
-    <md-form #form>
-        <div class="flex-column flex-gap-20">
-            <div class="flex-row flex-gap-10 flex-space-between justify-center">
-                <label class="textbox-label">{{ "setup.admin-settings.admin-login-label" | transloco }}</label>
-                <div class="flex-column  flex-grow-1">
-                    <md-textbox appRequired appAutofocus  [(ngModel)]="setupRequest.username" 
-                    ></md-textbox>
-                </div>
-            </div>
-            
-            <div class="flex-row flex-gap-10  flex-space-between  justify-center">
-                <label  class="textbox-label">{{ "setup.admin-settings.admin-password-label" | transloco }}</label>
-                <div class="flex-column  flex-grow-1">
-                    <md-textbox 
-                        appRequired 
-                        [password]="true"
-                        [appPasswordMatch]="repeatPassword"
-                        [(ngModel)]="setupRequest.password" 
-                        (keyup)="checkModel()"
-                        #passwordInput="ngModel"></md-textbox>
-                </div>
-            </div>
-            
-            <div class="flex-row flex-gap-10  flex-space-between  justify-center">
-                <label  class="textbox-label">{{ "setup.admin-settings.admin-password-repeat-label" | transloco }}</label>
-                <div class="flex-column flex-grow-1">
-                    <md-textbox  
-                        appRequired 
-                        [appPasswordMatch]="passwordInput"
-                        [password]="true" 
-                        (keyup)="checkModel()"
-                        [(ngModel)]="setupRequest.repeatPassword"
-                        #repeatPassword="ngModel"></md-textbox>
-                </div>
-            </div>   
+  <div class="flex-row flex-space-between">
+    <span class="pv-8 accented mb-16">
+      {{ 'setup.admin-settings.header' | transloco }}
+      <hr />
+    </span>
+  </div>
+  <md-form #form>
+    <div class="flex-column flex-gap-20">
+      <div class="flex-row flex-gap-10 flex-space-between justify-center">
+        <label class="textbox-label">{{
+          'setup.admin-settings.admin-login-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox appRequired appAutofocus [(ngModel)]="setupRequest.username"></md-textbox>
         </div>
-       
-    </md-form>
+      </div>
+
+      <div class="flex-row flex-gap-10 flex-space-between justify-center">
+        <label class="textbox-label">{{
+          'setup.admin-settings.admin-password-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [password]="true"
+            [appPasswordMatch]="repeatPassword"
+            [(ngModel)]="setupRequest.password"
+            (keyup)="checkModel()"
+            #passwordInput="ngModel"
+          ></md-textbox>
+        </div>
+      </div>
+
+      <div class="flex-row flex-gap-10 flex-space-between justify-center">
+        <label class="textbox-label">{{
+          'setup.admin-settings.admin-password-repeat-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [appPasswordMatch]="passwordInput"
+            [password]="true"
+            (keyup)="checkModel()"
+            [(ngModel)]="setupRequest.repeatPassword"
+            #repeatPassword="ngModel"
+          ></md-textbox>
+        </div>
+      </div>
+    </div>
+  </md-form>
 </div>

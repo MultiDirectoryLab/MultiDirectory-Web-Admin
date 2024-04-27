@@ -1,30 +1,34 @@
 <div class="flex-row">
-    <b>{{ "user-create.summary.header" | transloco }}</b>
+  <b>{{ 'user-create.summary.header' | transloco }}</b>
 </div>
 <div class="row align-center pv-8">
-    <div class="col-xs-3">
-        <label for="full-name">
-            {{ "user-create.summary.full-name-label" | transloco }}
-        </label>
-    </div>
-    <md-textbox 
-        class="col-xs-9" 
-        name="last-name"
-        [(ngModel)]="setupRequest.fullName"
-        [disabled]="true"></md-textbox>
+  <div class="col-xs-3">
+    <label for="full-name">
+      {{ 'user-create.summary.full-name-label' | transloco }}
+    </label>
+  </div>
+  <md-textbox
+    class="col-xs-9"
+    name="last-name"
+    [(ngModel)]="setupRequest.fullName"
+    [disabled]="true"
+  ></md-textbox>
 </div>
 <div class="row align-center pv-8">
-    <div class="col-xs-3">
-        <label for="login-name">
-            {{ "user-create.summary.logon-name-label" | transloco }}
-        </label>
-    </div>
-    <md-textbox class="col-xs-9"
-        [(ngModel)]="setupRequest.upnLogin"
-        name="login-name" [disabled]="true"></md-textbox>
+  <div class="col-xs-3">
+    <label for="login-name">
+      {{ 'user-create.summary.logon-name-label' | transloco }}
+    </label>
+  </div>
+  <md-textbox
+    class="col-xs-9"
+    [(ngModel)]="setupRequest.upnLogin"
+    name="login-name"
+    [disabled]="true"
+  ></md-textbox>
 </div>
 <div class="flex-row">
-    <b>
-        {{ "user-create.summary.additional-settings" | transloco }}
-    </b>
+  <b>
+    {{ 'user-create.summary.additional-settings' | transloco }}
+  </b>
 </div>
