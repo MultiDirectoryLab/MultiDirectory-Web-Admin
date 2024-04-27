@@ -44,8 +44,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
 
 @NgModule({
   declarations: [
-    ButtonComponent,
-    TextboxComponent,
+    ButtonComponent, TextboxComponent,
     TextareaComponent,
     DropdownComponent,
     NumberComponent,
