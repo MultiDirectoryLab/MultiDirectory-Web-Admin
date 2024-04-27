@@ -7,6 +7,7 @@ import { ModalInjectDirective } from './modal-inject.directive';
 import { TextboxComponent } from '../textbox/textbox.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 const meta: Meta<MdModalComponent> = {
     title: 'Components/Modal',
     component: MdModalComponent,
@@ -37,7 +38,6 @@ const template: Story = (args: MdModalComponent) => ({
     <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
     <br /><br />
     <app-modal-test #modal></app-modal-test>
- 
     `,
 
 });
