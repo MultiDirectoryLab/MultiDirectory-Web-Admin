@@ -53,9 +53,12 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
             this._valid.next(va.every(x => x == 'VALID' || x == 'DISABLED'));
         });
     }
-
-    validate() {
+    
+    validate(requireTouched = false) {
         this.inputs.forEach(x => {
+            if(!x.control?.touched && !requireTouched) {
+                x.control?.markAsTouched();
+            }
             if(x.control?.dirty) {
                 x.control?.updateValueAndValidity()
             }
