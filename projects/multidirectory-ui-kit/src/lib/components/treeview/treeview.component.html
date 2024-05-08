@@ -25,7 +25,7 @@
         class="tree-item"
         [ngClass]="{
           expanded: data.expanded,
-          expandable: (data.children.length > 0 || !data.expanded) && data.expandable,
+          expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
           selected: data.selected,
           focused: data.focused
         }"
@@ -35,18 +35,23 @@
       >
         <label
           class="expand-mark"
-          *ngIf="(data.children.length > 0 || !data.expanded) && data.expandable"
+          *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
         >
           <span
-            [innerHTML]="
-              data.children?.length == 0 && data.childrenLoaded
-                ? '&nbsp;&nbsp;'
-                : data.expanded
-                  ? '-'
-                  : '+'
-            "
             style="margin-right: 2px"
-          ></span>
+            *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
+          >
+            <span
+              [innerHTML]="
+                data.children?.length == 0 && data.childrenLoaded
+                  ? '&nbsp;&nbsp;'
+                  : data.expanded
+                    ? '-'
+                    : '+'
+              "
+            ></span>
+          </span>
+          <div *ngIf="!data.expandable" style="margin-right: 2px"></div>
         </label>
         <ng-container
           [ngTemplateOutlet]="nodeLabel"

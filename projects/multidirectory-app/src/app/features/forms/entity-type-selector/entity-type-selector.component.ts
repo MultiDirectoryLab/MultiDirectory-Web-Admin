@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MdModalComponent, Treenode } from 'multidirectory-ui-kit';
+import { MdModalComponent, ModalInjectDirective, Treenode } from 'multidirectory-ui-kit';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Observable, Subject } from 'rxjs';
 import { EntityType } from '@core/entities/entities-type';
@@ -10,22 +10,17 @@ import { EntityType } from '@core/entities/entities-type';
   templateUrl: './entity-type-selector.component.html',
 })
 export class EntityTypeSelectorComponent {
-  @ViewChild('modal') modal?: MdModalComponent;
-  private _result = new Subject<EntityType[] | null>();
-  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name }));
+  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name, loadChildren: undefined }));
 
-  open(): Observable<EntityType[] | null> {
-    this.modal?.open();
-    return this._result.asObservable();
-  }
+  constructor(private modalControl: ModalInjectDirective) {}
 
   close() {
-    this.modal?.close();
-    this._result.next(null);
+    this.modalControl?.close();
   }
 
   finish() {
-    this.modal?.close();
-    this._result.next(ENTITY_TYPES.filter((x) => this.tree.find((y) => y.id == x.id)?.selected));
+    const selectedItems = this.tree.filter((x) => x.selected).map((x) => x.id);
+    const result = ENTITY_TYPES.filter((x) => selectedItems.includes(x.id));
+    this.modalControl?.close(result);
   }
 }

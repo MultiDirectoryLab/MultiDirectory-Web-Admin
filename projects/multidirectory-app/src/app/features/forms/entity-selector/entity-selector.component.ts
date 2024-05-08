@@ -9,17 +9,15 @@ import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/compone
 import { Constants } from '@core/constants';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { CatalogSelectorComponent } from '../catalog-selector/catalog-selector.component';
-import { EntityTypeSelectorComponent } from '../entity-type-selector/entity-type-selector.component';
+import { AppWindowsService } from '@services/app-windows.service';
 
 @Component({
-  selector: 'app-group-selector',
-  templateUrl: './group-selector.component.html',
-  styleUrls: ['./group-selector.component.scss'],
+  selector: 'app-entity-selector',
+  templateUrl: './entity-selector.component.html',
+  styleUrls: ['./entity-selector.component.scss'],
 })
-export class GroupSelectorComponent implements OnInit {
+export class EntitySelectorComponent implements OnInit {
   @ViewChild('modal', { static: true }) modal?: MdModalComponent;
-  @ViewChild('entityTypeSelector', { static: true })
-  entityTypeSelector?: EntityTypeSelectorComponent;
   @ViewChild('catalogSelector', { static: true }) catalogSelector?: CatalogSelectorComponent;
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
   entityTypes: EntityType[] = [];
@@ -32,6 +30,7 @@ export class GroupSelectorComponent implements OnInit {
     private api: MultidirectoryApiService,
     private cdr: ChangeDetectorRef,
     private ldapLoader: LdapEntryLoader,
+    private windows: AppWindowsService,
   ) {}
   ngOnInit(): void {
     this.entityTypes = ENTITY_TYPES;
@@ -55,8 +54,8 @@ export class GroupSelectorComponent implements OnInit {
   }
 
   selectEntityType() {
-    this.entityTypeSelector
-      ?.open()
+    this.windows
+      .openEntityTypeSelector()
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {
@@ -64,8 +63,8 @@ export class GroupSelectorComponent implements OnInit {
           this.entityTypes = [];
           return;
         }
-        this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
-        this.entityTypes = result;
+        //this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
+        //this.entityTypes = result;
       });
   }
 

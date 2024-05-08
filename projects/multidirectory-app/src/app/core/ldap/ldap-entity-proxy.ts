@@ -1,6 +1,8 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { ChangeDescription } from './ldap-change';
 import { LdapEntryNode } from './ldap-entity';
 import { PartialAttribute } from './ldap-partial-attribute';
+import { Sanitizer, SecurityContext } from '@angular/core';
 
 export class Trackable<T> {
   current: T;
@@ -26,9 +28,12 @@ export class LdapAttributesProxyHandler {
   _original: LdapAttributes;
   _entity: LdapEntryNode;
   _changes: ChangeDescription[] = [];
-  constructor(entity: LdapEntryNode, attributes: LdapAttributes) {
+  _sanitizer: DomSanitizer;
+
+  constructor(entity: LdapEntryNode, attributes: LdapAttributes, sanitizer: DomSanitizer) {
     this._original = JSON.parse(JSON.stringify(attributes));
     this._entity = entity;
+    this._sanitizer = sanitizer;
   }
 
   get(target: LdapAttributes, key: string) {
@@ -53,9 +58,9 @@ export class LdapAttributesProxyHandler {
     ) {
       this._changes = <ChangeDescription[]>value;
     } else if (Array.isArray(value)) {
-      target[key] = <string[]>value;
+      target[key] = <string[]>value.map((x) => this._sanitizer.sanitize(SecurityContext.HTML, x));
     } else {
-      target[key] = [value];
+      target[key] = [this._sanitizer.sanitize(SecurityContext.HTML, value)];
     }
     return true;
   }

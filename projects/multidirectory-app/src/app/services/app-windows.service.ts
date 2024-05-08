@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of, pipe, switchMap, take } from 'rxjs';
+import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { TreeItemComponent } from 'dist/multidirectory-ui-kit/lib/components/treeview/tree-item.component';
 import { NavigationNode } from '@core/navigation/navigation-node';
+import { EntityType } from '@core/entities/entities-type';
 
 @Injectable({
   providedIn: 'root',
@@ -145,5 +145,37 @@ export class AppWindowsService {
   }
   closeModifyDn(modifyDn: string) {
     return this._closeModifyDnRx.next(modifyDn);
+  }
+
+  private _showEntityTypeSelectorRx = new Subject<EntityType[]>();
+  private _closeEntityTypeSelectorRx = new Subject<EntityType[]>();
+  get showEntityTypeSelectorRx(): Observable<EntityType[]> {
+    return this._showEntityTypeSelectorRx.asObservable();
+  }
+  get closeEntityTypeSelectorRx(): Observable<EntityType[]> {
+    return this._closeEntityTypeSelectorRx.asObservable();
+  }
+  openEntityTypeSelector(selected: EntityType[] = []) {
+    this._showEntityTypeSelectorRx.next(selected);
+    return this._closeEntityTypeSelectorRx;
+  }
+  closeEntityTypeSelector(selected: EntityType[] = []) {
+    this._closeEntityTypeSelectorRx.next(selected);
+  }
+
+  private _showEntitySelectorRx = new Subject<LdapEntryNode[]>();
+  private _closeEntitySelectorRx = new Subject<LdapEntryNode[]>();
+  get showEntitySelectorRx(): Observable<LdapEntryNode[]> {
+    return this._showEntitySelectorRx.asObservable();
+  }
+  get closeEntitySelectorRx(): Observable<LdapEntryNode[]> {
+    return this._closeEntitySelectorRx.asObservable();
+  }
+  openEntitySelector(selected: LdapEntryNode[]) {
+    this._showEntitySelectorRx.next(selected);
+    return this._showEntitySelectorRx;
+  }
+  closeEntitySelector(result: LdapEntryNode[]) {
+    this._closeEntitySelectorRx.next(result);
   }
 }

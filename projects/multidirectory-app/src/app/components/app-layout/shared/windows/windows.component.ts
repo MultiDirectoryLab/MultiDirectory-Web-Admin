@@ -4,6 +4,7 @@ import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
+import { EntityType } from '@core/entities/entities-type';
 
 @Component({
   selector: 'app-windows',
@@ -19,6 +20,9 @@ export class WindowsComponent implements AfterViewInit {
   @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective;
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective;
   @ViewChild('modifyDnModal') modifyDnModal!: ModalInjectDirective;
+  @ViewChild('entityTypeSelectorModal') entityTypeSelectorModal!: ModalInjectDirective;
+  @ViewChild('entitySelectorModal') entitySelectorModal!: ModalInjectDirective;
+
   private unsubscribe = new Subject<void>();
 
   constructor(
@@ -71,6 +75,17 @@ export class WindowsComponent implements AfterViewInit {
     this.ldapWindows.showModifyDnRx.pipe(takeUntil(this.unsubscribe)).subscribe((toModifyDn) => {
       this.openModifyDn(toModifyDn);
     });
+
+    this.ldapWindows.showEntityTypeSelectorRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openEntityTypeSelector(x);
+    });
+
+    this.ldapWindows.showEntitySelectorRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openEntitySelector(selected);
+      });
+    //this.ldapWindows.showEntitySelectorRx()
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
@@ -154,5 +169,18 @@ export class WindowsComponent implements AfterViewInit {
       .subscribe((x) => {
         this.ldapWindows.closeModifyDn(x);
       });
+  }
+
+  openEntityTypeSelector(selectedEntityTypes: EntityType[] = []) {
+    this.entityTypeSelectorModal
+      .open({ width: '580px', minHeight: 360 }, { selectedEntityTypes: selectedEntityTypes })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeEntityTypeSelector(result);
+      });
+  }
+
+  openEntitySelector(selectedEntities: LdapEntryNode[] = []) {
+    this.entitySelectorModal.open();
   }
 }

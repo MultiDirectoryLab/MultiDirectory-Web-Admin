@@ -9,7 +9,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { GroupSelectorComponent } from '@features/forms/group-selector/group-selector.component';
+import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
 
 @Component({
   selector: 'app-member-of',
@@ -19,7 +19,7 @@ import { GroupSelectorComponent } from '@features/forms/group-selector/group-sel
 export class MemberOfComponent implements AfterViewInit {
   private _accessor: LdapAttributes | null = null;
   groups: Group[] = [];
-  @ViewChild('groupSelector') groupSelector?: GroupSelectorComponent;
+  @ViewChild('groupSelector') groupSelector?: EntitySelectorComponent;
   @ViewChild('groupList') groupList?: DatagridComponent;
 
   @Input() set accessor(accessor: LdapAttributes | null) {

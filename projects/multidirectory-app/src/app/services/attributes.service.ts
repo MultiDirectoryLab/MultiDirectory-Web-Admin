@@ -8,12 +8,16 @@ import { SearchQueries } from '@core/ldap/search';
 import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/entry/update-request';
 import { UpdateEntryResponse } from '@models/entry/update-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AttributeService {
-  constructor(private api: MultidirectoryApiService) {}
+  constructor(
+    private api: MultidirectoryApiService,
+    private sanitizer: DomSanitizer,
+  ) {}
 
   load(node: LdapEntryNode): Observable<PartialAttribute[]> {
     return this.api.search(SearchQueries.getProperites(node.id ?? '')).pipe(
@@ -27,7 +31,7 @@ export class AttributeService {
     return this.load(node).pipe(
       map((props) => {
         const attributes = new LdapAttributes(props);
-        const handler = new LdapAttributesProxyHandler(node, attributes);
+        const handler = new LdapAttributesProxyHandler(node, attributes, this.sanitizer);
         return new Proxy(attributes, handler);
       }),
     );

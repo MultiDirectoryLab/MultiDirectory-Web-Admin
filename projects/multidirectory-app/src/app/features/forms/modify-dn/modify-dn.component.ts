@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { GroupSelectorComponent } from '../group-selector/group-selector.component';
+import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
 import { take } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ import { take } from 'rxjs';
 export class ModifyDnComponent implements AfterViewInit {
   formValid = false;
   request = new ModifyDnRequest();
-  @ViewChild('groupSelector') groupSelector!: GroupSelectorComponent;
+  @ViewChild('groupSelector') groupSelector!: EntitySelectorComponent;
 
   constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
 

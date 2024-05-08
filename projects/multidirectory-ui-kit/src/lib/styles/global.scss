@@ -115,7 +115,7 @@ div {
 }
 
 .flex-end {
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .flex-row {
@@ -133,11 +133,11 @@ div {
 }
 
 .justify-end {
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .align-end {
-  align-items: end;
+  align-items: flex-end;
 }
 
 .w-100 {

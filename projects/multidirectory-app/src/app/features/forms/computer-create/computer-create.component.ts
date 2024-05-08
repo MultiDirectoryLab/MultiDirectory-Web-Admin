@@ -14,7 +14,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
-import { GroupSelectorComponent } from '../group-selector/group-selector.component';
+import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
 
 @Component({
   selector: 'app-computer-create',
@@ -24,7 +24,7 @@ import { GroupSelectorComponent } from '../group-selector/group-selector.compone
 export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('groupSelector') groupSelector!: GroupSelectorComponent;
+  @ViewChild('groupSelector') groupSelector!: EntitySelectorComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';

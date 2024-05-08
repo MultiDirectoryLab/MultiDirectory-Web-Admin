@@ -4,7 +4,7 @@ import { EntityTypeSelectorModule } from './entity-type-selector/entity-type-sel
 import { GroupCreateComponent } from './group-create/group-create.component';
 import { OuCreateComponent } from './ou-create/ou-create.component';
 import { UserCreateComponent } from './user-create/user-create.component';
-import { GroupSelectorModule } from './group-selector/group-selector.module';
+import { EntitySelectorModule } from './entity-selector/entity-selector.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ValidatorsModule } from '@core/validators/validators.module';
@@ -31,14 +31,14 @@ import { ModifyDnComponent } from './modify-dn/modify-dn.component';
     GroupCreateComponent,
     OuCreateComponent,
     UserCreateComponent,
-    GroupSelectorModule,
+    EntitySelectorModule,
     ComputerCreateComponent,
     ModifyDnComponent,
   ],
   imports: [
     CatalogSelectorModule,
     EntityTypeSelectorModule,
-    GroupSelectorModule,
+    EntitySelectorModule,
     MultidirectoryUiKitModule,
     CommonModule,
     FormsModule,

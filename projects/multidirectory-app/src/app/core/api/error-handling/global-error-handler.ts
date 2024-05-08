@@ -26,10 +26,8 @@ export class GlobalErrorHandler implements ErrorHandler {
       }
       return;
     }
-    this.toastr.error(
-      error?.statusText ?? error?.message ?? translate('errors.unknown-error'),
-      '',
-      { onActivateTick: true },
-    );
+    this.toastr.error(error?.statusText ?? translate('errors.unknown-error'), '', {
+      onActivateTick: true,
+    });
   }
 }

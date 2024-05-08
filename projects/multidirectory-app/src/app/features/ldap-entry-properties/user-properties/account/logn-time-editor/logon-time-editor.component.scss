@@ -19,7 +19,7 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .logon-day {
@@ -95,7 +95,7 @@
   grid-column: 24 / 26;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: end;
+  justify-content: flex-end;
 
   img {
     width: 16px;

@@ -4,7 +4,7 @@ import { DatagridComponent } from 'multidirectory-ui-kit';
 import { Constants } from '@core/constants';
 import { translate } from '@ngneat/transloco';
 import { Member } from '@core/groups/member';
-import { GroupSelectorComponent } from '@features/forms/group-selector/group-selector.component';
+import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
 
 @Component({
   selector: 'app-members',
@@ -14,7 +14,7 @@ import { GroupSelectorComponent } from '@features/forms/group-selector/group-sel
 export class MembersComponent implements AfterViewInit {
   private _accessor: LdapAttributes | null = null;
   members: Member[] = [];
-  @ViewChild('groupSelector') groupSelector?: GroupSelectorComponent;
+  @ViewChild('groupSelector') groupSelector?: EntitySelectorComponent;
   @ViewChild('groupList') groupList?: DatagridComponent;
 
   @Input() set accessor(accessor: LdapAttributes | null) {

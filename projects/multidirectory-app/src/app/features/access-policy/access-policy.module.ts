@@ -11,7 +11,7 @@ import { AccessPolicyViewComponent } from './access-policy-view/access-policy-vi
 import { AccessPolicyRoutingModule } from './access-policy-routing.module';
 import { AccessPolicyHeaderComponent } from './access-policy-header/access-policy-header.component';
 import { ValidatorsModule } from '@core/validators/validators.module';
-import { GroupSelectorModule } from '@features/forms/group-selector/group-selector.module';
+import { EntitySelectorModule } from '@features/forms/entity-selector/entity-selector.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
@@ -35,7 +35,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     FormsModule,
     MultidirectoryUiKitModule,
     ValidatorsModule,
-    GroupSelectorModule,
+    EntitySelectorModule,
     DragDropModule,
     TranslocoModule,
     AccessPolicyRoutingModule,
