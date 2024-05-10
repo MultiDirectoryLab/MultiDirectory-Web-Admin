@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MdModalComponent, TreeviewComponent } from 'multidirectory-ui-kit';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { MdModalComponent, ModalInjectDirective, TreeviewComponent } from 'multidirectory-ui-kit';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 
 @Component({
   selector: 'app-catalog-selector',
@@ -9,17 +10,30 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
   styleUrls: ['./catalog-selector.component.scss'],
 })
 export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('modal', { static: true }) modal?: MdModalComponent;
   @ViewChild('ldapTree', { static: true }) treeView?: TreeviewComponent;
   private unsubscribe = new Subject<void>();
-  private _result = new Subject<LdapEntryNode | null>();
-  private _selectedNode?: LdapEntryNode;
+  private _selectedNode: LdapEntryNode[] = [];
   ldapRoots: LdapEntryNode[] = [];
+
+  constructor(
+    private ldapLoader: LdapEntryLoader,
+    private cdr: ChangeDetectorRef,
+    private modalControl: ModalInjectDirective,
+  ) {}
 
   ngAfterViewInit(): void {
     this.treeView?.onNodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this._selectedNode = <LdapEntryNode>x;
+      this._selectedNode = [<LdapEntryNode>x];
+      this.cdr.detectChanges();
     });
+
+    this.ldapLoader
+      .get()
+      .pipe(take(1))
+      .subscribe((roots) => {
+        this.ldapRoots = roots;
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {
@@ -27,22 +41,11 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  open(): Observable<LdapEntryNode | null> {
-    /*this.navigation.ldapRootRx.pipe(takeUntil(this.unsubscribe)).subscribe(roots => {
-            this.ldapRoots = roots;
-            this.cdr.detectChanges();
-        });*/
-    this.modal?.open();
-    return this._result.asObservable();
-  }
-
   close() {
-    this.modal?.close();
-    this._result.next(null);
+    this.modalControl?.close([]);
   }
 
   finish() {
-    this.modal?.close();
-    this._result.next(this._selectedNode ?? null);
+    this.modalControl?.close(this._selectedNode);
   }
 }

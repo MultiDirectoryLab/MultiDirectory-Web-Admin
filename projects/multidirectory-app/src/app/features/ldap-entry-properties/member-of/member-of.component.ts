@@ -16,7 +16,7 @@ import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-
   templateUrl: './member-of.component.html',
   styleUrls: ['./member-of.component.scss'],
 })
-export class MemberOfComponent implements AfterViewInit {
+export class MemberOfComponent {
   private _accessor: LdapAttributes | null = null;
   groups: Group[] = [];
   @ViewChild('groupSelector') groupSelector?: EntitySelectorComponent;
@@ -45,8 +45,6 @@ export class MemberOfComponent implements AfterViewInit {
     private navigation: AppNavigationService,
     private attributes: AttributeService,
   ) {}
-
-  ngAfterViewInit(): void {}
 
   private createGroupFromDn(dn: string) {
     const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);

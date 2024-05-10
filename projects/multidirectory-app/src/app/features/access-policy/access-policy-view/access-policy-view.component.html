@@ -28,7 +28,7 @@
             [suppressMenu]="true"
             [options]="availableGroups"
             [(ngModel)]="groupQuery"
-            (onEnter)="checkGroups()"
+            (inputChanged)="checkGroups()"
             notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
             #groupSelector
           ></md-multiselect>
@@ -55,7 +55,7 @@
             [suppressMenu]="true"
             [options]="availableMfaGroups"
             [(ngModel)]="mfaGroupsQuery"
-            (onEnter)="checkMfaGroups()"
+            (inputChanged)="checkMfaGroups()"
             notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
             #mfaGroupSelector
           ></md-multiselect>

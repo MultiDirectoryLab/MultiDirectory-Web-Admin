@@ -22,6 +22,7 @@ export class WindowsComponent implements AfterViewInit {
   @ViewChild('modifyDnModal') modifyDnModal!: ModalInjectDirective;
   @ViewChild('entityTypeSelectorModal') entityTypeSelectorModal!: ModalInjectDirective;
   @ViewChild('entitySelectorModal') entitySelectorModal!: ModalInjectDirective;
+  @ViewChild('catalogSelectorModal') catalogSelectorModal!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -85,7 +86,12 @@ export class WindowsComponent implements AfterViewInit {
       .subscribe((selected) => {
         this.openEntitySelector(selected);
       });
-    //this.ldapWindows.showEntitySelectorRx()
+
+    this.ldapWindows.showCatalogSelectorRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openCatalogSelector(selected);
+      });
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
@@ -182,5 +188,14 @@ export class WindowsComponent implements AfterViewInit {
 
   openEntitySelector(selectedEntities: LdapEntryNode[] = []) {
     this.entitySelectorModal.open();
+  }
+
+  openCatalogSelector(selectedCatalog: LdapEntryNode[] = []) {
+    this.catalogSelectorModal
+      .open({ minHeight: 360 })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeCatalogSelector(result);
+      });
   }
 }

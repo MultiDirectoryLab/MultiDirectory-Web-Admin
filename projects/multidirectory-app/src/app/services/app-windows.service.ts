@@ -173,9 +173,25 @@ export class AppWindowsService {
   }
   openEntitySelector(selected: LdapEntryNode[]) {
     this._showEntitySelectorRx.next(selected);
-    return this._showEntitySelectorRx;
+    return this.closeEntitySelectorRx;
   }
   closeEntitySelector(result: LdapEntryNode[]) {
     this._closeEntitySelectorRx.next(result);
+  }
+
+  private _showCatalogSelectorRx = new Subject<LdapEntryNode[]>();
+  private _closeCatalogSelectorRx = new Subject<LdapEntryNode[]>();
+  get showCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+    return this._showCatalogSelectorRx.asObservable();
+  }
+  get closeCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+    return this._closeCatalogSelectorRx.asObservable();
+  }
+  openCatalogSelector(selected: LdapEntryNode[]) {
+    this._showCatalogSelectorRx.next(selected);
+    return this.closeCatalogSelectorRx;
+  }
+  closeCatalogSelector(result: LdapEntryNode[]) {
+    this._closeCatalogSelectorRx.next(result);
   }
 }

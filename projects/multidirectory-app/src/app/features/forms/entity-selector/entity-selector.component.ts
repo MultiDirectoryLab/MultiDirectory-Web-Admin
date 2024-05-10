@@ -18,7 +18,6 @@ import { AppWindowsService } from '@services/app-windows.service';
 })
 export class EntitySelectorComponent implements OnInit {
   @ViewChild('modal', { static: true }) modal?: MdModalComponent;
-  @ViewChild('catalogSelector', { static: true }) catalogSelector?: CatalogSelectorComponent;
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
   entityTypes: EntityType[] = [];
   entityTypeDisplay = '';
@@ -63,21 +62,21 @@ export class EntitySelectorComponent implements OnInit {
           this.entityTypes = [];
           return;
         }
-        //this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
-        //this.entityTypes = result;
+        this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
+        this.entityTypes = result;
       });
   }
 
   selectCatalog() {
-    this.catalogSelector
-      ?.open()
+    this.windows
+      .openCatalogSelector([])
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {
           this.selectedCatalogDn = '';
           return;
         }
-        this.selectedCatalogDn = result.id;
+        this.selectedCatalogDn = result[0].id;
       });
   }
 
