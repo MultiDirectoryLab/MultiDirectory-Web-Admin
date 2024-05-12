@@ -3,6 +3,7 @@ import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxj
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { EntityType } from '@core/entities/entities-type';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 
 @Injectable({
   providedIn: 'root',
@@ -132,18 +133,18 @@ export class AppWindowsService {
   }
 
   private _showModifyDnRx = new Subject<string>();
-  private _closeModifyDnRx = new Subject<string>();
+  private _closeModifyDnRx = new Subject<ModifyDnRequest>();
   get showModifyDnRx(): Observable<string> {
     return this._showModifyDnRx.asObservable();
   }
-  get closeModifyDnRx(): Observable<string> {
+  get closeModifyDnRx(): Observable<ModifyDnRequest> {
     return this._closeModifyDnRx.asObservable();
   }
   openModifyDn(modifyDn: string) {
     this._showModifyDnRx.next(modifyDn);
     return this._closeModifyDnRx;
   }
-  closeModifyDn(modifyDn: string) {
+  closeModifyDn(modifyDn: ModifyDnRequest) {
     return this._closeModifyDnRx.next(modifyDn);
   }
 

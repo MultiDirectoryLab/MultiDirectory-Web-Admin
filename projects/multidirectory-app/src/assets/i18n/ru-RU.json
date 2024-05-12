@@ -53,13 +53,13 @@
     "cancel": "Отменить"
   },
   "group-selector": {
-    "modal-header": "Выбор группы",
-    "header": "Выберите тип группы:",
+    "modal-header": "Выбор объекта",
+    "header": "Выберите тип объекта:",
     "object-types": "Типы объектов...",
     "from-place": "Из этого места:",
     "places": "Места...",
     "name-prompt": "Чтобы найти объект, введите имя:",
-    "not-found-text": "Группы не найдены",
+    "not-found-text": "Объкеты не найдены",
     "check-name": "Проверить имя...",
     "additional-parameters": "Дополнительные параметры",
     "cancel": "Отменить",

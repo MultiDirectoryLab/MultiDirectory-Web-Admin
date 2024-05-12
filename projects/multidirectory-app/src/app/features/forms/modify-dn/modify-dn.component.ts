@@ -1,23 +1,36 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
-import { take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
+import { AppWindowsService } from '@services/app-windows.service';
 
 @Component({
   selector: 'app-modify-dn',
   templateUrl: './modify-dn.component.html',
   styleUrls: ['./modify-dn.component.scss'],
 })
-export class ModifyDnComponent implements AfterViewInit {
+export class ModifyDnComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('form') form!: MdFormComponent;
+  private unsubscribe = new Subject<void>();
   formValid = false;
   request = new ModifyDnRequest();
-  @ViewChild('groupSelector') groupSelector!: EntitySelectorComponent;
 
-  constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
+  constructor(
+    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
+    private windows: AppWindowsService,
+  ) {}
 
   ngAfterViewInit(): void {
     this.request.entry = this.modalControl.contentOptions?.['toModifyDn'];
+    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+      this.formValid = valid;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   onClose() {
@@ -25,14 +38,14 @@ export class ModifyDnComponent implements AfterViewInit {
   }
 
   onFinish(event: Event) {
-    this.modalControl.close(null);
+    this.modalControl.close(this.request);
   }
 
   showEntrySelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    this.groupSelector
-      .open()
+    this.windows
+      .openEntitySelector([])
       .pipe(take(1))
       .subscribe((x) => {
         this.request.new_superior = x?.[0]?.id ?? '';

@@ -7,7 +7,7 @@ import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
+import { Subject, concat, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-context-menu',
@@ -89,9 +89,14 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
     const firstEntry = this.entries[0];
     this.windows
       .openModifyDn(firstEntry.id)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap((x) => {
+          return this.api.updateDn(x);
+        }),
+      )
       .subscribe((modifyRequest) => {
-        alert(modifyRequest);
+        console.log(modifyRequest);
       });
   }
 }

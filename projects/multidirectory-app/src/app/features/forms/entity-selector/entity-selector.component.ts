@@ -1,5 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MdModalComponent, MultiselectComponent } from 'multidirectory-ui-kit';
+import {
+  MdModalComponent,
+  ModalInjectDirective,
+  MultiselectComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, catchError, take, throwError } from 'rxjs';
 import { EntityType } from '@core/entities/entities-type';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
@@ -8,7 +12,6 @@ import { SearchQueries } from '@core/ldap/search';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { Constants } from '@core/constants';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { CatalogSelectorComponent } from '../catalog-selector/catalog-selector.component';
 import { AppWindowsService } from '@services/app-windows.service';
 
 @Component({
@@ -17,7 +20,6 @@ import { AppWindowsService } from '@services/app-windows.service';
   styleUrls: ['./entity-selector.component.scss'],
 })
 export class EntitySelectorComponent implements OnInit {
-  @ViewChild('modal', { static: true }) modal?: MdModalComponent;
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
   entityTypes: EntityType[] = [];
   entityTypeDisplay = '';
@@ -30,6 +32,7 @@ export class EntitySelectorComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private ldapLoader: LdapEntryLoader,
     private windows: AppWindowsService,
+    private modalControl: ModalInjectDirective,
   ) {}
   ngOnInit(): void {
     this.entityTypes = ENTITY_TYPES;
@@ -43,13 +46,8 @@ export class EntitySelectorComponent implements OnInit {
       });
   }
 
-  open(): Subject<MultiselectModel[] | null> {
-    this.modal?.open();
-    return this.result;
-  }
   close() {
-    this.result?.next(null);
-    this.modal?.close();
+    this.modalControl?.close([]);
   }
 
   selectEntityType() {
@@ -84,8 +82,9 @@ export class EntitySelectorComponent implements OnInit {
     if (!this.selectedCatalogDn || !this.entityTypes) {
       return;
     }
+    const entityClasses = this.entityTypes.flatMap((x) => x.entity.split(','));
     this.api
-      .search(SearchQueries.findGroup(this.name, this.selectedCatalogDn, []))
+      .search(SearchQueries.findEntities(this.name, this.selectedCatalogDn, entityClasses))
       .pipe(
         catchError((err) => {
           return throwError(() => err);
@@ -108,7 +107,6 @@ export class EntitySelectorComponent implements OnInit {
   }
 
   finish() {
-    this.result.next(this.selector?.selectedData ?? null);
-    this.modal?.close();
+    this.modalControl?.close(this.selector?.selectedData ?? []);
   }
 }

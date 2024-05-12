@@ -15,6 +15,7 @@ import { CreateEntryRequest } from '@models/entry/create-request';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
 import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
+import { AppWindowsService } from '@services/app-windows.service';
 
 @Component({
   selector: 'app-computer-create',
@@ -22,9 +23,8 @@ import { EntitySelectorComponent } from '../entity-selector/entity-selector.comp
   styleUrls: ['./computer-create.component.scss'],
 })
 export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
-  @Output() onCreate = new EventEmitter<void>();
+  @Output() create = new EventEmitter<void>();
   @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('groupSelector') groupSelector!: EntitySelectorComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
@@ -36,6 +36,7 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private api: MultidirectoryApiService,
+    private windows: AppWindowsService,
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
@@ -83,8 +84,8 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
   showAccountSelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    this.groupSelector
-      .open()
+    this.windows
+      .openEntitySelector([])
       .pipe(take(1))
       .subscribe((x) => {
         this.ownerDn = x?.[0]?.id ?? '';

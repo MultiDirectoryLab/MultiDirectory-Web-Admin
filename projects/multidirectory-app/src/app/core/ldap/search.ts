@@ -92,7 +92,12 @@ export const SearchQueries = {
     });
   },
 
-  findGroup(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
+  findEntities(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
+    let typeQuery = `(objectClass=group)`;
+    if (entityType.length > 0) {
+      const entityTypes = entityType.map((x) => `(objectClass=${x})`).join('');
+      typeQuery = `(|${entityTypes})`;
+    }
     return new SearchRequest({
       base_object: baseDn,
       scope: 2,
@@ -100,7 +105,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(&(objectClass=group)(|(cn=*${name}*)(displayName=*${name}*)))`,
+      filter: `(&${typeQuery}(|(cn=*${name}*)(displayName=*${name}*)))`,
       attributes: ['*'],
     });
   },

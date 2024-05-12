@@ -19,7 +19,6 @@ import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-
 export class MemberOfComponent {
   private _accessor: LdapAttributes | null = null;
   groups: Group[] = [];
-  @ViewChild('groupSelector') groupSelector?: EntitySelectorComponent;
   @ViewChild('groupList') groupList?: DatagridComponent;
 
   @Input() set accessor(accessor: LdapAttributes | null) {
@@ -57,14 +56,14 @@ export class MemberOfComponent {
   }
 
   addGroup() {
-    this.groupSelector
-      ?.open()
+    this.windows
+      ?.openEntitySelector([])
       .pipe(take(1))
       .subscribe((res) => {
         if (res && !!this.accessor) {
           res = res.filter((x) => !this.accessor!.memberOf?.includes(x.id)) ?? res;
           this.accessor.memberOf =
-            this.accessor?.memberOf?.concat(res.map((x) => x.title)) ?? res.map((x) => x.title);
+            this.accessor?.memberOf?.concat(res.map((x) => x.name)) ?? res.map((x) => x.name);
           this.groups = this.accessor?.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
         }
       });

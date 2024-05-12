@@ -16,7 +16,7 @@ import { Observable, Subject, take } from 'rxjs';
   selector: '[modalInject]',
   exportAs: 'modalInject',
 })
-export class ModalInjectDirective implements OnInit, OnChanges {
+export class ModalInjectDirective implements OnChanges {
   templateView?: EmbeddedViewRef<any>;
   private _modal?: MdModalComponent;
   constructor(
@@ -25,11 +25,10 @@ export class ModalInjectDirective implements OnInit, OnChanges {
     private viewContainerRef: ViewContainerRef,
     private cdr: ChangeDetectorRef,
   ) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     this.templateView?.detectChanges();
   }
-
-  ngOnInit(): void {}
 
   private findModalParts(nodes: HTMLElement[]) {
     const header = nodes.filter((x) => x?.classList?.contains('app-modal-header') ?? false);

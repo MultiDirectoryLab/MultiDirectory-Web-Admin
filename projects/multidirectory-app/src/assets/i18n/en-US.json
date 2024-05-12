@@ -53,13 +53,13 @@
     "cancel": "Cancel"
   },
   "group-selector": {
-    "modal-header": "Group selection",
-    "header": "Select a group type:",
-    "object-types": "Group types...",
+    "modal-header": "Object selection",
+    "header": "Select an object type:",
+    "object-types": "Object types...",
     "from-place": "From place:",
     "places": "Places...",
     "name-prompt": "Enter a name to find an object:",
-    "not-found-text": "Groups not found",
+    "not-found-text": "Object not found",
     "check-name": "Check name...",
     "additional-parameters": "Additional parameters",
     "cancel": "Cancel",

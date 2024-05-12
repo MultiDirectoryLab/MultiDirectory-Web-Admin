@@ -5,6 +5,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
 import { EntityType } from '@core/entities/entities-type';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 
 @Component({
   selector: 'app-windows',
@@ -187,7 +188,12 @@ export class WindowsComponent implements AfterViewInit {
   }
 
   openEntitySelector(selectedEntities: LdapEntryNode[] = []) {
-    this.entitySelectorModal.open();
+    this.entitySelectorModal
+      .open(selectedEntities)
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeEntitySelector(result);
+      });
   }
 
   openCatalogSelector(selectedCatalog: LdapEntryNode[] = []) {
