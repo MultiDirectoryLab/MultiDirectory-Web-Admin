@@ -98,8 +98,6 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
           return EMPTY;
         }),
       )
-      .subscribe((modifyRequest) => {
-        console.log(modifyRequest);
-      });
+      .subscribe((modifyRequest) => {});
   }
 }
