@@ -1,0 +1,21 @@
+@use '../../../styles/global.scss';
+
+.popup {
+  position: fixed;
+  z-index: 999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  ::ng-deep .dropdown-item {
+    ::ng-deep &.disabled {
+      pointer-events: none;
+    }
+
+    padding: 6px;
+
+    ::ng-deep &:hover {
+      cursor: pointer;
+    }
+  }
+}

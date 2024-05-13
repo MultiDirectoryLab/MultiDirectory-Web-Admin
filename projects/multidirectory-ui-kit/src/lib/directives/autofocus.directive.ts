@@ -26,6 +26,6 @@ export class AutofocusDirective implements AfterViewInit {
   constructor(@Inject(NG_VALUE_ACCESSOR) private accessor: BaseComponent[]) {}
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.accessor?.[0]?.focus(), 5);
+    setTimeout(() => this.accessor?.[0]?.setFocus(), 5);
   }
 }

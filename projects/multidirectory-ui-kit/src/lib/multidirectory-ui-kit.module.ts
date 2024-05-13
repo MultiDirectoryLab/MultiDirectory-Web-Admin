@@ -41,6 +41,10 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AlertComponent } from './components/alert/alert.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { PopupBaseComponent } from './components/popup/base/popup-base.component';
+import { PopupTestComponent } from './components/popup/popuptest/popuptest.component';
+import { PopupContainerDirective } from './components/popup/popup-container.directive';
+import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +84,10 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     DatepickerComponent,
     AlertComponent,
     AutofocusDirective,
+    PopupBaseComponent,
+    PopupTestComponent,
+    PopupContainerDirective,
+    PopupSuggestComponent,
   ],
   imports: [
     CommonModule,
@@ -122,6 +130,8 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     DatepickerComponent,
     AlertComponent,
     AutofocusDirective,
+    PopupContainerDirective,
+    PopupSuggestComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
