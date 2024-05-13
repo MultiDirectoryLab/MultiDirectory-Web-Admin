@@ -4,6 +4,7 @@ import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
 import { Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Component({
   selector: 'app-modify-dn',
@@ -23,6 +24,9 @@ export class ModifyDnComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.request.entry = this.modalControl.contentOptions?.['toModifyDn'];
+    this.request.new_superior = LdapNamesHelper.getDnParent(this.request.entry);
+    this.request.newrdn = LdapNamesHelper.getDnName(this.request.entry);
+
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.formValid = valid;
     });

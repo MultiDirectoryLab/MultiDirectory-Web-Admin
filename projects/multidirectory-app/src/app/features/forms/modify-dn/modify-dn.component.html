@@ -5,17 +5,17 @@
 <md-form #form>
   <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
     <div class="row">
-      <label class="col-md-6">{{ 'modify-dn.entry' | transloco }}</label>
-      <md-textbox class="col-md-6" [disabled]="true" [(ngModel)]="request.entry"></md-textbox>
+      <label class="col-md-4">{{ 'modify-dn.entry' | transloco }}</label>
+      <md-textbox class="col-md-8" [disabled]="true" [(ngModel)]="request.entry"></md-textbox>
     </div>
     <div class="row">
-      <label class="col-md-6">{{ 'modify-dn.newrdn' | transloco }}</label>
-      <md-textbox class="col-md-6" [(ngModel)]="request.newrdn"></md-textbox>
+      <label class="col-md-4">{{ 'modify-dn.newrdn' | transloco }}</label>
+      <md-textbox class="col-md-8" [(ngModel)]="request.newrdn"></md-textbox>
     </div>
     <div class="row">
-      <label class="col-md-6">{{ 'modify-dn.new_superior' | transloco }}</label>
+      <label class="col-md-4">{{ 'modify-dn.new_superior' | transloco }}</label>
       <md-textbox
-        class="col-md-4"
+        class="col-md-6"
         [disabled]="true"
         [(ngModel)]="request.new_superior"
       ></md-textbox>
