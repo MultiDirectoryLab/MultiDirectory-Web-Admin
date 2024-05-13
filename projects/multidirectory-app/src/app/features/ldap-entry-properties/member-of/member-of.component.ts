@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { take } from 'rxjs';
 import { DatagridComponent } from 'multidirectory-ui-kit';
@@ -9,7 +9,6 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
 
 @Component({
   selector: 'app-member-of',

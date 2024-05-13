@@ -28,7 +28,6 @@ export class PasswordConditionsComponent implements OnInit {
       .getPasswordPolicy()
       .pipe(take(1))
       .subscribe((x) => {
-        console.log(x);
         this.minimumPasswordLength = x.minimumPasswordLength;
         this.passwordMustMeetComplexityRequirements = x.passwordMustMeetComplexityRequirements;
       });

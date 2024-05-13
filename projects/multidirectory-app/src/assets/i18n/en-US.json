@@ -485,5 +485,9 @@
     "change": "Change...",
     "cancel": "Cancel",
     "apply": "Apply"
+  },
+  "password-conditions": {
+    "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
+    "password-complexity": "Password must contain uppercase letters, lowercase letters and digits"
   }
 }

@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { PopupBaseComponent } from './base/popup-base.component';
 import { forwardRef } from 'react';
+import { min } from 'rxjs';
 
 @Directive({
   selector: '[mdPopupContainer]',
@@ -35,8 +36,11 @@ export class PopupContainerDirective implements OnInit {
     this.toggleMenu();
   }
 
-  toggleMenu(focus = true, minWidth: number | undefined = undefined) {
-    const parentRect = this.el.nativeElement.offsetParent.getBoundingClientRect();
+  private prepareContainer(minWidth: number | undefined = undefined) {
+    const parentRect = this.el.nativeElement.offsetParent?.getBoundingClientRect() ?? {
+      top: 0,
+      left: 0,
+    };
     if (this.direction == 'right') {
       this.mdPopupContainer.setPosition(
         parentRect.left +
@@ -57,7 +61,22 @@ export class PopupContainerDirective implements OnInit {
     }
 
     this.mdPopupContainer.setMinWidth(minWidth);
+    this.mdPopupContainer.caller = this.el;
+  }
+
+  toggleMenu(focus = true, minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
     this.mdPopupContainer.toggle(this.el, focus);
+  }
+
+  openMenu(minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
+    this.mdPopupContainer.open();
+  }
+
+  closeMenu(minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
+    this.mdPopupContainer.close();
   }
 
   isVisible(): boolean {

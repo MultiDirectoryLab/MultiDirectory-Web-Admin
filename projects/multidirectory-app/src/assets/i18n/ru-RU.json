@@ -482,5 +482,9 @@
     "change": "Изменить...",
     "cancel": "Отменить",
     "apply": "Применить"
+  },
+  "password-conditions": {
+    "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
+    "password-complexity": "Пароль должен содержать заглавные и строчные буквы, а также цифры"
   }
 }
