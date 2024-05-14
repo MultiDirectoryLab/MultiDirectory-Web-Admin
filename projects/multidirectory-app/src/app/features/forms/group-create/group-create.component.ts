@@ -11,7 +11,7 @@ import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
+import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { GroupCreateRequest } from '@models/group-create/group-create.request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';

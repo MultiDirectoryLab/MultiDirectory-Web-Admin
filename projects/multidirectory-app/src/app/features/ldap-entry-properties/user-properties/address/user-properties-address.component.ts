@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { DropdownOption } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { AttributeService } from '@services/attributes.service';
 import { Subject, takeUntil } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-user-properties-address',

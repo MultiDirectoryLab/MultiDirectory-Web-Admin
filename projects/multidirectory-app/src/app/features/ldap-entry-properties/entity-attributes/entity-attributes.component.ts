@@ -2,13 +2,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular
 import { translate } from '@ngneat/transloco';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
 import { AttributeService } from '@services/attributes.service';
 import { LdapPropertiesService } from '@services/ldap-properites.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { EMPTY, Subject, switchMap, take } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 export class EntityAttribute {
   constructor(

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-user-properties-profile',

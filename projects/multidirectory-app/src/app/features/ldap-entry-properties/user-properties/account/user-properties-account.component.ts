@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import BitSet from 'bitset';
 import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AttributeService } from '@services/attributes.service';
 import { take, tap } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-user-properties-account',

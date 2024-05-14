@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { take } from 'rxjs';
 import { DatagridComponent } from 'multidirectory-ui-kit';
 import { Group } from '@core/groups/group';
@@ -9,6 +8,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-member-of',
@@ -62,7 +62,7 @@ export class MemberOfComponent {
         if (res && !!this.accessor) {
           res = res.filter((x) => !this.accessor!.memberOf?.includes(x.id)) ?? res;
           this.accessor.memberOf =
-            this.accessor?.memberOf?.concat(res.map((x) => x.name)) ?? res.map((x) => x.name);
+            this.accessor?.memberOf?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
           this.groups = this.accessor?.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
         }
       });

@@ -4,15 +4,15 @@ import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Subject, of, switchMap, take, tap } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import { AttributeService } from '@services/attributes.service';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-properties',
   styleUrls: ['./properties.component.scss'],
   templateUrl: './properties.component.html',
-  providers: [{ provide: AttributeService, useClass: AttributeService }],
+  providers: [AttributeService],
 })
 export class EntityPropertiesComponent implements OnInit {
   EntityTypes = LdapEntryType;
@@ -27,6 +27,7 @@ export class EntityPropertiesComponent implements OnInit {
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
     private attributes: AttributeService,
   ) {}
+
   ngOnInit(): void {
     if (!this.modalControl.contentOptions?.selectedEntity) {
       return;
@@ -57,6 +58,7 @@ export class EntityPropertiesComponent implements OnInit {
   close() {
     this.modalControl.close();
   }
+
   save() {
     this.modalControl.modal?.showSpinner();
     this.attributes

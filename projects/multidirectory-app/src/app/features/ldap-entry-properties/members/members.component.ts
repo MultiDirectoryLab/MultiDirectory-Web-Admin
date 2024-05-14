@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { DatagridComponent } from 'multidirectory-ui-kit';
 import { Constants } from '@core/constants';
 import { translate } from '@ngneat/transloco';
 import { Member } from '@core/groups/member';
 import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-members',

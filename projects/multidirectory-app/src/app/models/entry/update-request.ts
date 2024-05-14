@@ -1,4 +1,4 @@
-import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
+import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 
 export enum LdapOperation {
   Add = 0,

@@ -1,5 +1,5 @@
 import { LdapOperation } from '@models/entry/update-request';
-import { PartialAttribute } from './ldap-partial-attribute';
+import { PartialAttribute } from './ldap-attributes/ldap-partial-attribute';
 
 export class ChangeDescription {
   operation: LdapOperation | null = null;
