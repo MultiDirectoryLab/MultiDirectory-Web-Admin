@@ -397,7 +397,8 @@
   "settings-navigation": {
     "md-settings": "Настройки Multidirectory",
     "access-control": "Контроль доступа",
-    "mf-settings": "Подключение к Мультифактору"
+    "mf-settings": "Подключение к Мультифактору",
+    "about": "О программе"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",

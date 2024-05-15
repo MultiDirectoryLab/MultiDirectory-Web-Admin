@@ -64,10 +64,10 @@ export class EntityAttributesComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    if (!this.modalControl.contentOptions?.accessor) {
+    if (!this.modalControl.contentOptions.accessor) {
       throw 'Unable to get an accessor';
     }
-    this.accessor = this.modalControl.contentOptions!.accessor;
+    this.accessor = this.modalControl.contentOptions.accessor;
 
     this.properties
       .loadData(<any>this.accessor['$entitydn'][0])

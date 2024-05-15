@@ -13,4 +13,12 @@
   >
     {{ t('mf-settings') }}
   </div>
+
+  <div
+    class="nav-item"
+    [ngClass]="{ selected: url.endsWith('about') }"
+    routerLink="/settings/about"
+  >
+    {{ t('about') }}
+  </div>
 </div>

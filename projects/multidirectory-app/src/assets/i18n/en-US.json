@@ -397,7 +397,8 @@
   "settings-navigation": {
     "md-settings": "Multidirectory Settings",
     "access-control": "Access Control",
-    "mf-settings": "Multifactor Integration"
+    "mf-settings": "Multifactor Integration",
+    "about": "About"
   },
   "settings": {
     "account-settings": "Account Settings",
