@@ -6,6 +6,11 @@ import { AppSettingsService } from '@services/app-settings.service';
 import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
 import { EntityType } from '@core/entities/entities-type';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { AttributeService } from '@services/attributes.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { SearchRequest } from '@models/entry/search-request';
+import { SearchQueries } from '@core/ldap/search';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-windows',
@@ -29,7 +34,9 @@ export class WindowsComponent implements AfterViewInit {
 
   constructor(
     private ldapWindows: AppWindowsService,
+    private attributeService: AttributeService,
     private app: AppSettingsService,
+    private api: MultidirectoryApiService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -96,8 +103,21 @@ export class WindowsComponent implements AfterViewInit {
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
-    return this.properties
-      .open({ width: '600px', minHeight: 660 }, { selectedEntity: entity })
+    return this.api
+      .search(SearchQueries.getProperites(entity.id))
+      .pipe(
+        switchMap((props) => {
+          const attributes = props.search_result[0].partial_attributes;
+          const accessor = this.attributeService.getTrackableAttributes(
+            entity,
+            new LdapAttributes(attributes),
+          );
+          return this.properties.open(
+            { width: '600px', minHeight: 660 },
+            { accessor: accessor, entityType: entity.type },
+          );
+        }),
+      )
       .pipe(take(1));
   }
 

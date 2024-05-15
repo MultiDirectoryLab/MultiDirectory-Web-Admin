@@ -1,3 +1,4 @@
+import { Inject, Injectable } from '@angular/core';
 import { PartialAttribute } from './ldap-partial-attribute';
 
 export class LdapAttributes {

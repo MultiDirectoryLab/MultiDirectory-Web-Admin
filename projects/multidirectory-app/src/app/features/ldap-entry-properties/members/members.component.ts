@@ -11,7 +11,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss'],
 })
-export class MembersComponent implements AfterViewInit {
+export class MembersComponent {
   private _accessor: LdapAttributes | null = null;
   members: Member[] = [];
   @ViewChild('groupSelector') groupSelector?: EntitySelectorComponent;
@@ -34,8 +34,6 @@ export class MembersComponent implements AfterViewInit {
     { name: translate('members.name'), prop: 'name', flexGrow: 1 },
     { name: translate('members.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
-
-  ngAfterViewInit(): void {}
 
   private createMemberFromDn(dn: string) {
     const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);

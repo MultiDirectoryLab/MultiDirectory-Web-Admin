@@ -8,12 +8,10 @@ export class LdapAttributesProxyHandler {
   _original: LdapAttributes;
   _entity: LdapEntryNode;
   _changes: ChangeDescription[] = [];
-  _sanitizer: DomSanitizer;
 
-  constructor(entity: LdapEntryNode, attributes: LdapAttributes, sanitizer: DomSanitizer) {
+  constructor(entity: LdapEntryNode, attributes: LdapAttributes) {
     this._original = JSON.parse(JSON.stringify(attributes));
     this._entity = entity;
-    this._sanitizer = sanitizer;
   }
 
   get(target: LdapAttributes, key: string) {
@@ -38,9 +36,9 @@ export class LdapAttributesProxyHandler {
     ) {
       this._changes = <ChangeDescription[]>value;
     } else if (Array.isArray(value)) {
-      target[key] = <string[]>value.map((x) => this._sanitizer.sanitize(SecurityContext.HTML, x));
+      target[key] = <string[]>value.map((x) => x);
     } else {
-      target[key] = [this._sanitizer.sanitize(SecurityContext.HTML, value)];
+      target[key] = [value];
     }
     return true;
   }

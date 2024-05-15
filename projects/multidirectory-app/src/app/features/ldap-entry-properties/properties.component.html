@@ -3,7 +3,7 @@
 </div>
 
 <div class="h-100">
-  <ng-container [ngSwitch]="_entityType">
+  <ng-container [ngSwitch]="entityType">
     <app-user-properties
       class="block h-100"
       [accessor]="accessor"

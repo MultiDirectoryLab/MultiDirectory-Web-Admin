@@ -15,9 +15,10 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 export class UserPropertiesAccountComponent implements AfterViewInit {
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
-  accessor!: LdapAttributes;
   uacBitSet?: BitSet;
   upnDomain?: DropdownOption;
+  accessor: LdapAttributes = {};
+
   get userShouldChangePassword(): boolean {
     return this.accessor?.['pwdLastSet']?.[0] === '0';
   }
@@ -38,32 +39,21 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   constructor(
-    private attributes: AttributeService,
+    public modalControl: ModalInjectDirective,
     private cdr: ChangeDetectorRef,
     private nodeLoader: LdapEntryLoader,
   ) {}
 
   ngAfterViewInit(): void {
-    this.attributes
-      .entityAccessorRx()
-      .pipe(
-        tap((accessor) => {
-          if (!accessor) {
-            return;
-          }
-          this.accessor = accessor;
-          const uacBits = accessor['userAccountControl']?.[0];
-          this.uacBitSet = !!accessor['userAccountControl']
-            ? BitSet.fromHexString(Number(uacBits).toString(16))
-            : new BitSet();
+    this.accessor = this.modalControl.contentOptions.accessor;
+    const uacBits = this.accessor['userAccountControl']?.[0];
+    this.uacBitSet = !!this.accessor['userAccountControl']
+      ? BitSet.fromHexString(Number(uacBits).toString(16))
+      : new BitSet();
 
-          this._accountExpires = !!this.accessor?.['accountExpires']?.[0];
-          this._expireDate = this.accessor['accountExpires']?.[0] ?? '';
-        }),
-      )
-      .subscribe(() => {
-        this.cdr.detectChanges();
-      });
+    this._accountExpires = !!this.accessor?.['accountExpires']?.[0];
+    this._expireDate = this.accessor['accountExpires']?.[0] ?? '';
+    this.cdr.detectChanges();
 
     this.nodeLoader
       .get()

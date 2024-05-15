@@ -47,7 +47,7 @@ export class ModalInjectDirective implements OnChanges {
   get modal(): MdModalComponent | undefined {
     return this._modal;
   }
-  contentOptions?: { [key: string]: any };
+  contentOptions: { [key: string]: any } = {};
   open(
     modalOptions?: { [key: string]: any },
     contentOptions?: { [key: string]: any },
