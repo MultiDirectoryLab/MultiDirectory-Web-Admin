@@ -1,5 +1,12 @@
-export class MockModalInjectDirective {}
+export class MockModalInjectDirective {
+  contentOptions: {
+    [value: string]: any;
+  } = {};
+  constructor(contentOptions: { [value: string]: any }) {}
+}
 
-export function getMockModalInjectDirective(): MockModalInjectDirective {
-  return new MockModalInjectDirective();
+export function getMockModalInjectDirective(contentOptions: {
+  [value: string]: any;
+}): MockModalInjectDirective {
+  return new MockModalInjectDirective(contentOptions);
 }

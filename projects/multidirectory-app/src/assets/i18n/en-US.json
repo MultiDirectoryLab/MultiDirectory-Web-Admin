@@ -189,7 +189,20 @@
     "value": "Value",
     "select-attribute": "Select an attribute to edit",
     "unable-retrieve-schema": "Unable to retreive schema",
-    "edit-not-allowed": "The attribute editing is not allowed"
+    "edit-not-allowed": "The attribute editing is not allowed",
+    "header": "Attribute",
+    "add": "Add",
+    "edit": "Edit",
+    "with-values-only": "Show only the attributes that have values",
+    "writable-only": "Show writable attributes only",
+    "show-attributes": "Show attributes",
+    "mandatory": "Mandatory",
+    "optional-only": "Optional",
+    "read-only": "Show read-only attributes",
+    "constructed-only": "Constructed",
+    "backlinks-only": "Backlinks",
+    "system-only": "System Only",
+    "filter": "Filter"
   },
   "member-of": {
     "groups": "Groups:",

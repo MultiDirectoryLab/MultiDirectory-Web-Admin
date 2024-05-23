@@ -189,7 +189,20 @@
     "value": "Значение",
     "select-attribute": "Выберите аттрибут для редактирования",
     "unable-retrieve-schema": "Не удалось получить схему",
-    "edit-not-allowed": "Редактирование запрещено"
+    "edit-not-allowed": "Редактирование запрещено",
+    "header": "Аттрибут",
+    "add": "Добавить",
+    "edit": "Редактировать",
+    "with-values-only": "Покзаать только аттрибуты с заданными значениями",
+    "writable-only": "Показать только аттрибуты, доступные для записи",
+    "show-attributes": "Показать аттрибуты",
+    "mandatory": "Обязательные",
+    "optional-only": "Опциональные",
+    "read-only": "Показать аттрибуты только для чтения",
+    "constructed-only": "Constructed",
+    "backlinks-only": "Backlinks",
+    "system-only": "Только системные",
+    "filter": "Фильтр"
   },
   "member-of": {
     "groups": "Группы:",

@@ -5,6 +5,7 @@ import {
   MockModalInjectDirective,
   getMockModalInjectDirective,
 } from '@testing/modal-inject-testing';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 
 describe('Entity Type Selector Test Suite', () => {
   let component: EntityTypeSelectorComponent;
@@ -15,14 +16,18 @@ describe('Entity Type Selector Test Suite', () => {
         EntityTypeSelectorComponent,
         {
           provide: ModalInjectDirective,
-          useFactory: getMockModalInjectDirective({
-            selected,
-          }),
+          useFactory: () =>
+            getMockModalInjectDirective({
+              selectedEntityTypes: [ENTITY_TYPES[1]],
+            }),
         },
       ],
     });
-    component = TestBed.inject(EntityTypeSelectorComponent);
+    component = TestBed.inject(EntityTypeSelectorComponent) as EntityTypeSelectorComponent;
   });
 
-  it('Entity Type Selector Should Be', () => {});
+  it('Entity Type Selector Should Be', () => {
+    const selected = component.tree.find((x) => x.id == ENTITY_TYPES[1].id);
+    expect(selected?.selected).toBeTrue();
+  });
 });

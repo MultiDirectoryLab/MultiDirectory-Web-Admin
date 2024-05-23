@@ -249,7 +249,7 @@ export class WindowsComponent implements AfterViewInit {
 
   openConfirmDialog(prompt: ConfirmDialogDescriptor) {
     this.confirmDialog
-      .open({ minHeight: 360 }, { prompt: prompt })
+      .open({ minHeight: 160 }, { prompt: prompt })
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeConfirmDialog(result);
