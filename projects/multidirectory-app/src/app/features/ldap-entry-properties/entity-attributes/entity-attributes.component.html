@@ -1,4 +1,4 @@
-<div class="entity-attributes-container">
+<div class="entity-attributes-container h-100 flex-column">
   <div class="flex-row flex-gap-10 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
     <md-textbox name="search" [(ngModel)]="searchFilter"></md-textbox>
@@ -9,7 +9,7 @@
       >{{ 'entity-attributes.add' | transloco }}</md-plane-button
     >
   </div>
-  <div style="height: 370px">
+  <div class="h-100">
     <md-datagrid
       #propGrid
       [rows]="rows"
