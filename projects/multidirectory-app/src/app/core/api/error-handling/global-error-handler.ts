@@ -1,10 +1,14 @@
 import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import { translate } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(@Inject(Injector) private readonly injector: Injector) {}
+  constructor(
+    @Inject(Injector) private readonly injector: Injector,
+    private router: Router,
+  ) {}
 
   private _toastr?: ToastrService;
   private get toastr() {
@@ -16,6 +20,9 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: any) {
     console.error(error);
+    if (error.error instanceof ProgressEvent) {
+      this.router.navigate(['/enable-backend']);
+    }
     if (error.error?.detail) {
       if (typeof error.error?.detail === 'string' || error.error?.detail instanceof String) {
         this.toastr.error(error.error.detail);

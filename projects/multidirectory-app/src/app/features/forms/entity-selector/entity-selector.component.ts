@@ -52,7 +52,7 @@ export class EntitySelectorComponent implements OnInit {
 
   selectEntityType() {
     this.windows
-      .openEntityTypeSelector()
+      .openEntityTypeSelector(this.entityTypes)
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {

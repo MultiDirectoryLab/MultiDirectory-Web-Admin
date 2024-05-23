@@ -82,6 +82,10 @@ export class ModalInjectDirective implements OnChanges {
       this.contentOptions = contentOptions;
     }
     this.cdr.detectChanges();
+
+    this.modal?.closeEvent.pipe(take(1)).subscribe((result) => {
+      this.close(result);
+    });
     this._modal!.open();
     this._modal!.modalRoot?.calcBodyHeight();
     this.cdr.detectChanges();

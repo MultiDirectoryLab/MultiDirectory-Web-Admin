@@ -12,6 +12,12 @@
   <div class="dropdown-item" (click)="contextMenu.close(); showModifyDn($event)">
     {{ 'catalog-content.modify-dn' | transloco }}
   </div>
+  <div class="dropdown-item" (click)="contextMenu.close(); showMoveDialog($event)">
+    {{ 'catalog-content.copy' | transloco }}
+  </div>
+  <div class="dropdown-item" (click)="contextMenu.close(); showMoveDialog($event)">
+    {{ 'catalog-content.move' | transloco }}
+  </div>
   <div class="dropdown-item" (click)="contextMenu.close(); showDeleteConfirmation($event)">
     {{ 'catalog-content.delete' | transloco }}
   </div>

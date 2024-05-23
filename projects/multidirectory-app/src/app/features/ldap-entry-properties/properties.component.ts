@@ -1,11 +1,14 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { translate } from '@ngneat/transloco';
+import { AppWindowsService } from '@services/app-windows.service';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, take } from 'rxjs';
+import { EMPTY, Subject, of, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
@@ -23,6 +26,7 @@ export class EntityPropertiesComponent implements OnInit {
     private toastr: ToastrService,
     private modalControl: ModalInjectDirective,
     private attributes: AttributeService,
+    private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -43,11 +47,41 @@ export class EntityPropertiesComponent implements OnInit {
   save() {
     this.modalControl.modal?.showSpinner();
     const updateRequest = this.attributes.createAttributeUpdateRequest(this.accessor);
-    this.api
-      .update(updateRequest)
+
+    const prompt: ConfirmDialogDescriptor = {
+      promptHeader: translate('confirmation-dialog.prompt-header'),
+      promptText: translate('confirmation-dialog.prompt-text'),
+      primaryButtons: [{ id: 'yes', text: translate('confirmation-dialog.yes') }],
+      secondaryButtons: [
+        { id: 'no', text: translate('confirmation-dialog.no') },
+        { id: 'cancel', text: translate('confirmation-dialog.cancel') },
+      ],
+    };
+
+    if (updateRequest.changes.length == 0) {
+      this.modalControl.modal?.hideSpinner();
+      this.modalControl.close();
+      return;
+    }
+
+    this.windows
+      .openConfirmDialog(prompt)
       .pipe(take(1))
+      .pipe(
+        switchMap((result) => {
+          if (result === 'yes') {
+            return this.api.update(updateRequest);
+          }
+          this.modalControl.modal?.hideSpinner();
+
+          if (result === 'cancel' || !result) {
+            return EMPTY;
+          }
+          return of('');
+        }),
+      )
       .subscribe({
-        complete: () => {
+        next: () => {
           this.modalControl.modal?.hideSpinner();
           this.modalControl.close();
         },

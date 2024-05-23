@@ -35,6 +35,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('modalRoot', { static: true, read: ModalComponent }) modalRoot?: ModalComponent;
   @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
+  @Output() closeEvent = new EventEmitter<void>();
   @Input() opened = false;
   @Input() backdrop = true;
   @Input() minHeight = 0;
@@ -75,6 +76,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
   }
 
   onModalClose() {
+    this.closeEvent.emit();
     this.cdr.detectChanges();
   }
 
@@ -83,6 +85,7 @@ export class MdModalComponent implements AfterViewInit, OnDestroy {
   }
 
   close() {
+    this.closeEvent.emit();
     this.modalRoot?.hide();
     this.cdr.detectChanges();
   }

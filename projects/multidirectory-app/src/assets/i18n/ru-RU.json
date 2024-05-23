@@ -172,6 +172,8 @@
     "more": "Подробнее",
     "change-password": "Изменить пароль...",
     "modify-dn": "Задать Distinguished Name...",
+    "copy": "Копировать",
+    "move": "Переместить",
     "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
     "select-group-catalog": "Выберите каталог в котором будет создана группа",
     "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
@@ -487,5 +489,12 @@
   "password-conditions": {
     "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
     "password-complexity": "Пароль должен содержать заглавные и строчные буквы, а также цифры"
+  },
+  "confirmation-dialog": {
+    "prompt-header": "Требуется подтвержение",
+    "prompt-text": "Имеются несохраненные изменения. Применить?",
+    "yes": "Применить",
+    "no": "Не применять",
+    "cancel": "Отмена"
   }
 }

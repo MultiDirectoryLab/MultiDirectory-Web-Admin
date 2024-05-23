@@ -1,28 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Navigation, NavigationEnd, Params, Router, Scroll } from '@angular/router';
-import { Treenode } from 'multidirectory-ui-kit';
-import {
-  Observable,
-  combineLatest,
-  debounce,
-  debounceTime,
-  filter,
-  lastValueFrom,
-  map,
-  merge,
-  of,
-  skipUntil,
-  skipWhile,
-  startWith,
-  take,
-  tap,
-  zip,
-} from 'rxjs';
+import { ActivatedRoute, Navigation, NavigationEnd, Router } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { NavigationNode } from '@core/navigation/navigation-node';
-import { NavigationRoot } from '@core/navigation/navigation-entry-point';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { NavigationRoot } from '@core/navigation/navigation-entry-point';
+import { NavigationNode } from '@core/navigation/navigation-node';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { Observable, combineLatest, filter, lastValueFrom, map, of, startWith, take } from 'rxjs';
 export interface NavigationEventWrapper {
   event: NavigationEnd;
   navigation: Navigation | null;

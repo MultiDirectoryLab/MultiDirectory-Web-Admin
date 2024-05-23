@@ -1,0 +1,15 @@
+<div class="app-modal-header">Copy entities</div>
+<div>
+  <div class="row">
+    <label class="col-md-4">Where to move</label>
+    <div class="col-md-5">
+      <md-textbox [(ngModel)]="targetDn"></md-textbox>
+    </div>
+    <div class="col-md-3">
+      <md-button (click)="onClick()">Change</md-button>
+    </div>
+  </div>
+  <div *ngFor="let entity of toMove">
+    {{ entity.name }}
+  </div>
+</div>

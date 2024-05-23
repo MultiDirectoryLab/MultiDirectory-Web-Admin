@@ -5,7 +5,9 @@ import { getTranslocoModule } from '@testing/transloco-testing';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
 
-xdescribe('AccessPolicyNodeLoaders', () => {
+describe('AccessPolicyNodeLoaders', () => {
+  let accessPolicyNodeLoader: AccessPolicyNodeLoader;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -16,9 +18,12 @@ xdescribe('AccessPolicyNodeLoaders', () => {
     }).compileComponents();
   });
 
+  beforeEach(async () => {
+    accessPolicyNodeLoader = TestBed.inject(AccessPolicyNodeLoader);
+  });
+
   it('node loader should return fake nodes', fakeAsync(async () => {
-    const nodeLoader = new AccessPolicyNodeLoader(<MultidirectoryApiService>{});
-    const root = nodeLoader.get();
+    const root = accessPolicyNodeLoader.get();
     expect(root).toBeDefined();
   }));
 });

@@ -15,6 +15,8 @@ import { ComputerCreateComponent } from './computer-create/computer-create.compo
 import { TranslocoRootModule } from '../../transloco-root.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ModifyDnComponent } from './modify-dn/modify-dn.component';
+import { MoveEntityDialogComponent } from './move-entity/move-entity.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { ModifyDnComponent } from './modify-dn/modify-dn.component';
     UserCreateGeneralInfoComponent,
     ComputerCreateComponent,
     ModifyDnComponent,
+    MoveEntityDialogComponent,
+    ConfirmDialogComponent,
   ],
   exports: [
     GroupCreateComponent,
@@ -34,6 +38,8 @@ import { ModifyDnComponent } from './modify-dn/modify-dn.component';
     EntitySelectorModule,
     ComputerCreateComponent,
     ModifyDnComponent,
+    MoveEntityDialogComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     CatalogSelectorModule,

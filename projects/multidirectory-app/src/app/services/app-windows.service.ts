@@ -4,6 +4,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { EntityType } from '@core/entities/entities-type';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 
 @Injectable({
   providedIn: 'root',
@@ -194,5 +195,37 @@ export class AppWindowsService {
   }
   closeCatalogSelector(result: LdapEntryNode[]) {
     this._closeCatalogSelectorRx.next(result);
+  }
+
+  private _openCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
+  private _closeCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
+  get showCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
+    return this._openCopyEntityDialogRx.asObservable();
+  }
+  get closeCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
+    return this._closeCopyEntityDialogRx.asObservable();
+  }
+  openCopyEntityDialog(selected: LdapEntryNode[]) {
+    this._openCopyEntityDialogRx.next(selected);
+    return this.closeCopyEntityDialogRx;
+  }
+  closeCopyEntityDialog(result: LdapEntryNode[]) {
+    this._closeCopyEntityDialogRx.next(result);
+  }
+
+  private _openConfirmDialog = new Subject<ConfirmDialogDescriptor>();
+  private _closeConfirmDialog = new Subject<string>();
+  get showConfirmDialogRx(): Observable<ConfirmDialogDescriptor> {
+    return this._openConfirmDialog.asObservable();
+  }
+  get closeConfirmDialogRx(): Observable<string> {
+    return this._closeConfirmDialog.asObservable();
+  }
+  openConfirmDialog(prompt: ConfirmDialogDescriptor) {
+    this._openConfirmDialog.next(prompt);
+    return this.closeConfirmDialogRx;
+  }
+  closeConfirmDialog(result: string) {
+    this._closeConfirmDialog.next(result);
   }
 }

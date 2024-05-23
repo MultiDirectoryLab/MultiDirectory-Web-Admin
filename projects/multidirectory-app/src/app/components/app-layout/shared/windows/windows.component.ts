@@ -11,6 +11,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SearchRequest } from '@models/entry/search-request';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 
 @Component({
   selector: 'app-windows',
@@ -29,6 +30,8 @@ export class WindowsComponent implements AfterViewInit {
   @ViewChild('entityTypeSelectorModal') entityTypeSelectorModal!: ModalInjectDirective;
   @ViewChild('entitySelectorModal') entitySelectorModal!: ModalInjectDirective;
   @ViewChild('catalogSelectorModal') catalogSelectorModal!: ModalInjectDirective;
+  @ViewChild('moveEntityDialog') moveEntityDialog!: ModalInjectDirective;
+  @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -100,6 +103,16 @@ export class WindowsComponent implements AfterViewInit {
       .subscribe((selected) => {
         this.openCatalogSelector(selected);
       });
+
+    this.ldapWindows.showCopyEntityDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openCopyEntityDialog(selected);
+      });
+
+    this.ldapWindows.showConfirmDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((prompt) => {
+      this.openConfirmDialog(prompt);
+    });
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
@@ -222,6 +235,24 @@ export class WindowsComponent implements AfterViewInit {
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeCatalogSelector(result);
+      });
+  }
+
+  openCopyEntityDialog(entities: LdapEntryNode[]) {
+    this.moveEntityDialog
+      .open({ minHeight: 360 }, { toMove: entities })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeCopyEntityDialog(result);
+      });
+  }
+
+  openConfirmDialog(prompt: ConfirmDialogDescriptor) {
+    this.confirmDialog
+      .open({ minHeight: 360 }, { prompt: prompt })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeConfirmDialog(result);
       });
   }
 }

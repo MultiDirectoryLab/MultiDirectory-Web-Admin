@@ -59,7 +59,7 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
     this.api
       .create(
         new CreateEntryRequest({
-          entry: `ou=${this.computerName},` + this.parentDn,
+          entry: `cn=${this.computerName},` + this.parentDn,
           attributes: [
             new PartialAttribute({
               type: 'objectClass',

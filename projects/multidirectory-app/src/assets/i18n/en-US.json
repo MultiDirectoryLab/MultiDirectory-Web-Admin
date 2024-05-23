@@ -172,6 +172,8 @@
     "more": "More details",
     "change-password": "Change Password...",
     "modify-dn": "Modify Distinguished Name...",
+    "copy": "Copy...",
+    "move": "Move...",
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
     "select-ou-catalog": "Select a catalog where an organizational unit will be created"
@@ -490,5 +492,12 @@
   "password-conditions": {
     "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
     "password-complexity": "Password must contain uppercase letters, lowercase letters and digits"
+  },
+  "confirmation-dialog": {
+    "prompt-header": "Confirmation required",
+    "prompt-text": "There are uncofirmed changes. Apply them?",
+    "yes": "Apply",
+    "no": "Don't Apply",
+    "cancel": "Cancel"
   }
 }
