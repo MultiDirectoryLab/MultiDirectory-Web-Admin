@@ -26,10 +26,13 @@ jobs:
       - name: Build docker image
         env:
           TAG: ghcr.io/${{ env.REPO }}:${{ github.event.client_payload.tag }}
+          TAG2: ghcr.io/${{ env.REPO }}:"latest"
         run: |
           echo $TAG
           docker build -f Dockerfile . --tag $TAG --cache-from $TAG
+          docker tag $TAG $TAG2
           docker push $TAG
+          docker push $TAG2
 
       - name: RESPONSE - Dispatch response event to INIT repository
         run: |
