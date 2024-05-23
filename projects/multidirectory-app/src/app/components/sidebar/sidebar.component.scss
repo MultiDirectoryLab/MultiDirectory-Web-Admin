@@ -28,7 +28,7 @@
   }
 }
 
-::ng-deep .dark-theme .sidebar .avatar-img {
+::ng-deep .dark-theme .sidebar .avatar-img.avatar-img-placeholder {
   filter: invert(0.9) hue-rotate(45deg) contrast(15) sepia(0.5) brightness(0.7);
 }
 

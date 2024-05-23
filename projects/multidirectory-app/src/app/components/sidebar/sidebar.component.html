@@ -6,7 +6,11 @@
     </div>
     <div class="flex-row footer">
       <div class="avatar">
-        <img *ngIf="!user.jpegPhoto" src="/assets/avatar_placeholder.svg" class="avatar-img" />
+        <img
+          *ngIf="!user.jpegPhoto"
+          src="/assets/avatar_placeholder.svg"
+          class="avatar-img avatar-img-placeholder"
+        />
         <img
           *ngIf="!!user.jpegPhoto"
           [src]="'data:image/jpg;base64,' + user.jpegPhoto"
