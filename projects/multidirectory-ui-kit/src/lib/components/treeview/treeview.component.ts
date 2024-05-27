@@ -25,13 +25,13 @@ import { RightClickEvent } from './model/right-click-event';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeviewComponent implements OnInit {
+  @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
   @Input() tree: Treenode[] = [];
   @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
   @Input() nodeLabel: TemplateRef<any> | null = null;
   @Input() checkboxes = false;
-  @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
-  @Output() onNodeSelect = new EventEmitter<Treenode>();
-  @Output() onNodeRightClick = new EventEmitter<RightClickEvent>();
+  @Output() nodeSelect = new EventEmitter<Treenode>();
+  @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
   private _selectedNode: Treenode | null = null;
   private _focusedNode: Treenode | null = null;
 
@@ -67,7 +67,7 @@ export class TreeviewComponent implements OnInit {
       });
       node.selected = true;
       this._selectedNode = node;
-      this.onNodeSelect.emit(node);
+      this.nodeSelect.emit(node);
       this.cdr.detectChanges();
     }
   }
@@ -190,7 +190,7 @@ export class TreeviewComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
 
-    this.onNodeRightClick.emit({ event: event, node: node });
+    this.nodeRightClick.emit({ event: event, node: node });
   }
 
   redraw() {

@@ -12,6 +12,7 @@ import { SearchRequest } from '@models/entry/search-request';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-windows',
@@ -23,6 +24,7 @@ export class WindowsComponent implements AfterViewInit {
   @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
   @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
   @ViewChild('createComputerModal', { static: true }) createComputerModal!: ModalInjectDirective;
+  @ViewChild('createCatalogModal', { static: true }) createCatalogModal!: ModalInjectDirective;
   @ViewChild('properties') properties!: ModalInjectDirective;
   @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective;
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective;
@@ -70,6 +72,10 @@ export class WindowsComponent implements AfterViewInit {
 
     this.ldapWindows.showCreateOuMenuRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
       this.openCreateOu(parentDn);
+    });
+
+    this.ldapWindows.showCreateCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
+      this.openCreateCatalog(parentDn);
     });
 
     this.ldapWindows.showCreateComputerMenuRx
@@ -184,6 +190,15 @@ export class WindowsComponent implements AfterViewInit {
       });
   }
 
+  openCreateCatalog(parentDn: string) {
+    this.createCatalogModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateCatalog(parentDn);
+      });
+  }
+
   openCreateComputer(parentDn: string) {
     this.createComputerModal
       .open({ width: '580px', minHeight: 525 }, { parentDn: parentDn })
@@ -220,9 +235,9 @@ export class WindowsComponent implements AfterViewInit {
       });
   }
 
-  openEntitySelector(selectedEntities: LdapEntryNode[] = []) {
+  openEntitySelector(settings: EntitySelectorSettings) {
     this.entitySelectorModal
-      .open(selectedEntities)
+      .open({ minHeight: 360 }, { settings: settings })
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeEntitySelector(result);

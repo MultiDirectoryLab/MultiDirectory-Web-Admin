@@ -61,14 +61,16 @@
   cursor: pointer;
   padding-left: 4px;
 
-  &.selected {
-    background-color: var(--md-dark-blue-3);
-    color: var(--md-white);
-  }
-
   &.focused {
     background-color: var(--md-neutral-150);
     color: black;
+  }
+
+  &:not(.with-checkboxes) {
+    &.selected {
+      background-color: var(--md-dark-blue-3);
+      color: var(--md-white);
+    }
   }
 }
 

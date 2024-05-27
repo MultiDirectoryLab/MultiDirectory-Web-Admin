@@ -9,35 +9,26 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/entry/create-request';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
-import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
-import { AppWindowsService } from '@services/app-windows.service';
-import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
 @Component({
-  selector: 'app-computer-create',
-  templateUrl: './computer-create.component.html',
-  styleUrls: ['./computer-create.component.scss'],
+  selector: 'app-catalog-create',
+  templateUrl: './catalog-create.component.html',
+  styleUrls: ['./catalog-create.component.scss'],
 })
-export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
-  @Output() create = new EventEmitter<void>();
+export class CatalogCreateComponent implements AfterViewInit, OnDestroy {
   @ViewChild('form') form!: MdFormComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
   description = '';
-  computerName = '';
-  legacyComputerName = '';
-  ownerDn = '';
-  isLegacyAccount = false;
+  catalogName = '';
 
   constructor(
     private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
@@ -60,11 +51,11 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
     this.api
       .create(
         new CreateEntryRequest({
-          entry: `cn=${this.computerName},` + this.parentDn,
+          entry: `cn=${this.catalogName},` + this.parentDn,
           attributes: [
             new PartialAttribute({
               type: 'objectClass',
-              vals: ['top', 'computer', 'user'],
+              vals: ['top', 'container', 'catalog'],
             }),
             new PartialAttribute({
               type: 'description',
@@ -80,20 +71,5 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
 
   onClose() {
     this.modalInejctor.close(null);
-  }
-
-  showAccountSelector(event: Event) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.windows
-      .openEntitySelector(
-        new EntitySelectorSettings({
-          selectedEntities: [],
-        }),
-      )
-      .pipe(take(1))
-      .subscribe((x) => {
-        this.ownerDn = x?.[0]?.id ?? '';
-      });
   }
 }

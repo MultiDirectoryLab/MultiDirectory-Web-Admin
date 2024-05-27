@@ -5,6 +5,7 @@ import { EntitySelectorComponent } from '../entity-selector/entity-selector.comp
 import { Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-modify-dn',
@@ -49,7 +50,11 @@ export class ModifyDnComponent implements AfterViewInit, OnDestroy {
     event.stopPropagation();
     event.preventDefault();
     this.windows
-      .openEntitySelector([])
+      .openEntitySelector(
+        new EntitySelectorSettings({
+          selectedEntities: [],
+        }),
+      )
       .pipe(take(1))
       .subscribe((x) => {
         this.request.new_superior = x?.[0]?.id ?? '';

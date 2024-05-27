@@ -17,6 +17,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ModifyDnComponent } from './modify-dn/modify-dn.component';
 import { MoveEntityDialogComponent } from './move-entity/move-entity.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { CatalogCreateComponent } from './catalog-create/catalog-create.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     ModifyDnComponent,
     MoveEntityDialogComponent,
     ConfirmDialogComponent,
+    CatalogCreateComponent,
   ],
   exports: [
     GroupCreateComponent,
@@ -40,6 +42,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     ModifyDnComponent,
     MoveEntityDialogComponent,
     ConfirmDialogComponent,
+    CatalogCreateComponent,
   ],
   imports: [
     CatalogSelectorModule,

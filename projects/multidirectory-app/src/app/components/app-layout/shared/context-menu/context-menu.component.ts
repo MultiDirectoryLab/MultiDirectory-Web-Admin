@@ -40,6 +40,10 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
   isSelectedRowsOfType(type: LdapEntryType): boolean {
     return this.entries.every((x) => x.type == type);
   }
+  isNotSelectedRowsOfTypeCatalog(): boolean {
+    const catalog_types = [LdapEntryType.Folder, LdapEntryType.Root, LdapEntryType.OU];
+    return this.entries.every((x) => !catalog_types.includes(x.type));
+  }
 
   showEntryProperties() {
     if (this.entries.length <= 0) {
@@ -110,11 +114,13 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
         take(1),
         switchMap((x) => {
           if (x) {
-            // return this.api.updateDn(x);
+            return this.api.updateDn(x);
           }
           return EMPTY;
         }),
       )
-      .subscribe((modifyRequest) => {});
+      .subscribe((modifyRequest) => {
+        this.navigation.reload();
+      });
   }
 }

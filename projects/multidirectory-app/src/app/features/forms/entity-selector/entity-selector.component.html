@@ -11,7 +11,12 @@
       [disabled]="true"
       [(ngModel)]="entityTypeDisplay"
     ></md-textbox>
-    <md-plane-button (click)="selectEntityType()" class="col-xs-3" [hasBorder]="true">
+    <md-plane-button
+      (click)="selectEntityType()"
+      class="col-xs-3"
+      [hasBorder]="true"
+      [disabled]="!allowSelectEntityTypes"
+    >
       {{ 'group-selector.object-types' | transloco }}
     </md-plane-button>
   </div>

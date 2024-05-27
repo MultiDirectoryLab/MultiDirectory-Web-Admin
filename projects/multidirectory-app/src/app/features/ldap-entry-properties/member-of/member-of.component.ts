@@ -9,6 +9,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-member-of',
@@ -56,7 +57,11 @@ export class MemberOfComponent {
 
   addGroup() {
     this.windows
-      ?.openEntitySelector([])
+      ?.openEntitySelector(
+        new EntitySelectorSettings({
+          selectedEntities: [],
+        }),
+      )
       .pipe(take(1))
       .subscribe((res) => {
         if (res && !!this.accessor) {

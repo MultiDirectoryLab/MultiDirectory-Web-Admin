@@ -73,6 +73,14 @@
     "apply": "Сохранить",
     "description": "Описание"
   },
+  "catalog-create": {
+    "modal-header": "Новый объект - Каталог",
+    "header": "Добавить в: ",
+    "catalogname-label": "Введите название каталога",
+    "cancel": "Отменить",
+    "apply": "Сохранить",
+    "description": "Описание"
+  },
   "computer-create": {
     "modal-header": "Новый объект - Компьютер",
     "header": "Добавить в: ",
@@ -162,6 +170,7 @@
     "computer": "Компьютер",
     "contact": "Контакт",
     "ou": "Организационное подразделение",
+    "folder": "Каталог",
     "common-folder": "Общая папка",
     "printer": "Принтер",
     "user": "Пользователь",

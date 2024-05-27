@@ -73,6 +73,14 @@
     "apply": "Save",
     "description": "Description"
   },
+  "catalog-create": {
+    "modal-header": "New object - Catalog",
+    "header": "Add to:",
+    "catalogname-label": "Enter the name of the catalog",
+    "cancel": "Cancel",
+    "apply": "Save",
+    "description": "Description"
+  },
   "computer-create": {
     "modal-header": "New object - Computer",
     "header": "Add to:",
@@ -162,6 +170,7 @@
     "computer": "Computer",
     "contact": "Contact",
     "ou": "Organizational unit",
+    "folder": "Catalog",
     "common-folder": "a shared folder",
     "printer": "Printer",
     "user": "User",

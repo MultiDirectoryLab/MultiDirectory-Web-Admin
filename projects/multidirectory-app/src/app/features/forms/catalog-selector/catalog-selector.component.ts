@@ -22,7 +22,7 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit(): void {
-    this.treeView?.onNodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    this.treeView?.nodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this._selectedNode = [<LdapEntryNode>x];
       this.cdr.detectChanges();
     });

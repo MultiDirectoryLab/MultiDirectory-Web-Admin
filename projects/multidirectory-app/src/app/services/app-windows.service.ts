@@ -5,6 +5,8 @@ import { NavigationNode } from '@core/navigation/navigation-node';
 import { EntityType } from '@core/entities/entities-type';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Injectable({
   providedIn: 'root',
@@ -165,16 +167,16 @@ export class AppWindowsService {
     this._closeEntityTypeSelectorRx.next(selected);
   }
 
-  private _showEntitySelectorRx = new Subject<LdapEntryNode[]>();
+  private _showEntitySelectorRx = new Subject<EntitySelectorSettings>();
   private _closeEntitySelectorRx = new Subject<LdapEntryNode[]>();
-  get showEntitySelectorRx(): Observable<LdapEntryNode[]> {
+  get showEntitySelectorRx(): Observable<EntitySelectorSettings> {
     return this._showEntitySelectorRx.asObservable();
   }
   get closeEntitySelectorRx(): Observable<LdapEntryNode[]> {
     return this._closeEntitySelectorRx.asObservable();
   }
-  openEntitySelector(selected: LdapEntryNode[]) {
-    this._showEntitySelectorRx.next(selected);
+  openEntitySelector(settings: EntitySelectorSettings) {
+    this._showEntitySelectorRx.next(settings);
     return this.closeEntitySelectorRx;
   }
   closeEntitySelector(result: LdapEntryNode[]) {
@@ -198,18 +200,18 @@ export class AppWindowsService {
   }
 
   private _openCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
-  private _closeCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
+  private _closeCopyEntityDialogRx = new Subject<ModifyDnRequest>();
   get showCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
     return this._openCopyEntityDialogRx.asObservable();
   }
-  get closeCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
+  get closeCopyEntityDialogRx(): Observable<ModifyDnRequest> {
     return this._closeCopyEntityDialogRx.asObservable();
   }
   openCopyEntityDialog(selected: LdapEntryNode[]) {
     this._openCopyEntityDialogRx.next(selected);
     return this.closeCopyEntityDialogRx;
   }
-  closeCopyEntityDialog(result: LdapEntryNode[]) {
+  closeCopyEntityDialog(result: ModifyDnRequest) {
     this._closeCopyEntityDialogRx.next(result);
   }
 
@@ -227,5 +229,21 @@ export class AppWindowsService {
   }
   closeConfirmDialog(result: string) {
     this._closeConfirmDialog.next(result);
+  }
+
+  private _showCreateCatalogRx = new Subject<string>();
+  private _closeCreateCatalogRx = new Subject<string>();
+  get showCreateCatalogRx(): Observable<string> {
+    return this._showCreateCatalogRx.asObservable();
+  }
+  get closeCreateCatalogRx(): Observable<string> {
+    return this._closeCreateCatalogRx.asObservable();
+  }
+  openCreateCatalog(parentDn: string) {
+    this._showCreateCatalogRx.next(parentDn);
+    return this.closeCreateCatalogRx;
+  }
+  closeCreateCatalog(parentDn: string) {
+    return this._closeCreateCatalogRx.next(parentDn);
   }
 }

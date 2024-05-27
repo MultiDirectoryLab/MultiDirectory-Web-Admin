@@ -13,6 +13,7 @@ import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/compone
 import { Constants } from '@core/constants';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AppWindowsService } from '@services/app-windows.service';
+import { EntitySelectorSettings } from './entity-selector-settings.component';
 
 @Component({
   selector: 'app-entity-selector',
@@ -21,12 +22,16 @@ import { AppWindowsService } from '@services/app-windows.service';
 })
 export class EntitySelectorComponent implements OnInit {
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
-  entityTypes: EntityType[] = [];
-  entityTypeDisplay = '';
   selectedCatalogDn = '';
   name = '';
   availableGroups: MultiselectModel[] = [];
-  result = new Subject<MultiselectModel[] | null>();
+  result = new Subject<MultiselectModel[]>();
+
+  settings: EntitySelectorSettings = new EntitySelectorSettings();
+  entityTypes: EntityType[] = ENTITY_TYPES;
+  entityTypeDisplay = '';
+  allowSelectEntityTypes = true;
+
   constructor(
     private api: MultidirectoryApiService,
     private cdr: ChangeDetectorRef,
@@ -34,9 +39,18 @@ export class EntitySelectorComponent implements OnInit {
     private windows: AppWindowsService,
     private modalControl: ModalInjectDirective,
   ) {}
+
   ngOnInit(): void {
-    this.entityTypes = ENTITY_TYPES;
-    this.entityTypeDisplay = ENTITY_TYPES.map((x) => x.name).join(' ИЛИ ');
+    if (this.modalControl.contentOptions.settings) {
+      this.settings = this.modalControl.contentOptions.settings;
+      if (this.settings.selectedEntityTypes && this.settings.selectedEntityTypes.length > 0) {
+        this.entityTypes = this.settings.selectedEntityTypes;
+      }
+
+      this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
+    }
+
+    this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
     this.ldapLoader
       .get()
       .pipe(take(1))
@@ -56,8 +70,6 @@ export class EntitySelectorComponent implements OnInit {
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {
-          this.entityTypeDisplay = '';
-          this.entityTypes = [];
           return;
         }
         this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');

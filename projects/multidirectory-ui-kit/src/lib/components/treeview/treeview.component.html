@@ -17,7 +17,8 @@
       class="tree-item-wrapper"
       [ngClass]="{
         selected: data.selected,
-        focused: data.focused
+        focused: data.focused,
+        'with-checkboxes': checkboxes
       }"
       [attr.data-id]="data.id"
     >
@@ -43,7 +44,7 @@
           >
             <span
               [innerHTML]="
-                data.children?.length == 0 && data.childrenLoaded
+                data.children?.length === 0 && data.childrenLoaded
                   ? '&nbsp;&nbsp;'
                   : data.expanded
                     ? '-'
@@ -60,7 +61,7 @@
       </span>
     </div>
   </md-tree-item>
-  <ng-container *ngIf="data.children != null && data.expanded">
+  <ng-container *ngIf="data.children !== null && data.expanded">
     <div>
       <ng-container
         *ngFor="let child of data.children"

@@ -177,6 +177,16 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       });
   }
 
+  openCreateCatalog() {
+    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    this.windows
+      .openCreateCatalog(dn)
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.navigation.reload();
+      });
+  }
+
   showContextMenu(event: RightClickEvent) {
     this.contextMenu.showContextMenuOnNode(
       event.pointerEvent.x,
