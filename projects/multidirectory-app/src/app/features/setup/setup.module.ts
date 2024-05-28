@@ -10,6 +10,7 @@ import { SetupRoutingModule } from './setup-routing.module';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { ModalControlModule } from '@core/modal-control/modal-control.module';
 import { TranslocoRootModule } from '../../transloco-root.module';
+import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TranslocoRootModule } from '../../transloco-root.module';
     ValidatorsModule,
     ModalControlModule,
     SetupRoutingModule,
+    PasswordConditionsModule,
   ],
 })
 export class SetupModule {}

@@ -1,18 +1,21 @@
-<div class="app-modal-header">Copy entities</div>
+<div class="app-modal-header">{{ 'move-entity.modal-header' | transloco }}</div>
 <div>
+  <div class="mb-16">
+    <label style="font-weight: 800">{{ 'move-entity.move' | transloco }} {{ toMove[0].id }}</label>
+  </div>
   <div class="row">
-    <label class="col-md-4">Where to move</label>
+    <label class="col-md-4">{{ 'move-entity.into-the-container' | transloco }}</label>
     <div class="col-md-5">
-      <md-textbox [(ngModel)]="targetDn"></md-textbox>
+      <md-textbox [(ngModel)]="targetDn" [disabled]="true"></md-textbox>
     </div>
     <div class="col-md-3">
-      <md-button (click)="onClick()">Change</md-button>
+      <md-plane-button [hasBorder]="true" (click)="onClick()">{{
+        'move-entity.change' | transloco
+      }}</md-plane-button>
     </div>
   </div>
-  <div *ngFor="let entity of toMove">
-    {{ entity.name }}
-  </div>
 </div>
-<div class="app-modal-footer">
-  <md-button (click)="move()">Move</md-button>
+<div class="app-modal-footer flex-row justify-end flex-gap-10">
+  <md-button (click)="cancel()">{{ 'move-entity.cancel' | transloco }}</md-button>
+  <md-button (click)="move()" [primary]="true">{{ 'move-entity.move' | transloco }}</md-button>
 </div>

@@ -10,7 +10,7 @@ import { StringPropertyEditorComponent } from './property-editors/typed-editors/
 import { IntegerPropertyEditorComponent } from './property-editors/typed-editors/integer/integer-property-editor.component';
 import { MultivaluedStringComponent } from './property-editors/typed-editors/multivalued-string/multivalued-string.component';
 import { ValidatorsModule } from '@core/validators/validators.module';
-import { PasswordConditionsComponent } from './change-password/password-conditions/password-conditions.component';
+import { PasswordConditionsModule } from './change-password/password-conditions/password-conditions.module';
 
 @NgModule({
   imports: [
@@ -19,6 +19,7 @@ import { PasswordConditionsComponent } from './change-password/password-conditio
     ValidatorsModule,
     TranslocoModule,
     MultidirectoryUiKitModule,
+    PasswordConditionsModule,
   ],
   declarations: [
     AttributeListComponent,
@@ -27,7 +28,6 @@ import { PasswordConditionsComponent } from './change-password/password-conditio
     StringPropertyEditorComponent,
     IntegerPropertyEditorComponent,
     MultivaluedStringComponent,
-    PasswordConditionsComponent,
   ],
   exports: [
     AttributeListComponent,

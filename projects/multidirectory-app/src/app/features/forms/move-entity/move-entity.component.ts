@@ -49,7 +49,11 @@ export class MoveEntityDialogComponent implements OnInit {
     request.new_superior = this.targetDn;
     request.entry = fromDn;
     request.newrdn = LdapNamesHelper.getDnName(fromDn);
-    request.deleteoldrdn = false;
+    request.deleteoldrdn = true;
     this.modalControl.close(request);
+  }
+
+  cancel() {
+    this.modalControl.close();
   }
 }

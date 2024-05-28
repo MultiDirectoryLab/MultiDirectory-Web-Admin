@@ -521,5 +521,12 @@
     "yes": "Apply",
     "no": "Don't Apply",
     "cancel": "Cancel"
+  },
+  "move-entity": {
+    "modal-header": "Move the object",
+    "move": "Move",
+    "into-the-container": "Into container",
+    "change": "Change...",
+    "cancel": "Cancel"
   }
 }

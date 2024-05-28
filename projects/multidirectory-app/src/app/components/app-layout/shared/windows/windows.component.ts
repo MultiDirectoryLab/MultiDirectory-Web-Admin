@@ -255,7 +255,7 @@ export class WindowsComponent implements AfterViewInit {
 
   openCopyEntityDialog(entities: LdapEntryNode[]) {
     this.moveEntityDialog
-      .open({ minHeight: 360 }, { toMove: entities })
+      .open({ minHeight: 230 }, { toMove: entities })
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeCopyEntityDialog(result);
