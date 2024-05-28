@@ -1,57 +1,80 @@
 <div class="scrollable treeview-container" tabindex="0">
-    <div class="tree-item-wrapper"  >
-        <ng-container 
-            *ngFor="let node of tree"
-            [ngTemplateOutlet]="treeNode"
-            [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
-    </div>
+  <div class="tree-item-wrapper">
+    <ng-container
+      *ngFor="let node of tree"
+      [ngTemplateOutlet]="treeNode"
+      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
+    ></ng-container>
+  </div>
 </div>
 
-
 <ng-template #treeNode let-data let-level="level">
-    <md-tree-item (click)="handleNodeClick($event, data)" (contextmenu)="handleRightClick($event, data)">
-        <div class="tree-item-wrapper" 
-            [ngClass]="{
-                selected: data.selected,
-                focused: data.focused
-            }"
-            [attr.data-id]="data.id"
-            >
-            <span class="tree-item" [ngClass]="{
-                expanded: data.expanded,
-                expandable: (data.children.length > 0 || !data.expanded) && data.expandable,
-                selected: data.selected,
-                focused: data.focused
-            }"
-            [ngStyle]="{
-                'left': level + 'rem'
-            }">
-                <label
-                    class="expand-mark"
-                    *ngIf="(data.children.length > 0 || !data.expanded) && data.expandable"
-                >
-                    <span [innerHTML]="data.children?.length == 0 && data.childrenLoaded
-                            ? '&nbsp;&nbsp;' : data.expanded
-                            ? '-' : '+' 
-                        " style="margin-right: 2px;"></span>
-                </label>
-                <ng-container 
-                    [ngTemplateOutlet]="nodeLabel"
-                    [ngTemplateOutletContext]="{ $implicit: data  }"></ng-container>
-            </span>
-        </div>
-    </md-tree-item>
-    <ng-container *ngIf="data.children != null && data.expanded">
-        <div>
-            <ng-container *ngFor="let child of data.children"
-                [ngTemplateOutlet]="treeNode"
-                [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
-            ></ng-container>
-        </div>
-    </ng-container>
+  <md-tree-item
+    (click)="handleNodeClick($event, data)"
+    (contextmenu)="handleRightClick($event, data)"
+  >
+    <div
+      class="tree-item-wrapper"
+      [ngClass]="{
+        selected: data.selected,
+        focused: data.focused,
+        'with-checkboxes': checkboxes
+      }"
+      [attr.data-id]="data.id"
+    >
+      <span
+        class="tree-item"
+        [ngClass]="{
+          expanded: data.expanded,
+          expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
+          selected: data.selected,
+          focused: data.focused
+        }"
+        [ngStyle]="{
+          left: level + 'rem'
+        }"
+      >
+        <label
+          class="expand-mark"
+          *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
+        >
+          <span
+            style="margin-right: 2px"
+            *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
+          >
+            <span
+              [innerHTML]="
+                data.children?.length === 0 && data.childrenLoaded
+                  ? '&nbsp;&nbsp;'
+                  : data.expanded
+                    ? '-'
+                    : '+'
+              "
+            ></span>
+          </span>
+          <div *ngIf="!data.expandable" style="margin-right: 2px"></div>
+        </label>
+        <ng-container
+          [ngTemplateOutlet]="nodeLabel"
+          [ngTemplateOutletContext]="{ $implicit: data }"
+        ></ng-container>
+      </span>
+    </div>
+  </md-tree-item>
+  <ng-container *ngIf="data.children !== null && data.expanded">
+    <div>
+      <ng-container
+        *ngFor="let child of data.children"
+        [ngTemplateOutlet]="treeNode"
+        [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
+      ></ng-container>
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #defaultLabel let-data>
-    <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{data.name}}</md-checkbox>
-    <label *ngIf="!checkboxes" class="tree-label">{{data.name}}</label>
+  <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{
+    data.name
+  }}</md-checkbox>
+  <label *ngIf="!checkboxes" class="tree-label">{{ data.name }}</label>
 </ng-template>

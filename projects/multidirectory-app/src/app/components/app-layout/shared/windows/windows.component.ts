@@ -1,136 +1,273 @@
-import { AfterViewInit, Component, ViewChild } from "@angular/core";
-import { AppWindowsService } from "../../../../services/app-windows.service";
-import { Observable, Subject, switchMap, take, takeUntil } from "rxjs";
-import { LdapEntryNode } from "../../../../core/ldap/ldap-entity";
-import { AppSettingsService } from "../../../../services/app-settings.service";
-import { ModalInjectDirective } from "ng-modal-full-resizable/lib/injectable/injectable.directive";
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AppWindowsService } from '@services/app-windows.service';
+import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { AppSettingsService } from '@services/app-settings.service';
+import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
+import { EntityType } from '@core/entities/entities-type';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { AttributeService } from '@services/attributes.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { SearchRequest } from '@models/entry/search-request';
+import { SearchQueries } from '@core/ldap/search';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Component({
-    selector: 'app-windows',
-    styleUrls: ['./windows.component.scss'],
-    templateUrl: './windows.component.html'
+  selector: 'app-windows',
+  styleUrls: ['./windows.component.scss'],
+  templateUrl: './windows.component.html',
 })
 export class WindowsComponent implements AfterViewInit {
-    @ViewChild('createUserModal', { static: true}) createUserModal!: ModalInjectDirective;
-    @ViewChild('createGroupModal', { static: true}) createGroupModal!: ModalInjectDirective;
-    @ViewChild('createOuModal', { static: true}) createOuModal!: ModalInjectDirective;
-    @ViewChild('createComputerModal', { static: true}) createComputerModal!: ModalInjectDirective;
-    @ViewChild('properties') properties!: ModalInjectDirective;
-    @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective
-    @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective
-    private unsubscribe = new Subject<void>();
-    
+  @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
+  @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
+  @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
+  @ViewChild('createComputerModal', { static: true }) createComputerModal!: ModalInjectDirective;
+  @ViewChild('createCatalogModal', { static: true }) createCatalogModal!: ModalInjectDirective;
+  @ViewChild('properties') properties!: ModalInjectDirective;
+  @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective;
+  @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective;
+  @ViewChild('modifyDnModal') modifyDnModal!: ModalInjectDirective;
+  @ViewChild('entityTypeSelectorModal') entityTypeSelectorModal!: ModalInjectDirective;
+  @ViewChild('entitySelectorModal') entitySelectorModal!: ModalInjectDirective;
+  @ViewChild('catalogSelectorModal') catalogSelectorModal!: ModalInjectDirective;
+  @ViewChild('moveEntityDialog') moveEntityDialog!: ModalInjectDirective;
+  @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
 
-    constructor(private ldapWindows: AppWindowsService, private app: AppSettingsService) {}
-    
-    ngAfterViewInit(): void {
-        this.ldapWindows.openEntityPropertiesModalRx.pipe(
-            takeUntil(this.unsubscribe),
-            switchMap(x =>  this.openEntityProperties(x))
-        ).subscribe(x => {
-           this.ldapWindows.closeEntityPropertiesModal(x)
-        });
-        
-        this.ldapWindows.openChangePasswordModalRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(x => {
-            this.openChangePassword(x);
-        });
+  private unsubscribe = new Subject<void>();
 
-        this.ldapWindows.showCreateUserMenuRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(parentDn => {
-            this.openCreateUser(parentDn);
-        });
+  constructor(
+    private ldapWindows: AppWindowsService,
+    private attributeService: AttributeService,
+    private app: AppSettingsService,
+    private api: MultidirectoryApiService,
+  ) {}
 
-        this.ldapWindows.showCreateGroupMenuRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(parentDn => {
-            this.openCreateGroup(parentDn);
-        });
+  ngAfterViewInit(): void {
+    this.ldapWindows.openEntityPropertiesModalRx
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap((x) => this.openEntityProperties(x)),
+      )
+      .subscribe((x) => {
+        this.ldapWindows.closeEntityPropertiesModal(x);
+      });
 
-        this.ldapWindows.showCreateOuMenuRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(parentDn => {
-            this.openCreateOu(parentDn);
-        });
+    this.ldapWindows.openChangePasswordModalRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openChangePassword(x);
+    });
 
-        this.ldapWindows.showCreateComputerMenuRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(parentDn => {
-            this.openCreateComputer(parentDn);
-        });
+    this.ldapWindows.showCreateUserMenuRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((parentDn) => {
+        this.openCreateUser(parentDn);
+      });
 
-        this.ldapWindows.showDeleteEntryConfirmationRx.pipe(
-            takeUntil(this.unsubscribe)
-        ).subscribe(toDeleteDNs => {
-            this.openDeleteRowsConfirmation(toDeleteDNs);
-        })
+    this.ldapWindows.showCreateGroupMenuRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((parentDn) => {
+        this.openCreateGroup(parentDn);
+      });
+
+    this.ldapWindows.showCreateOuMenuRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
+      this.openCreateOu(parentDn);
+    });
+
+    this.ldapWindows.showCreateCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
+      this.openCreateCatalog(parentDn);
+    });
+
+    this.ldapWindows.showCreateComputerMenuRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((parentDn) => {
+        this.openCreateComputer(parentDn);
+      });
+
+    this.ldapWindows.showDeleteEntryConfirmationRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((toDeleteDNs) => {
+        this.openDeleteRowsConfirmation(toDeleteDNs);
+      });
+
+    this.ldapWindows.showModifyDnRx.pipe(takeUntil(this.unsubscribe)).subscribe((toModifyDn) => {
+      this.openModifyDn(toModifyDn);
+    });
+
+    this.ldapWindows.showEntityTypeSelectorRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openEntityTypeSelector(x);
+    });
+
+    this.ldapWindows.showEntitySelectorRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openEntitySelector(selected);
+      });
+
+    this.ldapWindows.showCatalogSelectorRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openCatalogSelector(selected);
+      });
+
+    this.ldapWindows.showCopyEntityDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((selected) => {
+        this.openCopyEntityDialog(selected);
+      });
+
+    this.ldapWindows.showConfirmDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((prompt) => {
+      this.openConfirmDialog(prompt);
+    });
+  }
+
+  openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
+    return this.api
+      .search(SearchQueries.getProperites(entity.id))
+      .pipe(
+        switchMap((props) => {
+          const attributes = props.search_result[0].partial_attributes;
+          const accessor = this.attributeService.getTrackableAttributes(
+            entity,
+            new LdapAttributes(attributes),
+          );
+          return this.properties.open(
+            { width: '600px', minHeight: 660 },
+            { accessor: accessor, entityType: entity.type },
+          );
+        }),
+      )
+      .pipe(take(1));
+  }
+
+  openAccountSettings() {
+    if (!this.app.userEntry) {
+      return;
     }
-    
-    openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
-        return this.properties.open({'width': '600px', 'minHeight': 660 }, { "selectedEntity": entity }).pipe(take(1));
-    }
+    this.openEntityProperties(this.app.userEntry);
+  }
 
-    openAccountSettings() {
-        if(!this.app.userEntry) {
-            return;
-        }
-        this.openEntityProperties(this.app.userEntry);
+  openChangePassword(entity: LdapEntryNode | undefined = undefined) {
+    if (!entity) {
+      if (!this.app.userEntry) {
+        return;
+      }
+      entity = this.app.userEntry;
     }
+    this.changePasswordModal
+      ?.open(undefined, {
+        identity: entity.id,
+        un: entity.name,
+      })
+      .pipe(take(1))
+      .subscribe((x) => {});
+  }
 
-    openChangePassword(entity: LdapEntryNode | undefined = undefined) {
-        if(!entity) {
-            if(!this.app.userEntry) {
-                return;
-            }
-            entity = this.app.userEntry;
-        }
-        this.changePasswordModal?.open(undefined, { 
-            identity: entity.id, 
-            un: entity.name 
-        }).pipe(take(1)).subscribe(x => {
-        });
-    }
+  openCreateUser(parentDn: string) {
+    this.createUserModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateUser(parentDn);
+      });
+  }
 
-    openCreateUser(parentDn: string) {
-        this.createUserModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
-            take(1)
-        ).subscribe(x => {
-            this.ldapWindows.closeCreateUser(parentDn);
-        });
-    }
+  openCreateGroup(parentDn: string) {
+    this.createGroupModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateGroup(parentDn);
+      });
+  }
 
-    openCreateGroup(parentDn: string) {
-        this.createGroupModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
-            take(1)
-        ).subscribe(x => {
-            this.ldapWindows.closeCreateGroup(parentDn);
-        });
-    }
+  openCreateOu(parentDn: string) {
+    this.createOuModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateOu(parentDn);
+      });
+  }
 
-    openCreateOu(parentDn: string) {
-        this.createOuModal.open({ 'width': '580px', 'minHeight': 485 }, { 'parentDn': parentDn }).pipe(
-            take(1)
-        ).subscribe(x => {
-            this.ldapWindows.closeCreateOu(parentDn);
-        });
-    }
+  openCreateCatalog(parentDn: string) {
+    this.createCatalogModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateCatalog(parentDn);
+      });
+  }
 
-    openCreateComputer(parentDn: string) {
-        this.createComputerModal.open({ 'width': '580px', 'minHeight': 525 }, { 'parentDn': parentDn }).pipe(
-            take(1)
-        ).subscribe(x => {
-            this.ldapWindows.closeCreateComputer(x);
-        });
-    }
+  openCreateComputer(parentDn: string) {
+    this.createComputerModal
+      .open({ width: '580px', minHeight: 525 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateComputer(x);
+      });
+  }
 
+  openDeleteRowsConfirmation(toDeleteDNs: string[]) {
+    this.deleteConfirmationModal
+      .open({ width: '580px' }, { toDeleteDNs: toDeleteDNs })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeDeleteEntryConfirmation(x);
+      });
+  }
 
-    openDeleteRowsConfirmation(toDeleteDNs: string[]) {
-        this.deleteConfirmationModal.open({'width': '580px'}, { "toDeleteDNs": toDeleteDNs }).pipe(
-            take(1)
-        ).subscribe(x => {
-            this.ldapWindows.closeDeleteEntryConfirmation(x)
-        })
-    }
+  openModifyDn(toModifyDn: string) {
+    this.modifyDnModal
+      .open({ width: '580px' }, { toModifyDn: toModifyDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeModifyDn(x);
+      });
+  }
+
+  openEntityTypeSelector(selectedEntityTypes: EntityType[] = []) {
+    this.entityTypeSelectorModal
+      .open({ width: '580px', minHeight: 360 }, { selectedEntityTypes: selectedEntityTypes })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeEntityTypeSelector(result);
+      });
+  }
+
+  openEntitySelector(settings: EntitySelectorSettings) {
+    this.entitySelectorModal
+      .open({ minHeight: 360 }, { settings: settings })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeEntitySelector(result);
+      });
+  }
+
+  openCatalogSelector(selectedCatalog: LdapEntryNode[] = []) {
+    this.catalogSelectorModal
+      .open({ minHeight: 360 })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeCatalogSelector(result);
+      });
+  }
+
+  openCopyEntityDialog(entities: LdapEntryNode[]) {
+    this.moveEntityDialog
+      .open({ minHeight: 230 }, { toMove: entities })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeCopyEntityDialog(result);
+      });
+  }
+
+  openConfirmDialog(prompt: ConfirmDialogDescriptor) {
+    this.confirmDialog
+      .open({ minHeight: 160 }, { prompt: prompt })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeConfirmDialog(result);
+      });
+  }
 }

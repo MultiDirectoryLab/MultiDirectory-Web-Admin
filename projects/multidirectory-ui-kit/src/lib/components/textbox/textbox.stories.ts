@@ -1,17 +1,17 @@
 import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
-import { TextboxComponent } from "./textbox.component";
+import { TextboxComponent } from './textbox.component';
 import { FormsModule } from '@angular/forms';
 
 const meta: Meta<TextboxComponent> = {
-    title: 'Components/Textbox',
-    component: TextboxComponent,
-    tags: ['autodocs'],
-    decorators: [
-        moduleMetadata({
-            imports: [FormsModule]
-        }),
-    ]
-}
+  title: 'Components/Textbox',
+  component: TextboxComponent,
+  tags: ['autodocs'],
+  decorators: [
+    moduleMetadata({
+      imports: [FormsModule],
+    }),
+  ],
+};
 
 export default meta;
 
@@ -23,7 +23,7 @@ export const Primary: StoryFn<TextboxComponent> = (args: TextboxComponent) => ({
     <label class="col-xs-1" style="padding-right: 8px;">Primary: </label>
     <md-textbox class="col-xs-2" required [(ngModel)]="model"></md-textbox>
   </div>
-  `
+  `,
 });
 
 export const Password: StoryFn<TextboxComponent> = (args: TextboxComponent) => ({
@@ -33,9 +33,8 @@ export const Password: StoryFn<TextboxComponent> = (args: TextboxComponent) => (
     <label  class="col-xs-1" style="padding-right: 8px;">Password: </label>
     <md-textbox  class="col-xs-2" [(ngModel)]="model" [password]="true"></md-textbox>
   </div>
-  `
+  `,
 });
-
 
 export const template: StoryFn<TextboxComponent> = (args: TextboxComponent) => ({
   props: args,
@@ -44,5 +43,5 @@ export const template: StoryFn<TextboxComponent> = (args: TextboxComponent) => (
     <label  class="col-xs-1" style="padding-right: 8px;">Login: </label>
     <md-textbox  class="col-xs-2" [(ngModel)]="model"></md-textbox>
   </div>
-  `
+  `,
 });

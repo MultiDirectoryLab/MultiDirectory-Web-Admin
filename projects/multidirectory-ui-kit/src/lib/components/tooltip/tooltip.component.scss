@@ -1,31 +1,32 @@
 @use '../../styles/global';
-.tooltip-icon-wrapper {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
 
+.tooltip-icon-wrapper {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+
+  .tooltip-icon {
     width: 24px;
     height: 24px;
-    .tooltip-icon {
-        width: 24px;
-        height: 24px;
+  }
+
+  .tooltip {
+    display: none;
+    position: fixed;
+    z-index: 99;
+
+    &.tooltip-visible {
+      display: block;
     }
 
-    .tooltip {
-        display: none;
-        position: fixed;
-        z-index: 99;
-        &.tooltip-visible {
-            display: block;
-        }
-        .relative {
-            position: relative;
-            background-color: var(--md-neutral-800);
-            color: #fff;
-            padding: 1rem;
-            border-radius: 6px;
-        }
+    .relative {
+      position: relative;
+      background-color: var(--md-neutral-800);
+      color: #fff;
+      padding: 1rem;
+      border-radius: 6px;
     }
-    
+  }
 }
-

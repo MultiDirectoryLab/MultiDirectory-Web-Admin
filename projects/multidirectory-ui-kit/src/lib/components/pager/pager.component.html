@@ -1,23 +1,28 @@
 <div class="pager-container">
-    <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
-        <label class="pr-10">{{ pagerTitle }}</label>
-        <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown> 
-        <div>
-        {{(curPage - 1) * pageSize + 1}}-{{ curPage * pageSize > rowCount ? rowCount : curPage * pageSize }} {{fromTitle}} {{rowCount}}
-        </div>       
+  <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+    <label class="pr-10">{{ pagerTitle }}</label>
+    <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown>
+    <div>
+      {{ (curPage - 1) * pageSize + 1 }}-{{
+        curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+      }}
+      {{ fromTitle }} {{ rowCount }}
     </div>
-    <datatable-pager style="flex: 1 5 20%"
-        class="pager"
-        [pagerLeftArrowIcon]="'datatable-icon-left'"
-        [pagerRightArrowIcon]="'datatable-icon-right'"
-        [pagerPreviousIcon]="'datatable-icon-prev'"
-        [pagerNextIcon]="'datatable-icon-skip'"
-        [page]="curPage"
-        [size]="pageSize"
-        [count]="rowCount"
-        [ngStyle]="{
-            'display': !((rowCount / pageSize) > 1)? 'none' : 'flex'
-        }"
-        (change)="onPageChanged($event)">
-    </datatable-pager>
+  </div>
+  <datatable-pager
+    style="flex: 1 5 20%"
+    class="pager"
+    [pagerLeftArrowIcon]="'datatable-icon-left'"
+    [pagerRightArrowIcon]="'datatable-icon-right'"
+    [pagerPreviousIcon]="'datatable-icon-prev'"
+    [pagerNextIcon]="'datatable-icon-skip'"
+    [page]="curPage"
+    [size]="pageSize"
+    [count]="rowCount"
+    [ngStyle]="{
+      display: !(rowCount / pageSize > 1) ? 'none' : 'flex'
+    }"
+    (change)="onPageChanged($event)"
+  >
+  </datatable-pager>
 </div>

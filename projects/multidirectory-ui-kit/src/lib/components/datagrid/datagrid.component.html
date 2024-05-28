@@ -1,5 +1,5 @@
 <div class="w-100 h-100 relative">
-    <ngx-datatable
+  <ngx-datatable
     [columnMode]="ColumnMode.force"
     [footerHeight]="hideFooter ? 0 : 36"
     [headerHeight]="36"
@@ -18,7 +18,7 @@
     [offset]="page.pageOffset"
     [limit]="page.size"
     [ngStyle]="{
-      height: stretchHeight? '100%' : 'auto',
+      height: stretchHeight ? '100%' : 'auto',
       display: 'block'
     }"
     [rowHeight]="scrollbarV ? 24 : 'auto'"
@@ -32,42 +32,51 @@
     (resize)="onTableResize()"
     #datagrid
   >
-  <ngx-datatable-footer>
-    <ng-template
-      ngx-datatable-footer-template
-      let-rowCount="rowCount"
-      let-pageSize="pageSize"
-      let-selectedCount="selectedCount"
-      let-curPage="curPage"
-      let-offset="offset"
-    >
-      <!--div style="padding: 5px 10px">
+    <ngx-datatable-footer>
+      <ng-template
+        ngx-datatable-footer-template
+        let-rowCount="rowCount"
+        let-pageSize="pageSize"
+        let-selectedCount="selectedCount"
+        let-curPage="curPage"
+        let-offset="offset"
+      >
+        <!--div style="padding: 5px 10px">
         <div><strong>Summary</strong>: Gender: Female</div>
         <hr style="width:100%" />
         <div>Rows: {{ rowCount }} | Size: {{ pageSize }} | Current: {{ curPage }} | Offset: {{ offset }}</div>
       </div-->
 
-      <div  *ngIf="!scrollbarV"  class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
-        <label class="pr-10">{{ pagerTitle }} </label>
-        <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown> 
-        <div>
-          {{(curPage - 1) * pageSize + 1}}-{{ curPage * pageSize > rowCount ? rowCount : curPage * pageSize }} {{fromTitle}} {{rowCount}}
-        </div>       
-      </div>
-      <datatable-pager  *ngIf="!scrollbarV"  style="flex: 1 5 20%"
-        class="pager"
-        [pagerLeftArrowIcon]="'datatable-icon-left'"
-        [pagerRightArrowIcon]="'datatable-icon-right'"
-        [pagerPreviousIcon]="'datatable-icon-prev'"
-        [pagerNextIcon]="'datatable-icon-skip'"
-        [page]="curPage"
-        [size]="pageSize"
-        [count]="rowCount"
-        [hidden]="!((rowCount / pageSize) > 1)"
-        (change)="grid.onFooterPage($event)">
-    </datatable-pager>
-    </ng-template>
-  </ngx-datatable-footer>
-
+        <div *ngIf="!scrollbarV" class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+          <label class="pr-10">{{ pagerTitle }} </label>
+          <md-dropdown
+            class="page-size-select"
+            [options]="pageSizes"
+            [(ngModel)]="size"
+          ></md-dropdown>
+          <div>
+            {{ (curPage - 1) * pageSize + 1 }}-{{
+              curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+            }}
+            {{ fromTitle }} {{ rowCount }}
+          </div>
+        </div>
+        <datatable-pager
+          *ngIf="!scrollbarV"
+          style="flex: 1 5 20%"
+          class="pager"
+          [pagerLeftArrowIcon]="'datatable-icon-left'"
+          [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'"
+          [pagerNextIcon]="'datatable-icon-skip'"
+          [page]="curPage"
+          [size]="pageSize"
+          [count]="rowCount"
+          [hidden]="!(rowCount / pageSize > 1)"
+          (change)="grid.onFooterPage($event)"
+        >
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
   </ngx-datatable>
 </div>

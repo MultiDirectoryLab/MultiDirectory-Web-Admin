@@ -41,6 +41,10 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AlertComponent } from './components/alert/alert.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { PopupBaseComponent } from './components/popup/base/popup-base.component';
+import { PopupTestComponent } from './components/popup/popuptest/popuptest.component';
+import { PopupContainerDirective } from './components/popup/popup-container.directive';
+import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.component';
 
 @NgModule({
   declarations: [
@@ -79,16 +83,20 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     TooltipComponent,
     DatepickerComponent,
     AlertComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    PopupBaseComponent,
+    PopupTestComponent,
+    PopupContainerDirective,
+    PopupSuggestComponent,
   ],
   imports: [
     CommonModule,
     ModalModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     NgxDatatableModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    DpDatePickerModule
+    DpDatePickerModule,
   ],
   exports: [
     ButtonComponent,
@@ -121,8 +129,10 @@ import { AutofocusDirective } from './directives/autofocus.directive';
     TooltipComponent,
     DatepickerComponent,
     AlertComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    PopupContainerDirective,
+    PopupSuggestComponent,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class MultidirectoryUiKitModule { }
+export class MultidirectoryUiKitModule {}

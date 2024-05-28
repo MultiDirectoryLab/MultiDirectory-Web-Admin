@@ -1,71 +1,79 @@
 @use '../../styles/global.scss';
 
 :host {
-    display: flex;
-    height: 100%;
-    position: relative;
+  display: flex;
+  height: 100%;
+  position: relative;
 }
 
 .scrollable {
-    overflow: auto;
+  overflow: auto;
 }
+
 .treeview-container {
-    padding: 1rem;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow-y: auto;
+  padding: 1rem;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
 }
 
 .w-300 {
-    width: 300px;
+  width: 300px;
 }
 
 .h-300 {
-    height: 300px;
+  height: 300px;
 }
 
 .tree-item {
-    position: relative;
-    list-style: none;
-    padding-left: 8px;
-    user-select: none; /* Standard syntax */
-    &:hover {
-        cursor: pointer;
-    }
+  position: relative;
+  list-style: none;
+  padding-left: 8px;
+  user-select: none; /* Standard syntax */
+  &:hover {
+    cursor: pointer;
+  }
 
-    &:not(.expandable) {
-        padding-right: 4px;
-    }
-    &.expandable {
-        padding-left: 8px;
-        margin-left: -12px;
-    }
+  &:not(.expandable) {
+    padding-right: 4px;
+  }
+
+  &.expandable {
+    padding-left: 8px;
+    margin-left: -12px;
+  }
 }
+
 .tree-label {
-    cursor: pointer !important;
+  cursor: pointer !important;
 }
+
 .expand-mark {
-    cursor: pointer;
-    span {
-        min-width: 10px;
-        display: inline-block;
-    }
-}
-.tree-item-wrapper {
-    cursor: pointer;
-    padding-left: 4px;
-    &.selected {
-        background-color: var(--md-dark-blue-3);
-        color: var(--md-white);
-    }
-    &.focused {
-        background-color: var(--md-neutral-150);
-        color: black;
-    }
-}
-md-checkbox {
+  cursor: pointer;
+
+  span {
+    min-width: 10px;
     display: inline-block;
+  }
+}
+
+.tree-item-wrapper {
+  cursor: pointer;
+  padding-left: 4px;
+
+  &.focused {
+    background-color: var(--md-neutral-150);
+    color: black;
+  }
+
+  &:not(.with-checkboxes) {
+    &.selected {
+      background-color: var(--md-dark-blue-3);
+      color: var(--md-white);
+    }
+  }
+}
+
+md-checkbox {
+  display: inline-block;
 }

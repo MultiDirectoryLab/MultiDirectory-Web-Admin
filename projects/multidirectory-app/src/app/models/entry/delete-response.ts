@@ -1,5 +1,5 @@
-export class DeleteEntryResponse  {
-    resultCode: string = '';
-    matchedDN: string = '';
-    errorMessage: string = '';
+export class DeleteEntryResponse {
+  resultCode: string = '';
+  matchedDN: string = '';
+  errorMessage: string = '';
 }

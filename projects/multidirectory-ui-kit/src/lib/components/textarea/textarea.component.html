@@ -1,10 +1,10 @@
-<label *ngIf="label">{{label}}</label>
-<textarea 
-    class="textarea"
-    id="{{__ID}}"
-    [ngClass]="{ 
-        'w-100': expandWidth,
-        'h-100': expandHeight 
-    }"
-    [(ngModel)]="value"
+<label *ngIf="label">{{ label }}</label>
+<textarea
+  class="textarea"
+  id="{{ __ID }}"
+  [ngClass]="{
+    'w-100': expandWidth,
+    'h-100': expandHeight
+  }"
+  [(ngModel)]="value"
 ></textarea>

@@ -1,16 +1,16 @@
 <md-tab-pane #tabs (tabChanged)="onTabChanged()">
-    <div class="tab-header">
-        <md-tab [el]="attributes.el">
-            {{ "user-properties-tabs.attributes" | transloco }}
-        </md-tab>
-        <md-tab [el]="memberOf.el">
-            {{ "user-properties-tabs.groups" | transloco }}
-        </md-tab>
-        <md-tab [el]="members.el">
-            {{ "user-properties-tabs.members" | transloco }}
-        </md-tab>
-    </div>
-    <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
-    <app-member-of mdTab #memberOf="mdTab" [accessor]="accessor"></app-member-of>
-    <app-members mdTab #members="mdTab" [accessor]="accessor"></app-members>
+  <div class="tab-header flex-row flex-grow-1">
+    <md-tab [el]="attributes.el">
+      {{ 'user-properties-tabs.attributes' | transloco }}
+    </md-tab>
+    <md-tab [el]="memberOf.el">
+      {{ 'user-properties-tabs.groups' | transloco }}
+    </md-tab>
+    <md-tab [el]="members.el">
+      {{ 'user-properties-tabs.members' | transloco }}
+    </md-tab>
+  </div>
+  <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
+  <app-member-of mdTab #memberOf="mdTab" [accessor]="accessor"></app-member-of>
+  <app-members mdTab #members="mdTab" [accessor]="accessor"></app-members>
 </md-tab-pane>

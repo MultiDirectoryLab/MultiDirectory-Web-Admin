@@ -10,6 +10,6 @@ export function getTranslocoModule(options: TranslocoTestingOptions = {}) {
       defaultLang: 'en',
     },
     preloadLangs: true,
-    ...options
+    ...options,
   });
 }

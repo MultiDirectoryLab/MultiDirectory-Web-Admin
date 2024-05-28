@@ -1,274 +1,310 @@
 @use './layout.scss';
 
-
-
-
 :root {
-    --md-white: #FFFFFF;
-    --md-neutral-100: #F1F1F1;
-    --md-neutral-150: #D6E5F2;
-    --md-neutral-200: #DCDCDC;
-    --md-neutral-300: #C9C9C9;
-    --md-neutral-400: #A5A5A5;
-    --md-neutral-600: #787878;
-    --md-neutral-800: #4F4F4F;
-    --md-neutral-1000: #1C1C1C;
-    --md-white-blue-2: #D6E5F2;
-    --md-white-blue: #75A2C9;
-    --md-blue: #3879B4;
-    --md-dark-blue: #215684;
-    --md-dark-blue-2: #385A78;
-    --md-dark-blue-3: #4D6881;
-    --md-dark-blue-4: #476F92;
-    --md-red: #F26969;
+  --md-white: #fff;
+  --md-neutral-100: #f1f1f1;
+  --md-neutral-150: #d6e5f2;
+  --md-neutral-200: #dcdcdc;
+  --md-neutral-300: #c9c9c9;
+  --md-neutral-400: #a5a5a5;
+  --md-neutral-600: #787878;
+  --md-neutral-800: #4f4f4f;
+  --md-neutral-1000: #1c1c1c;
+  --md-white-blue-2: #d6e5f2;
+  --md-white-blue: #75a2c9;
+  --md-blue: #3879b4;
+  --md-dark-blue: #215684;
+  --md-dark-blue-2: #385a78;
+  --md-dark-blue-3: #4d6881;
+  --md-dark-blue-4: #476f92;
+  --md-red: #f26969;
 }
 
 .dark-theme * {
-    --md-white: #202124;
-    --md-neutral-100: #171819;
-    --md-neutral-150: #221819;
-    --md-neutral-200: #232323;
-    --md-neutral-300: #2c2d2e;
-    --md-neutral-600: #696a6b;
-    --md-neutral-800: #87888a;
-    --md-neutral-1000: #adaeb0;
-    --md-white-blue-2: #463f45;
-    --md-white-blue: #7d6554;
-    --md-blue: #3879B4;
-    --md-dark-blue: #215684;
-    --md-dark-blue-2: #385A78;
-    --md-dark-blue-3: #4D6881;
-    --md-dark-blue-4: #476F92;
-    --md-red: #177576;
-    --md-black: #D6D7D8;
+  --md-white: #202124;
+  --md-neutral-100: #171819;
+  --md-neutral-150: #221819;
+  --md-neutral-200: #232323;
+  --md-neutral-300: #2c2d2e;
+  --md-neutral-600: #696a6b;
+  --md-neutral-800: #87888a;
+  --md-neutral-1000: #adaeb0;
+  --md-white-blue-2: #463f45;
+  --md-white-blue: #7d6554;
+  --md-blue: #3879b4;
+  --md-dark-blue: #215684;
+  --md-dark-blue-2: #385a78;
+  --md-dark-blue-3: #4d6881;
+  --md-dark-blue-4: #476f92;
+  --md-red: #177576;
+  --md-black: #d6d7d8;
 
-    input, select, textarea {
-        color: var(--md-black);
-        background-color: var(--md-neutral-100);
-        border: 1px solid #30363d;
-    }
+  input,
+  select,
+  textarea {
+    color: var(--md-black);
+    background-color: var(--md-neutral-100);
+    border: 1px solid #30363d;
+  }
 }
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
-    font-family: $fontfame;
-    font-weight: $weight;
-    font-size: $size;
-    line-height: $lineheight;
+  font-family: $fontfame;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $lineheight;
 }
 
 @mixin use-inter-typography($weight, $size, $lineheight) {
-    @include use-typography('Inter', $weight, $size, $lineheight);
+  @include use-typography('Inter', $weight, $size, $lineheight);
 }
 
 /* TYPOGRAPHY */
 * {
-    color:var(--md-black);
+  color: var(--md-black);
 }
 
-h1, .h1 {
-    @include use-inter-typography(700, 42px, 58.8px);  
+h1,
+.h1 {
+  @include use-inter-typography(700, 42px, 58.8px);
 }
 
-h2, .h2 {
-    @include use-inter-typography(400, 32px, 44.8px);
-    &.bold {
-        @include use-inter-typography(700, 32px, 44.8px);
-    }
+h2,
+.h2 {
+  @include use-inter-typography(400, 32px, 44.8px);
+
+  &.bold {
+    @include use-inter-typography(700, 32px, 44.8px);
+  }
 }
 
 label.bold {
-    @include use-inter-typography(700, 18px, 25.2px)
+  @include use-inter-typography(700, 18px, 25.2px);
 }
 
-label, p, div, select {
-    @include use-inter-typography(400, 14px, 25.2px)
+label,
+p,
+div,
+select {
+  @include use-inter-typography(400, 14px, 25.2px);
 }
+
 span.accented {
-    @include use-inter-typography(500, 14px, 25.2px)
+  @include use-inter-typography(500, 14px, 25.2px);
 }
-div{
-    @include use-inter-typography(400, 14px, 25.2px)
+
+div {
+  @include use-inter-typography(400, 14px, 25.2px);
 }
 
 .column {
-    display: flex;
-    flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .flex-space-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
+
 .flex-space-around {
-    justify-content: space-around;
+  justify-content: space-around;
 }
+
 .flex-center {
-    justify-content: center;
+  justify-content: center;
 }
+
 .flex-end {
-    justify-content: end;
+  justify-content: flex-end;
 }
+
 .flex-row {
-    display: flex;
-    flex-flow: row nowrap;
+  display: flex;
+  flex-flow: row nowrap;
 }
+
 .flex-column {
-    display: flex;
-    flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column nowrap;
 }
+
 .align-center {
-    align-items: center;
+  align-items: center;
 }
+
 .justify-end {
-    justify-content: end;
+  justify-content: flex-end;
 }
+
 .align-end {
-    align-items: end;
+  align-items: flex-end;
 }
+
 .w-100 {
-    width: 100%;
+  width: 100%;
 }
+
 .h-100 {
-    height: 100%;
+  height: 100%;
 }
+
 .p-0 {
-    padding: 0;
+  padding: 0;
 }
+
 .p-4 {
-    padding: 4px;
+  padding: 4px;
 }
+
 .p-8 {
-    padding: 8px;
+  padding: 8px;
 }
+
 .pv-8 {
-    padding: 8px 0;
+  padding: 8px 0;
 }
+
 .mb-16 {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
+
 .text-nowrap {
-    white-space: nowrap;
+  white-space: nowrap;
 }
+
 .text-justify {
-    text-align: justify;
+  text-align: justify;
 }
+
 .pr-8 {
-    padding-right: 8px;
+  padding-right: 8px;
 }
+
 .pl-8 {
-    padding-left: 8px;
+  padding-left: 8px;
 }
+
 .pl-16 {
-    padding-left: 16px;
+  padding-left: 16px;
 }
+
 .page-size-select .select-input {
-    height: 24px;
+  height: 24px;
 }
 
-.ngx-datatable .datatable-footer .datatable-pager .pager, 
 .ngx-datatable .datatable-footer .datatable-pager .pager {
+  display: flex !important;
+  list-style: none !important;
+  flex-flow: row nowrap !important;
+  gap: 4px !important;
+  padding: 0 4px !important;
+
+  li {
+    padding: 4px !important;
+    border: 1px solid var(--md-dark-blue-3);
+    height: 24px;
+    width: 24px;
+    font-size: 14px;
+    align-items: center;
     display: flex !important;
-    list-style: none !important;
-    flex-flow: row nowrap !important;
-    gap: 4px !important;
-    padding: 0 4px !important;
-    li {
-        padding: 4px !important;
-        border: 1px solidvar(--md-dark-blue-3);
-        height: 24px;
-        width: 24px;
-        font-size: 14px;
-        align-items: center;
-        display: flex !important;
-        flex-flow: column;
-        justify-content: center;
-        outline: none !important;
-        text-decoration: none;
+    flex-flow: column;
+    justify-content: center;
+    outline: none !important;
+    text-decoration: none;
 
-        a {
-            color:var(--md-dark-blue-3);
-            text-decoration: none;
+    a {
+      color: var(--md-dark-blue-3);
+      text-decoration: none;
 
-            i:before {
-                position: relative;
-                top: 2px;
-            }
-        }
-        &.active {
-            background-color:var(--md-dark-blue-3);
-            a {
-                color: white;
-            }
-        }
+      i::before {
+        position: relative;
+        top: 2px;
+      }
     }
+
+    &.active {
+      background-color: var(--md-dark-blue-3);
+
+      a {
+        color: white;
+      }
+    }
+  }
 }
+
 .borderless {
-    border: none;
+  border: none;
 }
+
 .transparent {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 dp-calendar-nav {
-    .dp-nav-btns-container {
-        display: inline-flex !important;
-        flex-flow: row nowrap;
-        gap: 8px;
-        align-items: center;
+  .dp-nav-btns-container {
+    display: inline-flex !important;
+    flex-flow: row nowrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .dp-nav-header-btn,
+  .dp-calendar-nav-left,
+  .dp-calendar-nav-right {
+    @include use-inter-typography(700, 12px, 140%);
+
+    text-transform: uppercase;
+    border: none;
+    padding: 7.5px 16px;
+    color: var(--md-neutral-800);
+    line-height: 17px;
+    letter-spacing: -0.03em;
+    text-align: center;
+
+    &:not(.md-button-primary) {
+      box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
+      border: none !important;
+      color: var(--md-neutral-600);
+      background: white;
+      line-height: 16px;
+
+      &:hover:not(:disabled) {
+        background: #f1f1f1;
+        background-color: var(--md-neutral-100);
+      }
+
+      &:disabled {
+        color: var(--md-neutral-400);
+        background-color: var(--md-neutral-200);
+      }
     }
-    .dp-nav-header-btn,
-    .dp-calendar-nav-left,
-    .dp-calendar-nav-right {
-        @include use-inter-typography(700, 12px, 140%);
-        letter-spacing: -0.03em;
-        text-transform: uppercase;
-        border: none;
-        padding: 7.5px 16px;
-        color:var(--md-neutral-800);
-        line-height: 17px;
-        letter-spacing: -0.03em;
-        text-align: center;
-        &:not(.md-button-primary) {
-            box-shadow: none; //0px 0px 3px rgba(0, 0, 0, 0.15);
-            border: none !important;
-            color:var(--md-neutral-600);
-            background: white;
-            line-height: 16px;
-    
-            &:hover:not(:disabled) {
-                background: #F1F1F1;
-                background-color:var(--md-neutral-100);
-            }
-    
-            &:disabled {
-                color:var(--md-neutral-400);
-                background-color:var(--md-neutral-200);
-            }
-        }
-    }
-    .dp-current-location-btn {
-        display: none;
-    }
-    & .dp-calendar-nav-container {
-        height: 40px !important;
-    }
-    
-    
+  }
+
+  .dp-current-location-btn {
+    display: none;
+  }
+
+  & .dp-calendar-nav-container {
+    height: 40px !important;
+  }
 }
+
 .dp-calendar-weekday {
-    @include use-inter-typography(400, 14px, 25.2px);
-    border: none !important;
-    outline: none !important;
-    user-select: none;
-    cursor: auto;
+  @include use-inter-typography(400, 14px, 25.2px);
+
+  border: none !important;
+  outline: none !important;
+  user-select: none;
+  cursor: auto;
 }
+
 .dp-calendar-day,
 .dp-calendar-month {
-    background-color:var(--md-white);
-    border: none;
-    outline: none;
+  background-color: var(--md-white);
+  border: none;
+  outline: none;
 
-    &:hover {
-        border: 1px solidvar(--md-dark-blue);
-    }
+  &:hover {
+    border: 1px solid var(--md-dark-blue);
+  }
 }
- 

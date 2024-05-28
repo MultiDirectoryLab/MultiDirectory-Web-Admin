@@ -1,31 +1,36 @@
 @use '../../../styles/global.scss';
-:host {
-    overflow: hidden;
-    max-width: 100%;
-}
-.multiselect-badge {
-    display: flex;
-    padding: 1px 2px;
-    margin: 2px 4px;
-    flex-flow: row nowrap;
-    gap: 4px;
-    border-radius: 4px;
-    background-color: var(--md-neutral-150);
-    color: var(--md-black);
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;    
-    .close-icon {
-        cursor: pointer;
-        img {
-            width: 8px;
-        }
-    }
 
-    &:focus-within {
-        background: white;
-    }
+:host {
+  overflow: hidden;
+  max-width: 100%;
 }
+
+.multiselect-badge {
+  display: flex;
+  padding: 1px 2px;
+  margin: 2px 4px;
+  flex-flow: row nowrap;
+  gap: 4px;
+  border-radius: 4px;
+  background-color: var(--md-neutral-150);
+  color: var(--md-black);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .close-icon {
+    cursor: pointer;
+
+    img {
+      width: 8px;
+    }
+  }
+
+  &:focus-within {
+    background: white;
+  }
+}
+
 ::ng-deep .dark-theme .close-icon img {
-    filter: invert(100%);
+  filter: invert(100%);
 }

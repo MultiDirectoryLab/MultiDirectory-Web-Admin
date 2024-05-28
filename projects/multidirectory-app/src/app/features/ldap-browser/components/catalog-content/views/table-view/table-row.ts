@@ -1,9 +1,9 @@
-import { LdapEntryNode } from "projects/multidirectory-app/src/app/core/ldap/ldap-entity";
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
 
 export interface TableRow {
-    icon: string,
-    name: string,
-    type: string,
-    description: string;
-    entry: LdapEntryNode;
+  icon: string;
+  name: string;
+  type: string;
+  description: string;
+  entry: LdapEntryNode;
 }

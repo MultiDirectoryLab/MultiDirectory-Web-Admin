@@ -1,16 +1,19 @@
 <div *transloco="let t; read: 'multidirectory-settings'" class="flex-column flex-gap-10 p-8 w-100">
-    <div class="flex-row flex-center">
-        <div class="title">
-            {{ t('header') }}
-        </div>
+  <div class="flex-row flex-center">
+    <div class="title">
+      {{ t('header') }}
     </div>
-    <div class="mf-control-grid">
-        <label class="flex-gap-10" for="api-key">{{ t('language') }}</label>
-        <md-dropdown [options]="lanugages" [(ngModel)]="selectedLanguage" class="col-xs-4"></md-dropdown>
-    </div>
+  </div>
+  <div class="mf-control-grid">
+    <label class="flex-gap-10" for="api-key">{{ t('language') }}</label>
+    <md-dropdown
+      [options]="lanugages"
+      [(ngModel)]="selectedLanguage"
+      class="col-xs-4"
+    ></md-dropdown>
+  </div>
 
-
-    <div class="flex-row flex-end">
-        <md-button (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
-    </div>
+  <div class="flex-row flex-end">
+    <md-button (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
+  </div>
 </div>

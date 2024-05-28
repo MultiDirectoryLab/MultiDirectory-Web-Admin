@@ -36,3 +36,7 @@ export * from './lib/components/tooltip/tooltip.component';
 export * from './lib/components/datepicker/datepicker.component';
 export * from './lib/components/alert/alert.component';
 export * from './lib/directives/autofocus.directive';
+export * from './lib/components/treeview/core/tree-search-helper';
+export * from './lib/components/treeview/model/right-click-event';
+export * from './lib/components/popup/popup-container.directive';
+export * from './lib/components/popup/suggest/popup-suggest.component';

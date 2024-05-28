@@ -1,20 +1,22 @@
 :host {
-    display: flex;
-    flex-flow: row;
-    justify-content: start;
-    width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: start;
+  width: 100%;
 }
+
 .mf-control-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
 }
+
 .help {
-    flex-shrink: 1;
-    display: block;
-    height: 32px;
-    align-self: center;
-    padding-top: 8px;
-    padding-left: 8px;
+  flex-shrink: 1;
+  display: block;
+  height: 32px;
+  align-self: center;
+  padding-top: 8px;
+  padding-left: 8px;
 }

@@ -7,7 +7,7 @@
   },
   "assets": [
     "karma.conf.js",
-    {"input": "src/lib/fonts/", "glob": "**/*", "output": "fonts"},
-    {"input": "src/lib/styles/", "glob": "*.scss", "output": "styles"}
+    { "input": "src/lib/fonts/", "glob": "**/*", "output": "fonts" },
+    { "input": "src/lib/styles/", "glob": "*.scss", "output": "styles" }
   ]
 }

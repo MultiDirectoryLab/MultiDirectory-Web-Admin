@@ -1,11 +1,19 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+}
+
 .filter {
-    padding: 0.5rem;
-    padding-bottom: 0.5rem;
+  padding: 0.5rem;
+  padding-bottom: 0.5rem;
 }
-.filter:not(:first) {
-    padding-top: 0;
+
+.filter:not(:first-child) {
+  padding-top: 0;
 }
+
 .filter-label {
-    padding: 0;
-    padding-left: 6px;
+  padding: 0;
+  padding-left: 6px;
 }

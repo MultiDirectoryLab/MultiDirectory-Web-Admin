@@ -1,40 +1,45 @@
 @use '../../styles/global';
 
 .tab-header {
-    display: flex;
-    flex-flow: row nowrap;
-    padding: 0px;
-    user-select: none;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0;
+  user-select: none;
+
+  .tab {
+    height: 32px;
+    position: relative;
+    top: 2px;
+    padding: 4px 8px;
+    border: 1px solid var(--md-neutral-300);
+    border-right: none;
+    background-color: var(--md-neutral-100);
+
+    &.selected {
+      height: 34px;
+      position: relative;
+      top: 1px;
+      z-index: 3;
+      background-color: var(--md-white);
+      border-bottom: none;
+    }
+
+    & * {
+      user-select: none;
+    }
+  }
+
+  .tab:hover {
+    background-color: var(--md-white);
+  }
+
+  md-tab:last-child {
     .tab {
-        height: 32px;
-        position: relative;
-        top: 2px;
-        padding: 4px 8px;
-        border: 1px solid var(--md-neutral-300);
-        border-right: none;
-        background-color: var(--md-neutral-100);
-        &.selected {
-            height: 34px;
-            position: relative;
-            top: 1px;
-            z-index: 3;
-            background-color: var(--md-white);
-            border-bottom: none;
-        }
-        & * {
-            user-select: none;
-        }
+      border-right: 1px solid var(--md-neutral-300);
     }
- 
-    .tab:hover {
-        background-color: var(--md-white);
-    }
+  }
+}
 
-    md-tab:last-child  {
-        .tab {
-            border-right: 1px solid  var(--md-neutral-300);
-        }
-
-        
-    }
+.tab-content {
+  flex-grow: 1;
 }

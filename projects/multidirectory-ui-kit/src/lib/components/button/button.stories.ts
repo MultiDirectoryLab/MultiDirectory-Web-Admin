@@ -6,15 +6,16 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: ButtonComponent) => { return ({
-    props: {
-      backgroundColor: null,
-      ...args,
-    },
-    template: `
+  render: (args: ButtonComponent) => {
+    return {
+      props: {
+        backgroundColor: null,
+        ...args,
+      },
+      template: `
       <md-button [primary]="primary" [disabled]="disabled" (click)="click()">Button</md-button>
-    `
-  })
+    `,
+    };
   },
 };
 
@@ -30,15 +31,14 @@ export const Primary: Story = {
 export const PrimaryDisabled: Story = {
   args: {
     primary: true,
-    disabled: true
+    disabled: true,
   },
 };
 export const Regular: Story = {
-  args: {
-  }
+  args: {},
 };
 export const RegularDisabled: Story = {
   args: {
-    disabled: true
-  }, 
-}
+    disabled: true,
+  },
+};

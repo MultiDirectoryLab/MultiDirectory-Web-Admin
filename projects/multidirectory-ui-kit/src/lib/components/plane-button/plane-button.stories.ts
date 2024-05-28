@@ -6,16 +6,16 @@ const meta: Meta<PlaneButtonComponent> = {
   component: PlaneButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: PlaneButtonComponent) => { 
-     return ({
-        props: {
-          backgroundColor: null,
-          ...args,
-        },
-        template: `
+  render: (args: PlaneButtonComponent) => {
+    return {
+      props: {
+        backgroundColor: null,
+        ...args,
+      },
+      template: `
           <md-plane-button [disabled]="disabled" (click)="click()"> </md-plane-button>
-        `
-  })
+        `,
+    };
   },
 };
 
@@ -24,11 +24,10 @@ type Story = StoryObj<PlaneButtonComponent>;
 
 // More on writing stories with args: https://storybook.js.org/docs/angular/writing-stories/args
 export const Regular: Story = {
-  args: {
-  }
+  args: {},
 };
 export const RegularDisabled: Story = {
   args: {
-    disabled: true
-  }, 
-}
+    disabled: true,
+  },
+};

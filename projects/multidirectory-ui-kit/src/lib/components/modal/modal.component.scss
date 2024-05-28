@@ -1,23 +1,24 @@
 @use '../../styles/global.scss';
 
 :host ::ng-deep .ui-modal {
-    flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: var(--md-white);
+
+  .ui-modal-header {
+    background-color: var(--md-dark-blue);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    background: var(--md-white);
-    .ui-modal-header {
-        background-color: var(--md-dark-blue);
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        .ui-titlebar {
-            max-height: 42px;
-        }
 
+    .ui-titlebar {
+      max-height: 42px;
     }
+  }
 
-    .ui-modal-body {
-        flex-grow: 1 !important;
-        height: 100%;
-        width: 100%;
-    }
+  .ui-modal-body {
+    flex-grow: 1 !important;
+    height: 100%;
+    width: 100%;
+  }
 }

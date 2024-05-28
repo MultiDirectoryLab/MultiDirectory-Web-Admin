@@ -1,4 +1,9 @@
-<div [ngClass]="{'dark-theme': darkMode}" class="centered fullscreen dark-theme">
-    <router-outlet></router-outlet>
+<div [ngClass]="{ 'dark-theme': darkMode }" class="centered fullscreen dark-theme">
+  <router-outlet></router-outlet>
 </div>
-<md-spinner [name]="'primary'" [fullscreen]="true" #spinner [spinnerText]="'spinner.please-wait' | transloco"></md-spinner>
+<md-spinner
+  [name]="'primary'"
+  [fullscreen]="true"
+  #spinner
+  [spinnerText]="'spinner.please-wait' | transloco"
+></md-spinner>

@@ -1,12 +1,13 @@
-<div class="grid-item"
-    (click)="onClick($event)"
-    (doubleclick)="onDblClick($event)"
-    (contextmenu)="onRightClick($event)"
-    [ngClass]="{
-        'selected': item.selected
-    }"
-    #itemEl
-    >
-    <img class="row-icon"  [src]="item.icon" [ngClass]="{ 'big-icon': big }" />
-    <div class="label">{{item.name}}</div>
+<div
+  class="grid-item"
+  (click)="onClick($event)"
+  (doubleclick)="onDblClick($event)"
+  (contextmenu)="onRightClick($event)"
+  [ngClass]="{
+    selected: item.selected
+  }"
+  #itemEl
+>
+  <img class="row-icon" [src]="item.icon" [ngClass]="{ 'big-icon': big }" />
+  <div class="label">{{ item.name }}</div>
 </div>

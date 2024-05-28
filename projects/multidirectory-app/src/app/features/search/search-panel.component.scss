@@ -1,29 +1,27 @@
 .search-form {
-    padding: 1rem;
-    min-width: 650px;
-
+  padding: 1rem;
+  min-width: 650px;
 }
 
-
 md-dropdown {
-    width: 100%;
+  width: 100%;
 }
 
 :host ::ng-deep select {
-    width: 100%;
+  width: 100%;
 }
 
 :host ::ng-deep button {
-    width: 100%;
+  width: 100%;
 }
 
 .row {
-    padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .search-result {
-    padding: 1rem 0;
-    display: grid;
-    min-height: 250px;
-    position: static;
+  padding: 1rem 0;
+  display: grid;
+  min-height: 250px;
+  position: static;
 }

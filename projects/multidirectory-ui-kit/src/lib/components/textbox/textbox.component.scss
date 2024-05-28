@@ -1,24 +1,26 @@
 @use '../../styles/global.scss';
 @use '../../styles/layout.scss';
+
 :host {
-    display: flex;
-    flex-flow: column nowrap;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 label {
-    background: yellow;
+  background: yellow;
 }
 
-.error-input, input:invalid {
-    background-color: ivory;
-    border: none;
-    outline: 2px solid red;
-    margin-left: -1px;
-    margin-right: 2px;
+.error-input,
+input:invalid {
+  background-color: ivory;
+  border: none;
+  outline: 2px solid red;
+  margin-left: -1px;
+  margin-right: 2px;
 }
 
 .input-container {
-    display: flex;
-    flex-flow: column nowrap;
-    max-width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  max-width: 100%;
 }

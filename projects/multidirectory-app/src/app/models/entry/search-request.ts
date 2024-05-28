@@ -12,4 +12,3 @@ export class SearchRequest {
     Object.assign(this, obj);
   }
 }
-  

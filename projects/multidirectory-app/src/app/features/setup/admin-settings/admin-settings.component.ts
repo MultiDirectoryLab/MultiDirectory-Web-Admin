@@ -1,49 +1,49 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild, forwardRef } from "@angular/core";
-import { MdFormComponent, TextboxComponent } from "multidirectory-ui-kit";
-import { SetupService } from "projects/multidirectory-app/src/app/services/setup.service";
-import { Subject, takeUntil } from "rxjs";
-import { SetupRequest } from "../../../models/setup/setup-request";
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild, forwardRef } from '@angular/core';
+import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { SetupService } from '@services/setup.service';
+import { Subject, takeUntil } from 'rxjs';
+import { SetupRequest } from '@models/setup/setup-request';
 
 @Component({
-    selector: 'app-admin-settings',
-    templateUrl: './admin-settings.component.html',
-    styleUrls: ['./admin-settings.component.scss'],
-    providers: [
-        {
-            provide: MdFormComponent,
-            useExisting: forwardRef(() => AdminSettingsComponent), 
-            multi: true
-        }
-    ]
+  selector: 'app-admin-settings',
+  templateUrl: './admin-settings.component.html',
+  styleUrls: ['./admin-settings.component.scss'],
+  providers: [
+    {
+      provide: MdFormComponent,
+      useExisting: forwardRef(() => AdminSettingsComponent),
+      multi: true,
+    },
+  ],
 })
 export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
-    @Input() setupRequest!: SetupRequest;
-    @ViewChild('form') form!: MdFormComponent;
-    @ViewChild('passwordInput') passwordInput!: TextboxComponent;
-    @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
+  @Input() setupRequest!: SetupRequest;
+  @ViewChild('form') form!: MdFormComponent;
+  @ViewChild('passwordInput') passwordInput!: TextboxComponent;
+  @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
 
-    unsubscribe = new Subject<void>();
+  unsubscribe = new Subject<void>();
 
-    constructor(private setup: SetupService) {}
-    
-    ngAfterViewInit(): void {
-        this.setup.stepValid(this.form.valid);
+  constructor(private setup: SetupService) {}
 
-        this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-            this.form.validate();
-        });
+  ngAfterViewInit(): void {
+    this.setup.stepValid(this.form.valid);
 
-        this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(valid => {
-            this.setup.stepValid(valid);
-        });
-    }
+    this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.form.validate();
+    });
 
-    checkModel() {
-        this.form.validate();
-    }
+    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+      this.setup.stepValid(valid);
+    });
+  }
 
-    ngOnDestroy(): void {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
-    }
+  checkModel() {
+    this.form.validate();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 }

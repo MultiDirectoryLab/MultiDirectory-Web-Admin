@@ -1,15 +1,17 @@
 <div class="flex-row align-center pointer">
-    <label class="switch" for="checkbox" (click)="onToggle($event)">
-        <input 
-            [disabled]="disabled"
-            [(ngModel)]="value"
-            (blur)="onBlur()"
-            #checkbox
-            id="{{__ID}}"
-            type="checkbox" id="checkbox" />
-        <div class="slider round"></div>
-    </label>
-    <div class="label" (click)="onToggle($event)" tabindex="0" (keypress)="onToggleKey($event)">
-        <ng-content></ng-content>
-    </div>
+  <label class="switch" for="checkbox" (click)="onToggle($event)">
+    <input
+      [disabled]="disabled"
+      [(ngModel)]="value"
+      (blur)="onBlur()"
+      #checkbox
+      id="{{ __ID }}"
+      type="checkbox"
+      id="checkbox"
+    />
+    <div class="slider round"></div>
+  </label>
+  <div class="label" (click)="onToggle($event)" tabindex="0" (keypress)="onToggleKey($event)">
+    <ng-content></ng-content>
+  </div>
 </div>

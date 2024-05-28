@@ -157,10 +157,14 @@
               "projects/multidirectory-app/src/favicon.ico",
               "projects/multidirectory-app/src/assets"
             ],
-            "styles": [
-              "projects/multidirectory-app/src/styles.scss"
-            ],
+            "styles": ["projects/multidirectory-app/src/styles.scss"],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"]
           }
         }
       }
