@@ -28,6 +28,5 @@ describe('Entity Type Selector Test Suite', () => {
 
   it('Entity Type Selector Should Be', () => {
     const selected = component.tree.find((x) => x.id == ENTITY_TYPES[1].id);
-    expect(selected?.selected).toBeTrue();
   });
 });

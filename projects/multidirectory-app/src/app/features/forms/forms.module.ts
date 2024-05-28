@@ -18,6 +18,7 @@ import { ModifyDnComponent } from './modify-dn/modify-dn.component';
 import { MoveEntityDialogComponent } from './move-entity/move-entity.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { CatalogCreateComponent } from './catalog-create/catalog-create.component';
+import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CatalogCreateComponent } from './catalog-create/catalog-create.componen
     FormsModule,
     ValidatorsModule,
     TranslocoRootModule,
+    PasswordConditionsModule,
   ],
 })
 export class AppFormsModule {}
