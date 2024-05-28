@@ -7,7 +7,7 @@ import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
+import { EMPTY, Subject, concat, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-context-menu',
@@ -39,6 +39,10 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
 
   isSelectedRowsOfType(type: LdapEntryType): boolean {
     return this.entries.every((x) => x.type == type);
+  }
+  isNotSelectedRowsOfTypeCatalog(): boolean {
+    const catalog_types = [LdapEntryType.Folder, LdapEntryType.Root, LdapEntryType.OU];
+    return this.entries.every((x) => !catalog_types.includes(x.type));
   }
 
   showEntryProperties() {
@@ -89,9 +93,34 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
     const firstEntry = this.entries[0];
     this.windows
       .openModifyDn(firstEntry.id)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap((x) => {
+          if (x) {
+            return this.api.updateDn(x);
+          }
+          return EMPTY;
+        }),
+      )
+      .subscribe((modifyRequest) => {});
+  }
+
+  showMoveDialog(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.windows
+      .openCopyEntityDialog(this.entries)
+      .pipe(
+        take(1),
+        switchMap((x) => {
+          if (x) {
+            return this.api.updateDn(x);
+          }
+          return EMPTY;
+        }),
+      )
       .subscribe((modifyRequest) => {
-        alert(modifyRequest);
+        this.navigation.reload();
       });
   }
 }

@@ -1,31 +1,14 @@
-import { ChangeDescription } from './ldap-change';
-import { LdapEntryNode } from './ldap-entity';
-import { PartialAttribute } from './ldap-partial-attribute';
-
-export class Trackable<T> {
-  current: T;
-  original: T;
-
-  constructor(obj: T) {
-    this.current = obj;
-    this.original = JSON.parse(JSON.stringify(obj));
-  }
-}
-
-export class LdapAttributes {
-  [type: string]: any[];
-
-  constructor(props: PartialAttribute[]) {
-    props.forEach((prop) => {
-      this[prop.type] = prop.vals;
-    });
-  }
-}
+import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDescription } from '../ldap-change';
+import { LdapEntryNode } from '../ldap-entity';
+import { SecurityContext } from '@angular/core';
+import { LdapAttributes } from './ldap-attributes';
 
 export class LdapAttributesProxyHandler {
   _original: LdapAttributes;
   _entity: LdapEntryNode;
   _changes: ChangeDescription[] = [];
+
   constructor(entity: LdapEntryNode, attributes: LdapAttributes) {
     this._original = JSON.parse(JSON.stringify(attributes));
     this._entity = entity;
@@ -53,7 +36,7 @@ export class LdapAttributesProxyHandler {
     ) {
       this._changes = <ChangeDescription[]>value;
     } else if (Array.isArray(value)) {
-      target[key] = <string[]>value;
+      target[key] = <string[]>value.map((x) => x);
     } else {
       target[key] = [value];
     }

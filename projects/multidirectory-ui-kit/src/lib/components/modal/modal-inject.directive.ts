@@ -16,7 +16,7 @@ import { Observable, Subject, take } from 'rxjs';
   selector: '[modalInject]',
   exportAs: 'modalInject',
 })
-export class ModalInjectDirective implements OnInit, OnChanges {
+export class ModalInjectDirective implements OnChanges {
   templateView?: EmbeddedViewRef<any>;
   private _modal?: MdModalComponent;
   constructor(
@@ -25,11 +25,10 @@ export class ModalInjectDirective implements OnInit, OnChanges {
     private viewContainerRef: ViewContainerRef,
     private cdr: ChangeDetectorRef,
   ) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     this.templateView?.detectChanges();
   }
-
-  ngOnInit(): void {}
 
   private findModalParts(nodes: HTMLElement[]) {
     const header = nodes.filter((x) => x?.classList?.contains('app-modal-header') ?? false);
@@ -48,7 +47,7 @@ export class ModalInjectDirective implements OnInit, OnChanges {
   get modal(): MdModalComponent | undefined {
     return this._modal;
   }
-  contentOptions?: { [key: string]: any };
+  contentOptions: { [key: string]: any } = {};
   open(
     modalOptions?: { [key: string]: any },
     contentOptions?: { [key: string]: any },
@@ -83,6 +82,10 @@ export class ModalInjectDirective implements OnInit, OnChanges {
       this.contentOptions = contentOptions;
     }
     this.cdr.detectChanges();
+
+    this.modal?.closeEvent.pipe(take(1)).subscribe((result) => {
+      this.close(result);
+    });
     this._modal!.open();
     this._modal!.modalRoot?.calcBodyHeight();
     this.cdr.detectChanges();

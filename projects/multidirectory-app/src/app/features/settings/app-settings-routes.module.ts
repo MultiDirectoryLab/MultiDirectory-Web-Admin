@@ -4,6 +4,7 @@ import { MultifactorSettingsComponent } from './mulifactor-settings/multifactor-
 import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
 import { MultidirectorySettingsComponent } from './multidirectory-settings/multidirectory-settings.component';
 import { AppSettingsNavigationComponent } from './navigation/app-settings-navigation.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,10 @@ import { AppSettingsNavigationComponent } from './navigation/app-settings-naviga
         path: 'multifactor',
         component: MultifactorSettingsComponent,
         canActivate: [AuthRouteGuard],
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
       },
       {
         path: '',

@@ -4,7 +4,7 @@ import { EntityTypeSelectorModule } from './entity-type-selector/entity-type-sel
 import { GroupCreateComponent } from './group-create/group-create.component';
 import { OuCreateComponent } from './ou-create/ou-create.component';
 import { UserCreateComponent } from './user-create/user-create.component';
-import { GroupSelectorModule } from './group-selector/group-selector.module';
+import { EntitySelectorModule } from './entity-selector/entity-selector.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ValidatorsModule } from '@core/validators/validators.module';
@@ -15,6 +15,10 @@ import { ComputerCreateComponent } from './computer-create/computer-create.compo
 import { TranslocoRootModule } from '../../transloco-root.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ModifyDnComponent } from './modify-dn/modify-dn.component';
+import { MoveEntityDialogComponent } from './move-entity/move-entity.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { CatalogCreateComponent } from './catalog-create/catalog-create.component';
+import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 
 @NgModule({
   declarations: [
@@ -26,24 +30,31 @@ import { ModifyDnComponent } from './modify-dn/modify-dn.component';
     UserCreateGeneralInfoComponent,
     ComputerCreateComponent,
     ModifyDnComponent,
+    MoveEntityDialogComponent,
+    ConfirmDialogComponent,
+    CatalogCreateComponent,
   ],
   exports: [
     GroupCreateComponent,
     OuCreateComponent,
     UserCreateComponent,
-    GroupSelectorModule,
+    EntitySelectorModule,
     ComputerCreateComponent,
     ModifyDnComponent,
+    MoveEntityDialogComponent,
+    ConfirmDialogComponent,
+    CatalogCreateComponent,
   ],
   imports: [
     CatalogSelectorModule,
     EntityTypeSelectorModule,
-    GroupSelectorModule,
+    EntitySelectorModule,
     MultidirectoryUiKitModule,
     CommonModule,
     FormsModule,
     ValidatorsModule,
     TranslocoRootModule,
+    PasswordConditionsModule,
   ],
 })
 export class AppFormsModule {}

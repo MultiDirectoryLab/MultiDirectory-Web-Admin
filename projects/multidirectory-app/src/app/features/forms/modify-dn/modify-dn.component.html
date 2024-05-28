@@ -1,29 +1,35 @@
 <div class="app-modal-header">
   <div>{{ 'modify-dn.modal-header' | transloco }}</div>
 </div>
-<div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
-  <div class="row">
-    <label class="col-md-6">{{ 'modify-dn.entry' | transloco }}</label>
-    <md-textbox class="col-md-6" [disabled]="true" [(ngModel)]="request.entry"></md-textbox>
-  </div>
-  <div class="row">
-    <label class="col-md-6">{{ 'modify-dn.newrdn' | transloco }}</label>
-    <md-textbox class="col-md-6" [(ngModel)]="request.newrdn"></md-textbox>
-  </div>
-  <div class="row">
-    <label class="col-md-6">{{ 'modify-dn.new_superior' | transloco }}</label>
-    <md-textbox class="col-md-4" [disabled]="true" [(ngModel)]="request.new_superior"></md-textbox>
-    <md-plane-button class="col-md-2 control-button" (click)="showEntrySelector($event)">{{
-      'modify-dn.change' | transloco
-    }}</md-plane-button>
-  </div>
-  <div class="row">
-    <md-checkbox class="col-md-6" [(ngModel)]="request.deleteoldrdn">{{
-      'modify-dn.deleteoldrdn' | transloco
-    }}</md-checkbox>
-  </div>
-</div>
 
+<md-form #form>
+  <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
+    <div class="row">
+      <label class="col-md-4">{{ 'modify-dn.entry' | transloco }}</label>
+      <md-textbox class="col-md-8" [disabled]="true" [(ngModel)]="request.entry"></md-textbox>
+    </div>
+    <div class="row">
+      <label class="col-md-4">{{ 'modify-dn.newrdn' | transloco }}</label>
+      <md-textbox class="col-md-8" [(ngModel)]="request.newrdn"></md-textbox>
+    </div>
+    <div class="row">
+      <label class="col-md-4">{{ 'modify-dn.new_superior' | transloco }}</label>
+      <md-textbox
+        class="col-md-6"
+        [disabled]="true"
+        [(ngModel)]="request.new_superior"
+      ></md-textbox>
+      <md-plane-button class="col-md-2 control-button" (click)="showEntrySelector($event)">{{
+        'modify-dn.change' | transloco
+      }}</md-plane-button>
+    </div>
+    <div class="row">
+      <md-checkbox class="col-md-6" [(ngModel)]="request.deleteoldrdn">{{
+        'modify-dn.deleteoldrdn' | transloco
+      }}</md-checkbox>
+    </div>
+  </div>
+</md-form>
 <div class="app-modal-footer">
   <div class="flex-row align-center justify-end flex-gap-10">
     <md-button (click)="onClose()">
@@ -34,5 +40,3 @@
     </md-button>
   </div>
 </div>
-
-<app-group-selector #groupSelector></app-group-selector>

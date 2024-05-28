@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
+import { Component, Input, ViewChild } from '@angular/core';
 import { take } from 'rxjs';
 import { DatagridComponent } from 'multidirectory-ui-kit';
 import { Group } from '@core/groups/group';
@@ -9,17 +8,17 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { GroupSelectorComponent } from '@features/forms/group-selector/group-selector.component';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-member-of',
   templateUrl: './member-of.component.html',
   styleUrls: ['./member-of.component.scss'],
 })
-export class MemberOfComponent implements AfterViewInit {
+export class MemberOfComponent {
   private _accessor: LdapAttributes | null = null;
   groups: Group[] = [];
-  @ViewChild('groupSelector') groupSelector?: GroupSelectorComponent;
   @ViewChild('groupList') groupList?: DatagridComponent;
 
   @Input() set accessor(accessor: LdapAttributes | null) {
@@ -46,8 +45,6 @@ export class MemberOfComponent implements AfterViewInit {
     private attributes: AttributeService,
   ) {}
 
-  ngAfterViewInit(): void {}
-
   private createGroupFromDn(dn: string) {
     const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);
     const path = new RegExp(Constants.RegexGetPathFormDn).exec(dn);
@@ -59,14 +56,18 @@ export class MemberOfComponent implements AfterViewInit {
   }
 
   addGroup() {
-    this.groupSelector
-      ?.open()
+    this.windows
+      ?.openEntitySelector(
+        new EntitySelectorSettings({
+          selectedEntities: [],
+        }),
+      )
       .pipe(take(1))
       .subscribe((res) => {
         if (res && !!this.accessor) {
           res = res.filter((x) => !this.accessor!.memberOf?.includes(x.id)) ?? res;
           this.accessor.memberOf =
-            this.accessor?.memberOf?.concat(res.map((x) => x.title)) ?? res.map((x) => x.title);
+            this.accessor?.memberOf?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
           this.groups = this.accessor?.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
         }
       });

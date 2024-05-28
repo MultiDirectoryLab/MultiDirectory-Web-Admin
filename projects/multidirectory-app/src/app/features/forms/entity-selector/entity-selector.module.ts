@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { GroupSelectorComponent } from './group-selector.component';
+import { EntitySelectorComponent } from './entity-selector.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -9,8 +9,8 @@ import { EntityTypeSelectorModule } from '../entity-type-selector/entity-type-se
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
-  declarations: [GroupSelectorComponent],
-  exports: [GroupSelectorComponent],
+  declarations: [EntitySelectorComponent],
+  exports: [EntitySelectorComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,4 +22,4 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     TranslocoModule,
   ],
 })
-export class GroupSelectorModule {}
+export class EntitySelectorModule {}

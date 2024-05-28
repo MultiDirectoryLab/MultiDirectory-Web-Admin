@@ -74,7 +74,7 @@
   <div class="dropdown-item" (click)="createMenu.close(); openCreateGroup()">
     {{ 'catalog-content.group' | transloco }}
   </div>
-  <div class="dropdown-item disabled hidden">
+  <div class="dropdown-item" (click)="createMenu.close(); openCreateComputer()">
     {{ 'catalog-content.computer' | transloco }}
   </div>
   <div class="dropdown-item disabled hidden">
@@ -83,8 +83,8 @@
   <div class="dropdown-item" (click)="createMenu.close(); openCreateOu()">
     {{ 'catalog-content.ou' | transloco }}
   </div>
-  <div class="dropdown-item" (click)="createMenu.close(); openCreateComputer()">
-    {{ 'catalog-content.computer' | transloco }}
+  <div class="dropdown-item" (click)="createMenu.close(); openCreateCatalog()">
+    {{ 'catalog-content.folder' | transloco }}
   </div>
   <div class="dropdown-item disabled hidden">
     {{ 'catalog-content.common-folder' | transloco }}

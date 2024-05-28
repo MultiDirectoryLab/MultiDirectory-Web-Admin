@@ -1,38 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, of, take, tap } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { LdapAttributesProxyHandler } from '@core/ldap/ldap-attributes/ldap-attributes-proxy';
+import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { ChangeDescription } from '@core/ldap/ldap-change';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapAttributes, LdapAttributesProxyHandler } from '@core/ldap/ldap-entity-proxy';
-import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
-import { SearchQueries } from '@core/ldap/search';
 import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/entry/update-request';
-import { UpdateEntryResponse } from '@models/entry/update-response';
-import { MultidirectoryApiService } from './multidirectory-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AttributeService {
-  constructor(private api: MultidirectoryApiService) {}
-
-  load(node: LdapEntryNode): Observable<PartialAttribute[]> {
-    return this.api.search(SearchQueries.getProperites(node.id ?? '')).pipe(
-      map((resp) => {
-        return resp.search_result[0].partial_attributes;
-      }),
-    );
-  }
-
-  get(node: LdapEntryNode): Observable<LdapAttributes> {
-    return this.load(node).pipe(
-      map((props) => {
-        const attributes = new LdapAttributes(props);
-        const handler = new LdapAttributesProxyHandler(node, attributes);
-        return new Proxy(attributes, handler);
-      }),
-    );
-  }
-
   getChanges(attribute: LdapAttributes): ChangeDescription[] {
     // to add
     const toAdd = Object.entries(attribute)
@@ -87,7 +64,13 @@ export class AttributeService {
       );
     return toAdd.concat(toReplace).concat(toDelete);
   }
-  saveEntity(accessor: LdapAttributes): Observable<UpdateEntryResponse> {
+
+  getTrackableAttributes(node: LdapEntryNode, attributes: LdapAttributes): LdapAttributes {
+    const handler = new LdapAttributesProxyHandler(node, attributes);
+    return new Proxy(attributes, handler);
+  }
+
+  createAttributeUpdateRequest(accessor: LdapAttributes): UpdateEntryRequest {
     const changes = this.getChanges(accessor);
     const request = new UpdateEntryRequest({
       object: accessor['$entityDN'][0],
@@ -99,10 +82,30 @@ export class AttributeService {
           }),
       ),
     });
-    return this.api.update(request);
+    return request;
   }
 
-  setEntityAccessor(entity?: LdapEntryNode): Observable<LdapAttributes | null> {
+  /*
+    load(node: LdapEntryNode): Observable<PartialAttribute[]> {
+    return this.api.search(SearchQueries.getProperites(node.id ?? '')).pipe(
+      map((resp) => {
+        return resp.search_result[0].partial_attributes;
+      }),
+    );
+  }
+
+
+    get(node: LdapEntryNode): Observable<LdapAttributes> {
+    return this.load(node).pipe(
+      map((props) => {
+        const attributes = new LdapAttributes(props);
+        const handler = new LdapAttributesProxyHandler(node, attributes, this.sanitizer);
+        return new Proxy(attributes, handler);
+      }),
+    );
+  }
+
+    setEntityAccessor(entity?: LdapEntryNode): Observable<LdapAttributes | null> {
     if (!entity) {
       this._entityAccessorRx.next(null);
       return of(null);
@@ -119,4 +122,5 @@ export class AttributeService {
   entityAccessorRx(): Observable<LdapAttributes | null> {
     return this._entityAccessorRx.asObservable();
   }
+  */
 }

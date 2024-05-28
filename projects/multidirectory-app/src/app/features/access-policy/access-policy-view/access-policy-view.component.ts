@@ -147,7 +147,7 @@ export class AccessPolicyViewComponent {
     return this.navigation.getRoot().pipe(
       take(1),
       switchMap((root) =>
-        this.api.search(SearchQueries.findGroup(groupQuery, root?.[0]?.id ?? '', [])),
+        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', [])),
       ),
       map((result) => {
         return result.search_result.map((x) => {

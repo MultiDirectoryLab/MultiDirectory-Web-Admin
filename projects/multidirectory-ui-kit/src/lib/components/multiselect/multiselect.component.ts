@@ -5,16 +5,14 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { MultiselectModel } from './mutliselect-model';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { DropdownContainerDirective } from '../dropdown-menu/dropdown-container.directive';
+import { MultiselectModel } from './mutliselect-model';
 
 @Component({
   selector: 'md-multiselect',
@@ -32,15 +30,17 @@ import { DropdownContainerDirective } from '../dropdown-menu/dropdown-container.
 export class MultiselectComponent extends BaseComponent {
   @Input() suppressMenu = false;
   @Input() notFoundText = 'Опции не найдены';
-  @Output() onEnter = new EventEmitter<string>();
-  @ViewChild('inputContainer') inputContainer?: ElementRef<HTMLElement>;
+  @Output() inputChanged = new EventEmitter<string>();
+  @ViewChild('inputContainer') inputContainer!: ElementRef<HTMLElement>;
   @ViewChild('menuContainer', { read: DropdownContainerDirective })
-  menuContainer?: DropdownContainerDirective;
+  menuContainer!: DropdownContainerDirective;
+  private _originalOptions: MultiselectModel[] = [];
+  private _options: MultiselectModel[] = [];
+  selectedData: MultiselectModel[] = [];
+
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
   }
-  selectedData: MultiselectModel[] = [];
-  private _options: MultiselectModel[] = [];
 
   @Input() set options(value: MultiselectModel[]) {
     value = value.filter((x) => !this.selectedData.some((y) => y.id == x.id));
@@ -54,15 +54,13 @@ export class MultiselectComponent extends BaseComponent {
     return this._options;
   }
 
-  private _originalOptions: MultiselectModel[] = [];
-
   preventEnterKey(event: KeyboardEvent) {
     if (event.key == 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.onEnter.emit(this.inputContainer?.nativeElement.innerText);
+      this.inputChanged.emit(this.inputContainer.nativeElement.innerText);
     }
-    if (event.key == 'Backspace' && this.inputContainer?.nativeElement.innerText.length === 0) {
+    if (event.key == 'Backspace' && this.inputContainer.nativeElement.innerText.length === 0) {
       if (this.selectedData.length > 0) {
         const items = this.selectedData.splice(this.selectedData.length - 1);
         items.forEach((x) => (x.selected = false));
@@ -105,8 +103,8 @@ export class MultiselectComponent extends BaseComponent {
   onElementSelect(select: MultiselectModel) {
     select.selected = true;
     this.selectedData.push(select);
-    this.inputContainer!.nativeElement.innerText = '';
-    this.inputContainer!.nativeElement.focus();
+    this.inputContainer.nativeElement.innerText = '';
+    this.inputContainer.nativeElement.focus();
     this.menuContainer?.toggleMenu();
   }
   onOptionKey(event: KeyboardEvent, select: MultiselectModel) {

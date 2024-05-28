@@ -13,8 +13,10 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
-import { GroupSelectorComponent } from '../group-selector/group-selector.component';
+import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
+import { AppWindowsService } from '@services/app-windows.service';
+import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-computer-create',
@@ -22,9 +24,8 @@ import { GroupSelectorComponent } from '../group-selector/group-selector.compone
   styleUrls: ['./computer-create.component.scss'],
 })
 export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
-  @Output() onCreate = new EventEmitter<void>();
+  @Output() create = new EventEmitter<void>();
   @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('groupSelector') groupSelector!: GroupSelectorComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
@@ -36,6 +37,7 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private api: MultidirectoryApiService,
+    private windows: AppWindowsService,
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
@@ -58,7 +60,7 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
     this.api
       .create(
         new CreateEntryRequest({
-          entry: `ou=${this.computerName},` + this.parentDn,
+          entry: `cn=${this.computerName},` + this.parentDn,
           attributes: [
             new PartialAttribute({
               type: 'objectClass',
@@ -83,8 +85,12 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
   showAccountSelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-    this.groupSelector
-      .open()
+    this.windows
+      .openEntitySelector(
+        new EntitySelectorSettings({
+          selectedEntities: [],
+        }),
+      )
       .pipe(take(1))
       .subscribe((x) => {
         this.ownerDn = x?.[0]?.id ?? '';

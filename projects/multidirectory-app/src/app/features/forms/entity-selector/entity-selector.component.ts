@@ -1,5 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MdModalComponent, MultiselectComponent } from 'multidirectory-ui-kit';
+import {
+  MdModalComponent,
+  ModalInjectDirective,
+  MultiselectComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, catchError, take, throwError } from 'rxjs';
 import { EntityType } from '@core/entities/entities-type';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
@@ -8,34 +12,45 @@ import { SearchQueries } from '@core/ldap/search';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { Constants } from '@core/constants';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { CatalogSelectorComponent } from '../catalog-selector/catalog-selector.component';
-import { EntityTypeSelectorComponent } from '../entity-type-selector/entity-type-selector.component';
+import { AppWindowsService } from '@services/app-windows.service';
+import { EntitySelectorSettings } from './entity-selector-settings.component';
 
 @Component({
-  selector: 'app-group-selector',
-  templateUrl: './group-selector.component.html',
-  styleUrls: ['./group-selector.component.scss'],
+  selector: 'app-entity-selector',
+  templateUrl: './entity-selector.component.html',
+  styleUrls: ['./entity-selector.component.scss'],
 })
-export class GroupSelectorComponent implements OnInit {
-  @ViewChild('modal', { static: true }) modal?: MdModalComponent;
-  @ViewChild('entityTypeSelector', { static: true })
-  entityTypeSelector?: EntityTypeSelectorComponent;
-  @ViewChild('catalogSelector', { static: true }) catalogSelector?: CatalogSelectorComponent;
+export class EntitySelectorComponent implements OnInit {
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
-  entityTypes: EntityType[] = [];
-  entityTypeDisplay = '';
   selectedCatalogDn = '';
   name = '';
   availableGroups: MultiselectModel[] = [];
-  result = new Subject<MultiselectModel[] | null>();
+  result = new Subject<MultiselectModel[]>();
+
+  settings: EntitySelectorSettings = new EntitySelectorSettings();
+  entityTypes: EntityType[] = ENTITY_TYPES;
+  entityTypeDisplay = '';
+  allowSelectEntityTypes = true;
+
   constructor(
     private api: MultidirectoryApiService,
     private cdr: ChangeDetectorRef,
     private ldapLoader: LdapEntryLoader,
+    private windows: AppWindowsService,
+    private modalControl: ModalInjectDirective,
   ) {}
+
   ngOnInit(): void {
-    this.entityTypes = ENTITY_TYPES;
-    this.entityTypeDisplay = ENTITY_TYPES.map((x) => x.name).join(' ИЛИ ');
+    if (this.modalControl.contentOptions.settings) {
+      this.settings = this.modalControl.contentOptions.settings;
+      if (this.settings.selectedEntityTypes && this.settings.selectedEntityTypes.length > 0) {
+        this.entityTypes = this.settings.selectedEntityTypes;
+      }
+
+      this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
+    }
+
+    this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
     this.ldapLoader
       .get()
       .pipe(take(1))
@@ -45,23 +60,16 @@ export class GroupSelectorComponent implements OnInit {
       });
   }
 
-  open(): Subject<MultiselectModel[] | null> {
-    this.modal?.open();
-    return this.result;
-  }
   close() {
-    this.result?.next(null);
-    this.modal?.close();
+    this.modalControl?.close([]);
   }
 
   selectEntityType() {
-    this.entityTypeSelector
-      ?.open()
+    this.windows
+      .openEntityTypeSelector(this.entityTypes)
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {
-          this.entityTypeDisplay = '';
-          this.entityTypes = [];
           return;
         }
         this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
@@ -70,15 +78,15 @@ export class GroupSelectorComponent implements OnInit {
   }
 
   selectCatalog() {
-    this.catalogSelector
-      ?.open()
+    this.windows
+      .openCatalogSelector([])
       .pipe(take(1))
       .subscribe((result) => {
         if (!result) {
           this.selectedCatalogDn = '';
           return;
         }
-        this.selectedCatalogDn = result.id;
+        this.selectedCatalogDn = result[0].id;
       });
   }
 
@@ -86,8 +94,9 @@ export class GroupSelectorComponent implements OnInit {
     if (!this.selectedCatalogDn || !this.entityTypes) {
       return;
     }
+    const entityClasses = this.entityTypes.flatMap((x) => x.entity.split(','));
     this.api
-      .search(SearchQueries.findGroup(this.name, this.selectedCatalogDn, []))
+      .search(SearchQueries.findEntities(this.name, this.selectedCatalogDn, entityClasses))
       .pipe(
         catchError((err) => {
           return throwError(() => err);
@@ -110,7 +119,6 @@ export class GroupSelectorComponent implements OnInit {
   }
 
   finish() {
-    this.result.next(this.selector?.selectedData ?? null);
-    this.modal?.close();
+    this.modalControl?.close(this.selector?.selectedData ?? []);
   }
 }

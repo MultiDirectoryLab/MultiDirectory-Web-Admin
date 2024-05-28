@@ -13,6 +13,7 @@ import { MfUserIntegrationComponent } from './mulifactor-settings/user-integrati
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { ValidatorsModule } from '@core/validators/validators.module';
     MultidirectorySettingsComponent,
     MfAdminIntegrationComponent,
     MfUserIntegrationComponent,
+    AboutComponent,
   ],
   exports: [
     AppSettingsComponent,

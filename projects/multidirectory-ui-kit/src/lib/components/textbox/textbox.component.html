@@ -5,6 +5,7 @@
     [(ngModel)]="value"
     autocomplete="{{ autocomplete ? 'on' : password ? 'new-password' : 'off' }}"
     (blur)="onBlur()"
+    (focus)="onFocus()"
     id="{{ __ID }}"
     #input
     tabindex="0"

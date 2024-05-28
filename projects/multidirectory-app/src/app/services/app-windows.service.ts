@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of, pipe, switchMap, take } from 'rxjs';
+import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { TreeItemComponent } from 'dist/multidirectory-ui-kit/lib/components/treeview/tree-item.component';
 import { NavigationNode } from '@core/navigation/navigation-node';
+import { EntityType } from '@core/entities/entities-type';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 
 @Injectable({
   providedIn: 'root',
@@ -132,18 +136,114 @@ export class AppWindowsService {
   }
 
   private _showModifyDnRx = new Subject<string>();
-  private _closeModifyDnRx = new Subject<string>();
+  private _closeModifyDnRx = new Subject<ModifyDnRequest>();
   get showModifyDnRx(): Observable<string> {
     return this._showModifyDnRx.asObservable();
   }
-  get closeModifyDnRx(): Observable<string> {
+  get closeModifyDnRx(): Observable<ModifyDnRequest> {
     return this._closeModifyDnRx.asObservable();
   }
   openModifyDn(modifyDn: string) {
     this._showModifyDnRx.next(modifyDn);
     return this._closeModifyDnRx;
   }
-  closeModifyDn(modifyDn: string) {
+  closeModifyDn(modifyDn: ModifyDnRequest) {
     return this._closeModifyDnRx.next(modifyDn);
+  }
+
+  private _showEntityTypeSelectorRx = new Subject<EntityType[]>();
+  private _closeEntityTypeSelectorRx = new Subject<EntityType[]>();
+  get showEntityTypeSelectorRx(): Observable<EntityType[]> {
+    return this._showEntityTypeSelectorRx.asObservable();
+  }
+  get closeEntityTypeSelectorRx(): Observable<EntityType[]> {
+    return this._closeEntityTypeSelectorRx.asObservable();
+  }
+  openEntityTypeSelector(selected: EntityType[] = []) {
+    this._showEntityTypeSelectorRx.next(selected);
+    return this._closeEntityTypeSelectorRx;
+  }
+  closeEntityTypeSelector(selected: EntityType[] = []) {
+    this._closeEntityTypeSelectorRx.next(selected);
+  }
+
+  private _showEntitySelectorRx = new Subject<EntitySelectorSettings>();
+  private _closeEntitySelectorRx = new Subject<LdapEntryNode[]>();
+  get showEntitySelectorRx(): Observable<EntitySelectorSettings> {
+    return this._showEntitySelectorRx.asObservable();
+  }
+  get closeEntitySelectorRx(): Observable<LdapEntryNode[]> {
+    return this._closeEntitySelectorRx.asObservable();
+  }
+  openEntitySelector(settings: EntitySelectorSettings) {
+    this._showEntitySelectorRx.next(settings);
+    return this.closeEntitySelectorRx;
+  }
+  closeEntitySelector(result: LdapEntryNode[]) {
+    this._closeEntitySelectorRx.next(result);
+  }
+
+  private _showCatalogSelectorRx = new Subject<LdapEntryNode[]>();
+  private _closeCatalogSelectorRx = new Subject<LdapEntryNode[]>();
+  get showCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+    return this._showCatalogSelectorRx.asObservable();
+  }
+  get closeCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+    return this._closeCatalogSelectorRx.asObservable();
+  }
+  openCatalogSelector(selected: LdapEntryNode[]) {
+    this._showCatalogSelectorRx.next(selected);
+    return this.closeCatalogSelectorRx;
+  }
+  closeCatalogSelector(result: LdapEntryNode[]) {
+    this._closeCatalogSelectorRx.next(result);
+  }
+
+  private _openCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
+  private _closeCopyEntityDialogRx = new Subject<ModifyDnRequest>();
+  get showCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
+    return this._openCopyEntityDialogRx.asObservable();
+  }
+  get closeCopyEntityDialogRx(): Observable<ModifyDnRequest> {
+    return this._closeCopyEntityDialogRx.asObservable();
+  }
+  openCopyEntityDialog(selected: LdapEntryNode[]) {
+    this._openCopyEntityDialogRx.next(selected);
+    return this.closeCopyEntityDialogRx;
+  }
+  closeCopyEntityDialog(result: ModifyDnRequest) {
+    this._closeCopyEntityDialogRx.next(result);
+  }
+
+  private _openConfirmDialog = new Subject<ConfirmDialogDescriptor>();
+  private _closeConfirmDialog = new Subject<string>();
+  get showConfirmDialogRx(): Observable<ConfirmDialogDescriptor> {
+    return this._openConfirmDialog.asObservable();
+  }
+  get closeConfirmDialogRx(): Observable<string> {
+    return this._closeConfirmDialog.asObservable();
+  }
+  openConfirmDialog(prompt: ConfirmDialogDescriptor) {
+    this._openConfirmDialog.next(prompt);
+    return this.closeConfirmDialogRx;
+  }
+  closeConfirmDialog(result: string) {
+    this._closeConfirmDialog.next(result);
+  }
+
+  private _showCreateCatalogRx = new Subject<string>();
+  private _closeCreateCatalogRx = new Subject<string>();
+  get showCreateCatalogRx(): Observable<string> {
+    return this._showCreateCatalogRx.asObservable();
+  }
+  get closeCreateCatalogRx(): Observable<string> {
+    return this._closeCreateCatalogRx.asObservable();
+  }
+  openCreateCatalog(parentDn: string) {
+    this._showCreateCatalogRx.next(parentDn);
+    return this.closeCreateCatalogRx;
+  }
+  closeCreateCatalog(parentDn: string) {
+    return this._closeCreateCatalogRx.next(parentDn);
   }
 }

@@ -16,10 +16,13 @@ import { IdProvider } from '../../utils/id-provider';
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
+export class BaseComponent implements ControlValueAccessor, OnDestroy {
   __ID = IdProvider.getUniqueId('base');
   @Input() disabled: boolean = false;
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
+  // eslint-disable-next-line @angular-eslint/no-output-native
+  @Output() focus = new EventEmitter<void>();
   unsubscribe = new Subject<boolean>();
   _controlAccessor?: NgControl;
   get controlAccessor(): NgControl {
@@ -73,9 +76,11 @@ export class BaseComponent implements OnInit, ControlValueAccessor, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  focus() {}
+  onFocus() {
+    this.focus.next();
+  }
 
-  ngOnInit(): void {}
+  setFocus() {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next(true);

@@ -2,13 +2,13 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular
 import { translate } from '@ngneat/transloco';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
 import { AttributeService } from '@services/attributes.service';
 import { LdapPropertiesService } from '@services/ldap-properites.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { EMPTY, Subject, switchMap, take } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 export class EntityAttribute {
   constructor(
@@ -36,10 +36,11 @@ export class EntityAttributesComponent implements AfterViewInit {
   @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
   unsubscribe = new Subject<boolean>();
   filter = new AttributeFilter(true);
-  accessor: LdapAttributes | null = null;
   rows: any[] = [];
   allRows: any[] = [];
   _searchFilter = '';
+  accessor: LdapAttributes = {};
+
   set searchFilter(value: string) {
     this._searchFilter = value;
     this.page.pageNumber = 1;
@@ -56,23 +57,21 @@ export class EntityAttributesComponent implements AfterViewInit {
   page = new Page({ pageNumber: 1, size: 20, totalElements: 4000 });
   constructor(
     private api: MultidirectoryApiService,
-    private attributes: AttributeService,
     private cdr: ChangeDetectorRef,
     private properties: LdapPropertiesService,
-    private modalControl: ModalInjectDirective,
     private toastr: ToastrService,
+    private modalControl: ModalInjectDirective,
   ) {}
 
   ngAfterViewInit(): void {
-    this.attributes
-      .entityAccessorRx()
-      .pipe(
-        switchMap((attr) => {
-          this.accessor = attr;
-          return !!attr ? this.properties.loadData(<any>attr['$entitydn'][0]) : EMPTY;
-        }),
-        take(1),
-      )
+    if (!this.modalControl.contentOptions.accessor) {
+      throw 'Unable to get an accessor';
+    }
+    this.accessor = this.modalControl.contentOptions.accessor;
+
+    this.properties
+      .loadData(<any>this.accessor['$entitydn'][0])
+      .pipe(take(1))
       .subscribe({
         next: (x) => {
           this.allRows = this.filterData(x);
@@ -137,58 +136,48 @@ export class EntityAttributesComponent implements AfterViewInit {
           propertyDescription = propertyDescriptionNullable;
         }
       }
-      this.attributes
-        .entityAccessorRx()
+
+      let indx = this.rows.findIndex((x) => x.name == attribute.name);
+      let addNew = false;
+      if (indx == -1) {
+        indx = this.rows.push(attribute) - 1;
+        this.allRows.push(attribute);
+        addNew = true;
+      }
+      let value: any = attribute.val;
+      if (propertyDescription.isArray && !Array.isArray(value)) {
+        value = this.rows.filter((x) => x.name === attribute.name).map((x) => x.val);
+      }
+      this.attributeEditor
+        .open(
+          {},
+          {
+            propertyType: propertyDescription?.type,
+            propertyName: attribute.name,
+            propertyValue: value,
+          },
+        )
         .pipe(take(1))
-        .subscribe((accessor) => {
-          if (!accessor || !propertyDescription) {
+        .subscribe((x) => {
+          if (!x) {
             return;
           }
-          let indx = this.rows.findIndex((x) => x.name == attribute.name);
-          let addNew = false;
-          if (indx == -1) {
-            indx = this.rows.push(attribute) - 1;
-            this.allRows.push(attribute);
-            addNew = true;
+          this.accessor[attribute.name] = x;
+          attribute.changed = true;
+          if (propertyDescription.isArray && Array.isArray(value)) {
+            this.rows = this.rows.filter((y) => y.name !== attribute.name);
+            const newValues = x.map((y: string) => new EntityAttribute(attribute.name, y, true));
+            if (addNew) {
+              this.allRows = this.allRows.concat(...newValues);
+            }
+            this.rows.splice(indx, 0, ...newValues);
+          } else {
+            if (addNew) {
+              this.allRows.push(attribute);
+            }
+            this.rows[indx].val = this.accessor[attribute.name];
           }
-          let value: any = attribute.val;
-          if (propertyDescription.isArray && !Array.isArray(value)) {
-            value = this.rows.filter((x) => x.name === attribute.name).map((x) => x.val);
-          }
-          this.attributeEditor
-            .open(
-              {},
-              {
-                propertyType: propertyDescription?.type,
-                propertyName: attribute.name,
-                propertyValue: value,
-              },
-            )
-            .pipe(take(1))
-            .subscribe((x) => {
-              if (!x) {
-                return;
-              }
-              accessor[attribute.name] = x;
-              attribute.changed = true;
-              if (propertyDescription.isArray && Array.isArray(value)) {
-                this.rows = this.rows.filter((y) => y.name !== attribute.name);
-                const newValues = x.map(
-                  (y: string) => new EntityAttribute(attribute.name, y, true),
-                );
-                if (addNew) {
-                  this.allRows = this.allRows.concat(...newValues);
-                }
-                this.rows.splice(indx, 0, ...newValues);
-              } else {
-                if (addNew) {
-                  this.allRows.push(attribute);
-                }
-                this.rows[indx].val = accessor[attribute.name];
-              }
-
-              this.cdr.detectChanges();
-            });
+          this.cdr.detectChanges();
         });
     });
   }

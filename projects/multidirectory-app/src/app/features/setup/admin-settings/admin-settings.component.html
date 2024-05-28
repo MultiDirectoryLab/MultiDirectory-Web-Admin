@@ -28,7 +28,17 @@
             [(ngModel)]="setupRequest.password"
             (keyup)="checkModel()"
             #passwordInput="ngModel"
+            [mdPopupContainer]="suggest"
+            #suggestContainer="PopupContainerDirective"
+            [openMenuOnClick]="false"
+            (focus)="suggestContainer.openMenu()"
+            (blur)="suggestContainer.closeMenu()"
           ></md-textbox>
+          <md-popup-suggest #suggest [closeOnClickOutside]="false">
+            <app-password-conditions
+              [currentPassword]="setupRequest.password"
+            ></app-password-conditions>
+          </md-popup-suggest>
         </div>
       </div>
 

@@ -1,9 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { DropdownOption } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
-import { AttributeService } from '@services/attributes.service';
+import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 
 @Component({
   selector: 'app-user-properties-address',
@@ -22,26 +20,19 @@ export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy 
     }
   }
 
-  accessor: LdapAttributes = {};
   unsubscribe = new Subject();
+  accessor: LdapAttributes = {};
 
-  constructor(
-    private attributes: AttributeService,
-    private cdr: ChangeDetectorRef,
-    private toastr: ToastrService,
-  ) {}
+  constructor(private modalControl: ModalInjectDirective) {}
 
   ngAfterViewInit(): void {
-    this.attributes._entityAccessorRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      if (!x) {
-        return;
-      }
-      this.accessor = x;
-      if (this.accessor.country?.[0]) {
-        this.country =
-          this.countries?.find((x) => x.value == this.accessor.country[0])?.value ?? '';
-      }
-    });
+    if (!this.modalControl.contentOptions?.accessor) {
+      return;
+    }
+    this.accessor = this.modalControl.contentOptions?.accessor;
+    if (this.accessor.country?.[0]) {
+      this.country = this.countries?.find((x) => x.value == this.accessor.country[0])?.value ?? '';
+    }
   }
 
   ngOnDestroy(): void {

@@ -33,7 +33,7 @@ export class TextboxComponent extends BaseComponent {
     super(cdr);
   }
 
-  override focus() {
+  override setFocus() {
     this.input.nativeElement.focus();
   }
 }

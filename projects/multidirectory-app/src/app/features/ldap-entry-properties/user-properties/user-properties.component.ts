@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ModalInjectDirective, ModalService } from 'multidirectory-ui-kit';
-import { LdapAttributes } from '@core/ldap/ldap-entity-proxy';
 import { Subject } from 'rxjs';
 
 @Component({

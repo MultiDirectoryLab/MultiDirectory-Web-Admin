@@ -53,13 +53,13 @@
     "cancel": "Отменить"
   },
   "group-selector": {
-    "modal-header": "Выбор группы",
-    "header": "Выберите тип группы:",
+    "modal-header": "Выбор объекта",
+    "header": "Выберите тип объекта:",
     "object-types": "Типы объектов...",
     "from-place": "Из этого места:",
     "places": "Места...",
     "name-prompt": "Чтобы найти объект, введите имя:",
-    "not-found-text": "Группы не найдены",
+    "not-found-text": "Объкеты не найдены",
     "check-name": "Проверить имя...",
     "additional-parameters": "Дополнительные параметры",
     "cancel": "Отменить",
@@ -69,6 +69,14 @@
     "modal-header": "Новый объект - Организационное подразделение",
     "header": "Добавить в: ",
     "ouname-label": "Введите название организационного подразделения",
+    "cancel": "Отменить",
+    "apply": "Сохранить",
+    "description": "Описание"
+  },
+  "catalog-create": {
+    "modal-header": "Новый объект - Каталог",
+    "header": "Добавить в: ",
+    "catalogname-label": "Введите название каталога",
     "cancel": "Отменить",
     "apply": "Сохранить",
     "description": "Описание"
@@ -162,6 +170,7 @@
     "computer": "Компьютер",
     "contact": "Контакт",
     "ou": "Организационное подразделение",
+    "folder": "Каталог",
     "common-folder": "Общая папка",
     "printer": "Принтер",
     "user": "Пользователь",
@@ -172,6 +181,8 @@
     "more": "Подробнее",
     "change-password": "Изменить пароль...",
     "modify-dn": "Задать Distinguished Name...",
+    "copy": "Копировать",
+    "move": "Переместить",
     "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
     "select-group-catalog": "Выберите каталог в котором будет создана группа",
     "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
@@ -187,7 +198,20 @@
     "value": "Значение",
     "select-attribute": "Выберите аттрибут для редактирования",
     "unable-retrieve-schema": "Не удалось получить схему",
-    "edit-not-allowed": "Редактирование запрещено"
+    "edit-not-allowed": "Редактирование запрещено",
+    "header": "Аттрибут",
+    "add": "Добавить",
+    "edit": "Редактировать",
+    "with-values-only": "Показать только аттрибуты с заданными значениями",
+    "writable-only": "Показать только аттрибуты, доступные для записи",
+    "show-attributes": "Показать аттрибуты",
+    "mandatory": "Обязательные",
+    "optional-only": "Опциональные",
+    "read-only": "Показать аттрибуты только для чтения",
+    "constructed-only": "Constructed",
+    "backlinks-only": "Backlinks",
+    "system-only": "Только системные",
+    "filter": "Фильтр"
   },
   "member-of": {
     "groups": "Группы:",
@@ -290,7 +314,7 @@
   "user-properties-tabs": {
     "general": "Общее",
     "attributes": "Аттрибуты",
-    "address": "Адресс",
+    "address": "Адрес",
     "account": "Аккаунт",
     "profile": "Профиль",
     "groups": "Группы",
@@ -397,7 +421,8 @@
   "settings-navigation": {
     "md-settings": "Настройки Multidirectory",
     "access-control": "Контроль доступа",
-    "mf-settings": "Подключение к Мультифактору"
+    "mf-settings": "Подключение к Мультифактору",
+    "about": "О программе"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -482,5 +507,23 @@
     "change": "Изменить...",
     "cancel": "Отменить",
     "apply": "Применить"
+  },
+  "password-conditions": {
+    "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
+    "password-complexity": "Пароль должен содержать заглавные и строчные буквы, а также цифры"
+  },
+  "confirmation-dialog": {
+    "prompt-header": "Требуется подтвержение",
+    "prompt-text": "Имеются несохраненные изменения. Применить?",
+    "yes": "Применить",
+    "no": "Не применять",
+    "cancel": "Отмена"
+  },
+  "move-entity": {
+    "modal-header": "Переместить объект",
+    "move": "Переместить",
+    "into-the-container": "В контейнер",
+    "change": "Изменить...",
+    "cancel": "Отменить"
   }
 }

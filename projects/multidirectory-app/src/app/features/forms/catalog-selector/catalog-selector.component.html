@@ -1,15 +1,19 @@
-<md-modal #modal>
-  <div class="app-modal-header">{{ 'catalog-selector.modal-header' | transloco }}</div>
+<div class="app-modal-header">{{ 'catalog-selector.modal-header' | transloco }}</div>
+
+<div class="h-100">
   <div class="flex-row">{{ 'catalog-selector.header' | transloco }}</div>
-  <md-treeview #ldapTree [tree]="ldapRoots" [nodeLabel]="mdTreeModal" class="treeview">
-  </md-treeview>
-  <div class="app-modal-footer flex-row flex-end flex-gap-10">
-    <md-button (click)="close()">{{ 'catalog-selector.cancel' | transloco }}</md-button>
-    <md-button [primary]="true" (click)="finish()">{{
-      'catalog-selector.apply' | transloco
-    }}</md-button>
+  <div class="h-100">
+    <md-treeview #ldapTree [tree]="ldapRoots" [nodeLabel]="mdTreeModal" class="treeview">
+    </md-treeview>
   </div>
-</md-modal>
+</div>
+
+<div class="app-modal-footer flex-row flex-end flex-gap-10">
+  <md-button (click)="close()">{{ 'catalog-selector.cancel' | transloco }}</md-button>
+  <md-button [primary]="true" (click)="finish()">{{
+    'catalog-selector.apply' | transloco
+  }}</md-button>
+</div>
 
 <ng-template #mdTreeModal let-data>
   <img class="tree-icon" [src]="data.icon" />

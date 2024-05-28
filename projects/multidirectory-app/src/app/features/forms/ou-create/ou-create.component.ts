@@ -13,7 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { PartialAttribute } from '@core/ldap/ldap-partial-attribute';
+import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 
 @Component({
   selector: 'app-ou-create',

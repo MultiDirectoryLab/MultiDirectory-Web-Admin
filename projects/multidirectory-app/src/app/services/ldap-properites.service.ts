@@ -43,7 +43,11 @@ export class LdapPropertiesService {
           of(attributes),
           this.api.search(SearchQueries.getProperites(entityId ?? '')).pipe(
             map((x) => {
-              return x.search_result[0].partial_attributes.flatMap((x) => {
+              let result = x.search_result.find((x) => x.object_name == entityId);
+              if (!result) {
+                result = x.search_result[0];
+              }
+              return result.partial_attributes.flatMap((x) => {
                 const isWritable = this.READONLY.findIndex((y) => y == x.type) < 0;
                 return new EntityAttribute(x.type, x.vals.join(';'), false, isWritable);
               });

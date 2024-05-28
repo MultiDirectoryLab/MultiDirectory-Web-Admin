@@ -27,6 +27,7 @@ import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordPolicyGetResponse } from '@models/password-policy/password-policy-get-response';
 import { PasswordPolicyPutRequest } from '@models/password-policy/password-policy-put-request';
 import { GetAcpPageResponse } from '@models/login/get-acp-response';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 
 @Injectable({
   providedIn: 'root',
@@ -189,5 +190,9 @@ export class MultidirectoryApiService {
       .post<GetAcpPageResponse>('multifactor/connect', payload)
       .useUrlEncodedForm()
       .execute();
+  }
+
+  updateDn(payload: ModifyDnRequest): any {
+    return this.httpClient.put<ModifyDnRequest>('entry/update/dn', payload).execute();
   }
 }

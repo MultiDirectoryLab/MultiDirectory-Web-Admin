@@ -6,15 +6,15 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./multiselect-badge.component.scss'],
 })
 export class MultiselectBadgeComponent {
-  @Output() close = new EventEmitter<void>();
+  @Output() badgeClose = new EventEmitter<void>();
   onClose() {
-    this.close.next();
+    this.badgeClose.next();
   }
   onEnterPress(event: KeyboardEvent) {
     if (event.key == 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.close.next();
+      this.badgeClose.next();
       return;
     }
   }

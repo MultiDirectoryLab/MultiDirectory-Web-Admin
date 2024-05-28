@@ -2,8 +2,8 @@
   [tree]="navigationTree"
   [nodeLabel]="mdTreeModal"
   class="treeview"
-  (onNodeSelect)="handleNodeSelection($any($event))"
-  (onNodeRightClick)="handleNodeRightClick($any($event))"
+  (nodeSelect)="handleNodeSelection($any($event))"
+  (nodeRightClick)="handleNodeRightClick($any($event))"
   #treeView
 >
 </md-treeview>
