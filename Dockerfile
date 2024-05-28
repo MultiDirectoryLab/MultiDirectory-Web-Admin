@@ -1,5 +1,6 @@
 FROM node:18.16.0 as build
 RUN npm install -g @angular/cli@14.1.0
+RUN npm install -D @swc/cli @swc/core
 WORKDIR /app
 COPY package.json /app/package.json
 RUN npm install

@@ -1,7 +1,5 @@
 import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { PopupBaseComponent } from './base/popup-base.component';
-import { forwardRef } from 'react';
-import { min } from 'rxjs';
 
 @Directive({
   selector: '[mdPopupContainer]',
