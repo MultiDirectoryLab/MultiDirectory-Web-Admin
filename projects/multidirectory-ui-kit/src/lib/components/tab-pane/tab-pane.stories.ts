@@ -1,11 +1,11 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { TabPaneComponent } from './tab-pane.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab/tab.component';
 import { PlaneButtonComponent } from '../plane-button/plane-button.component';
+import { ModalModule } from '../modal/ng-modal-lib/public-api';
 const meta: Meta<TabPaneComponent> = {
   title: 'Components/TabPane',
   component: TabPaneComponent,

@@ -1,8 +1,8 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { TextareaComponent } from './textarea.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalModule } from '../modal/ng-modal-lib/public-api';
 const meta: Meta<TextareaComponent> = {
   title: 'Components/Textarea',
   component: TextareaComponent,

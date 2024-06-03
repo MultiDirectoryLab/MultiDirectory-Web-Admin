@@ -1,8 +1,8 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { SpinnerComponent } from './spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalModule } from '../modal/ng-modal-lib/public-api';
 const meta: Meta<SpinnerComponent> = {
   title: 'Components/Spinner',
   component: SpinnerComponent,
