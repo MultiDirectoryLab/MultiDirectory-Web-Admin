@@ -3,7 +3,6 @@ import { ButtonComponent } from './components/button/button.component';
 import { TextboxComponent } from './components/textbox/textbox.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NumberComponent } from './components/number/number.component';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { MdModalComponent } from './components/modal/modal.component';
 import { TreeviewComponent } from './components/treeview/treeview.component';
 import { ModalTestComponent } from './components/modal/modaltest.component';
@@ -45,6 +44,7 @@ import { PopupBaseComponent } from './components/popup/base/popup-base.component
 import { PopupTestComponent } from './components/popup/popuptest/popuptest.component';
 import { PopupContainerDirective } from './components/popup/popup-container.directive';
 import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.component';
+import { ModalModule } from './components/modal/ng-modal-lib/public-api';
 
 @NgModule({
   declarations: [

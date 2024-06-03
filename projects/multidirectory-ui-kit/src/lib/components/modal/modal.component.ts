@@ -11,11 +11,11 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { ModalComponent } from 'ng-modal-full-resizable';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ModalService } from './modal.service';
 import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
 import { IdProvider } from '../../utils/id-provider';
+import { ModalComponent } from './ng-modal-lib/public-api';
 
 @Component({
   selector: 'md-modal',

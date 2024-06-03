@@ -3,14 +3,12 @@ import {
   Directive,
   EmbeddedViewRef,
   OnChanges,
-  OnInit,
-  Renderer2,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { MdModalComponent } from './modal.component';
 import { Observable, Subject, take } from 'rxjs';
+import { MdModalComponent } from './modal.component';
 
 @Directive({
   selector: '[modalInject]',
@@ -21,7 +19,6 @@ export class ModalInjectDirective implements OnChanges {
   private _modal?: MdModalComponent;
   constructor(
     private templateRef: TemplateRef<any>,
-    private renderer: Renderer2,
     private viewContainerRef: ViewContainerRef,
     private cdr: ChangeDetectorRef,
   ) {}

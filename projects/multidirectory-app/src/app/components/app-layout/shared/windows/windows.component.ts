@@ -3,16 +3,14 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
-import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
 import { EntityType } from '@core/entities/entities-type';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { SearchRequest } from '@models/entry/search-request';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-windows',

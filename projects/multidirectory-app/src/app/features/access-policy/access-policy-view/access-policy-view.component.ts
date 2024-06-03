@@ -1,7 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { translate } from '@ngneat/transloco';
-import { DropdownOption, MdFormComponent, MultiselectComponent } from 'multidirectory-ui-kit';
-import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
+import {
+  DropdownOption,
+  MdFormComponent,
+  ModalInjectDirective,
+  MultiselectComponent,
+} from 'multidirectory-ui-kit';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { IpRange } from '@core/access-policy/access-policy-ip-address';
 import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
