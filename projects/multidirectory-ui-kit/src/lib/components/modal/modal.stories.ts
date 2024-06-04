@@ -1,4 +1,4 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
 import { MdModalComponent } from './modal.component';
 import { ButtonComponent } from '../button/button.component';
 import { ModalTestComponent } from './modaltest.component';
@@ -30,17 +30,15 @@ const meta: Meta<MdModalComponent> = {
 
 export default meta;
 
-type Story = StoryFn<MdModalComponent>;
-const template: Story = (args: MdModalComponent) => ({
-  props: {
-    value: 10,
-  },
-  template: `
-    <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
-    <br /><br />
-    <app-modal-test #modal></app-modal-test>
-    `,
-});
+type Story = StoryObj<MdModalComponent>;
+const template: Story = {
+  render: (args) => ({
+    template: `
+      <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
+      <br /><br />
+      <app-modal-test #modal></app-modal-test>
+      `,
+  }),
+};
 
-export const SimpleExample = template.bind({});
-SimpleExample.args = {} as Partial<MdModalComponent>;
+export const SimpleExample = template;

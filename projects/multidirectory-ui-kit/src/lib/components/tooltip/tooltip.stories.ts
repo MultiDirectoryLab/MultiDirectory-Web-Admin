@@ -1,6 +1,5 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { TooltipComponent } from './tooltip.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
 const meta: Meta<TooltipComponent> = {
@@ -9,7 +8,7 @@ const meta: Meta<TooltipComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, CommonModule],
+      imports: [CommonModule],
       declarations: [TooltipComponent],
     }),
   ],

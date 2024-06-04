@@ -6,17 +6,16 @@ const meta: Meta<PlaneButtonComponent> = {
   component: PlaneButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: PlaneButtonComponent) => {
-    return {
-      props: {
-        backgroundColor: null,
-        ...args,
-      },
-      template: `
-          <md-plane-button [disabled]="disabled" (click)="click()"> </md-plane-button>
-        `,
-    };
-  },
+  render: (args: any) => ({
+    props: {
+      ...args,
+    },
+    template: `
+      <div style="width: 48px">
+        <md-plane-button [disabled]="disabled" [hasBorder]="true" (click)="click()">Button</md-plane-button>
+      </div>
+    `,
+  }),
 };
 
 export default meta;
