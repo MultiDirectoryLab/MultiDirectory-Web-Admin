@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { MdModalComponent } from './modal.component';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { ModalTestComponent } from './modaltest.component';
 import { ModalInjectDirective } from './modal-inject.directive';
+import { ModalModule } from './ng-modal-lib/public-api';
 
 describe('MdModalComponent', () => {
   let fixture: ComponentFixture<ModalTestComponent>;
