@@ -37,7 +37,7 @@ export class EntityPropertiesComponent implements OnInit {
     this.accessor = this.modalControl.contentOptions.accessor;
     this.entityType = this.modalControl.contentOptions.entityType;
     this.cdr.detectChanges();
-    this.modalControl.modal?.resize();
+    this.modalControl.modal?.resizeToContentHeight();
   }
 
   close() {

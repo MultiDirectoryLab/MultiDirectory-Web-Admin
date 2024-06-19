@@ -1,14 +1,13 @@
 import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
 import { TextareaComponent } from './textarea.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ModalModule } from '../modal/ng-modal-lib/public-api';
 const meta: Meta<TextareaComponent> = {
   title: 'Components/Textarea',
   component: TextareaComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ModalModule, NgxSpinnerModule],
+      imports: [NgxSpinnerModule],
       declarations: [TextareaComponent],
     }),
   ],

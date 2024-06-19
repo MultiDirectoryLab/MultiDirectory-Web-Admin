@@ -4,7 +4,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab/tab.component';
 import { PlaneButtonComponent } from '../plane-button/plane-button.component';
-import { ModalModule } from '../modal/ng-modal-lib/public-api';
+import { ModalModule } from 'dist/ng-modal-lib';
 const meta: Meta<TabPaneComponent> = {
   title: 'Components/TabPane',
   component: TabPaneComponent,

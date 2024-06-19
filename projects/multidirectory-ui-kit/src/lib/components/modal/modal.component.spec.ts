@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { MdModalComponent } from './modal.component';
 import { ModalTestComponent } from './modaltest.component';
-import { ModalInjectDirective } from './modal-inject.directive';
-import { ModalModule } from './ng-modal-lib/public-api';
+import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
+import { MdModalModule } from './modal.module';
 
 describe('MdModalComponent', () => {
   let fixture: ComponentFixture<ModalTestComponent>;
@@ -10,7 +10,7 @@ describe('MdModalComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [ModalModule],
+      imports: [MdModalModule],
       declarations: [ModalTestComponent, MdModalComponent, ModalInjectDirective],
       teardown: { destroyAfterEach: false },
     })
@@ -25,10 +25,10 @@ describe('MdModalComponent', () => {
     fixture.detectChanges();
     component.open();
     fixture.detectChanges();
-    expect(component.modal!.modal!.modalRoot!.visible).toBeTrue();
+    expect(component.modal!.modal!.visible).toBeTrue();
     component.modal?.close();
     fixture.detectChanges();
-    expect(component.modal!.modal?.modalRoot?.visible).toBeFalse();
+    expect(component.modal!.modal?.visible).toBeFalse();
   });
 
   it('should render body', () => {

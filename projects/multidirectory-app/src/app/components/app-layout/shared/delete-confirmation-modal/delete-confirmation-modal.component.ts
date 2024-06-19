@@ -10,7 +10,6 @@ export class DeleteConfirmationModalComponent implements OnInit {
   toDeleteDNs: string[] = [];
   constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
   ngOnInit(): void {
-    console.log(this.modalControl.contentOptions);
     this.toDeleteDNs = this.modalControl.contentOptions?.['toDeleteDNs'] ?? [];
   }
 

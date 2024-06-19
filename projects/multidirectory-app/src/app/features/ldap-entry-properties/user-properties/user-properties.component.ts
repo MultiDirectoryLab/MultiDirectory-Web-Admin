@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ModalInjectDirective, ModalService } from 'multidirectory-ui-kit';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -28,7 +28,7 @@ export class UserPropertiesComponent implements OnDestroy {
   }
 
   onTabChanged() {
-    this.modalControl.modal?.resize();
+    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

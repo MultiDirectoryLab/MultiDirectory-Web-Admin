@@ -17,7 +17,7 @@ export class GroupPropertiesComponent {
   ) {}
 
   onTabChanged() {
-    this.modalControl.modal?.resize();
+    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

@@ -1,14 +1,13 @@
-import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { SpinnerComponent } from './spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ModalModule } from '../modal/ng-modal-lib/public-api';
 const meta: Meta<SpinnerComponent> = {
   title: 'Components/Spinner',
   component: SpinnerComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ModalModule, NgxSpinnerModule],
+      imports: [NgxSpinnerModule],
       declarations: [SpinnerComponent],
     }),
   ],

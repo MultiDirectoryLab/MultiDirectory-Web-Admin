@@ -9,12 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  MdModalComponent,
-  ModalInjectDirective,
-  ModalService,
-  StepperComponent,
-} from 'multidirectory-ui-kit';
+import { ModalInjectDirective, StepperComponent } from 'multidirectory-ui-kit';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 import { UserCreateService } from '@services/user-create.service';
@@ -51,7 +46,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     });
 
     if (this.modalControl) {
-      this.modalControl.modal?.resize();
+      this.modalControl.modal?.resizeToContentHeight();
     }
     this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
   }

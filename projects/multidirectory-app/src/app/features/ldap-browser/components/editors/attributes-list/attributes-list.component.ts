@@ -1,6 +1,18 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Validator } from '@angular/forms';
-import { MdModalComponent, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
+import {
+  MdModalComponent,
+  ModalInjectDirective,
+  Treenode,
+  TreeviewComponent,
+} from 'multidirectory-ui-kit';
 import { Observable, Subject } from 'rxjs';
 
 export class AttributeListEntry extends Treenode {
@@ -18,26 +30,27 @@ export class AttributeListEntry extends Treenode {
   styleUrls: ['./attributes-list.component.scss'],
   templateUrl: './attributes-list.component.html',
 })
-export class AttributeListComponent implements AfterViewInit {
-  @ViewChild('modal', { static: true }) modal: MdModalComponent | null = null;
+export class AttributeListComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
-  private closeRx = new Subject<string[] | null>();
   title = '';
   newAttribute: string = '';
   type: string = '';
   values: string[] = [];
-
+  tree: AttributeListEntry[] = [];
   toDelete: AttributeListEntry[] = [];
 
-  ngAfterViewInit(): void {}
+  constructor(
+    private modalControl: ModalInjectDirective,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
-  open(title: string, type: string, values: string[]): Observable<string[] | null> {
-    this.title = title;
-    this.type = type;
-    this.values = values ?? [];
-    this.treeview!.tree = [];
-    this.values.forEach((x) => {
-      this.treeview?.addRoot(
+  ngOnInit(): void {
+    this.title = this.modalControl.contentOptions.title;
+    this.type = this.modalControl.contentOptions.type;
+    this.values = this.modalControl.contentOptions.values ?? [];
+
+    this.tree = this.values.map(
+      (x) =>
         new AttributeListEntry({
           name: x,
           id: x,
@@ -45,24 +58,16 @@ export class AttributeListComponent implements AfterViewInit {
           type: this.type,
           new: false,
         }),
-      );
-    });
-    this.treeview?.redraw();
-    this.modal?.open();
-    return this.closeRx.asObservable();
+    );
   }
 
   apply() {
     const result = this.treeview?.tree.map((x) => x.name ?? '') ?? [];
-    this.closeRx.next(result);
-    this.modal?.close();
+    this.modalControl.close(result);
   }
 
   close() {
-    this.closeRx.next(null);
-    this.treeview!.tree = [];
-    this.newAttribute = '';
-    this.treeview!.redraw();
+    this.modalControl.close(null);
   }
 
   addAttribute() {
@@ -79,11 +84,9 @@ export class AttributeListComponent implements AfterViewInit {
 
   deleteAttribute() {
     this.toDelete = this.toDelete.concat(
-      <AttributeListEntry[]>(
-        this.treeview?.tree.filter((x) => x.selected && !(<AttributeListEntry>x).new)
-      ) ?? [],
+      <AttributeListEntry[]>this.tree.filter((x) => x.selected && !(<AttributeListEntry>x).new) ??
+        [],
     );
-    this.treeview!.tree = this.treeview?.tree.filter((x) => !x.selected) ?? [];
-    this.treeview!.redraw();
+    this.tree = this.tree.filter((x) => !x.selected) ?? [];
   }
 }
