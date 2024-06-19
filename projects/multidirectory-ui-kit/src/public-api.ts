@@ -41,3 +41,4 @@ export * from './lib/components/treeview/model/right-click-event';
 export * from './lib/components/popup/popup-container.directive';
 export * from './lib/components/popup/suggest/popup-suggest.component';
 export * from './lib/components/portal/portal.component';
+export * from './lib/components/portal/portal.directive';

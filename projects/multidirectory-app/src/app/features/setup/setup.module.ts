@@ -8,7 +8,6 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { FormsModule } from '@angular/forms';
 import { SetupRoutingModule } from './setup-routing.module';
 import { ValidatorsModule } from '@core/validators/validators.module';
-import { ModalControlModule } from '@core/modal-control/modal-control.module';
 import { TranslocoRootModule } from '../../transloco-root.module';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 
@@ -25,7 +24,6 @@ import { PasswordConditionsModule } from '@features/ldap-browser/components/edit
     MultidirectoryUiKitModule,
     TranslocoRootModule,
     ValidatorsModule,
-    ModalControlModule,
     SetupRoutingModule,
     PasswordConditionsModule,
   ],

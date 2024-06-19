@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, TemplateRef, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 import { MdPortalService } from '../../portal/portal.service';
 import { MdModalService } from '../modal.service';
+import { ModalInjectDirective } from './modal-inject.directive';
 
 describe('ModalInjectDirective', () => {
   let directive: ModalInjectDirective;
@@ -15,7 +15,7 @@ describe('ModalInjectDirective', () => {
 
   beforeEach(() => {
     portalService = jasmine.createSpyObj('MdPortalService', ['get']);
-    modalService = jasmine.createSpyObj('MdModalService', ['push', 'pop']);
+    modalService = jasmine.createSpyObj('MdModalService', ['push', 'pop', 'focusLastModal']);
     TestBed.configureTestingModule({
       declarations: [ModalInjectDirective],
       providers: [
@@ -52,7 +52,7 @@ describe('ModalInjectDirective', () => {
     });
     (<any>viewContainerRef.createComponent).and.returnValue({
       instance: {
-        closeEvent: new Subject<void>(),
+        closeModal: new Subject<void>(),
         open: () => {},
       },
     });

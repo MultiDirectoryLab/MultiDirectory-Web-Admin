@@ -9,6 +9,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   Renderer2,
   TemplateRef,
@@ -27,7 +28,7 @@ import { MdModalService } from './modal.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class MdModalComponent implements AfterViewInit, AfterViewChecked {
+export class MdModalComponent implements OnInit, AfterViewChecked {
   __ID = IdProvider.getUniqueId('modal');
 
   @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
@@ -40,13 +41,14 @@ export class MdModalComponent implements AfterViewInit, AfterViewChecked {
   @Input() minHeight = 0;
   @Input() opened = false;
   @Input() width: string = '';
+  @Input() closeable = true;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @ViewChild('modalRoot', { static: false }) modalRoot!: ElementRef;
   @ViewChild('modalBody', { static: false }) modalBody!: ElementRef;
   @ViewChild('modalHeader', { static: false }) modalHeader!: ElementRef;
   @ViewChild('modalFooter', { static: false }) modalFooter!: ElementRef;
-  @ViewChild('closeIcon', { static: false }) closeIcon!: ElementRef;
+  @ViewChild('closeIcon', { static: false }) closeIcon?: ElementRef;
   @ViewChild('overlay', { static: false }) overlay!: ElementRef;
 
   clearable = false;
@@ -66,7 +68,8 @@ export class MdModalComponent implements AfterViewInit, AfterViewChecked {
     private modalService: MdModalService,
     private cdr: ChangeDetectorRef,
   ) {}
-  ngAfterViewInit(): void {
+
+  ngOnInit(): void {
     if (this.opened) {
       this.open();
       this.calcBodyHeight();
@@ -90,6 +93,9 @@ export class MdModalComponent implements AfterViewInit, AfterViewChecked {
   onKeyDown(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
+    if (!this.closeable) {
+      return;
+    }
     this.close(true);
   }
 
@@ -112,6 +118,9 @@ export class MdModalComponent implements AfterViewInit, AfterViewChecked {
   }
 
   close(emitCloseEvent = false): void {
+    if (!this.closeable) {
+      return;
+    }
     this.rendered = false;
     this.visible = false;
     if (emitCloseEvent) {
@@ -140,7 +149,7 @@ export class MdModalComponent implements AfterViewInit, AfterViewChecked {
   }
 
   initDrag(event: MouseEvent | TouchEvent): void {
-    if (event.target === this.closeIcon.nativeElement) {
+    if (this.closeIcon && event.target === this.closeIcon.nativeElement) {
       return;
     }
     if (!this.maximized) {
