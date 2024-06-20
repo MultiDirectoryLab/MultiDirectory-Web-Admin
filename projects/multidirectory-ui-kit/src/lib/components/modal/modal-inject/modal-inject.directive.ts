@@ -103,6 +103,7 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
   closeWrapperFn: (result: any) => boolean = (result: any) => true;
 
   private shutdownWindow(result: any) {
+    this.modal.visible = false;
     this._resultRx.next(result);
     this.templateView.destroy();
     this._modalWrapper.destroy();
