@@ -30,9 +30,7 @@
   list-style: none;
   padding-left: 8px;
   user-select: none; /* Standard syntax */
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 
   &:not(.expandable) {
     padding-right: 4px;
@@ -44,7 +42,8 @@
   }
 }
 
-.tree-label {
+:host ::ng-deep .tree-label,
+.tree-item label {
   cursor: pointer !important;
 }
 
@@ -74,6 +73,12 @@
   }
 }
 
+md-tree-item > .tree-item-wrapper:not(.selected) {
+  &:hover {
+    background-color: var(--md-neutral-150);
+    color: black;
+  }
+}
 md-checkbox {
   display: inline-block;
 }
