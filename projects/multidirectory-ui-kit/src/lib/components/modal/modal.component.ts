@@ -42,8 +42,7 @@ export class MdModalComponent implements OnInit, AfterViewChecked {
   @Input() opened = false;
   @Input() width: string = '';
   @Input() closeable = true;
-
-  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() closeModal: EventEmitter<void> = new EventEmitter();
   @ViewChild('modalRoot', { static: false }) modalRoot!: ElementRef;
   @ViewChild('modalBody', { static: false }) modalBody!: ElementRef;
   @ViewChild('modalHeader', { static: false }) modalHeader!: ElementRef;
@@ -96,13 +95,7 @@ export class MdModalComponent implements OnInit, AfterViewChecked {
     if (!this.closeable) {
       return;
     }
-    this.close(true);
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.executePostDisplayActions = true;
-    this.center();
+    this.close();
   }
 
   open(): void {
@@ -117,15 +110,17 @@ export class MdModalComponent implements OnInit, AfterViewChecked {
     this.cdr.detectChanges();
   }
 
-  close(emitCloseEvent = false): void {
+  close(): void {
     if (!this.closeable) {
       return;
     }
-    this.rendered = false;
-    this.visible = false;
-    if (emitCloseEvent) {
-      this.closeModal.emit(false);
-    }
+    this.closeModal.emit();
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.executePostDisplayActions = true;
+    this.center();
   }
 
   center(): void {

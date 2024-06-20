@@ -3,19 +3,17 @@ import {
   Component,
   EventEmitter,
   Inject,
-  Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, take, takeUntil } from 'rxjs';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
-import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
+import { CreateEntryRequest } from '@models/entry/create-request';
 import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { Subject, take, takeUntil } from 'rxjs';
 import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
 @Component({
@@ -23,9 +21,9 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
   templateUrl: './computer-create.component.html',
   styleUrls: ['./computer-create.component.scss'],
 })
-export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
+export class ComputerCreateComponent implements OnInit, OnDestroy {
   @Output() create = new EventEmitter<void>();
-  @ViewChild('form') form!: MdFormComponent;
+  @ViewChild('form', { static: true }) form!: MdFormComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
@@ -41,7 +39,7 @@ export class ComputerCreateComponent implements AfterViewInit, OnDestroy {
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
       this.formValid = x;

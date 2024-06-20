@@ -25,7 +25,7 @@ import { translate } from '@ngneat/transloco';
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.scss'],
 })
-export class UserCreateComponent implements AfterViewInit, OnDestroy {
+export class UserCreateComponent implements OnInit, OnDestroy {
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
@@ -40,14 +40,11 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
     private toastr: ToastrService,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.setup.onStepValid.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.formValid = x;
     });
 
-    if (this.modalControl) {
-      this.modalControl.modal?.resizeToContentHeight();
-    }
     this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
   }
 
@@ -57,7 +54,7 @@ export class UserCreateComponent implements AfterViewInit, OnDestroy {
   }
 
   onFinish() {
-    this.modalControl.modal?.showSpinner();
+    this.modalControl.showSpinner();
     this.api
       .create(
         new CreateEntryRequest({

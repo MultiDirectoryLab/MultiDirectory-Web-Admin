@@ -5,11 +5,12 @@ import {
   EmbeddedViewRef,
   Inject,
   OnChanges,
+  OnDestroy,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable, Subject, take } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { MdModalComponent } from '../modal.component';
 import { getModalParts } from './modal-inject-helper';
 import { MdPortalService } from '../../portal/portal.service';
@@ -29,10 +30,11 @@ import { PORTAL_AWARE_VIEW_CONTAINER_RESOLVER } from './portal-aware-view-contai
     },
   ],
 })
-export class ModalInjectDirective implements OnChanges {
+export class ModalInjectDirective implements OnChanges, OnDestroy {
   private templateView!: EmbeddedViewRef<any>;
   private _modalWrapper!: ComponentRef<MdModalComponent>;
   private viewContainerRef!: ViewContainerRef;
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -44,6 +46,11 @@ export class ModalInjectDirective implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.templateView?.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   private _resultRx = new Subject<any | boolean | null>();
@@ -77,14 +84,10 @@ export class ModalInjectDirective implements OnChanges {
       this.contentOptions = contentOptions;
     }
 
-    this.cdr.detectChanges();
-
-    this.modal?.closeModal.pipe(take(1)).subscribe((result) => {
-      this._resultRx.next(result);
-      this._modalWrapper.destroy();
-      this.templateView.destroy();
-      this.modalService.pop();
-      this.modalService.focusLastModal();
+    this.modal?.closeModal.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      if (this.closeWrapperFn(null)) {
+        this.shutdownWindow(null);
+      }
     });
 
     this.modalService.push(this.modal);
@@ -95,11 +98,27 @@ export class ModalInjectDirective implements OnChanges {
   }
 
   close(result: any | boolean | null = null) {
+    this.shutdownWindow(result);
+  }
+  closeWrapperFn: (result: any) => boolean = (result: any) => true;
+
+  private shutdownWindow(result: any) {
     this._resultRx.next(result);
-    this.modal.close();
     this.templateView.destroy();
     this._modalWrapper.destroy();
     this.modalService.pop();
     this.modalService.focusLastModal();
+  }
+
+  resizeToContentHeight() {
+    this.modal.resizeToContentHeight();
+  }
+
+  showSpinner() {
+    this.modal.showSpinner();
+  }
+
+  hideSpinner() {
+    this.modal.hideSpinner();
   }
 }

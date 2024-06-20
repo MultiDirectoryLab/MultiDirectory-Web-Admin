@@ -43,7 +43,7 @@
         [ngClass]="{ 'dt-icon-maximize': !maximized, 'dt-icon-normalize': maximized }"
       >
       </i>
-      <i *ngIf="closeable" class="ui-icon dt-icon-close" #closeIcon (click)="close(true)"> </i>
+      <i *ngIf="closeable" class="ui-icon dt-icon-close" #closeIcon (click)="close()"> </i>
     </div>
   </div>
 

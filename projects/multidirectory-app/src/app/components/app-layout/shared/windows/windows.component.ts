@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { AppWindowsService } from '@services/app-windows.service';
 import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -17,7 +17,7 @@ import { ModalInjectDirective } from 'multidirectory-ui-kit';
   styleUrls: ['./windows.component.scss'],
   templateUrl: './windows.component.html',
 })
-export class WindowsComponent implements AfterViewInit {
+export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
   @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
   @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
@@ -117,6 +117,11 @@ export class WindowsComponent implements AfterViewInit {
     this.ldapWindows.showConfirmDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((prompt) => {
       this.openConfirmDialog(prompt);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
