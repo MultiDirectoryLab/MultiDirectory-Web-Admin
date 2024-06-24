@@ -1,13 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { MdModalComponent } from './modal.component';
 
-@Injectable()
-export class ModalService {
-  private _resizeRx = new Subject<void>();
-  get resizeRx(): Observable<void> {
-    return this._resizeRx.asObservable();
+@Injectable({
+  providedIn: 'root',
+})
+export class MdModalService {
+  private _modals: MdModalComponent[] = [];
+
+  push(modal: MdModalComponent) {
+    this._modals.push(modal);
   }
-  resize() {
-    this._resizeRx.next();
+  pop(): MdModalComponent | undefined {
+    return this._modals.pop();
+  }
+
+  getModalParent(): MdModalComponent | undefined {
+    if (this._modals.length <= 0) {
+      return undefined;
+    }
+    return this._modals[this._modals.length - 1];
+  }
+
+  getModalCount(): number {
+    return this._modals.length;
+  }
+
+  focusLastModal(): void {
+    if (this._modals.length == 0) {
+      return;
+    }
+    const modal = this._modals[this._modals.length - 1];
+    modal.focus();
+    modal.moveOnTop();
   }
 }

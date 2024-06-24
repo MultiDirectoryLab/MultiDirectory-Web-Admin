@@ -1,7 +1,6 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular';
 import { TreeviewComponent } from './treeview.component';
 import { of } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreeItemComponent } from './tree-item.component';
 import { Treenode } from './model/treenode';
 
@@ -11,7 +10,6 @@ const meta: Meta<TreeviewComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule],
       declarations: [TreeviewComponent, TreeItemComponent],
     }),
   ],

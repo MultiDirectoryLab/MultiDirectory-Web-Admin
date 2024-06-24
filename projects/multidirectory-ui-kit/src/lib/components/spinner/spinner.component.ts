@@ -7,12 +7,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './spinner.component.html',
   host: { 'collision-id': 'MdSpinnerComponent' },
 })
-export class SpinnerComponent implements OnInit {
+export class SpinnerComponent {
   @Input() spinnerText = 'Please, wait...';
   @Input() name = 'primary';
   @Input() fullscreen = false;
   constructor(private spinner: NgxSpinnerService) {}
-  ngOnInit(): void {}
 
   show() {
     this.spinner.show(this.name);

@@ -94,4 +94,7 @@
     </div>
   </div>
 </ng-container>
-<app-attribute-list #attributeList></app-attribute-list>
+
+<ng-template modalInject #attributeList="modalInject">
+  <app-attribute-list></app-attribute-list>
+</ng-template>

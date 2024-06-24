@@ -51,7 +51,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(templateRef: any) {
-    this.modal.modalRoot!.resizeToContentHeight();
+    this.modal.resizeToContentHeight();
   }
 
   onSetup() {
@@ -73,8 +73,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   resize() {
-    this.cdr.detectChanges();
-    this.modal.modalRoot?.resizeToContentHeight();
+    this.modal.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 

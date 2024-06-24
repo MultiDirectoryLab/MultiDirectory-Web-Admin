@@ -1,22 +1,23 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
 import { MdModalComponent } from './modal.component';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { ButtonComponent } from '../button/button.component';
 import { ModalTestComponent } from './modaltest.component';
-import { ModalInjectDirective } from './modal-inject.directive';
+import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
 import { TextboxComponent } from '../textbox/textbox.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MdModalModule } from './modal.module';
+import { MdPortalModule } from '../portal/portal.module';
+import { MdSpinnerModule } from '../spinner/spinner.module';
 
 const meta: Meta<MdModalComponent> = {
   title: 'Components/Modal',
   component: MdModalComponent,
-  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ModalModule, CommonModule, FormsModule],
-      declarations: [ButtonComponent, ModalTestComponent, ModalInjectDirective, TextboxComponent],
-      entryComponents: [ModalInjectDirective, MdModalComponent],
+      imports: [CommonModule, FormsModule, MdModalModule, MdPortalModule, MdSpinnerModule],
+      declarations: [ButtonComponent, ModalTestComponent, TextboxComponent],
+      entryComponents: [MdModalComponent],
       providers: [
         {
           provide: ModalInjectDirective,
@@ -30,17 +31,15 @@ const meta: Meta<MdModalComponent> = {
 
 export default meta;
 
-type Story = StoryFn<MdModalComponent>;
-const template: Story = (args: MdModalComponent) => ({
-  props: {
-    value: 10,
-  },
-  template: `
-    <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
-    <br /><br />
-    <app-modal-test #modal></app-modal-test>
-    `,
-});
+type Story = StoryObj<MdModalComponent>;
+const template: Story = {
+  render: (args) => ({
+    template: `
+      <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
+      <br /><br />
+      <app-modal-test #modal></app-modal-test>
+      `,
+  }),
+};
 
-export const SimpleExample = template.bind({});
-SimpleExample.args = {} as Partial<MdModalComponent>;
+export const SimpleExample = template;

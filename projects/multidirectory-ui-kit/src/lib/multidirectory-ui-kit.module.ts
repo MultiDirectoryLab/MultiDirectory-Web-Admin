@@ -3,7 +3,6 @@ import { ButtonComponent } from './components/button/button.component';
 import { TextboxComponent } from './components/textbox/textbox.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { NumberComponent } from './components/number/number.component';
-import { ModalModule } from 'ng-modal-full-resizable';
 import { MdModalComponent } from './components/modal/modal.component';
 import { TreeviewComponent } from './components/treeview/treeview.component';
 import { ModalTestComponent } from './components/modal/modaltest.component';
@@ -22,7 +21,7 @@ import { FormTestComponent } from './components/form/formtest.component';
 import { MdFormComponent } from './components/form/form.component';
 import { ErrorLabelComponent } from './components/base-component/error-label/error-label.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { ModalInjectDirective } from './components/modal/modal-inject.directive';
+import { ModalInjectDirective } from './components/modal/modal-inject/modal-inject.directive';
 import { RadioGroupComponent } from './components/radiobutton-group/radio-group.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -45,6 +44,9 @@ import { PopupBaseComponent } from './components/popup/base/popup-base.component
 import { PopupTestComponent } from './components/popup/popuptest/popuptest.component';
 import { PopupContainerDirective } from './components/popup/popup-container.directive';
 import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.component';
+import { MdModalModule } from './components/modal/modal.module';
+import { MdSpinnerModule } from './components/spinner/spinner.module';
+import { MdPortalModule } from './components/portal/portal.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,6 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
     TextareaComponent,
     DropdownComponent,
     NumberComponent,
-    MdModalComponent,
     ModalTestComponent,
     TreeviewComponent,
     TreeItemComponent,
@@ -69,10 +70,7 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
     MdFormComponent,
     FormTestComponent,
     ErrorLabelComponent,
-    ModalInjectDirective,
     RadioGroupComponent,
-    SpinnerComponent,
-    SpinnerHostDirective,
     PagerComponent,
     TabPaneComponent,
     TabComponent,
@@ -91,7 +89,9 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
   ],
   imports: [
     CommonModule,
-    ModalModule,
+    MdPortalModule,
+    MdModalModule,
+    MdSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
     NgxDatatableModule,
@@ -104,8 +104,6 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
     TextareaComponent,
     DropdownComponent,
     NumberComponent,
-    MdModalComponent,
-    ModalInjectDirective,
     TreeviewComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,
@@ -132,6 +130,9 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
     AutofocusDirective,
     PopupContainerDirective,
     PopupSuggestComponent,
+    MdPortalModule,
+    MdModalModule,
+    MdSpinnerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

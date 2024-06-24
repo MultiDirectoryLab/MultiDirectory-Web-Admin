@@ -6,17 +6,15 @@ const meta: Meta<ButtonComponent> = {
   component: ButtonComponent,
   tags: ['autodocs'],
   argTypes: { click: { action: 'clicked' } },
-  render: (args: ButtonComponent) => {
-    return {
-      props: {
-        backgroundColor: null,
-        ...args,
-      },
-      template: `
+  render: (args) => ({
+    props: {
+      backgroundColor: null,
+      ...args,
+    },
+    template: `
       <md-button [primary]="primary" [disabled]="disabled" (click)="click()">Button</md-button>
     `,
-    };
-  },
+  }),
 };
 
 export default meta;
