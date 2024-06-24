@@ -43,3 +43,4 @@ export * from './lib/components/popup/suggest/popup-suggest.component';
 export * from './lib/components/portal/portal.component';
 export * from './lib/components/portal/portal.directive';
 export * from './lib/components/portal/portal.module';
+export * from './lib/components/spinner/spinner.module';
