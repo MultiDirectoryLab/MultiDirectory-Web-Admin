@@ -1,25 +1,23 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { AppWindowsService } from '@services/app-windows.service';
 import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
-import { ModalInjectDirective } from 'ng-modal-full-resizable/lib/injectable/injectable.directive';
 import { EntityType } from '@core/entities/entities-type';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { SearchRequest } from '@models/entry/search-request';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-windows',
   styleUrls: ['./windows.component.scss'],
   templateUrl: './windows.component.html',
 })
-export class WindowsComponent implements AfterViewInit {
+export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
   @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
   @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
@@ -119,6 +117,11 @@ export class WindowsComponent implements AfterViewInit {
     this.ldapWindows.showConfirmDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((prompt) => {
       this.openConfirmDialog(prompt);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {

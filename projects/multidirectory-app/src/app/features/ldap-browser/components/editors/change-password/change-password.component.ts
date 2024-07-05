@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
@@ -11,8 +11,8 @@ import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
 })
-export class ChangePasswordComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('form') form!: MdFormComponent;
+export class ChangePasswordComponent implements OnInit, OnDestroy {
+  @ViewChild('form', { static: true }) form!: MdFormComponent;
   unsubscribe = new Subject<boolean>();
   formValid = false;
   changeRequest = new ChangePasswordRequest();
@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements AfterViewInit, OnDestroy {
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     if (!!this.modalControl?.contentOptions?.identity) {
       this.changeRequest.identity = this.modalControl.contentOptions.identity;
       this.un = this.modalControl.contentOptions.un;

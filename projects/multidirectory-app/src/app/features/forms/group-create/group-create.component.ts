@@ -5,12 +5,12 @@ import {
   Inject,
   Input,
   OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { GroupCreateRequest } from '@models/group-create/group-create.request';
@@ -22,7 +22,7 @@ import { translate } from '@ngneat/transloco';
   templateUrl: './group-create.component.html',
   styleUrls: ['./group-create.component.scss'],
 })
-export class GroupCreateComponent implements AfterViewInit, OnDestroy {
+export class GroupCreateComponent implements OnInit, OnDestroy {
   @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
   private _unsubscribe = new Subject<boolean>();
   setupRequest = new GroupCreateRequest();
@@ -36,7 +36,7 @@ export class GroupCreateComponent implements AfterViewInit, OnDestroy {
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this._form?.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
       this.formValid = x;
     });

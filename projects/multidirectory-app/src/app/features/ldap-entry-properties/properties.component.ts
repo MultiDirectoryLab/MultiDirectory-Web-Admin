@@ -36,15 +36,14 @@ export class EntityPropertiesComponent implements OnInit {
     }
     this.accessor = this.modalControl.contentOptions.accessor;
     this.entityType = this.modalControl.contentOptions.entityType;
-    this.cdr.detectChanges();
-    this.modalControl.modal?.resize();
+    this.modalControl.closeWrapperFn = (result) => this.save();
   }
 
   close() {
     this.modalControl.close();
   }
 
-  save() {
+  save(): boolean {
     this.modalControl.modal?.showSpinner();
     const updateRequest = this.attributes.createAttributeUpdateRequest(this.accessor);
 
@@ -59,9 +58,9 @@ export class EntityPropertiesComponent implements OnInit {
     };
 
     if (updateRequest.changes.length == 0) {
-      this.modalControl.modal?.hideSpinner();
+      this.modalControl.hideSpinner();
       this.modalControl.close();
-      return;
+      return false;
     }
 
     this.windows
@@ -90,5 +89,6 @@ export class EntityPropertiesComponent implements OnInit {
           this.modalControl?.modal?.hideSpinner();
         },
       });
+    return false;
   }
 }

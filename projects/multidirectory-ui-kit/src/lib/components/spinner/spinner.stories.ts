@@ -1,15 +1,13 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ModalModule } from 'ng-modal-full-resizable';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { SpinnerComponent } from './spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const meta: Meta<SpinnerComponent> = {
   title: 'Components/Spinner',
   component: SpinnerComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [BrowserAnimationsModule, ModalModule, NgxSpinnerModule],
+      imports: [NgxSpinnerModule],
       declarations: [SpinnerComponent],
     }),
   ],
@@ -17,14 +15,14 @@ const meta: Meta<SpinnerComponent> = {
 
 export default meta;
 
-type Story = StoryFn<SpinnerComponent>;
-const template: Story = (args: SpinnerComponent) => ({
-  props: args,
-  template: `
-        <md-spinner #spinner></md-spinner>
-        <button (click)="spinner.show()">Click</button>
-    `,
-});
+type Story = StoryObj<SpinnerComponent>;
+const template: Story = {
+  render: (args) => ({
+    template: `
+          <md-spinner #spinner></md-spinner>
+          <button (click)="spinner.show()">Click</button>
+      `,
+  }),
+};
 
-export const SimpleExample = template.bind({});
-SimpleExample.args = {} as Partial<SpinnerComponent>;
+export const SimpleExample = template;

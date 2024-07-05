@@ -5,7 +5,6 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ModalControlModule } from '@core/modal-control/modal-control.module';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -14,7 +13,6 @@ import { ModalControlModule } from '@core/modal-control/modal-control.module';
     CommonModule,
     FormsModule,
     TranslocoModule,
-    ModalControlModule,
     LoginRoutingModule,
   ],
 })
