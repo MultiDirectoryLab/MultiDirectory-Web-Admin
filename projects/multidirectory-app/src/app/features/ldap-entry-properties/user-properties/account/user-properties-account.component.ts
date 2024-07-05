@@ -1,11 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import BitSet from 'bitset';
-import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { DatepickerComponent, DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AttributeService } from '@services/attributes.service';
 import { take, tap } from 'rxjs';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import moment from 'moment';
 
 @Component({
   selector: 'app-user-properties-account',
@@ -13,6 +14,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
   styleUrls: ['./user-properties-account.component.scss'],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
+  @ViewChild('datePicker') datePicker!: DatepickerComponent;
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
   uacBitSet?: BitSet;
@@ -38,6 +40,14 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 
+  fileTimeToDate(filetime: number): moment.Moment {
+    return moment(new Date(filetime / 10000 - 11644473600000));
+  }
+
+  filetimeFromDate(date: moment.Moment): number {
+    return date.date() * 1e4 + 116444736e9;
+  }
+
   constructor(
     public modalControl: ModalInjectDirective,
     private cdr: ChangeDetectorRef,
@@ -51,8 +61,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
       ? BitSet.fromHexString(Number(uacBits).toString(16))
       : new BitSet();
 
-    this._accountExpires = !!this.accessor?.['accountExpires']?.[0];
-    this._expireDate = this.accessor['accountExpires']?.[0] ?? '';
+    this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
 
     this.nodeLoader
@@ -113,24 +122,18 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 
-  _expireDate = Date.now().toString();
   _accountExpires = false;
   set accountExpires(value: boolean) {
     this._accountExpires = value;
-    if (this.accessor?.['accountExpires']) {
-      this.accessor['accountExpires'] = [!value ? '' : this.expireDate];
+    if (!value) {
+      this.accessor['accountExpires'] = ['0'];
+      this.datePicker.clearDate();
+    } else {
+      this.accessor['accountExpires'] = this.accessor['$accountExpires'];
     }
+    this.cdr.detectChanges();
   }
   get accountExpires(): boolean {
     return this._accountExpires;
-  }
-  set expireDate(value: string) {
-    this._expireDate = value;
-    if (this.accessor?.['accountExpires']) {
-      this.accessor['accountExpires'] = [value];
-    }
-  }
-  get expireDate(): string {
-    return this._expireDate;
   }
 }

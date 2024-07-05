@@ -17,24 +17,31 @@ export class LdapEntryLoader implements NodeLoader {
 
   get(): Observable<LdapEntryNode[]> {
     return this.api.search(SearchQueries.RootDse).pipe(
-      map((res: SearchResponse) =>
-        res.search_result.map((x) => {
-          const namingContext = x.partial_attributes.find((x) => x.type == 'namingContexts');
-          const rootDn = x.partial_attributes.find((x) => x.type == 'rootDomainNamingContext');
+      map(
+        (res: SearchResponse) =>
+          res.search_result
+            .map((x) => {
+              const namingContext = x.partial_attributes.find((x) => x.type == 'namingContexts');
+              const rootDn = x.partial_attributes.find((x) => x.type == 'rootDomainNamingContext');
+              if (!rootDn) {
+                return undefined;
+              }
 
-          const serverNode = new LdapEntryNode({
-            name: LdapEntryLoader.getSingleAttribute(x, 'dnsHostName'),
-            type: LdapEntryType.Server,
-            selectable: true,
-            entry: x,
-            parent: undefined,
-            id: namingContext?.vals[0] ?? '',
-            route: ['ldap'],
-            data: rootDn?.vals?.[0] ?? '',
-          });
-          serverNode.loadChildren = () => this.getChild(namingContext?.vals[0] ?? '', serverNode);
-          return serverNode;
-        }),
+              const serverNode = new LdapEntryNode({
+                name: LdapEntryLoader.getSingleAttribute(x, 'dnsHostName') ?? 'test',
+                type: LdapEntryType.Server,
+                selectable: true,
+                entry: x,
+                parent: undefined,
+                id: namingContext?.vals[0] ?? '',
+                route: ['ldap'],
+                data: rootDn?.vals?.[0] ?? '',
+              });
+              serverNode.loadChildren = () =>
+                this.getChild(namingContext?.vals[0] ?? '', serverNode);
+              return serverNode;
+            })
+            .filter((x) => !!x) as LdapEntryNode[],
       ),
     );
   }

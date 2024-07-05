@@ -5,6 +5,7 @@ import {
   Inject,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -19,8 +20,8 @@ import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attrib
   templateUrl: './catalog-create.component.html',
   styleUrls: ['./catalog-create.component.scss'],
 })
-export class CatalogCreateComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('form') form!: MdFormComponent;
+export class CatalogCreateComponent implements OnInit, OnDestroy {
+  @ViewChild('form', { static: true }) form!: MdFormComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
@@ -32,7 +33,7 @@ export class CatalogCreateComponent implements AfterViewInit, OnDestroy {
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
       this.formValid = x;
