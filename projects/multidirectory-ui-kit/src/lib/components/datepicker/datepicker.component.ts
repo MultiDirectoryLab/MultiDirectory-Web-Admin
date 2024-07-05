@@ -63,20 +63,20 @@ export class DatepickerComponent implements ControlValueAccessor, AfterViewInit,
 
   // API -> DOM component
   writeValue(value: any): void {
+    if (!Number(value)) {
+      this.clearDate();
+      return;
+    }
     this._date = this.fileTimeToDate(value);
   }
 
   // DOM Component -> Outside
-  private _date = moment();
-  get date(): moment.Moment {
+  private _date? = moment();
+  get date(): moment.Moment | undefined {
     return this._date;
   }
-  set date(m: moment.Moment) {
-    console.log('in setDate');
-  }
-  onDateChange(x: any) {
-    const m = moment((<any>x).toDate());
-    console.log('in onDateChange');
+  clearDate() {
+    this._date = undefined;
   }
 
   registerOnChange(fn: any): void {

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import BitSet from 'bitset';
-import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { DatepickerComponent, DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AttributeService } from '@services/attributes.service';
@@ -14,6 +14,7 @@ import moment from 'moment';
   styleUrls: ['./user-properties-account.component.scss'],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
+  @ViewChild('datePicker') datePicker!: DatepickerComponent;
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
   uacBitSet?: BitSet;
@@ -60,7 +61,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
       ? BitSet.fromHexString(Number(uacBits).toString(16))
       : new BitSet();
 
-    this._accountExpires = !!this.accessor?.['accountExpires']?.[0];
+    this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
 
     this.nodeLoader
@@ -121,10 +122,15 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 
-  _expireDate?: number;
   _accountExpires = false;
   set accountExpires(value: boolean) {
     this._accountExpires = value;
+    if (!value) {
+      this.accessor['accountExpires'] = ['0'];
+      this.datePicker.clearDate();
+    } else {
+      this.accessor['accountExpires'] = this.accessor['$accountExpires'];
+    }
     this.cdr.detectChanges();
   }
   get accountExpires(): boolean {

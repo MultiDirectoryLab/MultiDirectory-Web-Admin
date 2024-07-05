@@ -116,8 +116,8 @@
         <md-datepicker
           [disabled]="!accountExpirationRadiogroup.value"
           [(ngModel)]="accessor.accountExpires"
+          #datePicker
         ></md-datepicker>
-        {{ accessor.accountExpires }}
       </div>
     </div>
   </md-group>
