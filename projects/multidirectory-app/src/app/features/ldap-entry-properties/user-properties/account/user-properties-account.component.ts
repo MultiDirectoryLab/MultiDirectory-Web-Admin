@@ -6,6 +6,7 @@ import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader
 import { AttributeService } from '@services/attributes.service';
 import { take, tap } from 'rxjs';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import moment from 'moment';
 
 @Component({
   selector: 'app-user-properties-account',
@@ -38,6 +39,14 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 
+  fileTimeToDate(filetime: number): moment.Moment {
+    return moment(new Date(filetime / 10000 - 11644473600000));
+  }
+
+  filetimeFromDate(date: moment.Moment): number {
+    return date.date() * 1e4 + 116444736e9;
+  }
+
   constructor(
     public modalControl: ModalInjectDirective,
     private cdr: ChangeDetectorRef,
@@ -52,7 +61,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
       : new BitSet();
 
     this._accountExpires = !!this.accessor?.['accountExpires']?.[0];
-    this._expireDate = this.accessor['accountExpires']?.[0] ?? '';
     this.cdr.detectChanges();
 
     this.nodeLoader
@@ -113,24 +121,13 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 
-  _expireDate = Date.now().toString();
+  _expireDate?: number;
   _accountExpires = false;
   set accountExpires(value: boolean) {
     this._accountExpires = value;
-    if (this.accessor?.['accountExpires']) {
-      this.accessor['accountExpires'] = [!value ? '' : this.expireDate];
-    }
+    this.cdr.detectChanges();
   }
   get accountExpires(): boolean {
     return this._accountExpires;
-  }
-  set expireDate(value: string) {
-    this._expireDate = value;
-    if (this.accessor?.['accountExpires']) {
-      this.accessor['accountExpires'] = [value];
-    }
-  }
-  get expireDate(): string {
-    return this._expireDate;
   }
 }

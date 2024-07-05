@@ -1,7 +1,5 @@
-import { DomSanitizer } from '@angular/platform-browser';
 import { ChangeDescription } from '../ldap-change';
 import { LdapEntryNode } from '../ldap-entity';
-import { SecurityContext } from '@angular/core';
 import { LdapAttributes } from './ldap-attributes';
 
 export class LdapAttributesProxyHandler {

@@ -1,6 +1,17 @@
-import { Component, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BaseComponent } from '../base-component/base.component';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+  Input,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import moment from 'moment';
+import { IdProvider } from '../../utils/id-provider';
+import { DatePickerComponent } from 'ng2-date-picker';
+import { skip, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'md-datepicker',
@@ -14,4 +25,77 @@ import { BaseComponent } from '../base-component/base.component';
     },
   ],
 })
-export class DatepickerComponent extends BaseComponent {}
+export class DatepickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+  private __ID = IdProvider.getUniqueId('base');
+  private unsubscribe = new Subject<boolean>();
+
+  @ViewChild('datePicker') private datePicker!: DatePickerComponent;
+
+  @Input() disabled: boolean = false;
+
+  constructor(protected cdr: ChangeDetectorRef) {}
+  ngAfterViewInit(): void {
+    this.datePicker.onSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      const m = moment((x.date as any).toDate());
+      this._onChange(this.fileTimeFromDate(m));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next(true);
+    this.unsubscribe.complete();
+  }
+
+  protected _onChange = (value: any) => {};
+  protected _onTouched = () => {};
+
+  private fileTimeToDate(filetime: number): moment.Moment {
+    const date = new Date(filetime / 10000 - 11644473600000);
+    return moment(date.toJSON());
+  }
+
+  private fileTimeFromDate(date: moment.Moment): number {
+    if (!date) {
+      return 0;
+    }
+    return date.toDate().getTime() * 1e4 + 116444736e9;
+  }
+
+  // API -> DOM component
+  writeValue(value: any): void {
+    this._date = this.fileTimeToDate(value);
+  }
+
+  // DOM Component -> Outside
+  private _date = moment();
+  get date(): moment.Moment {
+    return this._date;
+  }
+  set date(m: moment.Moment) {
+    console.log('in setDate');
+  }
+  onDateChange(x: any) {
+    const m = moment((<any>x).toDate());
+    console.log('in onDateChange');
+  }
+
+  registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+    this.cdr.detectChanges();
+  }
+
+  onBlur() {
+    this._onTouched();
+    this.cdr.detectChanges();
+  }
+
+  onFocus() {}
+}
