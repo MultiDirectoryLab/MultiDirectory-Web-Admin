@@ -110,7 +110,15 @@
     },
     "domain-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
-      "domain-label": "Домен"
+      "domain-label": "Домен",
+      "setup-kdc": "Настроить Kerberos"
+    },
+    "kdc-settings": {
+      "header": "Этот мастер поможет завершить настройку Multidirectory",
+      "krbadmin-password-label": "Пароль krbadmin",
+      "krbadmin-password-repeat-label": "Повторите пароль krbadmin",
+      "stash-password-label": "Пароль стэша",
+      "stash-password-repeat-label": "Повторите пароль стэша"
     }
   },
   "user-create": {

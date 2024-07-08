@@ -1,19 +1,19 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { SetupService } from '@services/setup.service';
-import { MdFormComponent } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
+import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { SetupRequest } from '@models/setup/setup-request';
+import { SetupService } from '@services/setup.service';
+import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-domain-settings',
-  templateUrl: './domain-settings.component.html',
-  styleUrls: ['./domain-settings.component.scss'],
+  selector: 'app-kdc-settings',
+  templateUrl: './kdc-settings.component.html',
+  styleUrls: ['./kdc-settings.component.scss'],
 })
-export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
+export class KdcSettingsComponent implements AfterViewInit {
   @Input() setupRequest!: SetupRequest;
-  name = new FormControl('');
   @ViewChild('form') form!: MdFormComponent;
+  @ViewChild('passwordInput') passwordInput!: TextboxComponent;
+  @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
 
   unsubscribe = new Subject<void>();
 
@@ -31,8 +31,7 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+  checkModel() {
+    this.form.validate(true);
   }
 }

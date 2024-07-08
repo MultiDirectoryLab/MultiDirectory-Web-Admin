@@ -28,6 +28,7 @@ import { PasswordPolicyGetResponse } from '@models/password-policy/password-poli
 import { PasswordPolicyPutRequest } from '@models/password-policy/password-policy-put-request';
 import { GetAcpPageResponse } from '@models/login/get-acp-response';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { KerberosSetup } from '@models/setup/kerberos-setup-request';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +65,10 @@ export class MultidirectoryApiService {
 
   setup(request: SetupRequest): Observable<boolean> {
     return this.httpClient.post<boolean>('auth/setup', request).execute();
+  }
+
+  kerberosSetup(request: KerberosSetup): Observable<boolean> {
+    return this.httpClient.post<boolean>('kerberos/setup', request).execute();
   }
 
   create(request: CreateEntryRequest): Observable<CreateEntryResponse> {

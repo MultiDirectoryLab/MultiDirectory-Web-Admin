@@ -1,0 +1,84 @@
+<div class="kdc-settings">
+  <div class="flex-row flex-space-between">
+    <span class="pv-8 accented mb-16">
+      {{ 'setup.kdc-settings.header' | transloco }}
+      <hr />
+    </span>
+  </div>
+  <md-form #form>
+    <div class="kdc-grid">
+      <label class="textbox-label">{{
+        'setup.kdc-settings.krbadmin-password-label' | transloco
+      }}</label>
+      <div class="flex-column flex-grow-1">
+        <md-textbox
+          appRequired
+          [password]="true"
+          [appPasswordMatch]="krbRepeatPassword"
+          [(ngModel)]="setupRequest.krbadmin_password"
+          (keyup)="checkModel()"
+          #krbPasswordInput="ngModel"
+          [mdPopupContainer]="krbSuggest"
+          #krbSuggestContainer="PopupContainerDirective"
+          [openMenuOnClick]="false"
+          (focus)="krbSuggestContainer.openMenu()"
+          (blur)="krbSuggestContainer.closeMenu()"
+        ></md-textbox>
+        <md-popup-suggest #krbSuggest [closeOnClickOutside]="false">
+          <app-password-conditions
+            [currentPassword]="setupRequest.krbadmin_password"
+          ></app-password-conditions>
+        </md-popup-suggest>
+      </div>
+      <label class="textbox-label">{{
+        'setup.kdc-settings.krbadmin-password-repeat-label' | transloco
+      }}</label>
+      <div class="flex-column flex-grow-1">
+        <md-textbox
+          appRequired
+          [appPasswordMatch]="krbPasswordInput"
+          [password]="true"
+          (keyup)="checkModel()"
+          [(ngModel)]="setupRequest.krbadmin_password_repeat"
+          #krbRepeatPassword="ngModel"
+        ></md-textbox>
+      </div>
+      <label class="textbox-label">{{
+        'setup.kdc-settings.stash-password-label' | transloco
+      }}</label>
+      <div class="flex-column flex-grow-1">
+        <md-textbox
+          appRequired
+          [password]="true"
+          [appPasswordMatch]="stashRepeatPassword"
+          [(ngModel)]="setupRequest.stash_password"
+          (keyup)="checkModel()"
+          #stashPasswordInput="ngModel"
+          [mdPopupContainer]="suggestStash"
+          #stashSuggestContainer="PopupContainerDirective"
+          [openMenuOnClick]="false"
+          (focus)="stashSuggestContainer.openMenu()"
+          (blur)="stashSuggestContainer.closeMenu()"
+        ></md-textbox>
+        <md-popup-suggest #suggestStash [closeOnClickOutside]="false">
+          <app-password-conditions
+            [currentPassword]="setupRequest.stash_password"
+          ></app-password-conditions>
+        </md-popup-suggest>
+      </div>
+      <label class="textbox-label">{{
+        'setup.kdc-settings.stash-password-repeat-label' | transloco
+      }}</label>
+      <div class="flex-column flex-grow-1">
+        <md-textbox
+          appRequired
+          [appPasswordMatch]="stashPasswordInput"
+          [password]="true"
+          (keyup)="checkModel()"
+          [(ngModel)]="setupRequest.stash_password_repeat"
+          #stashRepeatPassword="ngModel"
+        ></md-textbox>
+      </div>
+    </div>
+  </md-form>
+</div>

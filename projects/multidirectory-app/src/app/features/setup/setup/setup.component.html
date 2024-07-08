@@ -8,6 +8,9 @@
     <div class="w-100" style="min-height: 150px">
       <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
         <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
+        <ng-container *ngIf="setupRequest.setupKdc">
+          <app-kdc-settings *mdStep [setupRequest]="setupRequest"></app-kdc-settings>
+        </ng-container>
         <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
         <app-admin-settings-second
           *mdStep
@@ -21,9 +24,11 @@
           [primary]="false"
           *ngIf="stepper.currentIndex > 0"
           (click)="stepper.previous(); resize()"
-          >{{ 'back' | transloco }}</md-button
+          >{{ 'setup.back' | transloco }}</md-button
         >
-        <md-button [primary]="true" (click)="showNextStep()">{{ 'next' | transloco }}</md-button>
+        <md-button [primary]="true" (click)="showNextStep()">{{
+          'setup.next' | transloco
+        }}</md-button>
       </div>
     </ng-container>
   </md-modal>
