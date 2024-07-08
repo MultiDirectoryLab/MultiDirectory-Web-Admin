@@ -74,7 +74,9 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap((value) => {
           return iif(
             () => this.setupRequest.setupKdc,
-            this.api.kerberosSetup(new KerberosSetup(this.setupRequest)),
+            this.api.kerberosSetup(
+              new KerberosSetup({}).flll_from_setup_request(this.setupRequest),
+            ),
             of(value),
           );
         }),
