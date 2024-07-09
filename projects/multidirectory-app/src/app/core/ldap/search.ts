@@ -122,4 +122,18 @@ export const SearchQueries = {
       attributes: ['*'],
     });
   },
+
+  getKdcPrincipals(baseDn: string): SearchRequest {
+    return new SearchRequest({
+      base_object: baseDn,
+      scope: 3,
+      deref_aliases: 0,
+      size_limit: 1000,
+      time_limit: 1000,
+      types_only: true,
+      filter: '(objectClass=krbprincipal)',
+      attributes: ['string'],
+      page_number: 1,
+    });
+  },
 };

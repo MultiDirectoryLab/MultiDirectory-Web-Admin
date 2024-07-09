@@ -40,8 +40,8 @@ export class EntityInfoResolver {
     return this.TypeNameMap.get(type)?.() ?? '';
   }
 
-  static getNodeType(objectClass: string[]): LdapEntryType {
-    if (objectClass.length <= 0) {
+  static getNodeType(objectClass: string[] | undefined): LdapEntryType {
+    if (!objectClass || objectClass.length <= 0) {
       return LdapEntryType.None;
     }
 
@@ -51,8 +51,9 @@ export class EntityInfoResolver {
     return LdapEntryType.Folder;
   }
 
+  static expandableClasses = ['container', 'krbContainer', 'krbrealmcontainer', 'builtinDomain'];
   static isExpandable(objectClass?: string[]) {
-    return objectClass?.includes('container') || objectClass?.includes('builtinDomain');
+    return objectClass?.some((x) => EntityInfoResolver.expandableClasses.includes(x));
   }
 
   static getNodeDescription(entry: LdapEntryNode) {

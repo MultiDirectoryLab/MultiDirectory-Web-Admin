@@ -44,7 +44,10 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe((userSearch) => {
         const searchEntry = userSearch.search_result[0];
         const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
-        const objectClass = searchEntry.partial_attributes.find((x) => x.type == 'objectClass')!;
+        const objectClass = searchEntry.partial_attributes.find(
+          (x) => x.type.toLocaleLowerCase() == 'objectclass',
+        )!;
+        console.log(objectClass);
         const entry = new LdapEntryNode({
           name: displayName,
           type: EntityInfoResolver.getNodeType(objectClass.vals),

@@ -14,6 +14,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { AboutComponent } from './about/about.component';
+import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { AboutComponent } from './about/about.component';
     MfAdminIntegrationComponent,
     MfUserIntegrationComponent,
     AboutComponent,
+    KdcPrincipalsComponent,
   ],
   exports: [
     AppSettingsComponent,

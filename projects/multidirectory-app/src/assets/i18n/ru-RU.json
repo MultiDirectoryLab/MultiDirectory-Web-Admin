@@ -430,7 +430,8 @@
     "md-settings": "Настройки Multidirectory",
     "access-control": "Контроль доступа",
     "mf-settings": "Подключение к Мультифактору",
-    "about": "О программе"
+    "about": "О программе",
+    "kdc-principals": "Принципалы KDC"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -533,5 +534,9 @@
     "into-the-container": "В контейнер",
     "change": "Изменить...",
     "cancel": "Отменить"
+  },
+  "kdc-settings": {
+    "add": "Добавить",
+    "name-column": "Имя"
   }
 }

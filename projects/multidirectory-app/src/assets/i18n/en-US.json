@@ -430,7 +430,8 @@
     "md-settings": "Multidirectory Settings",
     "access-control": "Access Control",
     "mf-settings": "Multifactor Integration",
-    "about": "About"
+    "about": "About",
+    "kdc-principals": "KDC principals"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -536,5 +537,9 @@
     "into-the-container": "Into container",
     "change": "Change...",
     "cancel": "Cancel"
+  },
+  "kdc-settings": {
+    "add": "Add",
+    "name-column": "Name"
   }
 }

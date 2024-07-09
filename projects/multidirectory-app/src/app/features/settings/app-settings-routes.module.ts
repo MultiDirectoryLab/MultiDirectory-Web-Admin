@@ -5,6 +5,7 @@ import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
 import { MultidirectorySettingsComponent } from './multidirectory-settings/multidirectory-settings.component';
 import { AppSettingsNavigationComponent } from './navigation/app-settings-navigation.component';
 import { AboutComponent } from './about/about.component';
+import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,10 @@ import { AboutComponent } from './about/about.component';
       {
         path: 'about',
         component: AboutComponent,
+      },
+      {
+        path: 'kdc-principals',
+        component: KdcPrincipalsComponent,
       },
       {
         path: '',
