@@ -166,7 +166,8 @@
     "fromTitle": "из",
     "name-column": "Имя",
     "type-column": "Тип",
-    "description-column": "Описание"
+    "description-column": "Описание",
+    "status-column": "Статус"
   },
   "catalog-content": {
     "create-user": "Создать пользователя",
@@ -455,7 +456,9 @@
     "user": "Пользователь",
     "computer": "Компьютер",
     "security-group": "Группа безопасности",
-    "organizational-unit": "Организационная единица"
+    "organizational-unit": "Организационная единица",
+    "enabled": "Включено",
+    "disabled": "Выключено"
   },
   "properties-modal": {
     "modal-header": "Свойства",

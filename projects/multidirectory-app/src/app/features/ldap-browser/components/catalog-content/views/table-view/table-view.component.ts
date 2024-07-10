@@ -70,6 +70,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       { name: translate('table-view.name-column'), cellTemplate: this.iconColumn, flexGrow: 1 },
       { name: translate('table-view.type-column'), prop: 'type', flexGrow: 1 },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
+      { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
   }
 
@@ -102,6 +103,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
               type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
               entry: node,
               description: node.entry ? EntityInfoResolver.getNodeDescription(node) : '',
+              status: node.entry ? EntityInfoResolver.getNodeStatus(node) : '',
             },
         );
         this.grid.page.totalElements = this.rows.length;

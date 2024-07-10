@@ -166,7 +166,8 @@
     "fromTitle": "from",
     "name-column": "Name",
     "type-column": "Type",
-    "description-column": "Description"
+    "description-column": "Description",
+    "status-column": "Status"
   },
   "catalog-content": {
     "create-user": "Create a user",
@@ -457,7 +458,9 @@
     "user": "User",
     "security-group": "Security group",
     "computer": "Computer",
-    "organizational-unit": "Organizational Unit"
+    "organizational-unit": "Organizational Unit",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "properties-modal": {
     "modal-header": "Properties",
