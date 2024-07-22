@@ -16,6 +16,15 @@ import { catchError, switchMap, throwError } from 'rxjs';
 })
 export class KdcPrincipalsComponent implements OnInit {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
+  private _searchQuery = '';
+  set searchQuery(query: string) {
+    this._searchQuery = query;
+    this.updateContent();
+  }
+  get searchQuery(): string {
+    return this._searchQuery;
+  }
+
   principals: SearchResult[] = [];
   columns: TableColumn[] = [];
   pageSizes: DropdownOption[] = [
@@ -35,10 +44,16 @@ export class KdcPrincipalsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.updateContent();
+  }
+
+  updateContent() {
     this.ldapLoader
       .get()
       .pipe(
-        switchMap((x) => this.api.search(SearchQueries.getKdcPrincipals(x[0].id))),
+        switchMap((x) =>
+          this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
+        ),
         catchError((err) => {
           //this.spinner.hide();
           return throwError(() => err);

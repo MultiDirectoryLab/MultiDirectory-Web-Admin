@@ -543,7 +543,9 @@
   },
   "kdc-settings": {
     "add": "Добавить",
+    "export": "Экспортировать keytab",
     "name-column": "Имя",
-    "should-select-principals": "Необходимо выбрать принципал"
+    "should-select-principals": "Необходимо выбрать принципал",
+    "filter": "Отфильтровать"
   }
 }

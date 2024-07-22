@@ -123,7 +123,7 @@ export const SearchQueries = {
     });
   },
 
-  getKdcPrincipals(baseDn: string): SearchRequest {
+  getKdcPrincipals(baseDn: string, query: string): SearchRequest {
     return new SearchRequest({
       base_object: baseDn,
       scope: 3,
@@ -131,7 +131,7 @@ export const SearchQueries = {
       size_limit: 1000,
       time_limit: 1000,
       types_only: true,
-      filter: '(objectClass=krbprincipal)',
+      filter: query ? `(&(objectClass=krbprincipal)(cn=*${query}*))` : '(objectClass=krbprincipal)',
       attributes: ['cn'],
       page_number: 1,
     });
