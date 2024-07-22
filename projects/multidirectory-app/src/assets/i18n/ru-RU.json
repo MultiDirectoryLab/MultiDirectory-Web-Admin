@@ -543,6 +543,7 @@
   },
   "kdc-settings": {
     "add": "Добавить",
-    "name-column": "Имя"
+    "name-column": "Имя",
+    "should-select-principals": "Необходимо выбрать принципал"
   }
 }

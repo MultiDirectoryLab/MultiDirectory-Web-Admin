@@ -132,7 +132,7 @@ export const SearchQueries = {
       time_limit: 1000,
       types_only: true,
       filter: '(objectClass=krbprincipal)',
-      attributes: ['string'],
+      attributes: ['cn'],
       page_number: 1,
     });
   },

@@ -545,6 +545,7 @@
   },
   "kdc-settings": {
     "add": "Add",
-    "name-column": "Name"
+    "name-column": "Name",
+    "should-select-principals": "You should select a princiapl to add"
   }
 }
