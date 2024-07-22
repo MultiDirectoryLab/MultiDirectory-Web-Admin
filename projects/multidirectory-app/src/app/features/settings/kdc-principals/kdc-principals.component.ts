@@ -78,14 +78,14 @@ export class KdcPrincipalsComponent implements OnInit {
   onPageChanged($event: Page) {}
   onDoubleClick($event: InputEvent) {}
 
-  callKtAdd() {
+  exportKeytab() {
     const selected = this.grid.selected as SearchResult[];
-    const selectedName = selected?.[0]?.name;
+    const selectedName = selected.map((x) => x.name);
     if (!selectedName) {
       this.toastr.error(translate('kdc-settings.should-select-principals'));
       return;
     }
-    this.api.ktadd([selectedName]).subscribe((x) => {
+    this.api.ktadd(selectedName).subscribe((x) => {
       // It is necessary to create a new blob object with mime-type explicitly set
       // otherwise only Chrome works like it should
       var newBlob = new Blob([x], { type: 'application/text' });
