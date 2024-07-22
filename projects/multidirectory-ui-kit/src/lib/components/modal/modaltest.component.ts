@@ -14,8 +14,8 @@ import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
         </p>
       </div>
       <div class="app-modal-footer">
-        <md-button type="button" #closeButton class="button button3" (click)="modal.close()"
-          >Delete</md-button
+        <md-button type="button" #closeButton class="button button3" (click)="modal.showSpinner()"
+          >Show Spinner</md-button
         >
 
         <md-button type="button" class="button button1" (click)="modal2.open()">Save</md-button>

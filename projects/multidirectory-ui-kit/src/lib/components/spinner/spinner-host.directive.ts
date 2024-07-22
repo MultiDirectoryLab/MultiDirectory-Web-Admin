@@ -28,10 +28,7 @@ export class SpinnerHostDirective implements OnInit {
     this.spinnerRef = this.viewContainerRef.createComponent(SpinnerComponent);
     this.spinner = this.spinnerRef.instance;
     this.spinner.name = this.spinnerName;
-    this.renderer2.appendChild(
-      this.el.nativeElement.children[1],
-      this.spinnerRef.location.nativeElement,
-    );
+    this.renderer2.appendChild(this.el.nativeElement, this.spinnerRef.location.nativeElement);
   }
 
   show() {
