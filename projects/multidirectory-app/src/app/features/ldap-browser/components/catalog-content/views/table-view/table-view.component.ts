@@ -38,6 +38,16 @@ import { BaseViewComponent } from '../base-view.component';
 export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+
+  private _searchQuery = '';
+  @Input() set searchQuery(q: string) {
+    this._searchQuery = q;
+    this.updateContent();
+  }
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
   private _dn = '';
   page = new Page();
   columns: TableColumn[] = [];
@@ -92,7 +102,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       this._dn = dn;
     }
     this.ldapLoader
-      .getContent(dn)
+      .getContent(dn, this.searchQuery)
       .pipe(take(1))
       .subscribe((rows) => {
         this.rows = rows.map(

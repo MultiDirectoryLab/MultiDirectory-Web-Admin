@@ -39,7 +39,7 @@ export const SearchQueries = {
     });
   },
 
-  getContent(baseObject: string): SearchRequest {
+  getContent(baseObject: string, query: string = ''): SearchRequest {
     const req = new SearchRequest({
       base_object: baseObject,
       scope: 1,
@@ -47,7 +47,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: '(objectClass=*)',
+      filter: query ? `(&(objectClass=*)(cn=*${query}*))` : '(objectClass=*)',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
     return req;

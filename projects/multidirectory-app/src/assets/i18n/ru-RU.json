@@ -194,7 +194,10 @@
     "move": "Переместить",
     "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
     "select-group-catalog": "Выберите каталог в котором будет создана группа",
-    "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
+    "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица",
+    "filter": "Отфильтровать",
+    "kerberos-should-reload-header": "Требуется перезагрузка!",
+    "kerberos-should-reload-description": "Для завершения настройки Kerberos требуется перезагрузить сервер Multidirectory"
   },
   "attributes-list": {
     "value": "Значение",

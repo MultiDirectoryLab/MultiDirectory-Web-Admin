@@ -6,6 +6,7 @@ import { MultidirectorySettingsComponent } from './multidirectory-settings/multi
 import { AppSettingsNavigationComponent } from './navigation/app-settings-navigation.component';
 import { AboutComponent } from './about/about.component';
 import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
+import { FooterComponent } from '../../components/app-layout/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,11 @@ import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.componen
       {
         path: '',
         component: MultidirectorySettingsComponent,
+      },
+      {
+        path: '',
+        component: FooterComponent,
+        outlet: 'footer',
       },
     ]),
   ],

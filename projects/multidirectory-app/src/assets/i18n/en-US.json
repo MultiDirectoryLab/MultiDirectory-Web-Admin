@@ -194,7 +194,9 @@
     "move": "Move...",
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
-    "select-ou-catalog": "Select a catalog where an organizational unit will be created"
+    "select-ou-catalog": "Select a catalog where an organizational unit will be created",
+    "kerberos-should-reload-header": "Restart required!",
+    "kerberos-should-reload-description": "Multidirectory server reboot required in order to complete the Kerberos setup process"
   },
   "attributes-list": {
     "value": "Value",

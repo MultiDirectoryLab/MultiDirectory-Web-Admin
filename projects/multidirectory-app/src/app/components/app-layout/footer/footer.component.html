@@ -1,0 +1,11 @@
+<div
+  *ngIf="kerberosStatus === KerberosStatusEnum.WAITING_FOR_RELOAD"
+  class="alert-pane flex-row p-16"
+>
+  <md-alert>
+    <label class="bold">{{ 'catalog-content.kerberos-should-reload-header' | transloco }}</label>
+    <p>
+      {{ 'catalog-content.kerberos-should-reload-description' | transloco }}
+    </p>
+  </md-alert>
+</div>

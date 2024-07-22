@@ -5,6 +5,7 @@ import { SetupRouteGuard } from './core/setup/setup-route-guard';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
+import { FooterComponent } from './components/app-layout/footer/footer.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
     component: AppLayoutComponent,
     canActivate: [AuthRouteGuard],
     children: [
+      {
+        path: '',
+        component: FooterComponent,
+        outlet: 'footer',
+      },
       {
         path: '',
         component: NavigationComponent,

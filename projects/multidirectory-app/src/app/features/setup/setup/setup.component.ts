@@ -14,8 +14,9 @@ import { translate } from '@ngneat/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetupService } from '@services/setup.service';
-import { KerberosSetup } from '@models/setup/kerberos-setup-request';
+import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { LoginService } from '@services/login.service';
+import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 
 @Component({
   selector: 'app-setup',
@@ -74,8 +75,22 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
         switchMap((value) => {
           return iif(
             () => this.setupRequest.setupKdc,
+            this.api.kerberosTreeSetup(
+              new KerberosTreeSetupRequest({}).flll_from_setup_request(this.setupRequest),
+            ),
+            of(value),
+          );
+        }),
+        catchError((err) => {
+          this.toastr.error(err.message);
+          this.modal.hideSpinner();
+          return EMPTY;
+        }),
+        switchMap((value) => {
+          return iif(
+            () => this.setupRequest.setupKdc,
             this.api.kerberosSetup(
-              new KerberosSetup({}).flll_from_setup_request(this.setupRequest),
+              new KerberosSetupRequest({}).flll_from_setup_request(this.setupRequest),
             ),
             of(value),
           );

@@ -55,4 +55,34 @@ export class KdcPrincipalsComponent implements OnInit {
 
   onPageChanged($event: Page) {}
   onDoubleClick($event: InputEvent) {}
+
+  callKtAdd() {
+    this.api
+      .ktadd([
+        'krbprincipalname=krbtgt/LOCALHOST.DEV@LOCALHOST.DEV,cn=LOCALHOST.DEV,cn=kerberos,ou=services,dc=localhost,dc=dev',
+      ])
+      .subscribe((x) => {
+        // It is necessary to create a new blob object with mime-type explicitly set
+        // otherwise only Chrome works like it should
+        var newBlob = new Blob([x], { type: 'application/text' });
+
+        // For other browsers:
+        // Create a link pointing to the ObjectURL containing the blob.
+        const data = window.URL.createObjectURL(newBlob);
+
+        var link = document.createElement('a');
+        link.href = data;
+        link.download = 'keytab';
+        // this is necessary as link.click() does not work on the latest firefox
+        link.dispatchEvent(
+          new MouseEvent('click', { bubbles: true, cancelable: true, view: window }),
+        );
+
+        setTimeout(function () {
+          // For Firefox it is necessary to delay revoking the ObjectURL
+          window.URL.revokeObjectURL(data);
+          link.remove();
+        }, 100);
+      });
+  }
 }

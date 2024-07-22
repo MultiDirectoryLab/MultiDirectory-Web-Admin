@@ -16,6 +16,14 @@
   padding-bottom: 1rem;
 }
 
+.alert-pane {
+  width: 100%;
+  padding-bottom: 1rem;
+  md-alert {
+    flex-grow: 1;
+  }
+}
+
 .button-wrapper {
   height: 30px;
 

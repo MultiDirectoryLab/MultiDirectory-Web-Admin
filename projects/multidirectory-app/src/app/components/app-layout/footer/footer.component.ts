@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-placeholder',
-  styleUrls: ['./placeholder.component.scss'],
-  templateUrl: './placeholder.component.html',
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
 })
-export class PlaceholderComponent implements OnInit, OnDestroy {
+export class FooterComponent implements OnInit, OnDestroy {
   private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;

@@ -1,4 +1,4 @@
-<div class="w-100 h-100 relative">
+<div class="w-100 h-100 relative scrollable-y">
   <ngx-datatable
     [columnMode]="ColumnMode.force"
     [footerHeight]="hideFooter ? 0 : 36"
@@ -19,13 +19,13 @@
     [limit]="page.size"
     [ngStyle]="{
       height: stretchHeight ? '100%' : 'auto',
-      display: 'block'
+      display: 'block',
     }"
     [rowHeight]="scrollbarV ? 24 : 'auto'"
     (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     [messages]="{
-      emptyMessage: emptyMessage
+      emptyMessage: emptyMessage,
     }"
     (focus)="onFocus($event)"
     (keydown)="onKeyDown($event)"

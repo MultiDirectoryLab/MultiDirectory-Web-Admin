@@ -4,6 +4,7 @@ import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { TranslocoService } from '@ngneat/transloco';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 
 @Injectable({
   providedIn: 'root',
@@ -60,5 +61,18 @@ export class AppSettingsService {
   private _languageRx = new Subject<string>();
   get languageRx(): Observable<string> {
     return this._languageRx.asObservable();
+  }
+
+  private _kerberosStatus: KerberosStatuses = KerberosStatuses.READY;
+  get kerberosStatus(): KerberosStatuses {
+    return this._kerberosStatus;
+  }
+  set kerberosStatus(krbStatus: KerberosStatuses) {
+    this._kerberosStatus = krbStatus;
+    this._kerberosStatusRx.next(krbStatus);
+  }
+  private _kerberosStatusRx = new Subject<KerberosStatuses>();
+  get kerberosStatusRx(): Observable<KerberosStatuses> {
+    return this._kerberosStatusRx.asObservable();
   }
 }

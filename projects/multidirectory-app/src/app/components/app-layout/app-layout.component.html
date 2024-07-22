@@ -5,14 +5,17 @@
   <div *ngIf="showLeftPane" class="left-pane">
     <app-sidebar></app-sidebar>
   </div>
-  <div class="right-pane w-100">
+  <div class="right-pane w-100 h-100">
     <app-header></app-header>
-    <router-outlet></router-outlet>
+    <div class="flex-grow-1">
+      <router-outlet></router-outlet>
+    </div>
     <hotkeys-cheatsheet
       title="{{ 'hotkeys' | transloco }}"
       #helpcheatSheet
       (keydown)="closeCheatsheet()"
     ></hotkeys-cheatsheet>
+    <router-outlet name="footer"></router-outlet>
   </div>
 </div>
 <app-windows></app-windows>

@@ -8,7 +8,7 @@ import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, Subject, of, switchMap, take } from 'rxjs';
+import { EMPTY, Subject, iif, of, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
@@ -43,7 +43,7 @@ export class EntityPropertiesComponent implements OnInit {
     this.modalControl.close();
   }
 
-  save(): boolean {
+  save(askConfirmation = false): boolean {
     this.modalControl.modal?.showSpinner();
     const updateRequest = this.attributes.createAttributeUpdateRequest(this.accessor);
 
@@ -62,9 +62,8 @@ export class EntityPropertiesComponent implements OnInit {
       this.modalControl.close();
       return false;
     }
-
-    this.windows
-      .openConfirmDialog(prompt)
+    const confirmRx = !!askConfirmation ? of('yes') : this.windows.openConfirmDialog(prompt);
+    confirmRx
       .pipe(take(1))
       .pipe(
         switchMap((result) => {
