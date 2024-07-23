@@ -2,9 +2,8 @@
   <div class="p-16 flex-row justify-end flex-gap-10">
     <md-textbox placeholder="{{ 'catalog-content.filter' | transloco }}" [(ngModel)]="searchQuery">
     </md-textbox>
-    <md-plane-button [hasBorder]="true" (click)="exportKeytab()">{{
-      'kdc-settings.export' | transloco
-    }}</md-plane-button>
+    <md-button (click)="exportKeytab()">{{ 'kdc-settings.export' | transloco }}</md-button>
+    <md-button (click)="addPrincipal()">{{ 'kdc-settings.add' | transloco }}</md-button>
   </div>
   <div class="h-100 p-16">
     <md-datagrid

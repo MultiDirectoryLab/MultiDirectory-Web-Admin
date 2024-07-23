@@ -219,4 +219,8 @@ export class MultidirectoryApiService {
         }),
       );
   }
+
+  addPrincipal(name: string): Observable<string> {
+    return this.httpClient.post<string>('kerberos/add', name).execute();
+  }
 }

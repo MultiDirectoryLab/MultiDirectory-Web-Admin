@@ -195,8 +195,8 @@
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
     "select-ou-catalog": "Select a catalog where an organizational unit will be created",
-    "kerberos-should-reload-header": "Restart required!",
-    "kerberos-should-reload-description": "Multidirectory server reboot required in order to complete the Kerberos setup process"
+    "kerberos-should-reload-header": "Attention! Restart required!",
+    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, you must change or reset the password.\nYou can also enable the \"Change password on first login\" option for all directory accounts to force users to update their passwords the first time they authenticate."
   },
   "attributes-list": {
     "value": "Value",
@@ -547,5 +547,12 @@
     "add": "Add",
     "name-column": "Name",
     "should-select-principals": "You should select a princiapl to add"
+  },
+  "add-principal": {
+    "modal-header": "New object - Principal",
+    "header": "Manual principal selection",
+    "name-label": "Principal name",
+    "cancel": "Cancel",
+    "apply": "Apply"
   }
 }

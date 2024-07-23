@@ -1,6 +1,4 @@
-import { Page } from 'multidirectory-ui-kit';
 import { SearchRequest } from '@models/entry/search-request';
-import { LdapEntryNode } from './ldap-entity';
 
 export const SearchQueries = {
   RootDse: {
@@ -93,8 +91,8 @@ export const SearchQueries = {
   },
 
   findEntities(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
-    let typeQuery = `(objectClass=group)`;
-    if (entityType.length > 0) {
+    let typeQuery = `(!(objectClass=krbprincipal))`;
+    if (entityType.length > 0 && false) {
       const entityTypes = entityType.map((x) => `(objectClass=${x})`).join('');
       typeQuery = `(|${entityTypes})`;
     }
@@ -105,8 +103,8 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(&${typeQuery}(|(cn=*${name}*)(displayName=*${name}*)))`,
-      attributes: ['*'],
+      filter: `(&${typeQuery}(displayName=*${name}*))`,
+      attributes: ['displayName', 'cn', 'distinguishedName'],
     });
   },
 

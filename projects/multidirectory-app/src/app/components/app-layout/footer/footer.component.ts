@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { SearchQueries } from '@core/ldap/search';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
@@ -12,7 +14,10 @@ export class FooterComponent implements OnInit, OnDestroy {
   private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;
-  constructor(private app: AppSettingsService) {}
+  constructor(
+    private app: AppSettingsService,
+    private api: MultidirectoryApiService,
+  ) {}
 
   ngOnInit(): void {
     this.app.kerberosStatusRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
@@ -24,4 +29,6 @@ export class FooterComponent implements OnInit, OnDestroy {
     this._unsubscribe.next();
     this._unsubscribe.complete();
   }
+
+  setUserRequireChangePasswordClick() {}
 }

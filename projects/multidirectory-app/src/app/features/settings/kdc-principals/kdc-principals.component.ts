@@ -2,12 +2,14 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
+import { SearchEntry } from '@models/entry/search-response';
 import { translate } from '@ngneat/transloco';
+import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { TableColumn } from '@swimlane/ngx-datatable';
 import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { catchError, switchMap, take, takeUntil, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-kdc-principals',
@@ -36,15 +38,27 @@ export class KdcPrincipalsComponent implements OnInit {
   ];
   page = new Page();
 
+  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
+  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
+
   constructor(
     private api: MultidirectoryApiService,
     private ldapLoader: LdapEntryLoader,
+    private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.updateContent();
+  }
+
+  filterPrincipals(entry: SearchEntry) {
+    const object_name =
+      entry?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ?? entry.object_name;
+    const isKerberosPrincipal = this._kadminPrefixes.some((x) => object_name.startsWith(x));
+    const isUserPrincipal = this._userPrincipalRegex.test(object_name);
+    return !isKerberosPrincipal && !isUserPrincipal;
   }
 
   updateContent() {
@@ -61,15 +75,16 @@ export class KdcPrincipalsComponent implements OnInit {
       )
       .subscribe((res) => {
         this.columns = [{ name: translate('kdc-settings.name-column'), prop: 'name', flexGrow: 1 }];
-        console.log(res.search_result);
-        this.principals = res.search_result.map(
-          (node) =>
-            <SearchResult>{
-              name:
-                node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
-                node.object_name,
-            },
-        );
+        this.principals = res.search_result
+          .filter((x) => this.filterPrincipals(x))
+          .map(
+            (node) =>
+              <SearchResult>{
+                name:
+                  node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
+                  node.object_name,
+              },
+          );
         this.cdr.detectChanges();
         //this.spinner.hide();
       });
@@ -108,5 +123,12 @@ export class KdcPrincipalsComponent implements OnInit {
         link.remove();
       }, 100);
     });
+  }
+
+  addPrincipal() {
+    this.windows
+      .openAddPrincipalDialog()
+      .pipe(take(1))
+      .subscribe((x) => {});
   }
 }

@@ -4,8 +4,13 @@
 >
   <md-alert>
     <label class="bold">{{ 'catalog-content.kerberos-should-reload-header' | transloco }}</label>
-    <p>
-      {{ 'catalog-content.kerberos-should-reload-description' | transloco }}
-    </p>
+    <div>
+      <p>
+        {{ 'catalog-content.kerberos-should-reload-description' | transloco }}
+      </p>
+      <md-button (click)="setUserRequireChangePasswordClick()"
+        >Затребовать смену пароля у всех пользователей без принципала</md-button
+      >
+    </div>
   </md-alert>
 </div>

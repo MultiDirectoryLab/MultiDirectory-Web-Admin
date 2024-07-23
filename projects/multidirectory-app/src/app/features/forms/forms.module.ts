@@ -19,6 +19,7 @@ import { MoveEntityDialogComponent } from './move-entity/move-entity.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { CatalogCreateComponent } from './catalog-create/catalog-create.component';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
+import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { PasswordConditionsModule } from '@features/ldap-browser/components/edit
     MoveEntityDialogComponent,
     ConfirmDialogComponent,
     CatalogCreateComponent,
+    AddPrincipalDialogComponent,
   ],
   exports: [
     GroupCreateComponent,
@@ -44,6 +46,7 @@ import { PasswordConditionsModule } from '@features/ldap-browser/components/edit
     MoveEntityDialogComponent,
     ConfirmDialogComponent,
     CatalogCreateComponent,
+    AddPrincipalDialogComponent,
   ],
   imports: [
     CatalogSelectorModule,
