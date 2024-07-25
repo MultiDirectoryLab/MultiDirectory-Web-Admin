@@ -74,6 +74,7 @@
   .datatable-body-cell {
     .datatable-body-cell-label {
       @include global.use-inter-typography(500, 14px, 19.6px);
+      user-select: none;
     }
   }
 

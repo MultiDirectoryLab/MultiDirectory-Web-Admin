@@ -92,7 +92,7 @@ export const SearchQueries = {
 
   findEntities(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
     let typeQuery = `(!(objectClass=krbprincipal))`;
-    if (entityType.length > 0 && false) {
+    if (entityType.length > 0) {
       const entityTypes = entityType.map((x) => `(objectClass=${x})`).join('');
       typeQuery = `(|${entityTypes})`;
     }

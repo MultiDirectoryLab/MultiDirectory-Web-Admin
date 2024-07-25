@@ -118,7 +118,9 @@
       "krbadmin-password-label": "Krbadmin password",
       "krbadmin-password-repeat-label": "Repeat krbadmin password",
       "stash-password-label": "Stash password",
-      "stash-password-label-repeat": "Repeat stash password"
+      "stash-password-label-repeat": "Repeat stash password",
+      "apply": "Apply",
+      "cancel": "Cancel"
     }
   },
   "user-create": {
@@ -195,8 +197,8 @@
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
     "select-ou-catalog": "Select a catalog where an organizational unit will be created",
-    "kerberos-should-reload-header": "Attention! Restart required!",
-    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, you must change or reset the password.\nYou can also enable the \"Change password on first login\" option for all directory accounts to force users to update their passwords the first time they authenticate."
+    "kerberos-should-reload-header": "Reboot the MultiDirectory server",
+    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, user must authenticate to the LDAP server or change the password."
   },
   "attributes-list": {
     "value": "Value",

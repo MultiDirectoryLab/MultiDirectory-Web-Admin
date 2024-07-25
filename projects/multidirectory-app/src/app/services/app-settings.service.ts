@@ -71,7 +71,7 @@ export class AppSettingsService {
     this._kerberosStatus = krbStatus;
     this._kerberosStatusRx.next(krbStatus);
   }
-  private _kerberosStatusRx = new Subject<KerberosStatuses>();
+  private _kerberosStatusRx = new BehaviorSubject<KerberosStatuses>(this._kerberosStatus);
   get kerberosStatusRx(): Observable<KerberosStatuses> {
     return this._kerberosStatusRx.asObservable();
   }

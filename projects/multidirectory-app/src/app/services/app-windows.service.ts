@@ -262,4 +262,20 @@ export class AppWindowsService {
   closeAddPrincipalDialog() {
     return this._closeAddPrincipalDialogRx.next();
   }
+
+  private _showSetupKerberosDialogRx = new Subject<void>();
+  private _closeSetupKerberosDialogRx = new Subject<void>();
+  get showSetupKerberosDialogRx(): Observable<void> {
+    return this._showSetupKerberosDialogRx.asObservable();
+  }
+  get closeSetupKerberosDialogRx(): Observable<void> {
+    return this._closeSetupKerberosDialogRx.asObservable();
+  }
+  openSetupKerberosDialog() {
+    this._showSetupKerberosDialogRx.next();
+    return this.closeSetupKerberosDialogRx;
+  }
+  closeSetupKerberosDialog() {
+    return this._closeSetupKerberosDialogRx.next();
+  }
 }

@@ -26,6 +26,7 @@ import { PropertiesModule } from './features/ldap-entry-properties/properties.mo
 import { AppFormsModule } from './features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { FooterComponent } from './components/app-layout/footer/footer.component
     SearchPanelModule,
     AppFormsModule,
     SharedComponentsModule,
+    FontAwesomeModule,
   ],
 })
 export class AppModule {}

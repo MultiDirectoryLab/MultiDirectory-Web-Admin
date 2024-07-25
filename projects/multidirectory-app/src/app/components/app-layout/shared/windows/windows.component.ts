@@ -33,6 +33,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('moveEntityDialog') moveEntityDialog!: ModalInjectDirective;
   @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
   @ViewChild('addPrincipalDialog') addPrincipalDialog!: ModalInjectDirective;
+  @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -121,6 +122,10 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
 
     this.ldapWindows.showAddPrincipalDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.openAddPrincipalDialog();
+    });
+
+    this.ldapWindows.showSetupKerberosDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openSetupKerberosDialog();
     });
   }
 
@@ -285,6 +290,15 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeAddPrincipalDialog();
+      });
+  }
+
+  openSetupKerberosDialog() {
+    this.setupKerberosDialog
+      .open({ minHeight: 360 }, {})
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeSetupKerberosDialog();
       });
   }
 }

@@ -13,6 +13,7 @@ import { TableViewComponent } from './components/catalog-content/views/table-vie
 import { LdapBrowserHeaderComponent } from './components/ldap-browser-header/ldap-browser-header.component';
 import { AppFormsModule } from '@features/forms/forms.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     HotkeyModule,
     LdapBrowserRoutingModule,
     AppFormsModule,
+    FontAwesomeModule,
   ],
   exports: [],
 })

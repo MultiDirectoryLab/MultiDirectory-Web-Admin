@@ -20,6 +20,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { CatalogCreateComponent } from './catalog-create/catalog-create.component';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principal-dialog.component';
+import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principa
     ConfirmDialogComponent,
     CatalogCreateComponent,
     AddPrincipalDialogComponent,
+    SetupKerberosDialogComponent,
   ],
   exports: [
     GroupCreateComponent,
@@ -47,6 +49,7 @@ import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principa
     ConfirmDialogComponent,
     CatalogCreateComponent,
     AddPrincipalDialogComponent,
+    SetupKerberosDialogComponent,
   ],
   imports: [
     CatalogSelectorModule,

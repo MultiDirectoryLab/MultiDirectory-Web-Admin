@@ -1,23 +1,32 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchEntry } from '@models/entry/search-response';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { translate } from '@ngneat/transloco';
+import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { TableColumn } from '@swimlane/ngx-datatable';
 import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { catchError, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-kdc-principals',
   styleUrls: ['./kdc-principals.component.scss'],
   templateUrl: './kdc-principals.component.html',
 })
-export class KdcPrincipalsComponent implements OnInit {
-  @ViewChild('grid', { static: true }) grid!: DatagridComponent;
+export class KdcPrincipalsComponent implements OnInit, OnDestroy {
+  @ViewChild('grid') grid!: DatagridComponent;
   private _searchQuery = '';
   set searchQuery(query: string) {
     this._searchQuery = query;
@@ -41,8 +50,13 @@ export class KdcPrincipalsComponent implements OnInit {
   private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
 
+  private _unsubscribe = new Subject<void>();
+  KerberosStatusEnum = KerberosStatuses;
+  kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
+
   constructor(
     private api: MultidirectoryApiService,
+    private app: AppSettingsService,
     private ldapLoader: LdapEntryLoader,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
@@ -50,7 +64,15 @@ export class KdcPrincipalsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.app.kerberosStatusRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
+      this.kerberosStatus = x;
+    });
     this.updateContent();
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe.next();
+    this._unsubscribe.complete();
   }
 
   filterPrincipals(entry: SearchEntry) {
@@ -94,6 +116,10 @@ export class KdcPrincipalsComponent implements OnInit {
   onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
+    if (!this.grid?.selected?.length) {
+      this.toastr.error(translate('kdc-settings.should-select-principals'));
+      return;
+    }
     const selected = this.grid.selected as SearchResult[];
     const selectedName = selected.map((x) => x.name);
     if (!selectedName) {
@@ -128,6 +154,13 @@ export class KdcPrincipalsComponent implements OnInit {
   addPrincipal() {
     this.windows
       .openAddPrincipalDialog()
+      .pipe(take(1))
+      .subscribe((x) => {});
+  }
+
+  setupKerberos() {
+    this.windows
+      .openSetupKerberosDialog()
       .pipe(take(1))
       .subscribe((x) => {});
   }
