@@ -50,6 +50,8 @@
     "@angular/cli": "~16.1.6",
     "@angular/compiler-cli": "^16.1.7",
     "@chromatic-com/storybook": "^1.5.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@storybook/addon-essentials": "^8.1.5",
     "@storybook/addon-interactions": "^8.1.5",
     "@storybook/addon-links": "^8.1.5",
