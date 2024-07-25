@@ -1,11 +1,9 @@
 <div class="scrollable treeview-container" tabindex="0">
-  <div class="tree-item-wrapper">
-    <ng-container
-      *ngFor="let node of tree"
-      [ngTemplateOutlet]="treeNode"
-      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
-    ></ng-container>
-  </div>
+  <ng-container
+    *ngFor="let node of tree"
+    [ngTemplateOutlet]="treeNode"
+    [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
+  ></ng-container>
 </div>
 
 <ng-template #treeNode let-data let-level="level">
@@ -23,15 +21,18 @@
       [attr.data-id]="data.id"
     >
       <span
+        class="tree-item-dempfer"
+        [ngStyle]="{
+          minWidth: level + 'rem'
+        }"
+      ></span>
+      <span
         class="tree-item"
         [ngClass]="{
           expanded: data.expanded,
           expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
           selected: data.selected,
           focused: data.focused
-        }"
-        [ngStyle]="{
-          left: level + 'rem'
         }"
       >
         <label

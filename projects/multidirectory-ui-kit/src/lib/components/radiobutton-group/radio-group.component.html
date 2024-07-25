@@ -4,7 +4,7 @@
     <label class="group-label">{{ title }}</label>
     <div class="after-title"></div>
   </div>
-  <div [ngTemplateOutlet]="content"></div>
+  <div class="group-content" [ngTemplateOutlet]="content"></div>
 </div>
 
 <div *ngIf="!drawBorder" [ngTemplateOutlet]="content"></div>

@@ -16,7 +16,7 @@
         <md-plane-button (click)="onDaySelect($event, day)">{{ day.title }}</md-plane-button>
       </div>
       <ng-container *ngFor="let time of hours">
-        <div class="logon-hour" *ngIf="dayIndex == 0">
+        <div class="logon-hour" *ngIf="dayIndex === 0">
           <div class="logon-hour-click" (click)="onHoursSelect($event, time)">{{ time }}</div>
         </div>
         <div

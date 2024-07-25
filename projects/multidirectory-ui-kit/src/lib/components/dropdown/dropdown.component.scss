@@ -2,7 +2,7 @@
 
 .select-input {
   height: 24px;
-  border-color: var(--md-neutral-400);
-  border-radius: 0;
+  border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+  border-radius: 4px;
   width: 100%;
 }

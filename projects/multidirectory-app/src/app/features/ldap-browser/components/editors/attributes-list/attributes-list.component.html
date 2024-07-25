@@ -10,9 +10,7 @@
       </div>
     </div>
   </div>
-  <md-plane-button [hasBorder]="true" (click)="addAttribute()">{{
-    'attributes-list.add' | transloco
-  }}</md-plane-button>
+  <md-button (click)="addAttribute()">{{ 'attributes-list.add' | transloco }}</md-button>
   <md-treeview
     #treeview
     [tree]="tree"
@@ -20,9 +18,7 @@
     style="min-height: 200px"
   ></md-treeview>
   <div class="flex-column flex-space-between">
-    <md-plane-button [hasBorder]="true" (click)="deleteAttribute()">{{
-      'attributes-list.delete' | transloco
-    }}</md-plane-button>
+    <md-button (click)="deleteAttribute()">{{ 'attributes-list.delete' | transloco }}</md-button>
     <md-button [primary]="true" (click)="apply()">{{
       'attributes-list.apply' | transloco
     }}</md-button>

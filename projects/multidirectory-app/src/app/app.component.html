@@ -1,5 +1,6 @@
 <div [ngClass]="{ 'dark-theme': darkMode }" class="centered fullscreen dark-theme">
   <router-outlet></router-outlet>
+  <md-portal tag="dialog-portal"> </md-portal>
 </div>
 <md-spinner
   [name]="'primary'"
@@ -7,4 +8,3 @@
   #spinner
   [spinnerText]="'spinner.please-wait' | transloco"
 ></md-spinner>
-<md-portal tag="dialog-portal"> </md-portal>
