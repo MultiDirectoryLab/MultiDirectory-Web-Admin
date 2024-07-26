@@ -51,7 +51,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
       .pipe(
         catchError((err, caught) => {
           this.modal.hideSpinner();
-          this.toastr.error(translate('login.wrong-login'));
           return EMPTY;
         }),
       )

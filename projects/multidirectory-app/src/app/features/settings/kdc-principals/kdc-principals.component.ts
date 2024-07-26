@@ -18,7 +18,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { TableColumn } from '@swimlane/ngx-datatable';
 import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-kdc-principals',
@@ -91,7 +91,6 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
           this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
         ),
         catchError((err) => {
-          //this.spinner.hide();
           return throwError(() => err);
         }),
       )
@@ -108,7 +107,6 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
               },
           );
         this.cdr.detectChanges();
-        //this.spinner.hide();
       });
   }
 
@@ -126,36 +124,48 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
       this.toastr.error(translate('kdc-settings.should-select-principals'));
       return;
     }
-    this.api.ktadd(selectedName).subscribe((x) => {
-      // It is necessary to create a new blob object with mime-type explicitly set
-      // otherwise only Chrome works like it should
-      var newBlob = new Blob([x], { type: 'application/text' });
+    this.windows.showSpinner();
+    this.api
+      .ktadd(selectedName)
+      .pipe(
+        catchError((err) => {
+          this.windows.hideSpinner();
+          this.toastr.error(err);
+          return EMPTY;
+        }),
+      )
+      .subscribe((x) => {
+        // It is necessary to create a new blob object with mime-type explicitly set
+        // otherwise only Chrome works like it should
+        var newBlob = new Blob([x], { type: 'application/text' });
 
-      // For other browsers:
-      // Create a link pointing to the ObjectURL containing the blob.
-      const data = window.URL.createObjectURL(newBlob);
+        // For other browsers:
+        // Create a link pointing to the ObjectURL containing the blob.
+        const data = window.URL.createObjectURL(newBlob);
 
-      var link = document.createElement('a');
-      link.href = data;
-      link.download = 'keytab';
-      // this is necessary as link.click() does not work on the latest firefox
-      link.dispatchEvent(
-        new MouseEvent('click', { bubbles: true, cancelable: true, view: window }),
-      );
-
-      setTimeout(function () {
-        // For Firefox it is necessary to delay revoking the ObjectURL
-        window.URL.revokeObjectURL(data);
-        link.remove();
-      }, 100);
-    });
+        var link = document.createElement('a');
+        link.href = data;
+        link.download = 'keytab';
+        // this is necessary as link.click() does not work on the latest firefox
+        link.dispatchEvent(
+          new MouseEvent('click', { bubbles: true, cancelable: true, view: window }),
+        );
+        this.windows.hideSpinner();
+        setTimeout(function () {
+          // For Firefox it is necessary to delay revoking the ObjectURL
+          window.URL.revokeObjectURL(data);
+          link.remove();
+        }, 100);
+      });
   }
 
   addPrincipal() {
     this.windows
       .openAddPrincipalDialog()
       .pipe(take(1))
-      .subscribe((x) => {});
+      .subscribe((x) => {
+        this.updateContent();
+      });
   }
 
   setupKerberos() {

@@ -437,7 +437,7 @@
     "access-control": "Контроль доступа",
     "mf-settings": "Подключение к Мультифактору",
     "about": "О программе",
-    "kdc-principals": "Принципалы KDC"
+    "kdc-principals": "Принципалы Kerberos"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -545,7 +545,7 @@
   },
   "kdc-settings": {
     "add": "Добавить",
-    "export": "Экспортировать keytab",
+    "export": "Экспортировать .keytab",
     "name-column": "Имя",
     "should-select-principals": "Необходимо выбрать принципал",
     "filter": "Отфильтровать"
@@ -555,6 +555,7 @@
     "header": "Ручное создание принципала",
     "name-label": "Имя принципала",
     "cancel": "Отмена",
-    "apply": "Применить"
+    "apply": "Применить",
+    "format-error": "Принципал должен иметь формать 'prefix/name'"
   }
 }

@@ -15,9 +15,9 @@
           </md-textbox>
         </div>
         <div class="col-xs-1">
-          <md-plane-button class="w-100" [hasBorder]="true" (click)="changeIpAdressAttribute()">
+          <md-button class="w-100" (click)="changeIpAdressAttribute()">
             {{ 'access-policy-create.add' | transloco }}
-          </md-plane-button>
+          </md-button>
         </div>
       </div>
 
@@ -34,9 +34,9 @@
           ></md-multiselect>
         </div>
         <div class="col-xs-1">
-          <md-plane-button [hasBorder]="true" (click)="checkGroups()">
+          <md-button (click)="checkGroups()">
             {{ 'access-policy-create.check-groups' | transloco }}
-          </md-plane-button>
+          </md-button>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <div class="row pv-8" *ngIf="mfaAccess == MfaAccessEnum.SelectedGroups">
+      <div class="row pv-8" *ngIf="mfaAccess === MfaAccessEnum.SelectedGroups">
         <div class="col-xs-4">{{ 'access-policy-create.mfa-groups' | transloco }}</div>
         <div class="col-xs-7">
           <md-multiselect
@@ -61,9 +61,9 @@
           ></md-multiselect>
         </div>
         <div class="col-xs-1">
-          <md-plane-button [hasBorder]="true" (click)="checkMfaGroups()">
+          <md-button (click)="checkMfaGroups()">
             {{ 'access-policy-create.check-groups' | transloco }}
-          </md-plane-button>
+          </md-button>
         </div>
       </div>
     </div>

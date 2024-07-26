@@ -35,7 +35,7 @@ export class LoginService {
           return EMPTY;
         }
         this.toastr.error(translate('login.wrong-login'));
-        return EMPTY;
+        throw err;
       }),
       tap((response) => {
         localStorage.setItem('access_token', response.access_token);

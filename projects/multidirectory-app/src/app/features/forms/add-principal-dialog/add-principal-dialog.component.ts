@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-principal-dialog',
@@ -16,6 +17,7 @@ export class AddPrincipalDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: MultidirectoryApiService,
+    private toastr: ToastrService,
     @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
   ) {}
 
@@ -34,9 +36,20 @@ export class AddPrincipalDialogComponent implements OnInit, OnDestroy {
   onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-    this.api.addPrincipal(this.principalName).subscribe((x) => {
-      this.modalInejctor.close(x);
-    });
+    this.modalInejctor.showSpinner();
+    this.api
+      .addPrincipal(this.principalName)
+      .pipe(
+        catchError((err) => {
+          this.toastr.error(err);
+          this.modalInejctor.hideSpinner();
+          return EMPTY;
+        }),
+      )
+      .subscribe((x) => {
+        this.modalInejctor.hideSpinner();
+        this.modalInejctor.close(x);
+      });
   }
 
   onClose() {

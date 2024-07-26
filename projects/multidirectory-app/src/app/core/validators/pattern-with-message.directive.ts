@@ -3,10 +3,8 @@ import {
   AbstractControl,
   NG_VALIDATORS,
   PatternValidator,
-  RequiredValidator,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from '@angular/forms';
 @Directive({
   selector: '[appPattern]',
@@ -18,11 +16,12 @@ import {
     },
   ],
 })
-export class PatternWithMessageDirective extends PatternValidator {
-  @Input('errorLabel') errorLabel = 'This value is invalid';
+export class PatternWithMessageDirective implements Validator {
+  @Input('appPattern') pattern!: string;
+  @Input() patternErrorMessage = 'Check the input format';
 
-  override validate(control: AbstractControl): ValidationErrors | null {
-    const result = super.validate(control);
-    return !result ? null : { required: this.errorLabel };
+  validate(control: AbstractControl): ValidationErrors | null {
+    const result = new RegExp(this.pattern).test(control.value);
+    return result ? null : { pattern: this.patternErrorMessage };
   }
 }

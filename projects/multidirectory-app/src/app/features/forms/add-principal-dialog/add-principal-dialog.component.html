@@ -10,7 +10,13 @@
   <md-form #form>
     <div class="flex-column align-start justify-end flex-gap-10">
       <label for="ouname">{{ 'add-principal.name-label' | transloco }}</label>
-      <md-textbox appRequired [(ngModel)]="principalName" name="principalName"></md-textbox>
+      <md-textbox
+        appRequired
+        appPattern="^[A-Za-z0-9 ]+/[A-Za-z0-9 ]+$"
+        patternErrorMessage="{{ 'add-principal.format-error' | transloco }}"
+        [(ngModel)]="principalName"
+        name="principalName"
+      ></md-textbox>
     </div>
   </md-form>
 </div>

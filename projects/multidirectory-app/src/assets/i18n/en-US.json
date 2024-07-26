@@ -436,7 +436,7 @@
     "access-control": "Access Control",
     "mf-settings": "Multifactor Integration",
     "about": "About",
-    "kdc-principals": "KDC principals"
+    "kdc-principals": "Kerberos principals"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -548,13 +548,16 @@
   "kdc-settings": {
     "add": "Add",
     "name-column": "Name",
-    "should-select-principals": "You should select a princiapl to add"
+    "should-select-principals": "You should select a princiapl to add",
+    "export": "Export .keytab",
+    "filter": "Filter"
   },
   "add-principal": {
     "modal-header": "New object - Principal",
-    "header": "Manual principal selection",
+    "header": "Manual principal creation",
     "name-label": "Principal name",
     "cancel": "Cancel",
-    "apply": "Apply"
+    "apply": "Apply",
+    "format-error": "Principal must be of 'prefix/name' format"
   }
 }
