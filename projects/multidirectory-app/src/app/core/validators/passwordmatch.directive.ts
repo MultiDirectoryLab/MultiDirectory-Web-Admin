@@ -28,6 +28,9 @@ export class PasswordMatchValidatorDirective implements Validator {
   @Input() errorLabel = 'Passwords do not match';
 
   validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.passwordInput.touched || !control.touched) {
+      return null;
+    }
     return control.value == this.passwordInput.value
       ? null
       : { PasswordsDoNotMatch: this.errorLabel };

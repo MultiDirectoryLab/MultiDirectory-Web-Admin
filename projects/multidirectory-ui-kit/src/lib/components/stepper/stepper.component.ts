@@ -27,21 +27,21 @@ export class StepperComponent {
   @Input() context!: any;
   constructor(private cdr: ChangeDetectorRef) {}
 
-  next() {
-    if (this.currentIndex + 1 == this.steps.length) {
+  next(count: number = 1) {
+    if (this.currentIndex + count == this.steps.length) {
       this.onFinish.emit();
     } else {
-      this.currentIndex++;
+      this.currentIndex += 1;
       this.onNext.emit(this.steps.get(this.currentIndex)?.templateRef);
     }
     this.cdr.detectChanges();
   }
 
-  previous() {
-    if (this.currentIndex - 1 < 0) {
+  previous(count: number = 1) {
+    if (this.currentIndex - count < 0) {
       this.onFinish.emit();
     } else {
-      this.currentIndex--;
+      this.currentIndex -= count;
     }
     this.cdr.detectChanges();
   }

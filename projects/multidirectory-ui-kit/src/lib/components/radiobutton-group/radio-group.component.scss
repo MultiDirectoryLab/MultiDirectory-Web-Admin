@@ -39,4 +39,10 @@
       white-space: nowrap;
     }
   }
+
+  .group-content {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+  }
 }

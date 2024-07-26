@@ -12,12 +12,6 @@
       <label for="computerName">{{ 'computer-create.computername-label' | transloco }}</label>
       <md-textbox appRequired [(ngModel)]="computerName" name="computerName"></md-textbox>
     </div>
-    <div class="flex-column align-start justify-end flex-gap-10">
-      <label for="legacyComputerName">{{
-        'computer-create.computernamelegacy-label' | transloco
-      }}</label>
-      <md-textbox [(ngModel)]="legacyComputerName" name="legacyComputerName"></md-textbox>
-    </div>
     <div class="pv-8">
       <label>{{ 'computer-create.account-description' | transloco }}</label>
     </div>
@@ -28,9 +22,9 @@
           <md-textbox [disabled]="true" [(ngModel)]="ownerDn" name="ownerDn"></md-textbox>
         </div>
         <div class="col-md-2">
-          <md-plane-button [hasBorder]="true" (click)="showAccountSelector($event)">{{
+          <md-button (click)="showAccountSelector($event)">{{
             'computer-create.change' | transloco
-          }}</md-plane-button>
+          }}</md-button>
         </div>
       </div>
       <div>

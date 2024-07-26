@@ -1,5 +1,5 @@
 <div class="error-message">
-  <label *ngIf="getFirstError() == 'required'"> Обязательное поле </label>
-  <label *ngIf="getFirstError() == 'pattern'"> Значение имеет неверный формат </label>
+  <label *ngIf="getFirstError() === 'required'"> Обязательное поле </label>
+  <label *ngIf="getFirstError() === 'pattern'"> Значение имеет неверный формат </label>
   <label>{{ getFirstError() }}</label>
 </div>

@@ -67,12 +67,11 @@
     </div>
     <md-textbox class="col-xs-6" name="phone" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
     <div class="col-xs-2">
-      <md-plane-button
-        [hasBorder]="true"
+      <md-button
         (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
       >
         {{ 'user-properties-generals.other' | transloco }}
-      </md-plane-button>
+      </md-button>
     </div>
   </div>
   <div class="row align-start pv-8">
@@ -85,12 +84,11 @@
     </div>
     <md-textbox class="col-xs-6" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
     <div class="col-xs-2">
-      <md-plane-button
-        [hasBorder]="true"
+      <md-button
         (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
       >
         {{ 'user-properties-generals.other' | transloco }}
-      </md-plane-button>
+      </md-button>
     </div>
   </div>
 </ng-container>

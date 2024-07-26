@@ -9,9 +9,7 @@
       <md-textbox [(ngModel)]="targetDn" [disabled]="true"></md-textbox>
     </div>
     <div class="col-md-3">
-      <md-plane-button [hasBorder]="true" (click)="onClick()">{{
-        'move-entity.change' | transloco
-      }}</md-plane-button>
+      <md-button (click)="onClick()">{{ 'move-entity.change' | transloco }}</md-button>
     </div>
   </div>
 </div>

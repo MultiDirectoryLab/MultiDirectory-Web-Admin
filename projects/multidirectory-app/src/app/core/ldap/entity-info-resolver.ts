@@ -1,6 +1,8 @@
 import { translate } from '@ngneat/transloco';
 import { LdapEntryType } from './ldap-entity-type';
 import { LdapEntryNode } from './ldap-entity';
+import { UserAccountControlFlag } from './user-account-control-flags';
+import BitSet from 'bitset';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([
@@ -40,8 +42,8 @@ export class EntityInfoResolver {
     return this.TypeNameMap.get(type)?.() ?? '';
   }
 
-  static getNodeType(objectClass: string[]): LdapEntryType {
-    if (objectClass.length <= 0) {
+  static getNodeType(objectClass: string[] | undefined): LdapEntryType {
+    if (!objectClass || objectClass.length <= 0) {
       return LdapEntryType.None;
     }
 
@@ -51,13 +53,26 @@ export class EntityInfoResolver {
     return LdapEntryType.Folder;
   }
 
+  static expandableClasses = ['container', 'krbContainer', 'krbrealmcontainer', 'builtinDomain'];
   static isExpandable(objectClass?: string[]) {
-    return objectClass?.includes('container') || objectClass?.includes('builtinDomain');
+    return objectClass?.some((x) => EntityInfoResolver.expandableClasses.includes(x));
   }
 
   static getNodeDescription(entry: LdapEntryNode) {
-    const attrIndex =
-      entry.entry?.partial_attributes?.findIndex((x) => x.type == 'description') ?? -1;
-    return attrIndex > -1 ? entry.entry!.partial_attributes[attrIndex].vals[0] : '';
+    const descriptionAttirbute = entry.getAttibute('description');
+    return descriptionAttirbute ? descriptionAttirbute.vals[0] : '';
+  }
+
+  static getNodeStatus(entry: LdapEntryNode): string {
+    const uacAttirbute = entry.getAttibute('userAccountControl');
+    if (!uacAttirbute?.vals?.[0]) {
+      return '';
+    }
+    const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
+
+    const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
+    return enabled
+      ? translate('entity-info-resolver.enabled')
+      : translate('entity-info-resolver.disabled');
   }
 }

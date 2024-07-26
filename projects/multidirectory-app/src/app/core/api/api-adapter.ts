@@ -37,6 +37,14 @@ export class ApiAdapter<Settings extends AdapterSettings> {
     const url = this.getBaseUrl(resource);
     return new PutRequest<T>(url.href, body, this.httpClient, this.toastr);
   }
+
+  postFile(resource: string, body: any = null): Observable<any> {
+    const url = this.getBaseUrl(resource);
+    const httpOptions = {
+      responseType: 'blob' as 'json',
+    };
+    return this.httpClient.post(url.toString(), body, httpOptions);
+  }
 }
 
 export abstract class HttpRequest<ResponseType> {

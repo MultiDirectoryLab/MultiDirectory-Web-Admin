@@ -110,7 +110,17 @@
     },
     "domain-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
-      "domain-label": "Домен"
+      "domain-label": "Домен",
+      "setup-kdc": "Настроить Kerberos"
+    },
+    "kdc-settings": {
+      "header": "Этот мастер поможет завершить настройку Multidirectory",
+      "krbadmin-password-label": "Пароль krbadmin",
+      "krbadmin-password-repeat-label": "Повторите пароль krbadmin",
+      "stash-password-label": "Пароль стэша",
+      "stash-password-repeat-label": "Повторите пароль стэша",
+      "apply": "Применить",
+      "cancel": "Отменить"
     }
   },
   "user-create": {
@@ -158,7 +168,8 @@
     "fromTitle": "из",
     "name-column": "Имя",
     "type-column": "Тип",
-    "description-column": "Описание"
+    "description-column": "Описание",
+    "status-column": "Статус"
   },
   "catalog-content": {
     "create-user": "Создать пользователя",
@@ -185,7 +196,10 @@
     "move": "Переместить",
     "select-user-catalog": "Выберите каталог в котором будет создан пользователь",
     "select-group-catalog": "Выберите каталог в котором будет создана группа",
-    "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица"
+    "select-ou-catalog": "Выберите каталог в котором будет создана организационная единица",
+    "filter": "Отфильтровать",
+    "kerberos-should-reload-header": "Перезагрузите сервер MultiDirectory",
+    "kerberos-should-reload-description": "После настройки Kerberos-сервера в базе данных отсутствуют принципалы для всех ранее созданных учетных записей. Чтобы создать принципалы для этих учетных записей, требуется выполнить аутентификацию на LDAP-сервере или сменить пароль."
   },
   "attributes-list": {
     "value": "Значение",
@@ -422,7 +436,8 @@
     "md-settings": "Настройки Multidirectory",
     "access-control": "Контроль доступа",
     "mf-settings": "Подключение к Мультифактору",
-    "about": "О программе"
+    "about": "О программе",
+    "kdc-principals": "Принципалы Kerberos"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -446,7 +461,9 @@
     "user": "Пользователь",
     "computer": "Компьютер",
     "security-group": "Группа безопасности",
-    "organizational-unit": "Организационная единица"
+    "organizational-unit": "Организационная единица",
+    "enabled": "Включено",
+    "disabled": "Выключено"
   },
   "properties-modal": {
     "modal-header": "Свойства",
@@ -525,5 +542,20 @@
     "into-the-container": "В контейнер",
     "change": "Изменить...",
     "cancel": "Отменить"
+  },
+  "kdc-settings": {
+    "add": "Добавить",
+    "export": "Экспортировать .keytab",
+    "name-column": "Имя",
+    "should-select-principals": "Необходимо выбрать принципал",
+    "filter": "Отфильтровать"
+  },
+  "add-principal": {
+    "modal-header": "Новый объект - Принципал",
+    "header": "Ручное создание принципала",
+    "name-label": "Имя принципала",
+    "cancel": "Отмена",
+    "apply": "Применить",
+    "format-error": "Принципал должен иметь формать 'prefix/name'"
   }
 }

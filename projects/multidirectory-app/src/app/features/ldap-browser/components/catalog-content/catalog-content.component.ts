@@ -37,6 +37,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
+  searchQuery = '';
 
   constructor(
     private navigation: AppNavigationService,
@@ -95,6 +96,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
 
     this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
+      this.searchQuery = '';
       this.view?.updateContent();
       this.cdr.detectChanges();
     });

@@ -8,6 +8,7 @@
   left: 0;
   right: 0;
   width: 100%;
+  overflow-y: auto !important;
 
   .visible {
     display: flex;
@@ -46,12 +47,19 @@
   .datatable-body {
     flex-grow: 1;
     overflow-x: hidden;
+    overflow-y: auto;
+    datatable-selection,
+    datatable-scroller {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
   }
 
   .datatable-body-row {
     border-bottom: 1px solid var(--md-neutral-300);
     padding: 4px 8px;
-
+    max-width: 100%;
     &:hover {
       background-color: var(--md-neutral-150);
       color: var(--md-black);
@@ -66,6 +74,7 @@
   .datatable-body-cell {
     .datatable-body-cell-label {
       @include global.use-inter-typography(500, 14px, 19.6px);
+      user-select: none;
     }
   }
 
@@ -85,4 +94,7 @@
 
 .relative {
   position: relative;
+}
+
+.scrollable-y {
 }

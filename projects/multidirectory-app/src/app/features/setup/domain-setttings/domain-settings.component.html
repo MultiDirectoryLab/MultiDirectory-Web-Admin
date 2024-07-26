@@ -6,19 +6,29 @@
     </span>
   </div>
   <md-form #form>
-    <div class="flex-row flex-space-between justify-center">
-      <label class="textbox-label">
-        {{ 'setup.domain-settings.domain-label' | transloco }}
-      </label>
+    <div class="flex-column flex-gap-20">
+      <div class="flex-row flex-space-between justify-center">
+        <label class="textbox-label">
+          {{ 'setup.domain-settings.domain-label' | transloco }}
+        </label>
 
-      <div class="flex-column flex-grow-1">
-        <md-textbox
-          appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
-          appRequired
-          appAutofocus
-          [(ngModel)]="setupRequest.domain"
-        ></md-textbox>
-        <label class="error-message" #domainLabel></label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+            appRequired
+            appAutofocus
+            [(ngModel)]="setupRequest.domain"
+          ></md-textbox>
+          <label class="error-message" #domainLabel></label>
+        </div>
+      </div>
+
+      <div class="flex-row flex-center justify-center">
+        <div class="flex-column flex-grow-1">
+          <md-checkbox [(ngModel)]="setupRequest.setupKdc">
+            {{ 'setup.domain-settings.setup-kdc' | transloco }}
+          </md-checkbox>
+        </div>
       </div>
     </div>
   </md-form>

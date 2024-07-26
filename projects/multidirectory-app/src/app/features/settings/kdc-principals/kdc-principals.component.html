@@ -1,0 +1,29 @@
+<div *ngIf="kerberosStatus !== KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
+  <div class="p-16 flex-row flex-space-between flex-gap-10">
+    <div class="flex-row justify-end flex-gap-10">
+      <md-button (click)="exportKeytab()">{{ 'kdc-settings.export' | transloco }}</md-button>
+      <md-button (click)="addPrincipal()">{{ 'kdc-settings.add' | transloco }}</md-button>
+    </div>
+    <md-textbox placeholder="{{ 'kdc-settings.filter' | transloco }}" [(ngModel)]="searchQuery">
+    </md-textbox>
+  </div>
+  <div class="h-100 p-16">
+    <md-datagrid
+      #grid
+      name="table-view"
+      [rows]="principals"
+      [columns]="columns"
+      [page]="page"
+      (pageChanged)="onPageChanged($event)"
+      (doubleclick)="onDoubleClick($event)"
+      [pageSizes]="pageSizes"
+      pagerTitle="{{ 'grid.pager-title' | transloco }}"
+      fromTitle="{{ 'grid.from-title' | transloco }}"
+      emptyMessage="{{ 'grid.no-data' | transloco }}"
+    ></md-datagrid>
+  </div>
+</div>
+
+<div *ngIf="kerberosStatus === KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
+  <md-button [primary]="true" (click)="setupKerberos()">Setup kerberos</md-button>
+</div>

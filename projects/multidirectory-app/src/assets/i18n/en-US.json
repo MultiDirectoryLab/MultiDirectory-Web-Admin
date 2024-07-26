@@ -110,7 +110,17 @@
     },
     "domain-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
-      "domain-label": "Domain"
+      "domain-label": "Domain",
+      "setup-kdc": "Setup Kerberos"
+    },
+    "kdc-settings": {
+      "header": "This wizard will help you complete the Multidirectory setup",
+      "krbadmin-password-label": "Krbadmin password",
+      "krbadmin-password-repeat-label": "Repeat krbadmin password",
+      "stash-password-label": "Stash password",
+      "stash-password-label-repeat": "Repeat stash password",
+      "apply": "Apply",
+      "cancel": "Cancel"
     }
   },
   "user-create": {
@@ -158,7 +168,8 @@
     "fromTitle": "from",
     "name-column": "Name",
     "type-column": "Type",
-    "description-column": "Description"
+    "description-column": "Description",
+    "status-column": "Status"
   },
   "catalog-content": {
     "create-user": "Create a user",
@@ -185,7 +196,9 @@
     "move": "Move...",
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
-    "select-ou-catalog": "Select a catalog where an organizational unit will be created"
+    "select-ou-catalog": "Select a catalog where an organizational unit will be created",
+    "kerberos-should-reload-header": "Reboot the MultiDirectory server",
+    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, user must authenticate to the LDAP server or change the password."
   },
   "attributes-list": {
     "value": "Value",
@@ -422,7 +435,8 @@
     "md-settings": "Multidirectory Settings",
     "access-control": "Access Control",
     "mf-settings": "Multifactor Integration",
-    "about": "About"
+    "about": "About",
+    "kdc-principals": "Kerberos principals"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -448,7 +462,9 @@
     "user": "User",
     "security-group": "Security group",
     "computer": "Computer",
-    "organizational-unit": "Organizational Unit"
+    "organizational-unit": "Organizational Unit",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "properties-modal": {
     "modal-header": "Properties",
@@ -528,5 +544,20 @@
     "into-the-container": "Into container",
     "change": "Change...",
     "cancel": "Cancel"
+  },
+  "kdc-settings": {
+    "add": "Add",
+    "name-column": "Name",
+    "should-select-principals": "You should select a princiapl to add",
+    "export": "Export .keytab",
+    "filter": "Filter"
+  },
+  "add-principal": {
+    "modal-header": "New object - Principal",
+    "header": "Manual principal creation",
+    "name-label": "Principal name",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "format-error": "Principal must be of 'prefix/name' format"
   }
 }

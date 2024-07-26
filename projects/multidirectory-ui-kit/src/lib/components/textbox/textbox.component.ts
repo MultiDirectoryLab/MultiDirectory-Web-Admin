@@ -28,7 +28,7 @@ export class TextboxComponent extends BaseComponent {
   @Input() password: boolean = false;
   @Input() autocomplete: boolean = false;
   @Input() autofocus: boolean = false;
-
+  @Input() placeholder = '';
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
   }

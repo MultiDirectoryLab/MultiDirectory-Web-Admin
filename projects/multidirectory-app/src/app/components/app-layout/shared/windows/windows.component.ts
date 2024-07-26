@@ -32,6 +32,8 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('catalogSelectorModal') catalogSelectorModal!: ModalInjectDirective;
   @ViewChild('moveEntityDialog') moveEntityDialog!: ModalInjectDirective;
   @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
+  @ViewChild('addPrincipalDialog') addPrincipalDialog!: ModalInjectDirective;
+  @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -116,6 +118,14 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
 
     this.ldapWindows.showConfirmDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((prompt) => {
       this.openConfirmDialog(prompt);
+    });
+
+    this.ldapWindows.showAddPrincipalDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openAddPrincipalDialog();
+    });
+
+    this.ldapWindows.showSetupKerberosDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.openSetupKerberosDialog();
     });
   }
 
@@ -271,6 +281,24 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeConfirmDialog(result);
+      });
+  }
+
+  openAddPrincipalDialog() {
+    this.addPrincipalDialog
+      .open({ minHeight: 360 }, {})
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeAddPrincipalDialog();
+      });
+  }
+
+  openSetupKerberosDialog() {
+    this.setupKerberosDialog
+      .open({ minHeight: 360 }, {})
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeSetupKerberosDialog();
       });
   }
 }

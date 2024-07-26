@@ -69,15 +69,17 @@ export class LdapEntryLoader implements NodeLoader {
     );
   }
 
-  getContent(parent: string): Observable<LdapEntryNode[]> {
-    return this.api.search(SearchQueries.getContent(parent)).pipe(
+  getContent(parent: string, query: string = ''): Observable<LdapEntryNode[]> {
+    return this.api.search(SearchQueries.getContent(parent, query)).pipe(
       map((res: SearchResponse) =>
         res.search_result.map((x) => {
           const displayName = LdapEntryLoader.getSingleAttribute(x, 'name');
-          const objectClass = x.partial_attributes.find((x) => x.type == 'objectClass')!;
+          const objectClass = x.partial_attributes.find(
+            (x) => x.type.toLocaleLowerCase() == 'objectclass',
+          )!;
           const node = new LdapEntryNode({
             name: displayName,
-            type: EntityInfoResolver.getNodeType(objectClass.vals),
+            type: EntityInfoResolver.getNodeType(objectClass?.vals),
             selectable: true,
             expandable: EntityInfoResolver.isExpandable(objectClass?.vals),
             entry: x,

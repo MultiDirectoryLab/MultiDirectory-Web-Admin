@@ -28,6 +28,9 @@ import { PasswordPolicyGetResponse } from '@models/password-policy/password-poli
 import { PasswordPolicyPutRequest } from '@models/password-policy/password-policy-put-request';
 import { GetAcpPageResponse } from '@models/login/get-acp-response';
 import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +67,16 @@ export class MultidirectoryApiService {
 
   setup(request: SetupRequest): Observable<boolean> {
     return this.httpClient.post<boolean>('auth/setup', request).execute();
+  }
+
+  kerberosTreeSetup(request: KerberosTreeSetupRequest): Observable<boolean> {
+    return this.httpClient.post<boolean>('kerberos/setup/tree', request).execute();
+  }
+  kerberosSetup(request: KerberosSetupRequest): Observable<boolean> {
+    return this.httpClient.post<boolean>('kerberos/setup', request).execute();
+  }
+  ktadd(request: string[]): Observable<any> {
+    return this.httpClient.postFile('kerberos/ktadd', request);
   }
 
   create(request: CreateEntryRequest): Observable<CreateEntryResponse> {
@@ -194,5 +207,20 @@ export class MultidirectoryApiService {
 
   updateDn(payload: ModifyDnRequest): any {
     return this.httpClient.put<ModifyDnRequest>('entry/update/dn', payload).execute();
+  }
+
+  getKerberosStatus(): Observable<KerberosStatuses> {
+    return this.httpClient
+      .get<KerberosStatuses>('kerberos/status')
+      .execute()
+      .pipe(
+        map((x) => {
+          return Number(x);
+        }),
+      );
+  }
+
+  addPrincipal(name: string): Observable<string> {
+    return this.httpClient.post<string>('kerberos/add', name).execute();
   }
 }

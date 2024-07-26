@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { WebSocketService, WebsocketTokenHandle } from '@core/websocket/websocket.service';
 import { LoginResponse } from '@models/login/login-response';
 import { translate } from '@ngneat/transloco';
+import { LoginService } from '@services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     private api: MultidirectoryApiService,
     private router: Router,
     private toastr: ToastrService,
-    private wss: WebSocketService,
+    private loginService: LoginService,
   ) {}
 
   loginValid = false;
@@ -45,36 +46,17 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     this.modal.showSpinner();
-    this.api
+    this.loginService
       .login(this.login, this.password)
       .pipe(
         catchError((err, caught) => {
-          if (err.status == 426) {
-            this.use2FA();
-            return EMPTY;
-          }
           this.modal.hideSpinner();
-          this.toastr.error(translate('login.wrong-login'));
           return EMPTY;
         }),
       )
       .subscribe((response: LoginResponse) => {
         this.modal.hideSpinner();
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
         this.router.navigate(['/']);
       });
-  }
-
-  private authComplete = new Subject<boolean>();
-  use2FA() {
-    let windowHandle: WindowProxy | null = null;
-    this.api
-      .getMultifactorACP(this.login, this.password)
-      .pipe(take(1))
-      .subscribe((resp) => {
-        document.location = resp.message;
-      });
-    return this.authComplete.asObservable();
   }
 }

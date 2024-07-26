@@ -38,6 +38,16 @@ import { BaseViewComponent } from '../base-view.component';
 export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+
+  private _searchQuery = '';
+  @Input() set searchQuery(q: string) {
+    this._searchQuery = q;
+    this.updateContent();
+  }
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
   private _dn = '';
   page = new Page();
   columns: TableColumn[] = [];
@@ -70,6 +80,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       { name: translate('table-view.name-column'), cellTemplate: this.iconColumn, flexGrow: 1 },
       { name: translate('table-view.type-column'), prop: 'type', flexGrow: 1 },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
+      { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
   }
 
@@ -91,7 +102,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       this._dn = dn;
     }
     this.ldapLoader
-      .getContent(dn)
+      .getContent(dn, this.searchQuery)
       .pipe(take(1))
       .subscribe((rows) => {
         this.rows = rows.map(
@@ -102,6 +113,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
               type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
               entry: node,
               description: node.entry ? EntityInfoResolver.getNodeDescription(node) : '',
+              status: node.entry ? EntityInfoResolver.getNodeStatus(node) : '',
             },
         );
         this.grid.page.totalElements = this.rows.length;

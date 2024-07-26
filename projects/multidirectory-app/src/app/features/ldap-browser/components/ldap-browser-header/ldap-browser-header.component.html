@@ -1,5 +1,7 @@
-<label *ngIf="!!selectedCatalogDn" class="bold"
+<label *ngIf="!!selectedCatalogDn" class="bold" style="cursor: pointer"
   >{{ 'header.folder' | transloco }}:
-  <a class="container-name" (click)="onCopyDn($event)">{{ containerName }}</a></label
->
+  <a class="container-name" (click)="onCopyDn($event)"
+    >{{ containerName }} <fa-icon [icon]="faCopy" size="2xs"></fa-icon
+  ></a>
+</label>
 <label *ngIf="!selectedCatalogDn" class="bold">{{ 'header.select-folder' | transloco }}</label>

@@ -19,9 +19,9 @@
         [disabled]="true"
         [(ngModel)]="request.new_superior"
       ></md-textbox>
-      <md-plane-button class="col-md-2 control-button" (click)="showEntrySelector($event)">{{
+      <md-button class="col-md-2 control-button" (click)="showEntrySelector($event)">{{
         'modify-dn.change' | transloco
-      }}</md-plane-button>
+      }}</md-button>
     </div>
     <div class="row">
       <md-checkbox class="col-md-6" [(ngModel)]="request.deleteoldrdn">{{

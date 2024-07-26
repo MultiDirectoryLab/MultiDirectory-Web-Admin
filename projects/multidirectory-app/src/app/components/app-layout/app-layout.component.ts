@@ -31,11 +31,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       this.showLeftPane = x;
     });
 
-    combineLatest([this.app.userRx, this.nodeLoader.get()])
+    combineLatest([this.app.userRx, this.nodeLoader.get(), this.api.getKerberosStatus()])
       .pipe(
         takeUntil(this.unsubscribe),
-        tap(([user, roots]) => {
+        tap(([user, roots, kerberosStatus]) => {
           this.app.user = user;
+          this.app.kerberosStatus = kerberosStatus;
         }),
         switchMap(([user, roots]) =>
           this.api.search(SearchQueries.findByName(user.display_name, roots[0].id)),
@@ -44,7 +45,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe((userSearch) => {
         const searchEntry = userSearch.search_result[0];
         const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
-        const objectClass = searchEntry.partial_attributes.find((x) => x.type == 'objectClass')!;
+        const objectClass = searchEntry.partial_attributes.find(
+          (x) => x.type.toLocaleLowerCase() == 'objectclass',
+        )!;
         const entry = new LdapEntryNode({
           name: displayName,
           type: EntityInfoResolver.getNodeType(objectClass.vals),

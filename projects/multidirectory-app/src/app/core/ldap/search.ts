@@ -1,6 +1,4 @@
-import { Page } from 'multidirectory-ui-kit';
 import { SearchRequest } from '@models/entry/search-request';
-import { LdapEntryNode } from './ldap-entity';
 
 export const SearchQueries = {
   RootDse: {
@@ -39,7 +37,7 @@ export const SearchQueries = {
     });
   },
 
-  getContent(baseObject: string): SearchRequest {
+  getContent(baseObject: string, query: string = ''): SearchRequest {
     const req = new SearchRequest({
       base_object: baseObject,
       scope: 1,
@@ -47,7 +45,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: '(objectClass=*)',
+      filter: query ? `(&(objectClass=*)(cn=*${query}*))` : '(objectClass=*)',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
     return req;
@@ -93,7 +91,7 @@ export const SearchQueries = {
   },
 
   findEntities(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
-    let typeQuery = `(objectClass=group)`;
+    let typeQuery = `(!(objectClass=krbprincipal))`;
     if (entityType.length > 0) {
       const entityTypes = entityType.map((x) => `(objectClass=${x})`).join('');
       typeQuery = `(|${entityTypes})`;
@@ -105,8 +103,8 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(&${typeQuery}(|(cn=*${name}*)(displayName=*${name}*)))`,
-      attributes: ['*'],
+      filter: `(&${typeQuery}(displayName=*${name}*))`,
+      attributes: ['displayName', 'cn', 'distinguishedName'],
     });
   },
 
@@ -120,6 +118,20 @@ export const SearchQueries = {
       types_only: false,
       filter: '(objectClass=*)',
       attributes: ['*'],
+    });
+  },
+
+  getKdcPrincipals(baseDn: string, query: string): SearchRequest {
+    return new SearchRequest({
+      base_object: baseDn,
+      scope: 3,
+      deref_aliases: 0,
+      size_limit: 1000,
+      time_limit: 1000,
+      types_only: true,
+      filter: query ? `(&(objectClass=krbprincipal)(cn=*${query}*))` : '(objectClass=krbprincipal)',
+      attributes: ['cn'],
+      page_number: 1,
     });
   },
 };

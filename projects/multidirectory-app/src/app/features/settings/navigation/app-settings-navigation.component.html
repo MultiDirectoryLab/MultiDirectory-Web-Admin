@@ -21,4 +21,12 @@
   >
     {{ t('about') }}
   </div>
+
+  <div
+    class="nav-item"
+    [ngClass]="{ selected: url.endsWith('kdc-principals') }"
+    routerLink="/settings/kdc-principals"
+  >
+    {{ t('kdc-principals') }}
+  </div>
 </div>

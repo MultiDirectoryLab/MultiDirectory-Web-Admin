@@ -39,7 +39,7 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
   }
 
   checkModel() {
-    this.form.validate();
+    this.form.validate(true);
   }
 
   ngOnDestroy(): void {

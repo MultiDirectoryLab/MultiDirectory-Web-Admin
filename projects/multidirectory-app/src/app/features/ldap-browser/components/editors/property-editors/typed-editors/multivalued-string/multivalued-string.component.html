@@ -7,11 +7,7 @@
       </div>
     </div>
   </div>
-  <md-plane-button [hasBorder]="true" (click)="addAttribute()">{{
-    'attributes-list.add' | transloco
-  }}</md-plane-button>
+  <md-button (click)="addAttribute()">{{ 'attributes-list.add' | transloco }}</md-button>
   <md-treeview #treeview class="border-solid-1 h-100 w-100" style="min-height: 200px"></md-treeview>
-  <md-plane-button [hasBorder]="true" (click)="deleteAttribute()">{{
-    'attributes-list.delete' | transloco
-  }}</md-plane-button>
+  <md-button (click)="deleteAttribute()">{{ 'attributes-list.delete' | transloco }}</md-button>
 </div>

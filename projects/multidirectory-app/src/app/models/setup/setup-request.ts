@@ -6,4 +6,11 @@ export class SetupRequest {
   mail: string = '';
   password: string = '';
   repeatPassword: string = '';
+
+  setupKdc = false;
+  krbadmin_password: string = '';
+  krbadmin_password_repeat: string = '';
+
+  stash_password: string = '';
+  stash_password_repeat: string = '';
 }

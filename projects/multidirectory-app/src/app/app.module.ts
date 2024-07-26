@@ -23,9 +23,10 @@ import { EditorsModule } from './features/ldap-browser/components/editors/editor
 import { AppSettingsModule } from './features/settings/app-settings.module';
 import { SearchPanelModule } from './features/search/search-panel.module';
 import { PropertiesModule } from './features/ldap-entry-properties/properties.module';
-import { WindowsComponent } from './components/app-layout/shared/windows/windows.component';
 import { AppFormsModule } from './features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
+import { FooterComponent } from './components/app-layout/footer/footer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SharedComponentsModule } from './components/app-layout/shared/shared.mo
     DisplayErrorComponent,
     AppLayoutComponent,
     SidebarComponent,
+    FooterComponent,
   ],
   providers: [
     provideAnimations(),
@@ -74,6 +76,7 @@ import { SharedComponentsModule } from './components/app-layout/shared/shared.mo
     SearchPanelModule,
     AppFormsModule,
     SharedComponentsModule,
+    FontAwesomeModule,
   ],
 })
 export class AppModule {}

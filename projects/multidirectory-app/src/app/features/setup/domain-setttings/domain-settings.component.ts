@@ -26,7 +26,6 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
       this.form.validate();
     });
 
-    this.setupRequest.domain = window.location.hostname;
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.setup.stepValid(valid);
     });

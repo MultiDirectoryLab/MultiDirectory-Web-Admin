@@ -2,12 +2,9 @@
   <div class="flex-row flex-gap-10 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
     <md-textbox name="search" [(ngModel)]="searchFilter"></md-textbox>
-    <md-plane-button
-      [disabled]="!_searchFilter"
-      [hasBorder]="true"
-      (click)="onEditClick(_searchFilter)"
-      >{{ 'entity-attributes.add' | transloco }}</md-plane-button
-    >
+    <md-button [disabled]="!_searchFilter" (click)="onEditClick(_searchFilter)">{{
+      'entity-attributes.add' | transloco
+    }}</md-button>
   </div>
   <div class="h-100">
     <md-datagrid

@@ -62,7 +62,7 @@ export class ComputerCreateComponent implements OnInit, OnDestroy {
           attributes: [
             new PartialAttribute({
               type: 'objectClass',
-              vals: ['top', 'computer', 'user'],
+              vals: ['top', 'computer'],
             }),
             new PartialAttribute({
               type: 'description',
