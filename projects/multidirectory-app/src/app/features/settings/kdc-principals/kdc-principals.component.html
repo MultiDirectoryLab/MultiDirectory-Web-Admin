@@ -25,5 +25,9 @@
 </div>
 
 <div *ngIf="kerberosStatus === KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
-  <md-button [primary]="true" (click)="setupKerberos()">Setup kerberos</md-button>
+  <div class="row">
+    <div class="col-md-2 p-16">
+      <md-button [primary]="true" (click)="setupKerberos()">Setup kerberos</md-button>
+    </div>
+  </div>
 </div>

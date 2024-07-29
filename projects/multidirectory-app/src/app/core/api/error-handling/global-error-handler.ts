@@ -2,6 +2,7 @@ import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { translate } from '@ngneat/transloco';
 import { ToastrService } from 'ngx-toastr';
+import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -22,6 +23,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     console.error(error);
     if (error.error instanceof ProgressEvent) {
       this.router.navigate(['/enable-backend']);
+      return;
     }
     if (error.error?.detail) {
       if (typeof error.error?.detail === 'string' || error.error?.detail instanceof String) {

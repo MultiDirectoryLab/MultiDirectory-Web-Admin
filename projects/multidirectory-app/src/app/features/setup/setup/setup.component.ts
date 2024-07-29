@@ -81,6 +81,10 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
           );
         }),
         catchError((err) => {
+          console.log(err);
+          if (err.status == 409) {
+            return of(true);
+          }
           this.toastr.error(err.message);
           this.modal.hideSpinner();
           return EMPTY;
