@@ -1,4 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { translate } from '@ngneat/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
@@ -41,7 +42,8 @@ export class AddPrincipalDialogComponent implements OnInit, OnDestroy {
       .addPrincipal(this.principalName)
       .pipe(
         catchError((err) => {
-          this.toastr.error(err);
+          this.toastr.error(translate('add-principal.unable-to-add'));
+          console.log(err);
           this.modalInejctor.hideSpinner();
           return EMPTY;
         }),

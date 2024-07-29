@@ -8,7 +8,7 @@ import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Subject, switchMap } from 'rxjs';
+import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -54,6 +54,9 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       )
       .pipe(
         catchError((err) => {
+          if (err.status == 409) {
+            return of(true);
+          }
           this.toastr.error(err.message);
           this.modalInejctor.hideSpinner();
           return EMPTY;

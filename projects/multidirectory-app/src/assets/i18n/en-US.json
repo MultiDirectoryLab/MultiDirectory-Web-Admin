@@ -118,7 +118,7 @@
       "krbadmin-password-label": "Krbadmin password",
       "krbadmin-password-repeat-label": "Repeat krbadmin password",
       "stash-password-label": "Stash password",
-      "stash-password-label-repeat": "Repeat stash password",
+      "stash-password-repeat-label": "Repeat stash password",
       "apply": "Apply",
       "cancel": "Cancel"
     }
@@ -194,6 +194,7 @@
     "modify-dn": "Modify Distinguished Name...",
     "copy": "Copy...",
     "move": "Move...",
+    "filter": "Filter",
     "select-user-catalog": "Select a catalog where an user will be created",
     "select-group-catalog": "Select a catalog where a group will be created",
     "select-ou-catalog": "Select a catalog where an organizational unit will be created",
@@ -558,6 +559,7 @@
     "name-label": "Principal name",
     "cancel": "Cancel",
     "apply": "Apply",
-    "format-error": "Principal must be of 'prefix/name' format"
+    "format-error": "Principal must be of 'prefix/name' format",
+    "unable-to-add": "Unable to add principal. Check the logs to know more."
   }
 }
