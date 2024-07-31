@@ -9,6 +9,7 @@ import {
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { SearchEntry } from '@models/entry/search-response';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { translate } from '@ngneat/transloco';
@@ -16,7 +17,13 @@ import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { TableColumn } from '@swimlane/ngx-datatable';
-import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
+import {
+  ContextMenuEvent,
+  DatagridComponent,
+  DropdownMenuComponent,
+  DropdownOption,
+  Page,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 
@@ -27,6 +34,8 @@ import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } fr
 })
 export class KdcPrincipalsComponent implements OnInit, OnDestroy {
   @ViewChild('grid') grid!: DatagridComponent;
+  @ViewChild('principalMenu') principalMenu!: DropdownMenuComponent;
+  faCircleExclamation = faCircleExclamation;
   private _searchQuery = '';
   set searchQuery(query: string) {
     this._searchQuery = query;
@@ -173,5 +182,9 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
       .openSetupKerberosDialog()
       .pipe(take(1))
       .subscribe((x) => {});
+  }
+
+  handleRightClick(e: ContextMenuEvent) {
+    // TODO
   }
 }

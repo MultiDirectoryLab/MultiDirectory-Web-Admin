@@ -15,6 +15,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { AboutComponent } from './about/about.component';
 import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.componen
     DragDropModule,
     TranslocoModule,
     MultidirectoryUiKitModule,
+    FontAwesomeModule,
     RouterModule,
   ],
   declarations: [

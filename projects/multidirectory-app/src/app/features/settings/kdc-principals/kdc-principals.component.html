@@ -16,6 +16,7 @@
       [page]="page"
       (pageChanged)="onPageChanged($event)"
       (doubleclick)="onDoubleClick($event)"
+      (contextmenu)="handleRightClick($event)"
       [pageSizes]="pageSizes"
       pagerTitle="{{ 'grid.pager-title' | transloco }}"
       fromTitle="{{ 'grid.from-title' | transloco }}"
@@ -25,9 +26,27 @@
 </div>
 
 <div *ngIf="kerberosStatus === KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
-  <div class="row">
-    <div class="col-md-2 p-16">
-      <md-button [primary]="true" (click)="setupKerberos()">Setup kerberos</md-button>
-    </div>
+  <div class="p-16">
+    <md-alert>
+      <div class="flex-row flex-gap-20">
+        <div class="flex-row justify-center flex-align-center">
+          <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+        </div>
+        <div class="flex-column">
+          <h3>{{ 'kdc-settings.setup-kerberos-description' | transloco }}</h3>
+          <div class="pv-8">
+            <md-button [primary]="true" (click)="setupKerberos()">{{
+              'kdc-settings.setup-kerberos' | transloco
+            }}</md-button>
+          </div>
+        </div>
+      </div>
+    </md-alert>
   </div>
 </div>
+
+<md-dropdown-menu #principalMenu>
+  <div class="dropdown-item">
+    {{ 'catalog-content.help' | transloco }}
+  </div>
+</md-dropdown-menu>

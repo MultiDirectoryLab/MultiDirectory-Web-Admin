@@ -548,7 +548,9 @@
     "export": "Экспортировать .keytab",
     "name-column": "Имя",
     "should-select-principals": "Необходимо выбрать принципал",
-    "filter": "Отфильтровать"
+    "filter": "Отфильтровать",
+    "setup-kerberos-description": "Для управления принципалами требуется настроить Kerberos",
+    "setup-kerberos": "Настроить Kerberos"
   },
   "add-principal": {
     "modal-header": "Новый объект - Принципал",
@@ -556,7 +558,7 @@
     "name-label": "Имя принципала",
     "cancel": "Отмена",
     "apply": "Применить",
-    "format-error": "Принципал должен иметь формать 'prefix/name'",
+    "format-error": "Принципал должен иметь формат 'primary/instance'",
     "unable-to-add": "Не удалось добавить принципал. Проверьте логи, чтобы узнать подробности."
   }
 }

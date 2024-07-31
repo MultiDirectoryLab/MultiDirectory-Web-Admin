@@ -31,6 +31,7 @@ import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 
 @Injectable({
   providedIn: 'root',
@@ -220,7 +221,7 @@ export class MultidirectoryApiService {
       );
   }
 
-  addPrincipal(name: string): Observable<string> {
-    return this.httpClient.post<string>('kerberos/add', name).execute();
+  addPrincipal(request: AddPrincipalRequest): Observable<string> {
+    return this.httpClient.post<string>('kerberos/principal/add', request).execute();
   }
 }
