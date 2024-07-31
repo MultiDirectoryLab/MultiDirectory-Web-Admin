@@ -551,7 +551,9 @@
     "name-column": "Name",
     "should-select-principals": "You should select a princiapl to add",
     "export": "Export .keytab",
-    "filter": "Filter"
+    "filter": "Filter",
+    "setup-kerberos-description": "It is required to setup kerberos service to manage a principals",
+    "setup-kerberos": "Setup Kerberos"
   },
   "add-principal": {
     "modal-header": "New object - Principal",
@@ -559,7 +561,7 @@
     "name-label": "Principal name",
     "cancel": "Cancel",
     "apply": "Apply",
-    "format-error": "Principal must be of 'prefix/name' format",
+    "format-error": "Principal must be of 'primary/instance' format",
     "unable-to-add": "Unable to add principal. Check the logs to know more."
   }
 }

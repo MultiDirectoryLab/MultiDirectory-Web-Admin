@@ -1,4 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 import { translate } from '@ngneat/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
@@ -38,8 +39,9 @@ export class AddPrincipalDialogComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     event.preventDefault();
     this.modalInejctor.showSpinner();
+    const request = new AddPrincipalRequest(this.principalName);
     this.api
-      .addPrincipal(this.principalName)
+      .addPrincipal(request)
       .pipe(
         catchError((err) => {
           this.toastr.error(translate('add-principal.unable-to-add'));
