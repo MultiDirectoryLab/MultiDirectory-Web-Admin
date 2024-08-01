@@ -1,4 +1,4 @@
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Injectable } from '@angular/core';
 import { SearchEntry, SearchResponse } from '@models/entry/search-response';
