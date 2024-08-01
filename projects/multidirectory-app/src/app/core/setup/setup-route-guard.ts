@@ -22,6 +22,7 @@ export class SetupRouteGuard {
       catchError((err, caughtRx) => {
         if (err.status == 0) {
           this.toast.error(translate('backend-status.backend-is-not-responding'));
+          console.log('goes to enable backend');
           this.router.navigate(['/enable-backend']);
           return of(true);
         }

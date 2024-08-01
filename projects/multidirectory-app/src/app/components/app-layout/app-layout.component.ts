@@ -22,7 +22,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private app: AppSettingsService,
     private api: MultidirectoryApiService,
-    private nodeLoader: LdapEntryLoader,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -31,16 +30,16 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       this.showLeftPane = x;
     });
 
-    combineLatest([this.app.userRx, this.nodeLoader.get(), this.api.getKerberosStatus()])
+    combineLatest([this.app.userRx, this.api.getKerberosStatus()])
       .pipe(
         takeUntil(this.unsubscribe),
-        tap(([user, roots, kerberosStatus]) => {
+        tap(([user, kerberosStatus]) => {
           this.app.user = user;
           this.app.kerberosStatus = kerberosStatus;
         }),
-        switchMap(([user, roots]) =>
-          this.api.search(SearchQueries.findByName(user.display_name, roots[0].id)),
-        ),
+        switchMap(([user]) => {
+          return this.api.search(SearchQueries.getProperites(user.dn));
+        }),
       )
       .subscribe((userSearch) => {
         const searchEntry = userSearch.search_result[0];
