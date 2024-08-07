@@ -1,3 +1,5 @@
+import BitSet from 'bitset';
+
 export class UserCreateRequest {
   firstName = '';
   initials = '';
@@ -15,6 +17,7 @@ export class UserCreateRequest {
   userCannotChangePassword = false;
   userPasswordExpired = false;
   accountDisabled = false;
-
+  uacBitSet = new BitSet();
+  pwdLastSet = Date.now().toString();
   constructor() {}
 }

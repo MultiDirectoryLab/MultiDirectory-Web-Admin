@@ -52,6 +52,7 @@
     datatable-scroller {
       width: 100%;
       max-width: 100%;
+      min-width: 100%;
       display: block;
     }
   }
@@ -72,9 +73,14 @@
   }
 
   .datatable-body-cell {
+    padding-right: 1rem;
     .datatable-body-cell-label {
       @include global.use-inter-typography(500, 14px, 19.6px);
       user-select: none;
+      white-space: nowrap;
+      margin-right: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

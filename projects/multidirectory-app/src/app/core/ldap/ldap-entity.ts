@@ -17,8 +17,7 @@ export class LdapEntryNode extends NavigationNode {
   }
 
   getAttibute(key: string): PartialAttribute | undefined {
-    const index =
-      this.entry?.partial_attributes?.findIndex((x) => x.type == 'userAccountControl') ?? -1;
+    const index = this.entry?.partial_attributes?.findIndex((x) => x.type == key) ?? -1;
     if (index < 0) {
       return undefined;
     }

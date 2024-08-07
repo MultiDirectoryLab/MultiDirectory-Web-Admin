@@ -82,12 +82,8 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
         catchError((err) => {
           console.log(err);
-          if (err.status == 409) {
-            return of(true);
-          }
-          this.toastr.error(err.message);
-          this.modal.hideSpinner();
-          return EMPTY;
+          this.toastr.error(err);
+          return of(true);
         }),
         switchMap((value) => {
           return iif(
@@ -101,7 +97,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
         catchError((err) => {
           this.toastr.error(err.message);
           this.modal.hideSpinner();
-          throw err;
+          return of(true);
         }),
       )
       .subscribe((res) => {

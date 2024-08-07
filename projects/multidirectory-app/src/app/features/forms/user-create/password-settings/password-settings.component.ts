@@ -4,6 +4,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
 import { Subject, takeUntil } from 'rxjs';
+import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
 @Component({
   selector: 'app-user-create-password-settings',
@@ -43,5 +44,60 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   checkModel() {
     this.form.validate();
+  }
+
+  get passwordNeverExpires(): boolean {
+    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
+      UserAccountControlFlag.DONT_EXPIRE_PASSWORD) >
+      0
+      ? true
+      : false;
+  }
+  set passwordNeverExpires(value: boolean) {
+    this.setupRequest.uacBitSet?.set(
+      Math.log2(UserAccountControlFlag.DONT_EXPIRE_PASSWORD),
+      value ? 1 : 0,
+    );
+  }
+
+  get storePasswordReversible(): boolean {
+    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
+      UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
+      0
+      ? true
+      : false;
+  }
+  set storePasswordReversible(value: boolean) {
+    this.setupRequest.uacBitSet?.set(
+      Math.log2(UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT),
+      value ? 1 : 0,
+    );
+  }
+
+  get accountDisabled(): boolean {
+    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
+      UserAccountControlFlag.ACCOUNTDISABLE) >
+      0
+      ? true
+      : false;
+  }
+  set accountDisabled(value: boolean) {
+    this.setupRequest.uacBitSet?.set(
+      Math.log2(UserAccountControlFlag.ACCOUNTDISABLE),
+      value ? 1 : 0,
+    );
+  }
+
+  get userShouldChangePassword(): boolean {
+    return this.setupRequest.pwdLastSet === '0';
+  }
+  set userShouldChangePassword(shouldChange: boolean) {
+    if (shouldChange) {
+      this.setupRequest.pwdLastSet = '0';
+      this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
+      return;
+    }
+    this.setupRequest.pwdLastSet = Date.now().toString();
+    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
   }
 }
