@@ -8,6 +8,7 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
+import { translate } from '@ngneat/transloco';
 @Directive({
   selector: '[appRequired]',
   providers: [
@@ -20,7 +21,7 @@ import {
 })
 export class RequiredWithMessageDirective extends RequiredValidator {
   @Input('appDomainFormat') domainPattern!: string;
-  @Input('errorLabel') errorLabel = 'This value is requried';
+  @Input() errorLabel = translate('error-message.required');
 
   override validate(control: AbstractControl): ValidationErrors | null {
     return control.value !== null && control.value !== undefined && control.value !== ''

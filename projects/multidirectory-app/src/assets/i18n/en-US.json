@@ -563,5 +563,8 @@
     "apply": "Apply",
     "format-error": "Principal must be of 'primary/instance' format",
     "unable-to-add": "Unable to add principal. Check the logs to know more."
+  },
+  "error-message": {
+    "required": "This value is requried"
   }
 }

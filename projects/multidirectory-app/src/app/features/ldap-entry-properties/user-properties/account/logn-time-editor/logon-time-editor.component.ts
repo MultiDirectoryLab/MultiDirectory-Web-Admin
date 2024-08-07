@@ -7,6 +7,7 @@ import {
   Inject,
   Input,
   OnDestroy,
+  OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -38,7 +39,7 @@ export class LogonDayState {
   styleUrls: ['./logon-time-editor.component.scss'],
   templateUrl: './logon-time-editor.component.html',
 })
-export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
+export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   username = '';
   @ViewChild('logonMap', { static: true }) logonMap!: ElementRef<HTMLDivElement>;
   daysOfWeek: LogonMapDay[] = [
@@ -68,7 +69,7 @@ export class LogonTimeEditorComponent implements AfterViewInit, OnDestroy {
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     if (!!this.modalControl?.contentOptions?.logonHours) {
       this.bitValues = BitSet.fromBinaryString(this.modalControl.contentOptions.logonHours);
     }

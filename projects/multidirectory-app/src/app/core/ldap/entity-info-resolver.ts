@@ -60,13 +60,13 @@ export class EntityInfoResolver {
 
   static getNodeDescription(entry: LdapEntryNode) {
     const descriptionAttirbute = entry.getAttibute('description');
-    return descriptionAttirbute ? descriptionAttirbute.vals[0] : '';
+    return descriptionAttirbute ? descriptionAttirbute.vals?.[0] : '';
   }
 
   static getNodeStatus(entry: LdapEntryNode): string {
     const uacAttirbute = entry.getAttibute('userAccountControl');
     if (!uacAttirbute?.vals?.[0]) {
-      return '';
+      return translate('entity-info-resolver.enabled');
     }
     const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
 

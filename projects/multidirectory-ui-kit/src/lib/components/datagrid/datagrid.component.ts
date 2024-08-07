@@ -65,7 +65,6 @@ export class DatagridComponent implements AfterViewInit {
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
   @Output() pageChanged = new EventEmitter<Page>();
-  @Output() resize = new EventEmitter<void>();
   _selected: any[] = [];
   get selected(): any[] {
     return this._selected;
@@ -143,13 +142,12 @@ export class DatagridComponent implements AfterViewInit {
     if (!this.grid) {
       return;
     }
-    this.init = false;
-    this.cdr.detectChanges();
-    this.init = true;
+    console.log('resized');
   }
 
   onTableResize() {
-    this.resize.emit();
+    this.grid.recalculateColumns();
+    console.log('resized 2');
   }
 
   onPageChange(pageInfo: { offset: number; pageSize: number; limit: number; count: number }) {

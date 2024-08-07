@@ -19,6 +19,8 @@ import { ToastrService } from 'ngx-toastr';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { translate } from '@ngneat/transloco';
+import BitSet from 'bitset';
+import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
 @Component({
   selector: 'app-user-create',
@@ -32,6 +34,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
+  uacBitSet?: BitSet;
 
   constructor(
     private setup: UserCreateService,
@@ -55,6 +58,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
 
   onFinish() {
     this.modalControl.showSpinner();
+
     this.api
       .create(
         new CreateEntryRequest({
@@ -82,6 +86,14 @@ export class UserCreateComponent implements OnInit, OnDestroy {
             new PartialAttribute({
               type: 'sAMAccountName',
               vals: [this.setupRequest.upnLogin],
+            }),
+            new PartialAttribute({
+              type: 'userAccountControl',
+              vals: [this.setupRequest.uacBitSet.toString(10)],
+            }),
+            new PartialAttribute({
+              type: 'pwdLastSet',
+              vals: [this.setupRequest.pwdLastSet],
             }),
             new PartialAttribute({
               type: 'userPrincipalName',

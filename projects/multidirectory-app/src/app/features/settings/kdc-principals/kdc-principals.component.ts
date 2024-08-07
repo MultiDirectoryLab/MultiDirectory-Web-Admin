@@ -128,7 +128,14 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
       return;
     }
     const selected = this.grid.selected as SearchResult[];
-    const selectedName = selected.map((x) => x.name);
+    const selectedName = selected.map((x) => {
+      let name = x.name;
+      const hasRealmIndex = x.name.indexOf('@');
+      if (hasRealmIndex > 0) {
+        return name.substring(0, hasRealmIndex);
+      }
+      return name;
+    });
     if (!selectedName) {
       this.toastr.error(translate('kdc-settings.should-select-principals'));
       return;
