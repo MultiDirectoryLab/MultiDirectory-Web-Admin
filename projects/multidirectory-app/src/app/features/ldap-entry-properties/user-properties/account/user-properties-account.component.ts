@@ -22,21 +22,12 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   accessor: LdapAttributes = {};
 
   get userShouldChangePassword(): boolean {
-    return this.accessor?.['pwdLastSet']?.[0] === '0';
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0
+      ? true
+      : false;
   }
   set userShouldChangePassword(shouldChange: boolean) {
-    if (shouldChange) {
-      if (!!this.accessor?.['pwdLastSet']?.[0]) {
-        this.accessor['pwdLastSet'][0] = '0';
-      } else {
-        this.accessor['pwdLastSet'] = ['0'];
-      }
-      this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
-      this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
-      return;
-    }
-    this.accessor['pwdLastSet'] = [Date.now().toString()];
-    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
+    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), shouldChange ? 1 : 0);
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
   }
 

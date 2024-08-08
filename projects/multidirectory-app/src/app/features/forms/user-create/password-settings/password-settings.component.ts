@@ -89,15 +89,17 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   get userShouldChangePassword(): boolean {
-    return this.setupRequest.pwdLastSet === '0';
+    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
+      UserAccountControlFlag.PASSWORD_EXPIRED) >
+      0
+      ? true
+      : false;
   }
   set userShouldChangePassword(shouldChange: boolean) {
     if (shouldChange) {
-      this.setupRequest.pwdLastSet = '0';
       this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
       return;
     }
-    this.setupRequest.pwdLastSet = Date.now().toString();
     this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
   }
 }

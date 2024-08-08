@@ -18,6 +18,5 @@ export class UserCreateRequest {
   userPasswordExpired = false;
   accountDisabled = false;
   uacBitSet = new BitSet();
-  pwdLastSet = Date.now().toString();
   constructor() {}
 }
