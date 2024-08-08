@@ -11,7 +11,7 @@ export class KerberosSetupRequest {
 
   flll_from_setup_request(req: SetupRequest): KerberosSetupRequest {
     this.krbadmin_password = req.krbadmin_password;
-    this.admin_password = req.krbadmin_password;
+    this.admin_password = req.password;
     this.stash_password = req.stash_password;
     return this;
   }
