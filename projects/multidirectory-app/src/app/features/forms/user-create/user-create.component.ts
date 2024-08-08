@@ -92,10 +92,6 @@ export class UserCreateComponent implements OnInit, OnDestroy {
               vals: [this.setupRequest.uacBitSet.toString(10)],
             }),
             new PartialAttribute({
-              type: 'pwdLastSet',
-              vals: [this.setupRequest.pwdLastSet],
-            }),
-            new PartialAttribute({
               type: 'userPrincipalName',
               vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
             }),
