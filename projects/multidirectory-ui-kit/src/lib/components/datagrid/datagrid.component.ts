@@ -142,12 +142,10 @@ export class DatagridComponent implements AfterViewInit {
     if (!this.grid) {
       return;
     }
-    console.log('resized');
   }
 
   onTableResize() {
     this.grid.recalculateColumns();
-    console.log('resized 2');
   }
 
   onPageChange(pageInfo: { offset: number; pageSize: number; limit: number; count: number }) {

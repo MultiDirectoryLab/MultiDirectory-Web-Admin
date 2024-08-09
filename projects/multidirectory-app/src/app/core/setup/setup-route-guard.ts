@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { EMPTY, Observable, catchError, map, of } from 'rxjs';
+import { EMPTY, Observable, catchError, delay, map, of, switchMap } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -18,16 +18,22 @@ export class SetupRouteGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
+    let calls = 0;
     return this.multidirectoryApi.checkSetup().pipe(
       catchError((err, caughtRx) => {
-        if (err.status == 0) {
+        if (err.status == 0 || calls > 5) {
           this.toast.error(translate('backend-status.backend-is-not-responding'));
           this.router.navigate(['/enable-backend']);
           return of(true);
         }
-        return caughtRx;
+        calls++;
+        return of(true).pipe(
+          delay(200 * calls),
+          switchMap(() => caughtRx),
+        );
       }),
       map((x) => {
+        calls = 0;
         if (route.url.join('/') == 'setup') {
           if (x) return this.router.createUrlTree(['/login']);
           else return true;
