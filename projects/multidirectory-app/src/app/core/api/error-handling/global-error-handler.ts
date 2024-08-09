@@ -21,6 +21,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
   handleError(error: any) {
     console.error(error);
+    console.log('global error');
     if (error.error instanceof ProgressEvent) {
       this.router.navigate(['/enable-backend']);
       return;
