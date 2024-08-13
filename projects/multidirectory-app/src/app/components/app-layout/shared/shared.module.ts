@@ -5,11 +5,11 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
-import { AppFormsModule } from '@features/forms/forms.module';
 import { PropertiesModule } from '@features/ldap-entry-properties/properties.module';
 import { DeleteConfirmationModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
 import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/entity-type-selector.module';
 import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
+import { DownloadComponent } from '../../../features/forms/download-dict.component';
 
 @NgModule({
   declarations: [ContextMenuComponent, DeleteConfirmationModalComponent, WindowsComponent],
@@ -19,7 +19,6 @@ import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-
     CommonModule,
     TranslocoModule,
     EditorsModule,
-    AppFormsModule,
     EntityTypeSelectorModule,
     PropertiesModule,
     CatalogSelectorModule,

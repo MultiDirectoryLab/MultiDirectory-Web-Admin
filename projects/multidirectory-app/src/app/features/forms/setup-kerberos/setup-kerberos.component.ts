@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { PasswordGenerator } from '@core/setup/password-generator';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { SetupRequest } from '@models/setup/setup-request';
@@ -9,6 +10,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
+import { DownloadComponent } from '../download-dict.component';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -54,7 +56,7 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       )
       .pipe(
         catchError((err) => {
-          if (err.status == 409) {
+          if (err.status == 409 || err.status == 403) {
             return of(true);
           }
           this.toastr.error(err.message);
@@ -77,6 +79,21 @@ export class SetupKerberosDialogComponent implements OnDestroy {
         window.location.reload();
         this.modalInejctor.close(null);
       });
+  }
+
+  generatePasswords() {
+    this.setupRequest.generateKdcPasswords = true;
+    this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
+      PasswordGenerator.generatePassword();
+    this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
+      PasswordGenerator.generatePassword();
+  }
+
+  downloadPasswords() {
+    // this.downloadData.downloadDict({
+    //   "KrbAdmin Password": this.setupRequest.krbadmin_password,
+    //   "Stash Password": this.setupRequest.stash_password
+    // }, "md passwords.txt");
   }
 
   onClose() {

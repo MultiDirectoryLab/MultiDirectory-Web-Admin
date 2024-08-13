@@ -7,7 +7,8 @@ export class SetupRequest {
   password: string = '';
   repeatPassword: string = '';
 
-  setupKdc = false;
+  setupKdc = true;
+  generateKdcPasswords = true;
   krbadmin_password: string = '';
   krbadmin_password_repeat: string = '';
 

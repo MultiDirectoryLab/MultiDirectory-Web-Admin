@@ -5,11 +5,13 @@ import { IpAddressValidatorDirective } from './ip-address.directive';
 import { MfKeyValidatorDirective } from './mf-keys-validator.directive';
 import { RequiredWithMessageDirective } from './required-with-message.directive';
 import { PatternWithMessageDirective } from './pattern-with-message.directive';
+import { PasswordNotMatchValidatorDirective } from './passwordnotmatch.directive';
 
 @NgModule({
   declarations: [
     DomainFormatValidatorDirective,
     PasswordMatchValidatorDirective,
+    PasswordNotMatchValidatorDirective,
     IpAddressValidatorDirective,
     MfKeyValidatorDirective,
     RequiredWithMessageDirective,
@@ -18,6 +20,7 @@ import { PatternWithMessageDirective } from './pattern-with-message.directive';
   exports: [
     DomainFormatValidatorDirective,
     PasswordMatchValidatorDirective,
+    PasswordNotMatchValidatorDirective,
     IpAddressValidatorDirective,
     MfKeyValidatorDirective,
     RequiredWithMessageDirective,

@@ -13,8 +13,9 @@
       <div class="flex-column flex-grow-1">
         <md-textbox
           appRequired
-          [password]="true"
+          [password]="!setupRequest.generateKdcPasswords"
           [appPasswordMatch]="krbRepeatPassword"
+          [appPasswordNotMatch]="stashPasswordInput"
           [(ngModel)]="setupRequest.krbadmin_password"
           (keyup)="checkModel()"
           #krbPasswordInput="ngModel"
@@ -37,7 +38,7 @@
         <md-textbox
           appRequired
           [appPasswordMatch]="krbPasswordInput"
-          [password]="true"
+          [password]="!setupRequest.generateKdcPasswords"
           (keyup)="checkModel()"
           [(ngModel)]="setupRequest.krbadmin_password_repeat"
           #krbRepeatPassword="ngModel"
@@ -49,7 +50,7 @@
       <div class="flex-column flex-grow-1">
         <md-textbox
           appRequired
-          [password]="true"
+          [password]="!setupRequest.generateKdcPasswords"
           [appPasswordMatch]="stashRepeatPassword"
           [(ngModel)]="setupRequest.stash_password"
           (keyup)="checkModel()"
@@ -73,12 +74,20 @@
         <md-textbox
           appRequired
           [appPasswordMatch]="stashPasswordInput"
-          [password]="true"
+          [password]="!setupRequest.generateKdcPasswords"
           (keyup)="checkModel()"
           [(ngModel)]="setupRequest.stash_password_repeat"
           #stashRepeatPassword="ngModel"
         ></md-textbox>
       </div>
     </div>
+    <div class="flex-row pt-16 justify-center">
+      <label class="textbox-label">
+        <md-button (click)="downloadPasswords()">{{
+          'setup.kdc-settings.download-passwords' | transloco
+        }}</md-button>
+      </label>
+    </div>
   </md-form>
 </div>
+<app-download-data #downloadData></app-download-data>

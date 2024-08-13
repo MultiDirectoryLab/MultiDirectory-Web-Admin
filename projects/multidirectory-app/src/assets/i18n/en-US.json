@@ -111,7 +111,8 @@
     "domain-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
-      "setup-kdc": "Setup Kerberos"
+      "setup-kdc": "Setup Kerberos",
+      "generate-kdc-passwords": "Generate Kerberos Passwords Automatically"
     },
     "kdc-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
@@ -119,6 +120,7 @@
       "krbadmin-password-repeat-label": "Repeat krbadmin password",
       "stash-password-label": "Stash password",
       "stash-password-repeat-label": "Repeat stash password",
+      "download-passwords": "Save passwords as a file",
       "apply": "Apply",
       "cancel": "Cancel",
       "admin-password-label": "Ваш пароль"
