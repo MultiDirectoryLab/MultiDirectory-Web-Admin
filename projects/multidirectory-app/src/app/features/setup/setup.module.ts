@@ -11,6 +11,7 @@ import { ValidatorsModule } from '@core/validators/validators.module';
 import { TranslocoRootModule } from '../../transloco-root.module';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 import { KdcSettingsComponent } from './kdc-settings/kdc-settings.component';
+import { SharedComponentsModule } from '../../components/app-layout/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { KdcSettingsComponent } from './kdc-settings/kdc-settings.component';
     ValidatorsModule,
     SetupRoutingModule,
     PasswordConditionsModule,
+    SharedComponentsModule,
   ],
 })
 export class SetupModule {}

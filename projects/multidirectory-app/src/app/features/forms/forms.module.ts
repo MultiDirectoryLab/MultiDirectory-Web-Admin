@@ -21,8 +21,7 @@ import { CatalogCreateComponent } from './catalog-create/catalog-create.componen
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principal-dialog.component';
 import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.component';
-import { SharedComponentsModule } from '../../components/app-layout/shared/shared.module';
-import { DownloadComponent } from './download-dict.component';
+import { DownloadComponent } from '../../components/app-layout/shared/download-dict.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +63,6 @@ import { DownloadComponent } from './download-dict.component';
     ValidatorsModule,
     TranslocoRootModule,
     PasswordConditionsModule,
-    SharedComponentsModule,
   ],
 })
 export class AppFormsModule {}

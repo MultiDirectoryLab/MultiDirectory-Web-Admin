@@ -122,7 +122,8 @@
       "stash-password-repeat-label": "Повторите пароль стэша",
       "download-passwords": "Сохранить пароли в файл",
       "apply": "Применить",
-      "cancel": "Отменить"
+      "cancel": "Отменить",
+      "admin-password-label": "Ваш пароль"
     }
   },
   "user-create": {

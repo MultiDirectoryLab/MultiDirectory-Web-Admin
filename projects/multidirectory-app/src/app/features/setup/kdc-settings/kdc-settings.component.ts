@@ -3,7 +3,6 @@ import { SetupRequest } from '@models/setup/setup-request';
 import { SetupService } from '@services/setup.service';
 import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { DownloadComponent } from '../../forms/download-dict.component';
 
 @Component({
   selector: 'app-kdc-settings',
@@ -15,7 +14,6 @@ export class KdcSettingsComponent implements AfterViewInit {
   @ViewChild('form') form!: MdFormComponent;
   @ViewChild('passwordInput') passwordInput!: TextboxComponent;
   @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
-  @ViewChild('downloadData') downloadData!: DownloadComponent;
 
   unsubscribe = new Subject<void>();
 
@@ -38,12 +36,12 @@ export class KdcSettingsComponent implements AfterViewInit {
   }
 
   downloadPasswords() {
-    this.downloadData.downloadDict(
+    /*this.downloadData.downloadDict(
       {
         'KrbAdmin Password': this.setupRequest.krbadmin_password,
         'Stash Password': this.setupRequest.stash_password,
       },
       'md passwords.txt',
-    );
+    );*/
   }
 }

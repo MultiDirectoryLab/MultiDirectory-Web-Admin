@@ -10,7 +10,6 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
-import { DownloadComponent } from '../download-dict.component';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',

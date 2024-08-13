@@ -123,7 +123,7 @@
       "download-passwords": "Save passwords as a file",
       "apply": "Apply",
       "cancel": "Cancel",
-      "admin-password-label": "Ваш пароль"
+      "admin-password-label": "Admin password"
     }
   },
   "user-create": {
@@ -556,7 +556,8 @@
     "export": "Export .keytab",
     "filter": "Filter",
     "setup-kerberos-description": "It is required to setup kerberos service to manage a principals",
-    "setup-kerberos": "Setup Kerberos"
+    "setup-kerberos": "Setup Kerberos",
+    "admin-password-label": "Admin password"
   },
   "add-principal": {
     "modal-header": "New object - Principal",
