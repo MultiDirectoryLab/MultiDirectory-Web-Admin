@@ -120,7 +120,8 @@
       "stash-password-label": "Stash password",
       "stash-password-repeat-label": "Repeat stash password",
       "apply": "Apply",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "admin-password-label": "Ваш пароль"
     }
   },
   "user-create": {

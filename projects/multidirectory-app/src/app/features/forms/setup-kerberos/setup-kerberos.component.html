@@ -5,6 +5,18 @@
   <md-form #form>
     <div class="kdc-grid">
       <label class="textbox-label">{{
+        'setup.kdc-settings.admin-password-label' | transloco
+      }}</label>
+      <div class="flex-column flex-grow-1">
+        <md-textbox
+          appRequired
+          [password]="true"
+          [(ngModel)]="setupRequest.password"
+          (keyup)="checkModel()"
+        ></md-textbox>
+      </div>
+
+      <label class="textbox-label">{{
         'setup.kdc-settings.krbadmin-password-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">

@@ -550,7 +550,8 @@
     "should-select-principals": "Необходимо выбрать принципал",
     "filter": "Отфильтровать",
     "setup-kerberos-description": "Для управления принципалами требуется настроить Kerberos",
-    "setup-kerberos": "Настроить Kerberos"
+    "setup-kerberos": "Настроить Kerberos",
+    "admin-password-label": "Ваш пароль"
   },
   "add-principal": {
     "modal-header": "Новый объект - Принципал",
