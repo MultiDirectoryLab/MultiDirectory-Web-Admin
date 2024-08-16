@@ -17,6 +17,7 @@ import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
 import { MenuService } from '@services/menu.service';
+import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,8 @@ export class HeaderComponent implements OnDestroy {
   @Output() logoutClick = new EventEmitter<void>();
 
   @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef;
+  @ViewChild('notifications', { read: MdSlideshiftComponent }) slideshift!: MdSlideshiftComponent;
+  showNotifications = false;
   unsubscribe = new Subject<boolean>();
   navigationalPanelInvisible = false;
   darkMode = false;
@@ -193,5 +196,9 @@ export class HeaderComponent implements OnDestroy {
 
   onLogout() {
     this.logoutClick.next();
+  }
+
+  toggleNotificationPanel() {
+    this.app.notificationVisible = true;
   }
 }

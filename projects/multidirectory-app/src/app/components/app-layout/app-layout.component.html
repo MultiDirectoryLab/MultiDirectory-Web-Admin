@@ -1,20 +1,32 @@
-<div
-  class="bg-white-neutral flex-row"
-  style="position: fixed; top: 0; bottom: 0; left: 0; right: 0"
->
-  <div *ngIf="showLeftPane" class="left-pane">
+<div class="bg-white-neutral app-layout flex-row">
+  <div
+    class="left-pane"
+    [ngClass]="{
+      'left-pane-visible': showLeftPane
+    }"
+  >
     <app-sidebar></app-sidebar>
   </div>
   <div class="right-pane w-100 h-100">
     <app-header></app-header>
     <div class="flex-grow-1">
-      <router-outlet></router-outlet>
+      <div class="right-pane-content">
+        <router-outlet></router-outlet>
+        <md-slideshift
+          #notifications
+          [showSlideshift]="showNotifications"
+          (hide)="onNotificationsHide()"
+        >
+          <app-notifications></app-notifications>
+        </md-slideshift>
+      </div>
     </div>
     <hotkeys-cheatsheet
       title="{{ 'hotkeys' | transloco }}"
       #helpcheatSheet
       (keydown)="closeCheatsheet()"
     ></hotkeys-cheatsheet>
+
     <router-outlet name="footer"></router-outlet>
   </div>
 </div>

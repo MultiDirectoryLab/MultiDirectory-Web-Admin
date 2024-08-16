@@ -21,6 +21,9 @@
           style="width: 24px; height: 24px"
         />
       </md-plane-button>
+      <md-plane-button class="search control-button" (click)="toggleNotificationPanel()">
+        <img [src]="'assets/notifications.svg'" />
+      </md-plane-button>
       <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
         <img [src]="'assets/search.svg'" />
       </md-plane-button>

@@ -4,14 +4,14 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab/tab.component';
 import { PlaneButtonComponent } from '../plane-button/plane-button.component';
-import { ModalModule } from 'dist/ng-modal-lib';
+import { MdModalModule } from '../modal/modal.module';
 const meta: Meta<TabPaneComponent> = {
   title: 'Components/TabPane',
   component: TabPaneComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ModalModule, NgxSpinnerModule, CommonModule],
+      imports: [MdModalModule, NgxSpinnerModule, CommonModule],
       declarations: [TabPaneComponent, TabComponent, PlaneButtonComponent],
     }),
   ],

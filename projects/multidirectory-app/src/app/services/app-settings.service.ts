@@ -75,4 +75,17 @@ export class AppSettingsService {
   get kerberosStatusRx(): Observable<KerberosStatuses> {
     return this._kerberosStatusRx.asObservable();
   }
+
+  private _notificationVisible = false;
+  get notificationVisible(): boolean {
+    return this._notificationVisible;
+  }
+  set notificationVisible(isVisible: boolean) {
+    this._notificationVisible = isVisible;
+    this._notificationVisibleRx.next(isVisible);
+  }
+  private _notificationVisibleRx = new BehaviorSubject<boolean>(this._notificationVisible);
+  get notificationVisibleRx(): Observable<boolean> {
+    return this._notificationVisibleRx.asObservable();
+  }
 }

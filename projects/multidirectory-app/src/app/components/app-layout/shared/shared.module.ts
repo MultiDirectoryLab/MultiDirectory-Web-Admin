@@ -11,10 +11,22 @@ import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/e
 import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
 import { AppFormsModule } from '@features/forms/forms.module';
 import { DownloadComponent } from './download-dict.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [ContextMenuComponent, DeleteConfirmationModalComponent, WindowsComponent],
-  exports: [ContextMenuComponent, DeleteConfirmationModalComponent, WindowsComponent],
+  declarations: [
+    ContextMenuComponent,
+    DeleteConfirmationModalComponent,
+    WindowsComponent,
+    NotificationsComponent,
+  ],
+  exports: [
+    ContextMenuComponent,
+    DeleteConfirmationModalComponent,
+    WindowsComponent,
+    NotificationsComponent,
+  ],
   imports: [
     MultidirectoryUiKitModule,
     CommonModule,
@@ -24,6 +36,7 @@ import { DownloadComponent } from './download-dict.component';
     EntityTypeSelectorModule,
     PropertiesModule,
     CatalogSelectorModule,
+    FontAwesomeModule,
   ],
 })
 export class SharedComponentsModule {}
