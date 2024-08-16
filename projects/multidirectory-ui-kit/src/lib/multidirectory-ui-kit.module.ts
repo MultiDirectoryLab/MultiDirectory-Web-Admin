@@ -47,6 +47,8 @@ import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.
 import { MdModalModule } from './components/modal/modal.module';
 import { MdSpinnerModule } from './components/spinner/spinner.module';
 import { MdPortalModule } from './components/portal/portal.module';
+import { SlideshiftTestComponent } from './components/slideshift/slideshifttest.component';
+import { MdSlideshiftModule } from './components/slideshift/slideshift.module';
 
 @NgModule({
   declarations: [
@@ -86,11 +88,13 @@ import { MdPortalModule } from './components/portal/portal.module';
     PopupTestComponent,
     PopupContainerDirective,
     PopupSuggestComponent,
+    SlideshiftTestComponent,
   ],
   imports: [
     CommonModule,
     MdPortalModule,
     MdModalModule,
+    MdSlideshiftModule,
     MdSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
@@ -133,6 +137,7 @@ import { MdPortalModule } from './components/portal/portal.module';
     MdPortalModule,
     MdModalModule,
     MdSpinnerModule,
+    MdSlideshiftModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -1,0 +1,41 @@
+@use '../../styles/global.scss';
+
+.md-slideshift-overlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-color: rgba(97, 97, 97, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 50;
+  &.md-slideshift-overlay-visible {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.md-slideshift {
+  background-color: var(--md-neutral-100);
+  z-index: 100;
+  transform: translateX(100%);
+  transition: transform 0.12s ease;
+  position: absolute;
+  .md-slideshift-container {
+    position: relative;
+    padding: 1rem;
+  }
+  &.md-slideshift-visible {
+    display: block;
+    transform: translateX(0);
+  }
+  &.md-slideshift-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}

@@ -29,6 +29,9 @@ export class ErrorLabelComponent {
     if (!!this.ngControl?.errors?.['MfKeyFormat']) {
       return this.ngControl?.errors?.['MfKeyFormat'];
     }
+    if (!!this.ngControl?.errors?.['PasswordShouldNotMatch']) {
+      return this.ngControl?.errors?.['PasswordShouldNotMatch'];
+    }
     return undefined;
   }
 }

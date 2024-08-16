@@ -17,6 +17,8 @@ import { MembersComponent } from './members/members.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { AppFormsModule } from '@features/forms/forms.module';
+import { ComputerPropertiesComponent } from './computer-properties/computer-properties.component';
+import { ComputerPropertiesAccountComponent } from './computer-properties/account/computer-properties-account.component';
 
 @NgModule({
   imports: [
@@ -40,6 +42,8 @@ import { AppFormsModule } from '@features/forms/forms.module';
     LogonTimeEditorComponent,
     GroupPropertiesComponent,
     MembersComponent,
+    ComputerPropertiesComponent,
+    ComputerPropertiesAccountComponent,
   ],
   exports: [
     PropertiesComponent,

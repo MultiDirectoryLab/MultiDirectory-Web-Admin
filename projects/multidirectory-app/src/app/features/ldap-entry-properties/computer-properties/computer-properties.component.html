@@ -1,0 +1,12 @@
+<md-tab-pane #tabs (tabChanged)="onTabChanged()">
+  <div class="tab-header flex-row flex-grow-1">
+    <md-tab [el]="attributes.el">
+      {{ 'user-properties-tabs.attributes' | transloco }}
+    </md-tab>
+    <md-tab [el]="account.el">
+      {{ 'user-properties-tabs.account' | transloco }}
+    </md-tab>
+  </div>
+  <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
+  <app-computer-properties-account mdTab #account="mdTab"></app-computer-properties-account>
+</md-tab-pane>

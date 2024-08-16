@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, Subject, catchError, iif, of, switchMap, takeUntil } from 'rxjs';
+import { EMPTY, Subject, catchError, generate, iif, of, switchMap, takeUntil } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -17,6 +17,7 @@ import { SetupService } from '@services/setup.service';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { LoginService } from '@services/login.service';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
+import { PasswordGenerator } from '@core/setup/password-generator';
 
 @Component({
   selector: 'app-setup',
@@ -41,7 +42,6 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
-
     this.setup.onStepValid.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.stepValid = valid;
     });
@@ -57,6 +57,17 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(templateRef: any) {
+    if (
+      this.stepper.currentIndex == 1 &&
+      this.setupRequest.generateKdcPasswords &&
+      !this.setupRequest.krbadmin_password &&
+      !this.setupRequest.stash_password
+    ) {
+      this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
+        PasswordGenerator.generatePassword();
+      this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
+        PasswordGenerator.generatePassword();
+    }
     this.modal.resizeToContentHeight();
   }
 

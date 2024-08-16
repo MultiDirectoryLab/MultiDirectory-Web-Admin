@@ -145,7 +145,8 @@ export class DatagridComponent implements AfterViewInit {
   }
 
   onTableResize() {
-    this.grid.recalculateColumns();
+    this.cdr.detectChanges();
+    this.grid.onWindowResize();
   }
 
   onPageChange(pageInfo: { offset: number; pageSize: number; limit: number; count: number }) {

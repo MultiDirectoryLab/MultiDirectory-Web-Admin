@@ -109,7 +109,7 @@ export class EntitySelectorComponent implements OnInit {
             id: x.object_name,
             key: 'group',
             selected: false,
-            title: name?.[0] ?? x.object_name,
+            title: name?.[1] ?? x.object_name,
             badge_title: name?.[1] ?? x.object_name,
           });
         });

@@ -34,4 +34,14 @@ export class KdcSettingsComponent implements AfterViewInit {
   checkModel() {
     this.form.validate(true);
   }
+
+  downloadPasswords() {
+    /*this.downloadData.downloadDict(
+      {
+        'KrbAdmin Password': this.setupRequest.krbadmin_password,
+        'Stash Password': this.setupRequest.stash_password,
+      },
+      'md passwords.txt',
+    );*/
+  }
 }

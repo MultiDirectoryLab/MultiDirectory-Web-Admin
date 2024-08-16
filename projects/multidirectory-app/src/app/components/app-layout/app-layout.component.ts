@@ -17,6 +17,8 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
 
   showLeftPane = true;
+  showNotifications = false;
+
   private unsubscribe = new Subject<void>();
 
   constructor(
@@ -29,7 +31,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.showLeftPane = x;
     });
-
+    this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.showNotifications = x;
+    });
     combineLatest([this.app.userRx, this.api.getKerberosStatus()])
       .pipe(
         takeUntil(this.unsubscribe),
@@ -71,5 +75,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   closeCheatsheet() {
     this.helpcheatSheet.toggleCheatSheet();
+  }
+
+  onNotificationsHide() {
+    this.app.notificationVisible = false;
   }
 }

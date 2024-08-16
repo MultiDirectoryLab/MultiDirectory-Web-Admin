@@ -111,7 +111,8 @@
     "domain-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "domain-label": "Домен",
-      "setup-kdc": "Настроить Kerberos"
+      "setup-kdc": "Настроить Kerberos",
+      "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически"
     },
     "kdc-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
@@ -119,8 +120,10 @@
       "krbadmin-password-repeat-label": "Повторите пароль krbadmin",
       "stash-password-label": "Пароль стэша",
       "stash-password-repeat-label": "Повторите пароль стэша",
+      "download-passwords": "Сохранить пароли в файл",
       "apply": "Применить",
-      "cancel": "Отменить"
+      "cancel": "Отменить",
+      "admin-password-label": "Ваш пароль"
     }
   },
   "user-create": {
@@ -550,7 +553,8 @@
     "should-select-principals": "Необходимо выбрать принципал",
     "filter": "Отфильтровать",
     "setup-kerberos-description": "Для управления принципалами требуется настроить Kerberos",
-    "setup-kerberos": "Настроить Kerberos"
+    "setup-kerberos": "Настроить Kerberos",
+    "admin-password-label": "Ваш пароль"
   },
   "add-principal": {
     "modal-header": "Новый объект - Принципал",

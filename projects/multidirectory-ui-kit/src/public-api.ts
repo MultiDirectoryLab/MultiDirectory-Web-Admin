@@ -44,3 +44,5 @@ export * from './lib/components/portal/portal.component';
 export * from './lib/components/portal/portal.directive';
 export * from './lib/components/portal/portal.module';
 export * from './lib/components/spinner/spinner.module';
+export * from './lib/components/slideshift/slideshift.component';
+export * from './lib/components/slideshift/slideshift.module';

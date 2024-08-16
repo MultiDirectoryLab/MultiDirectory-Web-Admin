@@ -10,6 +10,7 @@ import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 
 @Component({
   selector: 'app-member-of',
@@ -60,6 +61,8 @@ export class MemberOfComponent {
       ?.openEntitySelector(
         new EntitySelectorSettings({
           selectedEntities: [],
+          selectedEntityTypes: ENTITY_TYPES.filter((x) => x.entity == 'group') ?? [],
+          allowSelectEntityTypes: false,
         }),
       )
       .pipe(take(1))

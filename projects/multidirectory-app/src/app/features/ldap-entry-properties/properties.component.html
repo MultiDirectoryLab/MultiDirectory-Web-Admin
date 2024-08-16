@@ -14,6 +14,11 @@
       [accessor]="accessor"
       *ngSwitchCase="EntityTypes.Group"
     ></app-group-properties>
+    <app-computer-properties
+      class="block h-100"
+      [accessor]="accessor"
+      *ngSwitchCase="EntityTypes.Computer"
+    ></app-computer-properties>
     <div class="block flex-row h-100" *ngSwitchDefault>
       <app-entity-attributes class="w-100"></app-entity-attributes>
     </div>

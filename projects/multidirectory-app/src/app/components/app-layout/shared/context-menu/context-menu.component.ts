@@ -123,4 +123,23 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
         this.navigation.reload();
       });
   }
+
+  enableAccunts(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.windows
+      .openCopyEntityDialog(this.entries)
+      .pipe(
+        take(1),
+        switchMap((x) => {
+          if (x) {
+            return this.api.updateDn(x);
+          }
+          return EMPTY;
+        }),
+      )
+      .subscribe((modifyRequest) => {
+        this.navigation.reload();
+      });
+  }
 }

@@ -111,7 +111,8 @@
     "domain-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
-      "setup-kdc": "Setup Kerberos"
+      "setup-kdc": "Setup Kerberos",
+      "generate-kdc-passwords": "Generate Kerberos Passwords Automatically"
     },
     "kdc-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
@@ -119,8 +120,10 @@
       "krbadmin-password-repeat-label": "Repeat krbadmin password",
       "stash-password-label": "Stash password",
       "stash-password-repeat-label": "Repeat stash password",
+      "download-passwords": "Save passwords as a file",
       "apply": "Apply",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "admin-password-label": "Admin password"
     }
   },
   "user-create": {
@@ -553,7 +556,8 @@
     "export": "Export .keytab",
     "filter": "Filter",
     "setup-kerberos-description": "It is required to setup kerberos service to manage a principals",
-    "setup-kerberos": "Setup Kerberos"
+    "setup-kerberos": "Setup Kerberos",
+    "admin-password-label": "Admin password"
   },
   "add-principal": {
     "modal-header": "New object - Principal",

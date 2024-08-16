@@ -1,11 +1,36 @@
 @use './../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
+.app-layout {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
 
 .left-pane {
-  display: block;
+  transform: translateX(-100%);
+  position: absolute;
+  transition:
+    transform 0.2s ease,
+    position 0s ease 0.2s;
+  &.left-pane-visible {
+    display: block;
+    position: relative;
+    z-index: 8;
+    transform: translateX(0);
+  }
 }
 
 .right-pane {
   display: flex;
   flex-flow: column;
   background-color: var(--md-white);
+
+  .right-pane-content {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+  }
 }
