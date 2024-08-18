@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, fakeAsync, flush, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { EntitySelectorComponent } from './entity-selector.component';
 import { getMockModalInjectDirective } from '@testing/modal-inject-testing';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
