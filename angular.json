@@ -131,10 +131,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "multidirectory-app:build:production"
+              "buildTarget": "multidirectory-app:build:production"
             },
             "development": {
-              "browserTarget": "multidirectory-app:build:development"
+              "buildTarget": "multidirectory-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -142,7 +142,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "multidirectory-app:build"
+            "buildTarget": "multidirectory-app:build"
           }
         },
         "test": {
