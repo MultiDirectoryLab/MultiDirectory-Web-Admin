@@ -1,4 +1,12 @@
-FROM node:18.16.0
-RUN npm install -g @angular/cli@14.1.0
+FROM node:18 as base
+RUN yarn config set registry https://registry.npmjs.org/ && \
+    yarn global add @angular/cli@18
 COPY package.json /app/package.json
 WORKDIR /app
+RUN yarn install --no-audit
+
+FROM base AS build
+COPY . /app 
+WORKDIR /app
+RUN ng build multidirectory-ui-kit && \
+    npm link dist/multidirectory-ui-kit/

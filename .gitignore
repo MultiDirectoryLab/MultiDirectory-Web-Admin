@@ -43,3 +43,6 @@ testem.log
 Thumbs.db
 storybook-static/
 .vscode
+.yalc
+yalc.lock
+yarn.lock

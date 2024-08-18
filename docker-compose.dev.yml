@@ -5,19 +5,20 @@ services:
     container_name: multidirectory_app
     volumes:
       - ./:/app
+      - node_modules:/app/node_modules
     build:
       context: .
       dockerfile: Dockerfile.dev
     restart: 'no'
     environment:
-      - API_URL=http://md.localhost
+      - API_URL=http://md.localhost/api
     ports:
       - 9080:80
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.multidirectory-app.rule=Host(`ui.localhost`)'
+      - 'traefik.http.routers.multidirectory-app.rule=Host(`md.localhost`)'
       - 'traefik.http.routers.multidirectory-app.entrypoints=web'
-    command: npm run start-dev
+    command: ng serve --host 0.0.0.0 --port 80 --poll 2000
 
   multidirectory-storybook:
     build:
@@ -31,5 +32,4 @@ services:
     container_name: multidirectory-ui-storybook
 
 volumes:
-  # Just specify a path and let the Engine create a volume
-  src:
+  node_modules:
