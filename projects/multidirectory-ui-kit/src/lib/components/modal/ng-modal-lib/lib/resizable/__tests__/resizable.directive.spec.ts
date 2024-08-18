@@ -18,11 +18,11 @@ describe('ResizableDirective', () => {
   let component: TestFixtureComponent;
   let fixture: ComponentFixture<TestFixtureComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestFixtureComponent, ResizableDirective],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestFixtureComponent);
