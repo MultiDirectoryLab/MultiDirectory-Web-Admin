@@ -23,7 +23,6 @@
       "@testing/*": ["projects/multidirectory-app/src/app/testing/*"]
     },
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

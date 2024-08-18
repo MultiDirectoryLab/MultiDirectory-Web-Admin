@@ -10,14 +10,12 @@
   text-overflow: ellipsis;
 
   ::ng-deep .dropdown-item {
+    padding: 6px;
+    border-bottom: 1px solid var(--md-neutral-300);
     ::ng-deep &.disabled {
       pointer-events: none;
       background-color: var(--md-neutral-200);
     }
-
-    padding: 6px;
-    border-bottom: 1px solid var(--md-neutral-300);
-
     ::ng-deep &:hover {
       cursor: pointer;
       background-color: var(--md-neutral-150);
