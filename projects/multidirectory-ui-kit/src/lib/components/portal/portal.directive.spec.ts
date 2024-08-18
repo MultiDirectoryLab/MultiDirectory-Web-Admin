@@ -8,7 +8,7 @@ describe('Portal Directive Test Suite', () => {
   let component: MdPortalComponent;
   let service: MdPortalService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MdPortalComponent, MdPortalDirective],
       providers: [MdPortalService],
@@ -21,18 +21,19 @@ describe('Portal Directive Test Suite', () => {
           template: '<div [mdPortal]="\'test\'">TEST</div>',
         },
       })
-      .compileComponents()
-      .then((_) => {
-        fixture = TestBed.createComponent(MdPortalComponent);
-        component = fixture.componentInstance;
-        service = TestBed.inject(MdPortalService);
-      });
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(MdPortalComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(MdPortalService);
   });
 
   it('Should create component and provide a portal', fakeAsync(async () => {
     fixture.changeDetectorRef.detectChanges();
     tick();
-    fixture.whenStable().then(() => {
+    await fixture.whenStable().then(() => {
       expect(component).toBeTruthy();
       const portal = service.get('test');
       expect(portal).toBeTruthy();

@@ -1,26 +1,28 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { PlaneButtonComponent } from './plane-button.component';
 
-describe('ButtonComp', () => {
+describe('PlaneButtonComp', () => {
   let fixture: ComponentFixture<PlaneButtonComponent>;
   let component: PlaneButtonComponent;
-  beforeEach(async () => {
+  let button: HTMLElement;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [PlaneButtonComponent],
       providers: [],
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(PlaneButtonComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-      });
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PlaneButtonComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    button = fixture.debugElement.nativeElement.querySelector('button');
   });
 
   it('#clicked() should emit', fakeAsync(async () => {
     spyOn(component.click, 'emit');
-    let button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
     tick();
     expect(component.click.emit).toHaveBeenCalled();
