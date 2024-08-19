@@ -4,5 +4,6 @@ RUN yarn config set registry https://registry.npmjs.org/ && \
 COPY package.json /app/package.json
 WORKDIR /app
 RUN yarn install --no-audit
+COPY . /app
 RUN ng build multidirectory-ui-kit && \
     npm link dist/multidirectory-ui-kit/
