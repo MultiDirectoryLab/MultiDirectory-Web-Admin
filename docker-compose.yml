@@ -3,7 +3,9 @@ name: multidirectory
 services:
   multidirectory-app:
     container_name: multidirectory_app
-    build: .
+    build:
+      context: .
+      dockerfile: configurations/docker/Dockerfile
     restart: 'no'
     environment:
       - API_URL=http://md.localhost
@@ -13,6 +15,7 @@ services:
       - 'traefik.enable=true'
       - 'traefik.http.routers.multidirectory-app.rule=Host(`ui.localhost`)'
       - 'traefik.http.routers.multidirectory-app.entrypoints=web'
+
   multidirectory-storybook:
     build:
       context: .

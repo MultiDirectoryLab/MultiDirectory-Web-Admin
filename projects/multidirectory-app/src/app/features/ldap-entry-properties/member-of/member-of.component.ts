@@ -3,7 +3,7 @@ import { take } from 'rxjs';
 import { DatagridComponent } from 'multidirectory-ui-kit';
 import { Group } from '@core/groups/group';
 import { Constants } from '@core/constants';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';

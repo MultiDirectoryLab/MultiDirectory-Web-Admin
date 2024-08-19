@@ -8,7 +8,7 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 @Directive({
   selector: '[appRequired]',
   providers: [

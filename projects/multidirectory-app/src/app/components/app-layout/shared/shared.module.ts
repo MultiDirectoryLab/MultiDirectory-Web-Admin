@@ -3,7 +3,7 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { WindowsComponent } from './windows/windows.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { PropertiesModule } from '@features/ldap-entry-properties/properties.module';
 import { DeleteConfirmationModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';

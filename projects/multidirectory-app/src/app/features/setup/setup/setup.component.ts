@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Subject, catchError, generate, iif, of, switchMap, takeUntil } from 'rxjs';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetupService } from '@services/setup.service';

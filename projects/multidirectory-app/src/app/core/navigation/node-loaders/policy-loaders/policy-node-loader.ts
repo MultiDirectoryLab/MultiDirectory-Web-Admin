@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AccessPolicyNodeLoader } from './access-policy-node-loader/access-policy-node-loader';
 import { PasswordPolicyNodeLoader } from './password-policy-node-loader/password-policy-node-loader';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { Observable, of, zip, take, mergeMap } from 'rxjs';
 import { NodeLoader } from '../node-loader';

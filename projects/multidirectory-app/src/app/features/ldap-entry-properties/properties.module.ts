@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MemberOfComponent } from './member-of/member-of.component';
 import { AvatarUploadComponent } from './avatar-upload/avatar-upload.component';
 import { LogonTimeEditorComponent } from './user-properties/account/logn-time-editor/logon-time-editor.component';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { GroupPropertiesComponent } from './group-properties/group-properties.component';
 import { MembersComponent } from './members/members.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';

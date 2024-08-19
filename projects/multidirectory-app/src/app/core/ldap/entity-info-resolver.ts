@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { LdapEntryType } from './ldap-entity-type';
 import { LdapEntryNode } from './ldap-entity';
 import { UserAccountControlFlag } from './user-account-control-flags';

@@ -12,7 +12,7 @@ import { SearchResult } from '@features/search/models/search-result';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { SearchEntry } from '@models/entry/search-response';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';

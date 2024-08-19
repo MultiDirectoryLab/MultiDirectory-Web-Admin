@@ -11,7 +11,7 @@ import { MultidirectorySettingsComponent } from './multidirectory-settings/multi
 import { MfAdminIntegrationComponent } from './mulifactor-settings/admin-integration/mf-admin-integration.component';
 import { MfUserIntegrationComponent } from './mulifactor-settings/user-integration/mf-user-integration.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { AboutComponent } from './about/about.component';
 import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';

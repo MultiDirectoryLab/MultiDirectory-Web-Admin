@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { AttributeListComponent } from './attributes-list/attributes-list.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { PropertyEditorComponent } from './property-editors/property-editor.component';

@@ -1,5 +1,5 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -38,6 +38,29 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SidebarComponent,
     FooterComponent,
   ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    DragDropModule,
+    AppRoutingModule,
+    AppSettingsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MultidirectoryUiKitModule,
+    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+    HotkeyModule.forRoot({
+      cheatSheetCloseEsc: true,
+    }),
+    AuthorizationModule,
+    TranslocoRootModule,
+    EditorsModule,
+    PropertiesModule,
+    SearchPanelModule,
+    AppFormsModule,
+    SharedComponentsModule,
+    FontAwesomeModule,
+  ],
   providers: [
     provideAnimations(),
     {
@@ -53,30 +76,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
     },
-  ],
-  bootstrap: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    DragDropModule,
-    AppRoutingModule,
-    AppSettingsModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    MultidirectoryUiKitModule,
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-    HotkeyModule.forRoot({
-      cheatSheetCloseEsc: true,
-    }),
-    AuthorizationModule,
-    TranslocoRootModule,
-    EditorsModule,
-    PropertiesModule,
-    SearchPanelModule,
-    AppFormsModule,
-    SharedComponentsModule,
-    FontAwesomeModule,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 })
 export class AppModule {}

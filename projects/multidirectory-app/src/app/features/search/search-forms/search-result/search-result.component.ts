@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { SearchResult } from '@features/search/models/search-result';
 import { AppNavigationService } from '@services/app-navigation.service';
 

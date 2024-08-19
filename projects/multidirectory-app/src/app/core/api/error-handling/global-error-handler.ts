@@ -1,6 +1,6 @@
 import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY } from 'rxjs';
 

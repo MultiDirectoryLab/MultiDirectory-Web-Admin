@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { AttributeListComponent } from '@features/ldap-browser/components/editors/attributes-list/attributes-list.component';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';

@@ -1,7 +1,7 @@
 import { Observable, map, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { NodeLoader } from '../../node-loader';
 

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
 import { ResizableDirective } from '../resizable.directive';
@@ -17,12 +17,13 @@ class TestFixtureComponent {}
 describe('ResizableDirective', () => {
   let component: TestFixtureComponent;
   let fixture: ComponentFixture<TestFixtureComponent>;
+  let element: HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestFixtureComponent, ResizableDirective],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestFixtureComponent);
@@ -34,11 +35,11 @@ describe('ResizableDirective', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be able to render span elements', fakeAsync(() => {
+  it('should be able to render span elements', fakeAsync(async () => {
     fixture.changeDetectorRef.detectChanges();
     tick();
-    fixture.whenStable().then(() => {
-      let element = fixture.nativeElement.querySelector('.resize-handle-s');
+    await fixture.whenStable().then(() => {
+      element = fixture.nativeElement.querySelector('.resize-handle-s');
       expect(element).toBeTruthy();
 
       element = fixture.nativeElement.querySelector('.resize-handle-e');

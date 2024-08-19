@@ -1,4 +1,3 @@
-
 name: build
 on: [repository_dispatch]
 env:
@@ -29,7 +28,7 @@ jobs:
           TAG2: ghcr.io/${{ env.REPO }}:latest
         run: |
           echo $TAG
-          docker build -f Dockerfile . --tag $TAG --cache-from $TAG2
+          docker build -f configurations/docker/Dockerfile . --tag $TAG --cache-from $TAG2
           docker tag $TAG $TAG2
           docker push $TAG
           docker push $TAG2

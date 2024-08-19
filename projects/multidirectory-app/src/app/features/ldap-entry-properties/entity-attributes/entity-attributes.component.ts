@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { LdapPropertiesService } from '@services/ldap-properites.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
