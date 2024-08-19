@@ -3,7 +3,7 @@ import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { map, of, switchMap, tap, zip } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { EntityAttribute } from '@features/ldap-entry-properties/entity-attributes/entity-attributes.component';
 
 @Injectable({

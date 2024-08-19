@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';

@@ -9,7 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
 import { LdapCode } from './ldap-codes';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Injectable()
 export class ResultCodeInterceptor implements HttpInterceptor {

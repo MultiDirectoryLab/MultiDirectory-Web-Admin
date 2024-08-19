@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ValidatorsModule } from '@core/validators/validators.module';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { PasswordConditionsComponent } from './password-conditions.component';
 

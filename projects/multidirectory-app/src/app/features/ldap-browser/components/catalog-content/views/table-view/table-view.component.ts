@@ -22,7 +22,7 @@ import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { Subject, take } from 'rxjs';
 import { TableRow } from './table-row';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';

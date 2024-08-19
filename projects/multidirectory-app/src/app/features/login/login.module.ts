@@ -4,7 +4,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @NgModule({
   declarations: [LoginComponent],

@@ -3,7 +3,7 @@ import { EMPTY, Observable, catchError, delay, map, of, switchMap } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root',

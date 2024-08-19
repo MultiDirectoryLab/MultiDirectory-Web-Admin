@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 

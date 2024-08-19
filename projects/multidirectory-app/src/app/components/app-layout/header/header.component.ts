@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { Subject } from 'rxjs';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';

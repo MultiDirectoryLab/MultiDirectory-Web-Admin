@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, catchError, switchMap, take, zip } from 'rxjs';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { AppWindowsService } from '@services/app-windows.service';

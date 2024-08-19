@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';

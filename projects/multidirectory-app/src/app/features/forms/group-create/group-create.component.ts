@@ -15,7 +15,7 @@ import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attrib
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { GroupCreateRequest } from '@models/group-create/group-create.request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-group-create',

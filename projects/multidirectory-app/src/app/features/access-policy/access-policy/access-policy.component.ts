@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';

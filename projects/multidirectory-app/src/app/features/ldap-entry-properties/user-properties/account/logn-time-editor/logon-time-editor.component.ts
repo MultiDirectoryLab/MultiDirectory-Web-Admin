@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import BitSet from 'bitset';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, fromEvent, take, takeUntil } from 'rxjs';

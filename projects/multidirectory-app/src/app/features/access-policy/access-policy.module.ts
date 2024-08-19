@@ -6,7 +6,7 @@ import { AccessPolicySettingsComponent } from './access-policy-list.component';
 import { AccessPolicyComponent } from './access-policy/access-policy.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AccessPolicyIpListComponent } from './access-policy-ip-list/access-policy-ip-list.component';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { AccessPolicyViewComponent } from './access-policy-view/access-policy-view.component';
 import { AccessPolicyRoutingModule } from './access-policy-routing.module';
 import { AccessPolicyHeaderComponent } from './access-policy-header/access-policy-header.component';

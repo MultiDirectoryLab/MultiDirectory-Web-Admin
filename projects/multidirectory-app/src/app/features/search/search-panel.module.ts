@@ -5,7 +5,7 @@ import { SearchPanelComponent } from './search-panel.component';
 import { CommonModule } from '@angular/common';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { FormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { SearchSourceProvider } from './services/search-source-provider';
 
 @NgModule({

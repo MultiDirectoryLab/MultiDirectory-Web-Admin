@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import {
   DropdownOption,
   MdFormComponent,

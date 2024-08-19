@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { SpinnerComponent } from 'multidirectory-ui-kit';
 import { catchError, map, switchMap, throwError } from 'rxjs';
-import { translate } from '@ngneat/transloco';
+import { translate } from '@jsverse/transloco';
 import { SearchQueries } from '@core/ldap/search';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';

@@ -3,7 +3,7 @@ import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, t
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 
 @Injectable({
