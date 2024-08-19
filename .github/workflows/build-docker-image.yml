@@ -29,5 +29,5 @@ jobs:
           TAG: ghcr.io/${{ env.REPO }}:beta
         run: |
           echo $TAG
-          docker build -f Dockerfile . --tag $TAG --cache-from $TAG
+          docker build -f configurations/docker/Dockerfile . --tag $TAG --cache-from $TAG
           docker push $TAG
