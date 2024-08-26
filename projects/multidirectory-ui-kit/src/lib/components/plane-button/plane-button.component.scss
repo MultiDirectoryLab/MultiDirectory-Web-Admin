@@ -40,6 +40,32 @@
 
     &:hover {
       background-color: var(--md-neutral-100);
+      cursor: pointer;
+    }
+  }
+
+  &.is-row {
+    flex-flow: row nowrap;
+    gap: 4px;
+    border-left: 1px solid var(--md-neutral-100);
+    color: var(--md-dark-blue-5);
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: var(--md-neutral-100);
+      cursor: pointer;
+    }
+    &.right-border {
+      border-left: none;
+      border-right: 1px solid var(--md-neutral-100);
+    }
+
+    &.disabled {
+      cursor: default;
+      background-color: var(--md-neutral-100);
     }
   }
 }

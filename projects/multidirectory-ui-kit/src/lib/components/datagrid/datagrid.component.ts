@@ -7,6 +7,7 @@ import {
   HostListener,
   Input,
   Output,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -17,7 +18,7 @@ import {
   DatatableComponent,
   SelectionType,
   TableColumn,
-} from '@swimlane/ngx-datatable';
+} from 'ngx-datatable-gimefork';
 import { DropdownOption } from '../dropdown/dropdown.component';
 
 export class Page {
@@ -37,12 +38,7 @@ export class Page {
   selector: 'md-datagrid',
   templateUrl: './datagrid.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './datagrid.component.scss',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/index.css',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/themes/material.scss',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/assets/icons.css',
-  ],
+  styleUrls: ['./datagrid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatagridComponent implements AfterViewInit {
@@ -57,10 +53,11 @@ export class DatagridComponent implements AfterViewInit {
   @Input() externalPaging = false;
   @Input() page: Page = new Page({});
   @Input() rows: any[] = [];
-  @Input() columns: TableColumn[] = [];
   @Input() stretchHeight = false;
   @Input() scrollbarV = false;
   @Input() hideFooter = false;
+  @Input() headerHeight = 32;
+  @Input() controlPanelRef: TemplateRef<any> | null = null;
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
@@ -83,6 +80,14 @@ export class DatagridComponent implements AfterViewInit {
   }
   get size(): number {
     return this.page.size;
+  }
+
+  private _columns: TableColumn[] = [];
+  @Input() set columns(columns: TableColumn[]) {
+    this._columns = columns;
+  }
+  get columns(): TableColumn[] {
+    return this._columns;
   }
 
   SelectionType = SelectionType;

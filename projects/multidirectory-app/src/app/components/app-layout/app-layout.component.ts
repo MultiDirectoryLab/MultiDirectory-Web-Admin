@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject, combineLatest, switchMap, takeUntil, tap } from 'rxjs';
+import { EMPTY, Subject, catchError, combineLatest, switchMap, take, takeUntil, tap } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchQueries } from '@core/ldap/search';
@@ -7,6 +7,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 
 @Component({
   selector: 'app-layout',
@@ -34,14 +35,24 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.showNotifications = x;
     });
-    combineLatest([this.app.userRx, this.api.getKerberosStatus()])
+    this.api
+      .getKerberosStatus()
+      .pipe(
+        take(1),
+        catchError((x) => {
+          this.app.kerberosStatus = KerberosStatuses.ERROR;
+          return EMPTY;
+        }),
+      )
+      .subscribe((kerberosStatus) => (this.app.kerberosStatus = kerberosStatus));
+
+    this.app.userRx
       .pipe(
         takeUntil(this.unsubscribe),
-        tap(([user, kerberosStatus]) => {
+        tap((user) => {
           this.app.user = user;
-          this.app.kerberosStatus = kerberosStatus;
         }),
-        switchMap(([user]) => {
+        switchMap((user) => {
           return this.api.search(SearchQueries.getProperites(user.dn));
         }),
       )

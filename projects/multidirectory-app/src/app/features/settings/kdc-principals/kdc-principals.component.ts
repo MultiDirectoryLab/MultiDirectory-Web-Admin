@@ -16,7 +16,7 @@ import { translate } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   ContextMenuEvent,
   DatagridComponent,

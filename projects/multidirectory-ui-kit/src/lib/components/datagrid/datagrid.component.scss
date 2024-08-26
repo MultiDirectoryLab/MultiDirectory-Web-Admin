@@ -16,6 +16,11 @@
     height: 100%;
   }
 
+  .datatable-control-panel {
+    padding: 0 !important;
+    border-top: 1px solid var(--md-neutral-150);
+  }
+
   .datatable-header {
     z-index: 2;
     border-bottom: 1px solid var(--md-neutral-300);

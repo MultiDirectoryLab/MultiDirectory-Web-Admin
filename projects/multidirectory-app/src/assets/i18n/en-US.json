@@ -172,7 +172,11 @@
     "name-column": "Name",
     "type-column": "Type",
     "description-column": "Description",
-    "status-column": "Status"
+    "status-column": "Status",
+    "disable": "Disable",
+    "enable": "Enable",
+    "delete": "Delete",
+    "actions": "Actions"
   },
   "catalog-content": {
     "create-user": "Create a user",

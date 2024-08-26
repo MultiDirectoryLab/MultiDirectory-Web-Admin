@@ -172,7 +172,11 @@
     "name-column": "Имя",
     "type-column": "Тип",
     "description-column": "Описание",
-    "status-column": "Статус"
+    "status-column": "Статус",
+    "disable": "Выключить",
+    "enable": "Включить",
+    "delete": "Удалить",
+    "actions": "Действия"
   },
   "catalog-content": {
     "create-user": "Создать пользователя",

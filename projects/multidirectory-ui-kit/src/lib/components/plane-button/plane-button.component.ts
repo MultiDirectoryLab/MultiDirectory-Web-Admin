@@ -19,7 +19,8 @@ export class PlaneButtonComponent implements AfterViewInit, OnDestroy {
   @Input() disabled = false;
   @Input() primary = false;
   @Input() hasBorder = false;
-
+  @Input() isRow = false;
+  @Input() rightBorder = false;
   @Output() click = new EventEmitter();
   unlistenClick = () => {};
 

@@ -10,7 +10,7 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   DatagridComponent,
   DropdownMenuComponent,
@@ -19,7 +19,7 @@ import {
   Treenode,
 } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { Subject, take } from 'rxjs';
+import { concat, Subject, take } from 'rxjs';
 import { TableRow } from './table-row';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { translate } from '@jsverse/transloco';
@@ -28,6 +28,14 @@ import { AppNavigationService, NavigationEvent } from '@services/app-navigation.
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
+import {
+  faCircleExclamation,
+  faCrosshairs,
+  faToggleOff,
+  faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { DeleteEntryRequest } from '@models/entry/delete-request';
 
 @Component({
   selector: 'app-table-view',
@@ -53,6 +61,10 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   columns: TableColumn[] = [];
   rows: TableRow[] = [];
   unsubscribe = new Subject<void>();
+  faToggleOff = faToggleOff;
+  faTrashAlt = faTrashAlt;
+  faCrosshair = faCrosshairs;
+  showControlPanel = true;
 
   pageSizes: DropdownOption[] = [
     { title: '15', value: 15 },
@@ -67,6 +79,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
+    private api: MultidirectoryApiService,
   ) {
     super();
   }
@@ -77,7 +90,12 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       this.page.size = Math.floor(parseFloat(pageSize));
     }
     this.columns = [
-      { name: translate('table-view.name-column'), cellTemplate: this.iconColumn, flexGrow: 1 },
+      {
+        name: translate('table-view.name-column'),
+        cellTemplate: this.iconColumn,
+        flexGrow: 1,
+        checkboxable: true,
+      },
       { name: translate('table-view.type-column'), prop: 'type', flexGrow: 1 },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
       { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
@@ -121,6 +139,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
           this.page.pageOffset * this.page.size,
           this.page.pageOffset * this.page.size + this.page.size,
         );
+        this.showControlPanel = true;
         this.cdr.detectChanges();
       });
   }
@@ -158,5 +177,33 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         });
     }
     this.cdr.detectChanges();
+  }
+
+  onRowSelect(event: any) {
+    this.showControlPanel = this.grid.selected.length > 0;
+    this.cdr.detectChanges();
+  }
+
+  onDelete(event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.windows
+      .openDeleteEntryConfirmation(this.grid.selected.map((x) => x.entry.id))
+      .pipe(take(1))
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          concat(
+            ...this.grid.selected.map((x) =>
+              this.api.delete(
+                new DeleteEntryRequest({
+                  entry: (<any>x.entry).id,
+                }),
+              ),
+            ),
+          ).subscribe((x) => {
+            this.appNavigation.reload();
+          });
+        }
+      });
   }
 }
