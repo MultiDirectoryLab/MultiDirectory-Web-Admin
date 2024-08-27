@@ -206,4 +206,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         }
       });
   }
+
+  onCheckChanged(selected: any) {
+    this.grid.selected = selected ? this.grid.rows : [];
+  }
 }

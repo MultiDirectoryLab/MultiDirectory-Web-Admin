@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { take } from 'rxjs';
 
@@ -22,14 +23,20 @@ export class PasswordConditionsComponent implements OnInit {
     this.checkPasswordMinimalLength = password.length >= this.minimumPasswordLength;
   }
 
-  constructor(private api: MultidirectoryApiService) {}
+  constructor(
+    private api: MultidirectoryApiService,
+    private app: AppSettingsService,
+  ) {}
+
   ngOnInit(): void {
-    this.api
-      .getPasswordPolicy()
-      .pipe(take(1))
-      .subscribe((x) => {
-        this.minimumPasswordLength = x.minimumPasswordLength;
-        this.passwordMustMeetComplexityRequirements = x.passwordMustMeetComplexityRequirements;
-      });
+    if (this.app.userEntry) {
+      this.api
+        .getPasswordPolicy()
+        .pipe(take(1))
+        .subscribe((x) => {
+          this.minimumPasswordLength = x.minimumPasswordLength;
+          this.passwordMustMeetComplexityRequirements = x.passwordMustMeetComplexityRequirements;
+        });
+    }
   }
 }

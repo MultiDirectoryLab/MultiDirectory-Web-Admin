@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { SetupRequest } from '@models/setup/setup-request';
+import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';
 import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
@@ -17,7 +18,10 @@ export class KdcSettingsComponent implements AfterViewInit {
 
   unsubscribe = new Subject<void>();
 
-  constructor(private setup: SetupService) {}
+  constructor(
+    private setup: SetupService,
+    private download: DownloadService,
+  ) {}
 
   ngAfterViewInit(): void {
     this.setup.stepValid(this.form.valid);
@@ -36,12 +40,12 @@ export class KdcSettingsComponent implements AfterViewInit {
   }
 
   downloadPasswords() {
-    /*this.downloadData.downloadDict(
+    this.download.downloadDict(
       {
         'KrbAdmin Password': this.setupRequest.krbadmin_password,
         'Stash Password': this.setupRequest.stash_password,
       },
       'md passwords.txt',
-    );*/
+    );
   }
 }

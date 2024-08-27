@@ -24,9 +24,9 @@
 <ng-template #controlPanel>
   <div class="flex-row flex-space-between flex-gap-5 pl-8">
     <div class="flex-row flex-gap-5">
-      <md-checkbox>
+      <md-checkbox (change)="onCheckChanged($event)">
         <fa-icon [icon]="faCrosshair"></fa-icon>
-        All
+        Выбрать все
       </md-checkbox>
     </div>
     <div class="flex-row flex-gap-5">
