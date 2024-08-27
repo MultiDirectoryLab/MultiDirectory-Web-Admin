@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
@@ -28,11 +21,11 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 
 @Component({
-  selector: 'app-kdc-principals',
-  styleUrls: ['./kdc-principals.component.scss'],
-  templateUrl: './kdc-principals.component.html',
+  selector: 'app-kerberos-principals',
+  styleUrls: ['./kerberos-principals.component.scss'],
+  templateUrl: './kerberos-principals.component.html',
 })
-export class KdcPrincipalsComponent implements OnInit, OnDestroy {
+export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   @ViewChild('grid') grid!: DatagridComponent;
   @ViewChild('principalMenu') principalMenu!: DropdownMenuComponent;
   faCircleExclamation = faCircleExclamation;
@@ -104,7 +97,9 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((res) => {
-        this.columns = [{ name: translate('kdc-settings.name-column'), prop: 'name', flexGrow: 1 }];
+        this.columns = [
+          { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
+        ];
         this.principals = res.search_result
           .filter((x) => this.filterPrincipals(x))
           .map(
@@ -124,7 +119,7 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
 
   exportKeytab() {
     if (!this.grid?.selected?.length) {
-      this.toastr.error(translate('kdc-settings.should-select-principals'));
+      this.toastr.error(translate('kerberos-settings.should-select-principals'));
       return;
     }
     const selected = this.grid.selected as SearchResult[];
@@ -137,7 +132,7 @@ export class KdcPrincipalsComponent implements OnInit, OnDestroy {
       return name;
     });
     if (!selectedName) {
-      this.toastr.error(translate('kdc-settings.should-select-principals'));
+      this.toastr.error(translate('kerberos-settings.should-select-principals'));
       return;
     }
     this.windows.showSpinner();

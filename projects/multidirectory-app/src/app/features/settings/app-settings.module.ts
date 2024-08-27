@@ -14,7 +14,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { AboutComponent } from './about/about.component';
-import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
+import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -38,7 +38,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MfAdminIntegrationComponent,
     MfUserIntegrationComponent,
     AboutComponent,
-    KdcPrincipalsComponent,
+    KerberosPrincipalsComponent,
   ],
   exports: [
     AppSettingsComponent,

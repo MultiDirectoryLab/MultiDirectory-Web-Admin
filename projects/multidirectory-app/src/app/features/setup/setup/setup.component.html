@@ -1,15 +1,15 @@
 <md-form #form>
-  <md-modal #modal [opened]="true" [closeable]="false" [width]="'440px'" [minHeight]="450">
+  <md-modal #modal [opened]="true" [closeable]="false" [width]="'510px'" [minHeight]="460">
     <ng-container class="app-modal-header">
       <div style="flex-shrink: 1">
         <img src="/assets/logo_login_transparent.svg" class="logo-img" />
       </div>
     </ng-container>
-    <div class="w-100" style="min-height: 150px">
+    <div class="w-100">
       <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
         <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
         <ng-container *ngIf="setupRequest.setupKdc">
-          <app-kdc-settings *mdStep [setupRequest]="setupRequest"></app-kdc-settings>
+          <app-kerberos-settings *mdStep [setupRequest]="setupRequest"></app-kerberos-settings>
         </ng-container>
         <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
         <app-admin-settings-second

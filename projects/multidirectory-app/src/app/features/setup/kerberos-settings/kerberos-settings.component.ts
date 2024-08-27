@@ -6,11 +6,11 @@ import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-kdc-settings',
-  templateUrl: './kdc-settings.component.html',
-  styleUrls: ['./kdc-settings.component.scss'],
+  selector: 'app-kerberos-settings',
+  templateUrl: './kerberos-settings.component.html',
+  styleUrls: ['./kerberos-settings.component.scss'],
 })
-export class KdcSettingsComponent implements AfterViewInit {
+export class KerberosSettingsComponent implements AfterViewInit {
   @Input() setupRequest!: SetupRequest;
   @ViewChild('form') form!: MdFormComponent;
   @ViewChild('passwordInput') passwordInput!: TextboxComponent;
@@ -24,15 +24,17 @@ export class KdcSettingsComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
+    if (this.form) {
+      this.setup.stepValid(this.form.valid);
 
-    this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
-    });
+      this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+        this.form.validate();
+      });
 
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.setup.stepValid(valid);
-    });
+      this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+        this.setup.stepValid(valid);
+      });
+    }
   }
 
   checkModel() {

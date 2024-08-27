@@ -114,7 +114,7 @@
       "setup-kdc": "Настроить Kerberos",
       "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически"
     },
-    "kdc-settings": {
+    "kerberos-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "krbadmin-password-label": "Пароль krbadmin",
       "krbadmin-password-repeat-label": "Повторите пароль krbadmin",
@@ -550,7 +550,7 @@
     "change": "Изменить...",
     "cancel": "Отменить"
   },
-  "kdc-settings": {
+  "kerberos-settings": {
     "add": "Добавить",
     "export": "Экспортировать .keytab",
     "name-column": "Имя",

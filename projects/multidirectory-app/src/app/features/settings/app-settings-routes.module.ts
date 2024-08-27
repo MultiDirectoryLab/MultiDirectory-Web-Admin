@@ -5,7 +5,7 @@ import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
 import { MultidirectorySettingsComponent } from './multidirectory-settings/multidirectory-settings.component';
 import { AppSettingsNavigationComponent } from './navigation/app-settings-navigation.component';
 import { AboutComponent } from './about/about.component';
-import { KdcPrincipalsComponent } from './kdc-principals/kdc-principals.component';
+import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FooterComponent } from '../../components/app-layout/footer/footer.component';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { FooterComponent } from '../../components/app-layout/footer/footer.compo
       },
       {
         path: 'kdc-principals',
-        component: KdcPrincipalsComponent,
+        component: KerberosPrincipalsComponent,
       },
       {
         path: '',
