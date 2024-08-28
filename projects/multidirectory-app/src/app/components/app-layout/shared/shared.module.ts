@@ -10,7 +10,6 @@ import { DeleteConfirmationModalComponent } from './delete-confirmation-modal/de
 import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/entity-type-selector.module';
 import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
 import { AppFormsModule } from '@features/forms/forms.module';
-import { DownloadComponent } from './download-dict.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 

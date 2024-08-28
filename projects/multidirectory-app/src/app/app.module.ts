@@ -27,6 +27,7 @@ import { AppFormsModule } from './features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppLayoutComponent,
     SidebarComponent,
     FooterComponent,
+    DownloadComponent,
   ],
   bootstrap: [AppComponent],
   imports: [

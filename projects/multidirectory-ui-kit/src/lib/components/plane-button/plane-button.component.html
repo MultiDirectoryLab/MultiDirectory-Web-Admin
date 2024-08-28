@@ -2,7 +2,10 @@
   class="plane-button-container"
   [ngClass]="{
     'plane-button-primary': primary,
-    'has-border': hasBorder
+    'has-border': hasBorder,
+    'is-row': isRow,
+    'right-border': rightBorder,
+    disabled: disabled,
   }"
   [disabled]="disabled"
 >

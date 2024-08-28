@@ -2,7 +2,7 @@
   <ngx-datatable
     [columnMode]="ColumnMode.force"
     [footerHeight]="hideFooter ? 0 : 36"
-    [headerHeight]="36"
+    [headerHeight]="headerHeight ? headerHeight : controlPanelRef ? 64 : 32"
     [summaryHeight]="300"
     rowHeight="auto"
     [rows]="rows"
@@ -32,6 +32,10 @@
     (resize)="onTableResize()"
     #datagrid
   >
+    <ng-template ngx-datatable-control-panel>
+      <div [ngTemplateOutlet]="controlPanelRef"></div>
+    </ng-template>
+
     <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template

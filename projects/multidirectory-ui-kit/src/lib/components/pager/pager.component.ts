@@ -18,9 +18,9 @@ import { DropdownOption } from '../dropdown/dropdown.component';
   styleUrls: [
     './pager.component.scss',
     '../datagrid/datagrid.component.scss',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/index.css',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/themes/material.scss',
-    './../../../../../../node_modules/@swimlane/ngx-datatable/assets/icons.css',
+    './../../../../../../node_modules/ngx-datatable-gimefork/index.css',
+    './../../../../../../node_modules/ngx-datatable-gimefork/themes/material.scss',
+    './../../../../../../node_modules/ngx-datatable-gimefork/assets/icons.css',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

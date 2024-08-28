@@ -10,6 +10,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
+import { DownloadService } from '@services/download.service';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -29,6 +30,7 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     private api: MultidirectoryApiService,
     private toastr: ToastrService,
     private app: AppSettingsService,
+    private download: DownloadService,
   ) {}
 
   checkModel() {
@@ -89,10 +91,13 @@ export class SetupKerberosDialogComponent implements OnDestroy {
   }
 
   downloadPasswords() {
-    // this.downloadData.downloadDict({
-    //   "KrbAdmin Password": this.setupRequest.krbadmin_password,
-    //   "Stash Password": this.setupRequest.stash_password
-    // }, "md passwords.txt");
+    this.download.downloadDict(
+      {
+        'KrbAdmin Password': this.setupRequest.krbadmin_password,
+        'Stash Password': this.setupRequest.stash_password,
+      },
+      'md passwords.txt',
+    );
   }
 
   onClose() {

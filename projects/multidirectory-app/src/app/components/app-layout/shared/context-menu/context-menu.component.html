@@ -9,6 +9,14 @@
   >
     {{ 'catalog-content.change-password' | transloco }}
   </div>
+
+  <div
+    class="dropdown-item"
+    *ngIf="isSelectedRowsOfType(LdapEntryType.User)"
+    (click)="contextMenu.close(); showChangePassword()"
+  >
+    {{ 'catalog-content.change-password' | transloco }}
+  </div>
   <div class="dropdown-item" (click)="contextMenu.close(); showMoveDialog($event)">
     {{ 'catalog-content.move' | transloco }}
   </div>

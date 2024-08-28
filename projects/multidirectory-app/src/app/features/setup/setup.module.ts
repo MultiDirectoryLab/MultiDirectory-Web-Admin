@@ -10,15 +10,15 @@ import { SetupRoutingModule } from './setup-routing.module';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { TranslocoRootModule } from '../../transloco-root.module';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
-import { KdcSettingsComponent } from './kdc-settings/kdc-settings.component';
 import { SharedComponentsModule } from '../../components/app-layout/shared/shared.module';
+import { KerberosSettingsComponent } from './kerberos-settings/kerberos-settings.component';
 
 @NgModule({
   declarations: [
     AdminSettingsComponent,
     AdminSettingsSecondComponent,
     DomainSettingsComponent,
-    KdcSettingsComponent,
+    KerberosSettingsComponent,
     SetupComponent,
   ],
   imports: [

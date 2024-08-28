@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { DatagridComponent, Page } from './datagrid.component';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule } from 'ngx-datatable-gimefork';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 const meta: Meta<DatagridComponent> = {
   title: 'Components/Datagrid',
   component: DatagridComponent,
-  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [NgxDatatableModule, CommonModule, FormsModule],
@@ -79,6 +78,41 @@ export const Primary: Story = {
                     [columns]="columns" 
                     [rows]="rows"></md-datagrid>
             </div>
+        `,
+  }),
+};
+
+export const WithControlPanel: Story = {
+  args: {
+    columns: [{ name: 'name' }],
+    rows: Array.from(Array.from(Array(25).keys())).map((x) => {
+      return { name: x };
+    }),
+  },
+  render: () => ({
+    props: {
+      columns: [
+        {
+          name: 'Column Name',
+        },
+      ],
+      rows: Array.from(Array.from(Array(25).keys())).map((x) => {
+        return { columnName: x };
+      }),
+      page: new Page({ totalElements: 25, size: 5, pageNumber: 0 }),
+    },
+    template: `
+            <div style="height: 250px; padding: 1rem">
+                <md-datagrid 
+                    [controlPanelRef]="controlPanel"
+                    [page]="page"
+                    [columns]="columns" 
+                    [rows]="rows"></md-datagrid>
+            </div>
+
+            <ng-template #controlPanel>
+              I am control panel
+            </ng-template>
         `,
   }),
 };

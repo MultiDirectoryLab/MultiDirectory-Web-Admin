@@ -114,7 +114,7 @@
       "setup-kdc": "Setup Kerberos",
       "generate-kdc-passwords": "Generate Kerberos Passwords Automatically"
     },
-    "kdc-settings": {
+    "kerberos-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
       "krbadmin-password-label": "Krbadmin password",
       "krbadmin-password-repeat-label": "Repeat krbadmin password",
@@ -172,7 +172,11 @@
     "name-column": "Name",
     "type-column": "Type",
     "description-column": "Description",
-    "status-column": "Status"
+    "status-column": "Status",
+    "disable": "Disable",
+    "enable": "Enable",
+    "delete": "Delete",
+    "actions": "Actions"
   },
   "catalog-content": {
     "create-user": "Create a user",
@@ -549,7 +553,7 @@
     "change": "Change...",
     "cancel": "Cancel"
   },
-  "kdc-settings": {
+  "kerberos-settings": {
     "add": "Add",
     "name-column": "Name",
     "should-select-principals": "You should select a princiapl to add",

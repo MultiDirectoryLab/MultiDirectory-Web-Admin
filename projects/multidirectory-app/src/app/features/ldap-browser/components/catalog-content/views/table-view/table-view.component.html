@@ -8,12 +8,39 @@
   [page]="page"
   (pageChanged)="onPageChanged($event)"
   (doubleclick)="onDoubleClick($event)"
+  (selectionChanged)="onRowSelect($event)"
   [pageSizes]="pageSizes"
   pagerTitle="{{ 'grid.pager-title' | transloco }}"
   fromTitle="{{ 'grid.from-title' | transloco }}"
   emptyMessage="{{ 'grid.no-data' | transloco }}"
+  [controlPanelRef]="showControlPanel ? controlPanel : null"
+  [headerHeight]="showControlPanel ? 68 : 36"
 ></md-datagrid>
 <ng-template #iconTemplate let-row="row" let-value="value">
   <img class="row-icon" [src]="row.icon" />
   {{ row.name }}
+</ng-template>
+
+<ng-template #controlPanel>
+  <div class="flex-row flex-space-between flex-gap-5 pl-8">
+    <div class="flex-row flex-gap-5">
+      <md-checkbox (change)="onCheckChanged($event)">
+        <fa-icon [icon]="faCrosshair"></fa-icon>
+        Выбрать все
+      </md-checkbox>
+    </div>
+    <div class="flex-row flex-gap-5">
+      <md-shift-checkbox>
+        {{ 'table-view.disable' | transloco }}
+      </md-shift-checkbox>
+      <md-plane-button
+        [isRow]="true"
+        (click)="onDelete($event)"
+        [disabled]="grid.selected.length === 0"
+      >
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+        {{ 'table-view.delete' | transloco }}
+      </md-plane-button>
+    </div>
+  </div>
 </ng-template>

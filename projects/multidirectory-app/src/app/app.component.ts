@@ -3,6 +3,8 @@ import { AppWindowsService } from './services/app-windows.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SpinnerComponent } from 'multidirectory-ui-kit';
 import { AppSettingsService } from './services/app-settings.service';
+import { DownloadService } from '@services/download.service';
+import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +17,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'multidirectory-app';
   darkMode = false;
   @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
+  @ViewChild('downloadData') downloadComponent!: DownloadComponent;
 
   constructor(
     private windows: AppWindowsService,
     private app: AppSettingsService,
+    private download: DownloadService,
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +36,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.app.darkModeRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.darkMode = x;
+    });
+
+    this.download.downlaodDictRx.pipe(takeUntil(this.unsubscribe)).subscribe(([data, name]) => {
+      this.downloadComponent.downloadDict(data, name);
     });
   }
 
