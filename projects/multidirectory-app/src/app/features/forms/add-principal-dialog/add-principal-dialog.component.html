@@ -12,7 +12,7 @@
       <label for="ouname">{{ 'add-principal.name-label' | transloco }}</label>
       <md-textbox
         appRequired
-        appPattern="^[A-Za-z0-9!@#$&()\- ]+/[A-Za-z0-9!@#$&()\- ]+$"
+        appPattern="^[A-Za-z0-9!#$&()\-. ]+/[A-Za-z0-9!#$&()\-. ]+$"
         patternErrorMessage="{{ 'add-principal.format-error' | transloco }}"
         [(ngModel)]="principalName"
         name="principalName"
