@@ -84,43 +84,4 @@ export class AttributeService {
     });
     return request;
   }
-
-  /*
-    load(node: LdapEntryNode): Observable<PartialAttribute[]> {
-    return this.api.search(SearchQueries.getProperites(node.id ?? '')).pipe(
-      map((resp) => {
-        return resp.search_result[0].partial_attributes;
-      }),
-    );
-  }
-
-
-    get(node: LdapEntryNode): Observable<LdapAttributes> {
-    return this.load(node).pipe(
-      map((props) => {
-        const attributes = new LdapAttributes(props);
-        const handler = new LdapAttributesProxyHandler(node, attributes, this.sanitizer);
-        return new Proxy(attributes, handler);
-      }),
-    );
-  }
-
-    setEntityAccessor(entity?: LdapEntryNode): Observable<LdapAttributes | null> {
-    if (!entity) {
-      this._entityAccessorRx.next(null);
-      return of(null);
-    }
-    return this.get(entity).pipe(
-      take(1),
-      tap((accessor) => {
-        this._entityAccessorRx.next(accessor);
-      }),
-    );
-  }
-
-  _entityAccessorRx = new BehaviorSubject<LdapAttributes | null>(null);
-  entityAccessorRx(): Observable<LdapAttributes | null> {
-    return this._entityAccessorRx.asObservable();
-  }
-  */
 }

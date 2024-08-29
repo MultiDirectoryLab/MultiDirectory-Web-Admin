@@ -36,6 +36,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DeleteEntryRequest } from '@models/entry/delete-request';
+import { ToastrService } from 'ngx-toastr';
+import { BulkService } from '@services/bulk.service';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
+import { DisableAccountStrategy } from '@core/bulk/strategies/disable-account-strategy';
+import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
+import { UpdateEntryResponse } from '@models/entry/update-response';
 
 @Component({
   selector: 'app-table-view',
@@ -76,10 +83,14 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   constructor(
     private appNavigation: AppNavigationService,
     private ldapLoader: LdapEntryLoader,
+    private toastr: ToastrService,
+    private bulkService: BulkService<LdapEntryNode>,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private api: MultidirectoryApiService,
+    private accessorStrategy: GetAccessorStrategy,
+    private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
   ) {
     super();
   }
@@ -209,5 +220,20 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
 
   onCheckChanged(selected: any) {
     this.grid.selected = selected ? this.grid.rows : [];
+  }
+
+  magicClick(event: any) {
+    this.toastr.success('here magic goes');
+
+    this.bulkService
+      .create(this.grid.selected.map((x) => x.entry))
+      .mutate<LdapAttributes>(this.accessorStrategy)
+      .mutate<LdapAttributes>(new DisableAccountStrategy())
+      .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
+      .pipe(take(1))
+      .subscribe((result) => {
+        console.log(result);
+        alert('magic done');
+      });
   }
 }

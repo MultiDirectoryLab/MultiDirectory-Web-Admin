@@ -5,7 +5,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   selector: 'md-spinner',
   styleUrls: ['./spinner.component.scss'],
   templateUrl: './spinner.component.html',
-  host: { 'collision-id': 'MdSpinnerComponent' },
 })
 export class SpinnerComponent {
   @Input() spinnerText = 'Please, wait...';

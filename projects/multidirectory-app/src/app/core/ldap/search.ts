@@ -46,7 +46,13 @@ export const SearchQueries = {
       time_limit: 0,
       types_only: false,
       filter: query ? `(&(objectClass=*)(cn=*${query}*))` : '(objectClass=*)',
-      attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
+      attributes: [
+        'defaultNamingContext',
+        'sAMAccountName',
+        'name',
+        'objectClass',
+        'userAccountControl',
+      ],
     });
     return req;
   },
