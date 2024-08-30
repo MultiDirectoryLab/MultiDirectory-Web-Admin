@@ -2,3 +2,11 @@
   position: relative !important;
   height: 100% !important;
 }
+
+.accountEnabledToggle {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  &.disabled {
+    background-color: var(--md-neutral-100);
+  }
+}

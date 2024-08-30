@@ -66,7 +66,7 @@ export class EntityInfoResolver {
   static getNodeStatus(entry: LdapEntryNode): string {
     const uacAttirbute = entry.getAttibute('userAccountControl');
     if (!uacAttirbute?.vals?.[0]) {
-      return translate('entity-info-resolver.enabled');
+      return '';
     }
     const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
 

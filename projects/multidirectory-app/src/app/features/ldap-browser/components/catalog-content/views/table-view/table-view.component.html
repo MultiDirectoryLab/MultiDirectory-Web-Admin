@@ -24,15 +24,20 @@
 <ng-template #controlPanel>
   <div class="flex-row flex-space-between flex-gap-5 pl-8">
     <div class="flex-row flex-gap-5">
-      <md-checkbox (change)="onCheckChanged($event)">
+      <md-checkbox [(ngModel)]="checkAllCheckbox">
         <fa-icon [icon]="faCrosshair"></fa-icon>
         Выбрать все
       </md-checkbox>
     </div>
-    <div class="flex-row flex-gap-5">
-      <md-button (click)="magicClick($event)"> CLICK ME </md-button>
-      <md-shift-checkbox>
-        {{ 'table-view.disable' | transloco }}
+    <div class="flex-row">
+      <md-shift-checkbox
+        class="accountEnabledToggle"
+        [ngClass]="{ disabled: !accountEnabledToggleEnabled }"
+        [(ngModel)]="accountEnabledToggle"
+        (click)="accountEnabledToggleClick($event)"
+        [disabled]="!accountEnabledToggleEnabled"
+      >
+        {{ 'table-view.enabled' | transloco }}
       </md-shift-checkbox>
       <md-plane-button
         [isRow]="true"

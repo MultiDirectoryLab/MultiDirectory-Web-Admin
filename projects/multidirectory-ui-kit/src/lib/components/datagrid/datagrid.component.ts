@@ -119,6 +119,14 @@ export class DatagridComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  toggleSelectedAll(selected: boolean) {
+    if (selected) {
+      this.selected = Array.from(this.rows);
+    } else {
+      this.selected = [];
+    }
+  }
+
   onActivate(event: any) {
     if (event.type === 'dblclick') {
       this.doubleclick.emit(event);

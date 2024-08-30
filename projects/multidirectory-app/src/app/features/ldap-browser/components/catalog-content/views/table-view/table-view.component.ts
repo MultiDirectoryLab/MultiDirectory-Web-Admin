@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import {
+  CheckboxComponent,
   DatagridComponent,
   DropdownMenuComponent,
   DropdownOption,
@@ -31,6 +32,7 @@ import { BaseViewComponent } from '../base-view.component';
 import {
   faCircleExclamation,
   faCrosshairs,
+  faL,
   faToggleOff,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
@@ -40,9 +42,11 @@ import { ToastrService } from 'ngx-toastr';
 import { BulkService } from '@services/bulk.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
-import { DisableAccountStrategy } from '@core/bulk/strategies/disable-account-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { UpdateEntryResponse } from '@models/entry/update-response';
+import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
+import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
+import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 
 @Component({
   selector: 'app-table-view',
@@ -53,7 +57,6 @@ import { UpdateEntryResponse } from '@models/entry/update-response';
 export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
-
   private _searchQuery = '';
   @Input() set searchQuery(q: string) {
     this._searchQuery = q;
@@ -72,6 +75,15 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   faTrashAlt = faTrashAlt;
   faCrosshair = faCrosshairs;
   showControlPanel = true;
+
+  private _checkAllCheckbox = false;
+  get checkAllCheckbox() {
+    return this._checkAllCheckbox;
+  }
+  set checkAllCheckbox(value: boolean) {
+    this._checkAllCheckbox = value;
+    this.grid.toggleSelectedAll(value);
+  }
 
   pageSizes: DropdownOption[] = [
     { title: '15', value: 15 },
@@ -150,6 +162,19 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
           this.page.pageOffset * this.page.size,
           this.page.pageOffset * this.page.size + this.page.size,
         );
+
+        if (this.grid.selected?.length > 0) {
+          const selected = this.grid.selected.map((x) => x.entry.id);
+          this.grid.selected = [];
+          this.rows.forEach((row) => {
+            if (selected.includes(row.entry.id)) {
+              this.grid.selected.push(row);
+            }
+          });
+        } else {
+          this.accountEnabledToggle = false;
+          this.accountEnabledToggleEnabled = false;
+        }
         this.showControlPanel = true;
         this.cdr.detectChanges();
       });
@@ -193,6 +218,8 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   onRowSelect(event: any) {
     this.showControlPanel = this.grid.selected.length > 0;
     this.cdr.detectChanges();
+    this._checkAllCheckbox = false;
+    this.setAccountEnabledToggle();
   }
 
   onDelete(event: any) {
@@ -218,22 +245,48 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
       });
   }
 
-  onCheckChanged(selected: any) {
-    this.grid.selected = selected ? this.grid.rows : [];
-  }
-
-  magicClick(event: any) {
-    this.toastr.success('here magic goes');
-
-    this.bulkService
+  toggleSelected(enabled: boolean) {
+    const toChange = this.bulkService
       .create(this.grid.selected.map((x) => x.entry))
       .mutate<LdapAttributes>(this.accessorStrategy)
-      .mutate<LdapAttributes>(new DisableAccountStrategy())
+      .filter(new FilterControllableStrategy());
+
+    toChange
+      .mutate<LdapAttributes>(new ToggleAccountDisableStrategy(enabled))
       .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
       .pipe(take(1))
       .subscribe((result) => {
-        console.log(result);
-        alert('magic done');
+        this.updateContent();
+      });
+  }
+
+  private _accountEnabledToggle = false;
+  get accountEnabledToggle(): boolean {
+    return this._accountEnabledToggle;
+  }
+  set accountEnabledToggle(enabled: boolean) {
+    this._accountEnabledToggle = enabled;
+  }
+  accountEnabledToggleClick(value: boolean) {
+    this.toggleSelected(this._accountEnabledToggle);
+  }
+
+  accountEnabledToggleEnabled = false;
+  setAccountEnabledToggle() {
+    const selected = this.grid.selected.map((x) => x.entry);
+    this.bulkService
+      .create(selected)
+      .mutate<LdapAttributes>(this.accessorStrategy)
+      .filter(new FilterControllableStrategy())
+      .complete<boolean>(new CheckAccountEnabledStateStrategy())
+      .pipe(take(1))
+      .subscribe((result) => {
+        if (result == null) {
+          this.accountEnabledToggle = result;
+          this.accountEnabledToggleEnabled = false;
+        }
+        this.accountEnabledToggle = result;
+        this.accountEnabledToggleEnabled = true;
       });
   }
 }

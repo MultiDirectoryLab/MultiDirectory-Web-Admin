@@ -1,4 +1,7 @@
-<div class="flex-row align-center pointer h-100">
+<div
+  class="checkbox-container flex-row align-center pointer h-100"
+  [ngClass]="{ disabled: disabled }"
+>
   <label class="switch" for="checkbox" (click)="onToggle($event)">
     <input
       [disabled]="disabled"
