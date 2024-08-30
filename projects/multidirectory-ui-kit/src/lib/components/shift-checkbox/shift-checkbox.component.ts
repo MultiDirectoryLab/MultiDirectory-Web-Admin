@@ -35,6 +35,9 @@ export class ShiftCheckboxComponent extends BaseComponent implements OnInit {
       $event.preventDefault();
       $event.stopPropagation();
     }
+    if (this.disabled) {
+      return;
+    }
     this.value = !this.checkbox.nativeElement.checked;
     this.checkbox.nativeElement.checked = !this.checkbox.nativeElement.checked;
     this.click.emit();

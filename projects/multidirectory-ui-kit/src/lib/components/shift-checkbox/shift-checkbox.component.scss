@@ -1,5 +1,13 @@
 @use '../../styles/global.scss';
 
+.checkbox-container {
+  &.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: var(--md-neutral-100);
+  }
+}
+
 .pointer {
   cursor: pointer;
   user-select: none;

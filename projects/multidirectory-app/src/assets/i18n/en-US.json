@@ -175,6 +175,7 @@
     "status-column": "Status",
     "disable": "Disable",
     "enable": "Enable",
+    "enabled": "Enabled",
     "delete": "Delete",
     "actions": "Actions"
   },
