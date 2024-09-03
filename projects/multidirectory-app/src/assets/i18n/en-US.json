@@ -207,7 +207,9 @@
     "select-group-catalog": "Select a catalog where a group will be created",
     "select-ou-catalog": "Select a catalog where an organizational unit will be created",
     "kerberos-should-reload-header": "Reboot the MultiDirectory server",
-    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, user must authenticate to the LDAP server or change the password."
+    "kerberos-should-reload-description": "After configuring the Kerberos server, there are no principals in the database for all previously created accounts. To create principals for these accounts, user must authenticate to the LDAP server or change the password.",
+    "disable-account": "Disable account",
+    "enable-account": "Enable account"
   },
   "attributes-list": {
     "value": "Value",

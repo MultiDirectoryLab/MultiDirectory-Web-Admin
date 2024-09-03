@@ -1,4 +1,4 @@
-<div *ngIf="setupRequest.generateKdcPasswords">
+<div *ngIf="!setupRequest.generateKdcPasswords">
   <div class="flex-row flex-space-between">
     <div class="pv-8 accented w-100">
       {{ 'setup.kerberos-settings.header' | transloco }}
@@ -90,3 +90,4 @@
     </div>
   </md-form>
 </div>
+<div *ngIf="setupRequest.generateKdcPasswords">TEST</div>

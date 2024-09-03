@@ -21,8 +21,6 @@ export class CompleteUpdateEntiresStrategies extends BulkCompleteStrategy<LdapAt
     const updatesRx: Observable<UpdateEntryResponse>[] = [];
     accessors.forEach((accessor) => {
       const updateRequest = this.attributes.createAttributeUpdateRequest(accessor);
-      console.log(accessor['userAccountControl']);
-      console.log(accessor['userAccountControl']);
       updatesRx.push(this.api.update(updateRequest));
     });
     return combineLatest(updatesRx) as Observable<RESULT>;
