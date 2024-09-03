@@ -59,12 +59,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(templateRef: any) {
-    if (
-      this.stepper.currentIndex == 1 &&
-      this.setupRequest.generateKdcPasswords &&
-      !this.setupRequest.krbadmin_password &&
-      !this.setupRequest.stash_password
-    ) {
+    if (this.stepper.currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
       this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
         PasswordGenerator.generatePassword();
       this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
