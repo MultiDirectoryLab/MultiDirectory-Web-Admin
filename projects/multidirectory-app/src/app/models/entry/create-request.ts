@@ -3,7 +3,7 @@ import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attrib
 export class CreateEntryRequest {
   entry: string = '';
   attributes: PartialAttribute[] = [];
-  password: string = '';
+  password?: string;
 
   constructor(obj: Partial<CreateEntryRequest>) {
     Object.assign(this, obj);
