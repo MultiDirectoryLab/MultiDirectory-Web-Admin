@@ -101,7 +101,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private api: MultidirectoryApiService,
-    private accessorStrategy: GetAccessorStrategy,
+    private getAccessorStrategy: GetAccessorStrategy,
     private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
   ) {
     super();
@@ -248,7 +248,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   toggleSelected(enabled: boolean) {
     const toChange = this.bulkService
       .create(this.grid.selected.map((x) => x.entry))
-      .mutate<LdapAttributes>(this.accessorStrategy)
+      .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy());
 
     toChange
@@ -276,7 +276,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     const selected = this.grid.selected.map((x) => x.entry);
     this.bulkService
       .create(selected)
-      .mutate<LdapAttributes>(this.accessorStrategy)
+      .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy())
       .complete<boolean>(new CheckAccountEnabledStateStrategy())
       .pipe(take(1))

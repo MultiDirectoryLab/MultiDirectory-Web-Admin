@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { SetupRequest } from '@models/setup/setup-request';
 import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';
-import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { MdFormComponent, StepperComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -26,7 +26,6 @@ export class KerberosSettingsComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.form) {
       this.setup.stepValid(this.form.valid);
-
       this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         this.form.validate();
       });

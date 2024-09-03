@@ -8,7 +8,7 @@
     <div class="w-100">
       <md-stepper #stepper (onNext)="onNext($event)" (onFinish)="onSetup()">
         <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
-        <ng-container *ngIf="setupRequest.setupKdc">
+        <ng-container *ngIf="setupRequest.setupKdc && !setupRequest.generateKdcPasswords">
           <app-kerberos-settings *mdStep [setupRequest]="setupRequest"></app-kerberos-settings>
         </ng-container>
         <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>

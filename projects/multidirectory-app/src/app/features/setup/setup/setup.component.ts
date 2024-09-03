@@ -18,6 +18,7 @@ import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { LoginService } from '@services/login.service';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { PasswordGenerator } from '@core/setup/password-generator';
+import { DownloadService } from '@services/download.service';
 
 @Component({
   selector: 'app-setup',
@@ -38,6 +39,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private loginService: LoginService,
+    private download: DownloadService,
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,10 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSetup() {
+    if (this.setupRequest.generateKdcPasswords) {
+      this.downloadPasswords();
+    }
+
     this.modal.showSpinner();
     this.api
       .setup(this.setupRequest)
@@ -130,5 +136,15 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.stepper.next();
+  }
+
+  downloadPasswords() {
+    this.download.downloadDict(
+      {
+        'KrbAdmin Password': this.setupRequest.krbadmin_password,
+        'Stash Password': this.setupRequest.stash_password,
+      },
+      'md passwords.txt',
+    );
   }
 }

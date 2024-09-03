@@ -12,11 +12,19 @@
 
   <div
     class="dropdown-item"
-    *ngIf="isSelectedRowsOfType(LdapEntryType.User)"
-    (click)="contextMenu.close(); showChangePassword()"
+    *ngIf="isSelectedRowsOfType(LdapEntryType.User) && accountEnabled"
+    (click)="contextMenu.close(); toggleAccount(false)"
   >
-    {{ 'catalog-content.change-password' | transloco }}
+    {{ 'catalog-content.disable-account' | transloco }}
   </div>
+  <div
+    class="dropdown-item"
+    *ngIf="isSelectedRowsOfType(LdapEntryType.User) && !accountEnabled"
+    (click)="contextMenu.close(); toggleAccount(true)"
+  >
+    {{ 'catalog-content.enable-account' | transloco }}
+  </div>
+
   <div class="dropdown-item" (click)="contextMenu.close(); showMoveDialog($event)">
     {{ 'catalog-content.move' | transloco }}
   </div>
