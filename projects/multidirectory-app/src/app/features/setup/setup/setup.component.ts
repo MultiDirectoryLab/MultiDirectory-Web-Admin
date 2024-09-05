@@ -69,7 +69,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSetup() {
-    if (this.setupRequest.generateKdcPasswords) {
+    if (this.setupRequest.setupKdc && this.setupRequest.generateKdcPasswords) {
       this.downloadPasswords();
     }
 

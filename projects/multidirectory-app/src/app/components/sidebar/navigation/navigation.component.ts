@@ -35,6 +35,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   handleRouteChange(navigationTree: NavigationNode[], event: NavigationEventWrapper) {
     let url = event.event.url;
+    const rootDse = navigationTree[2] as LdapEntryNode;
+
     if (url.startsWith('/')) {
       url = url.substring(1);
     }
@@ -45,9 +47,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
       this.treeView.select(null);
       return;
     }
+    if (url == 'ldap') {
+      this.navigation.navigate(rootDse);
+      return;
+    }
     if (url.startsWith('ldap?')) {
       const dn = this.route.snapshot.queryParams['distinguishedName'];
-      this.navigation.goTo(dn, [navigationTree[2] as LdapEntryNode]).then((node) => {
+      this.navigation.goTo(dn, [rootDse]).then((node) => {
         if (!node) {
           return;
         }

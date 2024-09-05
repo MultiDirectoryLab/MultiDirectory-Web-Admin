@@ -7,7 +7,7 @@ export class FilterControllableStrategy extends BulkFilterStrategy<LdapAttribute
   override filter(entry: LdapAttributes): boolean {
     const objectClasses = entry['objectClass'];
     const result = this._controllableClasses.reduce(
-      (acc, curr) => acc || objectClasses.includes(curr),
+      (acc, curr) => acc || objectClasses?.includes(curr),
       false,
     );
     return result;

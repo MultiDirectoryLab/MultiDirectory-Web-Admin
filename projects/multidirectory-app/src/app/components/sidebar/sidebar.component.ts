@@ -45,6 +45,10 @@ export class SidebarComponent implements OnDestroy {
     this.windows.openChangePasswordModal(this.app.userEntry);
   }
 
+  handleLogoClick(event: MouseEvent) {
+    this.router.navigate(['/ldap']);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
