@@ -177,7 +177,9 @@
     "enable": "Enable",
     "enabled": "Enabled",
     "delete": "Delete",
-    "actions": "Actions"
+    "actions": "Actions",
+    "select-all": "Select All",
+    "go-to-parent": "Go To Parent"
   },
   "catalog-content": {
     "create-user": "Create a user",
