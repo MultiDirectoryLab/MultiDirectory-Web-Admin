@@ -45,12 +45,6 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <!--div style="padding: 5px 10px">
-        <div><strong>Summary</strong>: Gender: Female</div>
-        <hr style="width:100%" />
-        <div>Rows: {{ rowCount }} | Size: {{ pageSize }} | Current: {{ curPage }} | Offset: {{ offset }}</div>
-      </div-->
-
         <div *ngIf="!scrollbarV" class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
           <label class="pr-10">{{ pagerTitle }} </label>
           <md-dropdown

@@ -62,6 +62,7 @@ export class DatagridComponent implements AfterViewInit {
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
   @Output() pageChanged = new EventEmitter<Page>();
+
   _selected: any[] = [];
   get selected(): any[] {
     return this._selected;
@@ -97,6 +98,7 @@ export class DatagridComponent implements AfterViewInit {
     { title: '15', value: 15 },
     { title: '20', value: 20 },
   ];
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
@@ -171,6 +173,7 @@ export class DatagridComponent implements AfterViewInit {
     });
     this.pageChanged.emit(this.page);
   }
+
   setPage(page: Page) {
     this.selected = [];
     if (this.page == page) {
