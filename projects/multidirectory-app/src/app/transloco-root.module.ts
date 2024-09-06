@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
         availableLangs: ['en-US', 'ru-RU'],
         defaultLang: localStorage.getItem('locale') ?? 'en-US',
         prodMode: environment.production,
+        reRenderOnLangChange: true,
       },
       loader: TranslocoHttpLoader,
     }),

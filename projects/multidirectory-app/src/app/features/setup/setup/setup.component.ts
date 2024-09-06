@@ -19,6 +19,9 @@ import { LoginService } from '@services/login.service';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { DownloadService } from '@services/download.service';
+import { AppSettingsService } from '@services/app-settings.service';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-setup',
@@ -26,14 +29,18 @@ import { DownloadService } from '@services/download.service';
   styleUrls: ['./setup.component.scss'],
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
-  setupRequest = new SetupRequest();
   @ViewChild('modal') modal!: MdModalComponent;
   @ViewChild('stepper') stepper!: StepperComponent;
 
+  private unsubscribe = new Subject<boolean>();
+  setupRequest = new SetupRequest();
   stepValid = false;
-  unsubscribe = new Subject<boolean>();
+  faLanguage = faLanguage;
+
   constructor(
     private api: MultidirectoryApiService,
+    private app: AppSettingsService,
+    private navigation: AppNavigationService,
     private setup: SetupService,
     private toastr: ToastrService,
     private router: Router,
@@ -141,5 +148,9 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       'md passwords.txt',
     );
+  }
+
+  changeLanguage() {
+    this.app.language = this.app.language == 'en-US' ? 'ru-RU' : 'en-US';
   }
 }
