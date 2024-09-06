@@ -1,5 +1,5 @@
 export class PasswordGenerator {
-  static generatePassword(passwordLength = 15): string {
+  static generatePassword(passwordLength = 32): string {
     const lowerCaseLetters = 'abcdefghijklmnopqrstuvwxyz';
     const upperCaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
