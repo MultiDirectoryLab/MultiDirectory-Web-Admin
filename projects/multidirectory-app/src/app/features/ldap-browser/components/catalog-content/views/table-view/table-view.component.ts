@@ -1,24 +1,15 @@
 import {
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   ViewChild,
   forwardRef,
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import {
-  CheckboxComponent,
-  DatagridComponent,
-  DropdownMenuComponent,
-  DropdownOption,
-  Page,
-  Treenode,
-} from 'multidirectory-ui-kit';
+import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { concat, Subject, take } from 'rxjs';
 import { TableRow } from './table-row';
@@ -30,9 +21,8 @@ import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
 import {
-  faCircleExclamation,
   faCrosshairs,
-  faL,
+  faLevelUpAlt,
   faToggleOff,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
@@ -47,6 +37,7 @@ import { UpdateEntryResponse } from '@models/entry/update-response';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Component({
   selector: 'app-table-view',
@@ -74,6 +65,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
   faToggleOff = faToggleOff;
   faTrashAlt = faTrashAlt;
   faCrosshair = faCrosshairs;
+  faLevelUp = faLevelUpAlt;
   showControlPanel = true;
 
   private _checkAllCheckbox = false;
@@ -288,5 +280,16 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
         this.accountEnabledToggle = result;
         this.accountEnabledToggleEnabled = true;
       });
+  }
+
+  handleGoToParent(event: MouseEvent) {
+    const dn = LdapNamesHelper.getDnParent(this._dn);
+    this.appNavigation.goTo(dn).then((node) => {
+      if (!node) {
+        return;
+      }
+      this.appNavigation.navigate(node);
+      this.cdr.detectChanges();
+    });
   }
 }

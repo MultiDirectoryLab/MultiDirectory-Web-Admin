@@ -12,6 +12,7 @@ import { TranslocoRootModule } from '../../transloco-root.module';
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 import { SharedComponentsModule } from '../../components/app-layout/shared/shared.module';
 import { KerberosSettingsComponent } from './kerberos-settings/kerberos-settings.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { KerberosSettingsComponent } from './kerberos-settings/kerberos-settings
     SetupRoutingModule,
     PasswordConditionsModule,
     SharedComponentsModule,
+    FontAwesomeModule,
   ],
 })
 export class SetupModule {}

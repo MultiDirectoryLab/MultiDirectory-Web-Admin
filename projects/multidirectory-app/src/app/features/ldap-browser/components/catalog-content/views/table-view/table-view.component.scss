@@ -10,3 +10,9 @@
     background-color: var(--md-neutral-100);
   }
 }
+
+.go-to-parent {
+  &:not(:disabled):hover {
+    background: var(--md-neutral-100);
+  }
+}

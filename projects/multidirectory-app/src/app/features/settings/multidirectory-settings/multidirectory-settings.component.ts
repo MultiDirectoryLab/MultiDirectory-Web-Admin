@@ -8,12 +8,11 @@ import { Router } from '@angular/router';
   templateUrl: './multidirectory-settings.component.html',
   styleUrls: ['./multidirectory-settings.component.scss'],
 })
-export class MultidirectorySettingsComponent implements OnInit {
+export class MultidirectorySettingsComponent {
   constructor(
     private settings: AppSettingsService,
     private router: Router,
   ) {}
-  ngOnInit(): void {}
 
   set selectedLanguage(value: string) {
     this.settings.language = value;

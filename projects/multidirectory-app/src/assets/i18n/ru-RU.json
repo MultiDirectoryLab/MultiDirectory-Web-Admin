@@ -177,7 +177,9 @@
     "enable": "Включить",
     "enabled": "Включено",
     "delete": "Удалить",
-    "actions": "Действия"
+    "actions": "Действия",
+    "select-all": "Выбрать все",
+    "go-to-parent": "Вверх"
   },
   "catalog-content": {
     "create-user": "Создать пользователя",
