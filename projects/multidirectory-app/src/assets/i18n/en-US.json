@@ -112,7 +112,8 @@
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
       "setup-kdc": "Setup Kerberos",
-      "generate-kdc-passwords": "Generate Kerberos Passwords Automatically"
+      "generate-kdc-passwords": "Generate Kerberos Passwords Automatically",
+      "domain-format-error": "Invalid domain format"
     },
     "kerberos-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",

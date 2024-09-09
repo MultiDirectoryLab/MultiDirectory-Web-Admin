@@ -1,16 +1,22 @@
 <div class="input-container">
-  <input
-    type="{{ password ? 'password' : 'text' }}"
-    [disabled]="disabled"
-    [(ngModel)]="value"
-    autocomplete="{{ autocomplete ? 'on' : password ? 'new-password' : 'off' }}"
-    (blur)="onBlur()"
-    (focus)="onFocus()"
-    id="{{ __ID }}"
-    #input
-    tabindex="0"
-    [placeholder]="placeholder"
-  />
+  <div class="input-control">
+    <input
+      type="{{ password && !passwordVisible ? 'password' : 'text' }}"
+      [disabled]="disabled"
+      [(ngModel)]="value"
+      autocomplete="{{ autocomplete ? 'on' : password ? 'new-password' : 'off' }}"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+      id="{{ __ID }}"
+      #input
+      tabindex="0"
+      [placeholder]="placeholder"
+    />
+    <!-- Eye icon to toggle visibility -->
+    <span *ngIf="password" class="toggle-password" (click)="togglePasswordVisibility()">
+      <fa-icon [icon]="faEye"></fa-icon>
+    </span>
+  </div>
 </div>
 <md-error-label
   *ngIf="controlAccessor && (controlAccessor.dirty || controlAccessor.touched)"

@@ -1,6 +1,7 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { TextboxComponent } from './textbox.component';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const meta: Meta<TextboxComponent> = {
   title: 'Components/Textbox',
@@ -8,7 +9,7 @@ const meta: Meta<TextboxComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [FormsModule],
+      imports: [FormsModule, FontAwesomeModule],
     }),
   ],
 };

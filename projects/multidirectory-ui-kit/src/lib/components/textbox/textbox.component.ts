@@ -4,11 +4,11 @@ import {
   ElementRef,
   Input,
   ViewChild,
-  ViewChildren,
   forwardRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'md-textbox',
@@ -29,11 +29,18 @@ export class TextboxComponent extends BaseComponent {
   @Input() autocomplete: boolean = false;
   @Input() autofocus: boolean = false;
   @Input() placeholder = '';
+  passwordVisible = false;
+  faEye = faEye;
+
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
   }
 
   override setFocus() {
     this.input.nativeElement.focus();
+  }
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 }

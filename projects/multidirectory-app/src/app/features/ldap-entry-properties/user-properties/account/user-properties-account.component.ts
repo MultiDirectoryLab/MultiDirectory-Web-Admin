@@ -3,7 +3,6 @@ import BitSet from 'bitset';
 import { DatepickerComponent, DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { AttributeService } from '@services/attributes.service';
 import { take, tap } from 'rxjs';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import moment from 'moment';
@@ -29,6 +28,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   set userShouldChangePassword(shouldChange: boolean) {
     this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), shouldChange ? 1 : 0);
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
+    this.setPwdLastSetTime(shouldChange);
   }
 
   fileTimeToDate(filetime: number): moment.Moment {
@@ -37,6 +37,18 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
 
   filetimeFromDate(date: moment.Moment): number {
     return date.date() * 1e4 + 116444736e9;
+  }
+
+  unixTimeToFileTime(unixTime: number) {
+    // Windows FileTime starts at January 1, 1601, while Unix epoch starts at January 1, 1970.
+    const epochDifference = 11644473600; // seconds between 1601-01-01 and 1970-01-01
+    const fileTimePerSecond = 10000000; // 1 second = 10 million FileTime units
+
+    // Add the difference in seconds and convert to FileTime units
+    const windowsFileTime = (unixTime + epochDifference) * fileTimePerSecond;
+
+    // Convert to BigInt for better precision, since FileTime can exceed regular number limits
+    return BigInt(windowsFileTime);
   }
 
   constructor(
@@ -126,5 +138,14 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
   get accountExpires(): boolean {
     return this._accountExpires;
+  }
+
+  setPwdLastSetTime(shouldChange: boolean) {
+    if (shouldChange) {
+      this.accessor['pwdLastSet'] = ['0'];
+      return;
+    } else {
+      this.accessor['pwdLastSet'] = [this.unixTimeToFileTime(moment.now() / 1000).toString()];
+    }
   }
 }

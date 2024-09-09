@@ -19,7 +19,7 @@ import {
 })
 export class DomainFormatValidatorDirective implements Validator {
   @Input('appDomainFormat') domainPattern!: string;
-  @Input('domainErrorMessage') domainErrorMessage = 'Check a domain format';
+  @Input() domainErrorMessage = 'Check a domain format';
 
   patternValidator = new PatternValidator();
   validate(control: AbstractControl): ValidationErrors | null {
