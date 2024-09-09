@@ -21,11 +21,11 @@ import { translate } from '@jsverse/transloco';
 })
 export class RequiredWithMessageDirective extends RequiredValidator {
   @Input('appDomainFormat') domainPattern!: string;
-  @Input() errorLabel = translate('error-message.required');
+  @Input() errorLabel = '';
 
   override validate(control: AbstractControl): ValidationErrors | null {
     return control.value !== null && control.value !== undefined && control.value !== ''
       ? null
-      : { required: this.errorLabel };
+      : { required: this.errorLabel ? this.errorLabel : translate('error-message.required') };
   }
 }

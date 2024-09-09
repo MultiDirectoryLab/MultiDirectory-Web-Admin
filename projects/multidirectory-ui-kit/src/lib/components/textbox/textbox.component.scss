@@ -24,7 +24,21 @@ input:invalid {
   flex-flow: column nowrap;
   max-width: 100%;
   height: 26px;
-  input {
+  position: relative;
+  cursor: text;
+
+  .input-control {
     height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    position: relative;
+    input {
+      width: 100%;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 0.5rem;
+      cursor: pointer;
+    }
   }
 }

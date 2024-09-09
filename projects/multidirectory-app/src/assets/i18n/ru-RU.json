@@ -112,7 +112,8 @@
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "domain-label": "Домен",
       "setup-kdc": "Настроить Kerberos",
-      "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически"
+      "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически",
+      "domain-format-error": "Неправильный формат домена"
     },
     "kerberos-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",

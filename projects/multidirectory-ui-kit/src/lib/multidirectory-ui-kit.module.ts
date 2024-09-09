@@ -49,6 +49,7 @@ import { MdSpinnerModule } from './components/spinner/spinner.module';
 import { MdPortalModule } from './components/portal/portal.module';
 import { SlideshiftTestComponent } from './components/slideshift/slideshifttest.component';
 import { MdSlideshiftModule } from './components/slideshift/slideshift.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { MdSlideshiftModule } from './components/slideshift/slideshift.module';
     NgxDatatableModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     DpDatePickerModule,
+    FontAwesomeModule,
   ],
   exports: [
     ButtonComponent,

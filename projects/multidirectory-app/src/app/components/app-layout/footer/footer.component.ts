@@ -16,10 +16,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-  ) {}
+  constructor(private app: AppSettingsService) {}
 
   ngOnInit(): void {
     this.app.kerberosStatusRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
