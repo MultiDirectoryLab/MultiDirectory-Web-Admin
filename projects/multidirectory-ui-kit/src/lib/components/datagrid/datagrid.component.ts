@@ -38,7 +38,12 @@ export class Page {
   selector: 'md-datagrid',
   templateUrl: './datagrid.component.html',
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./datagrid.component.scss'],
+  styleUrls: [
+    './datagrid.component.scss',
+    './../../../../../../node_modules/ngx-datatable-gimefork/index.css',
+    './../../../../../../node_modules/ngx-datatable-gimefork/themes/dark.scss',
+    './../../../../../../node_modules/ngx-datatable-gimefork/assets/icons.css',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatagridComponent implements AfterViewInit {

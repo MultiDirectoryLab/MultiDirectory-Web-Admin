@@ -13,7 +13,11 @@
       [placeholder]="placeholder"
     />
     <!-- Eye icon to toggle visibility -->
-    <span *ngIf="password" class="toggle-password" (click)="togglePasswordVisibility()">
+    <span
+      *ngIf="password && allowPasswordView"
+      class="toggle-password"
+      (click)="togglePasswordVisibility()"
+    >
       <fa-icon [icon]="faEye"></fa-icon>
     </span>
   </div>

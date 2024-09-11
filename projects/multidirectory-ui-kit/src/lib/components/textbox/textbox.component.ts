@@ -24,10 +24,11 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 })
 export class TextboxComponent extends BaseComponent {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
-  @Input() label: string = '';
-  @Input() password: boolean = false;
-  @Input() autocomplete: boolean = false;
-  @Input() autofocus: boolean = false;
+  @Input() label = '';
+  @Input() password = false;
+  @Input() allowPasswordView = true;
+  @Input() autocomplete = false;
+  @Input() autofocus = false;
   @Input() placeholder = '';
   passwordVisible = false;
   faEye = faEye;
