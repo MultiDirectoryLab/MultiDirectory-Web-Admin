@@ -1,0 +1,16 @@
+<div class="p-16">
+  <div class="flex-row flex-space-between flex-align-center">
+    <h2 class="bold">Zone: example2.com</h2>
+    <md-button (click)="onAdd()">add rule</md-button>
+  </div>
+  <div class="flex flex-column flex-grow-1 flex-gap-10">
+    <app-dns-rule-list-item
+      *ngFor="let rule of rules; let i = index"
+      [dnsRule]="rule"
+      [index]="i + 1"
+      (deleteClick)="onDelete(i)"
+      (editClick)="onEdit(i)"
+    >
+    </app-dns-rule-list-item>
+  </div>
+</div>

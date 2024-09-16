@@ -16,6 +16,7 @@ import { ValidatorsModule } from '@core/validators/validators.module';
 import { AboutComponent } from './about/about.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DnsSettingsModule } from '../dns/dns-settings.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MultidirectoryUiKitModule,
     FontAwesomeModule,
     RouterModule,
+    DnsSettingsModule,
   ],
   declarations: [
     AppSettingsComponent,

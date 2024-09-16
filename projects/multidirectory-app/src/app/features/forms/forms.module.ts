@@ -21,6 +21,7 @@ import { CatalogCreateComponent } from './catalog-create/catalog-create.componen
 import { PasswordConditionsModule } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.module';
 import { AddPrincipalDialogComponent } from './add-principal-dialog/add-principal-dialog.component';
 import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.component';
+import { DnsRulesDialogComponent } from './dns-rule/dns-rule-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.co
     CatalogCreateComponent,
     AddPrincipalDialogComponent,
     SetupKerberosDialogComponent,
+    DnsRulesDialogComponent,
   ],
   exports: [
     GroupCreateComponent,
@@ -50,6 +52,7 @@ import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.co
     CatalogCreateComponent,
     AddPrincipalDialogComponent,
     SetupKerberosDialogComponent,
+    DnsRulesDialogComponent,
   ],
   imports: [
     CatalogSelectorModule,
