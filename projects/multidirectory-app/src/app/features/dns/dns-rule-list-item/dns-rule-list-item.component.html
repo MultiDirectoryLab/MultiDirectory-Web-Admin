@@ -1,0 +1,15 @@
+<div *ngIf="dnsRule" class="client-grid p-8">
+  <div class="cell-index">{{ index }}</div>
+  <div class="cell-domain">{{ dnsRule.name }}</div>
+  <div class="cell-ip">{{ dnsRule.ip }}</div>
+  <div class="cell-type">{{ getType(dnsRule.type) }}</div>
+  <div class="cell-ttl"></div>
+  <div class="cell-control-buttons">
+    <md-plane-button class="control-button" (click)="onEditClick()">
+      <img class="control-button-logo" [src]="'assets/pencil.svg'" />
+    </md-plane-button>
+    <md-plane-button class="control-button" (click)="onDeleteClick()">
+      <img class="control-button-logo" [src]="'assets/trash.svg'" />
+    </md-plane-button>
+  </div>
+</div>

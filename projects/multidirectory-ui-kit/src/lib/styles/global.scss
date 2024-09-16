@@ -73,10 +73,10 @@ h1,
 
 h2,
 .h2 {
-  @include use-inter-typography(400, 32px, 44.8px);
+  @include use-inter-typography(400, 28px, 44.8px);
 
   &.bold {
-    @include use-inter-typography(700, 32px, 44.8px);
+    @include use-inter-typography(700, 28px, 44.8px);
   }
 }
 

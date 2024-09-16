@@ -1,0 +1,33 @@
+<div class="app-modal-header">
+  <div>{{ 'dns-rule-dialog.modal-header' | transloco }}</div>
+</div>
+<div class="flex-row align-center flex-gap-10">
+  <md-form #form>
+    <div class="form-grid">
+      <label>{{ 'dns-rule-dialog.name' | transloco }}</label>
+      <md-textbox appRequired [(ngModel)]="dnsRule.name" [disabled]="sameAsZoneName"></md-textbox>
+      <div></div>
+      <md-checkbox [(ngModel)]="sameAsZoneName">{{
+        'dns-rule-dialog.same-as-zone-name' | transloco
+      }}</md-checkbox>
+      <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
+      <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.ip"></md-textbox>
+      <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
+      <md-dropdown appRequired [(ngModel)]="dnsRule.type" [options]="DnsRuleTypes"></md-dropdown>
+
+      <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
+      <md-number appRequired [(ngModel)]="dnsRule.ttl"></md-number>
+    </div>
+  </md-form>
+</div>
+
+<div class="app-modal-footer">
+  <div class="flex-row align-center justify-end flex-gap-10">
+    <md-button (click)="onClose()">
+      {{ 'dns-rule-dialog.cancel' | transloco }}
+    </md-button>
+    <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish($event)">
+      {{ 'dns-rule-dialog.apply' | transloco }}
+    </md-button>
+  </div>
+</div>
