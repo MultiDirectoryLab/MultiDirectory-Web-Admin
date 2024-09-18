@@ -24,14 +24,10 @@
 <ng-template #controlPanel>
   <div class="flex-row flex-space-between flex-gap-5 pl-8">
     <div class="flex-row flex-gap-5">
-      <md-checkbox [(ngModel)]="checkAllCheckbox">
-        <fa-icon [icon]="faCrosshair"></fa-icon>
-        {{ 'table-view.select-all' | transloco }}
-      </md-checkbox>
+      <md-checkbox [(ngModel)]="checkAllCheckbox"> </md-checkbox>
       <md-plane-button class="go-to-parent" (click)="handleGoToParent($event)">
         <div class="flex-row flex-gap-5">
           <fa-icon [icon]="faLevelUp"></fa-icon>
-          {{ 'table-view.go-to-parent' | transloco }}
         </div>
       </md-plane-button>
     </div>

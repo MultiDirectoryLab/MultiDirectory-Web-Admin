@@ -107,6 +107,7 @@ export class MultiselectComponent extends BaseComponent {
     this.inputContainer.nativeElement.focus();
     this.menuContainer?.toggleMenu();
   }
+
   onOptionKey(event: KeyboardEvent, select: MultiselectModel) {
     if (event.key == 'Enter') {
       event.preventDefault();
