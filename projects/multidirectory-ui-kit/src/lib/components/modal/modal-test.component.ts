@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
+import { BaseControlComponent } from '../base-component/control.component';
 
 @Component({
   selector: 'app-modal-test',
@@ -55,7 +56,7 @@ import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
     </ng-template>
   `,
 })
-export class ModalTestComponent {
+export class ModalTestComponent extends BaseControlComponent {
   @ViewChild('modal', { static: true }) modal?: ModalInjectDirective;
   @ViewChild('closeButton', { static: true }) closeButton?: ElementRef<HTMLButtonElement>;
 

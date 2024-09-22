@@ -8,13 +8,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { BaseControlComponent } from '../base-component/control.component';
 
 @Component({
   selector: 'md-plane-button',
   templateUrl: './plane-button.component.html',
   styleUrls: ['./plane-button.component.scss'],
 })
-export class PlaneButtonComponent implements AfterViewInit, OnDestroy {
+export class PlaneButtonComponent extends BaseControlComponent implements AfterViewInit, OnDestroy {
   @Input() label = '';
   @Input() disabled = false;
   @Input() primary = false;
@@ -24,7 +25,9 @@ export class PlaneButtonComponent implements AfterViewInit, OnDestroy {
   @Output() click = new EventEmitter();
   unlistenClick = () => {};
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   ngAfterViewInit(): void {
     this.unlistenClick = this.el.nativeElement.addEventListener(

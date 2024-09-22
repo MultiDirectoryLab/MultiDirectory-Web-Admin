@@ -1,7 +1,7 @@
 import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
 import { MdModalComponent } from './modal.component';
 import { ButtonComponent } from '../button/button.component';
-import { ModalTestComponent } from './modaltest.component';
+import { ModalTestComponent } from './modal-test.component';
 import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
 import { TextboxComponent } from '../textbox/textbox.component';
 import { CommonModule } from '@angular/common';

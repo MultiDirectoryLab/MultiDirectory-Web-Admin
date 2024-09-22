@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { translate } from '@jsverse/transloco';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { Subject } from 'rxjs';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
@@ -18,6 +17,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
 import { MenuService } from '@services/menu.service';
 import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-header',

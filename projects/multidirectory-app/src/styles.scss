@@ -146,7 +146,24 @@
   background: var(--md-neutral-400);
 }
 
-.cfp-hotkeys {
-  background-color: var(--md-white);
+::ng-deep .cfp-hotkeys {
+  background-color: var(--md-black);
   color: var(--md-black);
+
+  tbody {
+    max-width: 100%;
+    display: flex;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    flex-flow: column wrap;
+    max-height: 100%;
+    position: absolute;
+    bottom: 3rem;
+    top: 6rem;
+    left: 3rem;
+    overflow-y: scroll;
+    gap: 0 1rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 }

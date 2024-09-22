@@ -17,6 +17,7 @@ import { Treenode } from './model/treenode';
 import { TreeSearchHelper } from './core/tree-search-helper';
 import { ExpandStrategy } from './model/expand-strategy';
 import { RightClickEvent } from './model/right-click-event';
+import { BaseControlComponent } from '../base-component/control.component';
 
 @Component({
   selector: 'md-treeview',
@@ -24,7 +25,7 @@ import { RightClickEvent } from './model/right-click-event';
   styleUrls: ['./treeview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeviewComponent implements OnInit {
+export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
   @Input() tree: Treenode[] = [];
   @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
@@ -35,7 +36,10 @@ export class TreeviewComponent implements OnInit {
   private _selectedNode: Treenode | null = null;
   private _focusedNode: Treenode | null = null;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {
+    super();
+  }
+
   ngOnInit(): void {
     if (!this.nodeLabel) {
       this.nodeLabel = this.defaultLabel;

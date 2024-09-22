@@ -9,7 +9,20 @@ import {
 import { Router } from '@angular/router';
 import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, Subject, catchError, generate, iif, of, switchMap, takeUntil } from 'rxjs';
+import {
+  EMPTY,
+  Subject,
+  catchError,
+  delay,
+  expand,
+  generate,
+  iif,
+  of,
+  retry,
+  switchMap,
+  takeUntil,
+  takeWhile,
+} from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -22,6 +35,7 @@ import { DownloadService } from '@services/download.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 
 @Component({
   selector: 'app-setup',
@@ -40,7 +54,6 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private api: MultidirectoryApiService,
     private app: AppSettingsService,
-    private navigation: AppNavigationService,
     private setup: SetupService,
     private toastr: ToastrService,
     private router: Router,
@@ -111,6 +124,15 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
               new KerberosSetupRequest({}).flll_from_setup_request(this.setupRequest),
             ),
             of(value),
+          );
+        }),
+        switchMap(() => {
+          // Polling getKerberosStatus every 1 second until status === 1
+          return this.api.getKerberosStatus().pipe(
+            expand(
+              () => this.api.getKerberosStatus().pipe(delay(1000)), // Repeat the call every 1 second
+            ),
+            takeWhile((status) => status !== KerberosStatuses.READY, true), // Continue until status === 1
           );
         }),
         catchError((err) => {

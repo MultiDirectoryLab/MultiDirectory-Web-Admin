@@ -10,14 +10,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { IdProvider } from '../../utils/id-provider';
+import { BaseControlComponent } from './control.component';
 
 @Component({
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseComponent implements ControlValueAccessor, OnDestroy {
-  __ID = IdProvider.getUniqueId('base');
+export class BaseComponent extends BaseControlComponent implements ControlValueAccessor, OnDestroy {
   @Input() disabled: boolean = false;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
@@ -32,7 +31,9 @@ export class BaseComponent implements ControlValueAccessor, OnDestroy {
     this._controlAccessor = ca;
     this.cdr.detectChanges();
   }
-  constructor(protected cdr: ChangeDetectorRef) {}
+  constructor(protected cdr: ChangeDetectorRef) {
+    super();
+  }
 
   innerValue: any = '';
 

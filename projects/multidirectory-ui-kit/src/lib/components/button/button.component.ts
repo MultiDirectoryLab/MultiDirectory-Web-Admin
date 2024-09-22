@@ -3,25 +3,29 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
+import { BaseControlComponent } from '../base-component/control.component';
 
 @Component({
   selector: 'md-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
-export class ButtonComponent implements OnInit, OnDestroy {
+export class ButtonComponent extends BaseControlComponent implements OnInit, OnDestroy {
   @Input() label = '';
   @Input() disabled = false;
   @Input() primary = false;
   @Output() click = new EventEmitter();
   unlistenClick = () => {};
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) {
+    super();
+  }
 
   ngOnInit(): void {
     this.unlistenClick = this.el.nativeElement.addEventListener(

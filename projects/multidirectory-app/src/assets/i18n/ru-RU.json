@@ -568,7 +568,7 @@
     "export": "Экспортировать .keytab",
     "name-column": "Имя",
     "should-select-principals": "Необходимо выбрать принципал",
-    "filter": "Отфильтровать",
+    "filter": "Поиск в контейнере",
     "setup-kerberos-description": "Для управления принципалами требуется настроить Kerberos",
     "setup-kerberos": "Настроить Kerberos",
     "admin-password-label": "Ваш пароль"
