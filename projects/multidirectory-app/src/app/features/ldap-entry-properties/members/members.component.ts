@@ -76,7 +76,7 @@ export class MembersComponent {
       this.members = this.members.filter(
         (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
-      this.accessor.member = this.accessor?.memberOf.filter(
+      this.accessor.member = this.accessor?.memberOf?.filter(
         (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }
