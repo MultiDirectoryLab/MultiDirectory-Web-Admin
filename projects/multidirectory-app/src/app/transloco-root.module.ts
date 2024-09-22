@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
     provideTransloco({
       config: {
         availableLangs: ['en-US', 'ru-RU'],
-        defaultLang: localStorage.getItem('locale') ?? 'en-US',
+        defaultLang: localStorage.getItem('locale') ?? 'ru-RU',
         prodMode: environment.production,
         reRenderOnLangChange: true,
       },

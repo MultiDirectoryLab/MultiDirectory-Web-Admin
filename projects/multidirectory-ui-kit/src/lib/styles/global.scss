@@ -312,3 +312,7 @@ dp-calendar-nav {
     border: 1px solid var(--md-dark-blue);
   }
 }
+
+.subbold-label {
+  @include use-inter-typography(500, 14px, 25.2px);
+}

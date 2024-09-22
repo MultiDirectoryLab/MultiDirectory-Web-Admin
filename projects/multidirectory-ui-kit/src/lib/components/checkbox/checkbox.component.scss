@@ -1,5 +1,13 @@
+@use '../../styles/global.scss';
+
 .label {
   user-select: none;
   padding-left: 4px;
+  padding-top: 3px;
   line-height: 1rem;
+  @include global.use-inter-typography(500, 14px, 19.6px);
+}
+
+.checkbox-input {
+  margin-top: 8px;
 }
