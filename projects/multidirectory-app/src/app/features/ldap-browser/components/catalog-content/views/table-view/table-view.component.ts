@@ -12,7 +12,7 @@ import {
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { concat, Subject, take } from 'rxjs';
+import { concat, Subject, switchMap, take } from 'rxjs';
 import { TableRow } from './table-row';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { translate } from '@jsverse/transloco';
@@ -244,10 +244,30 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy());
 
+    const changed =
+      '<ul>' + this.grid.selected.map((x) => `<li>${x.entry.id}</li>`).join('') + '</ul>';
+
     toChange
       .mutate<LdapAttributes>(new ToggleAccountDisableStrategy(enabled))
       .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
       .pipe(take(1))
+      .pipe(
+        switchMap((x) => {
+          let all =
+            translate('toggle-account.accounts-was-toggled') +
+            (enabled ? translate('toggle-account.enabled') : translate('toggle-account.disabled')) +
+            ':';
+
+          all += '<br/>' + changed;
+
+          return this.windows.openConfirmDialog({
+            promptText: all,
+            promptHeader: translate('toggle-account.header'),
+            primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
+            secondaryButtons: [],
+          });
+        }),
+      )
       .subscribe((result) => {
         this.updateContent();
       });

@@ -596,5 +596,12 @@
     "same-as-zone-name": "Совпадает с именем зоны (@)",
     "cancel": "Отмена",
     "apply": "Применить"
+  },
+  "toggle-account": {
+    "accounts-was-toggled": "Следующие учетные записи были ",
+    "enabled": "включены",
+    "disabled": "выключены",
+    "header": "Операция выполнена",
+    "ok": "ok"
   }
 }
