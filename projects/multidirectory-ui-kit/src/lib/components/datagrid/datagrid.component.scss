@@ -3,6 +3,7 @@
 .ngx-datatable {
   border: 1px solid var(--md-neutral-300);
   flex-flow: column nowrap;
+  position: absolute !important;
   top: 0;
   left: 0;
   right: 0;
