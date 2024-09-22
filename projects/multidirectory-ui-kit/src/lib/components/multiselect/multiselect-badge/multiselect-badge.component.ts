@@ -7,9 +7,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class MultiselectBadgeComponent {
   @Output() badgeClose = new EventEmitter<void>();
+
   onClose() {
     this.badgeClose.next();
   }
+
   onEnterPress(event: KeyboardEvent) {
     if (event.key == 'Enter') {
       event.preventDefault();

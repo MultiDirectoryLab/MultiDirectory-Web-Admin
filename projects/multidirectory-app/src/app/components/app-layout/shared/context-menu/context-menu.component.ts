@@ -16,6 +16,7 @@ import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { UpdateEntryResponse } from '@models/entry/update-response';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
+import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-context-menu',
@@ -177,13 +178,31 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
       .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy());
 
+    const changed = '<ul>' + this.entries.map((x) => `<li>${x.id}</li>`).join('') + '</ul>';
+
     toChange
       .mutate<LdapAttributes>(new ToggleAccountDisableStrategy(enabled))
       .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
       .pipe(take(1))
+      .pipe(
+        switchMap((x) => {
+          let all =
+            translate('toggle-account.accounts-was-toggled') +
+            (enabled ? translate('toggle-account.enabled') : translate('toggle-account.disabled')) +
+            ':';
+
+          all += '<br/>' + changed;
+
+          return this.windows.openConfirmDialog({
+            promptText: all,
+            promptHeader: translate('toggle-account.header'),
+            primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
+            secondaryButtons: [],
+          });
+        }),
+      )
       .subscribe((result) => {
         this.navigation.reload();
-        alert('test');
       });
   }
 }

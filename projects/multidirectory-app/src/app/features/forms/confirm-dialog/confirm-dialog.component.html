@@ -1,9 +1,7 @@
 <div class="app-modal-header">
   {{ prompt.promptHeader }}
 </div>
-<div>
-  {{ prompt.promptText }}
-</div>
+<div [innerHTML]="prompt.promptText"></div>
 <div class="app-modal-footer flex-row justify-end flex-gap-10">
   <md-button
     *ngFor="let primary of prompt.primaryButtons"

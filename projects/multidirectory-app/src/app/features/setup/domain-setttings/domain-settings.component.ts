@@ -35,4 +35,11 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
+
+  onGenerateChange() {
+    this.setupRequest.krbadmin_password = '';
+    this.setupRequest.krbadmin_password_repeat = '';
+    this.setupRequest.stash_password = '';
+    this.setupRequest.stash_password_repeat = '';
+  }
 }

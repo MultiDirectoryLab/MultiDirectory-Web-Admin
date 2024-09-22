@@ -599,5 +599,12 @@
     "same-as-zone-name": "Same as the zone name (@)",
     "cancel": "Cancel",
     "apply": "Apply"
+  },
+  "toggle-account": {
+    "accounts-was-toggled": "The following accounts were ",
+    "enabled": "enabled",
+    "disabled": "disabled",
+    "header": "Operation Complete",
+    "ok": "Ok"
   }
 }
