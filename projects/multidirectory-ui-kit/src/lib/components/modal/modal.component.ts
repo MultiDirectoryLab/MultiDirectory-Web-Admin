@@ -20,6 +20,7 @@ import { IdProvider } from '../../utils/id-provider';
 import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
 import { ResizableEvent } from './ng-modal-lib/lib/resizable/types';
 import { MdModalService } from './modal.service';
+import { BaseControlComponent } from '../base-component/control.component';
 
 @Component({
   selector: 'md-modal',
@@ -28,8 +29,8 @@ import { MdModalService } from './modal.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class MdModalComponent implements OnInit, AfterViewChecked {
-  __ID = IdProvider.getUniqueId('modal');
+export class MdModalComponent extends BaseControlComponent implements OnInit, AfterViewChecked {
+  override __ID = IdProvider.getUniqueId('modal');
 
   @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
 
@@ -66,7 +67,9 @@ export class MdModalComponent implements OnInit, AfterViewChecked {
     private renderer: Renderer2,
     private modalService: MdModalService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     if (this.opened) {

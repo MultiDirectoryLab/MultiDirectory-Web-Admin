@@ -183,6 +183,7 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.navigation.reload();
+        alert('test');
       });
   }
 }

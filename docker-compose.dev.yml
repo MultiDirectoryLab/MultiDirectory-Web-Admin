@@ -11,7 +11,7 @@ services:
       dockerfile: configurations/docker/Dockerfile.dev
     restart: 'no'
     environment:
-      - API_URL=http://md.localhost/api
+      - API_URL=https://md.localhost/api
     ports:
       - 9080:80
     labels:

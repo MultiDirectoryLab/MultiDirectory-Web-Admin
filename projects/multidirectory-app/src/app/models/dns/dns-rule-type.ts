@@ -1,0 +1,15 @@
+export enum DnsRuleType {
+  A = 0,
+  AAAA = 1,
+  PTR = 2,
+  CNAME = 3,
+  ANAME = 4,
+  TXT = 5,
+  MX = 6,
+  SRV = 7,
+  NS = 8,
+  CAA = 9,
+  SOA = 10,
+  SVCB = 11,
+  HTTPS = 12,
+}

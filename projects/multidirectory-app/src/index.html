@@ -7,6 +7,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <script src="assets/env.js"></script>
+    <style>
+      .cfp-hotkeys {
+        display: flex;
+        flex-flow: column;
+        position: relative;
+      }
+
+      .cfp-hotkeys-title {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        width: 100%;
+      }
+      .cfp-hotkeys table {
+        position: absolute !important;
+        height: 100%;
+        width: 100%;
+        top: 0;
+      }
+
+      .cfp-hotkeys tbody {
+        max-width: 100%;
+        display: flex;
+        flex-flow: column wrap;
+        max-height: 100%;
+        position: absolute;
+        bottom: 3rem;
+        top: 5rem;
+        left: 3rem;
+        right: 3rem;
+        overflow-y: auto;
+        gap: 0 1rem;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+      .cfp-hotkeys tr {
+        display: flex;
+        align-items: center;
+        min-width: 350px;
+        justify-content: flex-start;
+      }
+    </style>
   </head>
   <body>
     <app-root></app-root>

@@ -29,4 +29,8 @@
   >
     {{ t('kdc-principals') }}
   </div>
+
+  <div class="nav-item" [ngClass]="{ selected: url.endsWith('dns') }" routerLink="/settings/dns">
+    {{ t('dns-settings') }}
+  </div>
 </div>

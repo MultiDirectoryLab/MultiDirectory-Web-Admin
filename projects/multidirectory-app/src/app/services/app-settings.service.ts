@@ -49,8 +49,10 @@ export class AppSettingsService {
     );
   }
 
-  private _language: string = localStorage.getItem('locale') ?? 'en-US';
+  private _language: string = localStorage.getItem('locale') ?? 'ru-RU';
   get language(): string {
+    console.log(localStorage.getItem('locale'));
+    console.log(this._language);
     return this._language;
   }
   set language(lang: string) {

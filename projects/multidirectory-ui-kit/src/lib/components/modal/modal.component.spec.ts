@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { MdModalComponent } from './modal.component';
-import { ModalTestComponent } from './modaltest.component';
+import { ModalTestComponent } from './modal-test.component';
 import { ModalInjectDirective } from './modal-inject/modal-inject.directive';
 import { MdModalModule } from './modal.module';
 

@@ -7,6 +7,7 @@ import { AppSettingsNavigationComponent } from './navigation/app-settings-naviga
 import { AboutComponent } from './about/about.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FooterComponent } from '../../components/app-layout/footer/footer.component';
+import { DnsSettingsComponent } from '../dns/dns-settings.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,10 @@ import { FooterComponent } from '../../components/app-layout/footer/footer.compo
       {
         path: 'kdc-principals',
         component: KerberosPrincipalsComponent,
+      },
+      {
+        path: 'dns',
+        component: DnsSettingsComponent,
       },
       {
         path: '',

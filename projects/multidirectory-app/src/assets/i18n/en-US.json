@@ -450,7 +450,8 @@
     "access-control": "Access Control",
     "mf-settings": "Multifactor Integration",
     "about": "About",
-    "kdc-principals": "Kerberos principals"
+    "kdc-principals": "Kerberos Principals",
+    "dns-settings": "DNS Settings"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -552,6 +553,12 @@
     "no": "Don't Apply",
     "cancel": "Cancel"
   },
+  "remove-confirmation-dialog": {
+    "prompt-header": "Confirmation required",
+    "prompt-text": "Are you sure to delete the records?",
+    "yes": "Remove",
+    "cancel": "Cancel"
+  },
   "move-entity": {
     "modal-header": "Move the object",
     "move": "Move",
@@ -579,6 +586,18 @@
     "unable-to-add": "Unable to add principal. Check the logs to know more."
   },
   "error-message": {
-    "required": "This value is requried"
+    "required": "This value is requried",
+    "ip-valid": "Enter a valid IP Address"
+  },
+  "dns-rule-dialog": {
+    "modal-header": "New object - DNS Record",
+    "header": "DNS Record Created",
+    "name": "Name",
+    "ip": "Value",
+    "type": "Type",
+    "ttl": "TTL (in seconds)",
+    "same-as-zone-name": "Same as the zone name (@)",
+    "cancel": "Cancel",
+    "apply": "Apply"
   }
 }

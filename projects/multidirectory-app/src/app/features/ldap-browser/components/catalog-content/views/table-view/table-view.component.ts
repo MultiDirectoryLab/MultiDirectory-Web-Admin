@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Input,
@@ -45,7 +46,7 @@ import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
   templateUrl: './table-view.component.html',
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => TableViewComponent) }],
 })
-export class TableViewComponent extends BaseViewComponent implements OnInit, OnDestroy {
+export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
   private _searchQuery = '';
@@ -99,7 +100,7 @@ export class TableViewComponent extends BaseViewComponent implements OnInit, OnD
     super();
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     const pageSize = localStorage.getItem('gridSize_table-view');
     if (pageSize && !isNaN(parseFloat(pageSize))) {
       this.page.size = Math.floor(parseFloat(pageSize));

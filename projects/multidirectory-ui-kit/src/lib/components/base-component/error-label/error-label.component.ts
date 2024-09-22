@@ -1,14 +1,17 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
+import { BaseControlComponent } from '../control.component';
 
 @Component({
   selector: 'md-error-label',
   templateUrl: './error-label.component.html',
   styleUrls: ['./error-label.component.scss'],
 })
-export class ErrorLabelComponent {
+export class ErrorLabelComponent extends BaseControlComponent {
   @Input() ngControl!: NgControl;
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   getFirstError(): string | undefined {
     if (!!this.ngControl?.errors?.['required']) {

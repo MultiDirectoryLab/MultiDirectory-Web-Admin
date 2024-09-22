@@ -8,8 +8,6 @@ import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { DownloadService } from '@services/download.service';
-import { DownloadComponent } from './shared/download-dict.component';
 
 @Component({
   selector: 'app-layout',

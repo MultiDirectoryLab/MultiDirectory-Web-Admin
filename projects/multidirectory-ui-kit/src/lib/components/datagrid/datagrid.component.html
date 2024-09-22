@@ -1,10 +1,9 @@
 <div class="w-100 h-100 relative scrollable-y">
   <ngx-datatable
-    [columnMode]="ColumnMode.force"
+    [columnMode]="ColumnMode.flex"
     [footerHeight]="hideFooter ? 0 : 36"
     [headerHeight]="headerHeight ? headerHeight : controlPanelRef ? 64 : 32"
     [summaryHeight]="300"
-    rowHeight="auto"
     [rows]="rows"
     tabindex="0"
     [columns]="columns"
@@ -17,6 +16,7 @@
     [count]="page.totalElements"
     [offset]="page.pageOffset"
     [limit]="page.size"
+    [virtualization]="false"
     [ngStyle]="{
       height: stretchHeight ? '100%' : 'auto',
       display: 'block',

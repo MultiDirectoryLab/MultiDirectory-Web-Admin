@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { translate } from '@jsverse/transloco';
 @Directive({
   selector: '[validIpAddress]',
   providers: [
@@ -11,8 +12,8 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
   ],
 })
 export class IpAddressValidatorDirective implements Validator {
-  @Input('IpAddressValidatorDerictive') errorLabel = 'Enter a valid IP Address';
-  ipPattern = new RegExp(`^((\d{1, 3})\.?){4}(?:\/[0-9]{1,3}){0,1}?$`);
+  @Input() errorLabel = translate('error-message.ip-valid');
+  ipPattern = new RegExp(`^[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+`);
   subnetPattern = new RegExp(
     `^(((255\.){3}(255|254|252|248|240|224|192|128|0+))|((255\.){2}(255|254|252|248|240|224|192|128|0+)\.0)|((255\.)(255|254|252|248|240|224|192|128|0+)(\.0+){2})|((255|254|252|248|240|224|192|128|0+)(\.0+){3}))$`,
   );
@@ -21,7 +22,6 @@ export class IpAddressValidatorDirective implements Validator {
   );
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return null;
     let result = this.ipPattern.test(control.value);
     if (result) {
       return null;
@@ -30,6 +30,6 @@ export class IpAddressValidatorDirective implements Validator {
     if (result) {
       return null;
     }
-    return result ? null : { IpAddress: true };
+    return result ? null : { IpAddress: this.errorLabel };
   }
 }

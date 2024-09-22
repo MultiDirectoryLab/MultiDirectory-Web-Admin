@@ -81,7 +81,7 @@ export class MemberOfComponent {
       this.groups = this.groups.filter(
         (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
-      this.accessor.memberOf = this.accessor?.memberOf.filter(
+      this.accessor.memberOf = this.accessor?.memberOf?.filter(
         (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }

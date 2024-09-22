@@ -7,6 +7,7 @@ import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { DnsRule } from '@models/dns/dns-rule';
 
 @Injectable({
   providedIn: 'root',
@@ -277,5 +278,21 @@ export class AppWindowsService {
   }
   closeSetupKerberosDialog() {
     return this._closeSetupKerberosDialogRx.next();
+  }
+
+  private _showDnsRuleDialogRx = new Subject<DnsRule>();
+  private _closeDnsRuleDialogRx = new Subject<DnsRule>();
+  get showDnsRuleDialogRx(): Observable<DnsRule> {
+    return this._showDnsRuleDialogRx.asObservable();
+  }
+  get closeDnsRuleDialogRx(): Observable<DnsRule> {
+    return this._closeDnsRuleDialogRx.asObservable();
+  }
+  openDnsRuleDialog(rule: DnsRule) {
+    this._showDnsRuleDialogRx.next(rule);
+    return this.closeDnsRuleDialogRx;
+  }
+  closeDnsRuleDialog(rule: DnsRule) {
+    return this._closeDnsRuleDialogRx.next(rule);
   }
 }

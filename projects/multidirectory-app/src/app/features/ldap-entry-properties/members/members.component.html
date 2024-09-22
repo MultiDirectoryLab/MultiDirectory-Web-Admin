@@ -1,7 +1,7 @@
 <label>
   {{ 'members.members' | transloco }}
 </label>
-<div class="flex-row w-100" style="min-height: 450px">
+<div class="flex-row w-100" style="min-height: 420px">
   <md-datagrid
     pagerTitle="{{ 'grid.pager-title' | transloco }}"
     fromTitle="{{ 'grid.from-title' | transloco }}"
@@ -13,4 +13,8 @@
     #groupList
   >
   </md-datagrid>
+</div>
+<div class="flex-row button-row">
+  <md-button (click)="addMember()">{{ 'member-of.add' | transloco }}</md-button>
+  <md-button (click)="deleteMember()">{{ 'member-of.delete' | transloco }}</md-button>
 </div>

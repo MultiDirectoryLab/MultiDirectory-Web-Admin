@@ -11,6 +11,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { DnsRule } from '@models/dns/dns-rule';
 
 @Component({
   selector: 'app-windows',
@@ -34,6 +35,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
   @ViewChild('addPrincipalDialog') addPrincipalDialog!: ModalInjectDirective;
   @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
+  @ViewChild('dnsRuleDialog') dnsRuleDialog!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -126,6 +128,10 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
 
     this.ldapWindows.showSetupKerberosDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.openSetupKerberosDialog();
+    });
+
+    this.ldapWindows.showDnsRuleDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((dnsRule) => {
+      this.openDnsRuleDialog(dnsRule);
     });
   }
 
@@ -299,6 +305,15 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeSetupKerberosDialog();
+      });
+  }
+
+  openDnsRuleDialog(dnsRule: DnsRule) {
+    this.dnsRuleDialog
+      .open({ minHeight: 360 }, { dnsRule: dnsRule })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeDnsRuleDialog(result);
       });
   }
 }
