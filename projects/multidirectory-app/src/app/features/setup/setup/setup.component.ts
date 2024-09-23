@@ -135,6 +135,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
             takeWhile((status) => status !== KerberosStatuses.READY, true), // Continue until status === 1
           );
         }),
+        delay(2000),
         catchError((err) => {
           this.toastr.error(err.message);
           this.modal.hideSpinner();
