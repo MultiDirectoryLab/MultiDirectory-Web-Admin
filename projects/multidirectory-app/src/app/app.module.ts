@@ -1,6 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
@@ -15,7 +15,11 @@ import { GlobalErrorHandler } from './core/api/error-handling/global-error-handl
 import { AuthorizationModule } from './core/authorization/authorization.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import {
+  MultidirectoryUiKitModule,
+  SPINNER_CONFIGUARTION,
+  SpinnerConfiguration,
+} from 'multidirectory-ui-kit';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { EditorsModule } from './features/ldap-browser/components/editors/editors.module';
@@ -28,6 +32,14 @@ import { FooterComponent } from './components/app-layout/footer/footer.component
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { translate, Translation, TranslocoService } from '@jsverse/transloco';
+import { lastValueFrom } from 'rxjs';
+
+export function appInitializerFactory(translateService: TranslocoService) {
+  return (): Promise<Translation> => {
+    return lastValueFrom(translateService.load('ru-RU'));
+  };
+}
 
 @NgModule({
   declarations: [
@@ -66,6 +78,12 @@ import { HotkeyModule } from 'angular2-hotkeys';
   providers: [
     provideAnimations(),
     {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslocoService],
+      multi: true,
+    },
+    {
       provide: 'apiAdapter',
       useFactory: (
         adapterSettings: MultidirectoryAdapterSettings,
@@ -77,6 +95,14 @@ import { HotkeyModule } from 'angular2-hotkeys';
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
+    },
+    {
+      provide: SPINNER_CONFIGUARTION,
+      useFactory: (translateService: TranslocoService) => {
+        return new SpinnerConfiguration({
+          spinnerText: translate('spinner.please-wait'),
+        });
+      },
     },
     provideHttpClient(withInterceptorsFromDi()),
   ],

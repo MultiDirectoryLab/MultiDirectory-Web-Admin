@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SetupService } from '@services/setup.service';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { SetupRequest } from '@models/setup/setup-request';
 
