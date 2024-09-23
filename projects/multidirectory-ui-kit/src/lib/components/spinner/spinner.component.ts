@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BaseControlComponent } from '../base-component/control.component';
+import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from './spinner-options';
 
 @Component({
   selector: 'md-spinner',
@@ -12,8 +13,14 @@ export class SpinnerComponent extends BaseControlComponent {
   @Input() name = 'primary';
   @Input() fullscreen = false;
 
-  constructor(private spinner: NgxSpinnerService) {
+  constructor(
+    private spinner: NgxSpinnerService,
+    @Inject(SPINNER_CONFIGUARTION) configuration: SpinnerConfiguration,
+  ) {
     super();
+    if (configuration.spinnerText) {
+      this.spinnerText = configuration.spinnerText;
+    }
   }
 
   show() {

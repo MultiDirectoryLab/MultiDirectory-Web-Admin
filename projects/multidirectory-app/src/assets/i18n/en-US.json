@@ -523,7 +523,9 @@
     "unknown-error": "Unknown Error",
     "filter-error": "Filter Error",
     "empty-filter": "Filter is empty, please fill the form",
-    "forbidden": "Access is Forbidden"
+    "forbidden": "Access is Forbidden",
+    "enable-backend": "Backend is not available at the moment",
+    "mfa-token-error": "There is something wrong with 2FA token configuration"
   },
   "navigation": {
     "policy-loader": {
@@ -606,5 +608,8 @@
     "disabled": "disabled",
     "header": "Operation Complete",
     "ok": "Ok"
+  },
+  "display-errors": {
+    "retry": "Retry"
   }
 }
