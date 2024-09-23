@@ -6,6 +6,7 @@ import { AppLayoutComponent } from './components/app-layout/app-layout.component
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
+import { translate } from '@jsverse/transloco';
 
 const routes: Routes = [
   {
@@ -69,12 +70,14 @@ const routes: Routes = [
   {
     path: 'enable-backend',
     component: DisplayErrorComponent,
-    data: { message: 'Backend is not available at the moment' },
+    data: {
+      message: 'errors.enable-backend',
+    },
   },
   {
     path: 'mfa_token_error',
     component: DisplayErrorComponent,
-    data: { message: 'There is something wrong with 2FA token configuration' },
+    data: { message: 'errors.mfa-token-error' },
   },
   { path: '**', redirectTo: '' },
 ];
