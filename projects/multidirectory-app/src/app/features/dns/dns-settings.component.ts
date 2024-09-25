@@ -71,7 +71,7 @@ export class DnsSettingsComponent implements OnInit {
       .openDnsRuleDialog(new DnsRule({}))
       .pipe(
         take(1),
-        switchMap((x) => this.dns.post(x)),
+        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
       )
       .subscribe((rule) => {
         this.toastr.success(translate('dns-settings.success'));
@@ -82,8 +82,8 @@ export class DnsSettingsComponent implements OnInit {
     this.windows
       .openDnsRuleDialog(this.rules[index])
       .pipe(
-        switchMap((x) => this.dns.update(x)),
         take(1),
+        switchMap((x) => (x ? this.dns.update(x) : EMPTY)),
       )
       .subscribe((rule) => {
         this.toastr.success(translate('dns-settings.success'));
