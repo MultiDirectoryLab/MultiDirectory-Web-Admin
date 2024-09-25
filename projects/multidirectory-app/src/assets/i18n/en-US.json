@@ -229,6 +229,7 @@
     "header": "Attribute",
     "add": "Add",
     "edit": "Edit",
+    "delete": "Delete",
     "with-values-only": "Show only the attributes that have values",
     "writable-only": "Show writable attributes only",
     "show-attributes": "Show attributes",
@@ -510,7 +511,10 @@
     "unable-change-password": "Unable to change password"
   },
   "property-editor": {
-    "header": "Edit property "
+    "header": "Edit property ",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "attribute": "Attribute"
   },
   "spinner": {
     "please-wait": "Please, wait..."
@@ -525,7 +529,8 @@
     "empty-filter": "Filter is empty, please fill the form",
     "forbidden": "Access is Forbidden",
     "enable-backend": "Backend is not available at the moment",
-    "mfa-token-error": "There is something wrong with 2FA token configuration"
+    "mfa-token-error": "There is something wrong with 2FA token configuration",
+    "loop-detect": "Loop found"
   },
   "navigation": {
     "policy-loader": {

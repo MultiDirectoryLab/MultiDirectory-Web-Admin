@@ -84,8 +84,8 @@ export class EntityPropertiesComponent implements OnInit {
           this.modalControl.close();
         },
         error: (err) => {
-          this.toastr.error(err);
           this.modalControl?.modal?.hideSpinner();
+          throw err;
         },
       });
     return false;

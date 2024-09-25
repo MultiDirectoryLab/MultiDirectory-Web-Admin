@@ -1,10 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
-import { translate } from '@jsverse/transloco';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DropdownOption, MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
 
@@ -22,7 +18,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
     (x, index) =>
       new DropdownOption({
         title: x,
-        value: DnsRuleType[index],
+        value: x,
       }),
   );
 
@@ -33,7 +29,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.name = '@';
+      this.dnsRule.hostname = '@';
     }
     this.cdr.detectChanges();
   }

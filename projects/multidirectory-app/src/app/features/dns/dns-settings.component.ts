@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
+import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -19,16 +20,25 @@ export class DnsSettingsComponent implements OnInit {
   constructor(
     private dnsService: DnsApiService,
     private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
+    private dns: DnsApiService,
     private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.dnsService
-      .getDnsRules()
+      .get()
       .pipe(take(1))
       .subscribe((rules) => {
-        this.rules = rules;
+        const all = rules.flatMap((x) =>
+          x.records.map((y) => {
+            const rule = new DnsRule(y);
+            rule.record_type = x.record_type as DnsRuleType;
+            rule.ttl = String(y.ttl);
+            rule.hostname = y.hostname.replace(/\.?example\.com/g, '');
+            return rule;
+          }),
+        );
+        this.rules = all;
       });
   }
 
@@ -43,10 +53,15 @@ export class DnsSettingsComponent implements OnInit {
     this.windows
       .openConfirmDialog(prompt)
       .pipe(take(1))
-      .subscribe((x) => {
-        if (x === 'cancel' || !x) {
-          return;
-        }
+      .pipe(
+        switchMap((x) => {
+          if (x === 'cancel' || !x) {
+            return EMPTY;
+          }
+          return this.dns.delete(this.rules[toDeleteIndex]);
+        }),
+      )
+      .subscribe((result) => {
         this.rules = this.rules.filter((x, ind) => ind !== toDeleteIndex);
       });
   }
@@ -54,16 +69,24 @@ export class DnsSettingsComponent implements OnInit {
   onAdd() {
     this.windows
       .openDnsRuleDialog(new DnsRule({}))
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap((x) => this.dns.post(x)),
+      )
       .subscribe((rule) => {
-        this.rules.push(rule);
+        this.toastr.success(translate('dns-settings.success'));
       });
   }
 
   onEdit(index: number) {
     this.windows
       .openDnsRuleDialog(this.rules[index])
-      .pipe(take(1))
-      .subscribe((rule) => {});
+      .pipe(
+        switchMap((x) => this.dns.update(x)),
+        take(1),
+      )
+      .subscribe((rule) => {
+        this.toastr.success(translate('dns-settings.success'));
+      });
   }
 }

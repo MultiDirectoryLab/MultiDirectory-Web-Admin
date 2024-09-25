@@ -1,7 +1,7 @@
 <div class="app-modal-header">{{ 'property-editor.header' | transloco }} {{ propertyName }}</div>
 <div class="flex-column flex-gap-10">
   <div class="flex-row flex-space-between">
-    <div>Attribute: {{ propertyName }}</div>
+    <div>{{ 'property-editor.attribute' | transloco }}: {{ propertyName }}</div>
     <div>
       <md-dropdown
         class="page-size-select"
@@ -31,7 +31,9 @@
 <div class="app-modal-footer flex-row flex-space-between">
   <div></div>
   <div class="flex-row flex-gap-10">
-    <md-button (click)="close()">Cancel</md-button>
-    <md-button [primary]="true" (click)="finish()">Apply</md-button>
+    <md-button (click)="close()">{{ 'property-editor.cancel' | transloco }} </md-button>
+    <md-button [primary]="true" (click)="finish()"
+      >{{ 'property-editor.apply' | transloco }}
+    </md-button>
   </div>
 </div>
