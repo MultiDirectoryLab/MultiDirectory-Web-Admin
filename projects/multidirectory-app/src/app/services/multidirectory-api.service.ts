@@ -2,7 +2,6 @@ import { HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { LoginResponse } from '@models/login/login-response';
 import { ApiAdapter } from '@core/api/api-adapter';
-import { MultidirectoryAdapterSettings } from '@core/api/adapter-settings';
 import { Observable, map, of } from 'rxjs';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { SearchRequest } from '@models/entry/search-request';
@@ -32,6 +31,7 @@ import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 
 @Injectable({
   providedIn: 'root',

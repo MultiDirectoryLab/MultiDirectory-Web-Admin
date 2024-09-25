@@ -17,6 +17,7 @@ export class ResultCodeInterceptor implements HttpInterceptor {
     [LdapCode.OPERATIONS_ERROR, [401, 'errors.forbidden']],
     [LdapCode.PROTOCOL_ERROR, [500, 'errors.filter-error']],
     [LdapCode.ENTRY_ALREADY_EXISTS, [422, 'errors.entry-already-exists']],
+    [LdapCode.LOOP_DETECT, [422, 'errors.loop-detect']],
   ]);
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MultidirectoryAdapterSettings } from '@core/api/adapter-settings';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { Observable, Subject, tap } from 'rxjs';
 import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
 
