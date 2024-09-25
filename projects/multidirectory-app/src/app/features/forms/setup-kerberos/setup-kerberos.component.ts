@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
@@ -11,6 +10,7 @@ import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidi
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
 import { DownloadService } from '@services/download.service';
+import { SetupService } from '@services/setup.service';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -27,10 +27,10 @@ export class SetupKerberosDialogComponent implements OnDestroy {
 
   constructor(
     private modalInejctor: ModalInjectDirective,
-    private api: MultidirectoryApiService,
     private toastr: ToastrService,
     private app: AppSettingsService,
     private download: DownloadService,
+    private setup: SetupService,
   ) {}
 
   checkModel() {
@@ -51,26 +51,10 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       return;
     }
     this.modalInejctor.showSpinner();
-    this.api
-      .kerberosTreeSetup(
-        new KerberosTreeSetupRequest({}).flll_from_setup_request(this.setupRequest),
-      )
+    this.setup
+      .kerberosSetup(this.setupRequest)
       .pipe(
         catchError((err) => {
-          if (err.status == 409 || err.status == 403) {
-            return of(true);
-          }
-          this.toastr.error(err.message);
-          this.modalInejctor.hideSpinner();
-          return EMPTY;
-        }),
-        switchMap((value) => {
-          return this.api.kerberosSetup(
-            new KerberosSetupRequest({}).flll_from_setup_request(this.setupRequest),
-          );
-        }),
-        catchError((err) => {
-          this.toastr.error(err.message);
           this.modalInejctor.hideSpinner();
           throw err;
         }),

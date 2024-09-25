@@ -8,9 +8,9 @@ import {
   forwardRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { SetupService } from '@services/setup.service';
 import { MdFormComponent } from 'multidirectory-ui-kit';
 import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 
 @Component({
   selector: 'app-admin-settings-second',
@@ -29,7 +29,7 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
   @ViewChild('form') form!: MdFormComponent;
   unsubscribe = new Subject<void>();
 
-  constructor(private setup: SetupService) {}
+  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
   ngOnInit(): void {
     const domain = this.setupRequest.domain;
@@ -41,12 +41,14 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
-    this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
-    });
+    this.setupRequestValidatorService.stepValid(this.form.valid);
+    this.setupRequestValidatorService.invalidateRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        this.form.validate();
+      });
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.setup.stepValid(valid);
+      this.setupRequestValidatorService.stepValid(valid);
     });
   }
 
