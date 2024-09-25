@@ -1,7 +1,7 @@
 <div class="p-16">
   <div class="flex-row flex-space-between flex-align-center">
-    <h2 class="bold">Zone: example2.com</h2>
-    <md-button (click)="onAdd()">add rule</md-button>
+    <h2 class="bold">{{ 'dns-settings.zone' | transloco }} example.com</h2>
+    <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
   </div>
   <div class="flex flex-column flex-grow-1 flex-gap-10">
     <app-dns-rule-list-item

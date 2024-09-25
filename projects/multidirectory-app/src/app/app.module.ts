@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/app-layout/header/header.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { MultidirectoryAdapterSettings } from './core/api/adapter-settings';
 import { ApiAdapter } from './core/api/api-adapter';
 import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
 import { AuthorizationModule } from './core/authorization/authorization.module';
@@ -34,6 +33,7 @@ import { DownloadComponent } from './components/app-layout/shared/download-dict.
 import { HotkeyModule } from 'angular2-hotkeys';
 import { translate, Translation, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 
 export function appInitializerFactory(translateService: TranslocoService) {
   return (): Promise<Translation> => {

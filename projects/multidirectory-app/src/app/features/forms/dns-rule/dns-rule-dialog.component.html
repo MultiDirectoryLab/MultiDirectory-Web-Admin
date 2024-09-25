@@ -5,7 +5,11 @@
   <md-form #form>
     <div class="form-grid">
       <label>{{ 'dns-rule-dialog.name' | transloco }}</label>
-      <md-textbox appRequired [(ngModel)]="dnsRule.name" [disabled]="sameAsZoneName"></md-textbox>
+      <md-textbox
+        appRequired
+        [(ngModel)]="dnsRule.hostname"
+        [disabled]="sameAsZoneName"
+      ></md-textbox>
       <div></div>
       <md-checkbox [(ngModel)]="sameAsZoneName">{{
         'dns-rule-dialog.same-as-zone-name' | transloco
@@ -13,10 +17,14 @@
       <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
       <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.ip"></md-textbox>
       <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
-      <md-dropdown appRequired [(ngModel)]="dnsRule.type" [options]="DnsRuleTypes"></md-dropdown>
+      <md-dropdown
+        appRequired
+        [(ngModel)]="dnsRule.record_type"
+        [options]="DnsRuleTypes"
+      ></md-dropdown>
 
       <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
-      <md-number appRequired [(ngModel)]="dnsRule.ttl"></md-number>
+      <md-textbox appRequired [(ngModel)]="dnsRule.ttl"></md-textbox>
     </div>
   </md-form>
 </div>
