@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SetupService } from '@services/setup.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 
 @Component({
   selector: 'app-domain-settings',
@@ -17,17 +17,19 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
-  constructor(private setup: SetupService) {}
+  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
+    this.setupRequestValidatorService.stepValid(this.form.valid);
 
-    this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
-    });
+    this.setupRequestValidatorService.invalidateRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        this.form.validate();
+      });
 
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.setup.stepValid(valid);
+      this.setupRequestValidatorService.stepValid(valid);
     });
   }
 

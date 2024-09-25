@@ -1,11 +1,11 @@
 <div class="app-modal-header">
-  <div>{{ 'setup.kdc-settings.header' | transloco }}</div>
+  <div>{{ 'setup.kerberos-settings.header' | transloco }}</div>
 </div>
-<div class="kdc-settings">
+<div class="kerberos-settings">
   <md-form #form>
-    <div class="kdc-grid">
+    <div class="kerberos-grid">
       <label class="textbox-label">{{
-        'setup.kdc-settings.admin-password-label' | transloco
+        'setup.kerberos-settings.admin-password-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">
         <md-textbox
@@ -17,7 +17,7 @@
       </div>
 
       <label class="textbox-label">{{
-        'setup.kdc-settings.krbadmin-password-label' | transloco
+        'setup.kerberos-settings.krbadmin-password-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">
         <md-textbox
@@ -41,7 +41,7 @@
         </md-popup-suggest>
       </div>
       <label class="textbox-label">{{
-        'setup.kdc-settings.krbadmin-password-repeat-label' | transloco
+        'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">
         <md-textbox
@@ -54,7 +54,7 @@
         ></md-textbox>
       </div>
       <label class="textbox-label">{{
-        'setup.kdc-settings.stash-password-label' | transloco
+        'setup.kerberos-settings.stash-password-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">
         <md-textbox
@@ -77,7 +77,7 @@
         </md-popup-suggest>
       </div>
       <label class="textbox-label">{{
-        'setup.kdc-settings.stash-password-repeat-label' | transloco
+        'setup.kerberos-settings.stash-password-repeat-label' | transloco
       }}</label>
       <div class="flex-column flex-grow-1">
         <md-textbox
@@ -99,16 +99,16 @@
   <div class="flex-row pt-16 justify-center">
     <label class="textbox-label">
       <md-button (click)="downloadPasswords()">{{
-        'setup.kdc-settings.download-passwords' | transloco
+        'setup.kerberos-settings.download-passwords' | transloco
       }}</md-button>
     </label>
   </div>
 </div>
 <div class="app-modal-footer flex-row align-center justify-end flex-gap-10">
   <md-button (click)="onClose()">
-    {{ 'setup.kdc-settings.cancel' | transloco }}
+    {{ 'setup.kerberos-settings.cancel' | transloco }}
   </md-button>
   <md-button [primary]="true" (click)="onFinish($event)">
-    {{ 'setup.kdc-settings.apply' | transloco }}
+    {{ 'setup.kerberos-settings.apply' | transloco }}
   </md-button>
 </div>
