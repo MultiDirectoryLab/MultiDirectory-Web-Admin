@@ -5,7 +5,6 @@ import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, of, switchMap, take } from 'rxjs';
 
@@ -63,6 +62,7 @@ export class DnsSettingsComponent implements OnInit {
       )
       .subscribe((result) => {
         this.rules = this.rules.filter((x, ind) => ind !== toDeleteIndex);
+        window.location.reload();
       });
   }
 
@@ -75,6 +75,7 @@ export class DnsSettingsComponent implements OnInit {
       )
       .subscribe((rule) => {
         this.toastr.success(translate('dns-settings.success'));
+        window.location.reload();
       });
   }
 
@@ -87,6 +88,7 @@ export class DnsSettingsComponent implements OnInit {
       )
       .subscribe((rule) => {
         this.toastr.success(translate('dns-settings.success'));
+        window.location.reload();
       });
   }
 }
