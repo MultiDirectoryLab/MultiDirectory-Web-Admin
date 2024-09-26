@@ -1,9 +1,9 @@
-<div class="p-16">
+<div class="p-16 dns-container">
   <div class="flex-row flex-space-between flex-align-center">
     <h2 class="bold">{{ 'dns-settings.zone' | transloco }} beta.multidirectory.io</h2>
     <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
   </div>
-  <div class="flex flex-column flex-grow-1 flex-gap-10">
+  <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
     <app-dns-rule-list-item
       *ngFor="let rule of rules; let i = index"
       [dnsRule]="rule"
