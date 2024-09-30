@@ -2,27 +2,24 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
-import { TokenStorageHelper } from './token-storage-helper';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Injectable()
 export class EnsureBearerInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(
+    private app: AppSettingsService,
+    private router: Router,
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let token;
+    console.log(req.url);
     if (req.url.endsWith('auth/token/refresh')) {
-      token = TokenStorageHelper.getRefreshToken();
-      if (!token) {
-        TokenStorageHelper.clear();
+      const user = !!this.app.user.display_name;
+      if (!user) {
         this.router.navigateByUrl('/login');
         return EMPTY;
       }
-    } else {
-      token = TokenStorageHelper.getAccessToken();
     }
-    const modifiedReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`),
-    });
-    return next.handle(modifiedReq);
+    return next.handle(req);
   }
 }

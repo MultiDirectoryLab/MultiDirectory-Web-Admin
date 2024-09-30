@@ -50,6 +50,10 @@ export class MultidirectoryApiService {
       .execute();
   }
 
+  logout(): Observable<void> {
+    return this.httpClient.delete<void>('auth/token/refresh').execute();
+  }
+
   refresh(): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>('auth/token/refresh').execute();
   }
