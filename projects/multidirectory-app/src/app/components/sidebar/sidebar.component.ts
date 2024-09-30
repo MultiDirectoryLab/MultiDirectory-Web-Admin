@@ -1,11 +1,9 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppWindowsService } from '@services/app-windows.service';
-import { TokenStorageHelper } from '@core/authorization/token-storage-helper';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,9 +24,12 @@ export class SidebarComponent implements OnDestroy {
   ) {}
 
   logout() {
-    TokenStorageHelper.clear();
-    this.app.user = new WhoamiResponse({});
-    this.router.navigate(['/login']);
+    this.app
+      .logout()
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.router.navigate(['login']);
+      });
   }
 
   openAccountSettings() {

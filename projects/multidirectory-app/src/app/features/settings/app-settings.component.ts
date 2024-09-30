@@ -1,9 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AppSettingsService } from '@services/app-settings.service';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
-import { Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
-import { TokenStorageHelper } from '@core/authorization/token-storage-helper';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -14,19 +11,10 @@ export class AppSettingsComponent implements OnDestroy {
   user: WhoamiResponse | null = null;
   unsubscribe = new Subject<void>();
 
-  constructor(
-    private app: AppSettingsService,
-    private router: Router,
-  ) {}
+  constructor() {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-  }
-
-  logout() {
-    TokenStorageHelper.clear();
-    this.app.user = new WhoamiResponse({});
-    this.router.navigate(['/login']);
   }
 }
