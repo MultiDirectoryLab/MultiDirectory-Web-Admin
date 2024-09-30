@@ -82,6 +82,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         catchError((err) => {
           this.modal.hideSpinner();
+          this.router.navigate(['/']);
           throw err;
         }),
       )

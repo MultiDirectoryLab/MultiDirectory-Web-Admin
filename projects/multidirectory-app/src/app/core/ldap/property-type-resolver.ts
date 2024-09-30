@@ -26,7 +26,10 @@ const LdapPropertyTypeMap: LdapPropertyDescription[] = [
 ];
 
 export class PropertyTypeResolver {
-  static getPropertyDescription(oid: string): LdapPropertyDescription | undefined {
+  static getPropertyDescription(oid: string | null): LdapPropertyDescription | undefined {
+    if (!oid) {
+      return LdapPropertyTypeMap[0];
+    }
     const result = LdapPropertyTypeMap.find((x) => x.id == oid);
     if (!result) {
       return undefined;

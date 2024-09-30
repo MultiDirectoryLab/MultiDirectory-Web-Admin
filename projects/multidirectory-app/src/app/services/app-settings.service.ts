@@ -88,4 +88,9 @@ export class AppSettingsService {
   get notificationVisibleRx(): Observable<boolean> {
     return this._notificationVisibleRx.asObservable();
   }
+
+  logout() {
+    this.user = new WhoamiResponse({});
+    return this.api.logout();
+  }
 }

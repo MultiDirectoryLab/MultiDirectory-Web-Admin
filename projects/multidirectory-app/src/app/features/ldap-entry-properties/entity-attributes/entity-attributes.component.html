@@ -25,7 +25,10 @@
     </md-datagrid>
   </div>
   <div class="flex-row flex-space-between pt-16">
-    <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
+    <div class="flex-row justify-start">
+      <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
+      <md-button (click)="onDeleteClick()">{{ 'entity-attributes.delete' | transloco }}</md-button>
+    </div>
     <md-button [mdDropdownContainer]="filterMenu" class="">{{
       'entity-attributes.filter' | transloco
     }}</md-button>
