@@ -5,7 +5,6 @@ import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, of, switchMap, take } from 'rxjs';
 
@@ -25,6 +24,10 @@ export class DnsSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.reloadData();
+  }
+
+  private reloadData() {
     this.dnsService
       .get()
       .pipe(take(1))
@@ -34,12 +37,17 @@ export class DnsSettingsComponent implements OnInit {
             const rule = new DnsRule(y);
             rule.record_type = x.record_type as DnsRuleType;
             rule.ttl = String(y.ttl);
-            rule.hostname = y.hostname.replace(/\.?example\.com/g, '');
             return rule;
           }),
         );
         this.rules = all;
       });
+  }
+
+  private enusreHostname(rule: DnsRule): DnsRule {
+    const result = new DnsRule(rule);
+    result.hostname = result.hostname.replace(/\.?beta\.multidirectory\.io(?=[^.]*$)/, '');
+    return result;
   }
 
   onDelete(toDeleteIndex: number) {
@@ -58,7 +66,8 @@ export class DnsSettingsComponent implements OnInit {
           if (x === 'cancel' || !x) {
             return EMPTY;
           }
-          return this.dns.delete(this.rules[toDeleteIndex]);
+          const rule = this.enusreHostname(this.rules[toDeleteIndex]);
+          return this.dns.delete(rule);
         }),
       )
       .subscribe((result) => {
@@ -71,21 +80,29 @@ export class DnsSettingsComponent implements OnInit {
       .openDnsRuleDialog(new DnsRule({}))
       .pipe(
         take(1),
-        switchMap((x) => this.dns.post(x)),
+        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
       )
       .subscribe((rule) => {
         this.toastr.success(translate('dns-settings.success'));
+        this.reloadData();
       });
   }
 
   onEdit(index: number) {
+    const rule = this.enusreHostname(this.rules[index]);
+    const oldHostname = this.rules[index].hostname;
     this.windows
-      .openDnsRuleDialog(this.rules[index])
+      .openDnsRuleDialog(rule)
       .pipe(
-        switchMap((x) => this.dns.update(x)),
         take(1),
+        switchMap((x) => {
+          if (!x) return EMPTY;
+          this.rules[index] = rule;
+          return this.dns.update(rule);
+        }),
       )
       .subscribe((rule) => {
+        this.rules[index].hostname = oldHostname;
         this.toastr.success(translate('dns-settings.success'));
       });
   }
