@@ -111,6 +111,7 @@
     "domain-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "domain-label": "Домен",
+      "setup-dns": "Настроить DNS",
       "setup-kdc": "Настроить Kerberos",
       "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически",
       "domain-format-error": "Неправильный формат домена"
@@ -591,7 +592,9 @@
   },
   "error-message": {
     "required": "Это поле обязательно для заполнения",
-    "ip-valid": "Введите IP Адрес в правильном формате"
+    "ip-valid": "Введите IP Адрес в правильном формате",
+    "ip6-valid": "Введите IPv6 Адрес в правильном формате",
+    "passwords-not-match": "Пароли не совпадают"
   },
   "dns-rule-dialog": {
     "modal-header": "Новый объект - Запись DNS",
@@ -617,6 +620,22 @@
   "dns-settings": {
     "success": "Операция выполнена успешно",
     "zone": "Зона: ",
-    "add": "Добавить запись"
+    "add": "Добавить запись",
+    "setup-dns-description": "Для управления DNS требуется произвести настройку",
+    "setup-dns": "Выполнить настройку"
+  },
+  "dns-setup-dialog": {
+    "header": "Настройка DNS",
+    "apply": "Применить",
+    "cancel": "Отмена"
+  },
+  "dns-setup": {
+    "header": "Этот мастер поможет завершить настройку сервиса DNS",
+    "zone_name": "Имя зоны",
+    "domain": "Домен",
+    "external_service": "Привязать к внешнему DNS серверу",
+    "dns_ip_address": "IP Адрес DNS сервера",
+    "default_ttl": "TTL по умолчанию",
+    "tsig_key": "TSIG Ключ"
   }
 }

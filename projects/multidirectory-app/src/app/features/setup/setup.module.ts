@@ -13,6 +13,8 @@ import { PasswordConditionsModule } from '@features/ldap-browser/components/edit
 import { SharedComponentsModule } from '../../components/app-layout/shared/shared.module';
 import { KerberosSettingsComponent } from './kerberos-settings/kerberos-settings.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppFormsModule } from '@features/forms/forms.module';
+import { DnsSetupSettingsComponent } from './dns-setup-settings/dns-setup-settings.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AdminSettingsSecondComponent,
     DomainSettingsComponent,
     KerberosSettingsComponent,
+    DnsSetupSettingsComponent,
     SetupComponent,
   ],
   imports: [
@@ -32,6 +35,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     PasswordConditionsModule,
     SharedComponentsModule,
     FontAwesomeModule,
+    AppFormsModule,
   ],
 })
 export class SetupModule {}

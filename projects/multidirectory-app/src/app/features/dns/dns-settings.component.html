@@ -1,6 +1,6 @@
-<div class="p-16 dns-container">
+<div *ngIf="dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED" class="p-16 dns-container">
   <div class="flex-row flex-space-between flex-align-center">
-    <h2 class="bold">{{ 'dns-settings.zone' | transloco }} beta.multidirectory.io</h2>
+    <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
     <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
   </div>
   <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
@@ -12,5 +12,25 @@
       (editClick)="onEdit(i)"
     >
     </app-dns-rule-list-item>
+  </div>
+</div>
+
+<div *ngIf="dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED">
+  <div class="p-16">
+    <md-alert>
+      <div class="flex-row flex-gap-20">
+        <div class="flex-row justify-center flex-align-center">
+          <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+        </div>
+        <div class="flex-column">
+          <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
+          <div class="pv-8">
+            <md-button [primary]="true" (click)="handleSetupClick()">{{
+              'dns-settings.setup-dns' | transloco
+            }}</md-button>
+          </div>
+        </div>
+      </div>
+    </md-alert>
   </div>
 </div>

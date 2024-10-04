@@ -24,23 +24,31 @@
         </div>
       </div>
 
-      <div class="flex-row flex-center justify-center">
-        <div class="flex-column flex-grow-1">
-          <md-checkbox [(ngModel)]="setupRequest.setupKdc">
-            {{ 'setup.domain-settings.setup-kdc' | transloco }}
-          </md-checkbox>
+      <div class="flex-column flex-gap-10 pt-20">
+        <div class="flex-row flex-center justify-center">
+          <div class="flex-column flex-grow-1">
+            <md-checkbox [(ngModel)]="setupRequest.setupDns">
+              {{ 'setup.domain-settings.setup-dns' | transloco }}
+            </md-checkbox>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div *ngIf="setupRequest.setupKdc" class="flex-row flex-center justify-center">
-      <div class="flex-column flex-grow-1">
-        <md-checkbox
-          [(ngModel)]="setupRequest.generateKdcPasswords"
-          (ngModelChange)="onGenerateChange()"
-        >
-          {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}
-        </md-checkbox>
+        <div class="flex-row flex-center justify-center">
+          <div class="flex-column flex-grow-1">
+            <md-checkbox [(ngModel)]="setupRequest.setupKdc">
+              {{ 'setup.domain-settings.setup-kdc' | transloco }}
+            </md-checkbox>
+          </div>
+        </div>
+        <div *ngIf="setupRequest.setupKdc" class="flex-row flex-center justify-center">
+          <div class="flex-column flex-grow-1">
+            <md-checkbox
+              [(ngModel)]="setupRequest.generateKdcPasswords"
+              (ngModelChange)="onGenerateChange()"
+            >
+              {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}
+            </md-checkbox>
+          </div>
+        </div>
       </div>
     </div>
   </md-form>

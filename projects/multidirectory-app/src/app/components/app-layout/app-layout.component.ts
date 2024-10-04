@@ -8,6 +8,7 @@ import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { DnsApiService } from '@services/dns-api.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,6 +25,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private app: AppSettingsService,
     private api: MultidirectoryApiService,
+    private dns: DnsApiService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -77,6 +79,10 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         }
         this.cdr.detectChanges();
       });
+
+    this.dns.status().subscribe((status) => {
+      this.app.dnsStatus = status;
+    });
   }
 
   ngOnDestroy(): void {

@@ -1,30 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
+import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsStatuses } from '@models/dns/dns-statuses';
+import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, of, switchMap, take } from 'rxjs';
+import { EMPTY, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-settings',
   templateUrl: './dns-settings.component.html',
   styleUrls: ['./dns-settings.component.scss'],
 })
-export class DnsSettingsComponent implements OnInit {
+export class DnsSettingsComponent implements OnInit, OnDestroy {
+  private unsubscribe = new Subject<boolean>();
+  dnsStatuses = DnsStatuses;
+  dnsStatus = new DnsStatusResponse({});
   rules: DnsRule[] = [];
+  faCircleExclamation = faCircleExclamation;
 
   constructor(
     private dnsService: DnsApiService,
     private windows: AppWindowsService,
     private dns: DnsApiService,
     private toastr: ToastrService,
+    private app: AppSettingsService,
   ) {}
 
   ngOnInit(): void {
-    this.reloadData();
+    this.app.dnsStatusRx.pipe(takeUntil(this.unsubscribe)).subscribe((status) => {
+      this.dnsStatus = status;
+      if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
+        this.reloadData();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next(true);
+    this.unsubscribe.complete();
   }
 
   private reloadData() {
@@ -104,6 +124,20 @@ export class DnsSettingsComponent implements OnInit {
       .subscribe((rule) => {
         this.rules[index].hostname = oldHostname;
         this.toastr.success(translate('dns-settings.success'));
+      });
+  }
+
+  handleSetupClick() {
+    this.windows
+      .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))
+      .pipe(
+        take(1),
+        switchMap((request) => {
+          return this.dns.setup(request);
+        }),
+      )
+      .subscribe((request) => {
+        console.log(request);
       });
   }
 }

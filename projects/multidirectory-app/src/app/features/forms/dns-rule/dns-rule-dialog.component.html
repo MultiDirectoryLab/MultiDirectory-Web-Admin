@@ -15,14 +15,23 @@
         'dns-rule-dialog.same-as-zone-name' | transloco
       }}</md-checkbox>
       <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
-      <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.ip"></md-textbox>
+      <div [ngSwitch]="RecordDataType">
+        <md-textbox
+          *ngSwitchCase="DnsRuleClass.IP6.valueOf()"
+          appRequired
+          validIp6Address
+          [(ngModel)]="dnsRule.ip"
+        ></md-textbox>
+        <md-textbox
+          *ngSwitchCase="DnsRuleClass.IP4.valueOf()"
+          appRequired
+          validIpAddress
+          [(ngModel)]="dnsRule.ip"
+        ></md-textbox>
+        <md-textbox *ngSwitchDefault appRequired [(ngModel)]="dnsRule.ip"></md-textbox>
+      </div>
       <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
-      <md-dropdown
-        appRequired
-        [(ngModel)]="dnsRule.record_type"
-        [options]="DnsRuleTypes"
-      ></md-dropdown>
-
+      <md-dropdown appRequired [(ngModel)]="recordType" [options]="DnsRuleTypes"></md-dropdown>
       <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
       <md-textbox appRequired [(ngModel)]="dnsRule.ttl"></md-textbox>
     </div>
@@ -31,6 +40,7 @@
 
 <div class="app-modal-footer">
   <div class="flex-row align-center justify-end flex-gap-10">
+    {{ RecordDataType }}
     <md-button (click)="onClose()">
       {{ 'dns-rule-dialog.cancel' | transloco }}
     </md-button>

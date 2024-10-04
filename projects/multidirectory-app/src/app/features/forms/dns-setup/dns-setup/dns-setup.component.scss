@@ -1,0 +1,11 @@
+.dns-setup-grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: auto;
+}
+
+.tsig-key {
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 48px;
+}

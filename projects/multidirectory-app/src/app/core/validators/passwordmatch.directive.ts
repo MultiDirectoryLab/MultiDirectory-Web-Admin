@@ -26,7 +26,7 @@ export function passwordMatchValidator(nameRe: RegExp): ValidatorFn {
 })
 export class PasswordMatchValidatorDirective implements Validator {
   @Input('appPasswordMatch') passwordInput!: NgControl;
-  @Input() errorLabel = '';
+  @Input() passwordMatchErrorLabel = '';
 
   validate(control: AbstractControl): ValidationErrors | null {
     if (!this.passwordInput.touched || !control.touched) {
@@ -34,6 +34,10 @@ export class PasswordMatchValidatorDirective implements Validator {
     }
     return control.value == this.passwordInput.value
       ? null
-      : { PasswordsDoNotMatch: this.errorLabel ? translate('') : 'Passwords do not match' };
+      : {
+          PasswordsDoNotMatch: this.passwordMatchErrorLabel
+            ? translate(this.passwordMatchErrorLabel)
+            : translate('error-message.passwords-not-match'),
+        };
   }
 }

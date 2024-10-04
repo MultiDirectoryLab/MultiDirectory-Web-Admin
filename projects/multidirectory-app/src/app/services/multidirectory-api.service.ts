@@ -32,6 +32,7 @@ import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-requ
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 
 @Injectable({
   providedIn: 'root',

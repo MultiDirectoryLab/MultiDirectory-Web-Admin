@@ -5,6 +5,7 @@ import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { TranslocoService } from '@jsverse/transloco';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { DnsStatusResponse } from '@models/dns/dns-status-response';
 
 @Injectable({
   providedIn: 'root',
@@ -92,5 +93,18 @@ export class AppSettingsService {
   logout() {
     this.user = new WhoamiResponse({});
     return this.api.logout();
+  }
+
+  private _dnsStatus = new DnsStatusResponse({});
+  private _dnsStatusRx = new BehaviorSubject<DnsStatusResponse>(this._dnsStatus);
+  get dnsStatusRx(): Observable<DnsStatusResponse> {
+    return this._dnsStatusRx.asObservable();
+  }
+  get dnsStatus() {
+    return this._dnsStatus;
+  }
+  set dnsStatus(status: DnsStatusResponse) {
+    this._dnsStatus = status;
+    this._dnsStatusRx.next(this._dnsStatus);
   }
 }

@@ -1,3 +1,5 @@
+import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+
 export class SetupRequest {
   domain: string = '';
   username: string = '';
@@ -14,4 +16,7 @@ export class SetupRequest {
 
   stash_password: string = '';
   stash_password_repeat: string = '';
+
+  setupDns = true;
+  setupDnsRequest = new DnsSetupRequest({});
 }

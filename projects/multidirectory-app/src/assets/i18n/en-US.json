@@ -111,6 +111,7 @@
     "domain-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
+      "setup-dns": "Setup DNS",
       "setup-kdc": "Setup Kerberos",
       "generate-kdc-passwords": "Generate Kerberos Passwords Automatically",
       "domain-format-error": "Invalid domain format"
@@ -594,7 +595,9 @@
   },
   "error-message": {
     "required": "This value is requried",
-    "ip-valid": "Enter a valid IP Address"
+    "ip-valid": "Enter a valid IP Address",
+    "ip6-valid": "Enter a valid IPv6 Address",
+    "passwords-not-match": "Passwords do not match"
   },
   "dns-rule-dialog": {
     "modal-header": "New object - DNS Record",
@@ -616,5 +619,26 @@
   },
   "display-errors": {
     "retry": "Retry"
+  },
+  "dns-settings": {
+    "success": "Operation completed successfully",
+    "zone": "Zone: ",
+    "add": "Add entry",
+    "setup-dns-description": "Setup required for DNS management",
+    "setup-dns": "Run setup"
+  },
+  "dns-setup-dialog": {
+    "header": "Configure DNS",
+    "apply": "Apply",
+    "cancel": "Cancel"
+  },
+  "dns-setup": {
+    "header": "This wizard will help you complete the DNS service setup",
+    "zone_name": "Zone name",
+    "domain": "Domain",
+    "external_service": "Bind to external DNS server",
+    "dns_ip_address": "IP address of DNS server",
+    "default_ttl": "Default TTL",
+    "tsig_key": "TSIG Key"
   }
 }

@@ -2,7 +2,12 @@ import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } fr
 import { DropdownOption, MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
+import {
+  AvailableDnsRecordTypes,
+  DnsRuleClass,
+  DnsRuleType,
+  DnsTypeToDataType,
+} from '@models/dns/dns-rule-type';
 
 @Component({
   selector: 'app-dns-rule-dialog',
@@ -14,13 +19,9 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   private _unsubscribe = new Subject<void>();
   formValid = false;
   dnsRule: DnsRule = new DnsRule({});
-  DnsRuleTypes = Object.keys(DnsRuleType).map(
-    (x, index) =>
-      new DropdownOption({
-        title: x,
-        value: x,
-      }),
-  );
+  DnsRuleTypes = AvailableDnsRecordTypes;
+  DnsRuleClass = DnsRuleClass;
+  DnsTypeToDataType = DnsTypeToDataType;
 
   _sameAsZoneName = false;
   get sameAsZoneName(): boolean {
@@ -45,6 +46,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
       this.formValid = x;
     });
     this.dnsRule = this.modalInejctor.contentOptions?.dnsRule ?? new DnsRule({});
+    this.recordType = this.dnsRule.record_type;
   }
 
   ngOnDestroy(): void {
@@ -60,5 +62,15 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
 
   onClose() {
     this.modalInejctor.close(null);
+  }
+
+  RecordDataType: number = -1;
+  get recordType() {
+    return this.dnsRule.record_type;
+  }
+  set recordType(type: DnsRuleType) {
+    this.dnsRule.record_type = type;
+    this.RecordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
+    this.cdr.detectChanges();
   }
 }
