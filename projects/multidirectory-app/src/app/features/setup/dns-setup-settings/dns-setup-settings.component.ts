@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup.component';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
-import { MdFormComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -15,7 +13,6 @@ export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
   @Input() setupRequest!: SetupRequest;
   unsubscribe = new Subject<void>();
   @ViewChild('form') form!: DnsSetupComponent;
-  dnsSetupRequest = new DnsSetupRequest({});
 
   constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 

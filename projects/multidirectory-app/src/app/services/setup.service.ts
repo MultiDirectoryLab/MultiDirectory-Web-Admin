@@ -36,6 +36,13 @@ export class SetupService {
       switchMap((success) =>
         this.loginService.login(setupRequest.user_principal_name, setupRequest.password),
       ),
+      switchMap((success) => {
+        return iif(
+          () => setupRequest.setupDns,
+          this.dns.setup(setupRequest.setupDnsRequest),
+          of(!!success),
+        );
+      }),
       catchError((err) => {
         return of(false);
       }),
@@ -74,14 +81,6 @@ export class SetupService {
             map((x) => x == KerberosStatuses.READY), // Continue until status === 1
           ),
           of(success),
-        );
-      }),
-      delay(2000),
-      switchMap((success) => {
-        return iif(
-          () => setupRequest.setupDns,
-          this.dns.setup(setupRequest.setupDnsRequest),
-          of(!!success),
         );
       }),
     );

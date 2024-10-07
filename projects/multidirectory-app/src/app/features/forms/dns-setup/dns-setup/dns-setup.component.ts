@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -30,6 +31,7 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   set useExternalService(value: boolean) {
     this._useExternalService = value;
     this.dnsSetupRequest.dns_status = value ? DnsStatuses.HOSTED : DnsStatuses.SELFHOSTED;
+    this.cdr.detectChanges();
   }
   get useExternalService(): boolean {
     return this._useExternalService;
@@ -37,7 +39,7 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
 
   private unsubscribe = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {

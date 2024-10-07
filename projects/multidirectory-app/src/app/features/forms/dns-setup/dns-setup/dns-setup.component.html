@@ -12,10 +12,9 @@
       <label for="domain">{{ 'dns-setup.domain' | transloco }}</label>
       <md-textbox appRequired [(ngModel)]="dnsSetupRequest.domain" name="domain"></md-textbox>
 
-      <md-checkbox [(ngModel)]="useExternalService">{{
+      <md-checkbox class="external-services-checkbox" [(ngModel)]="useExternalService">{{
         'dns-setup.external_service' | transloco
       }}</md-checkbox>
-      <div></div>
 
       <ng-container *ngIf="useExternalService">
         <label for="dns_ip_address">{{ 'dns-setup.dns_ip_address' | transloco }}</label>
