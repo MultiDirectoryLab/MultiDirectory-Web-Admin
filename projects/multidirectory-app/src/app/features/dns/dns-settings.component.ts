@@ -66,7 +66,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
 
   private enusreHostname(rule: DnsRule): DnsRule {
     const result = new DnsRule(rule);
-    result.hostname = result.hostname.replace(/\.?beta\.multidirectory\.io(?=[^.]*$)/, '');
+    result.hostname = result.hostname.replace('.' + this.dnsStatus.zone_name, '');
     return result;
   }
 

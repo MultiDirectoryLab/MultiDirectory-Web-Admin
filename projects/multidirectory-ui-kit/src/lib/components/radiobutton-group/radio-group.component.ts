@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   Output,
   QueryList,
@@ -25,17 +26,15 @@ import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
     },
   ],
 })
-export class RadioGroupComponent extends BaseComponent implements AfterViewInit {
+export class RadioGroupComponent extends BaseComponent {
   @Input() drawBorder = false;
   @Input() title = '';
   @Output() valueChanges = new EventEmitter<any>();
   buttons: RadiobuttonComponent[] = [];
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  constructor(cdr: ChangeDetectorRef, injector: Injector) {
+    super(cdr, injector);
   }
-
-  ngAfterViewInit(): void {}
 
   override writeValue(value: any): void {
     if (value !== this.innerValue) {

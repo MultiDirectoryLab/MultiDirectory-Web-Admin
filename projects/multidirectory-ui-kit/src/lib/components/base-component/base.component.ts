@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -16,7 +17,10 @@ import { BaseControlComponent } from './control.component';
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseComponent extends BaseControlComponent implements ControlValueAccessor, OnDestroy {
+export class BaseComponent
+  extends BaseControlComponent
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
   @Input() disabled: boolean = false;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
@@ -31,8 +35,17 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     this._controlAccessor = ca;
     this.cdr.detectChanges();
   }
-  constructor(protected cdr: ChangeDetectorRef) {
+  constructor(
+    protected cdr: ChangeDetectorRef,
+    private injector: Injector,
+  ) {
     super();
+  }
+  ngOnInit(): void {
+    this.controlAccessor = this.injector.get(NgControl);
+    if (this.controlAccessor.control && this.controlAccessor.validator) {
+      this.controlAccessor.validator(this.controlAccessor.control);
+    }
   }
 
   innerValue: any = '';

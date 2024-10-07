@@ -224,10 +224,10 @@
   "entity-attributes": {
     "name": "Имя",
     "value": "Значение",
-    "select-attribute": "Выберите аттрибут для редактирования",
+    "select-attribute": "Выберите атрибут для редактирования",
     "unable-retrieve-schema": "Не удалось получить схему",
     "edit-not-allowed": "Редактирование запрещено",
-    "header": "Аттрибут",
+    "header": "Атрибут",
     "add": "Добавить",
     "edit": "Редактировать",
     "delete": "Удалить",

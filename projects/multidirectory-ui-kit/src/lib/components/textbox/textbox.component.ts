@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Injector,
   Input,
   ViewChild,
   forwardRef,
@@ -33,8 +34,8 @@ export class TextboxComponent extends BaseComponent {
   passwordVisible = false;
   faEye = faEye;
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  constructor(cdr: ChangeDetectorRef, injector: Injector) {
+    super(cdr, injector);
   }
 
   override setFocus() {

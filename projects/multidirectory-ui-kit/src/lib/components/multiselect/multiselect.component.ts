@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   Output,
   ViewChild,
@@ -38,8 +39,8 @@ export class MultiselectComponent extends BaseComponent {
   private _options: MultiselectModel[] = [];
   selectedData: MultiselectModel[] = [];
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  constructor(cdr: ChangeDetectorRef, injector: Injector) {
+    super(cdr, injector);
   }
 
   @Input() set options(value: MultiselectModel[]) {

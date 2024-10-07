@@ -8,10 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { AppSettingsService } from '@services/app-settings.service';
-import { AppWindowsService } from '@services/app-windows.service';
-import { DnsApiService } from '@services/dns-api.service';
+import { DnsStatuses } from '@models/dns/dns-statuses';
 import { MdFormComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -29,7 +26,14 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('form') form!: MdFormComponent;
 
-  useExternalService = false;
+  private _useExternalService = false;
+  set useExternalService(value: boolean) {
+    this._useExternalService = value;
+    this.dnsSetupRequest.dns_status = value ? DnsStatuses.HOSTED : DnsStatuses.SELFHOSTED;
+  }
+  get useExternalService(): boolean {
+    return this._useExternalService;
+  }
 
   private unsubscribe = new Subject<boolean>();
 
