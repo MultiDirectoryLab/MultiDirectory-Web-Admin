@@ -132,9 +132,11 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       this.openSetupKerberosDialog();
     });
 
-    this.ldapWindows.showDnsRuleDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((dnsRule) => {
-      this.openDnsRuleDialog(dnsRule);
-    });
+    this.ldapWindows.showDnsRuleDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(({ rule, editMode }) => {
+        this.openDnsRuleDialog(rule, editMode);
+      });
 
     this.ldapWindows.showDnsSetupDialogRx
       .pipe(takeUntil(this.unsubscribe))
@@ -316,9 +318,9 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  openDnsRuleDialog(dnsRule: DnsRule) {
+  openDnsRuleDialog(dnsRule: DnsRule, editMode: boolean = false) {
     this.dnsRuleDialog
-      .open({ minHeight: 360 }, { dnsRule: dnsRule })
+      .open({ minHeight: 360 }, { dnsRule: dnsRule, editMode: editMode })
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeDnsRuleDialog(result);

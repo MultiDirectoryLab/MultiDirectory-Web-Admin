@@ -8,10 +8,10 @@
       <md-textbox
         appRequired
         [(ngModel)]="dnsRule.hostname"
-        [disabled]="sameAsZoneName"
+        [disabled]="sameAsZoneName || editMode"
       ></md-textbox>
       <div></div>
-      <md-checkbox [(ngModel)]="sameAsZoneName">{{
+      <md-checkbox [disabled]="editMode" [(ngModel)]="sameAsZoneName">{{
         'dns-rule-dialog.same-as-zone-name' | transloco
       }}</md-checkbox>
       <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
@@ -31,7 +31,12 @@
         <md-textbox *ngSwitchDefault appRequired [(ngModel)]="dnsRule.ip"></md-textbox>
       </div>
       <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
-      <md-dropdown appRequired [(ngModel)]="recordType" [options]="DnsRuleTypes"></md-dropdown>
+      <md-dropdown
+        appRequired
+        [disabled]="editMode"
+        [(ngModel)]="recordType"
+        [options]="DnsRuleTypes"
+      ></md-dropdown>
       <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
       <md-textbox appRequired [(ngModel)]="dnsRule.ttl"></md-textbox>
     </div>

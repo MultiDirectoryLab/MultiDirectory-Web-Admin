@@ -42,6 +42,9 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
+    this.dnsSetupRequest.dns_status = this._useExternalService
+      ? DnsStatuses.HOSTED
+      : DnsStatuses.SELFHOSTED;
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.formValid = valid;
       this.formValidChange.emit(valid);

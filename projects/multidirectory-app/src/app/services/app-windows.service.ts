@@ -281,16 +281,16 @@ export class AppWindowsService {
     return this._closeSetupKerberosDialogRx.next();
   }
 
-  private _showDnsRuleDialogRx = new Subject<DnsRule>();
+  private _showDnsRuleDialogRx = new Subject<{ rule: DnsRule; editMode: boolean }>();
   private _closeDnsRuleDialogRx = new Subject<DnsRule>();
-  get showDnsRuleDialogRx(): Observable<DnsRule> {
+  get showDnsRuleDialogRx(): Observable<{ rule: DnsRule; editMode: boolean }> {
     return this._showDnsRuleDialogRx.asObservable();
   }
   get closeDnsRuleDialogRx(): Observable<DnsRule> {
     return this._closeDnsRuleDialogRx.asObservable();
   }
-  openDnsRuleDialog(rule: DnsRule) {
-    this._showDnsRuleDialogRx.next(rule);
+  openDnsRuleDialog(rule: DnsRule, editMode: boolean = false) {
+    this._showDnsRuleDialogRx.next({ rule: rule, editMode: editMode });
     return this.closeDnsRuleDialogRx;
   }
   closeDnsRuleDialog(rule: DnsRule) {

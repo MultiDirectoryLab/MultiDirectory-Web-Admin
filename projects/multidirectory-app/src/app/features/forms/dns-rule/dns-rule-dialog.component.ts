@@ -18,6 +18,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   private _unsubscribe = new Subject<void>();
   formValid = false;
+  editMode = false;
   dnsRule: DnsRule = new DnsRule({});
   DnsRuleTypes = AvailableDnsRecordTypes;
   DnsRuleClass = DnsRuleClass;
@@ -46,6 +47,8 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
       this.formValid = x;
     });
     this.dnsRule = this.modalInejctor.contentOptions?.dnsRule ?? new DnsRule({});
+    this.editMode = this.modalInejctor.contentOptions?.editMode ?? false;
+
     this.recordType = this.dnsRule.record_type;
   }
 

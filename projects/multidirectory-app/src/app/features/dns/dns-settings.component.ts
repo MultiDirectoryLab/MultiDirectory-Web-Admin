@@ -112,7 +112,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
     const rule = this.enusreHostname(this.rules[index]);
     const oldHostname = this.rules[index].hostname;
     this.windows
-      .openDnsRuleDialog(rule)
+      .openDnsRuleDialog(rule, true)
       .pipe(
         take(1),
         switchMap((x) => {
