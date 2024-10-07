@@ -67,13 +67,13 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
     this.modalInejctor.close(null);
   }
 
-  RecordDataType: number = -1;
+  recordDataType: number = -1;
   get recordType() {
     return this.dnsRule.record_type;
   }
   set recordType(type: DnsRuleType) {
     this.dnsRule.record_type = type;
-    this.RecordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
+    this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
 }

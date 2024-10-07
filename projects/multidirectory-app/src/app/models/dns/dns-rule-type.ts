@@ -21,6 +21,7 @@ export enum DnsRuleClass {
   IP6 = 2,
   TEXT = 3,
   EMAIL = 4,
+  SRV = 5,
 }
 
 export const AvailableDnsRecordTypes = Object.keys(DnsRuleType).map(
@@ -35,4 +36,5 @@ export const DnsTypeToDataType = new Map<DnsRuleType, DnsRuleClass>([
   [DnsRuleType.A, DnsRuleClass.IP4.valueOf()],
   [DnsRuleType.AAAA, DnsRuleClass.IP6.valueOf()],
   [DnsRuleType.CNAME, DnsRuleClass.TEXT.valueOf()],
+  [DnsRuleType.SRV, DnsRuleClass.SRV.valueOf()],
 ]);

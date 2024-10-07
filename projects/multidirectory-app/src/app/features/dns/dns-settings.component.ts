@@ -7,11 +7,12 @@ import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsStatuses } from '@models/dns/dns-statuses';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-settings',
@@ -31,15 +32,25 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
     private dns: DnsApiService,
     private toastr: ToastrService,
     private app: AppSettingsService,
+    private navigation: AppNavigationService,
   ) {}
 
   ngOnInit(): void {
-    this.app.dnsStatusRx.pipe(takeUntil(this.unsubscribe)).subscribe((status) => {
-      this.dnsStatus = status;
-      if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
-        this.reloadData();
-      }
-    });
+    this.windows.showSpinner();
+    this.app.dnsStatusRx
+      .pipe(
+        takeUntil(this.unsubscribe),
+        catchError((err) => {
+          this.windows.hideSpinner();
+          throw err;
+        }),
+      )
+      .subscribe((status) => {
+        this.dnsStatus = status;
+        if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
+          this.reloadData();
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -48,9 +59,16 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
   }
 
   private reloadData() {
+    this.windows.showSpinner();
     this.dnsService
       .get()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError((err) => {
+          this.windows.hideSpinner();
+          throw err;
+        }),
+      )
       .subscribe((rules) => {
         const all = rules.flatMap((x) =>
           x.records.map((y) => {
@@ -61,6 +79,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
           }),
         );
         this.rules = all;
+        this.windows.hideSpinner();
       });
   }
 
@@ -133,11 +152,14 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
       .pipe(
         take(1),
         switchMap((request) => {
+          if (!request) {
+            return EMPTY;
+          }
           return this.dns.setup(request);
         }),
       )
       .subscribe((request) => {
-        console.log(request);
+        this.navigation.reload();
       });
   }
 }

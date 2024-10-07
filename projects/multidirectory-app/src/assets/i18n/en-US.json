@@ -597,7 +597,8 @@
     "required": "This value is requried",
     "ip-valid": "Enter a valid IP Address",
     "ip6-valid": "Enter a valid IPv6 Address",
-    "passwords-not-match": "Passwords do not match"
+    "passwords-not-match": "Passwords do not match",
+    "dns-srv-format-valid": "Enter a valid SRV record"
   },
   "dns-rule-dialog": {
     "modal-header": "New object - DNS Record",
