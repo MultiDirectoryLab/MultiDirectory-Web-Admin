@@ -46,6 +46,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((status) => {
+        this.windows.hideSpinner();
         this.dnsStatus = status;
         if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
           this.reloadData();
@@ -159,7 +160,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((request) => {
-        this.navigation.reload();
+        window.location.reload();
       });
   }
 }
