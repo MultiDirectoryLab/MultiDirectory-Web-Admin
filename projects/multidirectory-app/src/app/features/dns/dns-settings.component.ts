@@ -32,7 +32,6 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
     private dns: DnsApiService,
     private toastr: ToastrService,
     private app: AppSettingsService,
-    private navigation: AppNavigationService,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +74,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
           x.records.map((y) => {
             const rule = new DnsRule(y);
             rule.record_type = x.record_type as DnsRuleType;
-            rule.ttl = String(y.ttl);
+            rule.ttl = y.ttl;
             return rule;
           }),
         );
@@ -86,7 +85,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
 
   private enusreHostname(rule: DnsRule): DnsRule {
     const result = new DnsRule(rule);
-    result.hostname = result.hostname.replace('.' + this.dnsStatus.zone_name, '');
+    result.record_name = result.record_name.replace('.' + this.dnsStatus.zone_name, '');
     return result;
   }
 
@@ -130,7 +129,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
 
   onEdit(index: number) {
     const rule = this.enusreHostname(this.rules[index]);
-    const oldHostname = this.rules[index].hostname;
+    const oldHostname = this.rules[index].record_name;
     this.windows
       .openDnsRuleDialog(rule, true)
       .pipe(
@@ -142,7 +141,7 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((rule) => {
-        this.rules[index].hostname = oldHostname;
+        this.rules[index].record_name = oldHostname;
         this.toastr.success(translate('dns-settings.success'));
       });
   }

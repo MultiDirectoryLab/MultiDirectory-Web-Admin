@@ -17,30 +17,6 @@ export class DnsApiService {
     @Inject('apiAdapter') private httpClient: ApiAdapter<MultidirectoryAdapterSettings>,
     @Inject('dnsAdapter') private dnsHttpClient: ApiAdapter<DnsAdapterSettings>,
   ) {}
-  /* MOCK */
-  getDnsRules(): Observable<DnsRule[]> {
-    return of([
-      new DnsRule({
-        ip: '192.0.0.1',
-        hostname: 'gimemor.com.',
-        record_type: DnsRuleType.SOA,
-        ttl: '3600',
-      }),
-      new DnsRule({
-        ip: '192.0.0.1',
-        hostname: 'gimemor.com.',
-        record_type: DnsRuleType.A,
-        ttl: '3600',
-      }),
-      new DnsRule({
-        ip: '192.0.0.2',
-        hostname: 'lab.gimemor.com.',
-        record_type: DnsRuleType.AAAA,
-        ttl: '3600',
-      }),
-    ]);
-  }
-
   get(): Observable<DnsServiceResponse[]> {
     return this.httpClient.get<DnsServiceResponse[]>('dns/record').execute();
   }

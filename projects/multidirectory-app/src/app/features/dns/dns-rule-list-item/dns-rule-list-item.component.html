@@ -1,7 +1,7 @@
 <div *ngIf="dnsRule" class="client-grid p-8">
   <div class="cell-index">{{ index }}</div>
-  <div class="cell-domain">{{ dnsRule.hostname }}</div>
-  <div class="cell-ip">{{ dnsRule.ip }}</div>
+  <div class="cell-domain">{{ dnsRule.record_name }}</div>
+  <div class="cell-value">{{ dnsRule.record_value }}</div>
   <div class="cell-type">{{ getType(dnsRule.record_type) }}</div>
   <div class="cell-ttl"></div>
   <div class="cell-control-buttons">

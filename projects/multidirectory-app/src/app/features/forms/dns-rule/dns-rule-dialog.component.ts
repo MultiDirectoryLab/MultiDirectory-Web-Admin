@@ -31,7 +31,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.hostname = '@';
+      this.dnsRule.record_name = '@';
     }
     this.cdr.detectChanges();
   }
