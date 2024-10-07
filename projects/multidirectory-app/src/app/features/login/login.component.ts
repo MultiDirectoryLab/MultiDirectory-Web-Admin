@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Router } from '@angular/router';
 import { EMPTY, Subject, catchError, skipWhile, switchMap, take, takeUntil } from 'rxjs';
@@ -25,7 +25,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   constructor(
     private api: MultidirectoryApiService,
     private router: Router,
-    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
     private loginService: LoginService,
   ) {}
 
@@ -34,7 +34,9 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.loginValid = this.loginForm.valid;
     this.loginForm.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((result) => {
       this.loginValid = result;
+      this.cdr.detectChanges();
     });
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
