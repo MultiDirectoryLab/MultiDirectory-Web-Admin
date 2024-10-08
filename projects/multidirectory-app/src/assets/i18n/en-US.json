@@ -98,6 +98,8 @@
     "setup-complete": "Setup has completed successfully",
     "back": "Back",
     "next": "Next",
+    "russian": "Русский",
+    "english": "English",
     "admin-settings": {
       "header": "This wizard will help you complete the Multidirectory setup",
       "admin-login-label": "Administrator login",

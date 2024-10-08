@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="64"
+   height="32"
+   viewBox="0 0 384 192"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="Flag_of_the_United_States.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs11" />
+  <sodipodi:namedview
+     id="namedview11"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.0226721"
+     inkscape:cx="67.865338"
+     inkscape:cy="42.011876"
+     inkscape:window-width="1920"
+     inkscape:window-height="1010"
+     inkscape:window-x="1699"
+     inkscape:window-y="-6"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg11" />
+  <g
+     id="g12"
+     transform="matrix(0.05266636,0,0,0.04904791,-2.9830918,1.4915459)">
+    <path
+       d="M 0,0 H 7410 V 3900 H 0"
+       fill="#b31942"
+       id="path1" />
+    <path
+       d="m 0,450 h 7410 m 0,600 H 0 m 0,600 h 7410 m 0,600 H 0 m 0,600 h 7410 m 0,600 H 0"
+       stroke="#ffffff"
+       stroke-width="300"
+       id="path2" />
+    <path
+       d="M 0,0 H 2964 V 2100 H 0"
+       fill="#0a3161"
+       id="path3" />
+    <g
+       fill="#ffffff"
+       id="g11">
+      <g
+         id="s18">
+        <g
+           id="s9">
+          <g
+             id="s5">
+            <g
+               id="s4">
+              <path
+                 id="s"
+                 d="M 247,90 317.53423,307.08204 132.87322,172.91796 H 361.12678 L 176.46577,307.08204 Z" />
+              <use
+                 xlink:href="#s"
+                 y="420"
+                 id="use3" />
+              <use
+                 xlink:href="#s"
+                 y="840"
+                 id="use4" />
+              <use
+                 xlink:href="#s"
+                 y="1260"
+                 id="use5" />
+            </g>
+            <use
+               xlink:href="#s"
+               y="1680"
+               id="use6" />
+          </g>
+          <use
+             xlink:href="#s4"
+             x="247"
+             y="210"
+             id="use7" />
+        </g>
+        <use
+           xlink:href="#s9"
+           x="494"
+           id="use8" />
+      </g>
+      <use
+         xlink:href="#s18"
+         x="988"
+         id="use9" />
+      <use
+         xlink:href="#s9"
+         x="1976"
+         id="use10" />
+      <use
+         xlink:href="#s5"
+         x="2470"
+         id="use11" />
+    </g>
+  </g>
+</svg>

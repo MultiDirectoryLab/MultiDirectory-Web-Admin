@@ -39,8 +39,8 @@ export class MultiselectComponent extends BaseComponent {
   private _options: MultiselectModel[] = [];
   selectedData: MultiselectModel[] = [];
 
-  constructor(cdr: ChangeDetectorRef, injector: Injector) {
-    super(cdr, injector);
+  constructor(cdr: ChangeDetectorRef) {
+    super(cdr);
   }
 
   @Input() set options(value: MultiselectModel[]) {

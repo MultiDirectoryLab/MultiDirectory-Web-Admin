@@ -39,6 +39,8 @@ export const MD_FORM = new InjectionToken<MdFormComponent>('MDFORM');
 })
 export class MdFormComponent implements AfterViewInit, OnDestroy {
   @ContentChildren(NgControl, { descendants: true }) inputs!: QueryList<NgControl>;
+  @ContentChildren(NG_VALUE_ACCESSOR, { descendants: true })
+  valueAccessors!: QueryList<BaseComponent>;
   @Input() autocomplete = false;
   inputValidators: Observable<string>[] = [];
   unsubscribe = new Subject<void>();
@@ -64,6 +66,17 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
   }
 
   updateValidators() {
+    this.valueAccessors.forEach((va) => {
+      const input = this.inputs.find((x) => x.valueAccessor == va);
+      if (input) {
+        va.controlAccessor = input;
+        if (input.validator) {
+          input.validator(input.control!);
+        }
+      }
+    });
+    this.cdr.detectChanges();
+
     const arr = this.inputs.toArray().map((x) => x.statusChanges!);
     combineLatest(arr)
       .pipe(takeUntil(this.unsubscribeValidators))

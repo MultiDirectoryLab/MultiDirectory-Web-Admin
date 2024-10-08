@@ -5,9 +5,19 @@
         <img src="/assets/logo_login_transparent.svg" class="logo-img" />
       </div>
       <div>
-        <md-plane-button (click)="changeLanguage()">
-          <fa-icon [icon]="faLanguage"></fa-icon>
+        <md-plane-button class="btn" [mdDropdownContainer]="languageMenu">
+          <fa-icon class="white" [icon]="faLanguage"></fa-icon>
         </md-plane-button>
+        <md-dropdown-menu #languageMenu>
+          <div class="dropdown-item" (click)="languageMenu.close(); changeLanguage('ru')">
+            <img class="mw-16" [src]="'assets/ru.svg'" />
+            {{ 'setup.russian' | transloco }}
+          </div>
+          <div class="dropdown-item" (click)="languageMenu.close(); changeLanguage('en')">
+            <img class="mw-16" [src]="'assets/us.svg'" />
+            {{ 'setup.english' | transloco }}
+          </div>
+        </md-dropdown-menu>
       </div>
     </div>
     <div class="w-100">

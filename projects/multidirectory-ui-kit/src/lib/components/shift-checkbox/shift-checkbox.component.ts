@@ -26,8 +26,7 @@ export class ShiftCheckboxComponent extends BaseComponent implements OnInit {
   @ViewChild('checkbox') checkbox!: ElementRef<HTMLInputElement>;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() click = new EventEmitter<boolean>();
-  override ngOnInit() {
-    super.ngOnInit();
+  ngOnInit() {
     this.value = false;
   }
 

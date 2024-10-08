@@ -1,5 +1,9 @@
 @use './layout.scss';
 
+* {
+  color: unset;
+}
+
 :root {
   --md-white: #fff;
   --md-neutral-100: #f1f1f1;
@@ -19,9 +23,12 @@
   --md-dark-blue-4: #476f92;
   --md-dark-blue-5: #324960;
   --md-red: #f26969;
+  --md-black: #202124;
+
+  color: unset;
 }
 
-.dark-theme * {
+.dark-theme {
   --md-white: #202124;
   --md-neutral-100: #171819;
   --md-neutral-150: #221819;
@@ -63,7 +70,7 @@
 
 /* TYPOGRAPHY */
 * {
-  color: var(--md-black);
+  color: unset;
 }
 
 h1,

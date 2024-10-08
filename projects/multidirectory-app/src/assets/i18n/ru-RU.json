@@ -98,6 +98,8 @@
     "setup-complete": "Настройка выполнена",
     "back": "Назад",
     "next": "Далее",
+    "russian": "Русский",
+    "english": "English",
     "admin-settings": {
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "admin-login-label": "Логин администратора",

@@ -34,8 +34,8 @@ export class TextboxComponent extends BaseComponent {
   passwordVisible = false;
   faEye = faEye;
 
-  constructor(cdr: ChangeDetectorRef, injector: Injector) {
-    super(cdr, injector);
+  constructor(cdr: ChangeDetectorRef) {
+    super(cdr);
   }
 
   override setFocus() {

@@ -46,8 +46,8 @@
   }
 }
 
-::ng-deep .dark-theme {
-  .md-button {
+::ng-deep :host .dark-theme {
+  &.md-button {
     color: var(--md-black);
   }
 }

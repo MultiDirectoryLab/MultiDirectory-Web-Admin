@@ -117,7 +117,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  changeLanguage() {
-    this.app.language = this.app.language == 'en-US' ? 'ru-RU' : 'en-US';
+  changeLanguage(lang = '') {
+    if (!lang) {
+      this.app.language = this.app.language == 'en-US' ? 'ru-RU' : 'en-US';
+    } else if (lang == 'ru') {
+      this.app.language = 'ru-RU';
+    } else if (lang == 'en') {
+      this.app.language = 'en-US';
+    }
   }
 }

@@ -18,35 +18,24 @@ import { BaseControlComponent } from './control.component';
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseComponent
-  extends BaseControlComponent
-  implements ControlValueAccessor, OnInit, OnDestroy
-{
+export class BaseComponent extends BaseControlComponent implements ControlValueAccessor, OnDestroy {
   @Input() disabled: boolean = false;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() focus = new EventEmitter<void>();
   unsubscribe = new Subject<boolean>();
-  _controlAccessor?: NgControl;
-  get controlAccessor(): NgControl {
-    return this._controlAccessor!;
+  _controlAccessor: NgControl | null = null;
+  get controlAccessor(): NgControl | null {
+    return this._controlAccessor;
   }
-  set controlAccessor(ca: NgControl) {
+  set controlAccessor(ca: NgControl | null) {
     this._controlAccessor = ca;
     this.cdr.detectChanges();
   }
-  constructor(
-    protected cdr: ChangeDetectorRef,
-    private injector: Injector,
-  ) {
+
+  constructor(protected cdr: ChangeDetectorRef) {
     super();
-  }
-  ngOnInit(): void {
-    this.controlAccessor = this.injector.get(NgControl);
-    if (this.controlAccessor.control && this.controlAccessor.validator) {
-      this.controlAccessor.validator(this.controlAccessor.control);
-    }
   }
 
   innerValue: any = '';

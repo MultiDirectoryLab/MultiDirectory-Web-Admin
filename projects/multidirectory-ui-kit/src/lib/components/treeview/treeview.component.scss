@@ -68,7 +68,7 @@
   flex-flow: row nowrap;
   &.focused {
     background-color: var(--md-neutral-150);
-    color: black;
+    color: var(--md-black);
   }
 
   &:not(.with-checkboxes) {
@@ -82,7 +82,7 @@
 md-tree-item > .tree-item-wrapper:not(.selected) {
   &:hover {
     background-color: var(--md-neutral-150);
-    color: black;
+    color: var(--md-black);
   }
 }
 md-checkbox {

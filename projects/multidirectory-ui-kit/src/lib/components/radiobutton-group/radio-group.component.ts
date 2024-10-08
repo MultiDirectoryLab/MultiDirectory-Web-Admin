@@ -10,7 +10,7 @@ import {
   ViewChildren,
   forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
 
@@ -32,8 +32,8 @@ export class RadioGroupComponent extends BaseComponent {
   @Output() valueChanges = new EventEmitter<any>();
   buttons: RadiobuttonComponent[] = [];
 
-  constructor(cdr: ChangeDetectorRef, injector: Injector) {
-    super(cdr, injector);
+  constructor(cdr: ChangeDetectorRef) {
+    super(cdr);
   }
 
   override writeValue(value: any): void {
