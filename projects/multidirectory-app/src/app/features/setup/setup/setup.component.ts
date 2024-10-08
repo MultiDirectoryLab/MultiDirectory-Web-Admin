@@ -45,6 +45,8 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
+    this.setupRequest.setupDnsRequest.domain = window.location.hostname;
+    this.setupRequest.setupDnsRequest.zone_name = window.location.hostname;
     this.setupRequestValidatorService.onStepValid
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((valid) => {
