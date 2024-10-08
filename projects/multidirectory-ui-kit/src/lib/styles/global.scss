@@ -55,6 +55,13 @@
     background-color: var(--md-neutral-100);
     border: 1px solid #30363d;
   }
+  label,
+  span,
+  p,
+  div,
+  button {
+    color: var(--md-black);
+  }
 }
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
