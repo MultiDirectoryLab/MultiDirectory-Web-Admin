@@ -34,6 +34,7 @@ import { HotkeyModule } from 'angular2-hotkeys';
 import { translate, Translation, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 
 export function appInitializerFactory(translateService: TranslocoService) {
   return (): Promise<Translation> => {
@@ -91,6 +92,15 @@ export function appInitializerFactory(translateService: TranslocoService) {
         toastr: ToastrService,
       ) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
       deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService],
+    },
+    {
+      provide: 'dnsAdapter',
+      useFactory: (
+        adapterSettings: DnsAdapterSettings,
+        httpClient: HttpClient,
+        toastr: ToastrService,
+      ) => new ApiAdapter<DnsAdapterSettings>(httpClient, adapterSettings, toastr),
+      deps: [DnsAdapterSettings, HttpClient, ToastrService],
     },
     {
       provide: ErrorHandler,

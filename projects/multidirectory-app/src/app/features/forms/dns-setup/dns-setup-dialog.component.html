@@ -1,0 +1,16 @@
+<div class="app-modal-header">
+  {{ 'dns-setup-dialog.header' | transloco }}
+</div>
+
+<app-dns-setup [(formValid)]="formValid" [(dnsSetupRequest)]="dnsSetupRequest"></app-dns-setup>
+
+<div class="app-modal-footer">
+  <div class="flex-row align-center justify-end flex-gap-10">
+    <md-button (click)="onClose()">
+      {{ 'dns-setup-dialog.cancel' | transloco }}
+    </md-button>
+    <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish($event)">
+      {{ 'dns-setup-dialog.apply' | transloco }}
+    </md-button>
+  </div>
+</div>

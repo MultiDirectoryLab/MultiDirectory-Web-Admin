@@ -3,13 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   Output,
   QueryList,
   ViewChildren,
   forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
 
@@ -25,7 +26,7 @@ import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
     },
   ],
 })
-export class RadioGroupComponent extends BaseComponent implements AfterViewInit {
+export class RadioGroupComponent extends BaseComponent {
   @Input() drawBorder = false;
   @Input() title = '';
   @Output() valueChanges = new EventEmitter<any>();
@@ -34,8 +35,6 @@ export class RadioGroupComponent extends BaseComponent implements AfterViewInit 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
   }
-
-  ngAfterViewInit(): void {}
 
   override writeValue(value: any): void {
     if (value !== this.innerValue) {

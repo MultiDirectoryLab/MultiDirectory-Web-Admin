@@ -26,6 +26,9 @@ export class ErrorLabelComponent extends BaseControlComponent {
     if (!!this.ngControl?.errors?.['DomainFormat']) {
       return this.ngControl?.errors?.['DomainFormat'];
     }
+    if (!!this.ngControl?.errors?.['DnsSrvFormat']) {
+      return this.ngControl?.errors?.['DnsSrvFormat'];
+    }
     if (!!this.ngControl?.errors?.['IpAddress']) {
       return this.ngControl?.errors?.['IpAddress'];
     }

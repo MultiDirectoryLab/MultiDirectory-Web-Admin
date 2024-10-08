@@ -1,0 +1,43 @@
+<div class="flex-row align-center flex-gap-10">
+  <!--div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img" /></div-->
+  <div class="place">{{ 'dns-setup.header' | transloco }}</div>
+</div>
+<hr />
+<div class="flex-column align-start justify-end flex-gap-10">
+  <md-form #form>
+    <div class="dns-setup-grid">
+      <label for="zone_name">{{ 'dns-setup.zone_name' | transloco }}</label>
+      <md-textbox appRequired [(ngModel)]="dnsSetupRequest.zone_name" name="zone_name"></md-textbox>
+
+      <label for="domain">{{ 'dns-setup.domain' | transloco }}</label>
+      <md-textbox appRequired [(ngModel)]="dnsSetupRequest.domain" name="domain"></md-textbox>
+
+      <md-checkbox class="external-services-checkbox" [(ngModel)]="useExternalService">{{
+        'dns-setup.external_service' | transloco
+      }}</md-checkbox>
+
+      <ng-container *ngIf="useExternalService">
+        <label for="dns_ip_address">{{ 'dns-setup.dns_ip_address' | transloco }}</label>
+        <md-textbox
+          appRequired
+          [(ngModel)]="dnsSetupRequest.dns_ip_address"
+          name="dns_ip_address"
+        ></md-textbox>
+
+        <label for="tsig_key">{{ 'dns-setup.tsig_key' | transloco }}</label>
+        <md-textarea
+          class="w-100 tsig-key"
+          [(ngModel)]="dnsSetupRequest.tsig_key"
+          name="tsig_key"
+        ></md-textarea>
+      </ng-container>
+
+      <label for="default_ttl">{{ 'dns-setup.default_ttl' | transloco }}</label>
+      <md-number
+        appRequired
+        [(ngModel)]="dnsSetupRequest.default_ttl"
+        name="default_ttl"
+      ></md-number>
+    </div>
+  </md-form>
+</div>

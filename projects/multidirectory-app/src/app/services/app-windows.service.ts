@@ -8,6 +8,7 @@ import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-d
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { DnsRule } from '@models/dns/dns-rule';
+import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 
 @Injectable({
   providedIn: 'root',
@@ -280,19 +281,35 @@ export class AppWindowsService {
     return this._closeSetupKerberosDialogRx.next();
   }
 
-  private _showDnsRuleDialogRx = new Subject<DnsRule>();
+  private _showDnsRuleDialogRx = new Subject<{ rule: DnsRule; editMode: boolean }>();
   private _closeDnsRuleDialogRx = new Subject<DnsRule>();
-  get showDnsRuleDialogRx(): Observable<DnsRule> {
+  get showDnsRuleDialogRx(): Observable<{ rule: DnsRule; editMode: boolean }> {
     return this._showDnsRuleDialogRx.asObservable();
   }
   get closeDnsRuleDialogRx(): Observable<DnsRule> {
     return this._closeDnsRuleDialogRx.asObservable();
   }
-  openDnsRuleDialog(rule: DnsRule) {
-    this._showDnsRuleDialogRx.next(rule);
+  openDnsRuleDialog(rule: DnsRule, editMode: boolean = false) {
+    this._showDnsRuleDialogRx.next({ rule: rule, editMode: editMode });
     return this.closeDnsRuleDialogRx;
   }
   closeDnsRuleDialog(rule: DnsRule) {
     return this._closeDnsRuleDialogRx.next(rule);
+  }
+
+  private _showDnsSetupDialogRx = new Subject<DnsSetupRequest>();
+  private _closeDnsSetupDialogRx = new Subject<DnsSetupRequest>();
+  get showDnsSetupDialogRx(): Observable<DnsSetupRequest> {
+    return this._showDnsSetupDialogRx.asObservable();
+  }
+  get closeDnsSetupDialogRx(): Observable<DnsSetupRequest> {
+    return this._closeDnsSetupDialogRx.asObservable();
+  }
+  openDnsSetupDialog(rule: DnsSetupRequest) {
+    this._showDnsSetupDialogRx.next(rule);
+    return this.closeDnsSetupDialogRx;
+  }
+  closeDnsSetupDialog(rule: DnsSetupRequest) {
+    return this._closeDnsSetupDialogRx.next(rule);
   }
 }

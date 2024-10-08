@@ -12,6 +12,7 @@ import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-d
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { DnsRule } from '@models/dns/dns-rule';
+import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 
 @Component({
   selector: 'app-windows',
@@ -36,6 +37,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('addPrincipalDialog') addPrincipalDialog!: ModalInjectDirective;
   @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
   @ViewChild('dnsRuleDialog') dnsRuleDialog!: ModalInjectDirective;
+  @ViewChild('dnsSetupDialog') dnsSetupDialog!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -130,9 +132,17 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       this.openSetupKerberosDialog();
     });
 
-    this.ldapWindows.showDnsRuleDialogRx.pipe(takeUntil(this.unsubscribe)).subscribe((dnsRule) => {
-      this.openDnsRuleDialog(dnsRule);
-    });
+    this.ldapWindows.showDnsRuleDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(({ rule, editMode }) => {
+        this.openDnsRuleDialog(rule, editMode);
+      });
+
+    this.ldapWindows.showDnsSetupDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((dnsSetupRequest) => {
+        this.openDnsSetupDialog(dnsSetupRequest);
+      });
   }
 
   ngOnDestroy(): void {
@@ -308,12 +318,21 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  openDnsRuleDialog(dnsRule: DnsRule) {
+  openDnsRuleDialog(dnsRule: DnsRule, editMode: boolean = false) {
     this.dnsRuleDialog
-      .open({ minHeight: 360 }, { dnsRule: dnsRule })
+      .open({ minHeight: 360 }, { dnsRule: dnsRule, editMode: editMode })
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeDnsRuleDialog(result);
+      });
+  }
+
+  openDnsSetupDialog(dnsSetupRequest: DnsSetupRequest) {
+    this.dnsSetupDialog
+      .open({ minHeight: 460 }, { dnsSetupRequest: dnsSetupRequest })
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closeDnsSetupDialog(result);
       });
   }
 }

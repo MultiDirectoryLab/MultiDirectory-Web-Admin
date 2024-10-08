@@ -4,7 +4,6 @@
   background-color: transparent;
   border: none;
   height: 100%;
-  @include global.use-inter-typography(500, 14px, 19.6px);
   /* padding: 8px; */
   display: flex;
   flex-flow: column;
@@ -48,7 +47,6 @@
     flex-flow: row nowrap;
     gap: 4px;
     border-left: 1px solid var(--md-neutral-100);
-    color: var(--md-dark-blue-5);
     height: 32px;
     display: flex;
     justify-content: center;
@@ -62,7 +60,6 @@
       border-left: none;
       border-right: 1px solid var(--md-neutral-100);
     }
-
     &.disabled {
       cursor: default;
       background-color: var(--md-neutral-100);

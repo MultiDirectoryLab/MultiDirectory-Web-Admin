@@ -1,52 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
+import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsStatuses } from '@models/dns/dns-statuses';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, of, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-settings',
   templateUrl: './dns-settings.component.html',
   styleUrls: ['./dns-settings.component.scss'],
 })
-export class DnsSettingsComponent implements OnInit {
+export class DnsSettingsComponent implements OnInit, OnDestroy {
+  private unsubscribe = new Subject<boolean>();
+  dnsStatuses = DnsStatuses;
+  dnsStatus = new DnsStatusResponse({});
   rules: DnsRule[] = [];
+  faCircleExclamation = faCircleExclamation;
 
   constructor(
     private dnsService: DnsApiService,
     private windows: AppWindowsService,
     private dns: DnsApiService,
     private toastr: ToastrService,
+    private app: AppSettingsService,
   ) {}
 
   ngOnInit(): void {
-    this.reloadData();
+    this.windows.showSpinner();
+    this.app.dnsStatusRx
+      .pipe(
+        takeUntil(this.unsubscribe),
+        catchError((err) => {
+          this.windows.hideSpinner();
+          throw err;
+        }),
+      )
+      .subscribe((status) => {
+        this.windows.hideSpinner();
+        this.dnsStatus = status;
+        if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
+          this.reloadData();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next(true);
+    this.unsubscribe.complete();
   }
 
   private reloadData() {
+    this.windows.showSpinner();
     this.dnsService
       .get()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError((err) => {
+          this.windows.hideSpinner();
+          throw err;
+        }),
+      )
       .subscribe((rules) => {
         const all = rules.flatMap((x) =>
           x.records.map((y) => {
             const rule = new DnsRule(y);
             rule.record_type = x.record_type as DnsRuleType;
-            rule.ttl = String(y.ttl);
+            rule.ttl = y.ttl;
             return rule;
           }),
         );
         this.rules = all;
+        this.windows.hideSpinner();
       });
   }
 
   private enusreHostname(rule: DnsRule): DnsRule {
     const result = new DnsRule(rule);
-    result.hostname = result.hostname.replace(/\.?beta\.multidirectory\.io(?=[^.]*$)/, '');
+    result.record_name = result.record_name.replace('.' + this.dnsStatus.zone_name, '');
     return result;
   }
 
@@ -90,9 +129,9 @@ export class DnsSettingsComponent implements OnInit {
 
   onEdit(index: number) {
     const rule = this.enusreHostname(this.rules[index]);
-    const oldHostname = this.rules[index].hostname;
+    const oldHostname = this.rules[index].record_name;
     this.windows
-      .openDnsRuleDialog(rule)
+      .openDnsRuleDialog(rule, true)
       .pipe(
         take(1),
         switchMap((x) => {
@@ -102,8 +141,25 @@ export class DnsSettingsComponent implements OnInit {
         }),
       )
       .subscribe((rule) => {
-        this.rules[index].hostname = oldHostname;
+        this.rules[index].record_name = oldHostname;
         this.toastr.success(translate('dns-settings.success'));
+      });
+  }
+
+  handleSetupClick() {
+    this.windows
+      .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))
+      .pipe(
+        take(1),
+        switchMap((request) => {
+          if (!request) {
+            return EMPTY;
+          }
+          return this.dns.setup(request);
+        }),
+      )
+      .subscribe((request) => {
+        window.location.reload();
       });
   }
 }

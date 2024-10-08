@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -23,14 +25,15 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() focus = new EventEmitter<void>();
   unsubscribe = new Subject<boolean>();
-  _controlAccessor?: NgControl;
-  get controlAccessor(): NgControl {
-    return this._controlAccessor!;
+  _controlAccessor: NgControl | null = null;
+  get controlAccessor(): NgControl | null {
+    return this._controlAccessor;
   }
-  set controlAccessor(ca: NgControl) {
+  set controlAccessor(ca: NgControl | null) {
     this._controlAccessor = ca;
     this.cdr.detectChanges();
   }
+
   constructor(protected cdr: ChangeDetectorRef) {
     super();
   }

@@ -4,6 +4,7 @@
   position: fixed;
   z-index: 999;
   background: var(--md-white);
+  color: var(--md-black);
   border: 1px solid var(--md-dark-blue);
   white-space: nowrap;
   overflow: hidden;
@@ -12,6 +13,7 @@
   ::ng-deep .dropdown-item {
     padding: 6px;
     border-bottom: 1px solid var(--md-neutral-300);
+    color: var(--md-black);
     ::ng-deep &.disabled {
       pointer-events: none;
       background-color: var(--md-neutral-200);
@@ -19,7 +21,6 @@
     ::ng-deep &:hover {
       cursor: pointer;
       background-color: var(--md-neutral-150);
-      color: var(--md-neutral-800);
     }
   }
 }

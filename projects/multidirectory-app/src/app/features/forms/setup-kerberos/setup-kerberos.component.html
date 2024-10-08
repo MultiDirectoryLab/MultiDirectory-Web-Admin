@@ -91,17 +91,13 @@
       </div>
     </div>
   </md-form>
-  <div class="flex-row align-center">
+  <div class="flex-row align-center flex-gap-10 pt-16">
     <md-button (click)="generatePasswords()">
       {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}</md-button
     >
-  </div>
-  <div class="flex-row pt-16 justify-center">
-    <label class="textbox-label">
-      <md-button (click)="downloadPasswords()">{{
-        'setup.kerberos-settings.download-passwords' | transloco
-      }}</md-button>
-    </label>
+    <md-button (click)="downloadPasswords()">{{
+      'setup.kerberos-settings.download-passwords' | transloco
+    }}</md-button>
   </div>
 </div>
 <div class="app-modal-footer flex-row align-center justify-end flex-gap-10">

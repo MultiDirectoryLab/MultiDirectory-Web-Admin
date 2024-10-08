@@ -45,6 +45,8 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
+    this.setupRequest.setupDnsRequest.domain = window.location.hostname;
+    this.setupRequest.setupDnsRequest.zone_name = window.location.hostname;
     this.setupRequestValidatorService.onStepValid
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((valid) => {
@@ -117,7 +119,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  changeLanguage() {
-    this.app.language = this.app.language == 'en-US' ? 'ru-RU' : 'en-US';
+  changeLanguage(lang = '') {
+    if (!lang) {
+      this.app.language = this.app.language == 'en-US' ? 'ru-RU' : 'en-US';
+    } else if (lang == 'ru') {
+      this.app.language = 'ru-RU';
+    } else if (lang == 'en') {
+      this.app.language = 'en-US';
+    }
   }
 }

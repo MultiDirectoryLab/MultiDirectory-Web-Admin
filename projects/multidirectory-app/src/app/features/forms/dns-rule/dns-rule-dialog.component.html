@@ -7,22 +7,43 @@
       <label>{{ 'dns-rule-dialog.name' | transloco }}</label>
       <md-textbox
         appRequired
-        [(ngModel)]="dnsRule.hostname"
-        [disabled]="sameAsZoneName"
+        [(ngModel)]="dnsRule.record_name"
+        [disabled]="sameAsZoneName || editMode"
       ></md-textbox>
       <div></div>
-      <md-checkbox [(ngModel)]="sameAsZoneName">{{
+      <md-checkbox [disabled]="editMode" [(ngModel)]="sameAsZoneName">{{
         'dns-rule-dialog.same-as-zone-name' | transloco
       }}</md-checkbox>
       <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
-      <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.ip"></md-textbox>
+      <div [ngSwitch]="recordDataType">
+        <md-textbox
+          *ngSwitchCase="DnsRuleClass.IP6.valueOf()"
+          appRequired
+          validIp6Address
+          [(ngModel)]="dnsRule.record_value"
+        ></md-textbox>
+        <md-textbox
+          *ngSwitchCase="DnsRuleClass.IP4.valueOf()"
+          appRequired
+          validIpAddress
+          [(ngModel)]="dnsRule.record_value"
+        ></md-textbox>
+
+        <md-textbox
+          *ngSwitchCase="DnsRuleClass.SRV.valueOf()"
+          appRequired
+          [(ngModel)]="dnsRule.record_value"
+        ></md-textbox>
+
+        <md-textbox *ngSwitchDefault appRequired [(ngModel)]="dnsRule.record_value"></md-textbox>
+      </div>
       <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
       <md-dropdown
         appRequired
-        [(ngModel)]="dnsRule.record_type"
+        [disabled]="editMode"
+        [(ngModel)]="recordType"
         [options]="DnsRuleTypes"
       ></md-dropdown>
-
       <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
       <md-textbox appRequired [(ngModel)]="dnsRule.ttl"></md-textbox>
     </div>
