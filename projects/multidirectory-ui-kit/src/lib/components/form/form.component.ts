@@ -57,7 +57,12 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
+    this.updateValueAccessors();
     this.updateValidators();
+
+    this.valueAccessors.changes.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.updateValueAccessors();
+    });
 
     this.inputs.changes.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.unsubscribeValidators.next();
@@ -65,7 +70,7 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  updateValidators() {
+  updateValueAccessors() {
     this.valueAccessors.forEach((va) => {
       const input = this.inputs.find((x) => x.valueAccessor == va);
       if (input) {
@@ -76,7 +81,9 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
       }
     });
     this.cdr.detectChanges();
+  }
 
+  updateValidators() {
     const arr = this.inputs.toArray().map((x) => x.statusChanges!);
     combineLatest(arr)
       .pipe(takeUntil(this.unsubscribeValidators))
