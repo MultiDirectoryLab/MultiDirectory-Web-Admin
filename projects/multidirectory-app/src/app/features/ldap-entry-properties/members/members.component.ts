@@ -52,11 +52,12 @@ export class MembersComponent {
   }
 
   addMember() {
+    const types = ['group', 'user'];
     this.windows
       ?.openEntitySelector(
         new EntitySelectorSettings({
           selectedEntities: [],
-          selectedEntityTypes: ENTITY_TYPES.filter((x) => x.entity == 'user') ?? [],
+          selectedEntityTypes: ENTITY_TYPES.filter((x) => types.includes(x.entity)) ?? [],
           allowSelectEntityTypes: false,
         }),
       )
