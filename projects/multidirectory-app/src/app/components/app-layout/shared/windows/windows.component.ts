@@ -311,7 +311,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
 
   openSetupKerberosDialog() {
     this.setupKerberosDialog
-      .open({ minHeight: 360 }, {})
+      .open({ minHeight: 400 }, {})
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeSetupKerberosDialog();
