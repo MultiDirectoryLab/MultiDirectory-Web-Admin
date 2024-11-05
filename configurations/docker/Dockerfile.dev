@@ -1,9 +1,13 @@
-FROM node:18 
+FROM node:22 
 RUN yarn config set registry https://registry.npmjs.org/ && \
-    yarn global add @angular/cli@18
-COPY package.json /app/package.json
+    yarn global add @angular/cli@18 @angular-devkit/build-angular
+    
 WORKDIR /app
-RUN yarn install --no-audit
+COPY package.json /app/package.json
 COPY . /app
+
+RUN yarn
+
 RUN ng build multidirectory-ui-kit && \
     npm link dist/multidirectory-ui-kit/
+ 
