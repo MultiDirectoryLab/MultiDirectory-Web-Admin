@@ -10,7 +10,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
 import { MdModalComponent } from '../modal.component';
 import { getModalParts } from './modal-inject-helper';
 import { MdPortalService } from '../../portal/portal.service';
@@ -32,7 +32,7 @@ import { PORTAL_AWARE_VIEW_CONTAINER_RESOLVER } from './portal-aware-view-contai
 })
 export class ModalInjectDirective implements OnChanges, OnDestroy {
   private templateView!: EmbeddedViewRef<any>;
-  private _modalWrapper!: ComponentRef<MdModalComponent>;
+  private _modalWrapper?: ComponentRef<MdModalComponent>;
   private viewContainerRef!: ViewContainerRef;
   private unsubscribe = new Subject<void>();
 
@@ -59,7 +59,7 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
   }
 
   get modal(): MdModalComponent {
-    return this._modalWrapper.instance;
+    return this._modalWrapper!.instance;
   }
 
   contentOptions: { [key: string]: any } = {};
@@ -68,6 +68,9 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
     modalOptions?: { [key: string]: any },
     contentOptions?: { [key: string]: any },
   ): Observable<any | boolean | null> {
+    if (this._modalWrapper) {
+      return of(false);
+    }
     this.viewContainerRef = this.getViewContainerRef();
     this.templateView = this.viewContainerRef.createEmbeddedView(this.templateRef);
     const nodes = getModalParts(this.templateView.rootNodes);
@@ -76,7 +79,7 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
     });
     if (modalOptions) {
       Object.entries(modalOptions).forEach((x) => {
-        this._modalWrapper.setInput(x[0], x[1]);
+        this._modalWrapper!.setInput(x[0], x[1]);
       });
     }
 
@@ -106,8 +109,9 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
     this.modal.visible = false;
     this._resultRx.next(result);
     this.templateView.destroy();
-    this._modalWrapper.destroy();
+    this._modalWrapper!.destroy();
     this.modalService.pop();
+    this._modalWrapper = undefined;
     this.modalService.focusLastModal();
   }
 
