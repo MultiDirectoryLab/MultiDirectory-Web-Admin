@@ -1,23 +1,28 @@
 version: '3.3'
 name: multidirectory
 services:
-  multidirectory-app:
-    container_name: multidirectory_app
-    volumes:
-      - ./:/app
-      - node_modules:/app/node_modules
+  interface:
+    container_name: multidirectory_interface
     build:
-      context: .
+      context: ./
       dockerfile: configurations/docker/Dockerfile.dev
     restart: 'no'
+    hostname: interface
     environment:
-      - API_URL=https://md.localhost/api
+      - HUSKY=0
+      - API_URL=http://md.localhost/api
+      - NODE_ENV=development
     ports:
       - 9080:80
+    working_dir: /app
+    volumes:
+      - ./projects:/app/projects
+      - node_modules:/app/node_modules
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.multidirectory-app.rule=Host(`md.localhost`)'
-      - 'traefik.http.routers.multidirectory-app.entrypoints=web'
+      - 'traefik.http.routers.interface.rule=Host(`md.localhost`)'
+      - 'traefik.http.routers.interface.entrypoints=web'
+      - 'traefik.http.services.interface.loadbalancer.server.port=80'
     command: ng serve --host 0.0.0.0 --port 80 --poll 2000
 
   multidirectory-storybook:
