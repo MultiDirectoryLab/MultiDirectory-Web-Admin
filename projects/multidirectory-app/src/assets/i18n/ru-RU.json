@@ -147,7 +147,8 @@
       "domain-label": "Домен",
       "legacy-logon-name-label": "Имя для входа(pre-Windows 2000):",
       "legacy-domain-label": "Домен",
-      "description": "Описание"
+      "description": "Описание",
+      "email": "E-mail"
     },
     "password-settings": {
       "password-label": "Пароль",

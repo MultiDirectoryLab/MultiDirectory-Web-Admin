@@ -194,7 +194,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
 
   openCreateUser(parentDn: string) {
     this.createUserModal
-      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .open({ width: '580px', minHeight: 564 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
         this.ldapWindows.closeCreateUser(parentDn);

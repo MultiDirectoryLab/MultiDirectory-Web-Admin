@@ -77,7 +77,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
             }),
             new PartialAttribute({
               type: 'mail',
-              vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
+              vals: [this.setupRequest.email],
             }),
             new PartialAttribute({
               type: 'description',

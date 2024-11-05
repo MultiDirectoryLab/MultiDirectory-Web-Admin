@@ -18,5 +18,7 @@ export class UserCreateRequest {
   userPasswordExpired = false;
   accountDisabled = false;
   uacBitSet = new BitSet();
+  email = '';
+
   constructor() {}
 }
