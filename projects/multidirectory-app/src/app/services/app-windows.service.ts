@@ -73,6 +73,22 @@ export class AppWindowsService {
     return this._closeCreateOuMenuRx.next(parentDn);
   }
 
+  private _showCreateRuleMenuRx = new Subject<string>();
+  private _closeCreateRuleMenuRx = new Subject<string>();
+  get showCreateRuleMenuRx(): Observable<string> {
+    return this._showCreateRuleMenuRx.asObservable();
+  }
+  get closeCreateRuleMenuRx(): Observable<string> {
+    return this._closeCreateRuleMenuRx.asObservable();
+  }
+  openCreateRule(parentDn: string) {
+    this._showCreateRuleMenuRx.next(parentDn);
+    return this.closeCreateRuleMenuRx;
+  }
+  closeCreateRule(parentDn: string) {
+    return this._closeCreateRuleMenuRx.next(parentDn);
+  }
+
   private _showCreateUserMenuRx = new Subject<string>();
   private _closeCreateUserMenuRx = new Subject<string>();
   get showCreateUserMenuRx(): Observable<string> {

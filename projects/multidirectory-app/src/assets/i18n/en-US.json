@@ -73,6 +73,14 @@
     "apply": "Save",
     "description": "Description"
   },
+  "rule-create": {
+    "modal-header": "New object - Rule",
+    "header": "Add to:",
+    "ouname-label": "Enter the name of the rule",
+    "cancel": "Cancel",
+    "apply": "Save",
+    "description": "Description"
+  },
   "catalog-create": {
     "modal-header": "New object - Catalog",
     "header": "Add to:",
@@ -196,6 +204,7 @@
     "computer": "Computer",
     "contact": "Contact",
     "ou": "Organizational unit",
+    "rule": "Rule",
     "folder": "Catalog",
     "common-folder": "a shared folder",
     "printer": "Printer",
@@ -480,6 +489,7 @@
     "root": "Root",
     "domain-controller": "Domain controller",
     "user": "User",
+    "rule": "Rule",
     "security-group": "Security group",
     "computer": "Computer",
     "organizational-unit": "Organizational Unit",

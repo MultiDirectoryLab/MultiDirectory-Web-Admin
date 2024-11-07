@@ -23,6 +23,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
   @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
   @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
+  @ViewChild('createRuleModal', { static: true }) createRuleModal!: ModalInjectDirective;
   @ViewChild('createComputerModal', { static: true }) createComputerModal!: ModalInjectDirective;
   @ViewChild('createCatalogModal', { static: true }) createCatalogModal!: ModalInjectDirective;
   @ViewChild('properties') properties!: ModalInjectDirective;
@@ -77,6 +78,12 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
     this.ldapWindows.showCreateOuMenuRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
       this.openCreateOu(parentDn);
     });
+
+    this.ldapWindows.showCreateRuleMenuRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((parentDn) => {
+        this.openCreateRule(parentDn);
+      });
 
     this.ldapWindows.showCreateCatalogRx.pipe(takeUntil(this.unsubscribe)).subscribe((parentDn) => {
       this.openCreateCatalog(parentDn);
@@ -216,6 +223,15 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((x) => {
         this.ldapWindows.closeCreateOu(parentDn);
+      });
+  }
+
+  openCreateRule(parentDn: string) {
+    this.createRuleModal
+      .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
+      .pipe(take(1))
+      .subscribe((x) => {
+        this.ldapWindows.closeCreateRule(parentDn);
       });
   }
 

@@ -7,4 +7,5 @@ export enum LdapEntryType {
   Group = 5,
   OU = 6,
   Computer = 7,
+  Rule = 8,
 }
