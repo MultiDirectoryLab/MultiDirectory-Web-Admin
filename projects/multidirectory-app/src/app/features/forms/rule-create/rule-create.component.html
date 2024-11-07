@@ -1,0 +1,30 @@
+<div class="app-modal-header">
+  <div>{{ 'rule-create.modal-header' | transloco }}</div>
+</div>
+<div class="flex-row align-center flex-gap-10">
+  <div class="place">{{ 'rule-create.header' | transloco }} {{ this.parentDn }}</div>
+</div>
+<hr />
+<div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
+  <md-form #form>
+    <div class="flex-column align-start justify-end flex-gap-10">
+      <label for="rulename">{{ 'rule-create.rulename-label' | transloco }}</label>
+      <md-textbox appRequired [(ngModel)]="ruleName" name="rulename"></md-textbox>
+    </div>
+    <div class="flex-column align-start flex-space-between flex-gap-10">
+      <label for="description">{{ 'rule-create.description' | transloco }}</label>
+      <md-textarea [expandWidth]="true" [(ngModel)]="description" name="description"></md-textarea>
+    </div>
+  </md-form>
+</div>
+
+<div class="app-modal-footer">
+  <div class="flex-row align-center justify-end flex-gap-10">
+    <md-button (click)="onClose()">
+      {{ 'rule-create.cancel' | transloco }}
+    </md-button>
+    <md-button [primary]="true" [disabled]="!formValid" (click)="onFinish($event)">
+      {{ 'rule-create.apply' | transloco }}
+    </md-button>
+  </div>
+</div>

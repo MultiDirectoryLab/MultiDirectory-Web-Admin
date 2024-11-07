@@ -73,6 +73,14 @@
     "apply": "Сохранить",
     "description": "Описание"
   },
+  "rule-create": {
+    "modal-header": "Новый объект - Правило",
+    "header": "Добавить в: ",
+    "rulename-label": "Введите название правила",
+    "cancel": "Отменить",
+    "apply": "Сохранить",
+    "description": "Описание"
+  },
   "catalog-create": {
     "modal-header": "Новый объект - Каталог",
     "header": "Добавить в: ",
@@ -196,6 +204,7 @@
     "computer": "Компьютер",
     "contact": "Контакт",
     "ou": "Организационное подразделение",
+    "rule": "Правило",
     "folder": "Каталог",
     "common-folder": "Общая папка",
     "printer": "Принтер",
@@ -479,6 +488,7 @@
     "domain-controller": "Контроллер домена",
     "user": "Пользователь",
     "computer": "Компьютер",
+    "rule": "Правило",
     "security-group": "Группа безопасности",
     "organizational-unit": "Организационная единица",
     "enabled": "Включено",

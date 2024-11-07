@@ -24,11 +24,13 @@ import { SetupKerberosDialogComponent } from './setup-kerberos/setup-kerberos.co
 import { DnsRulesDialogComponent } from './dns-rule/dns-rule-dialog.component';
 import { DnsSetupDialogComponent } from './dns-setup/dns-setup-dialog.component';
 import { DnsSetupComponent } from './dns-setup/dns-setup/dns-setup.component';
+import { RuleCreateComponent } from './rule-create/rule-create.component';
 
 @NgModule({
   declarations: [
     GroupCreateComponent,
     OuCreateComponent,
+    RuleCreateComponent,
     UserCreateComponent,
     UserCreateSummaryComponent,
     UserCreatePasswordSettingsComponent,
@@ -47,6 +49,7 @@ import { DnsSetupComponent } from './dns-setup/dns-setup/dns-setup.component';
   exports: [
     GroupCreateComponent,
     OuCreateComponent,
+    RuleCreateComponent,
     UserCreateComponent,
     EntitySelectorModule,
     ComputerCreateComponent,
