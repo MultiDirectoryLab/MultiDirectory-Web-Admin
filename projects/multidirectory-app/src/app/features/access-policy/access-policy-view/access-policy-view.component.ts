@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import {
   DropdownOption,
@@ -26,7 +26,7 @@ import { MultiselectModel } from '../access-policy-create/access-policy-create.c
   styleUrls: ['./access-policy-view.component.scss'],
   templateUrl: './access-policy-view.component.html',
 })
-export class AccessPolicyViewComponent {
+export class AccessPolicyViewComponent implements OnInit {
   accessClient = new AccessPolicy();
   @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
   @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
@@ -58,6 +58,16 @@ export class AccessPolicyViewComponent {
     private windows: AppWindowsService,
   ) {}
 
+  private getMultiselectOption(x: any) {
+    const groupName = new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x;
+    return new MultiselectModel({
+      selected: true,
+      id: x,
+      title: groupName,
+      badge_title: groupName,
+    });
+  }
+
   ngOnInit(): void {
     this.windows.showSpinner();
     this.api.getAccessPolicy().subscribe({
@@ -71,24 +81,10 @@ export class AccessPolicyViewComponent {
           .join(', ');
 
         this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
-        this.availableGroups = this.accessClient.groups.map(
-          (x) =>
-            new MultiselectModel({
-              selected: true,
-              id: x,
-              title: x,
-              badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
-            }),
-        );
+        this.availableGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
 
-        this.availableMfaGroups = this.accessClient.mfaGroups.map(
-          (x) =>
-            new MultiselectModel({
-              selected: true,
-              id: x,
-              title: x,
-              badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
-            }),
+        this.availableMfaGroups = this.accessClient.mfaGroups.map((x) =>
+          this.getMultiselectOption(x),
         );
       },
       error: () => {
@@ -143,7 +139,7 @@ export class AccessPolicyViewComponent {
     });
   }
 
-  retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
+  private retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
     if (groupQuery.length < 2) {
       this.toastr.error(translate('errors.empty-filter'));
       return of([]);
@@ -151,7 +147,7 @@ export class AccessPolicyViewComponent {
     return this.navigation.getRoot().pipe(
       take(1),
       switchMap((root) =>
-        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', [])),
+        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
       ),
       map((result) => {
         return result.search_result.map((x) => {
@@ -159,7 +155,7 @@ export class AccessPolicyViewComponent {
           return new MultiselectModel({
             id: x.object_name,
             selected: false,
-            title: x.object_name,
+            title: name?.[1],
             badge_title: name?.[1] ?? x.object_name,
           });
         });

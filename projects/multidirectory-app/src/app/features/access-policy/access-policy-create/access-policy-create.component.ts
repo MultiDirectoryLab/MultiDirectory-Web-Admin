@@ -12,7 +12,7 @@ import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Observable, map, switchMap, take } from 'rxjs';
+import { Observable, map, of, switchMap, take } from 'rxjs';
 import { AppNavigationService } from '@services/app-navigation.service';
 
 export class MultiselectModel {
@@ -74,7 +74,7 @@ export class AccessPolicyCreateComponent implements OnInit {
         new MultiselectModel({
           selected: true,
           id: x,
-          title: x,
+          title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
           badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
         }),
     );
@@ -84,7 +84,7 @@ export class AccessPolicyCreateComponent implements OnInit {
         new MultiselectModel({
           selected: true,
           id: x,
-          title: x,
+          title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
           badge_title: new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x,
         }),
     );
@@ -134,11 +134,14 @@ export class AccessPolicyCreateComponent implements OnInit {
     });
   }
 
-  retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
+  private retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
+    if (groupQuery.length < 2) {
+      return of([]);
+    }
     return this.navigation.getRoot().pipe(
       take(1),
       switchMap((root) =>
-        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', [])),
+        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
       ),
       map((result) => {
         return result.search_result.map((x) => {
@@ -146,7 +149,7 @@ export class AccessPolicyCreateComponent implements OnInit {
           return new MultiselectModel({
             id: x.object_name,
             selected: false,
-            title: x.object_name,
+            title: name?.[1],
             badge_title: name?.[1] ?? x.object_name,
           });
         });
