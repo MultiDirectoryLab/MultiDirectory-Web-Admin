@@ -35,6 +35,8 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.setup.stepValid(this.form.valid);
     });
+
+    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.NORMAL_ACCOUNT), 1);
   }
 
   ngOnDestroy(): void {
