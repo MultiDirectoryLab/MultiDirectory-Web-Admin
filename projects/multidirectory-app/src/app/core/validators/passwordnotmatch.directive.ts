@@ -7,6 +7,7 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
+import { translate } from '@jsverse/transloco';
 export function passwordNotMatchValidator(nameRe: RegExp): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const forbidden = !nameRe.test(control.value);
@@ -25,14 +26,14 @@ export function passwordNotMatchValidator(nameRe: RegExp): ValidatorFn {
 })
 export class PasswordNotMatchValidatorDirective implements Validator {
   @Input('appPasswordNotMatch') passwordInput!: NgControl;
-  @Input() errorLabel = 'Passwords should not match';
+  @Input() errorLabel = '';
 
   validate(control: AbstractControl): ValidationErrors | null {
     if (!this.passwordInput.touched || !control.touched) {
       return null;
     }
     return control.value !== this.passwordInput.value
-      ? null
-      : { PasswordShouldNotMatch: this.errorLabel };
+      ? translate(this.errorLabel)
+      : translate('error-message.passwords-should-not-match');
   }
 }

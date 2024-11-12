@@ -611,6 +611,7 @@
     "ip-valid": "Enter a valid IP Address",
     "ip6-valid": "Enter a valid IPv6 Address",
     "passwords-not-match": "Passwords do not match",
+    "passwords-should-not-match": "Passwords should not match",
     "dns-srv-format-valid": "Enter a valid SRV record"
   },
   "dns-rule-dialog": {
