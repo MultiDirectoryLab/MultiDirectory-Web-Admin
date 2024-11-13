@@ -2,7 +2,7 @@ version: '3.3'
 name: multidirectory
 services:
   interface:
-    container_name: multidirectory_interface
+    container_name: interface
     build:
       context: ./
       dockerfile: configurations/docker/Dockerfile.dev
@@ -10,14 +10,14 @@ services:
     hostname: interface
     environment:
       - HUSKY=0
-      - API_URL=http://md.localhost/api
+      - API_URL=https://md.localhost/api
       - NODE_ENV=development
     ports:
       - 9080:80
     working_dir: /app
     volumes:
-      - ./projects:/app/projects
-      - node_modules:/app/node_modules
+      - '.:/app'
+      - '/app/node_modules'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.interface.rule=Host(`md.localhost`)'
