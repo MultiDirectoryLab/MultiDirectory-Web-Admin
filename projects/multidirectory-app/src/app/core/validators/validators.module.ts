@@ -5,7 +5,7 @@ import { IpAddressValidatorDirective } from './ip-address.directive';
 import { MfKeyValidatorDirective } from './mf-keys-validator.directive';
 import { RequiredWithMessageDirective } from './required-with-message.directive';
 import { PatternWithMessageDirective } from './pattern-with-message.directive';
-import { PasswordNotMatchValidatorDirective } from './passwordnotmatch.directive';
+import { PasswordShouldNotMatchValidatorDirective } from './passwordnotmatch.directive';
 import { Ip6AddressValidatorDirective } from './ip6-address.directive';
 import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
 
@@ -13,7 +13,7 @@ import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
   declarations: [
     DomainFormatValidatorDirective,
     PasswordMatchValidatorDirective,
-    PasswordNotMatchValidatorDirective,
+    PasswordShouldNotMatchValidatorDirective,
     IpAddressValidatorDirective,
     Ip6AddressValidatorDirective,
     MfKeyValidatorDirective,
@@ -24,7 +24,7 @@ import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
   exports: [
     DomainFormatValidatorDirective,
     PasswordMatchValidatorDirective,
-    PasswordNotMatchValidatorDirective,
+    PasswordShouldNotMatchValidatorDirective,
     IpAddressValidatorDirective,
     Ip6AddressValidatorDirective,
     MfKeyValidatorDirective,

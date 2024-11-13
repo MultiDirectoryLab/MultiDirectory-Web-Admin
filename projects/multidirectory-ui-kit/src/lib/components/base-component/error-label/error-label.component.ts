@@ -35,8 +35,8 @@ export class ErrorLabelComponent extends BaseControlComponent {
     if (!!this.ngControl?.errors?.['MfKeyFormat']) {
       return this.ngControl?.errors?.['MfKeyFormat'];
     }
-    if (!!this.ngControl?.errors?.['PasswordShouldNotMatch']) {
-      return this.ngControl?.errors?.['PasswordShouldNotMatch'];
+    if (!!this.ngControl?.errors?.['PasswordsShouldNotMatch']) {
+      return this.ngControl?.errors?.['PasswordsShouldNotMatch'];
     }
     return undefined;
   }
