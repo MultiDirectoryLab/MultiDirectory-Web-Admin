@@ -19,12 +19,12 @@ export function passwordNotMatchValidator(nameRe: RegExp): ValidatorFn {
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: PasswordNotMatchValidatorDirective,
+      useExisting: PasswordShouldNotMatchValidatorDirective,
       multi: true,
     },
   ],
 })
-export class PasswordNotMatchValidatorDirective implements Validator {
+export class PasswordShouldNotMatchValidatorDirective implements Validator {
   @Input('appPasswordNotMatch') passwordInput!: NgControl;
   @Input() errorLabel = '';
 
@@ -32,8 +32,13 @@ export class PasswordNotMatchValidatorDirective implements Validator {
     if (!this.passwordInput.touched || !control.touched) {
       return null;
     }
+
     return control.value !== this.passwordInput.value
-      ? translate(this.errorLabel)
-      : translate('error-message.passwords-should-not-match');
+      ? null
+      : {
+          PasswordsShouldNotMatch: this.errorLabel
+            ? translate(this.errorLabel)
+            : translate('error-message.passwords-should-not-match'),
+        };
   }
 }
