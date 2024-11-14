@@ -4,6 +4,7 @@
   (keyup)="onChange($event)"
   [mdDropdownContainer]="menu"
   [openMenuOnClick]="false"
+  (click)="onContainerClick($event)"
   #menuContainer
 >
   <div class="multiselect-badges">
