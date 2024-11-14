@@ -98,9 +98,9 @@ export class AccessPolicyCreateComponent implements OnInit {
   }
 
   save() {
-    this.accessClient.groups = this.groupSelector.selectedData.map((x) => x.title);
+    this.accessClient.groups = this.groupSelector.selectedData.map((x) => x.id);
     this.accessClient.mfaStatus = this.mfaAccess;
-    this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map((x) => x.title) ?? [];
+    this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map((x) => x.id) ?? [];
     this.modalControl.close(this.accessClient);
   }
 
