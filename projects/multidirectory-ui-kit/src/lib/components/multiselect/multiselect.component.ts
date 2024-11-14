@@ -122,6 +122,12 @@ export class MultiselectComponent extends BaseComponent {
     this.selectedData = this.selectedData.filter((x) => x != select);
   }
 
+  onContainerClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.inputContainer.nativeElement.focus();
+  }
+
   override writeValue(value: any): void {
     if (!value) {
       this._options = [];
