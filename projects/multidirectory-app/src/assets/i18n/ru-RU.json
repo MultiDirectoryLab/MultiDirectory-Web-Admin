@@ -609,7 +609,11 @@
     "ip6-valid": "Введите IPv6 Адрес в правильном формате",
     "passwords-not-match": "Пароли не совпадают",
     "passwords-should-not-match": "Пароли не должны совпадать",
-    "dns-srv-format-valid": "Введите SRV запись в правильном формате"
+    "dns-srv-format-valid": "Введите SRV запись в правильном формате",
+    "password-history-violation": "Не соблюдено требование к истории паролей",
+    "password-minimal-length-violation": "Не соблюдено требование к минимальной длине пароля",
+    "password-complexity-violation": "Не соблюдено требование к сложности пароля",
+    "password-cannot-end-with-digits-violation": "Пароль не может оканчиваться шестью цифрами подряд"
   },
   "dns-rule-dialog": {
     "modal-header": "Новый объект - Запись DNS",
