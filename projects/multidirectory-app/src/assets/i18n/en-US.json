@@ -612,7 +612,11 @@
     "ip6-valid": "Enter a valid IPv6 Address",
     "passwords-not-match": "Passwords do not match",
     "passwords-should-not-match": "Passwords should not match",
-    "dns-srv-format-valid": "Enter a valid SRV record"
+    "dns-srv-format-valid": "Enter a valid SRV record",
+    "password-history-violation": "Password history violation",
+    "password-minimal-length-violation": "Password minimum length violation",
+    "password-complexity-violation": "Password complexity violation",
+    "password-cannot-end-with-digits-violation": "Password cannot end with 6 digits"
   },
   "dns-rule-dialog": {
     "modal-header": "New object - DNS Record",
