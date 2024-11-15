@@ -10,7 +10,6 @@ import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui
 import { ToastrService } from 'ngx-toastr';
 import { Subject, take } from 'rxjs';
 
-// Utility classes
 export class EntityAttribute {
   constructor(
     public name: string,

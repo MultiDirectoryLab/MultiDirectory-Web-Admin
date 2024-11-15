@@ -109,8 +109,8 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(&${typeQuery}(|(displayName=*${name}*)(cn=*${name}*)))`,
-      attributes: ['displayName', 'cn', 'distinguishedName'],
+      filter: `(&${typeQuery}(|(displayName=*${name}*)(cn=*${name}*)(name=*${name}*)))`,
+      attributes: ['displayName', 'cn', 'distinguishedName', 'name'],
     });
   },
 

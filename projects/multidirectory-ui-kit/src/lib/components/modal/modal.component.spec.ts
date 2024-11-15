@@ -8,11 +8,11 @@ describe('MdModalComponent', () => {
   let fixture: ComponentFixture<ModalTestComponent>;
   let component: ModalTestComponent;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [MdModalModule],
       declarations: [ModalTestComponent, MdModalComponent, ModalInjectDirective],
-      teardown: { destroyAfterEach: false },
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

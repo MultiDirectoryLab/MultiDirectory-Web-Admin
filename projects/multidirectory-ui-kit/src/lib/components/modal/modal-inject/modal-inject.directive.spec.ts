@@ -13,10 +13,10 @@ describe('ModalInjectDirective', () => {
   let portalService: jasmine.SpyObj<MdPortalService>;
   let modalService: jasmine.SpyObj<MdModalService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     portalService = jasmine.createSpyObj('MdPortalService', ['get']);
     modalService = jasmine.createSpyObj('MdModalService', ['push', 'pop', 'focusLastModal']);
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [ModalInjectDirective],
       providers: [
         { provide: MdPortalService, useValue: portalService },
@@ -37,6 +37,7 @@ describe('ModalInjectDirective', () => {
           useValue: jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']),
         },
       ],
+      teardown: { destroyAfterEach: true },
     });
     templateRef = TestBed.inject(TemplateRef);
     viewContainerRef = TestBed.inject(ViewContainerRef);

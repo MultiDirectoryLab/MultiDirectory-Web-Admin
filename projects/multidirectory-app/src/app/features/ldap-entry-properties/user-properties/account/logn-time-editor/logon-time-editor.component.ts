@@ -93,7 +93,11 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
       return;
     }
     const index = 24 * dayId + hour;
-    this.bitValues.set(index, value == null ? (this.bitValues.get(index) == 1 ? 0 : 1) : value);
+    if (!value) {
+      this.bitValues.set(index, this.bitValues.get(index) == 1 ? 0 : 1);
+    } else {
+      this.bitValues.set(index, value);
+    }
     this.cdr.detectChanges();
   }
 
@@ -288,6 +292,6 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   }
 
   finish() {
-    this.modalControl.close(this.bitValues.toString());
+    this.modalControl.close(this.bitValues.toString(2));
   }
 }

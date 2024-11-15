@@ -16,7 +16,7 @@ xdescribe('NavigationServiceSuite', () => {
   let fixture;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [],
       providers: [
         { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
@@ -25,6 +25,7 @@ xdescribe('NavigationServiceSuite', () => {
         { provide: AppNavigationService, useClass: AppNavigationService },
       ],
       imports: [getTranslocoModule()],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

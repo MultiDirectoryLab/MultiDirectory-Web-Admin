@@ -6,11 +6,12 @@ describe('PlaneButtonComp', () => {
   let component: PlaneButtonComponent;
   let button: HTMLElement;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [],
       declarations: [PlaneButtonComponent],
       providers: [],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

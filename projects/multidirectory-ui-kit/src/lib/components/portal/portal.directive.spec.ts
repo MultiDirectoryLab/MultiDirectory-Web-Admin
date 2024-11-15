@@ -8,8 +8,8 @@ describe('Portal Directive Test Suite', () => {
   let component: MdPortalComponent;
   let service: MdPortalService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [MdPortalComponent, MdPortalDirective],
       providers: [MdPortalService],
       teardown: {

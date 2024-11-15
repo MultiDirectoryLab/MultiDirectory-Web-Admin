@@ -16,10 +16,10 @@ describe('Attributes Test Service', () => {
   let attributeService: AttributeService;
   let naviagtionService: AppNavigationService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     attributeService = new AttributeService();
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [],
       providers: [
         { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
@@ -28,6 +28,7 @@ describe('Attributes Test Service', () => {
         { provide: AppNavigationService, useClass: AppNavigationService },
       ],
       imports: [getTranslocoModule()],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 
