@@ -78,7 +78,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(|(cn=*${name}*)(displayName=*${name}*))`,
+      filter: `(|(cn=*${name}*)(displayName=*${name}*)(name=*${name}*))`,
       attributes: ['*'],
     });
   },
