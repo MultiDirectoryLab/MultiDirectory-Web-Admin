@@ -7,9 +7,10 @@ describe('PasswordPolicyNodeLoader Test Suit', () => {
   let passwordPolicyLoader: PasswordPolicyNodeLoader;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [],
       providers: [{ provide: PasswordPolicyNodeLoader, useValue: getPasswordPolicyLoaderMock() }],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

@@ -9,8 +9,8 @@ import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 
 describe('Entity Type Selector Test Suite', () => {
   let component: EntityTypeSelectorComponent;
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [EntityTypeSelectorComponent],
       providers: [
         EntityTypeSelectorComponent,
@@ -22,6 +22,7 @@ describe('Entity Type Selector Test Suite', () => {
             }),
         },
       ],
+      teardown: { destroyAfterEach: true },
     });
     component = TestBed.inject(EntityTypeSelectorComponent) as EntityTypeSelectorComponent;
   });

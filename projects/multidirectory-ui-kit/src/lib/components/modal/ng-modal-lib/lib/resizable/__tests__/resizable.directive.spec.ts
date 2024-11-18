@@ -19,9 +19,10 @@ describe('ResizableDirective', () => {
   let fixture: ComponentFixture<TestFixtureComponent>;
   let element: HTMLElement;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [TestFixtureComponent, ResizableDirective],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

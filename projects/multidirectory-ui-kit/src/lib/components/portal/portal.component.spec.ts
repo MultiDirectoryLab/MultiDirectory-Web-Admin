@@ -7,18 +7,15 @@ describe('Portal test suite', () => {
   let component: MdPortalComponent;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [MdPortalComponent, MdPortalDirective],
       imports: [],
       teardown: {
         destroyAfterEach: true,
       },
-    })
-      .compileComponents()
-      .then((_) => {
-        fixture = TestBed.createComponent(MdPortalComponent);
-        component = fixture.componentInstance;
-      });
+    }).compileComponents();
+    fixture = TestBed.createComponent(MdPortalComponent);
+    component = fixture.componentInstance;
   });
 
   it('Should create component', () => {});

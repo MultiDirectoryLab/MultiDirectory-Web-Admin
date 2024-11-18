@@ -42,6 +42,7 @@ describe('Entity Selector Test Suite', () => {
         { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
         { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
       ],
+      teardown: { destroyAfterEach: true },
     });
   });
 

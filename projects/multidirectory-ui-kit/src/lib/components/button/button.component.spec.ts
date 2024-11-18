@@ -5,11 +5,12 @@ describe('ButtonComp', () => {
   let fixture: ComponentFixture<ButtonComponent>;
   let component: ButtonComponent;
   let button: HTMLElement;
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [],
       declarations: [ButtonComponent],
       providers: [],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

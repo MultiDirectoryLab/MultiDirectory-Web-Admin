@@ -4,7 +4,7 @@ import { getTranslocoModule } from '@testing/transloco-testing';
 import { NavigationComponent } from './navigation.component';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
@@ -23,7 +23,7 @@ xdescribe('Navigation Component Test Suit', () => {
     routerSpy.events = routerEventSubj.asObservable();
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MultidirectoryUiKitModule, getTranslocoModule()],
+      imports: [RouterModule, MultidirectoryUiKitModule, getTranslocoModule()],
       declarations: [NavigationComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
@@ -32,6 +32,7 @@ xdescribe('Navigation Component Test Suit', () => {
         { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
       ],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 

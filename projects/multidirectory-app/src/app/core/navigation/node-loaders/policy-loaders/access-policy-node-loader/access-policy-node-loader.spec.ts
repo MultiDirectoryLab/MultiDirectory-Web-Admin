@@ -8,13 +8,14 @@ import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loade
 describe('AccessPolicyNodeLoaders', () => {
   let accessPolicyNodeLoader: AccessPolicyNodeLoader;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
       ],
       imports: [getTranslocoModule()],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
   });
 
