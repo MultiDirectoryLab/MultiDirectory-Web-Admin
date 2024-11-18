@@ -4,7 +4,7 @@ import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
 import { translate } from '@jsverse/transloco';
 import { SearchResponse } from '@models/entry/search-response';
-import { LdapPropertiesService } from '@services/ldap-properites.service';
+import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
