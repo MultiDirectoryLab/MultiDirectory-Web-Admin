@@ -83,5 +83,7 @@ describe('EntityAttributesComponent', () => {
     }));
   });
 
-  describe('shouldRemove', () => {});
+  describe('shouldRemove', () => {
+    it('should remove object class', () => {});
+  });
 });

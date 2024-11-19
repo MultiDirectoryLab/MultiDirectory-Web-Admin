@@ -41,10 +41,9 @@ describe('Ldap Properties Services', () => {
     )
       .pipe(take(1))
       .subscribe(([first, second]) => {
-        console.log(first.length);
-
         const secondObjectClass = second.find((x) => x.name == 'objectClass');
-        console.log(secondObjectClass?.val);
+        expect(first.length).toEqual(6);
+        expect(secondObjectClass?.val.includes('container')).toBeTrue();
       });
   });
 });

@@ -2,26 +2,8 @@ import { Injectable } from '@angular/core';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { Observable, map, of, switchMap, tap, zip } from 'rxjs';
-import { EntityAttribute } from '@features/ldap-entry-properties/entity-attributes/entity-attributes.component';
-
-interface SchemaSearchResult {
-  search_result?: Array<{
-    partial_attributes: Array<{
-      type: string;
-      vals: string[];
-    }>;
-  }>;
-}
-
-interface PropertiesSearchResult {
-  search_result: Array<{
-    object_name: string;
-    partial_attributes: Array<{
-      type: string;
-      vals: string[];
-    }>;
-  }>;
-}
+import { EntityAttribute } from '@models/entity-attribute/entity-attribute';
+import { AttributesSearchResult } from '@models/entity-attribute/attribute-search-result';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +22,7 @@ export class LdapPropertiesService {
 
   loadSchema(): Observable<EntityAttribute[]> {
     return this.api.search(SearchQueries.getSchema()).pipe(
-      map((schema: SchemaSearchResult) => {
+      map((schema: AttributesSearchResult) => {
         const types = this.extractAttributeTypes(schema);
         if (!types) {
           return [];
@@ -52,7 +34,7 @@ export class LdapPropertiesService {
 
   loadEntityProperties(entityId: string): Observable<EntityAttribute[]> {
     return this.api.search(SearchQueries.getProperites(entityId)).pipe(
-      map((response: PropertiesSearchResult) => {
+      map((response: AttributesSearchResult) => {
         const result =
           response.search_result.find((x) => x.object_name === entityId) ??
           response.search_result[0];
@@ -65,7 +47,7 @@ export class LdapPropertiesService {
     );
   }
 
-  private extractAttributeTypes(schema: SchemaSearchResult): string[] | undefined {
+  private extractAttributeTypes(schema: AttributesSearchResult): string[] | undefined {
     return schema.search_result?.[0]?.partial_attributes.find((x) => x.type === 'attributeTypes')
       ?.vals;
   }
@@ -126,7 +108,7 @@ export class LdapPropertiesService {
 
     for (const val of values) {
       const index = attributes.findIndex((x) => x.name === val.name);
-      const multipleValues = val.val.split(';');
+      const multipleValues = val.val.split(';') as string[];
 
       if (!multipleValues.length) continue;
 

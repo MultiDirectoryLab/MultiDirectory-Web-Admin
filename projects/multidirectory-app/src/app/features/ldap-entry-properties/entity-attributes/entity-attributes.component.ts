@@ -3,28 +3,14 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
 import { translate } from '@jsverse/transloco';
+import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
+import { EntityAttribute } from '@models/entity-attribute/entity-attribute';
 import { SearchResponse } from '@models/entry/search-response';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, take } from 'rxjs';
-
-export class EntityAttribute {
-  constructor(
-    public name: string,
-    public val: string,
-    public changed = false,
-    public writable = true,
-  ) {}
-}
-
-export class AttributeFilter {
-  constructor(
-    public showWithValuesOnly = true,
-    public showWritableOnly = false,
-  ) {}
-}
 
 @Component({
   selector: 'app-entity-attributes',
@@ -42,7 +28,6 @@ export class EntityAttributesComponent implements AfterViewInit {
   _searchFilter = '';
   accessor: LdapAttributes = {};
 
-  // Pagination and grid settings
   page = new Page({ pageNumber: 1, size: 20, totalElements: 4000 });
   propColumns = [
     { name: translate('entity-attributes.name'), prop: 'name', flexGrow: 1 },
