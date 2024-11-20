@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import {
-  EntityAttributesComponent,
-  EntityAttribute,
-  AttributeFilter,
-} from './entity-attributes.component';
+import { EntityAttributesComponent } from './entity-attributes.component';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +7,7 @@ import { ModalInjectDirective, MultidirectoryUiKitModule, Page } from 'multidire
 import { ChangeDetectorRef } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { getTranslocoModule } from '@testing/transloco-testing';
+import { EntityAttribute } from '@models/entity-attribute/entity-attribute';
 
 describe('EntityAttributesComponent', () => {
   let component: EntityAttributesComponent;

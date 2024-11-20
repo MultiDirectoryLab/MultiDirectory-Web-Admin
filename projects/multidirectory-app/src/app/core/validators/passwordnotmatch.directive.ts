@@ -5,15 +5,9 @@ import {
   NgControl,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
-export function passwordNotMatchValidator(nameRe: RegExp): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const forbidden = !nameRe.test(control.value);
-    return forbidden ? { forbiddenName: { value: control.value } } : null;
-  };
-}
+
 @Directive({
   selector: '[appPasswordNotMatch]',
   providers: [
@@ -29,7 +23,10 @@ export class PasswordShouldNotMatchValidatorDirective implements Validator {
   @Input() errorLabel = '';
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.passwordInput.touched || !control.touched) {
+    if (
+      (!this.passwordInput.touched && !this.passwordInput.value) ||
+      (!control.touched && !control.value)
+    ) {
       return null;
     }
 

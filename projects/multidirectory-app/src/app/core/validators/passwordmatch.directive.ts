@@ -8,12 +8,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
-export function passwordMatchValidator(nameRe: RegExp): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const forbidden = nameRe.test(control.value);
-    return forbidden ? { forbiddenName: { value: control.value } } : null;
-  };
-}
+
 @Directive({
   selector: '[appPasswordMatch]',
   providers: [
@@ -29,9 +24,13 @@ export class PasswordMatchValidatorDirective implements Validator {
   @Input() passwordMatchErrorLabel = '';
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.passwordInput.touched || !control.touched) {
+    if (
+      (!this.passwordInput.touched && !this.passwordInput.value) ||
+      (!control.touched && !control.value)
+    ) {
       return null;
     }
+
     return control.value == this.passwordInput.value
       ? null
       : {
