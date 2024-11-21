@@ -20,6 +20,7 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   @Input() label = '';
   @Input() disabled = false;
   @Input() primary = false;
+  @Input() stretch = false;
   @Output() click = new EventEmitter();
   unlistenClick = () => {};
 

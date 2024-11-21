@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import {
   DropdownOption,
@@ -12,26 +20,35 @@ import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Observable, map, of, switchMap, take } from 'rxjs';
+import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AppWindowsService } from '@services/app-windows.service';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { group } from '@angular/animations';
 import { ToastrService } from 'ngx-toastr';
-import { MultiselectModel } from '../access-policy-create/access-policy-create.component';
+import { MultiselectModel } from './multiselect-model';
 
 @Component({
   selector: 'app-access-policy-view',
   styleUrls: ['./access-policy-view.component.scss'],
   templateUrl: './access-policy-view.component.html',
 })
-export class AccessPolicyViewComponent implements OnInit {
-  accessClient = new AccessPolicy();
+export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
-  @ViewChild('form', { static: true }) form: MdFormComponent | null = null;
+  @ViewChild('form', { static: true }) form!: MdFormComponent;
   @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
   @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
+  @Input() showConrolButton = true;
+  private _accessClient = new AccessPolicy();
+  private _unsubscribe = new Subject<void>();
+  get accessClient(): AccessPolicy {
+    return this._accessClient;
+  }
+  @Input() set accessClient(value: AccessPolicy) {
+    this._accessClient = value;
+    this.accessClientChange.emit(value);
+  }
+  @Output() accessClientChange = new EventEmitter<AccessPolicy>();
+  @Input() accessPolicyId: number | undefined;
 
   ipAddresses = '';
   MfaAccessEnum = MfaAccessEnum;
@@ -69,13 +86,25 @@ export class AccessPolicyViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
+      this.load();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe.next();
+    this._unsubscribe.complete();
+  }
+
+  load() {
     this.windows.showSpinner();
     this.api.getAccessPolicy().subscribe({
       next: (policies) => {
         this.windows.hideSpinner();
         this.accessClient =
-          policies.find((x) => x.id == this.activatedRoute.snapshot.params.id) ??
-          new AccessPolicy();
+          policies.find(
+            (x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId,
+          ) ?? new AccessPolicy();
         this.ipAddresses = this.accessClient.ipRange
           .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
           .join(', ');
@@ -99,11 +128,15 @@ export class AccessPolicyViewComponent implements OnInit {
     this.availableGroups = [];
   }
 
-  save() {
+  flush() {
     this.accessClient.groups = this.groupSelector.selectedData.map((x) => x.id);
     this.accessClient.mfaStatus = this.mfaAccess;
     this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map((x) => x.id) ?? [];
+  }
+
+  save() {
     this.windows.showSpinner();
+    this.flush();
     this.api.editAccessPolicy(this.accessClient).subscribe((x) => {
       this.windows.hideSpinner();
     });
