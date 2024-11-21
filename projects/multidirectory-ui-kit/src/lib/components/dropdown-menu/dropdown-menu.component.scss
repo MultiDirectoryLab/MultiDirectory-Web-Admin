@@ -9,7 +9,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  max-height: 250px;
+  overflow-y: auto;
   ::ng-deep .dropdown-item {
     padding: 6px;
     border-bottom: 1px solid var(--md-neutral-300);
