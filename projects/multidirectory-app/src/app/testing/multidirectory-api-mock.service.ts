@@ -11,6 +11,8 @@ export function getMultidirectoryApiMock() {
   let multidirectoryApiServiceMock = jasmine.createSpyObj(MultidirectoryApiService, [
     'login',
     'search',
+    'getAccessPolicy',
+    'editAccessPolicy',
   ]);
 
   // Provide the dummy/mock data to sortNumberData method.
