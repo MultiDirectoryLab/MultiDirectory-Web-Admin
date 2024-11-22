@@ -50,7 +50,7 @@ export class MfIntegrationFormComponent implements OnInit {
   clear() {
     this.windows.showSpinner();
     this.api
-      .clearMultifactor('http')
+      .clearMultifactor(this.scope)
       .pipe(
         catchError((err) => {
           this.windows.hideSpinner();
