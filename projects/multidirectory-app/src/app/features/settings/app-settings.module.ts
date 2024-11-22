@@ -8,8 +8,7 @@ import { MultifactorSettingsComponent } from './mulifactor-settings/multifactor-
 import { AppSettingsRoutingModule } from './app-settings-routes.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MultidirectorySettingsComponent } from './multidirectory-settings/multidirectory-settings.component';
-import { MfAdminIntegrationComponent } from './mulifactor-settings/admin-integration/mf-admin-integration.component';
-import { MfUserIntegrationComponent } from './mulifactor-settings/user-integration/mf-user-integration.component';
+import { MfIntegrationFormComponent } from './mulifactor-settings/mf-integration-form/mf-integration-form.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ValidatorsModule } from '@core/validators/validators.module';
@@ -37,8 +36,7 @@ import { DnsSettingsModule } from '../dns/dns-settings.module';
     AppSettingsNavigationComponent,
     MultifactorSettingsComponent,
     MultidirectorySettingsComponent,
-    MfAdminIntegrationComponent,
-    MfUserIntegrationComponent,
+    MfIntegrationFormComponent,
     AboutComponent,
     KerberosPrincipalsComponent,
   ],

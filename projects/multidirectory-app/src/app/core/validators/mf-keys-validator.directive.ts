@@ -1,12 +1,7 @@
 import { Directive, Input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  PatternValidator,
-  ValidationErrors,
-  Validator,
-  ValidatorFn,
-} from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { translate } from '@jsverse/transloco';
+
 @Directive({
   selector: '[appMfKeyValidator]',
   providers: [
@@ -18,8 +13,8 @@ import {
   ],
 })
 export class MfKeyValidatorDirective implements Validator {
-  keyErrorLabel = 'MF Key should be 32 charecters long and start with "rs_"';
-  secretErrorLabel = 'MF Secret should be 32 charecters long';
+  keyErrorLabel = translate('error-message.mf-key-format-error');
+  secretErrorLabel = translate('error-message.mf-secret-format-error');
 
   @Input() isSecret = false;
   keyFormat = /^rs_(?:[A-Za-z0-9]{29})$/gi;

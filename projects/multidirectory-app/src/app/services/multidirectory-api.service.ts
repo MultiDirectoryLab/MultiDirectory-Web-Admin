@@ -32,7 +32,7 @@ import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-requ
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
+import { ClearMultifactorRequest } from '@models/multifactor/clear-multifactor-request';
 
 @Injectable({
   providedIn: 'root',
@@ -166,6 +166,10 @@ export class MultidirectoryApiService {
 
   getMultifactor(): Observable<GetMultifactorResponse> {
     return this.httpClient.post<GetMultifactorResponse>('multifactor/get').execute();
+  }
+
+  clearMultifactor(scope: 'ldap' | 'http') {
+    return this.httpClient.delete<void>(`multifactor/keys?scope=${scope}`).execute();
   }
 
   changePassword(request: ChangePasswordRequest): Observable<boolean> {
