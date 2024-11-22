@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccessPolicyCreateComponent } from './access-policy-create/access-policy-create.component';
+import { AccessPolicyViewModalComponent } from './access-policy-view-modal/access-policy-view-modal.component';
 import { AccessPolicySettingsComponent } from './access-policy-list.component';
 import { AccessPolicyComponent } from './access-policy/access-policy.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -18,15 +18,15 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
   declarations: [
     AccessPolicySettingsComponent,
     AccessPolicyComponent,
-    AccessPolicyCreateComponent,
     AccessPolicyIpListComponent,
     AccessPolicyViewComponent,
+    AccessPolicyViewModalComponent,
     AccessPolicyHeaderComponent,
   ],
   exports: [
     AccessPolicySettingsComponent,
     AccessPolicyComponent,
-    AccessPolicyCreateComponent,
+    AccessPolicyViewModalComponent,
     AccessPolicyIpListComponent,
     AccessPolicyViewComponent,
   ],

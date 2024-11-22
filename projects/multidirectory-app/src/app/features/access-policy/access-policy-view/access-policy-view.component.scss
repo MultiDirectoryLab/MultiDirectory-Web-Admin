@@ -1,3 +1,22 @@
 .access-policy-view {
-  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr 72px;
+  gap: 1rem;
+  align-items: start;
+}
+
+/* For rows without button, span the input across columns 2 and 3 */
+.span-two {
+  grid-column: 2 / span 2 !important;
+}
+
+.actions {
+  display: grid;
+  justify-content: end;
+  gap: 0.625rem;
 }

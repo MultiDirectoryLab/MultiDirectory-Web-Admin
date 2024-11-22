@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs';
 
 @Component({
@@ -14,10 +13,7 @@ export class MultifactorSettingsComponent implements OnInit {
   ldapApiKey = '';
   ldapApiSecret = '';
 
-  constructor(
-    private api: MultidirectoryApiService,
-    private toastr: ToastrService,
-  ) {}
+  constructor(private api: MultidirectoryApiService) {}
   ngOnInit(): void {
     this.api
       .getMultifactor()

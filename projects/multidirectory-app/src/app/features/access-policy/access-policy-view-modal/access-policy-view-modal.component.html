@@ -1,0 +1,16 @@
+<div class="app-modal-header">
+  {{ 'access-policy-create.modal-header' | transloco }}
+</div>
+
+<app-access-policy-view
+  #view
+  [showConrolButton]="false"
+  [accessPolicyId]="accessClient.id"
+  [(accessClient)]="accessClient"
+></app-access-policy-view>
+
+<div class="app-modal-footer flex-row flex-end">
+  <md-button [disabled]="!view.form.valid" [primary]="true" (click)="save()">
+    {{ 'access-policy-create.approve' | transloco }}
+  </md-button>
+</div>

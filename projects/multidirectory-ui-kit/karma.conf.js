@@ -12,6 +12,7 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
+    logLevel: config.LOG_DEBUG,
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
@@ -20,6 +21,7 @@ module.exports = function (config) {
         // or set a specific seed with `seed: 4321`
       },
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      captureConsole: true,
     },
     jasmineHtmlReporter: {
       suppressAll: true, // removes the duplicated traces
@@ -32,7 +34,6 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
