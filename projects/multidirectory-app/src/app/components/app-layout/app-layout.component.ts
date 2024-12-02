@@ -33,6 +33,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.showLeftPane = x;
     });
+
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.showNotifications = x;
     });

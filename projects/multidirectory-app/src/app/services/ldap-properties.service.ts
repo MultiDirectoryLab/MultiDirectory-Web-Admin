@@ -13,13 +13,6 @@ export class LdapPropertiesService {
 
   constructor(private api: MultidirectoryApiService) {}
 
-  loadData(entityId: string, oldValues?: EntityAttribute[]): Observable<EntityAttribute[]> {
-    return zip(this.loadSchema(), this.loadEntityProperties(entityId)).pipe(
-      tap(([_, values]) => this.updateOldValues(oldValues, values)),
-      map(([attributes, values]) => this.mergeAttributesAndValues(attributes, values)),
-    );
-  }
-
   loadSchema(): Observable<EntityAttribute[]> {
     return this.api.search(SearchQueries.getSchema()).pipe(
       map((schema: AttributesSearchResult) => {
@@ -32,21 +25,6 @@ export class LdapPropertiesService {
     );
   }
 
-  loadEntityProperties(entityId: string): Observable<EntityAttribute[]> {
-    return this.api.search(SearchQueries.getProperites(entityId)).pipe(
-      map((response: AttributesSearchResult) => {
-        const result =
-          response.search_result.find((x) => x.object_name === entityId) ??
-          response.search_result[0];
-
-        return result.partial_attributes.map((attr) => {
-          const isWritable = !this.READONLY_ATTRIBUTES.includes(attr.type as any);
-          return new EntityAttribute(attr.type, attr.vals.join(';'), false, isWritable);
-        });
-      }),
-    );
-  }
-
   private extractAttributeTypes(schema: AttributesSearchResult): string[] | undefined {
     return schema.search_result?.[0]?.partial_attributes.find((x) => x.type === 'attributeTypes')
       ?.vals;
@@ -54,9 +32,9 @@ export class LdapPropertiesService {
 
   private parseSchemaTypes(types: string[]): EntityAttribute[] {
     const attributes: EntityAttribute[] = [];
-    const nameRegex = /NAME \'([A-Za-z]+)\'/gi;
 
     for (const type of types) {
+      const nameRegex = /NAME \'([A-Za-z]+)\'/gi;
       const nameMatch = nameRegex.exec(type);
       if (!nameMatch?.[1]) continue;
 
@@ -68,63 +46,34 @@ export class LdapPropertiesService {
     return attributes;
   }
 
-  private updateOldValues(
-    oldValues: EntityAttribute[] | undefined,
-    values: EntityAttribute[],
-  ): void {
-    if (!oldValues) return;
-
-    oldValues.forEach((oldValue) => {
-      if (!oldValue.changed) return;
-
-      if (Array.isArray(oldValue.val)) {
-        oldValue.val = oldValue.val.join(';');
-      }
-
-      const matchingValues = values.filter((x) => x.name === oldValue.name);
-      if (!matchingValues.length) {
-        values.push(oldValue);
-        return;
-      }
-
-      const newVal =
-        matchingValues.length > 1
-          ? matchingValues.map((x) => x.val).join(';')
-          : matchingValues[0].val;
-
-      oldValue.val = newVal;
-      oldValue.changed = true;
-      oldValue.writable = !this.READONLY_ATTRIBUTES.includes(oldValue.name as any);
-    });
-  }
-
-  private mergeAttributesAndValues(
-    attributes: EntityAttribute[],
+  private mergeSchemaAndValues(
+    schema: EntityAttribute[],
     values: EntityAttribute[],
   ): EntityAttribute[] {
-    if (!attributes) {
-      attributes = [];
+    if (!schema) {
+      schema = [];
     }
 
     for (const val of values) {
-      const index = attributes.findIndex((x) => x.name === val.name);
+      const index = schema.findIndex((x) => x.name === val.name);
       const multipleValues = val.val.split(';') as string[];
-
       if (!multipleValues.length) continue;
 
+      // create new attribute for each value of the attribute
       const newAttributes = multipleValues.map(
         (value) => new EntityAttribute(val.name, value, val.changed, val.writable),
       );
 
+      // if the attibute in schema
       if (index >= 0) {
-        attributes[index].val = newAttributes[0].val;
-        attributes[index].changed = newAttributes[0].changed;
-        attributes.splice(index, 0, ...newAttributes.slice(1));
+        schema[index].val = newAttributes[0].val;
+        schema[index].changed = newAttributes[0].changed;
+        schema.splice(index, 0, ...newAttributes.slice(1));
       } else {
-        attributes = attributes.concat(newAttributes);
+        schema = schema.concat(newAttributes);
       }
     }
 
-    return attributes;
+    return schema;
   }
 }

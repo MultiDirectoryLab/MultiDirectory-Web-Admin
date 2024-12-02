@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
 import { SearchQueries } from '@core/ldap/search';
@@ -10,7 +10,7 @@ import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, take } from 'rxjs';
+import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -24,11 +24,20 @@ export class EntityAttributesComponent implements AfterViewInit {
   unsubscribe = new Subject<boolean>();
   filter = new AttributeFilter(true);
   rows: any[] = [];
-  allRows: any[] = [];
   _searchFilter = '';
-  accessor: LdapAttributes = {};
 
-  page = new Page({ pageNumber: 1, size: 20, totalElements: 4000 });
+  private _schema: EntityAttribute[] = [];
+  private _accessor: LdapAttributes = {};
+  private _accessorRx = new BehaviorSubject<LdapAttributes>(this._accessor);
+  @Input() set accessor(x: LdapAttributes) {
+    this._accessor = x;
+    this._accessorRx.next(x);
+  }
+  get accessor(): LdapAttributes {
+    return this._accessor;
+  }
+
+  page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns = [
     { name: translate('entity-attributes.name'), prop: 'name', flexGrow: 1 },
     { name: translate('entity-attributes.value'), prop: 'val', flexGrow: 2 },
@@ -39,32 +48,21 @@ export class EntityAttributesComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private properties: LdapPropertiesService,
     private toastr: ToastrService,
-    private modalControl: ModalInjectDirective,
   ) {}
 
   ngAfterViewInit(): void {
-    this.initializeAccessor();
-    this.loadEntityAttributes();
+    this._accessorRx.pipe(takeUntil(this.unsubscribe)).subscribe((_) => {
+      this.loadEntityAttributes();
+    });
   }
 
   // Search filter setter and getter
   set searchFilter(value: string) {
     this._searchFilter = value;
-    this.page.pageNumber = 1;
-    this.rows = this.filterData(this.allRows);
-    this.propGrid?.resetScroll();
   }
 
   get searchFilter(): string {
     return this._searchFilter;
-  }
-
-  // Initialize the accessor from modal content options
-  private initializeAccessor() {
-    if (!this.modalControl.contentOptions.accessor) {
-      throw new Error('Unable to get an accessor');
-    }
-    this.accessor = this.modalControl.contentOptions.accessor;
   }
 
   // Load attributes for the current entity
@@ -72,16 +70,38 @@ export class EntityAttributesComponent implements AfterViewInit {
     const entityDn = this.accessor['$entitydn']?.[0];
     if (entityDn) {
       this.properties
-        .loadData(entityDn)
+        .loadSchema()
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
-            this.allRows = this.filterData(data);
-            this.onPageChanged(this.page);
+          next: (schema) => {
+            this._schema = schema;
+            this.displayAttributes();
           },
           error: () => this.toastr.error(translate('entity-attributes.unable-load-data')),
         });
     }
+  }
+
+  private displayAttributes() {
+    const accessorEntires = Object.keys(this.accessor);
+    this._schema.forEach((element) => {
+      if (!accessorEntires.includes(element.name)) {
+        this.rows.push({
+          name: element.name,
+          val: element.val,
+        });
+      } else {
+        this.accessor[element.name].forEach((value) => {
+          this.rows.push({
+            name: element.name,
+            val: value,
+          });
+        });
+      }
+    });
+    this.rows = this.filterData(Array.from(this.rows));
+    this.onPageChanged(this.page);
+    this.cdr.detectChanges();
   }
 
   // Filter data based on the current filter settings and search query
@@ -117,7 +137,6 @@ export class EntityAttributesComponent implements AfterViewInit {
     attribute.changed = true;
 
     this.rows = this.rows.filter((x) => x.name !== attribute.name);
-    this.allRows = this.allRows.filter((x) => x.name !== attribute.name);
 
     this.cdr.detectChanges();
     this.onFilterChange();
@@ -175,7 +194,6 @@ export class EntityAttributesComponent implements AfterViewInit {
     const addNew = indx === -1;
 
     if (addNew) {
-      this.allRows.push(attribute);
       this.rows.push(attribute);
     }
 
@@ -239,36 +257,20 @@ export class EntityAttributesComponent implements AfterViewInit {
         (val: string) => new EntityAttribute(attribute.name, val, true),
       );
       this.rows.splice(indx, 0, ...newValues);
-      if (addNew) this.allRows.push(...newValues);
     } else {
       this.rows[indx].val = editedValue;
-      if (addNew) this.allRows.push(attribute);
     }
   }
 
   onFilterChange() {
     this.page.pageNumber = 1;
-    const entityDn = this.accessor['$entitydn']?.[0];
-    if (entityDn) {
-      this.properties
-        .loadData(entityDn, this.allRows)
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => {
-            this.allRows = data;
-            this.rows = this.filterData(data);
-            this.propGrid?.resetScroll();
-            this.onPageChanged(this.page);
-          },
-        });
-    }
+    this.loadEntityAttributes();
   }
 
   onPageChanged(event: Page) {
     this.page = event;
-    this.page.size = Math.ceil(328 / 24);
-    this.page.totalElements = this.allRows.length;
-    this.rows = this.getPage(this.filterData(this.allRows));
+    this.page.size = this.rows.length;
+    this.page.totalElements = this.rows.length;
     this.cdr.detectChanges();
   }
 }

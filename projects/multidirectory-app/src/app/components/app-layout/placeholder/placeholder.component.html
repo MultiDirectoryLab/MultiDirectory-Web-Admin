@@ -1,6 +1,13 @@
 <div
-  *ngIf="kerberosStatus !== KerberosStatusEnum.WAITING_FOR_RELOAD"
-  class="w-100 h-100 flex-centered"
+  style="
+    width: 350px;
+    height: 600px;
+    padding: 2rem;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+  "
 >
-  <img _ngcontent-ng-c1201517451="" src="/assets/logo.svg" class="logo-placeholder" />
+  <app-entity-attributes *ngIf="accessor" [accessor]="accessor"></app-entity-attributes>
+  <md-button [primary]="true" (click)="clickSave()">Save</md-button>
 </div>

@@ -5,6 +5,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
+import { PropertiesModule } from '../../../features/ldap-properties/properties.module';
 
 @NgModule({
   declarations: [PlaceholderComponent, PlaceholderHeaderComponent],
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
     TranslocoModule,
     CommonModule,
     MultidirectoryUiKitModule,
+    PropertiesModule,
     RouterModule.forChild([
       {
         path: '',
@@ -23,6 +25,7 @@ import { CommonModule } from '@angular/common';
         outlet: 'header',
       },
     ]),
+    PropertiesModule,
   ],
   exports: [RouterModule],
 })
