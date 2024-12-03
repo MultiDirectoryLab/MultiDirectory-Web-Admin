@@ -4,5 +4,6 @@ export class EntityAttribute {
     public val: string,
     public changed = false,
     public writable = true,
+    public syntax = '',
   ) {}
 }

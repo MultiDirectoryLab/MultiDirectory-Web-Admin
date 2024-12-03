@@ -1,16 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { PropertyTypeResolver } from '@core/ldap/property-type-resolver';
-import { SearchQueries } from '@core/ldap/search';
+import { EntityAttributeTypeResolver } from '@core/entity-attributes/entity-attribute-type-resolver';
 import { translate } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
 import { EntityAttribute } from '@models/entity-attribute/entity-attribute';
-import { SearchResponse } from '@models/entry/search-response';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { DatagridComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
+import { DatagridComponent, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
+import { AppWindowsService } from '@services/app-windows.service';
+import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -19,7 +18,6 @@ import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
 })
 export class EntityAttributesComponent implements AfterViewInit {
   @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
-  @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
 
   unsubscribe = new Subject<boolean>();
   filter = new AttributeFilter(true);
@@ -29,6 +27,7 @@ export class EntityAttributesComponent implements AfterViewInit {
   private _schema: EntityAttribute[] = [];
   private _accessor: LdapAttributes = {};
   private _accessorRx = new BehaviorSubject<LdapAttributes>(this._accessor);
+
   @Input() set accessor(x: LdapAttributes) {
     this._accessor = x;
     this._accessorRx.next(x);
@@ -44,10 +43,10 @@ export class EntityAttributesComponent implements AfterViewInit {
   ];
 
   constructor(
-    private api: MultidirectoryApiService,
     private cdr: ChangeDetectorRef,
     private properties: LdapPropertiesService,
     private toastr: ToastrService,
+    private windows: AppWindowsService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -65,7 +64,6 @@ export class EntityAttributesComponent implements AfterViewInit {
     return this._searchFilter;
   }
 
-  // Load attributes for the current entity
   private loadEntityAttributes() {
     const entityDn = this.accessor['$entitydn']?.[0];
     if (entityDn) {
@@ -83,6 +81,7 @@ export class EntityAttributesComponent implements AfterViewInit {
   }
 
   private displayAttributes() {
+    this.rows = [];
     const accessorEntires = Object.keys(this.accessor);
     this._schema.forEach((element) => {
       if (!accessorEntires.includes(element.name)) {
@@ -116,12 +115,6 @@ export class EntityAttributesComponent implements AfterViewInit {
       );
   }
 
-  private getPage(result: EntityAttribute[]): EntityAttribute[] {
-    const start = 0;
-    const end = this.page.pageOffset * this.page.size + 2 * this.page.size;
-    return result.slice(start, end);
-  }
-
   onDeleteClick() {
     if (!this.propGrid?.selected?.[0]) {
       this.toastr.error(translate('entity-attributes.select-attribute'));
@@ -133,133 +126,48 @@ export class EntityAttributesComponent implements AfterViewInit {
   }
 
   private deleteAttribute(attribute: EntityAttribute) {
-    this.accessor[attribute.name] = [];
     attribute.changed = true;
-
-    this.rows = this.rows.filter((x) => x.name !== attribute.name);
-
+    this.accessor[attribute.name] = this.accessor[attribute.name].filter(
+      (x) => x !== attribute.val,
+    );
+    this.rows = this.rows.filter((x) => x.name !== attribute.name && x.val !== attribute.val);
     this.cdr.detectChanges();
     this.onFilterChange();
   }
 
   onEditClick(attributeName = '') {
-    const attribute = this.getAttributeForEdit(attributeName);
-    if (!attribute || !attribute.writable) return;
-
-    this.api
-      .search(SearchQueries.getSchema())
-      .pipe(take(1))
-      .subscribe({
-        next: (schema) => this.handleSchemaResponse(schema, attribute),
-        error: () => this.toastr.error(translate('entity-attributes.unable-retrieve-schema')),
-      });
+    attributeName = attributeName || this.propGrid?._selected?.[0]?.name;
+    let attribute = this._schema.find((x) => x.name == attributeName);
+    if (!attribute || !attribute.writable) {
+      attribute = new EntityAttribute(attributeName, '');
+    }
+    this.openAttributeEditor(attribute);
   }
 
-  private getAttributeForEdit(attributeName: string): EntityAttribute | null {
-    if (attributeName) {
-      return new EntityAttribute(attributeName, '');
-    }
-    if (this.propGrid?.selected?.[0]) {
-      return this.propGrid.selected[0];
-    }
-    this.toastr.error(translate('entity-attributes.select-attribute'));
-    return null;
-  }
-
-  private handleSchemaResponse(schema: SearchResponse, attribute: EntityAttribute) {
-    const attributeTypes = schema.search_result?.[0]?.partial_attributes.find(
-      (x) => x.type == 'attributeTypes',
-    )?.vals;
-    if (!attributeTypes) {
-      this.toastr.error(translate('entity-attributes.unable-retrieve-schema'));
-      return;
-    }
-
-    const syntax = this.extractSyntax(attributeTypes, attribute.name);
-
+  private openAttributeEditor(attribute: EntityAttribute) {
     const propertyDescription =
-      PropertyTypeResolver.getPropertyDescription(syntax) || PropertyTypeResolver.getDefault();
-    this.editAttribute(attribute, propertyDescription);
-    return;
-  }
-
-  private extractSyntax(attributeTypes: string[], attributeName: string): string | null {
-    const description = attributeTypes.find((type) => type.includes(`NAME '${attributeName}`));
-    const match = /SYNTAX '([\d+.]+)'/gi.exec(description || '');
-    return match ? match[1] : null;
-  }
-
-  private editAttribute(attribute: EntityAttribute, propertyDescription: any) {
-    const indx = this.findAttributeIndex(attribute.name);
-    const addNew = indx === -1;
-
-    if (addNew) {
-      this.rows.push(attribute);
-    }
-
-    let value: any = attribute.val;
-    if (propertyDescription.isArray && !Array.isArray(value)) {
-      value = this.getAttributeValues(attribute.name);
-    }
-
-    this.openAttributeEditor(attribute, propertyDescription, value, indx, addNew);
-  }
-
-  private findAttributeIndex(attributeName: string): number {
-    return this.rows.findIndex((attr) => attr.name === attributeName);
-  }
-
-  private getAttributeValues(attributeName: string): any[] {
-    return this.rows.filter((attr) => attr.name === attributeName).map((attr) => attr.val);
-  }
-
-  private openAttributeEditor(
-    attribute: EntityAttribute,
-    propertyDescription: any,
-    value: any,
-    indx: number,
-    addNew: boolean,
-  ) {
-    this.attributeEditor
-      .open(
-        {},
-        {
+      EntityAttributeTypeResolver.getPropertyDescription(attribute.syntax) ||
+      EntityAttributeTypeResolver.getDefault();
+    this.windows
+      .openPropertyEditorDialog(
+        new EditPropertyRequest({
           propertyType: propertyDescription.type,
           propertyName: attribute.name,
-          propertyValue: value,
-        },
+          propertyValue: this.accessor[attribute.name],
+        }),
       )
       .pipe(take(1))
       .subscribe((editedValue) => {
         if (!editedValue) return;
-
-        this.updateAttribute(attribute, propertyDescription, editedValue, indx, addNew);
+        this.updateAttribute(attribute, editedValue);
         this.cdr.detectChanges();
       });
   }
 
-  private updateAttribute(
-    attribute: EntityAttribute,
-    propertyDescription: any,
-    editedValue: any,
-    indx: number,
-    addNew: boolean,
-  ) {
-    if (addNew) {
-      indx = this.rows.push(attribute) - 1;
-    }
-    this.accessor[attribute.name] = editedValue;
+  private updateAttribute(attribute: EntityAttribute, editedValue: EditPropertyRequest) {
+    this.accessor[attribute.name] = editedValue.propertyValue;
     attribute.changed = true;
-
-    if (propertyDescription.isArray && Array.isArray(editedValue)) {
-      this.rows = this.rows.filter((attr) => attr.name !== attribute.name);
-      const newValues = editedValue.map(
-        (val: string) => new EntityAttribute(attribute.name, val, true),
-      );
-      this.rows.splice(indx, 0, ...newValues);
-    } else {
-      this.rows[indx].val = editedValue;
-    }
+    this.loadEntityAttributes();
   }
 
   onFilterChange() {

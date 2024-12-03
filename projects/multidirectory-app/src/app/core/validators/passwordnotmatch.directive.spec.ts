@@ -33,6 +33,7 @@ describe('PasswordShouldNotMatchValidatorDirective', () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FormsModule, getTranslocoModule()],
       declarations: [TestComponent, PasswordShouldNotMatchValidatorDirective],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);

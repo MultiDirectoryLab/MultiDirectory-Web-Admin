@@ -9,6 +9,7 @@ import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 
 @Injectable({
   providedIn: 'root',
@@ -327,5 +328,21 @@ export class AppWindowsService {
   }
   closeDnsSetupDialog(rule: DnsSetupRequest) {
     return this._closeDnsSetupDialogRx.next(rule);
+  }
+
+  private _showPropertyEditorDialogRx = new Subject<EditPropertyRequest>();
+  private _closeProperyEditorDialogRx = new Subject<EditPropertyRequest>();
+  get showPropertyEditorDialogRx(): Observable<EditPropertyRequest> {
+    return this._showPropertyEditorDialogRx.asObservable();
+  }
+  get closePropertyEditorDialogRx(): Observable<EditPropertyRequest> {
+    return this._closeProperyEditorDialogRx.asObservable();
+  }
+  openPropertyEditorDialog(rule: EditPropertyRequest) {
+    this._showPropertyEditorDialogRx.next(rule);
+    return this.closePropertyEditorDialogRx;
+  }
+  closePropertyEditorDialog(rule: EditPropertyRequest) {
+    return this._closeProperyEditorDialogRx.next(rule);
   }
 }

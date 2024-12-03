@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { EntityAttributeType } from '@core/entity-attributes/entity-attribute-type';
+import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { LdapPropertyType } from '@core/ldap/property-type-resolver';
 
 @Component({
   selector: 'app-property-editor',
@@ -8,11 +9,10 @@ import { LdapPropertyType } from '@core/ldap/property-type-resolver';
   templateUrl: './property-editor.component.html',
 })
 export class PropertyEditorComponent implements OnInit {
-  LdapPropertyType = LdapPropertyType;
-  propertyType?: LdapPropertyType;
-  propertyName = '';
-  propertyValue: string[] = [];
-  propertyTypes = Object.values(LdapPropertyType)
+  LdapPropertyType = EntityAttributeType;
+  editRequest!: EditPropertyRequest;
+
+  propertyTypes = Object.values(EntityAttributeType)
     .filter((x) => Number.isNaN(Number(x)))
     .map(
       (x) =>
@@ -21,11 +21,11 @@ export class PropertyEditorComponent implements OnInit {
           value: x,
         }),
     );
+
   constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
+
   ngOnInit(): void {
-    this.propertyType = this.modalControl.contentOptions?.['propertyType'];
-    this.propertyName = this.modalControl.contentOptions?.['propertyName'];
-    this.propertyValue = this.modalControl.contentOptions?.['propertyValue'];
+    this.editRequest = this.modalControl.contentOptions as EditPropertyRequest;
   }
 
   close() {
@@ -33,6 +33,6 @@ export class PropertyEditorComponent implements OnInit {
   }
 
   finish() {
-    this.modalControl.close(this.propertyValue);
+    this.modalControl.close(this.editRequest);
   }
 }

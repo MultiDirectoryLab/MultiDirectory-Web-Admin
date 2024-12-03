@@ -13,6 +13,7 @@ import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-s
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 
 @Component({
   selector: 'app-windows',
@@ -39,6 +40,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
   @ViewChild('dnsRuleDialog') dnsRuleDialog!: ModalInjectDirective;
   @ViewChild('dnsSetupDialog') dnsSetupDialog!: ModalInjectDirective;
+  @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
 
@@ -149,6 +151,12 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((dnsSetupRequest) => {
         this.openDnsSetupDialog(dnsSetupRequest);
+      });
+
+    this.ldapWindows.showPropertyEditorDialogRx
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((editPropertyRequest) => {
+        this.openEditPropertyDialog(editPropertyRequest);
       });
   }
 
@@ -349,6 +357,15 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.ldapWindows.closeDnsSetupDialog(result);
+      });
+  }
+
+  openEditPropertyDialog(editPropertyRequest: EditPropertyRequest) {
+    this.attributeEditor
+      .open({}, editPropertyRequest)
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.ldapWindows.closePropertyEditorDialog(result);
       });
   }
 }

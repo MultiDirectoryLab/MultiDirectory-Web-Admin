@@ -37,43 +37,14 @@ export class LdapPropertiesService {
       const nameRegex = /NAME \'([A-Za-z]+)\'/gi;
       const nameMatch = nameRegex.exec(type);
       if (!nameMatch?.[1]) continue;
-
+      const syntaxMatch = /SYNTAX '([\d+.]+)'/gi.exec(type);
       const attributeName = nameMatch[1];
       const isWritable = !this.READONLY_ATTRIBUTES.includes(attributeName as any);
-      attributes.push(new EntityAttribute(attributeName, '', false, isWritable));
+      attributes.push(
+        new EntityAttribute(attributeName, '', false, isWritable, syntaxMatch?.[1] ?? ''),
+      );
     }
 
     return attributes;
-  }
-
-  private mergeSchemaAndValues(
-    schema: EntityAttribute[],
-    values: EntityAttribute[],
-  ): EntityAttribute[] {
-    if (!schema) {
-      schema = [];
-    }
-
-    for (const val of values) {
-      const index = schema.findIndex((x) => x.name === val.name);
-      const multipleValues = val.val.split(';') as string[];
-      if (!multipleValues.length) continue;
-
-      // create new attribute for each value of the attribute
-      const newAttributes = multipleValues.map(
-        (value) => new EntityAttribute(val.name, value, val.changed, val.writable),
-      );
-
-      // if the attibute in schema
-      if (index >= 0) {
-        schema[index].val = newAttributes[0].val;
-        schema[index].changed = newAttributes[0].changed;
-        schema.splice(index, 0, ...newAttributes.slice(1));
-      } else {
-        schema = schema.concat(newAttributes);
-      }
-    }
-
-    return schema;
   }
 }

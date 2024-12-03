@@ -47,17 +47,4 @@ describe('Ldap Properties Services', () => {
         expect(schema[1].name).toEqual('objectClass');
       });
   });
-
-  it('Should load entity properties', () => {
-    zip(
-      propertiesService.loadEntityProperties('dc=md,dc=localhost,dc=dev'),
-      propertiesService.loadEntityProperties('cn=groups,dc=md,dc=localhost,dc=dev'),
-    )
-      .pipe(take(1))
-      .subscribe(([first, second]) => {
-        const secondObjectClass = second.find((x) => x.name == 'objectClass');
-        expect(first.length).toEqual(6);
-        expect(secondObjectClass?.val.includes('container')).toBeTrue();
-      });
-  });
 });
