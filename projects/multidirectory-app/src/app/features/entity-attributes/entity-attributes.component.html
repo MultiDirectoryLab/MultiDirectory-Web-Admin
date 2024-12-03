@@ -1,8 +1,12 @@
 <div class="entity-attributes-container h-100 flex-column">
   <div class="flex-row flex-gap-10 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
-    <md-textbox name="search" [(ngModel)]="searchFilter"></md-textbox>
-    <md-button [disabled]="!_searchFilter" (click)="onEditClick(_searchFilter)">{{
+    <md-textbox
+      name="search"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="onFilterChange()"
+    ></md-textbox>
+    <md-button [disabled]="!searchQuery" (click)="onEditClick(searchQuery)">{{
       'entity-attributes.add' | transloco
     }}</md-button>
   </div>

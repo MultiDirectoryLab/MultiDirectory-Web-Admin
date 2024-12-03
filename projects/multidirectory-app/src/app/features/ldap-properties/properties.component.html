@@ -20,7 +20,7 @@
       *ngSwitchCase="EntityTypes.Computer"
     ></app-computer-properties>
     <div class="block flex-row h-100" *ngSwitchDefault>
-      <app-entity-attributes class="w-100"></app-entity-attributes>
+      <app-entity-attributes [accessor]="accessor" class="w-100"></app-entity-attributes>
     </div>
   </ng-container>
 </div>
