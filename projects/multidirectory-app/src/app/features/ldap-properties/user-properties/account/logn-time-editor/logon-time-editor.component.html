@@ -27,7 +27,7 @@
           #daySelector
           [ngClass]="{
             'logon-enabled': getDayBit(day.id, time),
-            'logon-selected': isInsideSelection(day, time)
+            'logon-selected': isInsideSelection(day, time),
           }"
           [attr.data-day]="day.id"
           [attr.data-hour]="time"
@@ -39,7 +39,7 @@
               'logon-select-row-start': isSelectionRowStart(day, time),
               'logon-select-column-start': isSelectionColumnStart(day, time),
               'logon-select-column-end': isSelectionColumnEnd(day, time),
-              'logon-select-row-end': isSelectionRowEnd(day, time)
+              'logon-select-row-end': isSelectionRowEnd(day, time),
             }"
           ></div>
         </div>

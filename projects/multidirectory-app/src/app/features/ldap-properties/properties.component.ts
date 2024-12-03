@@ -1,14 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { translate } from '@jsverse/transloco';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { EMPTY, Subject, iif, of, switchMap, take } from 'rxjs';
+import { EMPTY, Subject, of, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
@@ -23,11 +22,9 @@ export class EntityPropertiesComponent implements OnInit {
 
   constructor(
     private api: MultidirectoryApiService,
-    private toastr: ToastrService,
     private modalControl: ModalInjectDirective,
     private attributes: AttributeService,
     private windows: AppWindowsService,
-    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

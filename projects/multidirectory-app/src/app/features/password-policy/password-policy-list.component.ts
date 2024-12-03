@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { switchMap } from 'rxjs';
@@ -11,7 +11,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
   templateUrl: './password-policy-list.component.html',
   styleUrls: ['./password-policy-list.component.scss'],
 })
-export class PasswordPolicyListComponent {
+export class PasswordPolicyListComponent implements OnInit {
   @ViewChild('modalInject') appCratePolicyModal?: ModalInjectDirective;
 
   properties: any[] = [];
@@ -22,6 +22,7 @@ export class PasswordPolicyListComponent {
     private router: Router,
     private windows: AppWindowsService,
   ) {}
+
   ngOnInit(): void {
     this.windows.showSpinner();
     this.api.getPasswordPolicy().subscribe((x) => {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { Observable, map, of, switchMap, tap, zip } from 'rxjs';
-import { EntityAttribute } from '@models/entity-attribute/entity-attribute';
+import { SchemaEntry } from '@models/entity-attribute/schema-entry';
 import { AttributesSearchResult } from '@models/entity-attribute/attribute-search-result';
 
 @Injectable({
@@ -13,14 +13,7 @@ export class LdapPropertiesService {
 
   constructor(private api: MultidirectoryApiService) {}
 
-  loadData(entityId: string, oldValues?: EntityAttribute[]): Observable<EntityAttribute[]> {
-    return zip(this.loadSchema(), this.loadEntityProperties(entityId)).pipe(
-      tap(([_, values]) => this.updateOldValues(oldValues, values)),
-      map(([attributes, values]) => this.mergeAttributesAndValues(attributes, values)),
-    );
-  }
-
-  loadSchema(): Observable<EntityAttribute[]> {
+  loadSchema(): Observable<SchemaEntry[]> {
     return this.api.search(SearchQueries.getSchema()).pipe(
       map((schema: AttributesSearchResult) => {
         const types = this.extractAttributeTypes(schema);
@@ -32,97 +25,28 @@ export class LdapPropertiesService {
     );
   }
 
-  loadEntityProperties(entityId: string): Observable<EntityAttribute[]> {
-    return this.api.search(SearchQueries.getProperites(entityId)).pipe(
-      map((response: AttributesSearchResult) => {
-        const result =
-          response.search_result.find((x) => x.object_name === entityId) ??
-          response.search_result[0];
-
-        return result.partial_attributes.map((attr) => {
-          const isWritable = !this.READONLY_ATTRIBUTES.includes(attr.type as any);
-          return new EntityAttribute(attr.type, attr.vals.join(';'), false, isWritable);
-        });
-      }),
-    );
-  }
-
   private extractAttributeTypes(schema: AttributesSearchResult): string[] | undefined {
     return schema.search_result?.[0]?.partial_attributes.find((x) => x.type === 'attributeTypes')
       ?.vals;
   }
 
-  private parseSchemaTypes(types: string[]): EntityAttribute[] {
-    const attributes: EntityAttribute[] = [];
-    const nameRegex = /NAME \'([A-Za-z]+)\'/gi;
+  private parseSchemaTypes(types: string[]): SchemaEntry[] {
+    const attributes: SchemaEntry[] = [];
 
     for (const type of types) {
+      const nameRegex = /NAME \'([A-Za-z]+)\'/gi;
       const nameMatch = nameRegex.exec(type);
       if (!nameMatch?.[1]) continue;
-
+      const syntaxMatch = /SYNTAX '([\d+.]+)'/gi.exec(type);
       const attributeName = nameMatch[1];
       const isWritable = !this.READONLY_ATTRIBUTES.includes(attributeName as any);
-      attributes.push(new EntityAttribute(attributeName, '', false, isWritable));
-    }
-
-    return attributes;
-  }
-
-  private updateOldValues(
-    oldValues: EntityAttribute[] | undefined,
-    values: EntityAttribute[],
-  ): void {
-    if (!oldValues) return;
-
-    oldValues.forEach((oldValue) => {
-      if (!oldValue.changed) return;
-
-      if (Array.isArray(oldValue.val)) {
-        oldValue.val = oldValue.val.join(';');
-      }
-
-      const matchingValues = values.filter((x) => x.name === oldValue.name);
-      if (!matchingValues.length) {
-        values.push(oldValue);
-        return;
-      }
-
-      const newVal =
-        matchingValues.length > 1
-          ? matchingValues.map((x) => x.val).join(';')
-          : matchingValues[0].val;
-
-      oldValue.val = newVal;
-      oldValue.changed = true;
-      oldValue.writable = !this.READONLY_ATTRIBUTES.includes(oldValue.name as any);
-    });
-  }
-
-  private mergeAttributesAndValues(
-    attributes: EntityAttribute[],
-    values: EntityAttribute[],
-  ): EntityAttribute[] {
-    if (!attributes) {
-      attributes = [];
-    }
-
-    for (const val of values) {
-      const index = attributes.findIndex((x) => x.name === val.name);
-      const multipleValues = val.val.split(';') as string[];
-
-      if (!multipleValues.length) continue;
-
-      const newAttributes = multipleValues.map(
-        (value) => new EntityAttribute(val.name, value, val.changed, val.writable),
+      attributes.push(
+        new SchemaEntry({
+          name: attributeName,
+          writable: isWritable,
+          syntax: syntaxMatch?.[1] ?? '',
+        }),
       );
-
-      if (index >= 0) {
-        attributes[index].val = newAttributes[0].val;
-        attributes[index].changed = newAttributes[0].changed;
-        attributes.splice(index, 0, ...newAttributes.slice(1));
-      } else {
-        attributes = attributes.concat(newAttributes);
-      }
     }
 
     return attributes;

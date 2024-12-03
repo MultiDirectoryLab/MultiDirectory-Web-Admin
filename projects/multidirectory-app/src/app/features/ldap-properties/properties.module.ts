@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { EntityPropertiesComponent as PropertiesComponent } from './properties.component';
 import { UserPropertiesComponent } from './user-properties/user-properties.component';
 import { CommonModule } from '@angular/common';
-import { EntityAttributesComponent } from './entity-attributes/entity-attributes.component';
+import { EntityAttributesComponent } from '../entity-attributes/entity-attributes.component';
 import { UserPropertiesGeneralComponent } from './user-properties/general/user-properties-general.component';
 import { UserPropertiesAddressComponent } from './user-properties/address/user-properties-address.component';
 import { UserPropertiesProfileComponent } from './user-properties/profile/user-properties-profile.component';
@@ -19,6 +19,7 @@ import { EditorsModule } from '@features/ldap-browser/components/editors/editors
 import { AppFormsModule } from '@features/forms/forms.module';
 import { ComputerPropertiesComponent } from './computer-properties/computer-properties.component';
 import { ComputerPropertiesAccountComponent } from './computer-properties/account/computer-properties-account.component';
+import { EntityAttributesModule } from '@features/entity-attributes/entity-attributes.module';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ComputerPropertiesAccountComponent } from './computer-properties/accoun
     EditorsModule,
     AppFormsModule,
     TranslocoModule,
+    EntityAttributesModule,
   ],
   declarations: [
     PropertiesComponent,
@@ -36,7 +38,6 @@ import { ComputerPropertiesAccountComponent } from './computer-properties/accoun
     UserPropertiesAddressComponent,
     UserPropertiesProfileComponent,
     UserPropertiesAccountComponent,
-    EntityAttributesComponent,
     MemberOfComponent,
     AvatarUploadComponent,
     LogonTimeEditorComponent,
