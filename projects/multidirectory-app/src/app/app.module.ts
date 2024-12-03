@@ -24,7 +24,7 @@ import { AppLayoutComponent } from './components/app-layout/app-layout.component
 import { EditorsModule } from './features/ldap-browser/components/editors/editors.module';
 import { AppSettingsModule } from './features/settings/app-settings.module';
 import { SearchPanelModule } from './features/search/search-panel.module';
-import { PropertiesModule } from './features/ldap-entry-properties/properties.module';
+import { PropertiesModule } from './features/ldap-properties/properties.module';
 import { AppFormsModule } from './features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 import { FooterComponent } from './components/app-layout/footer/footer.component';

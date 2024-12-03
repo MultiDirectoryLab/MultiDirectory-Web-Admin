@@ -1,6 +1,8 @@
 export class AttributeFilter {
-  constructor(
-    public showWithValuesOnly = true,
-    public showWritableOnly = false,
-  ) {}
+  showWithValuesOnly = true;
+  showWritableOnly = false;
+
+  constructor(obj?: Partial<AttributeFilter>) {
+    Object.assign(this, obj);
+  }
 }

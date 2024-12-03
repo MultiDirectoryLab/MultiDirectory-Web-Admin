@@ -2,6 +2,9 @@ export class MockModalInjectDirective {
   contentOptions: {
     [value: string]: any;
   } = {};
+
+  open = jasmine.createSpy();
+
   constructor(contentOptions: { [value: string]: any }) {
     Object.assign(this.contentOptions, contentOptions);
   }

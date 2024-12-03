@@ -24,7 +24,12 @@
     #generals="mdTab"
     [accessor]="accessor"
   ></app-user-properties-general>
-  <app-entity-attributes class="block h-100" mdTab #attributes="mdTab"></app-entity-attributes>
+  <app-entity-attributes
+    [accessor]="accessor"
+    class="block h-100"
+    mdTab
+    #attributes="mdTab"
+  ></app-entity-attributes>
   <app-user-properties-address mdTab #address="mdTab"></app-user-properties-address>
   <app-user-properties-profile
     mdTab

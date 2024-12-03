@@ -22,6 +22,7 @@ describe('MfKeyValidatorDirective', () => {
     await TestBed.configureTestingModule({
       declarations: [TestComponent, MfKeyValidatorDirective],
       imports: [FormsModule, ReactiveFormsModule, getTranslocoModule()],
+      teardown: { destroyAfterEach: true },
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestComponent);

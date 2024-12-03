@@ -7,6 +7,6 @@
       {{ 'user-properties-tabs.account' | transloco }}
     </md-tab>
   </div>
-  <app-entity-attributes mdTab #attributes="mdTab"></app-entity-attributes>
+  <app-entity-attributes mdTab #attributes="mdTab" [accessor]="accessor"></app-entity-attributes>
   <app-computer-properties-account mdTab #account="mdTab"></app-computer-properties-account>
 </md-tab-pane>
