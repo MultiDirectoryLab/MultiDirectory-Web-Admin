@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { PlaneButtonComponent } from './components/plane-button/plane-button.component';
 import { NgxDatatableModule } from 'ngx-datatable-gimefork';
-import { DatagridComponent, Page } from './components/datagrid/datagrid.component';
+import { DatagridComponent } from './components/datagrid/datagrid.component';
 import { DropdownContainerDirective } from './components/dropdown-menu/dropdown-container.directive';
 import { ShiftCheckboxComponent } from './components/shift-checkbox/shift-checkbox.component';
 import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';

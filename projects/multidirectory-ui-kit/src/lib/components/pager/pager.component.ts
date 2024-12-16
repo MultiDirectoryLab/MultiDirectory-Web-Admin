@@ -8,8 +8,8 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { Page } from '../datagrid/datagrid.component';
 import { DropdownOption } from '../dropdown/dropdown.component';
+import { Page } from '../datagrid/page';
 
 @Component({
   selector: 'md-pager',
