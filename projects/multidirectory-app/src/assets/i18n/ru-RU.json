@@ -452,8 +452,8 @@
   },
   "password-policy-create": {
     "title": "Название",
-    "max-password-age": "Максимальный срок давности пароля",
-    "min-password-age": "Минимальные срок давности пароля",
+    "max-password-age": "Максимальный срок давности пароля (в днях)",
+    "min-password-age": "Минимальный срок давности пароля (в днях)",
     "min-password-length": "Минимальная длина пароля",
     "enforce-password-history": "Не допускать повторений N предыдущих паролей",
     "password-complexity-requirements": "Пароль должен удовлевтворять требованиями сложности",
