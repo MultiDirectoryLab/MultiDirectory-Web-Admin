@@ -450,8 +450,8 @@
   },
   "password-policy-create": {
     "title": "Title",
-    "max-password-age": "Maximum Password Age",
-    "min-password-age": "Minimum Password Age",
+    "max-password-age": "Maximum Password Age (in days)",
+    "min-password-age": "Minimum Password Age (in days)",
     "min-password-length": "Minimum Password Length",
     "enforce-password-history": "Enforce Password History",
     "password-complexity-requirements": "Password Must Meet Complexity Requirements",
