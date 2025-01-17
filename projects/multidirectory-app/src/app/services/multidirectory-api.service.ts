@@ -122,6 +122,11 @@ export class MultidirectoryApiService {
               priority: policy.priority,
               mfaStatus: policy.mfa_status,
               mfaGroups: policy.mfa_groups,
+              bypassNoConnection: policy.bypass_no_connection,
+              bypassServiceFailure: policy.bypass_service_failure,
+              isHttp: policy.is_http,
+              isKerberos: policy.is_kerberos,
+              isLdap: policy.is_ldap,
             });
             accessPolicy.id = policy.id;
             return accessPolicy;

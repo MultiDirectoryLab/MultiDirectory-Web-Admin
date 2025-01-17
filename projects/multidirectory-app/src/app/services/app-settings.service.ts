@@ -90,11 +90,6 @@ export class AppSettingsService {
     return this._notificationVisibleRx.asObservable();
   }
 
-  logout() {
-    this.user = new WhoamiResponse({});
-    return this.api.logout();
-  }
-
   private _dnsStatus = new DnsStatusResponse({});
   private _dnsStatusRx = new BehaviorSubject<DnsStatusResponse>(this._dnsStatus);
   get dnsStatusRx(): Observable<DnsStatusResponse> {
@@ -106,5 +101,23 @@ export class AppSettingsService {
   set dnsStatus(status: DnsStatusResponse) {
     this._dnsStatus = status;
     this._dnsStatusRx.next(this._dnsStatus);
+  }
+
+  private _is2FAEnabledRx = new BehaviorSubject<boolean>(false);
+  private _is2FAEnabled = false;
+  get is2FAEnabled(): boolean {
+    return this._is2FAEnabled;
+  }
+  set is2FAEnabled(value: boolean) {
+    this._is2FAEnabled = value;
+    this._is2FAEnabledRx.next(value);
+  }
+  get is2FAEnabledRx(): Observable<boolean> {
+    return this._is2FAEnabledRx.asObservable();
+  }
+
+  logout() {
+    this.user = new WhoamiResponse({});
+    return this.api.logout();
   }
 }

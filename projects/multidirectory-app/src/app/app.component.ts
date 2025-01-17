@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AppWindowsService } from './services/app-windows.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { SpinnerComponent } from 'multidirectory-ui-kit';
 import { AppSettingsService } from './services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 
 @Component({
   selector: 'app-root',

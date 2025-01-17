@@ -420,7 +420,11 @@
     "mfa-groups": "MFA Groups",
     "everyone": "Everyone",
     "noone": "Nobody",
-    "selectedgroups": "Selected Groups"
+    "selectedgroups": "Selected Groups",
+    "bypass-no-connection": "On Multifactor connection lost",
+    "bypass-service-failure": "On Multifactor Service inoperative",
+    "protocols": "Protocols",
+    "enable-2fa": "2FA required to set bypass up"
   },
   "access-policy-ip-list": {
     "modal-header": "Valid addresses",

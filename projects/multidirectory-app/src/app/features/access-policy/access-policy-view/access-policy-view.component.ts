@@ -26,6 +26,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ToastrService } from 'ngx-toastr';
 import { MultiselectModel } from './multiselect-model';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -52,7 +53,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
 
   ipAddresses = '';
   MfaAccessEnum = MfaAccessEnum;
-  mfaAccess = MfaAccessEnum.SelectedGroups;
+  mfaAccess = MfaAccessEnum.Noone;
   options: DropdownOption[] = [
     { title: translate('access-policy-create.everyone'), value: MfaAccessEnum.Everyone },
     { title: translate('access-policy-create.noone'), value: MfaAccessEnum.Noone },
@@ -66,6 +67,8 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
 
   mfaGroupsQuery = '';
   availableMfaGroups: MultiselectModel[] = [];
+
+  bypassAllowed = false;
 
   constructor(
     private api: MultidirectoryApiService,
@@ -89,6 +92,17 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
       this.load();
     });
+
+    this.api
+      .getMultifactor()
+      .pipe(take(1))
+      .subscribe((mfSettings) => {
+        this.bypassAllowed =
+          !!mfSettings.mfa_key_ldap ||
+          !!mfSettings.mfa_secret_ldap ||
+          !!mfSettings.mfa_key ||
+          !!mfSettings.mfa_secret;
+      });
   }
 
   ngOnDestroy(): void {
