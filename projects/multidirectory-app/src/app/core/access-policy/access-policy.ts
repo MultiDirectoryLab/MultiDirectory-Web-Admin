@@ -9,6 +9,11 @@ export class AccessPolicy {
   priority?: number;
   mfaStatus?: number;
   mfaGroups: string[] = [];
+  bypassNoConnection = false;
+  bypassServiceFailure = false;
+  isHttp = false;
+  isLdap = false;
+  isKerberos = false;
 
   constructor(obj: Partial<AccessPolicy> = {}) {
     Object.assign(this, obj);

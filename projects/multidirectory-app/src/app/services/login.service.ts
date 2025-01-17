@@ -4,7 +4,6 @@ import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LoginResponse } from '@models/login/login-response';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,6 @@ export class LoginService {
   constructor(
     private api: MultidirectoryApiService,
     private toastr: ToastrService,
-    private router: Router,
   ) {}
 
   use2FA(login: string, password: string) {
@@ -36,10 +34,6 @@ export class LoginService {
         }
         this.toastr.error(translate('login.wrong-login'));
         throw err;
-      }),
-      tap((response) => {
-        //localStorage.setItem('access_token', response.access_token);
-        //localStorage.setItem('refresh_token', response.refresh_token);
       }),
     );
   }

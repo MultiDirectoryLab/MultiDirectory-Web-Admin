@@ -20,3 +20,10 @@
   justify-content: end;
   gap: 0.625rem;
 }
+
+.bypass-switch-column,
+.protocol-switch-column {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+}

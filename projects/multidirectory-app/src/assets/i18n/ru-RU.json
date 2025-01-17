@@ -425,7 +425,11 @@
     "mfa-groups": "Группы для MFA",
     "everyone": "Всем",
     "noone": "Никому",
-    "selectedgroups": "Выбранным группам"
+    "selectedgroups": "Выбранным группам",
+    "bypass-no-connection": "Отсутствует сетевое соединение с сервисом Multifactor",
+    "bypass-service-failure": "Сервис Multifactor неработоспособен",
+    "protocols": "Протоколы",
+    "enable-2fa": "Для настройки требуется включить 2FA"
   },
   "access-policy-ip-list": {
     "modal-header": "Допустимые адреса",
