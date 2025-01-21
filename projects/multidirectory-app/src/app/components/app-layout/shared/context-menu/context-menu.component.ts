@@ -52,8 +52,8 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  isSelectedRowsOfType(type: LdapEntryType): boolean {
-    return this.entries.every((x) => x.type == type);
+  isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
+    return this.entries.every((x) => types.includes(x.type));
   }
 
   isNotSelectedRowsOfTypeCatalog(): boolean {

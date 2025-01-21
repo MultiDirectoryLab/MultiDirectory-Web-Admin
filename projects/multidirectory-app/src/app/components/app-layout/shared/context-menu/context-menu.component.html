@@ -12,14 +12,14 @@
 
   <div
     class="dropdown-item"
-    *ngIf="isSelectedRowsOfType(LdapEntryType.User) && accountEnabled"
+    *ngIf="isSelectedRowsOfType(LdapEntryType.User, LdapEntryType.Computer) && accountEnabled"
     (click)="contextMenu.close(); toggleAccount(false)"
   >
     {{ 'catalog-content.disable-account' | transloco }}
   </div>
   <div
     class="dropdown-item"
-    *ngIf="isSelectedRowsOfType(LdapEntryType.User) && !accountEnabled"
+    *ngIf="isSelectedRowsOfType(LdapEntryType.User, LdapEntryType.Computer) && !accountEnabled"
     (click)="contextMenu.close(); toggleAccount(true)"
   >
     {{ 'catalog-content.enable-account' | transloco }}
