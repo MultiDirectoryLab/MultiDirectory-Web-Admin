@@ -9,7 +9,9 @@ import {
   map,
   Observable,
   of,
+  retry,
   switchMap,
+  take,
   takeWhile,
 } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
@@ -19,6 +21,8 @@ import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { ToastrService } from 'ngx-toastr';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { DnsApiService } from './dns-api.service';
+import { ReturnStatement } from '@angular/compiler';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +59,12 @@ export class SetupService {
           of(!!success),
         );
       }),
+      catchError((err) => {
+        if (err.status == 409) {
+          return of(true);
+        }
+        return of(false);
+      }),
       switchMap((success) => {
         return iif(
           () => setupRequest.setupKdc,
@@ -90,6 +100,12 @@ export class SetupService {
     return this.api
       .kerberosTreeSetup(new KerberosTreeSetupRequest({}).flll_from_setup_request(setupRequest))
       .pipe(
+        catchError((err) => {
+          if (err.status == 409) {
+            return of(true);
+          }
+          return of(false);
+        }),
         switchMap((value) => {
           return this.api.kerberosSetup(
             new KerberosSetupRequest({}).flll_from_setup_request(setupRequest),
@@ -109,7 +125,6 @@ export class SetupService {
             of(success),
           );
         }),
-        delay(2000),
       );
   }
 }

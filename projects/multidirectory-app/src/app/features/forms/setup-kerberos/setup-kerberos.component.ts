@@ -61,8 +61,7 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       )
       .subscribe((x) => {
         this.toastr.success(translate('setup.setup-complete'));
-        window.location.reload();
-        this.modalInejctor.close(null);
+        //window.location.reload();
       });
   }
 
