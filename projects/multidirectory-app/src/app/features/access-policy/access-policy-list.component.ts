@@ -7,6 +7,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-access-policy-list',
@@ -30,6 +31,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     private toastr: ToastrService,
     private api: MultidirectoryApiService,
     private windows: AppWindowsService,
+    private router: Router,
   ) {}
   ngOnInit(): void {
     this.windows.showSpinner();
@@ -86,24 +88,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     if (!toEdit.id) {
       return;
     }
-    this.accessClientCreateModal
-      .open({ minHeight: 435 }, { accessPolicy: new AccessPolicy(toEdit).setId(toEdit.id) })
-      .pipe(
-        take(1),
-        switchMap((client) => {
-          if (!client?.id) {
-            return EMPTY;
-          }
-          const ind = this.clients.findIndex((x) => x.id == toEdit.id);
-          this.clients[ind] = new AccessPolicy(client);
-          this.clients[ind].setId(client.id);
-          return this.api.editAccessPolicy(this.clients[ind]);
-        }),
-        switchMap(() => this.api.getAccessPolicy()),
-      )
-      .subscribe((clients) => {
-        this.clients = clients;
-      });
+    this.router.navigate(['access-policy', toEdit.id]);
   }
 
   onAddClick() {

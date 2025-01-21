@@ -56,7 +56,7 @@
       </ng-container>
     </div>
 
-    <div class="flex-row nowrap flex-gap-20 w-100">
+    <div class="flex-column nowrap flex-gap-20 w-100">
       <md-group title="{{ 'access-policy-create.protocols' | transloco }}" class="pt-16">
         <div class="protocol-switch-column">
           <md-shift-checkbox [(ngModel)]="accessClient.isLdap"> LDAP </md-shift-checkbox>
@@ -95,7 +95,7 @@
       </md-group>
     </div>
   </md-form>
-  <div class="flex-row justify-end flex-gap-10" *ngIf="showConrolButton">
+  <div class="flex-row justify-start flex-gap-10" *ngIf="showConrolButton">
     <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">{{
       'access-policy-create.approve' | transloco
     }}</md-button>
