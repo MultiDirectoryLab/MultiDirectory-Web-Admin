@@ -3,6 +3,10 @@ label {
   font-size: 10px;
   margin-top: -4px;
   position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
 }
 
 .error-message {
