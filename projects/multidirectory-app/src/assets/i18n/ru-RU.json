@@ -651,7 +651,8 @@
     "zone": "Зона: ",
     "add": "Добавить запись",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
-    "setup-dns": "Выполнить настройку"
+    "setup-dns": "Выполнить настройку",
+    "dns-unavailable": "Сервис DNS недоступен"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",

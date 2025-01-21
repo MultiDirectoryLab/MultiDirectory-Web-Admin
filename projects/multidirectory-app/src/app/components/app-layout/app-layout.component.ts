@@ -1,5 +1,15 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { EMPTY, Subject, catchError, combineLatest, switchMap, take, takeUntil, tap } from 'rxjs';
+import {
+  EMPTY,
+  Subject,
+  catchError,
+  combineLatest,
+  of,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchQueries } from '@core/ldap/search';
@@ -9,6 +19,10 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { DnsApiService } from '@services/dns-api.service';
+import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsStatuses } from '@models/dns/dns-statuses';
+import { ToastrService } from 'ngx-toastr';
+import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-layout',
@@ -24,6 +38,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private app: AppSettingsService,
+    private toastr: ToastrService,
     private api: MultidirectoryApiService,
     private dns: DnsApiService,
     private cdr: ChangeDetectorRef,
@@ -81,9 +96,21 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
 
-    this.dns.status().subscribe((status) => {
-      this.app.dnsStatus = status;
-    });
+    this.dns
+      .status()
+      .pipe(
+        catchError((err) => {
+          this.toastr.error(translate('dns-settings.dns-unavailable'));
+          return of(
+            new DnsStatusResponse({
+              dns_status: DnsStatuses.NOT_CONFIGURED,
+            }),
+          );
+        }),
+      )
+      .subscribe((status) => {
+        this.app.dnsStatus = status;
+      });
   }
 
   ngOnDestroy(): void {

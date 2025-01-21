@@ -101,6 +101,10 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
           { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
         ];
         this.principals = res.search_result
+          .map((x) => {
+            x.object_name = x.object_name.replace('krbprincipalname=', '');
+            return x;
+          })
           .filter((x) => this.filterPrincipals(x))
           .map(
             (node) =>
@@ -127,9 +131,9 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
       let name = x.name;
       const hasRealmIndex = x.name.indexOf('@');
       if (hasRealmIndex > 0) {
-        return name.substring(0, hasRealmIndex);
+        name = name.substring(0, hasRealmIndex);
       }
-      return name;
+      return name.replace('krbprincipalname=', '');
     });
     if (!selectedName) {
       this.toastr.error(translate('kerberos-settings.should-select-principals'));

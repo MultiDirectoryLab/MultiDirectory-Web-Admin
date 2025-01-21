@@ -652,7 +652,8 @@
     "zone": "Zone: ",
     "add": "Add entry",
     "setup-dns-description": "Setup required for DNS management",
-    "setup-dns": "Run setup"
+    "setup-dns": "Run setup",
+    "dns-unavailable": "DNS Service is unavailable"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",
