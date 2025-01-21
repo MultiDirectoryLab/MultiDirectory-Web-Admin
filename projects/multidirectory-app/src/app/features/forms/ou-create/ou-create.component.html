@@ -8,13 +8,19 @@
 <hr />
 <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
   <md-form #form>
-    <div class="flex-column align-start justify-end flex-gap-10">
-      <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
-      <md-textbox appRequired [(ngModel)]="ouName" name="ouname"></md-textbox>
-    </div>
-    <div class="flex-column align-start flex-space-between flex-gap-10">
-      <label for="description">{{ 'ou-create.description' | transloco }}</label>
-      <md-textarea [expandWidth]="true" [(ngModel)]="description" name="description"></md-textarea>
+    <div class="flex-column flex-gap-10">
+      <div class="flex-column align-start justify-end flex-gap-10">
+        <label for="ouname">{{ 'ou-create.ouname-label' | transloco }}</label>
+        <md-textbox appRequired [(ngModel)]="ouName" name="ouname"></md-textbox>
+      </div>
+      <div class="flex-column align-start flex-space-between flex-gap-10">
+        <label for="description">{{ 'ou-create.description' | transloco }}</label>
+        <md-textarea
+          [expandWidth]="true"
+          [(ngModel)]="description"
+          name="description"
+        ></md-textarea>
+      </div>
     </div>
   </md-form>
 </div>

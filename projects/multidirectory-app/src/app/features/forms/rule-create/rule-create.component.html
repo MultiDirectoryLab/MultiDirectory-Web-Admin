@@ -7,13 +7,19 @@
 <hr />
 <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
   <md-form #form>
-    <div class="flex-column align-start justify-end flex-gap-10">
-      <label for="rulename">{{ 'rule-create.rulename-label' | transloco }}</label>
-      <md-textbox appRequired [(ngModel)]="ruleName" name="rulename"></md-textbox>
-    </div>
-    <div class="flex-column align-start flex-space-between flex-gap-10">
-      <label for="description">{{ 'rule-create.description' | transloco }}</label>
-      <md-textarea [expandWidth]="true" [(ngModel)]="description" name="description"></md-textarea>
+    <div class="flex-column flex-gap-10">
+      <div class="flex-column align-start justify-end flex-gap-10">
+        <label for="rulename">{{ 'rule-create.rulename-label' | transloco }}</label>
+        <md-textbox appRequired [(ngModel)]="ruleName" name="rulename"></md-textbox>
+      </div>
+      <div class="flex-column align-start flex-space-between flex-gap-10">
+        <label for="description">{{ 'rule-create.description' | transloco }}</label>
+        <md-textarea
+          [expandWidth]="true"
+          [(ngModel)]="description"
+          name="description"
+        ></md-textarea>
+      </div>
     </div>
   </md-form>
 </div>
