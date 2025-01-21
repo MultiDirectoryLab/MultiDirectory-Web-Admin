@@ -1,6 +1,7 @@
 <div class="app-modal-header">
   <div>{{ 'catalog-create.modal-header' | transloco }}</div>
 </div>
+
 <div class="flex-row align-center flex-gap-10">
   <div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img" /></div>
   <div class="place">{{ 'catalog-create.header' | transloco }} {{ this.parentDn }}</div>
@@ -8,13 +9,19 @@
 <hr />
 <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
   <md-form #form>
-    <div class="flex-column align-start justify-end flex-gap-10">
-      <label for="catalogName">{{ 'catalog-create.catalogname-label' | transloco }}</label>
-      <md-textbox appRequired [(ngModel)]="catalogName" name="catalogName"></md-textbox>
-    </div>
-    <div class="flex-column align-start flex-space-between flex-gap-10">
-      <label for="description">{{ 'catalog-create.description' | transloco }}</label>
-      <md-textarea [expandWidth]="true" [(ngModel)]="description" name="description"></md-textarea>
+    <div class="flex-column flex-gap-10">
+      <div class="flex-column align-start justify-end flex-gap-10">
+        <label for="catalogName">{{ 'catalog-create.catalogname-label' | transloco }}</label>
+        <md-textbox appRequired [(ngModel)]="catalogName" name="catalogName"></md-textbox>
+      </div>
+      <div class="flex-column align-start flex-space-between flex-gap-10">
+        <label for="description">{{ 'catalog-create.description' | transloco }}</label>
+        <md-textarea
+          [expandWidth]="true"
+          [(ngModel)]="description"
+          name="description"
+        ></md-textarea>
+      </div>
     </div>
   </md-form>
 </div>

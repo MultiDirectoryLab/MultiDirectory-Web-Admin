@@ -2,7 +2,7 @@
 <div class="grid-layout w-100 h-100">
   <div class="cell-input flex-row flex-space-between align-start">
     <label>{{ 'access-policy-ip-list.header' | transloco }} </label>
-    <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'">
+    <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'" [left]="0">
       {{ 'access-policy-ip-list.example' | transloco }}<br />
       192.168.0.1<br />
       192.168.0.1-192.168.0.5<br />
@@ -15,7 +15,7 @@
       <div
         class="ip-list-entry"
         [ngClass]="{
-          valid: entry.valid
+          valid: entry.valid,
         }"
         *ngFor="let entry of _ipAddresses; let i = index"
         (keydown)="onEditKeyDown($event, editField, i)"
