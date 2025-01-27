@@ -668,5 +668,13 @@
     "dns_ip_address": "IP Адрес DNS сервера",
     "default_ttl": "TTL по умолчанию",
     "tsig_key": "TSIG Ключ"
+  },
+  "about": {
+    "product-type": "Тип продукта",
+    "product-version": "Версия продукта",
+    "company": "Компания-разработчик",
+    "official-site": "Официальный сайт MultiDirectory",
+    "contact-us": "Связаться с нами",
+    "upgrade-to-enterprise": "Перейти на MultiDirectory Enterprise"
   }
 }

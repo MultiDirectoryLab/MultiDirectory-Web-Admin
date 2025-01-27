@@ -9,6 +9,7 @@
     "mf-user-integration": {
       "header": "MULTIFACTOR Users Integration",
       "apply": "Apply",
+      "clear": "Clear",
       "integration-success": "Integration Enabled",
       "clear-success": "MULTIFACTOR was cleared",
       "integration-failed": "Error has occured",
@@ -18,6 +19,7 @@
     "mf-admin-integration": {
       "header": "MULTIFACTOR Admin Integration",
       "apply": "Apply",
+      "clear": "Clear",
       "integration-success": "Integration Enabled",
       "clear-success": "MULTIFACTOR was cleared",
       "integration-failed": "Error has occured",
@@ -669,5 +671,13 @@
     "dns_ip_address": "IP address of DNS server",
     "default_ttl": "Default TTL",
     "tsig_key": "TSIG Key"
+  },
+  "about": {
+    "product-type": "Product Type",
+    "product-version": "Product Version",
+    "company": "Developer",
+    "official-site": "MultiDirectory Official Site",
+    "contact-us": "Contact Us",
+    "upgrade-to-enterprise": "upgrade to MultiDirectory Enterprise"
   }
 }
