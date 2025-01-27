@@ -14,13 +14,18 @@ export class PasswordConditionsComponent implements OnInit {
 
   checkPasswordComplexity = false;
   checkPasswordMinimalLength = false;
+  checkPasswordWithoutOtp = false;
 
   @Input() set currentPassword(password: string) {
     var hasUpperCase = /[A-ZА-Я]/.test(password);
     var hasLowerCase = /[a-zа-я]/.test(password);
     var hasNumbers = /\d/.test(password);
-    this.checkPasswordComplexity = hasLowerCase && hasNumbers && hasUpperCase;
+    var hasSpecialChars = /[$&+,:;=?@#|'<>.^*()%!-]/.test(password);
+    var endsWith6Digits = /.*\d{6,}$/.test(password);
+
+    this.checkPasswordComplexity = hasLowerCase && hasNumbers && hasUpperCase && hasSpecialChars;
     this.checkPasswordMinimalLength = password.length >= this.minimumPasswordLength;
+    this.checkPasswordWithoutOtp = !endsWith6Digits;
   }
 
   constructor(
