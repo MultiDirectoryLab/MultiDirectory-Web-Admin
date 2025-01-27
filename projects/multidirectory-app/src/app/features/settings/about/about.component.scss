@@ -1,0 +1,30 @@
+.about-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  max-width: 600px;
+  padding: 1rem;
+}
+
+.about-section h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.about-section .label {
+  font-weight: bold;
+  text-wrap: nowrap;
+}
+
+.about-section .value a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.about-section .value a:hover {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}

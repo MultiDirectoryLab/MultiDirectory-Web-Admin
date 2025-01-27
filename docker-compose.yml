@@ -2,7 +2,7 @@ version: '3.3'
 name: multidirectory
 services:
   multidirectory-app:
-    container_name: multidirectory_app
+    container_name: interface
     build:
       context: .
       dockerfile: configurations/docker/Dockerfile
