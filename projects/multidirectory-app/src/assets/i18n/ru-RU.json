@@ -470,7 +470,7 @@
   "settings-navigation": {
     "md-settings": "Настройки Multidirectory",
     "access-control": "Контроль доступа",
-    "mf-settings": "Подключение к Мультифактору",
+    "mf-settings": "Подключение к MULTIFACTOR",
     "about": "О программе",
     "kdc-principals": "Принципалы Kerberos",
     "dns-settings": "Настройки DNS"
@@ -623,8 +623,8 @@
     "password-minimal-length-violation": "Не соблюдено требование к минимальной длине пароля",
     "password-complexity-violation": "Не соблюдено требование к сложности пароля",
     "password-cannot-end-with-digits-violation": "Пароль не может оканчиваться шестью цифрами подряд",
-    "mf-key-format-error": "Ключ Мультифактора должен иметь длину 32 символа и начинаться с \"rs_\"",
-    "mf-secret-format-error": "Секрет Мультифактора должен иметь длину 32 символа"
+    "mf-key-format-error": "Ключ MULTIFACTOR должен иметь длину 32 символа и начинаться с \"rs_\"",
+    "mf-secret-format-error": "Секрет MULTIFACTOR должен иметь длину 32 символа"
   },
   "dns-rule-dialog": {
     "modal-header": "Новый объект - Запись DNS",
