@@ -473,7 +473,8 @@
     "mf-settings": "Multifactor Integration",
     "about": "About",
     "kdc-principals": "Kerberos Principals",
-    "dns-settings": "DNS Settings"
+    "dns-settings": "DNS Settings",
+    "sessions": "Sessions"
   },
   "settings": {
     "account-settings": "Account Settings",

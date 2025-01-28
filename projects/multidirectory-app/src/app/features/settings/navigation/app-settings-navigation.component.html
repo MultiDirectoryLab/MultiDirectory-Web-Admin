@@ -33,4 +33,12 @@
   <div class="nav-item" [ngClass]="{ selected: url.endsWith('dns') }" routerLink="/settings/dns">
     {{ t('dns-settings') }}
   </div>
+
+  <div
+    class="nav-item"
+    [ngClass]="{ selected: url.endsWith('sessions') }"
+    routerLink="/settings/sessions"
+  >
+    {{ t('sessions') }}
+  </div>
 </div>

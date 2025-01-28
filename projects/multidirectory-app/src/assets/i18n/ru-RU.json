@@ -473,7 +473,8 @@
     "mf-settings": "Подключение к MULTIFACTOR",
     "about": "О программе",
     "kdc-principals": "Принципалы Kerberos",
-    "dns-settings": "Настройки DNS"
+    "dns-settings": "Настройки DNS",
+    "sessions": "Сессии"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",

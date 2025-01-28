@@ -238,4 +238,8 @@ export class MultidirectoryApiService {
   addPrincipal(request: AddPrincipalRequest): Observable<string> {
     return this.httpClient.post<string>('kerberos/principal/add', request).execute();
   }
+
+  getSessions(request: GetSessionsRequest): Observable<string> {
+    return this.httpClient.get<>;
+  }
 }
