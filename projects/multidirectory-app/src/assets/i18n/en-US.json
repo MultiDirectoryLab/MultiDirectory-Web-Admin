@@ -680,5 +680,10 @@
     "official-site": "MultiDirectory Official Site",
     "contact-us": "Contact Us",
     "upgrade-to-enterprise": "upgrade to MultiDirectory Enterprise"
+  },
+  "sessions": {
+    "close-all": "Close all sessions",
+    "header": "User Sessions",
+    "success": "All sessions are closed"
   }
 }

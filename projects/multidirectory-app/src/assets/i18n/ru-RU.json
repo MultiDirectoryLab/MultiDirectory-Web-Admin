@@ -677,5 +677,10 @@
     "official-site": "Официальный сайт MultiDirectory",
     "contact-us": "Связаться с нами",
     "upgrade-to-enterprise": "Перейти на MultiDirectory Enterprise"
+  },
+  "sessions": {
+    "close-all": "Завершить все",
+    "header": "Сессии пользователя",
+    "success": "Сессии завершены"
   }
 }

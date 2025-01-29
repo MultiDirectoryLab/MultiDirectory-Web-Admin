@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
 import { LdapCode } from './ldap-codes';
 import { translate } from '@jsverse/transloco';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 
 @Injectable()
 export class ResultCodeInterceptor implements HttpInterceptor {
@@ -25,6 +26,7 @@ export class ResultCodeInterceptor implements HttpInterceptor {
         if (resp.type !== HttpEventType.Response || !resp?.body?.resultCode) {
           return resp;
         }
+
         if (!!resp.body.errorMessage) {
           throw new HttpErrorResponse({
             status: resp.body.resultCode,
