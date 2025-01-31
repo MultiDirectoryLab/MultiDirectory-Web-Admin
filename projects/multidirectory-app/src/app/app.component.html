@@ -7,6 +7,6 @@
   [name]="'primary'"
   [fullscreen]="true"
   #spinner
-  spinnerText="{{ 'spinner.please-wait' | transloco }}"
+  [spinnerText]="'spinner.please-wait' | transloco"
 ></md-spinner>
 <app-download-data #downloadData></app-download-data>
