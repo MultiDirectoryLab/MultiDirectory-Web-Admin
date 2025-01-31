@@ -1,9 +1,12 @@
 <div class="flex-column flex-gap-10 p-8">
   <div class="flex-row flex-space-between flex-align-center">
-    <h2 class="bold">{{ 'sessions.header' | transloco }}</h2>
+    <label class="bold">{{ 'sessions.header' | transloco }}</label>
     <div class="flex-row flex-gap-10">
       <md-button (click)="onDeleteAll()">{{ 'sessions.close-all' | transloco }}</md-button>
     </div>
+  </div>
+  <div class="flex-row flex-space-between flex-align-center">
+    {{ 'sessions.description' | transloco }}
   </div>
   <div>
     <app-session

@@ -684,6 +684,13 @@
   "sessions": {
     "close-all": "Close all sessions",
     "header": "User Sessions",
-    "success": "All sessions are closed"
+    "success": "All sessions are closed",
+    "description": "On this screen, you can view and terminate your sessions",
+    "close-all-confirmation-header": "Confirmation Required",
+    "close-all-confirmation-description": "Are you sure want all sessions to be closed?",
+    "close-session-confirmation-header": "Confirmation Required",
+    "close-session-confirmation-description": "Are you sure want to close the session?",
+    "close-confirmation-yes": "Yes",
+    "close-confirmation-no": "Cancel"
   }
 }
