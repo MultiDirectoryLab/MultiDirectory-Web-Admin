@@ -43,6 +43,8 @@ export class MdModalComponent extends BaseControlComponent implements OnInit, Af
   @Input() opened = false;
   @Input() width: string = '';
   @Input() closeable = true;
+  @Input() spinnerText = '';
+
   @Output() closeModal: EventEmitter<void> = new EventEmitter();
   @ViewChild('modalRoot', { static: false }) modalRoot!: ElementRef;
   @ViewChild('modalBody', { static: false }) modalBody!: ElementRef;

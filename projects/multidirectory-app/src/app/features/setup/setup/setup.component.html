@@ -1,5 +1,12 @@
 <md-form #form>
-  <md-modal #modal [opened]="true" [closeable]="false" [width]="'510px'" [minHeight]="460">
+  <md-modal
+    #modal
+    [opened]="true"
+    [closeable]="false"
+    [width]="'510px'"
+    [minHeight]="460"
+    [spinnerText]="'spinner.please-wait' | transloco"
+  >
     <div class="app-modal-header">
       <div style="flex-shrink: 1; display: flex">
         <img src="/assets/logo_login_transparent.svg" class="logo-img" />

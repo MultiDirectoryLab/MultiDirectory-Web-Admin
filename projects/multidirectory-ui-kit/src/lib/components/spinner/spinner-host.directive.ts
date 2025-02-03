@@ -15,6 +15,7 @@ import { SpinnerComponent } from './spinner.component';
 })
 export class SpinnerHostDirective implements OnInit {
   @Input() spinnerName = '';
+  @Input() spinnerText = '';
 
   public spinner?: SpinnerComponent;
   public spinnerRef?: ComponentRef<SpinnerComponent>;
@@ -28,6 +29,7 @@ export class SpinnerHostDirective implements OnInit {
     this.spinnerRef = this.viewContainerRef.createComponent(SpinnerComponent);
     this.spinner = this.spinnerRef.instance;
     this.spinner.name = this.spinnerName;
+    this.spinner.spinnerText = this.spinnerText ?? this.spinner.spinnerText;
     this.renderer2.appendChild(this.el.nativeElement, this.spinnerRef.location.nativeElement);
   }
 
