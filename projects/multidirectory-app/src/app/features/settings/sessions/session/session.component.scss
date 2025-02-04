@@ -1,0 +1,42 @@
+.session-container {
+  display: grid;
+  grid-template-columns: 32px 320px 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.session-id {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  font-size: 16px;
+  font-weight: bold;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+}
+
+.session-ip {
+  grid-column: 2 / 3;
+  grid-row: 1;
+  font-weight: bold;
+}
+
+.session-protocol {
+  grid-column: 2 / 3;
+  grid-row: 2;
+}
+
+.session-issued {
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.session-control {
+  grid-row: 1 / 3;
+  grid-column: 4 / 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

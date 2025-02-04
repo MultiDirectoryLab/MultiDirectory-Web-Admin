@@ -8,6 +8,7 @@ import { AboutComponent } from './about/about.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FooterComponent } from '../../components/app-layout/footer/footer.component';
 import { DnsSettingsComponent } from '../dns/dns-settings.component';
+import { SessionsComponent } from '@features/settings/sessions/sessions.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,10 @@ import { DnsSettingsComponent } from '../dns/dns-settings.component';
       {
         path: 'dns',
         component: DnsSettingsComponent,
+      },
+      {
+        path: 'sessions',
+        component: SessionsComponent,
       },
       {
         path: '',

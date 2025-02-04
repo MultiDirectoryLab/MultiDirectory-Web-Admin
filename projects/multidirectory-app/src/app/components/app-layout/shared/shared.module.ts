@@ -12,6 +12,7 @@ import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-
 import { AppFormsModule } from '@features/forms/forms.module';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlateListItemComponent } from './plate-list-item/plate-list-item.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     DeleteConfirmationModalComponent,
     WindowsComponent,
     NotificationsComponent,
+    PlateListItemComponent,
   ],
   exports: [
     ContextMenuComponent,
     DeleteConfirmationModalComponent,
     WindowsComponent,
     NotificationsComponent,
+    PlateListItemComponent,
   ],
   imports: [
     MultidirectoryUiKitModule,

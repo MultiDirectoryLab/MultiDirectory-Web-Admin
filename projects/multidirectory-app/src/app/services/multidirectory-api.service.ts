@@ -32,7 +32,8 @@ import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-requ
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { ClearMultifactorRequest } from '@models/multifactor/clear-multifactor-request';
+import { GetSessionsResponse } from '@models/sessions/get-session-response';
+import { UserSession } from '@models/sessions/user-session';
 
 @Injectable({
   providedIn: 'root',
@@ -45,18 +46,11 @@ export class MultidirectoryApiService {
   login(login: string, password: string): Observable<LoginResponse> {
     const payload = new HttpParams().set('username', login).set('password', password);
 
-    return this.httpClient
-      .post<LoginResponse>('auth/token/get', payload)
-      .useUrlEncodedForm()
-      .execute();
+    return this.httpClient.post<LoginResponse>('auth/', payload).useUrlEncodedForm().execute();
   }
 
   logout(): Observable<void> {
-    return this.httpClient.delete<void>('auth/token/refresh').execute();
-  }
-
-  refresh(): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>('auth/token/refresh').execute();
+    return this.httpClient.delete<void>('auth/').execute();
   }
 
   whoami(): Observable<WhoamiResponse> {
@@ -237,5 +231,39 @@ export class MultidirectoryApiService {
 
   addPrincipal(request: AddPrincipalRequest): Observable<string> {
     return this.httpClient.post<string>('kerberos/principal/add', request).execute();
+  }
+
+  formatDateTime(dateTimeStr: string) {
+    const date = new Date(dateTimeStr);
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${hours}:${minutes} ${day}-${month}-${year}`;
+  }
+
+  getSessions(upn: string): Observable<UserSession[]> {
+    return this.httpClient
+      .get<GetSessionsResponse>('sessions/' + upn)
+      .execute()
+      .pipe(
+        map((dict) => {
+          return Object.keys(dict).map((x) => {
+            const session = new UserSession(dict[x]);
+            session.session_id = x;
+            session.issued = this.formatDateTime(session.issued);
+            return session;
+          });
+        }),
+      );
+  }
+
+  deleteSession(sessionId: string): Observable<string> {
+    return this.httpClient.delete<string>('sessions/session/' + sessionId).execute();
+  }
+
+  deleteUserSessions(upn: string): Observable<string> {
+    return this.httpClient.delete<string>('sessions/' + upn).execute();
   }
 }

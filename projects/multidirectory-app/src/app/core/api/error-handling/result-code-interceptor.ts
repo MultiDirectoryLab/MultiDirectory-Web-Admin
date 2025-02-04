@@ -7,9 +7,9 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, catchError, map } from 'rxjs';
-import { LdapCode } from './ldap-codes';
 import { translate } from '@jsverse/transloco';
+import { Observable, map } from 'rxjs';
+import { LdapCode } from './ldap-codes';
 
 @Injectable()
 export class ResultCodeInterceptor implements HttpInterceptor {
@@ -25,17 +25,20 @@ export class ResultCodeInterceptor implements HttpInterceptor {
         if (resp.type !== HttpEventType.Response || !resp?.body?.resultCode) {
           return resp;
         }
+
         if (!!resp.body.errorMessage) {
           throw new HttpErrorResponse({
             status: resp.body.resultCode,
             statusText: resp.body.errorMessage,
           });
         }
+
         if (this.messages.has(resp.body.resultCode)) {
           const errData = this.messages.get(resp.body.resultCode)!;
 
           throw new HttpErrorResponse({ status: errData[0], statusText: translate(errData[1]) });
         }
+
         throw new HttpErrorResponse({ status: 500, statusText: translate('errors.unknown-error') });
       }),
     );

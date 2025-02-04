@@ -1,0 +1,19 @@
+<app-plate-list-item>
+  <div class="session-container">
+    <div class="session-id">{{ index }}</div>
+    <div class="session-ip">
+      {{ session.ip }}
+    </div>
+    <div class="session-protocol">{{ session.protocol }}</div>
+    <div class="session-issued">{{ session.issued }}</div>
+    <div class="session-control">
+      <md-plane-button class="control-button" (click)="onDeleteClick()">
+        <img
+          class="control-button-logo"
+          [src]="'assets/trash.svg'"
+          style="width: 24px; height: 24px"
+        />
+      </md-plane-button>
+    </div>
+  </div>
+</app-plate-list-item>

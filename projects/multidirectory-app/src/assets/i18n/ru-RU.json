@@ -473,7 +473,8 @@
     "mf-settings": "Подключение к MULTIFACTOR",
     "about": "О программе",
     "kdc-principals": "Принципалы Kerberos",
-    "dns-settings": "Настройки DNS"
+    "dns-settings": "Настройки DNS",
+    "sessions": "Сессии"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -676,5 +677,17 @@
     "official-site": "Официальный сайт MultiDirectory",
     "contact-us": "Связаться с нами",
     "upgrade-to-enterprise": "Перейти на MultiDirectory Enterprise"
+  },
+  "sessions": {
+    "close-all": "Завершить все",
+    "header": "Сессии пользователя",
+    "success": "Сессии завершены",
+    "description": "На данном экране вы можете просмотреть и завершить свои сессии",
+    "close-all-confirmation-header": "Требуется подтвержение",
+    "close-all-confirmation-description": "Вы действительно хотите завершить все сессии?",
+    "close-session-confirmation-header": "Требуется подтвержение",
+    "close-session-confirmation-description": "Вы действительно хотите завершить сессию?",
+    "close-confirmation-yes": "Да, завершить",
+    "close-confirmation-no": "Отменить"
   }
 }
