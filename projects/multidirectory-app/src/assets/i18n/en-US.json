@@ -473,7 +473,8 @@
     "mf-settings": "Multifactor Integration",
     "about": "About",
     "kdc-principals": "Kerberos Principals",
-    "dns-settings": "DNS Settings"
+    "dns-settings": "DNS Settings",
+    "sessions": "Sessions"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -679,5 +680,17 @@
     "official-site": "MultiDirectory Official Site",
     "contact-us": "Contact Us",
     "upgrade-to-enterprise": "upgrade to MultiDirectory Enterprise"
+  },
+  "sessions": {
+    "close-all": "Close all sessions",
+    "header": "User Sessions",
+    "success": "All sessions are closed",
+    "description": "On this screen, you can view and terminate your sessions",
+    "close-all-confirmation-header": "Confirmation Required",
+    "close-all-confirmation-description": "Are you sure want all sessions to be closed?",
+    "close-session-confirmation-header": "Confirmation Required",
+    "close-session-confirmation-description": "Are you sure want to close the session?",
+    "close-confirmation-yes": "Yes",
+    "close-confirmation-no": "Cancel"
   }
 }

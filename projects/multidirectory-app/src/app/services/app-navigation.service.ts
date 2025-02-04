@@ -42,7 +42,6 @@ export class AppNavigationService {
   constructor(
     private router: Router,
     private navigationRoot: NavigationRoot,
-    private activatedRoute: ActivatedRoute,
     private ldapTreeLoader: LdapEntryLoader,
   ) {}
 
@@ -58,13 +57,7 @@ export class AppNavigationService {
   }
 
   reload() {
-    this.router.navigate([], {
-      onSameUrlNavigation: 'reload',
-      queryParams: this.activatedRoute.snapshot.queryParams,
-      state: {
-        reloadSelection: true,
-      },
-    });
+    window.location.reload();
   }
 
   async goTo(dn: string, rootDse: LdapEntryNode[] = []): Promise<LdapEntryNode | undefined> {

@@ -1,0 +1,20 @@
+<div class="flex-column flex-gap-10 p-8">
+  <div class="flex-row flex-space-between flex-align-center">
+    <label class="bold">{{ 'sessions.header' | transloco }}</label>
+    <div class="flex-row flex-gap-10">
+      <md-button (click)="onDeleteAll()">{{ 'sessions.close-all' | transloco }}</md-button>
+    </div>
+  </div>
+  <div class="flex-row flex-space-between flex-align-center">
+    {{ 'sessions.description' | transloco }}
+  </div>
+  <div>
+    <app-session
+      *ngFor="let session of sessions; let i = index"
+      [session]="session"
+      [index]="i + 1"
+      (deleteClick)="onSessionDelete($event)"
+    >
+    </app-session>
+  </div>
+</div>

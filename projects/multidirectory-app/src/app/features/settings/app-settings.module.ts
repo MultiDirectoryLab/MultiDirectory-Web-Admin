@@ -16,6 +16,7 @@ import { AboutComponent } from './about/about.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DnsSettingsModule } from '../dns/dns-settings.module';
+import { SessionsModule } from '@features/settings/sessions/sessions.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { DnsSettingsModule } from '../dns/dns-settings.module';
     FontAwesomeModule,
     RouterModule,
     DnsSettingsModule,
+    SessionsModule,
   ],
   declarations: [
     AppSettingsComponent,
