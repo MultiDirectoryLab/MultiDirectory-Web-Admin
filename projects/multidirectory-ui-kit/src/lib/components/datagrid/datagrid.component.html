@@ -11,6 +11,7 @@
     [selectionType]="SelectionType.multi"
     (activate)="onActivate($event)"
     [externalPaging]="externalPaging"
+    [externalSorting]="externalSorting"
     [scrollbarV]="scrollbarV"
     [scrollbarH]="false"
     [count]="page.totalElements"
@@ -30,6 +31,7 @@
     (focus)="onFocus($event)"
     (keydown)="onKeyDown($event)"
     (resize)="onTableResize()"
+    (sort)="onSort($event)"
     #datagrid
   >
     <ng-template ngx-datatable-control-panel>

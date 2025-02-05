@@ -29,7 +29,6 @@
       text-transform: uppercase;
       color: var(--md-dark-blue-4);
       padding: 4px 8px;
-      cursor: pointer;
 
       .datatable-header-cell-template-wrap {
         display: flex;
@@ -38,12 +37,15 @@
 
         .datatable-header-cell-label {
           @include global.use-inter-typography(bold, 13px, 120%);
+          user-select: none;
+          cursor: pointer;
         }
 
         .sort-btn {
           display: flex !important;
           flex-flow: column nowrap;
           justify-content: center;
+          cursor: pointer;
         }
       }
     }

@@ -4,6 +4,7 @@ import { NgxDatatableModule } from 'ngx-datatable-gimefork';
 import { DropdownComponent } from '../dropdown/dropdown.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Page } from './page';
 
 const meta: Meta<DatagridComponent> = {
   title: 'Components/Datagrid',
@@ -110,6 +111,44 @@ export const WithControlPanel: Story = {
                     [rows]="rows"></md-datagrid>
             </div>
 
+            <ng-template #controlPanel>
+              I am control panel
+            </ng-template>
+        `,
+  }),
+};
+
+export const WithExternalSorting: Story = {
+  args: {
+    columns: [{ name: 'name' }],
+    rows: Array.from(Array.from(Array(25).keys())).map((x) => {
+      return { name: x };
+    }),
+  },
+  render: () => ({
+    props: {
+      columns: [
+        {
+          name: 'Column Name',
+        },
+      ],
+      rows: Array.from(Array.from(Array(25).keys())).map((x) => {
+        return { columnName: x };
+      }),
+      page: new Page({ totalElements: 25, size: 5, pageNumber: 0 }),
+      onSort: (event: any) => {},
+    },
+    template: `
+            <div style="height: 250px; padding: 1rem">
+                <md-datagrid 
+                    [controlPanelRef]="controlPanel"
+                    [page]="page"
+                    [columns]="columns" 
+                    [rows]="rows"
+                    [externalSorting]="false"
+                    (sort)="onSort($event)"
+                    ></md-datagrid>
+            </div>
             <ng-template #controlPanel>
               I am control panel
             </ng-template>
