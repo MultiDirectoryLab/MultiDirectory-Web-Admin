@@ -531,7 +531,8 @@
     "password-repeat-label": "Repeat Password",
     "cancel": "Cancel",
     "finish": "Finish",
-    "unable-change-password": "Unable to change password"
+    "unable-change-password": "Unable to change password",
+    "password-successfully-changed": "Password successfully changed"
   },
   "property-editor": {
     "header": "Edit property ",
