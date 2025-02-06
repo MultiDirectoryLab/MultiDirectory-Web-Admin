@@ -38,6 +38,9 @@ export class ErrorLabelComponent extends BaseControlComponent {
     if (!!this.ngControl?.errors?.['PasswordsShouldNotMatch']) {
       return this.ngControl?.errors?.['PasswordsShouldNotMatch'];
     }
+    if (!!this.ngControl?.errors?.['PasswordValidator']) {
+      return this.ngControl?.errors?.['PasswordValidator'];
+    }
     return undefined;
   }
 }

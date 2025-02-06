@@ -25,6 +25,7 @@
           [password]="!this.setupRequest.generateKdcPasswords"
           [appPasswordMatch]="krbRepeatPassword"
           [appPasswordNotMatch]="stashPasswordInput"
+          appPasswordShouldBeValid
           [(ngModel)]="setupRequest.krbadmin_password"
           (keyup)="checkModel()"
           #krbPasswordInput="ngModel"

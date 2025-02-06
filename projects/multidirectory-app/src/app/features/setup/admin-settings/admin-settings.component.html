@@ -25,6 +25,7 @@
             appRequired
             [password]="true"
             [appPasswordMatch]="repeatPassword"
+            appPasswordShouldBeValid
             [(ngModel)]="setupRequest.password"
             (keyup)="checkModel()"
             #passwordInput="ngModel"

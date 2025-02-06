@@ -575,7 +575,8 @@
   "password-conditions": {
     "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
     "password-complexity": "Password must contain uppercase letters, lowercase letters, special charecters and digits",
-    "password-without-otp": "Password must not end with series of 6 digits in a row"
+    "password-without-otp": "Password must not end with series of 6 digits in a row",
+    "password-must-meet-conditions": "Password must meet security conditions"
   },
   "confirmation-dialog": {
     "prompt-header": "Confirmation required",

@@ -572,7 +572,8 @@
   "password-conditions": {
     "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
     "password-complexity": "Пароль должен содержать заглавные и строчные буквы, специальные символы, а также цифры",
-    "password-without-otp": "Пароль не должен завершаться 6 цифрами подряд"
+    "password-without-otp": "Пароль не должен завершаться 6 цифрами подряд",
+    "password-must-meet-conditions": "Пароль должен удовлевтворять требованиям сложности"
   },
   "confirmation-dialog": {
     "prompt-header": "Требуется подтвержение",
