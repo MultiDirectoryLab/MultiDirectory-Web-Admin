@@ -199,10 +199,13 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       entity = this.app.userEntry;
     }
     this.changePasswordModal
-      ?.open(undefined, {
-        identity: entity.id,
-        un: entity.name,
-      })
+      ?.open(
+        { minHeight: 220 },
+        {
+          identity: entity.id,
+          un: entity.name,
+        },
+      )
       .pipe(take(1))
       .subscribe((x) => {});
   }

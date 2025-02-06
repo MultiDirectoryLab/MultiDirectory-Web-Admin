@@ -53,6 +53,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       )
       .subscribe((x) => {
         this.modalControl.modal?.hideSpinner();
+        this.toastr.success(translate('change-password.password-successfully-changed'));
         this.modalControl.close(x);
       });
   }
