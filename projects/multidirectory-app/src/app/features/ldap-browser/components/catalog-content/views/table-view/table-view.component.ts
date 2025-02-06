@@ -88,7 +88,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   constructor(
     private appNavigation: AppNavigationService,
     private ldapLoader: LdapEntryLoader,
-    private toastr: ToastrService,
     private bulkService: BulkService<LdapEntryNode>,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
@@ -111,6 +110,21 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
         cellTemplate: this.iconColumn,
         flexGrow: 1,
         checkboxable: true,
+        comparator: (
+          valueA: TableRow,
+          valueB: TableRow,
+          rowA: TableRow,
+          rowB: TableRow,
+          sortDirection: string,
+        ) => {
+          if (valueA.name === valueB.name) {
+            return 0;
+          }
+          if (sortDirection === 'asc') {
+            return valueA.name > valueB.name ? 1 : -1;
+          }
+          return valueB.name > valueA.name ? -1 : 1;
+        },
       },
       { name: translate('table-view.type-column'), prop: 'type', flexGrow: 1 },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },

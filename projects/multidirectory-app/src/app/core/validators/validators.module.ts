@@ -8,6 +8,7 @@ import { PatternWithMessageDirective } from './pattern-with-message.directive';
 import { PasswordShouldNotMatchValidatorDirective } from './passwordnotmatch.directive';
 import { Ip6AddressValidatorDirective } from './ip6-address.directive';
 import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
+import { PasswordValidatorDirective } from './password-validator.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
     RequiredWithMessageDirective,
     PatternWithMessageDirective,
     DnsSrvValidatorDirective,
+    PasswordValidatorDirective,
   ],
   exports: [
     DomainFormatValidatorDirective,
@@ -31,6 +33,7 @@ import { DnsSrvValidatorDirective } from './dns-srv-format.directive';
     RequiredWithMessageDirective,
     PatternWithMessageDirective,
     DnsSrvValidatorDirective,
+    PasswordValidatorDirective,
   ],
 })
 export class ValidatorsModule {}

@@ -51,6 +51,8 @@ export class DatagridComponent implements AfterViewInit {
   @Input() hideFooter = false;
   @Input() headerHeight = 32;
   @Input() controlPanelRef: TemplateRef<any> | null = null;
+  @Input() externalSorting = false;
+  @Output() sort = new EventEmitter<SortEvent>();
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
@@ -207,10 +209,21 @@ export class DatagridComponent implements AfterViewInit {
   resetScroll() {
     this.grid?.bodyComponent?.scroller?.setOffset(0);
   }
+
+  onSort(event: SortEvent) {
+    this.sort.emit(event);
+  }
 }
 
 export interface ContextMenuEvent {
   event: MouseEvent;
   type: ContextmenuType;
   content: any;
+}
+
+export interface SortEvent {
+  sorts: any;
+  column: any;
+  prevValue: any;
+  newValue: any;
 }
