@@ -3,7 +3,7 @@ import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
 import { SetupRequest } from '@models/setup/setup-request';
-import { delay, expand, iif, map, Observable, of, switchMap, takeWhile } from 'rxjs';
+import { delay, EMPTY, expand, iif, map, Observable, of, switchMap, takeWhile } from 'rxjs';
 import { DnsApiService } from './dns-api.service';
 import { LoginService } from './login.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
@@ -47,12 +47,17 @@ export class SetupService {
         }),
         switchMap((success) => {
           // Polling getKerberosStatus every 1 second until status === 1
+          let callCount = 0;
           return iif(
             () => setupRequest.setupKdc,
             this.api.getKerberosStatus().pipe(
-              expand(
-                () => this.api.getKerberosStatus().pipe(delay(1000)), // Repeat the call every 1 second
-              ),
+              expand(() => {
+                callCount++;
+                if (callCount > 15) {
+                  return EMPTY;
+                }
+                return this.api.getKerberosStatus().pipe(delay(1000));
+              }),
               takeWhile((status) => status !== KerberosStatuses.READY, true),
               map((x) => x == KerberosStatuses.READY), // Continue until status === 1
             ),

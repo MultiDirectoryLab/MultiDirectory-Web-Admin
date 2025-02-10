@@ -1,4 +1,4 @@
-<div *ngIf="kerberosStatus !== KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
+<div *ngIf="kerberosStatus === KerberosStatusEnum.READY" class="flex-column">
   <div class="p-16 flex-row flex-space-between flex-gap-10">
     <div class="flex-row justify-end flex-gap-10">
       <md-button (click)="exportKeytab()">{{ 'kerberos-settings.export' | transloco }}</md-button>
@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div *ngIf="kerberosStatus === KerberosStatusEnum.NOT_CONFIGURED" class="flex-column">
+<div *ngIf="kerberosStatus !== KerberosStatusEnum.READY" class="flex-column">
   <div class="p-16">
     <md-alert>
       <div class="flex-row flex-gap-20">

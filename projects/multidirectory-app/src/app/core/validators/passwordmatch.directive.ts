@@ -30,7 +30,7 @@ export class PasswordMatchValidatorDirective implements Validator {
     ) {
       return null;
     }
-
+    
     return control.value == this.passwordInput.value
       ? null
       : {
