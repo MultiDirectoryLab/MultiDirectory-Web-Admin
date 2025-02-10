@@ -71,6 +71,7 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       PasswordGenerator.generatePassword();
     this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
       PasswordGenerator.generatePassword();
+    this.checkModel();
   }
 
   downloadPasswords() {
