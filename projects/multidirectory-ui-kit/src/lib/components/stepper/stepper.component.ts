@@ -20,26 +20,26 @@ import { StepDirective } from './step.directive';
 })
 export class StepperComponent {
   @ContentChildren(StepDirective) steps!: QueryList<StepDirective>;
-
   currentIndex = 0;
-  @Output() onNext = new EventEmitter<TemplateRef<any>>();
-  @Output() onFinish = new EventEmitter<void>();
+  @Output() nextStep = new EventEmitter<TemplateRef<any>>();
+  @Output() finish = new EventEmitter<void>();
   @Input() context!: any;
   constructor(private cdr: ChangeDetectorRef) {}
 
   next(count: number = 1) {
+    this.steps.get(this.currentIndex)?.stepComplete.emit();
     if (this.currentIndex + count == this.steps.length) {
-      this.onFinish.emit();
+      this.finish.emit();
     } else {
       this.currentIndex += 1;
-      this.onNext.emit(this.steps.get(this.currentIndex)?.templateRef);
+      this.nextStep.emit(this.steps.get(this.currentIndex)?.templateRef);
     }
     this.cdr.detectChanges();
   }
 
   previous(count: number = 1) {
     if (this.currentIndex - count < 0) {
-      this.onFinish.emit();
+      this.finish.emit();
     } else {
       this.currentIndex -= count;
     }

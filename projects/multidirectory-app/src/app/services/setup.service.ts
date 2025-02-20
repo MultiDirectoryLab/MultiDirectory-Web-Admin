@@ -7,6 +7,7 @@ import { delay, EMPTY, expand, iif, map, Observable, of, switchMap, takeWhile } 
 import { DnsApiService } from './dns-api.service';
 import { LoginService } from './login.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
+import { LoginResponse } from '@models/login/login-response';
 
 @Injectable({
   providedIn: 'root',
@@ -17,24 +18,6 @@ export class SetupService {
     private dns: DnsApiService,
     private loginService: LoginService,
   ) {}
-
-  setup(setupRequest: SetupRequest): Observable<boolean> {
-    return this.api.setup(setupRequest).pipe(
-      switchMap((success) =>
-        this.loginService.login(setupRequest.user_principal_name, setupRequest.password),
-      ),
-      switchMap((success) => {
-        return iif(
-          () => setupRequest.setupDns,
-          this.dns.setup(setupRequest.setupDnsRequest),
-          of(!!success),
-        );
-      }),
-      switchMap((success) => {
-        return iif(() => setupRequest.setupKdc, this.kerberosSetup(setupRequest), of(!!success));
-      }),
-    );
-  }
 
   kerberosSetup(setupRequest: SetupRequest) {
     return this.api
@@ -65,5 +48,17 @@ export class SetupService {
           );
         }),
       );
+  }
+
+  initialSetup(setupRequest: SetupRequest): Observable<LoginResponse> {
+    return this.api.setup(setupRequest).pipe(
+      switchMap((success) => {
+        return this.loginService.login(setupRequest.user_principal_name, setupRequest.password);
+      }),
+    );
+  }
+
+  dnsSetup(setupRequest: SetupRequest): Observable<boolean> {
+    return this.dns.setup(setupRequest.setupDnsRequest);
   }
 }

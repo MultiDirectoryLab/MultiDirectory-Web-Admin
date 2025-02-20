@@ -17,15 +17,11 @@ export class TestData {
   selector: 'md-stepper-test',
   template: `
     <md-stepper #stepper (onFinish)="onFinish()">
-      <ng-template mdStep>
+      <ng-template mdStep (stepComplete)="firstStepComplete()">
         <test-first-step [context]="data"></test-first-step>
       </ng-template>
-      <ng-template mdStep>
-        <test-second-step [context]="data"></test-second-step>
-      </ng-template>
-      <ng-template mdStep>
-        <test-third-step [context]="data"></test-third-step>
-      </ng-template>
+      <test-second-step *mdStep [context]="data"></test-second-step>
+      <test-third-step *mdStep [context]="data"></test-third-step>
     </md-stepper>
     <button *ngIf="!finishedData" #nextBtn (click)="stepper.next()">Next</button>
     <div *ngIf="finishedData">
@@ -44,6 +40,10 @@ export class StepperTestComponent {
   onFinish() {
     this.finishedData = Object.assign({}, this.data);
     this.data = {} as TestData;
+  }
+
+  firstStepComplete() {
+    alert('test');
   }
 }
 
