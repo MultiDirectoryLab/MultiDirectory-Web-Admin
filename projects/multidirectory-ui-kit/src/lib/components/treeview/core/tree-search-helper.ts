@@ -1,3 +1,30 @@
+import {
+  buffer,
+  bufferWhen,
+  combineLatest,
+  concat,
+  concatAll,
+  concatMap,
+  EMPTY,
+  expand,
+  from,
+  map,
+  merge,
+  mergeAll,
+  mergeMap,
+  NEVER,
+  Observable,
+  of,
+  skipWhile,
+  startWith,
+  switchMap,
+  take,
+  takeWhile,
+  tap,
+  toArray,
+  zip,
+  zipAll,
+} from 'rxjs';
 import { Treenode } from '../model/treenode';
 
 export class TreeSearchHelper {
@@ -68,5 +95,31 @@ export class TreeSearchHelper {
       }
       path.pop();
     });
+  }
+
+  static traverseTreeRx<NodeType extends Treenode>(
+    roots: NodeType[],
+    filter: (node: NodeType) => boolean,
+  ): Observable<Treenode> {
+    return from(roots).pipe(
+      concatMap((root) => {
+        if (root.loadChildren) {
+          return root.ensureChildren();
+        }
+        return of(root);
+      }),
+      expand((root) => {
+        return from(root.children).pipe(
+          concatMap((child) => {
+            if (child.loadChildren) {
+              return child.ensureChildren();
+            }
+            return of(child);
+          }),
+        ) as Observable<NodeType>;
+      }),
+      skipWhile((node) => !filter(node)),
+      take(1),
+    );
   }
 }
