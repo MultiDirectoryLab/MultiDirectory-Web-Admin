@@ -50,8 +50,8 @@ xdescribe('Navigation Component Test Suit', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement.outerHTML).toContain('tree-label');
-      const testNode1 = navigation.navigationTree[1].data;
-      const treeNode = fixture.debugElement.nativeElement.querySelector(
+      const testNode1 = navigation.navigationTree[1].routeData;
+      let treeNode = fixture.debugElement.nativeElement.querySelector(
         '.tree-item-wrapper[data-id=' + testNode1.id + ']',
       );
       expect(testNode1.selectable).toBeTrue();

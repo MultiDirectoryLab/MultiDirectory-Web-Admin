@@ -47,10 +47,9 @@ export class AppNavigationService {
     if (!node.route) {
       return;
     }
+
     this.router.navigate(node.route, {
-      queryParams: {
-        distinguishedName: node.data,
-      },
+      queryParams: node.routeData,
     });
   }
 
