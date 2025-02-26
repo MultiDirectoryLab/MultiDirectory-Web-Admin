@@ -1,30 +1,4 @@
-import {
-  buffer,
-  bufferWhen,
-  combineLatest,
-  concat,
-  concatAll,
-  concatMap,
-  EMPTY,
-  expand,
-  from,
-  map,
-  merge,
-  mergeAll,
-  mergeMap,
-  NEVER,
-  Observable,
-  of,
-  skipWhile,
-  startWith,
-  switchMap,
-  take,
-  takeWhile,
-  tap,
-  toArray,
-  zip,
-  zipAll,
-} from 'rxjs';
+import { concatMap, EMPTY, expand, from, Observable, of, skipWhile, take } from 'rxjs';
 import { Treenode } from '../model/treenode';
 
 export class TreeSearchHelper {
@@ -109,6 +83,9 @@ export class TreeSearchHelper {
         return of(root);
       }),
       expand((root) => {
+        if (!root.children) {
+          return EMPTY;
+        }
         return from(root.children).pipe(
           concatMap((child) => {
             if (child.loadChildren) {
