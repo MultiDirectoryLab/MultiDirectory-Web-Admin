@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
@@ -23,7 +16,7 @@ import { TableColumn } from 'ngx-datatable-gimefork';
   templateUrl: './entity-attributes.component.html',
   styleUrls: ['./entity-attributes.component.scss'],
 })
-export class EntityAttributesComponent implements AfterViewInit {
+export class EntityAttributesComponent implements OnInit {
   @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
   @ViewChild('dataGridCellTemplate', { static: true })
   dataGridCellTemplateRef: TemplateRef<any> | null = null;
@@ -55,7 +48,7 @@ export class EntityAttributesComponent implements AfterViewInit {
     private windows: AppWindowsService,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this._accessorRx.pipe(takeUntil(this._unsubscribe)).subscribe((_) => {
       this.loadEntityAttributes();
     });

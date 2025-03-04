@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ModalInjectDirective, MultiselectComponent } from 'multidirectory-ui-kit';
-import { Subject, catchError, take, throwError } from 'rxjs';
+import { Subject, catchError, take, throwError, map } from 'rxjs';
 import { EntityType } from '@core/entities/entities-type';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -92,6 +92,14 @@ export class EntitySelectorComponent implements OnInit {
     this.api
       .search(SearchQueries.findEntities(this.name, this.selectedCatalogDn, entityClasses))
       .pipe(
+        map((res) => ({
+          ...res,
+          search_result: res.search_result.filter((entity) =>
+            this.settings.entityToMove.every(
+              (e) => !entity.object_name.includes(<string>e.entry?.object_name),
+            ),
+          ),
+        })),
         catchError((err) => {
           return throwError(() => err);
         }),

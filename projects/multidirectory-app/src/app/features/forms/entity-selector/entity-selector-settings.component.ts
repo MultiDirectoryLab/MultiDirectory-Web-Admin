@@ -5,6 +5,7 @@ export class EntitySelectorSettings {
   selectedEntities: LdapEntryNode[] = [];
   selectedEntityTypes: EntityType[] = [];
   selectedPlaceDn: string = '';
+  entityToMove: LdapEntryNode[] = [];
 
   allowSelectEntityTypes = true;
 
