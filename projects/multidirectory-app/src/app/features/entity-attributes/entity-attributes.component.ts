@@ -1,4 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
@@ -6,9 +13,10 @@ import { SchemaEntry } from '@models/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { DatagridComponent, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
 import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -17,6 +25,8 @@ import { EditPropertyRequest } from '@models/entity-attribute/edit-property-requ
 })
 export class EntityAttributesComponent implements AfterViewInit {
   @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
+  @ViewChild('dataGridCellTemplate', { static: true })
+  dataGridCellTemplateRef: TemplateRef<any> | null = null;
 
   private _unsubscribe = new Subject<boolean>();
   private _schema = new Map<string, SchemaEntry>();
@@ -36,10 +46,7 @@ export class EntityAttributesComponent implements AfterViewInit {
   }
 
   page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
-  propColumns = [
-    { name: translate('entity-attributes.name'), prop: 'name', flexGrow: 1 },
-    { name: translate('entity-attributes.value'), prop: 'val', flexGrow: 2 },
-  ];
+  propColumns: TableColumn[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -52,6 +59,20 @@ export class EntityAttributesComponent implements AfterViewInit {
     this._accessorRx.pipe(takeUntil(this._unsubscribe)).subscribe((_) => {
       this.loadEntityAttributes();
     });
+
+    this.propColumns = [
+      {
+        name: translate('entity-attributes.name'),
+        prop: 'name',
+        flexGrow: 1,
+      },
+      {
+        name: translate('entity-attributes.value'),
+        prop: 'val',
+        flexGrow: 2,
+        cellTemplate: this.dataGridCellTemplateRef,
+      },
+    ];
   }
 
   private loadEntityAttributes() {
@@ -117,6 +138,12 @@ export class EntityAttributesComponent implements AfterViewInit {
           !this.searchQuery ||
           attr.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()),
       );
+  }
+
+  onCopyClick(value: string): void {
+    from(navigator.clipboard.writeText(value))
+      .pipe(take(1))
+      .subscribe(() => this.toastr.success(translate('entity-attributes.copied')));
   }
 
   onDeleteClick() {

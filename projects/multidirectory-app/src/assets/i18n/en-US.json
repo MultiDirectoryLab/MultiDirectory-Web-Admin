@@ -246,6 +246,7 @@
     "header": "Attribute",
     "add": "Add",
     "edit": "Edit",
+    "copied": "Copied to clipboard!",
     "delete": "Delete",
     "with-values-only": "Show only the attributes that have values",
     "writable-only": "Show writable attributes only",
