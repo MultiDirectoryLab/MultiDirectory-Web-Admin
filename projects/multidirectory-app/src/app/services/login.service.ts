@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, Observable, Subject, take, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, Subject, switchMap, take, tap } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LoginResponse } from '@models/login/login-response';
 import { translate } from '@jsverse/transloco';
@@ -16,21 +16,20 @@ export class LoginService {
   ) {}
 
   use2FA(login: string, password: string) {
-    this.api
-      .getMultifactorACP(login, password)
-      .pipe(take(1))
-      .subscribe((resp) => {
+    return this.api.getMultifactorACP(login, password).pipe(
+      take(1),
+      switchMap((resp) => {
         document.location = resp.message;
-      });
-    return this.authComplete.asObservable();
+        return EMPTY;
+      }),
+    );
   }
 
   login(login: string, password: string): Observable<LoginResponse> {
     return this.api.login(login, password).pipe(
       catchError((err, caught) => {
         if (err.status == 426) {
-          this.use2FA(login, password);
-          return EMPTY;
+          return this.use2FA(login, password);
         }
         this.toastr.error(translate('login.wrong-login'));
         throw err;
