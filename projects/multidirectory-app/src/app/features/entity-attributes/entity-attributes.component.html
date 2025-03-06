@@ -26,6 +26,20 @@
       fromTitle="{{ 'grid.from-title' | transloco }}"
       emptyMessage="{{ 'grid.no-data' | transloco }}"
     >
+      <ng-template #dataGridCellTemplate let-value="value" let-isSelected="isSelected">
+        <div class="datatable-body-cell-label body-cell-label">
+          <img
+            [ngClass]="['copy-icon', isSelected ? 'active' : '']"
+            (click)="onCopyClick(value)"
+            src="./assets/copy.svg"
+            alt="copy"
+            width="12"
+            height="12"
+          />
+
+          <span [title]="value">{{ value }}</span>
+        </div>
+      </ng-template>
     </md-datagrid>
   </div>
   <div class="flex-row flex-space-between pt-16">

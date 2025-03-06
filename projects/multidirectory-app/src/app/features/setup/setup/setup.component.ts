@@ -73,31 +73,61 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modal.resizeToContentHeight();
   }
 
-  onSetup() {
-    if (this.setupRequest.setupKdc && this.setupRequest.generateKdcPasswords) {
-      this.downloadPasswords();
-    }
-
+  onInitialSetup() {
     this.modal.showSpinner();
     this.setup
-      .setup(this.setupRequest)
+      .initialSetup(this.setupRequest)
       .pipe(
         catchError((err) => {
           this.modal.hideSpinner();
-          this.router.navigate(['/']);
           throw err;
         }),
       )
       .subscribe((res) => {
         this.modal.hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
-        this.router.navigate(['/']);
       });
   }
 
-  resize() {
-    this.modal.resizeToContentHeight();
-    this.cdr.detectChanges();
+  onDnsSetup() {
+    this.modal.showSpinner();
+    this.setup
+      .dnsSetup(this.setupRequest)
+      .pipe(
+        catchError((err) => {
+          this.modal.hideSpinner();
+          throw err;
+        }),
+      )
+      .subscribe((res) => {
+        this.modal.hideSpinner();
+        this.toastr.success(translate('setup.setup-complete'));
+      });
+  }
+
+  onKerberosSetup() {
+    if (this.setupRequest.setupKdc && this.setupRequest.generateKdcPasswords) {
+      this.downloadPasswords();
+    }
+
+    this.modal.showSpinner();
+    this.setup
+      .kerberosSetup(this.setupRequest)
+      .pipe(
+        catchError((err) => {
+          this.modal.hideSpinner();
+
+          throw err;
+        }),
+      )
+      .subscribe((res) => {
+        this.modal.hideSpinner();
+        this.toastr.success(translate('setup.setup-complete'));
+      });
+  }
+
+  onFinish() {
+    this.router.navigate(['/']);
   }
 
   showNextStep() {

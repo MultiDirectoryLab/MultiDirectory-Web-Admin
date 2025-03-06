@@ -72,9 +72,11 @@ export class MultidirectoryApiService {
   kerberosTreeSetup(request: KerberosTreeSetupRequest): Observable<boolean> {
     return this.httpClient.post<boolean>('kerberos/setup/tree', request).execute();
   }
+
   kerberosSetup(request: KerberosSetupRequest): Observable<boolean> {
     return this.httpClient.post<boolean>('kerberos/setup', request).execute();
   }
+
   ktadd(request: string[]): Observable<any> {
     return this.httpClient.postFile('kerberos/ktadd', request);
   }

@@ -4,5 +4,6 @@ import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/co
   selector: '[mdStep]',
 })
 export class StepDirective {
+  @Output() stepComplete = new EventEmitter<void>();
   constructor(public templateRef: TemplateRef<unknown>) {}
 }

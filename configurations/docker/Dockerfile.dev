@@ -7,10 +7,16 @@ COPY . /app
 WORKDIR /app
 
 FROM base
+ARG API_URL
+ENV API_URL "$API_URL"
+
+RUN apt-get update
+RUN apt-get install -y gettext
 
 WORKDIR /app
 COPY package.json /app/package.json
 COPY . /app
+RUN envsubst < /app/projects/multidirectory-app/src/assets/env.template.js > /app/projects/multidirectory-app/src/assets/env.js
 RUN pnpm install -g @angular/cli@18 &&\
     pnpm install &&\
     ng build multidirectory-ui-kit &&\

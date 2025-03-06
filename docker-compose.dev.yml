@@ -6,11 +6,12 @@ services:
     build:
       context: ./
       dockerfile: configurations/docker/Dockerfile.dev
+      args:
+        - API_URL=https://md.localhost/api
     restart: 'no'
     hostname: interface
     environment:
       - HUSKY=0
-      - API_URL=https://md.localhost/api
       - NODE_ENV=development
     ports:
       - 9080:80
@@ -18,6 +19,7 @@ services:
     volumes:
       - '.:/app'
       - '/app/node_modules'
+      - '/app/projects/multidirectory-app/src/assets'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.interface.rule=Host(`md.localhost`)'
