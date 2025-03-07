@@ -4,6 +4,7 @@ import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { ActivatedRoute } from '@angular/router';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-password-policy',
@@ -18,6 +19,7 @@ export class PasswordPolicyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private windows: AppWindowsService,
     private api: MultidirectoryApiService,
+    private app: AppSettingsService,
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class PasswordPolicyComponent implements OnInit {
   close() {}
 
   save() {
+    this.app.validatePasswords = this.passwordPolicy.passwordMustMeetComplexityRequirements;
     this.form.validate();
     this.windows.showSpinner();
     this.api.savePasswordPolicy(this.passwordPolicy).subscribe({

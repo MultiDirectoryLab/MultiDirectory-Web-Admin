@@ -9,17 +9,15 @@
   </div>
   <div class="right-pane w-100 h-100">
     <app-header></app-header>
-    <div class="flex-grow-1">
-      <div class="right-pane-content">
-        <router-outlet></router-outlet>
-        <md-slideshift
-          #notifications
-          [showSlideshift]="showNotifications"
-          (hide)="onNotificationsHide()"
-        >
-          <app-notifications></app-notifications>
-        </md-slideshift>
-      </div>
+    <div class="right-pane-content">
+      <router-outlet></router-outlet>
+      <md-slideshift
+        #notifications
+        [showSlideshift]="showNotifications"
+        (hide)="onNotificationsHide()"
+      >
+        <app-notifications></app-notifications>
+      </md-slideshift>
     </div>
     <hotkeys-cheatsheet
       title="{{ 'home.hotkeys' | transloco }}"

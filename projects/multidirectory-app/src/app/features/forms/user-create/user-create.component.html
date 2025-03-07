@@ -7,7 +7,7 @@
     <div class="place">{{ 'user-create.add-to' | transloco }} {{ parentDn }}</div>
   </div>
   <hr />
-  <md-stepper #createUserStepper (onFinish)="onFinish()">
+  <md-stepper #createUserStepper (finish)="onFinish()">
     <ng-template mdStep>
       <app-user-create-general-info [setupRequest]="setupRequest"> </app-user-create-general-info>
     </ng-template>

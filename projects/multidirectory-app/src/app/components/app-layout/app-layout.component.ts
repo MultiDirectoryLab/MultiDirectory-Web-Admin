@@ -111,6 +111,10 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe((status) => {
         this.app.dnsStatus = status;
       });
+
+    this.api.getPasswordPolicy().subscribe((x) => {
+      this.app.validatePasswords = x.passwordMustMeetComplexityRequirements;
+    });
   }
 
   ngOnDestroy(): void {
