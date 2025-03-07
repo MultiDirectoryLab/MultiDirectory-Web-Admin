@@ -7,6 +7,7 @@ import {
   Validator,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Directive({
   selector: '[appPasswordShouldBeValid]',
@@ -21,8 +22,10 @@ import { translate } from '@jsverse/transloco';
 export class PasswordValidatorDirective implements Validator {
   @Input() errorLabel = '';
 
+  constructor(private app: AppSettingsService) {}
+
   validate(control: AbstractControl): ValidationErrors | null {
-    if (!control.touched && !control.value) {
+    if ((!control.touched && !control.value) || !this.app.validatePasswords) {
       return null;
     }
     const password = control.value;

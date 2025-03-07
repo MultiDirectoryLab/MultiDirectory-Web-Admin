@@ -6,6 +6,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { TranslocoService } from '@jsverse/transloco';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
 
 @Injectable({
   providedIn: 'root',
@@ -115,6 +116,8 @@ export class AppSettingsService {
   get is2FAEnabledRx(): Observable<boolean> {
     return this._is2FAEnabledRx.asObservable();
   }
+
+  validatePasswords = true;
 
   logout() {
     this.user = new WhoamiResponse({});

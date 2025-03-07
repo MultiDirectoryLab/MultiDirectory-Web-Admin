@@ -29,18 +29,20 @@
     </div>
     <div class="w-100">
       <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onFinish()">
-        <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
+        <ng-template mdStep>
+          <app-domain-settings [setupRequest]="setupRequest"></app-domain-settings>
+        </ng-template>
         <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
-        <ng-template mdStep (stepComplete)="onInitialSetup()">
+        <ng-template mdStep [stepComplete]="onInitialSetup.bind(this)">
           <app-admin-settings-second [setupRequest]="setupRequest"></app-admin-settings-second>
         </ng-template>
         @if (setupRequest.setupDns) {
-          <ng-template mdStep (stepComplete)="onDnsSetup()">
+          <ng-template mdStep [stepComplete]="onDnsSetup.bind(this)">
             <app-dns-setup-settings [setupRequest]="setupRequest"></app-dns-setup-settings>
           </ng-template>
         }
         @if (setupRequest.setupKdc && !setupRequest.generateKdcPasswords) {
-          <ng-template mdStep (stepComplete)="onKerberosSetup()">
+          <ng-template mdStep [stepComplete]="onKerberosSetup.bind(this)">
             <app-kerberos-settings [setupRequest]="setupRequest"></app-kerberos-settings>
           </ng-template>
         }

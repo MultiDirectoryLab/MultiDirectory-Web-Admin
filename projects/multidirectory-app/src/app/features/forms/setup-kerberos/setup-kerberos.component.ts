@@ -60,7 +60,7 @@ export class SetupKerberosDialogComponent implements OnDestroy {
         }),
       )
       .subscribe((x) => {
-        this.toastr.success(translate('setup.setup-complete'));
+        this.toastr.success(translate('setup.kerberos-setup-complete'));
         //window.location.reload();
       });
   }
