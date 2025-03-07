@@ -27,10 +27,7 @@
   background-color: var(--md-white);
 
   .right-pane-content {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
+    flex-grow: 1;
+    overflow: auto;
   }
 }
