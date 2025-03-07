@@ -23,13 +23,17 @@ export class TestData {
       <test-second-step *mdStep [context]="data"></test-second-step>
       <test-third-step *mdStep [context]="data"></test-third-step>
     </md-stepper>
-    <button *ngIf="!finishedData" #nextBtn (click)="stepper.next()">Next</button>
-    <div *ngIf="finishedData">
-      <div>firstStep: {{ finishedData!.firstStep }}</div>
-      <div>secondStep: {{ finishedData!.secondStep }}</div>
-      <div>thirdStep: {{ finishedData!.thirdStep }}</div>
-      <button (click)="stepper.next()">Restart</button>
-    </div>
+    @if (!finishedData) {
+      <button #nextBtn (click)="stepper.next()">Next</button>
+    }
+    @if (finishedData) {
+      <div>
+        <div>firstStep: {{ finishedData!.firstStep }}</div>
+        <div>secondStep: {{ finishedData!.secondStep }}</div>
+        <div>thirdStep: {{ finishedData!.thirdStep }}</div>
+        <button (click)="stepper.next()">Restart</button>
+      </div>
+    }
   `,
 })
 export class StepperTestComponent {

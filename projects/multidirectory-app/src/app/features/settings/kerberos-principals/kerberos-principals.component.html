@@ -1,52 +1,56 @@
-<div *ngIf="kerberosStatus === KerberosStatusEnum.READY" class="flex-column">
-  <div class="p-16 flex-row flex-space-between flex-gap-10">
-    <div class="flex-row justify-end flex-gap-10">
-      <md-button (click)="exportKeytab()">{{ 'kerberos-settings.export' | transloco }}</md-button>
-      <md-button (click)="addPrincipal()">{{ 'kerberos-settings.add' | transloco }}</md-button>
+@if (kerberosStatus === KerberosStatusEnum.READY) {
+  <div class="flex-column">
+    <div class="p-16 flex-row flex-space-between flex-gap-10">
+      <div class="flex-row justify-end flex-gap-10">
+        <md-button (click)="exportKeytab()">{{ 'kerberos-settings.export' | transloco }}</md-button>
+        <md-button (click)="addPrincipal()">{{ 'kerberos-settings.add' | transloco }}</md-button>
+      </div>
+      <md-textbox
+        placeholder="{{ 'kerberos-settings.filter' | transloco }}"
+        [(ngModel)]="searchQuery"
+      >
+      </md-textbox>
     </div>
-    <md-textbox
-      placeholder="{{ 'kerberos-settings.filter' | transloco }}"
-      [(ngModel)]="searchQuery"
-    >
-    </md-textbox>
+    <div class="h-100 p-16">
+      <md-datagrid
+        #grid
+        name="table-view"
+        [rows]="principals"
+        [columns]="columns"
+        [page]="page"
+        (pageChanged)="onPageChanged($event)"
+        (doubleclick)="onDoubleClick($event)"
+        (contextmenu)="handleRightClick($event)"
+        [pageSizes]="pageSizes"
+        pagerTitle="{{ 'grid.pager-title' | transloco }}"
+        fromTitle="{{ 'grid.from-title' | transloco }}"
+        emptyMessage="{{ 'grid.no-data' | transloco }}"
+      ></md-datagrid>
+    </div>
   </div>
-  <div class="h-100 p-16">
-    <md-datagrid
-      #grid
-      name="table-view"
-      [rows]="principals"
-      [columns]="columns"
-      [page]="page"
-      (pageChanged)="onPageChanged($event)"
-      (doubleclick)="onDoubleClick($event)"
-      (contextmenu)="handleRightClick($event)"
-      [pageSizes]="pageSizes"
-      pagerTitle="{{ 'grid.pager-title' | transloco }}"
-      fromTitle="{{ 'grid.from-title' | transloco }}"
-      emptyMessage="{{ 'grid.no-data' | transloco }}"
-    ></md-datagrid>
-  </div>
-</div>
+}
 
-<div *ngIf="kerberosStatus !== KerberosStatusEnum.READY" class="flex-column">
-  <div class="p-16">
-    <md-alert>
-      <div class="flex-row flex-gap-20">
-        <div class="flex-row justify-center flex-align-center">
-          <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
-        </div>
-        <div class="flex-column">
-          <h3>{{ 'kerberos-settings.setup-kerberos-description' | transloco }}</h3>
-          <div class="pv-8">
-            <md-button [primary]="true" (click)="setupKerberos()">{{
-              'kerberos-settings.setup-kerberos' | transloco
-            }}</md-button>
+@if (kerberosStatus !== KerberosStatusEnum.READY) {
+  <div class="flex-column">
+    <div class="p-16">
+      <md-alert>
+        <div class="flex-row flex-gap-20">
+          <div class="flex-row justify-center flex-align-center">
+            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+          </div>
+          <div class="flex-column">
+            <h3>{{ 'kerberos-settings.setup-kerberos-description' | transloco }}</h3>
+            <div class="pv-8">
+              <md-button [primary]="true" (click)="setupKerberos()">{{
+                'kerberos-settings.setup-kerberos' | transloco
+              }}</md-button>
+            </div>
           </div>
         </div>
-      </div>
-    </md-alert>
+      </md-alert>
+    </div>
   </div>
-</div>
+}
 
 <md-dropdown-menu #principalMenu>
   <div class="dropdown-item">

@@ -39,14 +39,17 @@
       <ng-content select=".app-modal-header"></ng-content>
     </div>
     <div class="ui-controlbar">
-      <i
-        class="ui-icon"
-        *ngIf="maximizable"
-        (click)="toggleMaximize($event)"
-        [ngClass]="{ 'dt-icon-maximize': !maximized, 'dt-icon-normalize': maximized }"
-      >
-      </i>
-      <i *ngIf="closeable" class="ui-icon dt-icon-close" #closeIcon (click)="close()"> </i>
+      @if (maximizable) {
+        <i
+          class="ui-icon"
+          (click)="toggleMaximize($event)"
+          [ngClass]="{ 'dt-icon-maximize': !maximized, 'dt-icon-normalize': maximized }"
+        >
+        </i>
+      }
+      @if (closeable) {
+        <i class="ui-icon dt-icon-close" #closeIcon (click)="close()"> </i>
+      }
     </div>
   </div>
 

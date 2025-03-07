@@ -1,6 +1,7 @@
-<ng-container
-  *ngIf="!!steps.get(currentIndex)"
-  [ngTemplateOutlet]="steps.get(currentIndex)!.templateRef"
-  [ngTemplateOutletContext]="{ $implicit: context }"
->
-</ng-container>
+@if (!!steps.get(currentIndex)) {
+  <ng-container
+    [ngTemplateOutlet]="steps.get(currentIndex)!.templateRef"
+    [ngTemplateOutletContext]="{ $implicit: context }"
+  >
+  </ng-container>
+}

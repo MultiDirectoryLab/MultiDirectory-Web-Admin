@@ -34,26 +34,25 @@
         <ng-template mdStep (stepComplete)="onInitialSetup()">
           <app-admin-settings-second [setupRequest]="setupRequest"></app-admin-settings-second>
         </ng-template>
-        <ng-container *ngIf="setupRequest.setupDns">
+        @if (setupRequest.setupDns) {
           <ng-template mdStep (stepComplete)="onDnsSetup()">
             <app-dns-setup-settings [setupRequest]="setupRequest"></app-dns-setup-settings>
           </ng-template>
-        </ng-container>
-        <ng-container *ngIf="setupRequest.setupKdc && !setupRequest.generateKdcPasswords">
+        }
+        @if (setupRequest.setupKdc && !setupRequest.generateKdcPasswords) {
           <ng-template mdStep (stepComplete)="onKerberosSetup()">
             <app-kerberos-settings [setupRequest]="setupRequest"></app-kerberos-settings>
           </ng-template>
-        </ng-container>
+        }
       </md-stepper>
     </div>
     <ng-container class="app-modal-footer">
       <div class="flex-row flex-center flex-gap-20">
-        <md-button
-          [primary]="false"
-          *ngIf="stepper.currentIndex > 0"
-          (click)="stepper.previous()"
-          >{{ 'setup.back' | transloco }}</md-button
-        >
+        @if (stepper.currentIndex > 0) {
+          <md-button [primary]="false" (click)="stepper.previous()">{{
+            'setup.back' | transloco
+          }}</md-button>
+        }
         <md-button [primary]="true" (click)="showNextStep()">{{
           'setup.next' | transloco
         }}</md-button>
