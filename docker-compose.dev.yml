@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: configurations/docker/Dockerfile.dev
       args:
-        - API_URL=https://md.localhost/api
+        - API_URL=http://md.localhost/api
     restart: 'no'
     hostname: interface
     environment:
