@@ -11,6 +11,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { StepDirective } from './step.directive';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'md-stepper',
@@ -27,14 +28,25 @@ export class StepperComponent {
   constructor(private cdr: ChangeDetectorRef) {}
 
   next(count: number = 1) {
-    this.steps.get(this.currentIndex)?.stepComplete.emit();
-    if (this.currentIndex + count == this.steps.length) {
-      this.finish.emit();
-    } else {
-      this.currentIndex += 1;
-      this.nextStep.emit(this.steps.get(this.currentIndex)?.templateRef);
+    const step = this.steps.get(this.currentIndex);
+    if (!step) {
+      throw 'Step was lost';
     }
-    this.cdr.detectChanges();
+    const stepSwitcher = () => {
+      if (this.currentIndex + count == this.steps.length) {
+        this.finish.emit();
+      } else {
+        this.currentIndex += 1;
+        this.nextStep.emit(this.steps.get(this.currentIndex)?.templateRef);
+      }
+    };
+    step
+      .stepComplete()
+      .pipe(take(1))
+      .subscribe(() => {
+        stepSwitcher.call(this);
+        this.cdr.detectChanges();
+      });
   }
 
   previous(count: number = 1) {

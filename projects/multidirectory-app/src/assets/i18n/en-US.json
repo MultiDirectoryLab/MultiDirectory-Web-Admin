@@ -107,7 +107,12 @@
     "description": "Description"
   },
   "setup": {
-    "setup-complete": "Setup has completed successfully",
+    "setup-complete": "Initial Setup has completed successfully",
+    "kerberos-setup-complete": "Kerberos Setup has completed successfully",
+    "dns-setup-complete": "DNS Setup has completed successfully",
+    "setup-failed": "Initial Setup has failed",
+    "kerberos-setup-failed": "Kerberos Setup has failed",
+    "dns-setup-failed": "DNS Setup has failed",
     "back": "Back",
     "next": "Next",
     "russian": "Русский",
