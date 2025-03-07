@@ -39,16 +39,18 @@
             </md-checkbox>
           </div>
         </div>
-        <div *ngIf="setupRequest.setupKdc" class="flex-row flex-center justify-center">
-          <div class="flex-column flex-grow-1">
-            <md-checkbox
-              [(ngModel)]="setupRequest.generateKdcPasswords"
-              (ngModelChange)="onGenerateChange()"
-            >
-              {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}
-            </md-checkbox>
+        @if (setupRequest.setupKdc) {
+          <div class="flex-row flex-center justify-center">
+            <div class="flex-column flex-grow-1">
+              <md-checkbox
+                [(ngModel)]="setupRequest.generateKdcPasswords"
+                (ngModelChange)="onGenerateChange()"
+              >
+                {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}
+              </md-checkbox>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   </md-form>

@@ -9,12 +9,9 @@
     {{ 'sessions.description' | transloco }}
   </div>
   <div>
-    <app-session
-      *ngFor="let session of sessions; let i = index"
-      [session]="session"
-      [index]="i + 1"
-      (deleteClick)="onSessionDelete($event)"
-    >
-    </app-session>
+    @for (session of sessions; track session; let i = $index) {
+      <app-session [session]="session" [index]="i + 1" (deleteClick)="onSessionDelete($event)">
+      </app-session>
+    }
   </div>
 </div>

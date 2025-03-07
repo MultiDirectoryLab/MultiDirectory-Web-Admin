@@ -3,13 +3,14 @@
 </div>
 <div [innerHTML]="prompt.promptText"></div>
 <div class="app-modal-footer flex-row justify-end flex-gap-10">
-  <md-button
-    *ngFor="let primary of prompt.primaryButtons"
-    [primary]="true"
-    (click)="onClick(primary.id)"
-    >{{ primary.text }}</md-button
-  >
-  <md-button *ngFor="let secondary of prompt.secondaryButtons" (click)="onClick(secondary.id)">{{
-    secondary.text
-  }}</md-button>
+  @for (primary of prompt.primaryButtons; track primary) {
+    <md-button [primary]="true" (click)="onClick(primary.id)">
+      {{ primary.text }}
+    </md-button>
+  }
+  @for (secondary of prompt.secondaryButtons; track secondary) {
+    <md-button (click)="onClick(secondary.id)">
+      {{ secondary.text }}
+    </md-button>
+  }
 </div>

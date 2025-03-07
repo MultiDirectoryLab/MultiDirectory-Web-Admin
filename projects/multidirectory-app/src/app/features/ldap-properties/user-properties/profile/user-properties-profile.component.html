@@ -1,4 +1,4 @@
-<ng-container *ngIf="accessor">
+@if (accessor) {
   <div class="row align-center" style="margin-top: 24px">
     <div class="col-xs-12">
       <md-group title="{{ 'user-properties-profile.user-profile' | transloco }}">
@@ -33,7 +33,6 @@
       </md-group>
     </div>
   </div>
-
   <md-radiogroup
     #radiogroup
     [(ngModel)]="homeDirectorySelection"
@@ -52,7 +51,6 @@
         [(ngModel)]="accessor.homeDirectory"
       ></md-textbox>
     </div>
-
     <div class="row align-center w-100">
       <div class="col-xs-4 flex-row flex-align-center flex-gap-10">
         <md-radiobutton [group]="radiogroup" [value]="2"> </md-radiobutton>
@@ -71,4 +69,4 @@
       </div>
     </div>
   </md-radiogroup>
-</ng-container>
+}

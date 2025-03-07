@@ -6,16 +6,12 @@
     </div>
     <div class="flex-row footer">
       <div class="avatar">
-        <img
-          *ngIf="!user.jpegPhoto"
-          src="/assets/avatar_placeholder.svg"
-          class="avatar-img avatar-img-placeholder"
-        />
-        <img
-          *ngIf="!!user.jpegPhoto"
-          [src]="'data:image/jpg;base64,' + user.jpegPhoto"
-          class="avatar-img"
-        />
+        @if (!user.jpegPhoto) {
+          <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
+        }
+        @if (!!user.jpegPhoto) {
+          <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
+        }
       </div>
       <div class="user-info column">
         <label>{{ user.display_name }}</label>

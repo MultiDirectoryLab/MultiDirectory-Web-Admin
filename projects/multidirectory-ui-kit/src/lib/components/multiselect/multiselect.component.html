@@ -8,29 +8,34 @@
   #menuContainer
 >
   <div class="multiselect-badges">
-    <md-multiselect-badge (badgeClose)="onBadgeClose(d)" *ngFor="let d of selectedData">{{
-      d.badge_title ?? d.title
-    }}</md-multiselect-badge>
+    @for (d of selectedData; track d) {
+      <md-multiselect-badge (badgeClose)="onBadgeClose(d)">{{
+        d.badge_title ?? d.title
+      }}</md-multiselect-badge>
+    }
     <div class="multiselect-input" contenteditable="true" #inputContainer></div>
   </div>
 </div>
 
 <md-dropdown-menu tabindex="-1" #menu>
-  <div
-    class="dropdown-item"
-    tabindex="0"
-    (keyup)="onOptionKey($event, el)"
-    (click)="onElementSelect(el)"
-    *ngFor="let el of options"
-  >
-    {{ el.title }}
-  </div>
-  <div *ngIf="!options || options.length === 0">
-    {{ notFoundText }}
-  </div>
+  @for (el of options; track el) {
+    <div
+      class="dropdown-item"
+      tabindex="0"
+      (keyup)="onOptionKey($event, el)"
+      (click)="onElementSelect(el)"
+    >
+      {{ el.title }}
+    </div>
+  }
+  @if (!options || options.length === 0) {
+    <div>
+      {{ notFoundText }}
+    </div>
+  }
 </md-dropdown-menu>
 <!--select class="select-input" name="{{label}}" id="{{id}}" [(ngModel)]="value" (blur)="onBlur()">
-    <option *ngFor="let option of options; let i = index " [ngValue]="getValue(option, i)">
-      {{getTitle(option)}}
-    </option>
+<option *ngFor="let option of options; let i = index " [ngValue]="getValue(option, i)">
+  {{getTitle(option)}}
+</option>
 </select-->

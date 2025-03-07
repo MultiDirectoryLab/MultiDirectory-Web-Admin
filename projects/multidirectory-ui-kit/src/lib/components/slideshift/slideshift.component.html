@@ -5,7 +5,7 @@
     'md-slideshift-top': slideshiftDirection === SlideshiftDirections.TOP,
     'md-slideshift-right': slideshiftDirection === SlideshiftDirections.RIGHT,
     'md-slideshift-bottom': slideshiftDirection === SlideshiftDirections.BOTTOM,
-    'md-slideshift-left': slideshiftDirection === SlideshiftDirections.LEFT
+    'md-slideshift-left': slideshiftDirection === SlideshiftDirections.LEFT,
   }"
 >
   <div class="md-slideshift-container">
@@ -13,9 +13,10 @@
   </div>
 </div>
 
-<div
-  *ngIf="showOverlay && showSlideshift"
-  class="md-slideshift-overlay"
-  [ngClass]="{ 'md-slideshift-overlay-visible': showSlideshift }"
-  (click)="hideSlideshift($event)"
-></div>
+@if (showOverlay && showSlideshift) {
+  <div
+    class="md-slideshift-overlay"
+    [ngClass]="{ 'md-slideshift-overlay-visible': showSlideshift }"
+    (click)="hideSlideshift($event)"
+  ></div>
+}

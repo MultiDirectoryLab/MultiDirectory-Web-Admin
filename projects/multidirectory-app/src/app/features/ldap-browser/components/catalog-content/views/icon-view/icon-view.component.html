@@ -8,21 +8,17 @@
     (focus)="onGetFocus()"
     tabindex="0"
   >
-    <div
-      *ngFor="let item of items"
-      class="grid-item"
-      cdkDrag
-      cdkDragBoundary=".icon-grid"
-      (cdkDragEnded)="onDrop($event)"
-    >
-      <app-grid-item
-        [big]="big"
-        (clickOnItem)="setSelected([item])"
-        (doubleClickOnItem)="selectCatalog(item)"
-        (rightClick)="handleRightClick($event)"
-        [item]="item"
-      ></app-grid-item>
-    </div>
+    @for (item of items; track item) {
+      <div class="grid-item" cdkDrag cdkDragBoundary=".icon-grid" (cdkDragEnded)="onDrop($event)">
+        <app-grid-item
+          [big]="big"
+          (clickOnItem)="setSelected([item])"
+          (doubleClickOnItem)="selectCatalog(item)"
+          (rightClick)="handleRightClick($event)"
+          [item]="item"
+        ></app-grid-item>
+      </div>
+    }
   </div>
   <md-pager
     #pager

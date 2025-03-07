@@ -8,21 +8,18 @@
     </div>
   </div>
   <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="policy-list">
-    <div
-      cdkDrag
-      cdkDragBoundary=".policy-list"
-      class="access-policy-wrapper"
-      *ngFor="let client of clients; let i = index"
-    >
-      <app-acccess-policy
-        [accessClient]="client"
-        [index]="i + 1"
-        (turnOffClick)="onTurnOffClick($event)"
-        (editClick)="onEditClick($event)"
-        (deleteClick)="onDeleteClick($event)"
-      >
-      </app-acccess-policy>
-    </div>
+    @for (client of clients; track client; let i = $index) {
+      <div cdkDrag cdkDragBoundary=".policy-list" class="access-policy-wrapper">
+        <app-acccess-policy
+          [accessClient]="client"
+          [index]="i + 1"
+          (turnOffClick)="onTurnOffClick($event)"
+          (editClick)="onEditClick($event)"
+          (deleteClick)="onDeleteClick($event)"
+        >
+        </app-acccess-policy>
+      </div>
+    }
   </div>
 </div>
 

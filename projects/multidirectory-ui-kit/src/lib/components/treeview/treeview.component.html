@@ -1,9 +1,10 @@
 <div class="scrollable treeview-container" tabindex="0">
-  <ng-container
-    *ngFor="let node of tree"
-    [ngTemplateOutlet]="treeNode"
-    [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
-  ></ng-container>
+  @for (node of tree; track node) {
+    <ng-container
+      [ngTemplateOutlet]="treeNode"
+      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
+    ></ng-container>
+  }
 </div>
 
 <ng-template #treeNode let-data let-level="level">
@@ -16,14 +17,14 @@
       [ngClass]="{
         selected: data.selected,
         focused: data.focused,
-        'with-checkboxes': checkboxes
+        'with-checkboxes': checkboxes,
       }"
       [attr.data-id]="data.id"
     >
       <span
         class="tree-item-dempfer"
         [ngStyle]="{
-          minWidth: level + 'rem'
+          minWidth: level + 'rem',
         }"
       ></span>
       <span
@@ -32,29 +33,29 @@
           expanded: data.expanded,
           expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
           selected: data.selected,
-          focused: data.focused
+          focused: data.focused,
         }"
       >
-        <label
-          class="expand-mark"
-          *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
-        >
-          <span
-            style="margin-right: 2px"
-            *ngIf="(data.children.length > 0 || data.loadChildren) && data.expandable"
-          >
-            <span
-              [innerHTML]="
-                data.children?.length === 0 && data.childrenLoaded
-                  ? '&nbsp;&nbsp;'
-                  : data.expanded
-                    ? '-'
-                    : '+'
-              "
-            ></span>
-          </span>
-          <div *ngIf="!data.expandable" style="margin-right: 2px"></div>
-        </label>
+        @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+          <label class="expand-mark">
+            @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+              <span style="margin-right: 2px">
+                <span
+                  [innerHTML]="
+                    data.children?.length === 0 && data.childrenLoaded
+                      ? '&nbsp;&nbsp;'
+                      : data.expanded
+                        ? '-'
+                        : '+'
+                  "
+                ></span>
+              </span>
+            }
+            @if (!data.expandable) {
+              <div style="margin-right: 2px"></div>
+            }
+          </label>
+        }
         <ng-container
           [ngTemplateOutlet]="nodeLabel"
           [ngTemplateOutletContext]="{ $implicit: data }"
@@ -62,20 +63,25 @@
       </span>
     </div>
   </md-tree-item>
-  <ng-container *ngIf="data.children !== null && data.expanded">
+  @if (data.children !== null && data.expanded) {
     <div>
-      <ng-container
-        *ngFor="let child of data.children"
-        [ngTemplateOutlet]="treeNode"
-        [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
-      ></ng-container>
+      @for (child of data.children; track child) {
+        <ng-container
+          [ngTemplateOutlet]="treeNode"
+          [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
+        ></ng-container>
+      }
     </div>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #defaultLabel let-data>
-  <md-checkbox *ngIf="checkboxes" [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{
-    data.name
-  }}</md-checkbox>
-  <label *ngIf="!checkboxes" class="tree-label">{{ data.name }}</label>
+  @if (checkboxes) {
+    <md-checkbox [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{
+      data.name
+    }}</md-checkbox>
+  }
+  @if (!checkboxes) {
+    <label class="tree-label">{{ data.name }}</label>
+  }
 </ng-template>

@@ -13,16 +13,13 @@
       [placeholder]="placeholder"
     />
     <!-- Eye icon to toggle visibility -->
-    <span
-      *ngIf="password && allowPasswordView"
-      class="toggle-password"
-      (click)="togglePasswordVisibility()"
-    >
-      <fa-icon [icon]="faEye"></fa-icon>
-    </span>
+    @if (password && allowPasswordView) {
+      <span class="toggle-password" (click)="togglePasswordVisibility()">
+        <fa-icon [icon]="faEye"></fa-icon>
+      </span>
+    }
   </div>
 </div>
-<md-error-label
-  *ngIf="controlAccessor && (controlAccessor.dirty || controlAccessor.touched)"
-  [ngControl]="controlAccessor"
-></md-error-label>
+@if (controlAccessor && (controlAccessor.dirty || controlAccessor.touched)) {
+  <md-error-label [ngControl]="controlAccessor"></md-error-label>
+}

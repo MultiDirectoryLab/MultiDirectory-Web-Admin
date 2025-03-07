@@ -47,35 +47,37 @@
         let-curPage="curPage"
         let-offset="offset"
       >
-        <div *ngIf="!scrollbarV" class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
-          <label class="pr-10">{{ pagerTitle }} </label>
-          <md-dropdown
-            class="page-size-select"
-            [options]="pageSizes"
-            [(ngModel)]="size"
-          ></md-dropdown>
-          <div>
-            {{ (curPage - 1) * pageSize + 1 }}-{{
-              curPage * pageSize > rowCount ? rowCount : curPage * pageSize
-            }}
-            {{ fromTitle }} {{ rowCount }}
+        @if (!scrollbarV) {
+          <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+            <label class="pr-10">{{ pagerTitle }} </label>
+            <md-dropdown
+              class="page-size-select"
+              [options]="pageSizes"
+              [(ngModel)]="size"
+            ></md-dropdown>
+            <div>
+              {{ (curPage - 1) * pageSize + 1 }}-{{
+                curPage * pageSize > rowCount ? rowCount : curPage * pageSize
+              }}
+              {{ fromTitle }} {{ rowCount }}
+            </div>
           </div>
-        </div>
-        <datatable-pager
-          *ngIf="!scrollbarV"
-          style="flex: 1 5 20%"
-          class="pager"
-          [pagerLeftArrowIcon]="'datatable-icon-left'"
-          [pagerRightArrowIcon]="'datatable-icon-right'"
-          [pagerPreviousIcon]="'datatable-icon-prev'"
-          [pagerNextIcon]="'datatable-icon-skip'"
-          [page]="curPage"
-          [size]="pageSize"
-          [count]="rowCount"
-          [hidden]="!(rowCount / pageSize > 1)"
-          (change)="grid.onFooterPage($event)"
-        >
-        </datatable-pager>
+
+          <datatable-pager
+            style="flex: 1 5 20%"
+            class="pager"
+            [pagerLeftArrowIcon]="'datatable-icon-left'"
+            [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'"
+            [pagerNextIcon]="'datatable-icon-skip'"
+            [page]="curPage"
+            [size]="pageSize"
+            [count]="rowCount"
+            [hidden]="!(rowCount / pageSize > 1)"
+            (change)="grid.onFooterPage($event)"
+          >
+          </datatable-pager>
+        }
       </ng-template>
     </ngx-datatable-footer>
   </ngx-datatable>
