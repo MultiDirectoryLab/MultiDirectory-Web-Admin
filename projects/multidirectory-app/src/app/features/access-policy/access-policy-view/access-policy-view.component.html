@@ -39,7 +39,7 @@
       </md-dropdown>
 
       <!-- MFA Groups Row (Conditional) -->
-      <ng-container *ngIf="mfaAccess === MfaAccessEnum.SelectedGroups">
+      @if (mfaAccess === MfaAccessEnum.SelectedGroups) {
         <div>{{ 'access-policy-create.mfa-groups' | transloco }}</div>
         <md-multiselect
           [suppressMenu]="true"
@@ -53,7 +53,7 @@
         <md-button (click)="checkMfaGroups()" [stretch]="true">
           {{ 'access-policy-create.check-groups' | transloco }}
         </md-button>
-      </ng-container>
+      }
     </div>
 
     <div class="flex-column nowrap flex-gap-20 w-100">
@@ -65,41 +65,43 @@
         </div>
       </md-group>
 
-      <md-group
-        *ngIf="mfaAccess === MfaAccessEnum.Everyone || mfaAccess === MfaAccessEnum.SelectedGroups"
-        title="Bypass"
-        class="pt-16"
-      >
-        <div class="flex-row flex-gap-10" *ngIf="!bypassAllowed">
-          <img
-            class="tooltip-icon"
-            src="assets/info-circle.svg"
-            style="width: 24px; height: 24px"
-          />
-          {{ 'access-policy-create.enable-2fa' | transloco }}<br />
-        </div>
-        <div class="bypass-switch-column">
-          <md-shift-checkbox
-            [(ngModel)]="accessClient.bypassNoConnection"
-            [disabled]="!bypassAllowed"
-          >
-            {{ 'access-policy-create.bypass-no-connection' | transloco }}
-          </md-shift-checkbox>
-          <md-shift-checkbox
-            [(ngModel)]="accessClient.bypassServiceFailure"
-            [disabled]="!bypassAllowed"
-          >
-            {{ 'access-policy-create.bypass-service-failure' | transloco }}
-          </md-shift-checkbox>
-        </div>
-      </md-group>
+      @if (mfaAccess === MfaAccessEnum.Everyone || mfaAccess === MfaAccessEnum.SelectedGroups) {
+        <md-group title="Bypass" class="pt-16">
+          @if (!bypassAllowed) {
+            <div class="flex-row flex-gap-10">
+              <img
+                class="tooltip-icon"
+                src="assets/info-circle.svg"
+                style="width: 24px; height: 24px"
+              />
+              {{ 'access-policy-create.enable-2fa' | transloco }}<br />
+            </div>
+          }
+          <div class="bypass-switch-column">
+            <md-shift-checkbox
+              [(ngModel)]="accessClient.bypassNoConnection"
+              [disabled]="!bypassAllowed"
+            >
+              {{ 'access-policy-create.bypass-no-connection' | transloco }}
+            </md-shift-checkbox>
+            <md-shift-checkbox
+              [(ngModel)]="accessClient.bypassServiceFailure"
+              [disabled]="!bypassAllowed"
+            >
+              {{ 'access-policy-create.bypass-service-failure' | transloco }}
+            </md-shift-checkbox>
+          </div>
+        </md-group>
+      }
     </div>
   </md-form>
-  <div class="flex-row justify-start flex-gap-10" *ngIf="showConrolButton">
-    <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">{{
-      'access-policy-create.approve' | transloco
-    }}</md-button>
-  </div>
+  @if (showConrolButton) {
+    <div class="flex-row justify-start flex-gap-10">
+      <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">{{
+        'access-policy-create.approve' | transloco
+      }}</md-button>
+    </div>
+  }
 </div>
 
 <ng-template modalInject #ipListEditor="modalInject">

@@ -1,13 +1,14 @@
 <div class="row align-start pv-8">
   <div class="col-xs-7 flex-column align-start flex-grow-1 flex-gap-10">
     <label for="login">{{ 'user-properties.login-label' | transloco }}</label>
-    <md-textbox
-      class="tall-textbox"
-      appRequired
-      name="login"
-      *ngIf="accessor"
-      [(ngModel)]="accessor.cn"
-    ></md-textbox>
+    @if (accessor) {
+      <md-textbox
+        class="tall-textbox"
+        appRequired
+        name="login"
+        [(ngModel)]="accessor.cn"
+      ></md-textbox>
+    }
   </div>
   <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
     <label>{{ 'user-properties.domain-label' | transloco }}</label>
@@ -20,14 +21,14 @@
   </div>
 </div>
 <!--div class="row align-start pv-8">
-    <div class="col-xs-7 flex-column align-start flex-grow-1 flex-gap-10">
-        <label for="login">{{ "user-properties.legacy-login-label" | transloco }}</label>
-        <md-textbox [disabled]="true" name="login"></md-textbox>
-    </div>
-    <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
-        <label>{{ "user-properties.domain-label" | transloco }}</label>
-        <md-textbox [disabled]="true" name="domain"></md-textbox>
-    </div>
+  <div class="col-xs-7 flex-column align-start flex-grow-1 flex-gap-10">
+    <label for="login">{{ "user-properties.legacy-login-label" | transloco }}</label>
+    <md-textbox [disabled]="true" name="login"></md-textbox>
+  </div>
+  <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
+    <label>{{ "user-properties.domain-label" | transloco }}</label>
+    <md-textbox [disabled]="true" name="domain"></md-textbox>
+  </div>
 </div-->
 <div class="flex-row flex-gap-10 align-start pv-8">
   <md-button (click)="showLogonTimeEditor()">{{

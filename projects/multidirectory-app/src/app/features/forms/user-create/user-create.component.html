@@ -24,12 +24,16 @@
 
 <div class="app-modal-footer">
   <div class="flex-row align-center justify-end flex-gap-10">
-    <md-button *ngIf="createUserStepper.currentIndex == 0" (click)="onClose()">
-      {{ 'user-create.cancel' | transloco }}
-    </md-button>
-    <md-button *ngIf="createUserStepper.currentIndex > 0" (click)="createUserStepper.previous()">
-      {{ 'user-create.back' | transloco }}
-    </md-button>
+    @if (createUserStepper.currentIndex == 0) {
+      <md-button (click)="onClose()">
+        {{ 'user-create.cancel' | transloco }}
+      </md-button>
+    }
+    @if (createUserStepper.currentIndex > 0) {
+      <md-button (click)="createUserStepper.previous()">
+        {{ 'user-create.back' | transloco }}
+      </md-button>
+    }
     <md-button (click)="nextStep()" [primary]="true">
       {{
         (createUserStepper.steps != null &&
