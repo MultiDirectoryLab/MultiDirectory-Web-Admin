@@ -28,14 +28,14 @@ export class LdapEntryLoader implements NodeLoader {
               }
 
               const serverNode = new LdapEntryNode({
-                name: LdapEntryLoader.getSingleAttribute(x, 'dnsHostName') ?? 'test',
+                name: LdapEntryLoader.getSingleAttribute(x, 'dnsHostName') ?? '',
                 type: LdapEntryType.Server,
                 selectable: true,
                 entry: x,
                 parent: undefined,
                 id: namingContext?.vals[0] ?? '',
                 route: ['ldap'],
-                data: rootDn?.vals?.[0] ?? '',
+                routeData: { distinguishedName: rootDn?.vals?.[0] ?? '' },
               });
               serverNode.loadChildren = () =>
                 this.getChild(namingContext?.vals[0] ?? '', serverNode);
@@ -46,7 +46,7 @@ export class LdapEntryLoader implements NodeLoader {
     );
   }
 
-  getChild(dn: string, parent: LdapEntryNode | undefined = undefined): Observable<Treenode[]> {
+  getChild(dn: string, parent: LdapEntryNode): Observable<Treenode[]> {
     return this.api.search(SearchQueries.getChild(dn)).pipe(
       map((res: SearchResponse) =>
         res.search_result.map((x) => {
@@ -60,7 +60,7 @@ export class LdapEntryLoader implements NodeLoader {
             id: x.object_name,
             parent: parent,
             route: ['ldap'],
-            data: x.object_name,
+            routeData: { distinguishedName: x.object_name },
           });
           node.loadChildren = () => this.getChild(x.object_name, node);
           return node;
@@ -85,9 +85,9 @@ export class LdapEntryLoader implements NodeLoader {
             entry: x,
             id: x.object_name,
             route: ['ldap'],
-            data: x.object_name,
+            routeData: { distinguishedName: x.object_name },
           });
-          node.loadChildren = () => this.getChild(x.object_name);
+          node.loadChildren = () => this.getChild(x.object_name, node);
           return node;
         }),
       ),
