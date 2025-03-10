@@ -66,8 +66,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+a',
+        ['ctrl+a', 'meta+a'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateUser();
           return false;
         },
@@ -77,8 +79,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+g',
+        ['ctrl+g', 'meta+g'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateGroup();
           return false;
         },
@@ -88,8 +92,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+u',
+        ['ctrl+u', 'meta+u'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateOu();
           return false;
         },
@@ -99,8 +105,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+l',
+        ['ctrl+l', 'meta+l'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           return false;
         },
         undefined,
@@ -108,7 +116,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
+    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.searchQuery = '';
       this.view()?.updateContent();
       this.cdr.detectChanges();

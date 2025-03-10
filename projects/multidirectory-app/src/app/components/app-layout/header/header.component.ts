@@ -85,8 +85,10 @@ export class HeaderComponent implements OnDestroy {
   constructor() {
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+h',
-        (): boolean => {
+        ['ctrl+h', 'meta+h'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onChange(!this.navigationalPanelInvisible);
           return false; // Prevent bubbling
         },
@@ -97,7 +99,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'esc',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.router.navigate(['/']);
           return false; // Prevent bubbling
         },
@@ -108,7 +112,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f1',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.SmallIcons;
           return false; // Prevent bubbling
         },
@@ -119,7 +125,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f2',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.BigIcons;
           return false; // Prevent bubbling
         },
@@ -130,7 +138,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f3',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Table;
           return false; // Prevent bubbling
         },
@@ -141,7 +151,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f4',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Details;
           return false; // Prevent bubbling
         },
@@ -151,8 +163,10 @@ export class HeaderComponent implements OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+f',
-        (): boolean => {
+        ['ctrl+f', 'meta+f'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.searchBtn()?.nativeElement.click();
           return false;
         },
@@ -163,8 +177,10 @@ export class HeaderComponent implements OnDestroy {
 
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+d',
-        (): boolean => {
+        ['ctrl+d', 'meta+d'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onDarkMode(!this.darkMode);
           return false;
         },
