@@ -107,7 +107,12 @@
     "description": "Описание"
   },
   "setup": {
-    "setup-complete": "Настройка выполнена",
+    "setup-complete": "Первичная настройка выполнена",
+    "kerberos-setup-complete": "Настройка Kerberos выполнена",
+    "dns-setup-complete": "Настройка DNS выполнена",
+    "setup-failed": "Первичная настройка не выполнена",
+    "kerberos-setup-failed": "Настройка Kerberos не выполнена",
+    "dns-setup-failed": "Настройка DNS не выполнена",
     "back": "Назад",
     "next": "Далее",
     "russian": "Русский",
@@ -246,6 +251,7 @@
     "header": "Атрибут",
     "add": "Добавить",
     "edit": "Редактировать",
+    "copied": "Скопировано в буфер обмена!",
     "delete": "Удалить",
     "with-values-only": "Показать только атрибуты с заданными значениями",
     "writable-only": "Показать только атрибуты, доступные для записи",

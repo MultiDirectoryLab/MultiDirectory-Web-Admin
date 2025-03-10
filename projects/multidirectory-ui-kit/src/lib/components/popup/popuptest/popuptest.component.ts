@@ -5,11 +5,17 @@ import { Component } from '@angular/core';
   template: `
     <div style="height: 320px;">
       <md-popup-suggest #menuRef [closeOnClickOutside]="false">
-        <div *ngFor="let checkbox of checkboxes">
-          <span *ngIf="checkbox.state">V</span>
-          <span *ngIf="!checkbox.state">X</span>
-          <span> {{ checkbox.name }}</span>
-        </div>
+        @for (checkbox of checkboxes; track checkbox) {
+          <div>
+            @if (checkbox.state) {
+              <span>V</span>
+            }
+            @if (!checkbox.state) {
+              <span>X</span>
+            }
+            <span> {{ checkbox.name }}</span>
+          </div>
+        }
       </md-popup-suggest>
       <md-button (click)="handleClick()">Add</md-button>
       <md-button [mdPopupContainer]="menuRef" [direction]="'right'">Open</md-button>

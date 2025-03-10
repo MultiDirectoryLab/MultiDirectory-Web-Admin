@@ -4,26 +4,22 @@
       <router-outlet name="header"></router-outlet>
     </div>
     <div class="control-panel">
-      <md-plane-button
-        *ngIf="navigationalPanelInvisible"
-        [mdDropdownContainer]="loginMenu"
-        class="search control-button"
-        #searchBtn
-      >
-        <img
-          *ngIf="!user?.jpegPhoto"
-          [src]="'assets/avatar_placeholder.svg'"
-          style="width: 24px; height: 24px"
-        />
-        <img
-          *ngIf="!!user?.jpegPhoto"
-          [src]="'data:image/jpg;base64,' + user?.jpegPhoto"
-          style="width: 24px; height: 24px"
-        />
-      </md-plane-button>
+      @if (navigationalPanelInvisible) {
+        <md-plane-button [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
+          @if (!user?.jpegPhoto) {
+            <img [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px" />
+          }
+          @if (!!user?.jpegPhoto) {
+            <img
+              [src]="'data:image/jpg;base64,' + user?.jpegPhoto"
+              style="width: 24px; height: 24px"
+            />
+          }
+        </md-plane-button>
+      }
       <!--md-plane-button class="search control-button" (click)="toggleNotificationPanel()">
-        <img [src]="'assets/notifications.svg'" />
-      </md-plane-button-->
+      <img [src]="'assets/notifications.svg'" />
+    </md-plane-button-->
       <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
         <img [src]="'assets/search.svg'" />
       </md-plane-button>

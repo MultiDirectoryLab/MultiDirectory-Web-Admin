@@ -1,20 +1,19 @@
-<div
-  *ngIf="kerberosStatus === KerberosStatusEnum.WAITING_FOR_RELOAD"
-  class="alert-pane flex-row p-16"
->
-  <md-alert>
-    <div class="flex-row flex-gap-10">
-      <div class="h-100 flex-column justify-center">
-        <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+@if (kerberosStatus === KerberosStatusEnum.WAITING_FOR_RELOAD) {
+  <div class="alert-pane flex-row p-16">
+    <md-alert>
+      <div class="flex-row flex-gap-10">
+        <div class="h-100 flex-column justify-center">
+          <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+        </div>
+        <div>
+          <label class="bold">{{
+            'catalog-content.kerberos-should-reload-header' | transloco
+          }}</label>
+          <p>
+            {{ 'catalog-content.kerberos-should-reload-description' | transloco }}
+          </p>
+        </div>
       </div>
-      <div>
-        <label class="bold">{{
-          'catalog-content.kerberos-should-reload-header' | transloco
-        }}</label>
-        <p>
-          {{ 'catalog-content.kerberos-should-reload-description' | transloco }}
-        </p>
-      </div>
-    </div>
-  </md-alert>
-</div>
+    </md-alert>
+  </div>
+}

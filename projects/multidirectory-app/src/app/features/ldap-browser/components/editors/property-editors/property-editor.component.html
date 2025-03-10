@@ -13,20 +13,23 @@
     </div>
   </div>
   <div>
-    <ng-container [ngSwitch]="editRequest.propertyType">
-      <app-string-property-editor
-        *ngSwitchCase="LdapPropertyType.String"
-        [(propertyValue)]="editRequest.propertyValue"
-      ></app-string-property-editor>
-      <app-integer-property-editor
-        *ngSwitchCase="LdapPropertyType.Integer"
-        [(propertyValue)]="editRequest.propertyValue"
-      ></app-integer-property-editor>
-      <app-multivalued-string-editor
-        *ngSwitchCase="LdapPropertyType.MultivaluedString"
-        [(propertyValue)]="editRequest.propertyValue"
-      ></app-multivalued-string-editor>
-    </ng-container>
+    @switch (editRequest.propertyType) {
+      @case (LdapPropertyType.String) {
+        <app-string-property-editor
+          [(propertyValue)]="editRequest.propertyValue"
+        ></app-string-property-editor>
+      }
+      @case (LdapPropertyType.Integer) {
+        <app-integer-property-editor
+          [(propertyValue)]="editRequest.propertyValue"
+        ></app-integer-property-editor>
+      }
+      @case (LdapPropertyType.MultivaluedString) {
+        <app-multivalued-string-editor
+          [(propertyValue)]="editRequest.propertyValue"
+        ></app-multivalued-string-editor>
+      }
+    }
   </div>
 </div>
 

@@ -6,7 +6,6 @@
 
 .filter {
   padding: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 .filter:not(:first-child) {
@@ -16,4 +15,19 @@
 .filter-label {
   padding: 0;
   padding-left: 6px;
+}
+
+.body-cell-label {
+  margin-inline: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.copy-icon {
+  cursor: pointer;
+
+  &.active {
+    filter: grayscale(1) brightness(1000%);
+  }
 }

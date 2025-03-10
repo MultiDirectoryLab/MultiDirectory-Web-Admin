@@ -33,6 +33,7 @@ export class MoveEntityDialogComponent implements OnInit {
           selectedEntities: [],
           selectedEntityTypes: ENTITY_TYPES.filter((x) => x.id == 'catalogs') ?? [],
           allowSelectEntityTypes: false,
+          entityToMove: this.toMove,
         }),
       )
       .pipe(take(1))

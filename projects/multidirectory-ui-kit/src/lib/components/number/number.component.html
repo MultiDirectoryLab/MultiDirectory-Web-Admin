@@ -1,2 +1,4 @@
-<label *ngIf="label">{{ label }}</label>
+@if (label) {
+  <label>{{ label }}</label>
+}
 <input step="{{ step }}" type="number" [(ngModel)]="value" />

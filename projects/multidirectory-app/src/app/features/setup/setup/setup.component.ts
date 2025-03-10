@@ -17,7 +17,7 @@ import { SetupRequestValidatorService } from '@services/setup-request-validator.
 import { SetupService } from '@services/setup.service';
 import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Subject, takeUntil } from 'rxjs';
+import { catchError, delay, of, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-setup',
@@ -75,34 +75,36 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onInitialSetup() {
     this.modal.showSpinner();
-    this.setup
-      .initialSetup(this.setupRequest)
-      .pipe(
-        catchError((err) => {
-          this.modal.hideSpinner();
-          throw err;
-        }),
-      )
-      .subscribe((res) => {
+    return this.setup.initialSetup(this.setupRequest).pipe(
+      catchError((err) => {
+        this.modal.hideSpinner();
+        this.toastr.error(translate('setup.setup-failed'));
+        return of(null);
+      }),
+      switchMap((res) => {
         this.modal.hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
-      });
+        return this.setupRequest.generateKdcPasswords && this.setupRequest.setupKdc
+          ? this.onKerberosSetup()
+          : of(null);
+      }),
+    );
   }
 
   onDnsSetup() {
     this.modal.showSpinner();
-    this.setup
-      .dnsSetup(this.setupRequest)
-      .pipe(
-        catchError((err) => {
-          this.modal.hideSpinner();
-          throw err;
-        }),
-      )
-      .subscribe((res) => {
+    return this.setup.dnsSetup(this.setupRequest).pipe(
+      catchError((err) => {
         this.modal.hideSpinner();
-        this.toastr.success(translate('setup.setup-complete'));
-      });
+        this.toastr.error(translate('setup.dns-setup-failed'));
+        return of(null);
+      }),
+      switchMap((res) => {
+        this.modal.hideSpinner();
+        this.toastr.success(translate('setup.dns-setup-complete'));
+        return of(null);
+      }),
+    );
   }
 
   onKerberosSetup() {
@@ -111,19 +113,18 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.modal.showSpinner();
-    this.setup
-      .kerberosSetup(this.setupRequest)
-      .pipe(
-        catchError((err) => {
-          this.modal.hideSpinner();
-
-          throw err;
-        }),
-      )
-      .subscribe((res) => {
+    return this.setup.kerberosSetup(this.setupRequest).pipe(
+      catchError((err) => {
         this.modal.hideSpinner();
-        this.toastr.success(translate('setup.setup-complete'));
-      });
+        this.toastr.error(translate('setup.kerberos-setup-failed'));
+        return of(null);
+      }),
+      switchMap((res) => {
+        this.modal.hideSpinner();
+        this.toastr.success(translate('setup.kerberos-setup-complete'));
+        return of(null);
+      }),
+    );
   }
 
   onFinish() {

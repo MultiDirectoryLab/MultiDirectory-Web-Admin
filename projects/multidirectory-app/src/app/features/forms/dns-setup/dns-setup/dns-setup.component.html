@@ -16,21 +16,20 @@
         'dns-setup.external_service' | transloco
       }}</md-checkbox>
 
-      <ng-container *ngIf="useExternalService">
+      @if (useExternalService) {
         <label for="dns_ip_address">{{ 'dns-setup.dns_ip_address' | transloco }}</label>
         <md-textbox
           appRequired
           [(ngModel)]="dnsSetupRequest.dns_ip_address"
           name="dns_ip_address"
         ></md-textbox>
-
         <label for="tsig_key">{{ 'dns-setup.tsig_key' | transloco }}</label>
         <md-textarea
           class="w-100 tsig-key"
           [(ngModel)]="dnsSetupRequest.tsig_key"
           name="tsig_key"
         ></md-textarea>
-      </ng-container>
+      }
 
       <label for="default_ttl">{{ 'dns-setup.default_ttl' | transloco }}</label>
       <md-number
