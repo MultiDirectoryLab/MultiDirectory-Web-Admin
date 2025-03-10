@@ -165,7 +165,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateOu(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.navigation.reload();
+        this.view?.updateContent();
       });
   }
 
@@ -175,7 +175,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateRule(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.navigation.reload();
+        this.view?.updateContent();
       });
   }
 
@@ -185,7 +185,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateComputer(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.navigation.reload();
+        this.view?.updateContent();
       });
   }
 
@@ -195,7 +195,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateCatalog(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.navigation.reload();
+        this.view?.updateContent();
       });
   }
 
