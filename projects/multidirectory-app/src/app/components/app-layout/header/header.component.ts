@@ -60,8 +60,10 @@ export class HeaderComponent implements OnDestroy {
   ) {
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+h',
+        ['ctrl+h', 'meta+h'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onChange(!this.navigationalPanelInvisible);
           return false; // Prevent bubbling
         },
@@ -73,6 +75,8 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'esc',
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.router.navigate(['/']);
           return false; // Prevent bubbling
         },
@@ -84,6 +88,8 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'f1',
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.SmallIcons;
           return false; // Prevent bubbling
         },
@@ -95,6 +101,8 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'f2',
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.BigIcons;
           return false; // Prevent bubbling
         },
@@ -106,6 +114,8 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'f3',
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Table;
           return false; // Prevent bubbling
         },
@@ -117,6 +127,8 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'f4',
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Details;
           return false; // Prevent bubbling
         },
@@ -126,8 +138,10 @@ export class HeaderComponent implements OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+f',
+        ['ctrl+f', 'meta+f'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.searchBtn?.nativeElement.click();
           return false;
         },
@@ -138,8 +152,10 @@ export class HeaderComponent implements OnDestroy {
 
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+d',
+        ['ctrl+d', 'meta+d'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onDarkMode(!this.darkMode);
           return false;
         },

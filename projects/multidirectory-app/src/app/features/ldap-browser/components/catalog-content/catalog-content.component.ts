@@ -1,16 +1,7 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
@@ -53,8 +44,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+a',
+        ['ctrl+a', 'meta+a'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateUser();
           return false;
         },
@@ -64,8 +57,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+g',
+        ['ctrl+g', 'meta+g'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateGroup();
           return false;
         },
@@ -75,8 +70,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+u',
+        ['ctrl+u', 'meta+u'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.openCreateOu();
           return false;
         },
@@ -86,8 +83,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+l',
+        ['ctrl+l', 'meta+l'],
         (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           return false;
         },
         undefined,
@@ -95,7 +94,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
+    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.searchQuery = '';
       this.view?.updateContent();
       this.cdr.detectChanges();
@@ -121,7 +120,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
           }),
         ),
       ),
-    ).subscribe((x) => {
+    ).subscribe(() => {
       this.view?.updateContent();
     });
   }
@@ -130,7 +129,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openEntityProperiesModal(this._selectedRows[0])
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.view?.updateContent();
       });
   }
@@ -144,7 +143,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateUser(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.view?.updateContent();
       });
   }
@@ -154,7 +153,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateGroup(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.view?.updateContent();
       });
   }
@@ -164,7 +163,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateOu(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.navigation.reload();
       });
   }
@@ -174,7 +173,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateRule(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.navigation.reload();
       });
   }
@@ -184,7 +183,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateComputer(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.navigation.reload();
       });
   }
@@ -194,7 +193,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateCatalog(dn)
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.navigation.reload();
       });
   }
