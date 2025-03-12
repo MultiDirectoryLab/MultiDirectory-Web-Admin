@@ -1,0 +1,16 @@
+version: '3.3'
+name: multidirectory
+services:
+  multidirectory-app:
+    container_name: nginx-dev
+    build:
+      context: .
+      dockerfile: configurations/docker/Dockerfile.nginx-dev
+    restart: 'no'
+    ports:
+      - '81:81'
+    environment:
+      - API_URL=https://md.localhost/api
+
+volumes:
+  node_modules:
