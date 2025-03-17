@@ -77,9 +77,9 @@ export class TreeSearchHelper {
   ): Observable<Treenode> {
     return from(roots).pipe(
       concatMap((root) => {
-        if (root.loadChildren) {
-          return root.ensureChildren();
-        }
+        //if (root.loadChildren) {
+        //  return root.ensureChildren();
+        //}
         return of(root);
       }),
       expand((root) => {
@@ -88,9 +88,9 @@ export class TreeSearchHelper {
         }
         return from(root.children).pipe(
           concatMap((child) => {
-            if (child.loadChildren) {
-              return child.ensureChildren();
-            }
+            //if (child.loadChildren) {
+            //  return child.ensureChildren();
+            //}
             return of(child);
           }),
         ) as Observable<NodeType>;

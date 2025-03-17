@@ -80,7 +80,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe((userSearch) => {
         const searchEntry = userSearch.search_result[0];
-        const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
+        const displayName = 'test'; //LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
         const objectClass = searchEntry.partial_attributes.find(
           (x) => x.type.toLocaleLowerCase() == 'objectclass',
         )!;
@@ -89,7 +89,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
           type: EntityInfoResolver.getNodeType(objectClass.vals),
           selectable: true,
           expandable: EntityInfoResolver.isExpandable(objectClass.vals),
-          entry: searchEntry,
+          //  entry: searchEntry,
           id: searchEntry.object_name,
         });
         this.app.userEntry = entry;

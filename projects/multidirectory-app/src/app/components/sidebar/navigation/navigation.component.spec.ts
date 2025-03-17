@@ -24,9 +24,6 @@ xdescribe('Navigation Component Test Suit', () => {
       imports: [RouterModule, getTranslocoModule(), NavigationComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
-        { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
-        { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
       ],
       teardown: { destroyAfterEach: true },
@@ -50,7 +47,7 @@ xdescribe('Navigation Component Test Suit', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement.outerHTML).toContain('tree-label');
-      const testNode1 = navigation.navigationTree[1].routeData;
+      const testNode1 = navigation.navigationTree[1].routeData!;
       let treeNode = fixture.debugElement.nativeElement.querySelector(
         '.tree-item-wrapper[data-id=' + testNode1.id + ']',
       );

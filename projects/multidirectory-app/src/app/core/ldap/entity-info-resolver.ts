@@ -62,12 +62,13 @@ export class EntityInfoResolver {
   }
 
   static getNodeDescription(entry: LdapEntryNode) {
-    const descriptionAttirbute = entry.getAttibute('description');
-    return descriptionAttirbute ? descriptionAttirbute.vals?.[0] : '';
+    // const descriptionAttirbute = entry.getAttibute('description');
+    // return descriptionAttirbute ? descriptionAttirbute.vals?.[0] : '';
   }
 
   static getNodeStatus(entry: LdapEntryNode): string {
-    const uacAttirbute = entry.getAttibute('userAccountControl');
+    return '';
+    /*const uacAttirbute = entry.getAttibute('userAccountControl');
     if (!uacAttirbute?.vals?.[0]) {
       return '';
     }
@@ -76,6 +77,6 @@ export class EntityInfoResolver {
     const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
     return enabled
       ? translate('entity-info-resolver.enabled')
-      : translate('entity-info-resolver.disabled');
+      : translate('entity-info-resolver.disabled');*/
   }
 }

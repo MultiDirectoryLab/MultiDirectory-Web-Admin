@@ -1,0 +1,6 @@
+<md-treeview [tree]="ldapTree" [nodeLabelTemplate]="mdTreeModal" class="treeview" #treeView>
+</md-treeview>
+<ng-template #mdTreeModal let-data>
+  <img class="tree-icon" [src]="data.icon" />
+  <label class="tree-label">{{ data.name }}</label>
+</ng-template>

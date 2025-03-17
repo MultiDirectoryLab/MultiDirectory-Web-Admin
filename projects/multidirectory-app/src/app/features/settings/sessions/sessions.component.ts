@@ -61,7 +61,6 @@ export class SessionsComponent implements OnInit {
       )
       .subscribe(() => {
         this.toastr.success(translate('sessions.success'));
-        this.navigation.reload();
       });
   }
 
@@ -89,7 +88,6 @@ export class SessionsComponent implements OnInit {
       )
       .subscribe(() => {
         this.toastr.success(translate('sessions.success'));
-        this.navigation.reload();
       });
   }
 }

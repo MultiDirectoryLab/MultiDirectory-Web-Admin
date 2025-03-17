@@ -66,20 +66,19 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.setup.stepValid(this.form().valid);
     });
-    this.ldapLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((domains) => {
-        this.domains = domains.map(
-          (x) =>
-            new DropdownOption({
-              title: x.name,
-              value: x.name,
-            }),
-        );
-        this.setupRequest.upnDomain = this.domains?.[0]?.value;
-        this.cdr.detectChanges();
-      });
+    // this.ldapLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((domains) => {
+    //     this.domains = domains.map(
+    //       (x) =>
+    //         new DropdownOption({
+    //           title: x.name,
+    //           value: x.name,
+    //         }),
+    //     );
+    //     this.setupRequest.upnDomain = this.domains?.[0]?.value;
+    //   });
   }
 
   ngOnDestroy(): void {

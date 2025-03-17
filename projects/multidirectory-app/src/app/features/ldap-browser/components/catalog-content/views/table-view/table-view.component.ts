@@ -395,12 +395,5 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
   handleGoToParent() {
     const dn = LdapNamesHelper.getDnParent(this._dn);
-    this.appNavigation.goTo(dn).then((node) => {
-      if (!node) {
-        return;
-      }
-      this.appNavigation.navigate(node);
-      this.cdr.detectChanges();
-    });
   }
 }

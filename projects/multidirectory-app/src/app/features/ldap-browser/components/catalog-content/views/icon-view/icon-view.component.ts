@@ -1,7 +1,6 @@
 import { CdkDrag, CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,

@@ -1,23 +1,11 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, concat, concatAll, forkJoin, map, Subject, takeUntil } from 'rxjs';
-import {
-  RightClickEvent,
-  Treenode,
-  TreeSearchHelper,
-  TreeviewComponent,
-} from 'multidirectory-ui-kit';
-import { AppNavigationService, NavigationEventWrapper } from '@services/app-navigation.service';
-import { ContextMenuService } from '@services/contextmenu.service';
-import { NavigationNode } from '@core/navigation/navigation-node';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@core/navigation/navigation-node';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { ContextMenuService } from '@services/contextmenu.service';
+import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -33,17 +21,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
   readonly treeView = viewChild.required<TreeviewComponent>('treeView');
   public navigationTree: NavigationNode[] = [];
 
-  ngOnInit(): void {
-    this.navigation.navigationRx
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(([navigationTree, navigationEvent]) => {
-        this.navigationTree = navigationTree;
-        this.cdr.detectChanges();
-        this.handleRouteChange(navigationTree, navigationEvent);
-      });
-  }
+  constructor(
+    private navigation: AppNavigationService,
+    private contextMenu: ContextMenuService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+  ) {}
 
-  handleRouteChange(navigationTree: NavigationNode[], event: NavigationEventWrapper) {
+  handleRouteChange(navigationTree: NavigationNode[], event: any) {
     let url = event.event.url;
     if (url.startsWith('/')) {
       url = url.substring(1);

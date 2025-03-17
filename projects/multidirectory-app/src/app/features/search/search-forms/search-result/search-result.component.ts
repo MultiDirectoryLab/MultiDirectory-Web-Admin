@@ -19,13 +19,6 @@ export class SearchResultComponent {
 
   goTo(event: any) {
     if (event?.row?.name) {
-      this.navigation.goTo(event.row.name).then((node) => {
-        if (!node) {
-          return;
-        }
-        this.navigation.navigate(node);
-        this.cdr.detectChanges();
-      });
     }
     this.cdr.detectChanges();
   }

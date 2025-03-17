@@ -4,7 +4,6 @@ import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import {
   ButtonComponent,

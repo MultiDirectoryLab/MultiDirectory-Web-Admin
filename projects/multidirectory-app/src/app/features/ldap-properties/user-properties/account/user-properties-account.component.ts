@@ -143,19 +143,19 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
 
-    this.nodeLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((domains) => {
-        this.domains = domains.map(
-          (x) =>
-            new DropdownOption({
-              title: x.name,
-              value: x.id,
-            }),
-        );
-        this.upnDomain = this.domains?.[0]?.value;
-      });
+    // this.nodeLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((domains) => {
+    //     this.domains = domains.map(
+    //       (x) =>
+    //         new DropdownOption({
+    //           title: x.name,
+    //           value: x.id,
+    //         }),
+    //     );
+    //     this.upnDomain = this.domains?.[0]?.value;
+    //   });
   }
 
   // @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;

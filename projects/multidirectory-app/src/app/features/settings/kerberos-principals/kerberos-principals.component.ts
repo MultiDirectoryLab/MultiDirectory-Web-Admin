@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';

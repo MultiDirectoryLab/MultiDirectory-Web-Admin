@@ -31,6 +31,6 @@ export class SearchSourceProvider {
             data: x,
           }),
       );
-    return this.ldap.get().pipe(map(mapNode));
+    return of([]); //this.ldap.get().pipe(map(mapNode));
   }
 }

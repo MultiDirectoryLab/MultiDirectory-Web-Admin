@@ -232,22 +232,24 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       this.toastr.error(translate('errors.empty-filter'));
       return of([]);
     }
-    return this.navigation.getRoot().pipe(
-      take(1),
-      switchMap((root) =>
-        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
-      ),
-      map((result) => {
-        return result.search_result.map((x) => {
-          const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
-          return new MultiselectModel({
-            id: x.object_name,
-            selected: false,
-            title: name?.[1],
-            badge_title: name?.[1] ?? x.object_name,
-          });
-        });
-      }),
-    );
+    return of([]);
+    // const root = this.ldapTreeLoader.get();
+    // return root.pipe(
+    //   take(1),
+    //   switchMap((root) =>
+    //     this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
+    //   ),
+    //   map((result) => {
+    //     return result.search_result.map((x) => {
+    //       const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+    //       return new MultiselectModel({
+    //         id: x.object_name,
+    //         selected: false,
+    //         title: name?.[1],
+    //         badge_title: name?.[1] ?? x.object_name,
+    //       });
+    //     });
+    //   }),
+    // );
   }
 }
