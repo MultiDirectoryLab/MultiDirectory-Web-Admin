@@ -10,6 +10,9 @@ export class LdapNamesHelper {
   }
 
   static getDnParent(dn: string): string {
+    if (!dn || dn.startsWith('dc=')) {
+      return '';
+    }
     const rawDnParts = dn.split(',').map((x) => x.trim().split('='));
     const dnParts = rawDnParts.map((element) => {
       return { type: element[0], value: element[1] };

@@ -1,28 +1,17 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  EMPTY,
-  Subject,
-  catchError,
-  combineLatest,
-  of,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { AppSettingsService } from '@services/app-settings.service';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { DnsApiService } from '@services/dns-api.service';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { SearchQueries } from '@core/ldap/search';
+import { translate } from '@jsverse/transloco';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsStatuses } from '@models/dns/dns-statuses';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { AppSettingsService } from '@services/app-settings.service';
+import { DnsApiService } from '@services/dns-api.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
-import { translate } from '@jsverse/transloco';
+import { EMPTY, Subject, catchError, of, switchMap, take, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -76,7 +65,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       )
       .subscribe((userSearch) => {
         const searchEntry = userSearch.search_result[0];
-        const displayName = LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
+        const displayName = 'test'; //LdapEntryLoader.getSingleAttribute(searchEntry, 'name');
         const objectClass = searchEntry.partial_attributes.find(
           (x) => x.type.toLocaleLowerCase() == 'objectclass',
         )!;
@@ -85,7 +74,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
           type: EntityInfoResolver.getNodeType(objectClass.vals),
           selectable: true,
           expandable: EntityInfoResolver.isExpandable(objectClass.vals),
-          entry: searchEntry,
+          //  entry: searchEntry,
           id: searchEntry.object_name,
         });
         this.app.userEntry = entry;

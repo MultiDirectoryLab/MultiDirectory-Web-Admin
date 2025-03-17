@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Page } from 'multidirectory-ui-kit';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { NavigationEvent } from '@services/app-navigation.service';
 
 export interface RightClickEvent {
   selected: LdapEntryNode[];

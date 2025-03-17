@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@
 import BitSet from 'bitset';
 import { DatepickerComponent, DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { take, tap } from 'rxjs';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import moment from 'moment';
@@ -54,7 +53,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   constructor(
     public modalControl: ModalInjectDirective,
     private cdr: ChangeDetectorRef,
-    private nodeLoader: LdapEntryLoader,
   ) {}
 
   ngAfterViewInit(): void {
@@ -67,19 +65,19 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
 
-    this.nodeLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((domains) => {
-        this.domains = domains.map(
-          (x) =>
-            new DropdownOption({
-              title: x.name,
-              value: x.id,
-            }),
-        );
-        this.upnDomain = this.domains?.[0]?.value;
-      });
+    // this.nodeLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((domains) => {
+    //     this.domains = domains.map(
+    //       (x) =>
+    //         new DropdownOption({
+    //           title: x.name,
+    //           value: x.id,
+    //         }),
+    //     );
+    //     this.upnDomain = this.domains?.[0]?.value;
+    //   });
   }
 
   @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;

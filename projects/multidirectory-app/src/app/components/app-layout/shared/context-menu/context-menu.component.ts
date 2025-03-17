@@ -81,26 +81,25 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
   }
 
   showDeleteConfirmation(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.windows
-      .openDeleteEntryConfirmation(this.entries.map((x) => x.id))
-      .pipe(take(1))
-      .subscribe((confirmed) => {
-        if (confirmed) {
-          concat(
-            ...this.entries.map((x) =>
-              this.api.delete(
-                new DeleteEntryRequest({
-                  entry: (<any>x.entry).object_name,
-                }),
-              ),
-            ),
-          ).subscribe((x) => {
-            this.navigation.reload();
-          });
-        }
-      });
+    // event.preventDefault();
+    // event.stopPropagation();
+    // this.windows
+    //   .openDeleteEntryConfirmation(this.entries.map((x) => x.id))
+    //   .pipe(take(1))
+    //   .subscribe((confirmed) => {
+    //     if (confirmed) {
+    //       concat(
+    //         ...this.entries.map((x) =>
+    //           this.api.delete(
+    //             new DeleteEntryRequest({
+    //               entry: (<any>x.entry).object_name,
+    //             }),
+    //           ),
+    //         ),
+    //       ).subscribe((x) => {
+    //       });
+    //     }
+    //   });
   }
 
   showModifyDn(event: Event) {
@@ -135,9 +134,7 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
           return EMPTY;
         }),
       )
-      .subscribe((modifyRequest) => {
-        this.navigation.reload();
-      });
+      .subscribe((modifyRequest) => {});
   }
 
   enableAccunts(event: Event) {
@@ -154,9 +151,7 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
           return EMPTY;
         }),
       )
-      .subscribe((modifyRequest) => {
-        this.navigation.reload();
-      });
+      .subscribe((modifyRequest) => {});
   }
 
   accountEnabled = false;
@@ -201,8 +196,6 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
           });
         }),
       )
-      .subscribe((result) => {
-        this.navigation.reload();
-      });
+      .subscribe((result) => {});
   }
 }

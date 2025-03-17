@@ -17,8 +17,7 @@ import { TableRow } from './table-row';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
 import {
@@ -29,7 +28,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { ToastrService } from 'ngx-toastr';
 import { BulkService } from '@services/bulk.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
@@ -87,7 +85,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   ];
   constructor(
     private appNavigation: AppNavigationService,
-    private ldapLoader: LdapEntryLoader,
     private bulkService: BulkService<LdapEntryNode>,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
@@ -149,42 +146,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       this.page.pageNumber = 1;
       this._dn = dn;
     }
-    this.ldapLoader
-      .getContent(dn, this.searchQuery)
-      .pipe(take(1))
-      .subscribe((rows) => {
-        this.rows = rows.map(
-          (node) =>
-            <TableRow>{
-              icon: node.icon,
-              name: node.name,
-              type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
-              entry: node,
-              description: node.entry ? EntityInfoResolver.getNodeDescription(node) : '',
-              status: node.entry ? EntityInfoResolver.getNodeStatus(node) : '',
-            },
-        );
-        this.grid.page.totalElements = this.rows.length;
-        this.rows = this.rows.slice(
-          this.page.pageOffset * this.page.size,
-          this.page.pageOffset * this.page.size + this.page.size,
-        );
-
-        if (this.grid.selected?.length > 0) {
-          const selected = this.grid.selected.map((x) => x.entry.id);
-          this.grid.selected = [];
-          this.rows.forEach((row) => {
-            if (selected.includes(row.entry.id)) {
-              this.grid.selected.push(row);
-            }
-          });
-        } else {
-          this.accountEnabledToggle = false;
-          this.accountEnabledToggleEnabled = false;
-        }
-        this.showControlPanel = true;
-        this.cdr.detectChanges();
-      });
   }
 
   override updateContent() {
@@ -245,9 +206,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
                 }),
               ),
             ),
-          ).subscribe((x) => {
-            this.appNavigation.reload();
-          });
+          ).subscribe((x) => {});
         }
       });
   }
@@ -319,12 +278,5 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
   handleGoToParent(event: MouseEvent) {
     const dn = LdapNamesHelper.getDnParent(this._dn);
-    this.appNavigation.goTo(dn).then((node) => {
-      if (!node) {
-        return;
-      }
-      this.appNavigation.navigate(node);
-      this.cdr.detectChanges();
-    });
   }
 }

@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import BitSet from 'bitset';
 import moment from 'moment';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
@@ -37,7 +36,6 @@ export class ComputerPropertiesAccountComponent implements AfterViewInit {
   constructor(
     public modalControl: ModalInjectDirective,
     private cdr: ChangeDetectorRef,
-    private nodeLoader: LdapEntryLoader,
   ) {}
 
   ngAfterViewInit(): void {

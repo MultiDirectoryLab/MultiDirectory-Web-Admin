@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { take } from 'rxjs';
 

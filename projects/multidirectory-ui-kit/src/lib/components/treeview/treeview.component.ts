@@ -29,7 +29,7 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
   @Input() tree: Treenode[] = [];
   @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
-  @Input() nodeLabel: TemplateRef<any> | null = null;
+  @Input() nodeLabelTemplate: TemplateRef<any> | null = null;
   @Input() checkboxes = false;
   @Output() nodeSelect = new EventEmitter<Treenode>();
   @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
@@ -41,8 +41,8 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.nodeLabel) {
-      this.nodeLabel = this.defaultLabel;
+    if (!this.nodeLabelTemplate) {
+      this.nodeLabelTemplate = this.defaultLabel;
     }
   }
 

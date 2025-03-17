@@ -92,10 +92,5 @@ export class MemberOfComponent {
     if (!this.groupList?.selected?.[0]) {
       return;
     }
-    const entity = <LdapEntryNode>await this.navigation.goTo(this.groupList.selected[0].dn);
-    if (!entity) {
-      return;
-    }
-    this.windows.openEntityProperiesModal(entity);
   }
 }

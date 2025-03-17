@@ -6,7 +6,6 @@ import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AppWindowsService } from '@services/app-windows.service';
 import { EntitySelectorSettings } from './entity-selector-settings.component';
 
@@ -30,7 +29,6 @@ export class EntitySelectorComponent implements OnInit {
   constructor(
     private api: MultidirectoryApiService,
     private cdr: ChangeDetectorRef,
-    private ldapLoader: LdapEntryLoader,
     private windows: AppWindowsService,
     private modalControl: ModalInjectDirective,
   ) {}
@@ -46,12 +44,12 @@ export class EntitySelectorComponent implements OnInit {
     }
 
     this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
-    this.ldapLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((x) => {
-        this.selectedCatalogDn = x[0].id ?? '';
-      });
+    // this.ldapLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((x) => {
+    //     this.selectedCatalogDn = x[0].id ?? '';
+    //   });
   }
 
   close() {
@@ -88,6 +86,7 @@ export class EntitySelectorComponent implements OnInit {
     if (!this.selectedCatalogDn || !this.entityTypes) {
       return;
     }
+    /*
     const entityClasses = this.entityTypes.flatMap((x) => x.entity.split(','));
     this.api
       .search(SearchQueries.findEntities(this.name, this.selectedCatalogDn, entityClasses))
@@ -117,6 +116,7 @@ export class EntitySelectorComponent implements OnInit {
         this.selector?.showMenu();
         this.cdr.detectChanges();
       });
+      */
   }
 
   finish() {

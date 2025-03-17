@@ -14,7 +14,6 @@ import { DropdownOption, MdFormComponent } from 'multidirectory-ui-kit';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { UserCreateService } from '@services/user-create.service';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 
 @Component({
   selector: 'app-user-create-general-info',
@@ -36,10 +35,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
 
   unsubscribe = new Subject<void>();
   domains: DropdownOption[] = [];
-  constructor(
-    public setup: UserCreateService,
-    private ldapLoader: LdapEntryLoader,
-  ) {}
+  constructor(public setup: UserCreateService) {}
   ngAfterViewInit(): void {
     this.setup.stepValid(this.form.valid);
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
@@ -48,19 +44,19 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.setup.stepValid(this.form.valid);
     });
-    this.ldapLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((domains) => {
-        this.domains = domains.map(
-          (x) =>
-            new DropdownOption({
-              title: x.name,
-              value: x.name,
-            }),
-        );
-        this.setupRequest.upnDomain = this.domains?.[0]?.value;
-      });
+    // this.ldapLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((domains) => {
+    //     this.domains = domains.map(
+    //       (x) =>
+    //         new DropdownOption({
+    //           title: x.name,
+    //           value: x.name,
+    //         }),
+    //     );
+    //     this.setupRequest.upnDomain = this.domains?.[0]?.value;
+    //   });
   }
 
   ngOnDestroy(): void {

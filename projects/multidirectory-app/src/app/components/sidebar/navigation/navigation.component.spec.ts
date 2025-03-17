@@ -1,17 +1,10 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { getTranslocoModule } from '@testing/transloco-testing';
 import { NavigationComponent } from './navigation.component';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
 import { NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
-import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
-import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
-import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader';
-import { getSavedQueriesLoaderMock } from '@testing/saved-queries-node-loader-mock';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 xdescribe('Navigation Component Test Suit', () => {
@@ -27,9 +20,6 @@ xdescribe('Navigation Component Test Suit', () => {
       declarations: [NavigationComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
-        { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
-        { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
       ],
       teardown: { destroyAfterEach: true },
@@ -53,7 +43,7 @@ xdescribe('Navigation Component Test Suit', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement.outerHTML).toContain('tree-label');
-      const testNode1 = navigation.navigationTree[1].routeData;
+      const testNode1 = navigation.navigationTree[1].routeData!;
       let treeNode = fixture.debugElement.nativeElement.querySelector(
         '.tree-item-wrapper[data-id=' + testNode1.id + ']',
       );

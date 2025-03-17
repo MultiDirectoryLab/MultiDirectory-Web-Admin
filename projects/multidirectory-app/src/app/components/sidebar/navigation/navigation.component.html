@@ -1,6 +1,6 @@
 <md-treeview
   [tree]="navigationTree"
-  [nodeLabel]="mdTreeModal"
+  [nodeLabelTemplate]="mdTreeModal"
   class="treeview"
   (nodeSelect)="handleNodeSelection($any($event))"
   (nodeRightClick)="handleNodeRightClick($any($event))"

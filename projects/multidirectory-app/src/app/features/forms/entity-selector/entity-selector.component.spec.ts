@@ -8,12 +8,6 @@ import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.servi
 import { getTranslocoModule } from '@testing/transloco-testing';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
-import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader';
-import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
-import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
-import { getSavedQueriesLoaderMock } from '@testing/saved-queries-node-loader-mock';
 
 describe('Entity Selector Test Suite', () => {
   let component: EntitySelectorComponent;
@@ -38,9 +32,6 @@ describe('Entity Selector Test Suite', () => {
         },
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
         { provide: ComponentFixtureAutoDetect, useValue: true },
-        { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
-        { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
-        { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
       ],
       teardown: { destroyAfterEach: true },
     });

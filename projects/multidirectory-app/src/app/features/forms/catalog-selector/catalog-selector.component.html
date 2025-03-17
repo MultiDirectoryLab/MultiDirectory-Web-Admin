@@ -3,7 +3,7 @@
 <div class="h-100">
   <div class="flex-row">{{ 'catalog-selector.header' | transloco }}</div>
   <div class="h-100">
-    <md-treeview #ldapTree [tree]="ldapRoots" [nodeLabel]="mdTreeModal" class="treeview">
+    <md-treeview #ldapTree [tree]="ldapRoots" [nodeLabelTemplate]="mdTreeModal" class="treeview">
     </md-treeview>
   </div>
 </div>

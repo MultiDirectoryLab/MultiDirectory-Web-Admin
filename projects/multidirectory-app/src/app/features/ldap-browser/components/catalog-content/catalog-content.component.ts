@@ -10,7 +10,6 @@ import { translate } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
@@ -95,12 +94,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
-      this.searchQuery = '';
-      this.view?.updateContent();
-      this.cdr.detectChanges();
-    });
-
     this.contentView.contentViewRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.currentView = x;
       this.cdr.detectChanges();
@@ -113,17 +106,17 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   deleteSelectedEntry() {
-    concat(
-      ...this._selectedRows.map((x) =>
-        this.api.delete(
-          new DeleteEntryRequest({
-            entry: (<any>x.entry).object_name,
-          }),
-        ),
-      ),
-    ).subscribe((x) => {
-      this.view?.updateContent();
-    });
+    //   concat(
+    //     ...this._selectedRows.map((x) =>
+    //       this.api.delete(
+    //         new DeleteEntryRequest({
+    //           entry: (<any>x.entry).object_name,
+    //         }),
+    //       ),
+    //     ),
+    //   ).subscribe((x) => {
+    //     this.view?.updateContent();
+    //   });
   }
 
   showEntryProperties() {
@@ -164,9 +157,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateOu(dn)
       .pipe(take(1))
-      .subscribe((x) => {
-        this.navigation.reload();
-      });
+      .subscribe((x) => {});
   }
 
   openCreateRule() {
@@ -174,9 +165,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateRule(dn)
       .pipe(take(1))
-      .subscribe((x) => {
-        this.navigation.reload();
-      });
+      .subscribe((x) => {});
   }
 
   openCreateComputer() {
@@ -184,9 +173,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateComputer(dn)
       .pipe(take(1))
-      .subscribe((x) => {
-        this.navigation.reload();
-      });
+      .subscribe((x) => {});
   }
 
   openCreateCatalog() {
@@ -194,9 +181,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     this.windows
       .openCreateCatalog(dn)
       .pipe(take(1))
-      .subscribe((x) => {
-        this.navigation.reload();
-      });
+      .subscribe((x) => {});
   }
 
   showContextMenu(event: RightClickEvent) {

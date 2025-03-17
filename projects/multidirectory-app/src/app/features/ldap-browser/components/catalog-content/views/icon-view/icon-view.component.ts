@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -15,11 +14,8 @@ import { GridItemComponent } from './grid-item/grid-item.component';
 import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
-import { take } from 'rxjs';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationRoot } from '@core/navigation/navigation-entry-point';
 import { BaseViewComponent } from '../base-view.component';
 
 @Component({
@@ -28,7 +24,7 @@ import { BaseViewComponent } from '../base-view.component';
   styleUrls: ['./icon-view.component.scss'],
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => IconViewComponent) }],
 })
-export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
+export class IconViewComponent extends BaseViewComponent {
   @Input() big = false;
   @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
   @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
@@ -42,27 +38,13 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   constructor(
     public toast: ToastrService,
     private cdr: ChangeDetectorRef,
-    private ldapLoader: LdapEntryLoader,
     private navigation: AppNavigationService,
     private route: ActivatedRoute,
   ) {
     super();
   }
 
-  ngAfterViewInit(): void {
-    this.navigation.reload();
-  }
-
-  override updateContent() {
-    this.ldapLoader
-      .getContent(this.route.snapshot.queryParams['distinguishedName'])
-      .pipe(take(1))
-      .subscribe((rows) => {
-        this.items = rows;
-        this.pager.updatePager();
-        this.cdr.detectChanges();
-      });
-  }
+  override updateContent() {}
 
   override getSelected(): LdapEntryNode[] {
     return this.items.filter((x) => x.selected);

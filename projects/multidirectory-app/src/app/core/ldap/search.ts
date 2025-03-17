@@ -24,7 +24,7 @@ export const SearchQueries = {
     ],
   },
 
-  getChild(baseObject: string): SearchRequest {
+  getChildren(baseObject: string): SearchRequest {
     return new SearchRequest({
       base_object: baseObject,
       scope: 1,

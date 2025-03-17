@@ -20,7 +20,22 @@ export function getMultidirectoryApiMock() {
     if (request.base_object.includes('CN=Schema')) {
       return of(MockedSchema);
     }
-
+    if (request.base_object == '' && request.scope == 0) {
+      const result = Object.assign({}, MockedTree);
+      const foundEntries = [result.search_result[0]];
+      result.search_result = foundEntries;
+      return of(result);
+    }
+    if (request.scope == 1) {
+      const result = Object.assign({}, MockedTree);
+      const foundEntries = result.search_result.filter(
+        (x) =>
+          x.object_name.endsWith(request.base_object) &&
+          x.object_name.length > request.base_object.length,
+      );
+      result.search_result = foundEntries;
+      return of(result);
+    }
     return of(MockedTree);
   });
 

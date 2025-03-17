@@ -1,16 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { SpinnerComponent } from 'multidirectory-ui-kit';
-import { catchError, map, switchMap, throwError } from 'rxjs';
-import { translate } from '@jsverse/transloco';
-import { SearchQueries } from '@core/ldap/search';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { translate } from '@jsverse/transloco';
+import { SpinnerComponent } from 'multidirectory-ui-kit';
+import { map } from 'rxjs';
+import { SearchSource } from './models/search-source';
 import { SearchResultComponent } from './search-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './search-forms/search-users/search-users.component';
-import { SearchSource } from './models/search-source';
 import { SearchSourceProvider } from './services/search-source-provider';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 
 @Component({
   selector: 'app-search-panel',
@@ -31,9 +28,7 @@ export class SearchPanelComponent implements AfterViewInit {
   @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
 
   constructor(
-    private api: MultidirectoryApiService,
     private searchSourceProvider: SearchSourceProvider,
-    private ldapLoader: LdapEntryLoader,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -59,25 +54,6 @@ export class SearchPanelComponent implements AfterViewInit {
       return;
     }
     this.spinner.show();
-    this.ldapLoader
-      .get()
-      .pipe(
-        switchMap((x) => this.api.search(SearchQueries.findByName(query, x[0].id))),
-        catchError((err) => {
-          this.spinner.hide();
-          return throwError(() => err);
-        }),
-      )
-      .subscribe((res) => {
-        this.searchResults = res.search_result.map(
-          (node) =>
-            <SearchResult>{
-              name: node.object_name,
-            },
-        );
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      });
   }
 
   clear() {

@@ -9,7 +9,7 @@ import { ModalInjectDirective, Treenode } from 'multidirectory-ui-kit';
   templateUrl: './entity-type-selector.component.html',
 })
 export class EntityTypeSelectorComponent implements OnInit {
-  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name, loadChildren: undefined }));
+  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name }));
 
   constructor(private modalControl: ModalInjectDirective) {}
 

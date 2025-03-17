@@ -18,15 +18,12 @@ import { AccessPolicy } from '@core/access-policy/access-policy';
 import { IpRange } from '@core/access-policy/access-policy-ip-address';
 import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
-import { SearchQueries } from '@core/ldap/search';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AppWindowsService } from '@services/app-windows.service';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { ToastrService } from 'ngx-toastr';
 import { MultiselectModel } from './multiselect-model';
-import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -72,7 +69,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: MultidirectoryApiService,
-    private navigation: AppNavigationService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private windows: AppWindowsService,
@@ -89,10 +85,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.load();
-    });
-
     this.api
       .getMultifactor()
       .pipe(take(1))
@@ -191,23 +183,25 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       this.toastr.error(translate('errors.empty-filter'));
       return of([]);
     }
-    return this.navigation.getRoot().pipe(
-      take(1),
-      switchMap((root) =>
-        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
-      ),
-      map((result) => {
-        return result.search_result.map((x) => {
-          const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
-          return new MultiselectModel({
-            id: x.object_name,
-            selected: false,
-            title: name?.[1],
-            badge_title: name?.[1] ?? x.object_name,
-          });
-        });
-      }),
-    );
+    return of([]);
+    // const root = this.ldapTreeLoader.get();
+    // return root.pipe(
+    //   take(1),
+    //   switchMap((root) =>
+    //     this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
+    //   ),
+    //   map((result) => {
+    //     return result.search_result.map((x) => {
+    //       const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+    //       return new MultiselectModel({
+    //         id: x.object_name,
+    //         selected: false,
+    //         title: name?.[1],
+    //         badge_title: name?.[1] ?? x.object_name,
+    //       });
+    //     });
+    //   }),
+    // );
   }
 
   checkGroups() {

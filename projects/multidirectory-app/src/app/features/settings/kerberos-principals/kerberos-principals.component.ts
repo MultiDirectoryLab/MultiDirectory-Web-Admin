@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { SearchEntry } from '@models/entry/search-response';
@@ -59,9 +58,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   constructor(
     private api: MultidirectoryApiService,
     private app: AppSettingsService,
-    private ldapLoader: LdapEntryLoader,
     private windows: AppWindowsService,
-    private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
   ) {}
 
@@ -85,38 +82,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     return !isKerberosPrincipal && !isUserPrincipal;
   }
 
-  updateContent() {
-    this.ldapLoader
-      .get()
-      .pipe(
-        switchMap((x) =>
-          this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
-        ),
-        catchError((err) => {
-          return throwError(() => err);
-        }),
-      )
-      .subscribe((res) => {
-        this.columns = [
-          { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
-        ];
-        this.principals = res.search_result
-          .map((x) => {
-            x.object_name = x.object_name.replace('krbprincipalname=', '');
-            return x;
-          })
-          .filter((x) => this.filterPrincipals(x))
-          .map(
-            (node) =>
-              <SearchResult>{
-                name:
-                  node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
-                  node.object_name,
-              },
-          );
-        this.cdr.detectChanges();
-      });
-  }
+  updateContent() {}
 
   onPageChanged($event: Page) {}
   onDoubleClick($event: InputEvent) {}
