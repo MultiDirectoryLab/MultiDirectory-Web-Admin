@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxjs';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';

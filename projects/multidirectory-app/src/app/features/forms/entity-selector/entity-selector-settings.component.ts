@@ -1,5 +1,5 @@
 import { EntityType } from '@core/entities/entities-type';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 
 export class EntitySelectorSettings {
   selectedEntities: LdapEntryNode[] = [];

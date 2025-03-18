@@ -1,5 +1,5 @@
 import { ChangeDescription } from '../ldap-change';
-import { LdapEntryNode } from '../ldap-entity';
+import { LdapEntryNode } from '../../../models/core/ldap/ldap-entity';
 import { LdapAttributes } from './ldap-attributes';
 
 export class LdapAttributesProxyHandler {

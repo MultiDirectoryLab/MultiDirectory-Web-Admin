@@ -6,14 +6,14 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, Subject } from 'rxjs';
-import { AccessPolicy } from '@core/access-policy/models/access-policy';
-import { MfaAccessEnum } from '@core/access-policy/models/mfa-access-enum';
-import { IpRange } from '@core/access-policy/models/access-policy-ip-address';
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getTranslocoModule } from '@testing/transloco-testing';
+import { AccessPolicy } from '@core/access-policy/access-policy';
+import { IpRange } from '@core/access-policy/access-policy-ip-address';
+import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 
 xdescribe('AccessPolicyViewComponent', () => {
   let component: AccessPolicyViewComponent;

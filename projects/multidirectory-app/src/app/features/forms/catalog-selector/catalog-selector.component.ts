@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { ModalInjectDirective, TreeviewComponent } from 'multidirectory-ui-kit';
 import { Subject, take, takeUntil } from 'rxjs';
 

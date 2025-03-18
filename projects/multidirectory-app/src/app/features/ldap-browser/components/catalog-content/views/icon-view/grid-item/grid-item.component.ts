@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { ContextmenuType } from 'ngx-datatable-gimefork';
 import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 
 @Component({
   selector: 'app-grid-item',

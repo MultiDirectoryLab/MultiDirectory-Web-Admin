@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { LdapNodePosition } from '@core/new-navigation/ldap-node-position/ldap-node-position';
 import { LdapNavigationService } from '@services/ldap-navigation.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';

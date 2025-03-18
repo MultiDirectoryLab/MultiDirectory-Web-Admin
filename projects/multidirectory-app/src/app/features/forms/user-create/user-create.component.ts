@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Inject,
-  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -16,11 +14,9 @@ import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { ToastrService } from 'ngx-toastr';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { translate } from '@jsverse/transloco';
 import BitSet from 'bitset';
-import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
 @Component({
   selector: 'app-user-create',
@@ -28,7 +24,7 @@ import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
-  @Output() onCreate = new EventEmitter<void>();
+  @Output() userCreated = new EventEmitter<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
   unsubscribe = new Subject<void>();

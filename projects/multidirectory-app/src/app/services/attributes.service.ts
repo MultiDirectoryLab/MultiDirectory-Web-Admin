@@ -3,7 +3,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapAttributesProxyHandler } from '@core/ldap/ldap-attributes/ldap-attributes-proxy';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { ChangeDescription } from '@core/ldap/ldap-change';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/api/entry/update-request';
 
 @Injectable({

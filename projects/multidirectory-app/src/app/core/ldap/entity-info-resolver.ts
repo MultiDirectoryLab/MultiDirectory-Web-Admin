@@ -1,8 +1,6 @@
 import { translate } from '@jsverse/transloco';
-import { LdapEntryType } from './ldap-entity-type';
-import { LdapEntryNode } from './ldap-entity';
-import { UserAccountControlFlag } from './user-account-control-flags';
-import BitSet from 'bitset';
+import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([

@@ -11,7 +11,7 @@ import {
 import { Subject, take, takeUntil } from 'rxjs';
 import { AbstractControl } from '@angular/forms';
 import { DropdownOption, MdFormComponent } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { UserCreateService } from '@services/user-create.service';
 import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 

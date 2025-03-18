@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GridItemComponent } from './grid-item/grid-item.component';
 import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';

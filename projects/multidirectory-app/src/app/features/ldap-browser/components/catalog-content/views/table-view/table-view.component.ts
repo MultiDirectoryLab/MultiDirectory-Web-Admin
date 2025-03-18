@@ -14,7 +14,7 @@ import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { concat, Subject, switchMap, take } from 'rxjs';
 import { TableRow } from './table-row';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService } from '@services/app-navigation.service';

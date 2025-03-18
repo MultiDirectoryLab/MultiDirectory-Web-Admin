@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';

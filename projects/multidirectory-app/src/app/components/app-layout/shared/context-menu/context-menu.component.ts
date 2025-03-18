@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { DropdownMenuComponent } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
+import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
