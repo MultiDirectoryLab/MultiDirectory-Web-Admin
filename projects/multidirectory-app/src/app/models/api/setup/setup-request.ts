@@ -1,4 +1,4 @@
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 
 export class SetupRequest {
   domain = '';

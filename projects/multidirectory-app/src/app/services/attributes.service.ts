@@ -4,7 +4,7 @@ import { LdapAttributesProxyHandler } from '@core/ldap/ldap-attributes/ldap-attr
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { ChangeDescription } from '@core/ldap/ldap-change';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/entry/update-request';
+import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/api/entry/update-request';
 
 @Injectable({
   providedIn: 'root',

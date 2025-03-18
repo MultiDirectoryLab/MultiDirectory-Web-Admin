@@ -1,4 +1,4 @@
-import { SearchResponse } from '@models/entry/search-response';
+import { SearchResponse } from '@models/api/entry/search-response';
 
 export const MockedSchema: SearchResponse = {
   resultCode: 0,

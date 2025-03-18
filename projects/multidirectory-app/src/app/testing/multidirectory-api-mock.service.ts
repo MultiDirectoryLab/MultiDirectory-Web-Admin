@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { LoginResponse } from '@models/login/login-response';
-import { SearchRequest } from '@models/entry/search-request';
+import { LoginResponse } from '@models/api/login/login-response';
+import { SearchRequest } from '@models/api/entry/search-request';
 import { MockedSchema, MockedTree } from './scheme/mocked-schema';
 
 export function getMultidirectoryApiMock() {

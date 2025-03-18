@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { CreateEntryResponse } from '@models/entry/create-response';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { DeleteEntryResponse } from '@models/entry/delete-response';
-import { SearchRequest } from '@models/entry/search-request';
-import { SearchResponse } from '@models/entry/search-response';
-import { UpdateEntryRequest } from '@models/entry/update-request';
-import { UpdateEntryResponse } from '@models/entry/update-response';
-import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { GetAcpPageResponse } from '@models/login/get-acp-response';
-import { LoginResponse } from '@models/login/login-response';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { GetMultifactorResponse } from '@models/multifactor/get-multifactor-response';
-import { SwapPolicyResponse } from '@models/policy/policy-swap-response';
-import { UserSession } from '@models/sessions/user-session';
-import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
-import { SetupRequest } from '@models/setup/setup-request';
-import { ChangePasswordRequest } from '@models/user/change-password-request';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { CreateEntryResponse } from '@models/api/entry/create-response';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { DeleteEntryResponse } from '@models/api/entry/delete-response';
+import { SearchRequest } from '@models/api/entry/search-request';
+import { SearchResponse } from '@models/api/entry/search-response';
+import { UpdateEntryRequest } from '@models/api/entry/update-request';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { GetAcpPageResponse } from '@models/api/login/get-acp-response';
+import { LoginResponse } from '@models/api/login/login-response';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
+import { GetMultifactorResponse } from '@models/api/multifactor/get-multifactor-response';
+import { SwapPolicyResponse } from '@models/api/policy/policy-swap-response';
+import { UserSession } from '@models/api/sessions/user-session';
+import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
+import { ChangePasswordRequest } from '@models/api/user/change-password-request';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MockedSchema, MockedTree } from '@testing/scheme/mocked-schema';
 import { Observable, of } from 'rxjs';
@@ -51,6 +51,11 @@ export class MultidirectoryApiServiceStub extends MultidirectoryApiService {
   override search(request: SearchRequest): Observable<SearchResponse> {
     if (request.base_object.includes('CN=Schema')) {
       return of(MockedSchema);
+    }
+    if (request.scope == 0 && !request.base_object) {
+      const result = Object.assign({}, MockedTree);
+      result.search_result = [result.search_result[0]];
+      return of(result);
     }
     if (request.scope == 1) {
       const result = Object.assign({}, MockedTree);

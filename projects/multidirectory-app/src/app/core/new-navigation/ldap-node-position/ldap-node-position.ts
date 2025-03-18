@@ -1,6 +1,6 @@
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { SearchQueries } from '@core/ldap/search';
-import { SearchResponse } from '@models/entry/search-response';
+import { SearchResponse } from '@models/api/entry/search-response';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { lastValueFrom, map } from 'rxjs';
 

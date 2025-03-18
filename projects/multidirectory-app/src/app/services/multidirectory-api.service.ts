@@ -23,17 +23,18 @@ import { SetupMultifactorRequest } from '@models/multifactor/setup-multifactor-r
 import { GetMultifactorResponse } from '@models/multifactor/get-multifactor-response';
 import { ChangePasswordRequest } from '@models/user/change-password-request';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
-import { PasswordPolicyGetResponse } from '@models/password-policy/password-policy-get-response';
-import { PasswordPolicyPutRequest } from '@models/password-policy/password-policy-put-request';
-import { GetAcpPageResponse } from '@models/login/get-acp-response';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
+import { PasswordPolicyGetResponse } from '@models/api/password-policy/password-policy-get-response';
+import { PasswordPolicyPutRequest } from '@models/api/password-policy/password-policy-put-request';
+import { GetAcpPageResponse } from '@models/api/login/get-acp-response';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
+import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { GetSessionsResponse } from '@models/sessions/get-session-response';
-import { UserSession } from '@models/sessions/user-session';
+import { GetSessionsResponse } from '@models/api/sessions/get-session-response';
+import { UserSession } from '@models/api/sessions/user-session';
+import { AccessPolicy } from '@core/access-policy/access-policy';
 
 @Injectable({
   providedIn: 'root',

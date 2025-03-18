@@ -5,6 +5,8 @@ import { SearchQueries } from '@core/ldap/search';
 import { LdapNodePosition } from '@core/new-navigation/ldap-node-position/ldap-node-position';
 import { delay, lastValueFrom, map, switchMap, take } from 'rxjs';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { LdapSearchResultHelper } from '@core/ldap/ldap-search-result-helper';
 
 @Injectable({ providedIn: 'root' })
 export class LdapNavigationService {
@@ -16,7 +18,15 @@ export class LdapNavigationService {
     const rootDse = await lastValueFrom(
       this.api.search(SearchQueries.RootDse).pipe(
         take(1),
-        map((result) => result.search_result.map((x) => new LdapNodePosition(x.object_name))),
+        map((result) => {
+          console.log(result.search_result);
+          return result.search_result.map((x) => {
+            x.object_name = !!x.object_name
+              ? x.object_name
+              : LdapSearchResultHelper.getPartialAttributes(x, 'defaultNamingContext')?.[0];
+            return new LdapNodePosition(x.object_name);
+          });
+        }),
       ),
     );
     return rootDse;
@@ -24,24 +34,10 @@ export class LdapNavigationService {
 
   async expendTree(currentLdapPosition: LdapNodePosition): Promise<void> {
     // buid a tree up to current ldap position, state-saving, starting form root dse
-    this.ldapTree = [
-      new LdapEntryNode({
-        id: 'dc=test,dc=local',
-        name: 'root',
-        selectable: true,
-        route: ['/'],
-        type: LdapEntryType.Root,
-        children: [
-          new LdapEntryNode({
-            id: 'dc=test,dc=local',
-            name: 'root2',
-            selectable: true,
-            route: ['/'],
-            type: LdapEntryType.Root,
-          }),
-        ],
-      }),
-    ];
-    await setTimeout(() => {}, 1000);
+    console.log(currentLdapPosition.dn);
+    // select rootDSE
+    const rootDse = await this.getRootDse();
+
+    // map rootDSE to ldapNodePosition
   }
 }

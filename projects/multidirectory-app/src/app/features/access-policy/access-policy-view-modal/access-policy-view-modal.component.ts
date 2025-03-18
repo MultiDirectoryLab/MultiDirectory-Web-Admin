@@ -3,6 +3,7 @@ import { AccessPolicy } from '@core/access-policy/access-policy';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { AccessPolicyViewComponent } from '../access-policy-view/access-policy-view.component';
+import { AccessPolicy } from '@core/access-policy/access-policy';
 
 @Component({
   selector: 'app-access-policy-view-modal',

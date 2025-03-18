@@ -1,4 +1,4 @@
-import { SearchRequest } from '@models/entry/search-request';
+import { SearchRequest } from '@models/api/entry/search-request';
 
 export const SearchQueries = {
   RootDse: {

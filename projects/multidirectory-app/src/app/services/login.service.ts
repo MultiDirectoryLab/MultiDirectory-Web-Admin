@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { catchError, EMPTY, Observable, Subject, switchMap, take } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
-import { LoginResponse } from '@models/login/login-response';
+import { LoginResponse } from '@models/api/login/login-response';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 

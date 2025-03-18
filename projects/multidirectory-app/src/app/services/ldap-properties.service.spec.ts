@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SearchRequest } from '@models/entry/search-request';
+import { SearchRequest } from '@models/api/entry/search-request';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { ShortMockedSchema } from '@testing/scheme/short-mocked-schema';
 import { getTranslocoModule } from '@testing/transloco-testing';
