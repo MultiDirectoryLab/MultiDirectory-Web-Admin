@@ -21,7 +21,7 @@ import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { ActivatedRoute } from '@angular/router';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 
 @Component({
   selector: 'app-catalog-content',

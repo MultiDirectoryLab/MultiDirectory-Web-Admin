@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DropdownOption, MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { DnsRule } from '@models/dns/dns-rule';
+import { DnsRule } from '@models/api/dns/dns-rule';
 import {
   AvailableDnsRecordTypes,
   DnsRuleClass,
   DnsRuleType,
   DnsTypeToDataType,
-} from '@models/dns/dns-rule-type';
+} from '@models/api/dns/dns-rule-type';
 
 @Component({
   selector: 'app-dns-rule-dialog',

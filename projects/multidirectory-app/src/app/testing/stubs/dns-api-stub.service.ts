@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsServiceResponse } from '@models/dns/dns-service-response';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsServiceResponse } from '@models/api/dns/dns-service-response';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsApiService } from '@services/dns-api.service';
 import { Observable, of } from 'rxjs';
 

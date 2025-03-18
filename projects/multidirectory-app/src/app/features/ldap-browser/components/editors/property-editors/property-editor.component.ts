@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { EntityAttributeType } from '@core/entity-attributes/entity-attribute-type';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({

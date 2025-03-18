@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
-import { EntityType } from '@core/entities/entities-type';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
+import { EntityType } from '@core/entities/entities-type';
 
 @Injectable({
   providedIn: 'root',

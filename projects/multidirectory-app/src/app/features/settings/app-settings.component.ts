@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { Subject } from 'rxjs';
 
 @Component({

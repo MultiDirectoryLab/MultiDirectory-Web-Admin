@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { MdFormComponent, StepperComponent, TextboxComponent } from 'multidirectory-ui-kit';

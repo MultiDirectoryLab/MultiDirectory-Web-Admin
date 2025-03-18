@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Subject, takeUntil } from 'rxjs';

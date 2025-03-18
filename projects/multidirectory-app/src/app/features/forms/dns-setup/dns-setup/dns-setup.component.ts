@@ -8,8 +8,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatuses } from '@models/dns/dns-statuses';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import { MdFormComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 

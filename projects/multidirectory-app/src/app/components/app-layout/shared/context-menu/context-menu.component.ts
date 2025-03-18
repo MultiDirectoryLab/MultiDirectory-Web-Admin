@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContextMenuService } from '@services/contextmenu.service';
@@ -14,7 +14,7 @@ import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-ac
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
-import { UpdateEntryResponse } from '@models/entry/update-response';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { translate } from '@jsverse/transloco';
 

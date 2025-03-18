@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, Observable, catchError, retry, throwError } from 'rxjs';
-import { AdapterSettings } from './adapter-settings';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { AdapterSettings } from './adapter-settings';
 //
 export class ApiAdapter<Settings extends AdapterSettings> {
   constructor(

@@ -10,11 +10,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ModalInjectDirective, StepperComponent } from 'multidirectory-ui-kit';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { CreateEntryRequest } from '@models/entry/create-request';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { ToastrService } from 'ngx-toastr';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';

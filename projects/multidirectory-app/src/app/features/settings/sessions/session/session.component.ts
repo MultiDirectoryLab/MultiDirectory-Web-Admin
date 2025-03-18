@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserSession } from '@models/sessions/user-session';
+import { UserSession } from '@models/api/sessions/user-session';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 
 @Component({

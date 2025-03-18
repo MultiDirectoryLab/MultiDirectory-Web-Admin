@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
-import { CreateEntryRequest } from '@models/entry/create-request';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';

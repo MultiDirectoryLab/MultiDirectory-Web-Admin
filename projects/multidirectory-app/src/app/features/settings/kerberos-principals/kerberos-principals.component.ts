@@ -1,14 +1,12 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { SearchQueries } from '@core/ldap/search';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SearchResult } from '@features/search/models/search-result';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { SearchEntry } from '@models/entry/search-response';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { translate } from '@jsverse/transloco';
+import { SearchEntry } from '@models/api/entry/search-entry';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   ContextMenuEvent,
   DatagridComponent,
@@ -16,8 +14,9 @@ import {
   DropdownOption,
   Page,
 } from 'multidirectory-ui-kit';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { catchError, EMPTY, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-kerberos-principals',

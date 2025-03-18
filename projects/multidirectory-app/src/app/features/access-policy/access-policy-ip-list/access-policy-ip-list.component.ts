@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 import { translate } from '@jsverse/transloco';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 
 export class IpAddressStatus {
   title: string = '';

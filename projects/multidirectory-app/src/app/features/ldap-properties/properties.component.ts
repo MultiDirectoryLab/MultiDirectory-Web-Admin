@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import { translate } from '@jsverse/transloco';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';

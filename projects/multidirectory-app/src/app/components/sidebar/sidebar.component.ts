@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { Subject, take, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';

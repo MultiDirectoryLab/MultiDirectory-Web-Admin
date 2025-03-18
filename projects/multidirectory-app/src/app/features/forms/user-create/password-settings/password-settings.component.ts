@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild, forwardRef } from '@angular/core';
 import { MdFormComponent } from 'multidirectory-ui-kit';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
 import { Subject, takeUntil } from 'rxjs';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';

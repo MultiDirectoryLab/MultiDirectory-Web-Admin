@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate } from '@jsverse/transloco';
-import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
-import { SchemaEntry } from '@models/entity-attribute/schema-entry';
+import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
+import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
 import { DatagridComponent, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({

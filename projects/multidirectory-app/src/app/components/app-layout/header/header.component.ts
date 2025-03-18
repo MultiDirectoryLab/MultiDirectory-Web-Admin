@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { translate } from '@jsverse/transloco';
 import { Subject } from 'rxjs';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';

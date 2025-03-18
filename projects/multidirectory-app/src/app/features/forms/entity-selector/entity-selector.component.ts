@@ -1,12 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ModalInjectDirective, MultiselectComponent } from 'multidirectory-ui-kit';
-import { Subject, catchError, take, throwError, map } from 'rxjs';
-import { EntityType } from '@core/entities/entities-type';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { SearchQueries } from '@core/ldap/search';
-import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
+import { EntityType } from '@core/entities/entities-type';
 import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ModalInjectDirective, MultiselectComponent } from 'multidirectory-ui-kit';
+import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
+import { Subject, take } from 'rxjs';
 import { EntitySelectorSettings } from './entity-selector-settings.component';
 
 @Component({

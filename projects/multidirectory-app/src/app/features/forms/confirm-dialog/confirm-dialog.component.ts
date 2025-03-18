@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({

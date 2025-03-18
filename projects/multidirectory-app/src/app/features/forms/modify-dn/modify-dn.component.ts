@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
 import { Subject, take, takeUntil } from 'rxjs';

@@ -6,7 +6,7 @@ import { EntitySelectorSettings } from './entity-selector-settings.component';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getTranslocoModule } from '@testing/transloco-testing';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { ENTITY_TYPES } from '@models/core/entities/entities-available-types';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 describe('Entity Selector Test Suite', () => {

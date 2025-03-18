@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, tap } from 'rxjs';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { TranslocoService } from '@jsverse/transloco';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { translate } from '@jsverse/transloco';
 import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { ChangePasswordRequest } from '@models/user/change-password-request';
+import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 

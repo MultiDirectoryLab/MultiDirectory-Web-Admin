@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { EMPTY, catchError, switchMap, take, zip } from 'rxjs';
-import { translate } from '@jsverse/transloco';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { AppWindowsService } from '@services/app-windows.service';
-import { AccessPolicy } from '@core/access-policy/access-policy';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccessPolicy } from '@core/access-policy/access-policy';
+import { translate } from '@jsverse/transloco';
+import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { EMPTY, catchError, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-access-policy-list',

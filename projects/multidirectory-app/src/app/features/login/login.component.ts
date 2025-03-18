@@ -5,7 +5,7 @@ import { EMPTY, Subject, catchError, skipWhile, switchMap, take, takeUntil } fro
 import { MdFormComponent, MdModalComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { WebSocketService, WebsocketTokenHandle } from '@core/websocket/websocket.service';
-import { LoginResponse } from '@models/login/login-response';
+import { LoginResponse } from '@models/api/login/login-response';
 import { translate } from '@jsverse/transloco';
 import { LoginService } from '@services/login.service';
 

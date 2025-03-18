@@ -3,17 +3,17 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
-import { EntityType } from '@core/entities/entities-type';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
+import { EntityType } from '@core/entities/entities-type';
 
 @Component({
   selector: 'app-windows',

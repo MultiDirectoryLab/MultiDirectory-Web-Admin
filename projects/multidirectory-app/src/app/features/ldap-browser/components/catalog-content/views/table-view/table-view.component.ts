@@ -27,12 +27,12 @@ import {
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { BulkService } from '@services/bulk.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
-import { UpdateEntryResponse } from '@models/entry/update-response';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';

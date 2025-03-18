@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { MdFormComponent } from 'multidirectory-ui-kit';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 
 @Component({

@@ -6,9 +6,9 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LdapCode } from './ldap-codes';
 import { map, Observable } from 'rxjs';
 import { translate } from '@jsverse/transloco';
+import { LdapCode } from '../ldap-codes';
 
 @Injectable()
 export class PasswordPolicyViolationInterceptor implements HttpInterceptor {

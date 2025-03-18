@@ -14,9 +14,6 @@ import {
   ModalInjectDirective,
   MultiselectComponent,
 } from 'multidirectory-ui-kit';
-import { AccessPolicy } from '@core/access-policy/access-policy';
-import { IpRange } from '@core/access-policy/access-policy-ip-address';
-import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
@@ -24,6 +21,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ToastrService } from 'ngx-toastr';
 import { MultiselectModel } from './multiselect-model';
+import { AccessPolicy } from '@core/access-policy/access-policy';
+import { IpRange } from '@core/access-policy/access-policy-ip-address';
+import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 
 @Component({
   selector: 'app-access-policy-view',

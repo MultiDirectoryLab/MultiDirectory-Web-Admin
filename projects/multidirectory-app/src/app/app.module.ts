@@ -122,10 +122,6 @@ export function appInitializerFactory(translateService: TranslocoService) {
     },
     provideHttpClient(withInterceptorsFromDi()),
     {
-      provide: MultidirectoryApiService,
-      useClass: MultidirectoryApiServiceStub,
-    },
-    {
       provide: DnsApiService,
       useClass: DnsApiStubService,
     },

@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY } from 'rxjs';

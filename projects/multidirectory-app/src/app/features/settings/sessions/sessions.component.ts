@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { translate } from '@jsverse/transloco';
-import { UserSession } from '@models/sessions/user-session';
+import { UserSession } from '@models/api/sessions/user-session';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';

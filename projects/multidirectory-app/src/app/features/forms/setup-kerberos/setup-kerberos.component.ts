@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { PasswordGenerator } from '@core/setup/password-generator';
-import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
-import { SetupRequest } from '@models/setup/setup-request';
+import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { translate } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';

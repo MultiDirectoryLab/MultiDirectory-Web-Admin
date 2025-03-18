@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate } from '@jsverse/transloco';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { DnsStatuses } from '@models/dns/dns-statuses';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRuleType } from '@models/api/dns/dns-rule-type';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';

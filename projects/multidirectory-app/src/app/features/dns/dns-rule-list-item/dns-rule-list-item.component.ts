@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 
 @Component({
   selector: 'app-dns-rule-list-item',

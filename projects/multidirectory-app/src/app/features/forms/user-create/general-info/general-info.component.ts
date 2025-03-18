@@ -13,7 +13,7 @@ import { AbstractControl } from '@angular/forms';
 import { DropdownOption, MdFormComponent } from 'multidirectory-ui-kit';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { UserCreateService } from '@services/user-create.service';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 
 @Component({
   selector: 'app-user-create-general-info',

@@ -1,15 +1,14 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { take } from 'rxjs';
 import { DatagridComponent } from 'multidirectory-ui-kit';
-import { Group } from '@core/groups/group';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { AttributeService } from '@services/attributes.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { Group } from '@core/groups/group';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 
 @Component({

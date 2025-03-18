@@ -5,7 +5,7 @@ import {
   MockModalInjectDirective,
   getMockModalInjectDirective,
 } from '@testing/modal-inject-testing';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { ENTITY_TYPES } from '@models/core/entities/entities-available-types';
 
 describe('Entity Type Selector Test Suite', () => {
   let component: EntityTypeSelectorComponent;
