@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapNodePosition } from '@core/new-navigation/ldap-node-position/ldap-node-position';
 import { delay, lastValueFrom, map, switchMap, take } from 'rxjs';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { LdapSearchResultHelper } from '@core/ldap/ldap-search-result-helper';
 

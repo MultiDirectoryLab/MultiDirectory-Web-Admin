@@ -1,4 +1,4 @@
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 
 export interface TableRow {
   icon: string;

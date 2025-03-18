@@ -169,7 +169,7 @@ describe('MfIntegrationFormComponent', () => {
       component.clear();
       tick();
 
-      expect(toastrService.success).toHaveBeenCalledWith('Multifactor was cleared');
+      expect(toastrService.success).toHaveBeenCalledWith('MULTIFACTOR was cleared');
     }));
 
     it('should reset form inputs after successful clear', fakeAsync(() => {

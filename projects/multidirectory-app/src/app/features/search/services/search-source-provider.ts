@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { Observable, map, of } from 'rxjs';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { SearchType } from '../models/search-type';
 import { SearchSource } from '../models/search-source';
 

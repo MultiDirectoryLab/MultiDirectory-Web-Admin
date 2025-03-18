@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';

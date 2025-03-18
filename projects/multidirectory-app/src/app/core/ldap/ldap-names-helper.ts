@@ -1,4 +1,4 @@
-import { DnPart } from './distinguished-name';
+import { DnPart } from '@models/core/ldap/distinguished-name';
 
 export class LdapNamesHelper {
   static getDnParts(dn: string): DnPart[] {

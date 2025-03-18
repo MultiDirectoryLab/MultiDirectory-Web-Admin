@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BulkPerformStrategy } from '../bulk-perfrom-strategy';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { AttributeService } from '@services/attributes.service';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';

@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -89,7 +89,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
           type: EntityInfoResolver.getNodeType(objectClass.vals),
           selectable: true,
           expandable: EntityInfoResolver.isExpandable(objectClass.vals),
-          //  entry: searchEntry,
           id: searchEntry.object_name,
         });
         this.app.userEntry = entry;
