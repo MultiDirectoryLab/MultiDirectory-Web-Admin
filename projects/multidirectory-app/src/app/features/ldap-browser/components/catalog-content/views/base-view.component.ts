@@ -1,18 +1,13 @@
 import { Component, Input, output } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 
-export interface RightClickEvent {
-  selected: LdapEntryNode[];
-  pointerEvent: PointerEvent;
-}
-
 @Component({
   selector: 'app-base-view',
   template: '',
 })
 export abstract class BaseViewComponent {
-  @Input() selectedCatalog: LdapEntryNode | null = null;
   readonly rightClick = output<RightClickEvent>();
+  @Input() selectedCatalog: LdapEntryNode | null = null;
 
   handleRightClick(event: any) {
     let selected = this.getSelected();
@@ -40,7 +35,7 @@ export abstract class BaseViewComponent {
 
   abstract setSelected(selected: LdapEntryNode[]): void;
 
-  setCatalog(catalog: LdapEntryNode): void {
+  setCatalog(catalog: NavigationNode): void {
     this.selectedCatalog = catalog;
   }
 }

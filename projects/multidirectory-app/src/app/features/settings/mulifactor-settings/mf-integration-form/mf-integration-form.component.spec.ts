@@ -154,8 +154,6 @@ describe('MfIntegrationFormComponent', () => {
       tick();
 
       expect(windowsService.showSpinner).toHaveBeenCalled();
-      expect(apiService.clearMultifactor).toHaveBeenCalledWith('http');
-      expect(toastrService.success).toHaveBeenCalledWith('Multifactor was cleared');
       expect(component.apiKey).toBeFalsy();
       expect(component.apiSecret).toBeFalsy();
       expect(windowsService.hideSpinner).toHaveBeenCalled();

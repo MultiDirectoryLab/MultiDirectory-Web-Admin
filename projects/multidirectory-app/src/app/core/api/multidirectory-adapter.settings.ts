@@ -5,7 +5,7 @@ import { environment } from 'projects/multidirectory-app/src/environments/enviro
   providedIn: 'root',
 })
 export class MultidirectoryAdapterSettings {
-  baseUrl = environment.multidirectoryApiUrl;
+  baseUrl = 'http://md.localhost/api';
 
   constructor() {
     if (!this.baseUrl.startsWith('http://') && !this.baseUrl.startsWith('https://')) {

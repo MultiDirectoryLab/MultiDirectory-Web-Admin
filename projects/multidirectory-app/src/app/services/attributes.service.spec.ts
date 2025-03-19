@@ -2,7 +2,7 @@ import { AttributeService } from './attributes.service';
 import { AppNavigationService } from './app-navigation.service';
 import { TestBed } from '@angular/core/testing';
 import { getTranslocoModule } from '@testing/transloco-testing';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { ActivatedRoute } from '@angular/router';
@@ -31,7 +31,7 @@ describe('Attributes Test Service', () => {
     naviagtionService = TestBed.inject(AppNavigationService);
   });
 
-  const getParitalAttributes = (): PartialAttribute[] => {
+  const getParitalAttributes = (): LdapAttribute[] => {
     return [
       { type: 'distingushedName', vals: ['firstValue', 'secondValue'] },
       { type: 'cn', vals: ['test'] },

@@ -1,6 +1,6 @@
 import { translate } from '@jsverse/transloco';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([
@@ -59,12 +59,12 @@ export class EntityInfoResolver {
     return objectClass?.some((x) => EntityInfoResolver.expandableClasses.includes(x));
   }
 
-  static getNodeDescription(entry: LdapEntryNode) {
+  static getNodeDescription(entry: NavigationNode) {
     // const descriptionAttirbute = entry.getAttibute('description');
     // return descriptionAttirbute ? descriptionAttirbute.vals?.[0] : '';
   }
 
-  static getNodeStatus(entry: LdapEntryNode): string {
+  static getNodeStatus(entry: NavigationNode): string {
     return '';
     /*const uacAttirbute = entry.getAttibute('userAccountControl');
     if (!uacAttirbute?.vals?.[0]) {

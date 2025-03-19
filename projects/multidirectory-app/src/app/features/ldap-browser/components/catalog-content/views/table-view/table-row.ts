@@ -1,9 +1,9 @@
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export interface TableRow {
   icon: string;
   name: string;
   type: string;
   description: string;
-  entry: LdapEntryNode;
+  entry: NavigationNode;
 }

@@ -2,7 +2,6 @@ import { take } from 'rxjs';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { AppNavigationService } from './app-navigation.service';
 import { TestBed } from '@angular/core/testing';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getTranslocoModule } from '@testing/transloco-testing';

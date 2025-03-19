@@ -5,7 +5,7 @@ import { ShortMockedSchema } from '@testing/scheme/short-mocked-schema';
 import { getTranslocoModule } from '@testing/transloco-testing';
 import { of, take } from 'rxjs';
 import { LdapPropertiesService } from './ldap-properties.service';
-import { MultidirectoryApiService } from './multidirectory-api.service';
+import { MultidirectoryApiService } from '../multidirectory-api.service';
 
 describe('Ldap Properties Services', () => {
   let propertiesService: LdapPropertiesService;

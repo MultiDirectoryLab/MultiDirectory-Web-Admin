@@ -1,7 +1,5 @@
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
-export const LdapNodeMock: LdapEntryNode = new LdapEntryNode({
+export const LdapNodeMock: NavigationNode = new NavigationNode({
   id: 'cn=adminlogin,ou=users,dc=md,dc=localhost,dc=dev',
-  type: LdapEntryType.Computer,
 });

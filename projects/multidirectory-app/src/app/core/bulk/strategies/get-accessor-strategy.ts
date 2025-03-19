@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { BulkPerformStrategy } from '../bulk-perfrom-strategy';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { AttributeService } from '@services/attributes.service';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,8 @@ import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attrib
 export class GetAccessorStrategy extends BulkPerformStrategy<LdapEntryNode> {
   private attributeService = inject(AttributeService);
 
-  override mutate<LdapAttributes>(entry: LdapEntryNode): LdapAttributes {
-    const attributes = [] as PartialAttribute[]; //entry.entry?.partial_attributes ?? [];
+  override mutate<LdapAttributes>(entry: NavigationNode): LdapAttributes {
+    const attributes = [] as LdapAttribute[]; //entry.entry?.partial_attributes ?? [];
     const accessor = this.attributeService.getTrackableAttributes(
       entry,
       new LdapAttributes(attributes),

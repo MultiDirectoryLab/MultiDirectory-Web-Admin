@@ -75,7 +75,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       });
   }
 
-  override getSelected(): LdapEntryNode[] {
+  override getSelected(): NavigationNode[] {
     return this.items.filter((x) => x.selected);
   }
 
@@ -98,7 +98,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     this.gridMenu().toggle();
   }
 
-  drop(event: CdkDragDrop<LdapEntryNode[]>) {
+  drop(event: CdkDragDrop<NavigationNode[]>) {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
   }
 

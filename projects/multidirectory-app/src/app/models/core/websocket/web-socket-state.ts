@@ -1,0 +1,7 @@
+export enum WebsocketState {
+  INITIAL = 'INITIAL',
+  CONNECTED = 'CONNECTED',
+  CLOSED = 'CLOSED',
+  ERROR = 'ERROR',
+  NEVER_EXISTED = 'NEVER_EXISTED',
+}

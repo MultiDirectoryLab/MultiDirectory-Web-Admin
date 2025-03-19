@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { NavigationNode } from '@core/navigation/navigation-node';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
@@ -24,8 +23,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private navigation: AppNavigationService,
     private contextMenu: ContextMenuService,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
   ) {}
 
   handleRouteChange(navigationTree: NavigationNode[], event: any) {
@@ -33,23 +30,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
     if (url.startsWith('/')) {
       url = url.substring(1);
     }
-    TreeSearchHelper.traverseTreeRx<NavigationNode>(this.navigationTree, (node) => {
-      let routeUrl = node.route.join('/');
-      if (node.routeData && Object.entries(node.routeData).length > 0) {
-        const entries = Object.entries(node.routeData);
-        routeUrl +=
-          '?' +
-          entries
-            .map(([k, v]) => {
-              const encodedV = encodeURI(v).replace(/=/g, '%3D');
-              return `${k}=${encodedV}`;
-            })
-            .join('&');
-      }
-      return url == routeUrl;
-    }).subscribe((result) => {
-      this.treeView.select(result);
-    });
   }
 
   ngOnDestroy(): void {
