@@ -35,8 +35,6 @@ import { translate, Translation, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { MultidirectoryApiServiceStub } from '@testing/stubs/multidirectory-api-stub.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { DnsApiStubService } from '@testing/stubs/dns-api-stub.service';
 import { NewNavigationComponent } from './components/sidebar/new-navigation/new-navigation.component';

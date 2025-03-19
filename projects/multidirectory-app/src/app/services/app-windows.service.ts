@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of, pipe, subscribeOn, switchMap, take } from 'rxjs';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { NavigationNode } from '@core/navigation/navigation-node';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
@@ -14,27 +13,27 @@ import { EntityType } from '@core/entities/entities-type';
   providedIn: 'root',
 })
 export class AppWindowsService {
-  private _openEntityPropertiesModalRx = new Subject<LdapEntryNode>();
-  private _closeEntityPropertiesModalRx = new Subject<LdapEntryNode>();
-  get openEntityPropertiesModalRx(): Observable<LdapEntryNode> {
+  private _openEntityPropertiesModalRx = new Subject<NavigationNode>();
+  private _closeEntityPropertiesModalRx = new Subject<NavigationNode>();
+  get openEntityPropertiesModalRx(): Observable<NavigationNode> {
     return this._openEntityPropertiesModalRx.asObservable();
   }
-  get closeEntityPropertiesModalRx(): Observable<LdapEntryNode> {
+  get closeEntityPropertiesModalRx(): Observable<NavigationNode> {
     return this._closeEntityPropertiesModalRx.pipe(take(1));
   }
-  openEntityProperiesModal(entity: LdapEntryNode): Observable<LdapEntryNode> {
+  openEntityProperiesModal(entity: NavigationNode): Observable<NavigationNode> {
     this._openEntityPropertiesModalRx.next(entity);
     return this.closeEntityPropertiesModalRx;
   }
-  closeEntityPropertiesModal(entity: LdapEntryNode) {
+  closeEntityPropertiesModal(entity: NavigationNode) {
     return this._closeEntityPropertiesModalRx.next(entity);
   }
 
-  private _openChangePasswordModalRx = new Subject<LdapEntryNode>();
-  get openChangePasswordModalRx(): Observable<LdapEntryNode> {
+  private _openChangePasswordModalRx = new Subject<NavigationNode>();
+  get openChangePasswordModalRx(): Observable<NavigationNode> {
     return this._openChangePasswordModalRx.asObservable();
   }
-  openChangePasswordModal(entity: LdapEntryNode) {
+  openChangePasswordModal(entity: NavigationNode) {
     this._openChangePasswordModalRx.next(entity);
   }
 
@@ -186,46 +185,46 @@ export class AppWindowsService {
   }
 
   private _showEntitySelectorRx = new Subject<EntitySelectorSettings>();
-  private _closeEntitySelectorRx = new Subject<LdapEntryNode[]>();
+  private _closeEntitySelectorRx = new Subject<NavigationNode[]>();
   get showEntitySelectorRx(): Observable<EntitySelectorSettings> {
     return this._showEntitySelectorRx.asObservable();
   }
-  get closeEntitySelectorRx(): Observable<LdapEntryNode[]> {
+  get closeEntitySelectorRx(): Observable<NavigationNode[]> {
     return this._closeEntitySelectorRx.asObservable();
   }
   openEntitySelector(settings: EntitySelectorSettings) {
     this._showEntitySelectorRx.next(settings);
     return this.closeEntitySelectorRx;
   }
-  closeEntitySelector(result: LdapEntryNode[]) {
+  closeEntitySelector(result: NavigationNode[]) {
     this._closeEntitySelectorRx.next(result);
   }
 
-  private _showCatalogSelectorRx = new Subject<LdapEntryNode[]>();
-  private _closeCatalogSelectorRx = new Subject<LdapEntryNode[]>();
-  get showCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+  private _showCatalogSelectorRx = new Subject<NavigationNode[]>();
+  private _closeCatalogSelectorRx = new Subject<NavigationNode[]>();
+  get showCatalogSelectorRx(): Observable<NavigationNode[]> {
     return this._showCatalogSelectorRx.asObservable();
   }
-  get closeCatalogSelectorRx(): Observable<LdapEntryNode[]> {
+  get closeCatalogSelectorRx(): Observable<NavigationNode[]> {
     return this._closeCatalogSelectorRx.asObservable();
   }
-  openCatalogSelector(selected: LdapEntryNode[]) {
+  openCatalogSelector(selected: NavigationNode[]) {
     this._showCatalogSelectorRx.next(selected);
     return this.closeCatalogSelectorRx;
   }
-  closeCatalogSelector(result: LdapEntryNode[]) {
+  closeCatalogSelector(result: NavigationNode[]) {
     this._closeCatalogSelectorRx.next(result);
   }
 
-  private _openCopyEntityDialogRx = new Subject<LdapEntryNode[]>();
+  private _openCopyEntityDialogRx = new Subject<NavigationNode[]>();
   private _closeCopyEntityDialogRx = new Subject<ModifyDnRequest>();
-  get showCopyEntityDialogRx(): Observable<LdapEntryNode[]> {
+  get showCopyEntityDialogRx(): Observable<NavigationNode[]> {
     return this._openCopyEntityDialogRx.asObservable();
   }
   get closeCopyEntityDialogRx(): Observable<ModifyDnRequest> {
     return this._closeCopyEntityDialogRx.asObservable();
   }
-  openCopyEntityDialog(selected: LdapEntryNode[]) {
+  openCopyEntityDialog(selected: NavigationNode[]) {
     this._openCopyEntityDialogRx.next(selected);
     return this.closeCopyEntityDialogRx;
   }

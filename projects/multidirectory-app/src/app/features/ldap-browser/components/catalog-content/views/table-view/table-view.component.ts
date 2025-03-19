@@ -4,17 +4,14 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewChild,
   forwardRef,
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
-import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { concat, Subject, switchMap, take } from 'rxjs';
 import { TableRow } from './table-row';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService } from '@services/app-navigation.service';
@@ -37,6 +34,7 @@ import { FilterControllableStrategy } from '@core/bulk/strategies/filter-control
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-table-view',
@@ -85,7 +83,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   ];
   constructor(
     private appNavigation: AppNavigationService,
-    private bulkService: BulkService<LdapEntryNode>,
+    private bulkService: BulkService<NavigationNode>,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
@@ -152,10 +150,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
   }
 
-  override getSelected(): LdapEntryNode[] {
+  override getSelected(): NavigationNode[] {
     return this.grid.selected.map((x) => x.entry);
   }
-  override setSelected(selected: LdapEntryNode[]) {
+  override setSelected(selected: NavigationNode[]) {
     if (!this.rows || this.rows.length == 0 || !selected) {
       return;
     }

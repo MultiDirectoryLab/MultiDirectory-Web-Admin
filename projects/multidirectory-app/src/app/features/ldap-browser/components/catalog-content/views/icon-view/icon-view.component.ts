@@ -13,10 +13,10 @@ import { ToastrService } from 'ngx-toastr';
 import { GridItemComponent } from './grid-item/grid-item.component';
 import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-icon-view',
@@ -31,25 +31,23 @@ export class IconViewComponent extends BaseViewComponent {
   @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
   @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
   @ViewChild('pager') pager!: PagerComponent;
-  items: LdapEntryNode[] = [];
+  items: NavigationNode[] = [];
   alignItems = true;
   page = new Page();
 
   constructor(
     public toast: ToastrService,
     private cdr: ChangeDetectorRef,
-    private navigation: AppNavigationService,
-    private route: ActivatedRoute,
   ) {
     super();
   }
 
   override updateContent() {}
 
-  override getSelected(): LdapEntryNode[] {
+  override getSelected(): NavigationNode[] {
     return this.items.filter((x) => x.selected);
   }
-  override setSelected(selected: LdapEntryNode[]): void {
+  override setSelected(selected: NavigationNode[]): void {
     this.items.forEach((i) => (i.selected = false));
     selected.filter((i) => !!i).forEach((i) => (i.selected = true));
     this.cdr.detectChanges();
@@ -70,7 +68,7 @@ export class IconViewComponent extends BaseViewComponent {
     this.gridMenu.toggle();
   }
 
-  drop(event: CdkDragDrop<LdapEntryNode[]>) {
+  drop(event: CdkDragDrop<NavigationNode[]>) {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
   }
 
@@ -109,7 +107,7 @@ export class IconViewComponent extends BaseViewComponent {
       return Number(pos[0]) == yPos && Number(pos[1]) == xPos;
     });
   }
-  selectCatalog(item: LdapEntryNode) {}
+  selectCatalog(item: NavigationNode) {}
 
   clickOutside(event: MouseEvent) {
     this.items.forEach((x) => (x.selected = false));

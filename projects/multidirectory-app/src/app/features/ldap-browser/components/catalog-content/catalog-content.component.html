@@ -47,18 +47,18 @@
   @switch (currentView) {
     @case (ViewMode.Table) {
       <app-table-view
-        (onRightClick)="showContextMenu($event)"
+        (rightClick)="showContextMenu($event)"
         [searchQuery]="searchQuery"
       ></app-table-view>
     }
     @case (ViewMode.SmallIcons) {
-      <app-icon-view (onRightClick)="showContextMenu($event)"></app-icon-view>
+      <app-icon-view (rightClick)="showContextMenu($event)"></app-icon-view>
     }
     @case (ViewMode.BigIcons) {
-      <app-icon-view [big]="true" (onRightClick)="showContextMenu($event)"></app-icon-view>
+      <app-icon-view [big]="true" (rightClick)="showContextMenu($event)"></app-icon-view>
     }
     @case (ViewMode.Details) {
-      <app-icon-view (onRightClick)="showContextMenu($event)"></app-icon-view>
+      <app-icon-view (rightClick)="showContextMenu($event)"></app-icon-view>
     }
   }
 </div>

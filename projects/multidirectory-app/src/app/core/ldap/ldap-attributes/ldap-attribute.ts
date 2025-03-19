@@ -1,8 +1,8 @@
-export class PartialAttribute {
+export class LdapAttribute {
   type: string = '';
   vals: string[] = [];
 
-  constructor(obj: Partial<PartialAttribute>) {
+  constructor(obj: Partial<LdapAttribute>) {
     Object.assign(this, obj);
   }
 }

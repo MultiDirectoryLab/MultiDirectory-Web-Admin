@@ -1,4 +1,4 @@
-import { LdapPropertiesService } from '@services/ldap-properties.service';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
 import { ShortMockedSchema } from './scheme/short-mocked-schema';
 
 export function getPropertiesServiceMock() {

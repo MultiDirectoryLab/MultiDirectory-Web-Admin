@@ -11,7 +11,7 @@ import { AttributeService } from '@services/attributes.service';
 import { getActivatedRouteMock } from '@testing/activated-route-mock';
 import { ActivatedRoute } from '@angular/router';
 import { LdapNodeMock } from '@testing/ldap-entry-node-mock';
-import { LdapPropertiesService } from '@services/ldap-properties.service';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
 import { getPropertiesServiceMock } from '@testing/properties-service-mock';
 
 describe('EntityAttributesComponent', () => {

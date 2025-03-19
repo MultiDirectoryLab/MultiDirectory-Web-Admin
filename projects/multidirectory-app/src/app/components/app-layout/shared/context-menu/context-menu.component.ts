@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { DropdownMenuComponent } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
-import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContextMenuService } from '@services/contextmenu.service';
@@ -17,6 +15,7 @@ import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-accou
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { translate } from '@jsverse/transloco';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-context-menu',
@@ -27,13 +26,13 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
   @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
   private unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
-  entries: LdapEntryNode[] = [];
+  entries: NavigationNode[] = [];
   constructor(
     private contextMenuService: ContextMenuService,
     private windows: AppWindowsService,
     private api: MultidirectoryApiService,
     private navigation: AppNavigationService,
-    private bulk: BulkService<LdapEntryNode>,
+    private bulk: BulkService<NavigationNode>,
     private getAccessorStrategy: GetAccessorStrategy,
     private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
   ) {}
@@ -53,12 +52,12 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
   }
 
   isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
-    return this.entries.every((x) => types.includes(x.type));
+    return this.entries.every((x) => types.includes(LdapEntryType.Computer));
   }
 
   isNotSelectedRowsOfTypeCatalog(): boolean {
     const catalog_types = [LdapEntryType.Folder, LdapEntryType.Root, LdapEntryType.OU];
-    return this.entries.every((x) => !catalog_types.includes(x.type));
+    return this.entries.every((x) => !catalog_types.includes(LdapEntryType.Computer));
   }
 
   showEntryProperties() {

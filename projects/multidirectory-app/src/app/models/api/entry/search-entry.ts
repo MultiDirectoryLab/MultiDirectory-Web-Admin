@@ -1,7 +1,6 @@
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 
 export interface SearchEntry {
-  id?: string;
   object_name: string;
-  partial_attributes: PartialAttribute[];
+  partial_attributes: LdapAttribute[];
 }

@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { LdapNodePosition } from '@core/new-navigation/ldap-node-position/ldap-node-position';
-import { LdapNavigationService } from '@services/ldap-navigation.service';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { LdapTreeService } from '@services/ldap/ldap-tree.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
@@ -13,16 +12,15 @@ import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 })
 export class NewNavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
-  private currentLdapPosition: LdapNodePosition = LdapNodePosition.EMPTY;
-
-  public get ldapTree(): LdapEntryNode[] {
-    return this.ldap.ldapTree;
+  private currentLdapPosition: string = '';
+  getLdapLevel(dn: string): NavigationNode[] {
+    return [];
   }
 
   constructor(
     private api: MultidirectoryApiService,
     private activatedRoute: ActivatedRoute,
-    private ldap: LdapNavigationService,
+    private ldap: LdapTreeService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -31,22 +29,17 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
         takeUntil(this.unsubscribe),
         tap((x) => {
           const distinguishedName = x['distinguishedName'];
-          this.currentLdapPosition = new LdapNodePosition(distinguishedName);
+          this.currentLdapPosition = distinguishedName;
         }),
         switchMap((x) => {
-          return from(this.ldap.expendTree(this.currentLdapPosition));
+          return from(this.ldap.expand(this.currentLdapPosition));
         }),
       )
       .subscribe((x) => {});
   }
 
-  async traverseTree(level: LdapNodePosition): Promise<LdapEntryNode[]> {
-    const parent = level.getParent();
-    if (parent.dn) {
-      this.traverseTree(parent);
-    }
-    let children = await parent.getChildren(this.api);
-    return [];
+  onExpandClick(node: NavigationNode) {
+    alert(node.id);
   }
 
   ngOnDestroy(): void {

@@ -11,7 +11,7 @@ import {
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { GroupCreateRequest } from '@models/api/group-create/group-create.request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -67,11 +67,11 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
         new CreateEntryRequest({
           entry: `cn=${this.setupRequest.groupName},` + this.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['group', 'top', 'posixGroup'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.setupRequest.description],
             }),

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
@@ -7,6 +6,7 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
 import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-move-entity',
@@ -14,7 +14,7 @@ import { ENTITY_TYPES } from '@core/entities/entities-available-types';
   styleUrls: ['./move-entity.component.scss'],
 })
 export class MoveEntityDialogComponent implements OnInit {
-  toMove: LdapEntryNode[] = [];
+  toMove: NavigationNode[] = [];
   targetDn = '';
 
   constructor(

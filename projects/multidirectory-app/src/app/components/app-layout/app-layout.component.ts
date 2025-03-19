@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { SearchQueries } from '@core/ldap/search';
 import { translate } from '@jsverse/transloco';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -69,9 +69,8 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         const objectClass = searchEntry.partial_attributes.find(
           (x) => x.type.toLocaleLowerCase() == 'objectclass',
         )!;
-        const entry = new LdapEntryNode({
+        const entry = new NavigationNode({
           name: displayName,
-          type: EntityInfoResolver.getNodeType(objectClass.vals),
           selectable: true,
           expandable: EntityInfoResolver.isExpandable(objectClass.vals),
           id: searchEntry.object_name,

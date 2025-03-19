@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { SearchType } from '../models/search-type';
 import { SearchSource } from '../models/search-source';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Injectable()
 export class SearchSourceProvider {
@@ -19,7 +19,7 @@ export class SearchSourceProvider {
   }
 
   private getLdapSources(): Observable<SearchSource[]> {
-    const mapNode = (nodes: LdapEntryNode[]) =>
+    const mapNode = (nodes: NavigationNode[]) =>
       nodes.map(
         (x) =>
           new SearchSource({

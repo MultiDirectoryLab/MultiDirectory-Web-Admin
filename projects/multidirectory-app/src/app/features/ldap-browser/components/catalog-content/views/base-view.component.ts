@@ -1,19 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Page } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-
-export interface RightClickEvent {
-  selected: LdapEntryNode[];
-  pointerEvent: PointerEvent;
-}
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-base-view',
   template: '',
 })
 export abstract class BaseViewComponent {
-  @Input() selectedCatalog: LdapEntryNode | null = null;
-  @Output() onRightClick = new EventEmitter<RightClickEvent>();
+  @Input() selectedCatalog: NavigationNode | null = null;
+  @Output() rightClick = new EventEmitter<RightClickEvent>();
 
   handleRightClick(event: any) {
     let selected = this.getSelected();
@@ -28,17 +23,17 @@ export abstract class BaseViewComponent {
     if (!selected || selected.length == 0) {
       return;
     }
-    this.onRightClick.emit({
+    this.rightClick.emit({
       pointerEvent: event instanceof PointerEvent ? event : event.event,
       selected: this.getSelected(),
     });
   }
 
   abstract updateContent(): void;
-  abstract getSelected(): LdapEntryNode[];
-  abstract setSelected(selected: LdapEntryNode[]): void;
+  abstract getSelected(): NavigationNode[];
+  abstract setSelected(selected: NavigationNode[]): void;
 
-  setCatalog(catalog: LdapEntryNode): void {
+  setCatalog(catalog: NavigationNode): void {
     this.selectedCatalog = catalog;
   }
 }

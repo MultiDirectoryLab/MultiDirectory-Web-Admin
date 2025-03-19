@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';

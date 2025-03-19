@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { AppWindowsService } from '@services/app-windows.service';
 import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -14,6 +13,8 @@ import { DnsRule } from '@models/api/dns/dns-rule';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { EntityType } from '@core/entities/entities-type';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 
 @Component({
   selector: 'app-windows',
@@ -165,7 +166,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  openEntityProperties(entity: LdapEntryNode): Observable<LdapEntryNode> {
+  openEntityProperties(entity: NavigationNode): Observable<NavigationNode> {
     return this.api
       .search(SearchQueries.getProperites(entity.id))
       .pipe(
@@ -177,7 +178,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
           );
           return this.properties.open(
             { width: '600px', minHeight: 660 },
-            { accessor: accessor, entityType: entity.type },
+            { accessor: accessor, entityType: LdapEntryType.Computer },
           );
         }),
       )
@@ -191,7 +192,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
     this.openEntityProperties(this.app.userEntry);
   }
 
-  openChangePassword(entity: LdapEntryNode | undefined = undefined) {
+  openChangePassword(entity: NavigationNode | undefined = undefined) {
     if (!entity) {
       if (!this.app.userEntry) {
         return;
@@ -300,7 +301,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  openCatalogSelector(selectedCatalog: LdapEntryNode[] = []) {
+  openCatalogSelector(selectedCatalog: NavigationNode[] = []) {
     this.catalogSelectorModal
       .open({ minHeight: 360 })
       .pipe(take(1))
@@ -309,7 +310,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  openCopyEntityDialog(entities: LdapEntryNode[]) {
+  openCopyEntityDialog(entities: NavigationNode[]) {
     this.moveEntityDialog
       .open({ minHeight: 230 }, { toMove: entities })
       .pipe(take(1))

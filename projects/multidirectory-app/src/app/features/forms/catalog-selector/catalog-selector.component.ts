@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { ModalInjectDirective, TreeviewComponent } from 'multidirectory-ui-kit';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { ModalInjectDirective, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
 import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
@@ -11,8 +11,8 @@ import { Subject, take, takeUntil } from 'rxjs';
 export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('ldapTree', { static: true }) treeView?: TreeviewComponent;
   private unsubscribe = new Subject<void>();
-  private _selectedNode: LdapEntryNode[] = [];
-  ldapRoots: LdapEntryNode[] = [];
+  private _selectedNode: NavigationNode[] = [];
+  ldapRoots: Treenode[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -21,7 +21,7 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.treeView?.nodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this._selectedNode = [<LdapEntryNode>x];
+      this._selectedNode = [x as never as NavigationNode];
       this.cdr.detectChanges();
     });
 

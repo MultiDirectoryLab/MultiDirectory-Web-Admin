@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
@@ -44,23 +44,23 @@ export class RuleCreateComponent implements OnInit, OnDestroy {
         new CreateEntryRequest({
           entry: `cn=${this.ruleName},` + this.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['top', 'sudoRole'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.description],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoUser',
               vals: ['!ALL'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoHost',
               vals: ['!ALL'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoCommand',
               vals: ['!ALL'],
             }),

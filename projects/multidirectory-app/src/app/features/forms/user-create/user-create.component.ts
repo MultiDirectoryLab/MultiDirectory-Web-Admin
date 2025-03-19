@@ -14,7 +14,7 @@ import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { ToastrService } from 'ngx-toastr';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { translate } from '@jsverse/transloco';
 import BitSet from 'bitset';
 
@@ -60,7 +60,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
         new CreateEntryRequest({
           entry: `cn=${this.setupRequest.upnLogin},` + this.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: [
                 'user',
@@ -71,39 +71,39 @@ export class UserCreateComponent implements OnInit, OnDestroy {
                 'shadowAccount',
               ],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'mail',
               vals: [this.setupRequest.email],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.setupRequest.description],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sAMAccountName',
               vals: [this.setupRequest.upnLogin],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'userAccountControl',
               vals: [this.setupRequest.uacBitSet.toString(10)],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'userPrincipalName',
               vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'displayName',
               vals: [this.setupRequest.fullName],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'givenName',
               vals: [this.setupRequest.firstName],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'initials',
               vals: [this.setupRequest.initials],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'surname',
               vals: [this.setupRequest.lastName],
             }),

@@ -1,11 +1,11 @@
 import { EntityType } from '@core/entities/entities-type';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export class EntitySelectorSettings {
-  selectedEntities: LdapEntryNode[] = [];
+  selectedEntities: NavigationNode[] = [];
   selectedEntityTypes: EntityType[] = [];
   selectedPlaceDn: string = '';
-  entityToMove: LdapEntryNode[] = [];
+  entityToMove: NavigationNode[] = [];
 
   allowSelectEntityTypes = true;
 

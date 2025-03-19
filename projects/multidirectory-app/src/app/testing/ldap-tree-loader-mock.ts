@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 
 export function getLdapTreeLoaderMock() {
   // Create jasmine spy object

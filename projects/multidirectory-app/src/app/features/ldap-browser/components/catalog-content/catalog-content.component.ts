@@ -1,27 +1,18 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { translate } from '@jsverse/transloco';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
-import { ViewMode } from './view-modes';
-import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
-import { LdapEntryType } from '@models/core/ldap/ldap-entity-type';
 import { ContextMenuService } from '@services/contextmenu.service';
-import { ActivatedRoute } from '@angular/router';
-import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { Subject, take, takeUntil } from 'rxjs';
+import { ViewMode } from './view-modes';
+import { BaseViewComponent } from './views/base-view.component';
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 
 @Component({
   selector: 'app-catalog-content',
@@ -31,7 +22,7 @@ import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 export class CatalogContentComponent implements OnInit, OnDestroy {
   @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
   @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-  private _selectedRows: LdapEntryNode[] = [];
+  private _selectedRows: NavigationNode[] = [];
   unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
@@ -43,7 +34,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private contentView: ContentViewService,
     private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
     private contextMenu: ContextMenuService,
     private hotkeysService: HotkeysService,
     private activatedRoute: ActivatedRoute,

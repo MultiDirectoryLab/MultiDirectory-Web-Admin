@@ -3,7 +3,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
-import { LdapPropertiesService } from '@services/ldap-properties.service';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
 import { DatagridComponent, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';

@@ -1,4 +1,4 @@
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 
 export enum LdapOperation {
   None = -1,
@@ -8,7 +8,7 @@ export enum LdapOperation {
 }
 export class LdapChange {
   operation: number = 0;
-  modification: PartialAttribute = new PartialAttribute({});
+  modification: LdapAttribute = new LdapAttribute({});
 
   constructor(obj: Partial<LdapChange>) {
     Object.assign(this, obj);

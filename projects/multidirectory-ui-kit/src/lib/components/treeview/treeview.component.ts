@@ -46,21 +46,21 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
     }
   }
 
-  private loadChildren(node: Treenode): Observable<Treenode[]> {
+  private async loadChildren(node: Treenode): Promise<Treenode[]> {
     if (!!node.loadChildren && this.expandStrategy == ExpandStrategy.AlwaysUpdate) {
-      return node.loadChildren ? node.loadChildren() : of([]);
+      return node.loadChildren ? await node.loadChildren() : Promise.resolve([]);
     }
-    return of(node.children);
+    return Promise.resolve(node.children);
   }
 
-  private setNodeExpanded(node: Treenode, state: boolean = true): Observable<Treenode[]> {
+  private setNodeExpanded(node: Treenode, state: boolean = true): Promise<Treenode[]> {
     node.expanded = state;
     if (node.expanded) {
       return this.loadChildren(node);
     } else {
       node.children.forEach((x) => this.setNodeExpanded(x, false));
     }
-    return of(node.children ?? []);
+    return Promise.resolve(node.children ?? []);
   }
 
   private setNodeSelected(node: Treenode) {
@@ -96,21 +96,21 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  expand(node: Treenode) {
+  async expand(node: Treenode) {
     if (!node.selected && node.selectable && node.expanded) {
       this.setNodeSelected(node);
       return;
     }
-    this.setNodeExpanded(node, !node.expanded).subscribe((x) => {
-      node.children = x;
-      if (node.selectable) {
-        this.setNodeSelected(node);
-      }
-      this.cdr.detectChanges();
-    });
+    const result = await this.setNodeExpanded(node, !node.expanded);
+
+    node.children = result;
+    if (node.selectable) {
+      this.setNodeSelected(node);
+    }
+    this.cdr.detectChanges();
   }
 
-  select(toSelect: Treenode | null) {
+  async select(toSelect: Treenode | null) {
     let nodePath: Treenode[] = [];
 
     if (!toSelect) {
@@ -139,19 +139,18 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
 
     toSelect.selected = true;
     toSelect.expanded = true;
-    this.loadChildren(toSelect)
-      .pipe(take(1))
-      .subscribe((x) => {
-        toSelect!.children = x;
-        this.cdr.detectChanges();
-      });
+    const result = await this.loadChildren(toSelect);
+    toSelect!.children = result;
+    this.cdr.detectChanges();
   }
+
   focus(node: Treenode) {
     TreeSearchHelper.traverseTree(this.tree, (n, path) => {
       n.focused = false;
     });
     node.focused = true;
   }
+
   @HostListener('keydown', ['$event'])
   handleKeyEvent(event: KeyboardEvent) {
     if (!this._focusedNode) {

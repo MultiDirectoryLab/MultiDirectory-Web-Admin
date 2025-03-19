@@ -13,7 +13,7 @@ import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidi
 import { Subject, takeUntil } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 
 @Component({
   selector: 'app-catalog-create',
@@ -54,11 +54,11 @@ export class CatalogCreateComponent implements OnInit, OnDestroy {
         new CreateEntryRequest({
           entry: `cn=${this.catalogName},` + this.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['top', 'container', 'catalog'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.description],
             }),
