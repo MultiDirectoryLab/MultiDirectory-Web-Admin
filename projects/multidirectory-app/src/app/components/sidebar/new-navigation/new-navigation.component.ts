@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
-import { LdapTreeService } from '@services/ldap/ldap-tree.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { RightClickEvent, Treenode } from 'multidirectory-ui-kit';
 import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
@@ -13,14 +14,13 @@ import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 export class NewNavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   private currentLdapPosition: string = '';
-  getLdapLevel(dn: string): NavigationNode[] {
-    return [];
-  }
+
+  ldapTree: NavigationNode[] = [];
 
   constructor(
-    private api: MultidirectoryApiService,
+    private navigation: AppNavigationService,
     private activatedRoute: ActivatedRoute,
-    private ldap: LdapTreeService,
+    private ldap: LdapTreeviewService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -35,15 +35,30 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
           return from(this.ldap.expand(this.currentLdapPosition));
         }),
       )
-      .subscribe((x) => {});
-  }
-
-  onExpandClick(node: NavigationNode) {
-    alert(node.id);
+      .subscribe((x) => {
+        this.ldapTree = x;
+      });
   }
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  async handleNodeExpand(node: Treenode) {
+    if (node instanceof NavigationNode) {
+      this.ldapTree = await this.ldap.expand(node.name);
+    }
+  }
+
+  handleNodeSelection(node: Treenode) {
+    if (node instanceof NavigationNode) {
+      this.navigation.navigate(node);
+    }
+  }
+
+  handleNodeRightClick(event: RightClickEvent) {
+    if (event.node instanceof NavigationNode) {
+    }
   }
 }

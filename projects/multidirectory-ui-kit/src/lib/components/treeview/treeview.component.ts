@@ -33,6 +33,8 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @Input() checkboxes = false;
   @Output() nodeSelect = new EventEmitter<Treenode>();
   @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
+  @Output() nodeExpandClick = new EventEmitter<Treenode>();
+
   private _selectedNode: Treenode | null = null;
   private _focusedNode: Treenode | null = null;
 
@@ -186,6 +188,12 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
 
   handleNodeClick(event: Event, node: Treenode) {
     event.stopPropagation();
+    this.expand(node);
+  }
+
+  handleExpandClick(event: Event, node: Treenode) {
+    event.stopPropagation();
+    this.nodeExpandClick.emit(node);
     this.expand(node);
   }
 
