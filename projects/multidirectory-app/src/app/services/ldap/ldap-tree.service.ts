@@ -4,6 +4,7 @@ import { SearchQueries } from '@core/ldap/search';
 import { lastValueFrom, map, take } from 'rxjs';
 import { LdapSearchResultHelper } from '@core/ldap/ldap-search-result-helper';
 import { LdapEntry } from '@models/core/ldap/ldap-entry';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Injectable({ providedIn: 'root' })
 export class LdapTreeService {
@@ -28,22 +29,47 @@ export class LdapTreeService {
         resultEntry.partial_attributes,
         'objectClass',
       );
+
       const rootDSEAwareDn = !!resultEntry.object_name
         ? resultEntry.object_name
         : (LdapSearchResultHelper.getPartialAttributes(
             resultEntry.partial_attributes,
             'rootDomainNamingContext',
           )?.[0] ?? '');
-      this._ldapMap.set(
-        resultEntry.object_name,
-        new LdapEntry({
-          dn: rootDSEAwareDn,
-          objectClasses: objectClass,
-          attributes: resultEntry.partial_attributes,
-        }),
-      );
+
+      const ldapEntry = new LdapEntry({
+        dn: rootDSEAwareDn,
+        objectClasses: objectClass,
+        attributes: resultEntry.partial_attributes,
+      });
+
+      this._ldapMap.set(resultEntry.object_name, ldapEntry);
+
+      if (!dn) {
+        this._ldapMap.set('', ldapEntry);
+      }
+
       children.push(rootDSEAwareDn);
     }
     return children;
+  }
+
+  async expandToRoot(dn: string): Promise<string[]> {
+    let currentDn = dn;
+    let expanded: string[] = [];
+    do {
+      expanded = expanded.concat(await this.expand(currentDn));
+      currentDn = LdapNamesHelper.getDnParent(currentDn);
+    } while (!!currentDn);
+
+    if (!this._ldapMap.has('')) {
+      await this.expand('');
+    }
+
+    return expanded;
+  }
+
+  getEntries(): Map<string, LdapEntry> {
+    return this._ldapMap;
   }
 }

@@ -31,16 +31,17 @@
         class="tree-item"
         [ngClass]="{
           expanded: data.expanded,
-          expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
+          expandable: data.expandable,
           selected: data.selected,
           focused: data.focused,
         }"
       >
-        @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+        @if (data.expandable) {
           <label class="expand-mark">
-            @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+            @if (data.expandable) {
               <span style="margin-right: 2px">
                 <span
+                  (click)="handleExpandClick($event, data)"
                   [innerHTML]="
                     data.children?.length === 0 && data.childrenLoaded
                       ? '&nbsp;&nbsp;'

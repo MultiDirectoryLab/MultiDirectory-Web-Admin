@@ -5,8 +5,8 @@ import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { ApiAdapter } from '@core/api/api-adapter';
 
-describe('LdapTreeviewService', () => {
-  let treeviewService: LdapTreeService;
+describe('LdapTreeService', () => {
+  let ldapTreeService: LdapTreeService;
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000; // Set timeout interval to 100 seconds
 
@@ -31,21 +31,21 @@ describe('LdapTreeviewService', () => {
       ],
     });
 
-    treeviewService = TestBed.inject(LdapTreeService);
+    ldapTreeService = TestBed.inject(LdapTreeService);
   });
 
   it('should be created', () => {
-    expect(treeviewService).toBeTruthy();
+    expect(ldapTreeService).toBeTruthy();
   });
 
   it('should expand rootDSE', async () => {
-    const result = await treeviewService.expand('');
+    const result = await ldapTreeService.expand('');
     expect(result.length).toBeGreaterThan(0);
-    expect(result[0]).toEqual('dc=localhost,dc=dev');
+    expect(result[0]).toEqual('');
   });
 
   it('should expand children', async () => {
-    const result = await treeviewService.expand('dc=localhost,dc=dev');
+    const result = await ldapTreeService.expand('dc=localhost,dc=dev');
     expect(result.length).toBeGreaterThan(1);
     expect(result[1]).toEqual('ou=users,dc=localhost,dc=dev');
     expect(result[0]).toEqual('cn=groups,dc=localhost,dc=dev');

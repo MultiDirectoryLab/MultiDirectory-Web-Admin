@@ -1,56 +1,74 @@
 <div class="scrollable treeview-container" tabindex="0">
-  @for (node of getLdapLevel(''); track node) {
-    <div (click)="onExpandClick(node)">
-      <ng-container
-        [ngTemplateOutlet]="treeNode"
-        [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
-      ></ng-container>
-    </div>
+  @for (node of ldapTree; track node.id) {
+    <ng-container
+      [ngTemplateOutlet]="treeNode"
+      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
+    ></ng-container>
   }
 </div>
 
 <ng-template #treeNode let-data let-level="level">
-  <div
-    class="tree-item-wrapper"
-    [ngClass]="{
-      selected: data.selected,
-      focused: data.focused,
-    }"
-    [attr.data-id]="data.id"
-  >
-    <span
-      class="tree-item-dempfer"
-      [ngStyle]="{
-        minWidth: level + 'rem',
-      }"
-    ></span>
-    <span
-      class="tree-item"
+  <div (click)="handleNodeExpand(data)">
+    <div
+      class="tree-item-wrapper"
       [ngClass]="{
-        expanded: data.expanded,
-        expandable: false,
         selected: data.selected,
         focused: data.focused,
       }"
+      [attr.data-id]="data.id"
     >
-      @if (data.expandable) {
-        <label class="expand-mark">
-          @if (data.expandable) {
-            <span style="margin-right: 2px">
-              <span [innerHTML]="false ? '&nbsp;&nbsp;' : data.expanded ? '-' : '+'"></span>
-            </span>
-          }
-          @if (!data.expandable) {
-            <div style="margin-right: 2px"></div>
-          }
-        </label>
-      }
-      <ng-container
-        [ngTemplateOutlet]="defaultLabel"
-        [ngTemplateOutletContext]="{ $implicit: data }"
-      ></ng-container>
-    </span>
+      <span
+        class="tree-item-dempfer"
+        [ngStyle]="{
+          minWidth: level + 'rem',
+        }"
+      ></span>
+      <span
+        class="tree-item"
+        [ngClass]="{
+          expanded: data.expanded,
+          expandable: data.expandable,
+          selected: data.selected,
+          focused: data.focused,
+        }"
+      >
+        @if (data.expandable) {
+          <label class="expand-mark">
+            @if (data.expandable) {
+              <span style="margin-right: 2px">
+                <span
+                  [innerHTML]="
+                    data.children?.length === 0 && data.childrenLoaded
+                      ? '&nbsp;&nbsp;'
+                      : data.expanded
+                        ? '-'
+                        : '+'
+                  "
+                ></span>
+              </span>
+            }
+            @if (!data.expandable) {
+              <div style="margin-right: 2px"></div>
+            }
+          </label>
+        }
+        <ng-container
+          [ngTemplateOutlet]="defaultLabel"
+          [ngTemplateOutletContext]="{ $implicit: data }"
+        ></ng-container>
+      </span>
+    </div>
   </div>
+  @if (data.children !== null && data.expanded) {
+    <div>
+      @for (child of data.children; track child.dn) {
+        <ng-container
+          [ngTemplateOutlet]="treeNode"
+          [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
+        ></ng-container>
+      }
+    </div>
+  }
 </ng-template>
 
 <ng-template #defaultLabel let-data>
