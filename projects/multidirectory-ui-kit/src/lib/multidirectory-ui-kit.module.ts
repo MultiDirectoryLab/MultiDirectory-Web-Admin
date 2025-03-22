@@ -24,7 +24,6 @@ import { RadioGroupComponent } from './components/radiobutton-group/radio-group.
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
-import { TreeItemComponent } from './components/treeview/tree-item.component';
 import { PagerComponent } from './components/pager/pager.component';
 import { TabPaneComponent } from './components/tab-pane/tab-pane.component';
 import { TabComponent } from './components/tab-pane/tab/tab.component';
@@ -61,7 +60,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     NumberComponent,
     ModalTestComponent,
     TreeviewComponent,
-    TreeItemComponent,
     DropdownMenuComponent,
     PlaneButtonComponent,
     DatagridComponent,

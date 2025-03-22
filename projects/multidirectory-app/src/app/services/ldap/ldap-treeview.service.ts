@@ -9,6 +9,8 @@ import { NavigationNode } from '@models/core/navigation/navigation-node';
   providedIn: 'root',
 })
 export class LdapTreeviewService {
+  private _nodes = new Map<string, NavigationNode>();
+
   constructor(private ldap: LdapTreeService) {}
 
   private buildNextLevel(node: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode[] {
@@ -17,15 +19,29 @@ export class LdapTreeviewService {
     );
     return children
       .filter((x) => entries.has(x))
-      .map(
-        (x) =>
-          new NavigationNode({
-            name: x,
-            children: this.buildNextLevel(entries.get(x)!, entries),
-            route: ['ldap'],
-            routeData: { distinguishedName: x },
-          }),
-      );
+      .map((x) => this.getNode(entries.get(x)!, entries));
+  }
+
+  private getNode(entry: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode {
+    if (this._nodes.has(entry.dn)) {
+      let oldNode = this._nodes.get(entry.dn)!;
+      oldNode = new NavigationNode({
+        ...oldNode,
+        children: this.buildNextLevel(entry, entries),
+      });
+      this._nodes.set(entry.dn, oldNode);
+      return oldNode;
+    }
+
+    const newNode = new NavigationNode({
+      name: entry.dn,
+      children: this.buildNextLevel(entry, entries),
+      expandable: true,
+      route: ['ldap'],
+      routeData: { distinguishedName: entry.dn },
+    });
+    this._nodes.set(entry.dn, newNode);
+    return newNode;
   }
 
   async expand(dn: string): Promise<NavigationNode[]> {
@@ -36,14 +52,22 @@ export class LdapTreeviewService {
       return [];
     }
 
-    return [
-      new NavigationNode({
-        name: rootDse.dn,
-        children: this.buildNextLevel(rootDse, entries),
-        expandable: true,
-        route: ['ldap'],
-        routeData: { distinguishedName: rootDse.dn },
-      }),
-    ];
+    return [this.getNode(rootDse, entries)];
+  }
+
+  toggleVisible(dn: string) {
+    const node = this._nodes.get(dn);
+    if (!node) {
+      return;
+    }
+    node.expanded = !node?.expanded;
+  }
+
+  toggleSelected(dn: string) {
+    const node = this._nodes.get(dn);
+    if (!node) {
+      return;
+    }
+    node.selected = !node?.selected;
   }
 }
