@@ -32,7 +32,6 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
       );
     setTimeout(() => {
       this.treeview.tree = tree;
-      this.treeview.redraw();
     });
   }
 
@@ -41,15 +40,15 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
   }
 
   addAttribute() {
-    this.treeview?.addRoot(
-      new AttributeListEntry({
-        name: this.newAttribute,
-        id: this.newAttribute,
-        selectable: true,
-        type: this.type,
-        new: true,
-      }),
-    );
+    // this.treeview?.addRoot(
+    //   new AttributeListEntry({
+    //     name: this.newAttribute,
+    //     id: this.newAttribute,
+    //     selectable: true,
+    //     type: this.type,
+    //     new: true,
+    //   }),
+    // );
     this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
     this.propertyValueChange.next(this._propertyValue);
     this.newAttribute = '';
@@ -59,6 +58,5 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
     this.treeview!.tree = this.treeview?.tree.filter((x) => !x.selected) ?? [];
     this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
     this.propertyValueChange.next(this._propertyValue);
-    this.treeview!.redraw();
   }
 }

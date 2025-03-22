@@ -1,76 +1,14 @@
-<div class="scrollable treeview-container" tabindex="0">
-  @for (node of ldapTree; track node.id) {
-    <ng-container
-      [ngTemplateOutlet]="treeNode"
-      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
-    ></ng-container>
-  }
-</div>
+<md-treeview
+  [tree]="ldapTree"
+  [nodeLabelTemplate]="mdTreeModal"
+  class="treeview"
+  (nodeSelect)="handleNodeSelection($any($event))"
+  (nodeRightClick)="handleNodeRightClick($any($event))"
+  #treeView
+>
+</md-treeview>
 
-<ng-template #treeNode let-data let-level="level">
-  <div (click)="handleNodeExpand(data)">
-    <div
-      class="tree-item-wrapper"
-      [ngClass]="{
-        selected: data.selected,
-        focused: data.focused,
-      }"
-      [attr.data-id]="data.id"
-    >
-      <span
-        class="tree-item-dempfer"
-        [ngStyle]="{
-          minWidth: level + 'rem',
-        }"
-      ></span>
-      <span
-        class="tree-item"
-        [ngClass]="{
-          expanded: data.expanded,
-          expandable: data.expandable,
-          selected: data.selected,
-          focused: data.focused,
-        }"
-      >
-        @if (data.expandable) {
-          <label class="expand-mark">
-            @if (data.expandable) {
-              <span style="margin-right: 2px">
-                <span
-                  [innerHTML]="
-                    data.children?.length === 0 && data.childrenLoaded
-                      ? '&nbsp;&nbsp;'
-                      : data.expanded
-                        ? '-'
-                        : '+'
-                  "
-                ></span>
-              </span>
-            }
-            @if (!data.expandable) {
-              <div style="margin-right: 2px"></div>
-            }
-          </label>
-        }
-        <ng-container
-          [ngTemplateOutlet]="defaultLabel"
-          [ngTemplateOutletContext]="{ $implicit: data }"
-        ></ng-container>
-      </span>
-    </div>
-  </div>
-  @if (data.children !== null && data.expanded) {
-    <div>
-      @for (child of data.children; track child.dn) {
-        <ng-container
-          [ngTemplateOutlet]="treeNode"
-          [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
-        ></ng-container>
-      }
-    </div>
-  }
-</ng-template>
-
-<ng-template #defaultLabel let-data>
+<ng-template #mdTreeModal let-data>
+  <img class="tree-icon" [src]="data.icon" />
   <label class="tree-label">{{ data.name }}</label>
 </ng-template>

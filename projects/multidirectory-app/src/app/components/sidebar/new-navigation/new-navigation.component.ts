@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { ContextMenuService } from '@services/contextmenu.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { RightClickEvent, Treenode } from 'multidirectory-ui-kit';
 import { from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
@@ -21,6 +22,7 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
     private navigation: AppNavigationService,
     private activatedRoute: ActivatedRoute,
     private ldap: LdapTreeviewService,
+    private contextMenu: ContextMenuService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -45,20 +47,17 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  async handleNodeExpand(node: Treenode) {
+  async handleNodeSelection(node: Treenode) {
     if (node instanceof NavigationNode) {
       this.ldapTree = await this.ldap.expand(node.name);
-    }
-  }
-
-  handleNodeSelection(node: Treenode) {
-    if (node instanceof NavigationNode) {
+      await this.ldap.toggleVisible(node.name);
       this.navigation.navigate(node);
     }
   }
 
   handleNodeRightClick(event: RightClickEvent) {
     if (event.node instanceof NavigationNode) {
+      this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
     }
   }
 }

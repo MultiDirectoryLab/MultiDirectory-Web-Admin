@@ -71,15 +71,15 @@ export class AttributeListComponent implements OnInit {
   }
 
   addAttribute() {
-    this.treeview?.addRoot(
-      new AttributeListEntry({
-        name: this.newAttribute,
-        id: this.newAttribute,
-        selectable: true,
-        type: this.type,
-        new: true,
-      }),
-    );
+    // this.treeview?.addRoot(
+    //   new AttributeListEntry({
+    //     name: this.newAttribute,
+    //     id: this.newAttribute,
+    //     selectable: true,
+    //     type: this.type,
+    //     new: true,
+    //   }),
+    // );
   }
 
   deleteAttribute() {

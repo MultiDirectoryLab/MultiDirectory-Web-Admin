@@ -8,8 +8,9 @@
 </div>
 
 <ng-template #treeNode let-data let-level="level">
-  <md-tree-item
+  <div
     (click)="handleNodeClick($event, data)"
+    (dblclick)="handleExpandClick($event, data)"
     (contextmenu)="handleRightClick($event, data)"
   >
     <div
@@ -31,17 +32,16 @@
         class="tree-item"
         [ngClass]="{
           expanded: data.expanded,
-          expandable: data.expandable,
+          expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
           selected: data.selected,
           focused: data.focused,
         }"
       >
-        @if (data.expandable) {
+        @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
           <label class="expand-mark">
-            @if (data.expandable) {
+            @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
               <span style="margin-right: 2px">
                 <span
-                  (click)="handleExpandClick($event, data)"
                   [innerHTML]="
                     data.children?.length === 0 && data.childrenLoaded
                       ? '&nbsp;&nbsp;'
@@ -63,7 +63,7 @@
         ></ng-container>
       </span>
     </div>
-  </md-tree-item>
+  </div>
   @if (data.children !== null && data.expanded) {
     <div>
       @for (child of data.children; track child) {

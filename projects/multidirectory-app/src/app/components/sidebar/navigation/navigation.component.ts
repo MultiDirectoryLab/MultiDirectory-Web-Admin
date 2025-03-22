@@ -40,7 +40,6 @@ export class NavigationComponent implements OnDestroy {
 
   handleNodeRightClick(event: RightClickEvent) {
     if (event.node instanceof NavigationNode) {
-      this.treeView.focus(event.node);
       this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
     }
   }
