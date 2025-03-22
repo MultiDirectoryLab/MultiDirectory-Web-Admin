@@ -32,14 +32,14 @@
         class="tree-item"
         [ngClass]="{
           expanded: data.expanded,
-          expandable: (data.children.length > 0 || data.loadChildren) && data.expandable,
+          expandable: data.children.length > 0 && data.expandable,
           selected: data.selected,
           focused: data.focused,
         }"
       >
-        @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+        @if (data.children.length > 0 && data.expandable) {
           <label class="expand-mark">
-            @if ((data.children.length > 0 || data.loadChildren) && data.expandable) {
+            @if (data.children.length > 0 && data.expandable) {
               <span style="margin-right: 2px">
                 <span
                   [innerHTML]="

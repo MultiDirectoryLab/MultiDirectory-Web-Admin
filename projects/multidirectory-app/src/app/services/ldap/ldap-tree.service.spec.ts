@@ -39,13 +39,13 @@ describe('LdapTreeService', () => {
   });
 
   it('should expand rootDSE', async () => {
-    const result = await ldapTreeService.expand('');
+    const result = await ldapTreeService.load('');
     expect(result.length).toBeGreaterThan(0);
     expect(result[0]).toEqual('');
   });
 
   it('should expand children', async () => {
-    const result = await ldapTreeService.expand('dc=localhost,dc=dev');
+    const result = await ldapTreeService.load('dc=localhost,dc=dev');
     expect(result.length).toBeGreaterThan(1);
     expect(result[1]).toEqual('ou=users,dc=localhost,dc=dev');
     expect(result[0]).toEqual('cn=groups,dc=localhost,dc=dev');

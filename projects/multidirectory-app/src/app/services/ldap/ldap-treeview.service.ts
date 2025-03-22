@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LdapTreeService } from './ldap-tree.service';
-import { Treenode } from 'multidirectory-ui-kit';
 import { LdapEntry } from '@models/core/ldap/ldap-entry';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +19,10 @@ export class LdapTreeviewService {
     );
     return children
       .filter((x) => entries.has(x))
-      .map((x) => this.getNode(entries.get(x)!, entries));
+      .map((x) => this.createNode(entries.get(x)!, entries));
   }
 
-  private getNode(entry: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode {
+  private createNode(entry: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode {
     if (this._nodes.has(entry.dn)) {
       let oldNode = this._nodes.get(entry.dn)!;
       oldNode = new NavigationNode({
@@ -34,40 +34,54 @@ export class LdapTreeviewService {
     }
 
     const newNode = new NavigationNode({
-      name: entry.dn,
+      id: entry.dn,
+      name: LdapNamesHelper.getDnName(entry.dn).split('=')[1],
       children: this.buildNextLevel(entry, entries),
       expandable: true,
       route: ['ldap'],
       routeData: { distinguishedName: entry.dn },
+      icon: EntityInfoResolver.resolveIcon(entry.type),
     });
     this._nodes.set(entry.dn, newNode);
     return newNode;
   }
 
-  async expand(dn: string): Promise<NavigationNode[]> {
-    await this.ldap.expandToRoot(dn);
+  async load(dn: string): Promise<NavigationNode[]> {
+    await this.ldap.load(dn);
     const entries = this.ldap.getEntries();
     const rootDse = entries.get('');
     if (!rootDse) {
       return [];
     }
-
-    return [this.getNode(rootDse, entries)];
+    const rootNodes = [this.createNode(rootDse, entries)];
+    return rootNodes;
   }
 
-  toggleVisible(dn: string) {
+  setPathExpanded(dn: string) {
+    let currentDn = dn;
+    do {
+      const node = this._nodes.get(currentDn);
+      if (!node) {
+        break;
+      }
+      node.expanded = true;
+      currentDn = LdapNamesHelper.getDnParent(currentDn);
+    } while (!!currentDn);
+  }
+
+  setExpanded(dn: string, expanded = true) {
     const node = this._nodes.get(dn);
     if (!node) {
       return;
     }
-    node.expanded = !node?.expanded;
+    node.expanded = expanded;
   }
 
-  toggleSelected(dn: string) {
+  setSelected(dn: string, selected = true) {
     const node = this._nodes.get(dn);
     if (!node) {
       return;
     }
-    node.selected = !node?.selected;
+    node.selected = selected;
   }
 }

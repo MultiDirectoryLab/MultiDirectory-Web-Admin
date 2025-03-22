@@ -41,7 +41,7 @@ describe('LdapTreeviewService', () => {
   });
 
   it('should expand rootDSE', async () => {
-    const result = await treeviewService.expand('ou=users,dc=localhost,dc=dev');
+    const result = await treeviewService.load('ou=users,dc=localhost,dc=dev');
     expect(result.length).toBeGreaterThan(0);
   });
 });

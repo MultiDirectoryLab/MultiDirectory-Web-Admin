@@ -5,6 +5,7 @@ import { lastValueFrom, map, take } from 'rxjs';
 import { LdapSearchResultHelper } from '@core/ldap/ldap-search-result-helper';
 import { LdapEntry } from '@models/core/ldap/ldap-entry';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 
 @Injectable({ providedIn: 'root' })
 export class LdapTreeService {
@@ -12,7 +13,7 @@ export class LdapTreeService {
 
   constructor(private api: MultidirectoryApiService) {}
 
-  async expand(dn: string): Promise<string[]> {
+  private async loadInner(dn: string): Promise<string[]> {
     const searchQuery = !dn ? SearchQueries.RootDse : SearchQueries.getChildren(dn);
     const searchResult = await lastValueFrom(
       this.api.search(searchQuery).pipe(
@@ -41,6 +42,7 @@ export class LdapTreeService {
         dn: rootDSEAwareDn,
         objectClasses: objectClass,
         attributes: resultEntry.partial_attributes,
+        type: EntityInfoResolver.getNodeType(objectClass),
       });
 
       this._ldapMap.set(resultEntry.object_name, ldapEntry);
@@ -54,16 +56,16 @@ export class LdapTreeService {
     return children;
   }
 
-  async expandToRoot(dn: string): Promise<string[]> {
+  async load(dn: string): Promise<string[]> {
     let currentDn = dn;
     let expanded: string[] = [];
     do {
-      expanded = expanded.concat(await this.expand(currentDn));
+      expanded = expanded.concat(await this.loadInner(currentDn));
       currentDn = LdapNamesHelper.getDnParent(currentDn);
     } while (!!currentDn);
 
     if (!this._ldapMap.has('')) {
-      await this.expand('');
+      await this.loadInner('');
     }
 
     return expanded;

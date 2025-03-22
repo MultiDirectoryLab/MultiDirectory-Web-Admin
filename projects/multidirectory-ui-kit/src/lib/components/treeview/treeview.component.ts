@@ -57,11 +57,17 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
 
   handleNodeClick(event: Event, node: Treenode) {
     event.stopPropagation();
+    const wasSelected = node.selected;
     TreeSearchHelper.traverseTree(this.tree, (x) => {
       x.selected = false;
     });
-    node.selected = !node.selected;
-    this.nodeSelect.emit(node);
+    node.selected = true;
+    if (!wasSelected) {
+      this.nodeSelect.emit(node);
+    } else {
+      node.expanded = !node.expanded;
+      this.nodeExpandClick.emit(node);
+    }
   }
 
   handleExpandClick(event: Event, node: Treenode) {
