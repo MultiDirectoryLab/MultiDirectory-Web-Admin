@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';
@@ -34,7 +35,11 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
           this.currentLdapPosition = distinguishedName;
         }),
         switchMap((x) => {
-          return from(this.ldap.expand(this.currentLdapPosition));
+          return from(this.ldap.load(this.currentLdapPosition));
+        }),
+        tap((x) => {
+          this.ldap.setPathExpanded(this.currentLdapPosition);
+          this.ldap.setSelected(this.currentLdapPosition);
         }),
       )
       .subscribe((x) => {
@@ -47,11 +52,14 @@ export class NewNavigationComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  async handleNodeSelection(node: Treenode) {
+  handleNodeSelection(node: Treenode) {
     if (node instanceof NavigationNode) {
-      this.ldapTree = await this.ldap.expand(node.name);
-      await this.ldap.toggleVisible(node.name);
       this.navigation.navigate(node);
+    }
+  }
+
+  handleNodeExpantion(node: Treenode) {
+    if (node instanceof NavigationNode) {
     }
   }
 

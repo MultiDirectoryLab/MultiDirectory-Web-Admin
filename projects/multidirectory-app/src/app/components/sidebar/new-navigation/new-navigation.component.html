@@ -3,6 +3,7 @@
   [nodeLabelTemplate]="mdTreeModal"
   class="treeview"
   (nodeSelect)="handleNodeSelection($any($event))"
+  (nodeExpandClick)="handleNodeExpantion($any($event))"
   (nodeRightClick)="handleNodeRightClick($any($event))"
   #treeView
 >
