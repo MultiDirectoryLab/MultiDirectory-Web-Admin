@@ -6,26 +6,24 @@ services:
     build:
       context: ./
       dockerfile: configurations/docker/Dockerfile.dev
-      args:
-        - API_URL=http://md.localhost/api
     restart: 'no'
     hostname: interface
     environment:
-      - HUSKY=0
-      - NODE_ENV=development
+      API_URL: http://md.localhost2/api
     ports:
       - 9080:80
     working_dir: /app
     volumes:
       - '.:/app'
       - '/app/node_modules'
-      - '/app/projects/multidirectory-app/src/assets'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.interface.rule=Host(`md.localhost`)'
       - 'traefik.http.routers.interface.entrypoints=web'
       - 'traefik.http.services.interface.loadbalancer.server.port=80'
-    command: ng serve --host 0.0.0.0 --port 80 --poll 2000
+    command: bash -c '
+      sed "s,[$]{API_URL},"$$API_URL",g" /app/projects/multidirectory-app/src/assets/env.template.js > /app/projects/multidirectory-app/src/assets/env.js &&
+      ng serve --host 0.0.0.0 --port 80 --poll 2000'
 
   multidirectory-storybook:
     build:

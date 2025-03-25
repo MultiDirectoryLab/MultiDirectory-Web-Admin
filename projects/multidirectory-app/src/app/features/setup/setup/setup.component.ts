@@ -73,62 +73,26 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modal.resizeToContentHeight();
   }
 
-  onInitialSetup() {
-    this.modal.showSpinner();
-    return this.setup.initialSetup(this.setupRequest).pipe(
-      catchError((err) => {
-        this.modal.hideSpinner();
-        this.toastr.error(translate('setup.setup-failed'));
-        return of(null);
-      }),
-      switchMap((res) => {
-        this.modal.hideSpinner();
-        this.toastr.success(translate('setup.setup-complete'));
-        return this.setupRequest.generateKdcPasswords && this.setupRequest.setupKdc
-          ? this.onKerberosSetup()
-          : of(null);
-      }),
-    );
-  }
-
-  onDnsSetup() {
-    this.modal.showSpinner();
-    return this.setup.dnsSetup(this.setupRequest).pipe(
-      catchError((err) => {
-        this.modal.hideSpinner();
-        this.toastr.error(translate('setup.dns-setup-failed'));
-        return of(null);
-      }),
-      switchMap((res) => {
-        this.modal.hideSpinner();
-        this.toastr.success(translate('setup.dns-setup-complete'));
-        return of(null);
-      }),
-    );
-  }
-
-  onKerberosSetup() {
+  onSetup() {
     if (this.setupRequest.setupKdc && this.setupRequest.generateKdcPasswords) {
       this.downloadPasswords();
     }
 
     this.modal.showSpinner();
-    return this.setup.kerberosSetup(this.setupRequest).pipe(
-      catchError((err) => {
+    this.setup
+      .setup(this.setupRequest)
+      .pipe(
+        catchError((err) => {
+          this.modal.hideSpinner();
+          this.router.navigate(['/']);
+          throw err;
+        }),
+      )
+      .subscribe((res) => {
         this.modal.hideSpinner();
-        this.toastr.error(translate('setup.kerberos-setup-failed'));
-        return of(null);
-      }),
-      switchMap((res) => {
-        this.modal.hideSpinner();
-        this.toastr.success(translate('setup.kerberos-setup-complete'));
-        return of(null);
-      }),
-    );
-  }
-
-  onFinish() {
-    this.router.navigate(['/']);
+        this.toastr.success(translate('setup.setup-complete'));
+        this.router.navigate(['/']);
+      });
   }
 
   showNextStep() {
