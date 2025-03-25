@@ -20,7 +20,6 @@ import {
   TableColumn,
 } from 'ngx-datatable-gimefork';
 import { DropdownOption } from '../dropdown/dropdown.component';
-import { Page } from './page';
 
 @Component({
   selector: 'md-datagrid',
@@ -34,7 +33,7 @@ import { Page } from './page';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatagridComponent implements AfterViewInit {
+export class DatagridComponent {
   ColumnMode = ColumnMode;
   @ViewChild('datagrid') grid!: DatatableComponent;
 
@@ -44,7 +43,11 @@ export class DatagridComponent implements AfterViewInit {
   @Input() fromTitle = 'из';
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
-  @Input() page: Page = new Page({});
+
+  @Input() count = 0;
+  @Input() offset = 0;
+  @Input() limit = 0;
+  pageSize = 0;
   @Input() rows: any[] = [];
   @Input() stretchHeight = false;
   @Input() scrollbarV = false;
@@ -56,7 +59,7 @@ export class DatagridComponent implements AfterViewInit {
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
-  @Output() pageChanged = new EventEmitter<Page>();
+  @Output() pageChanged = new EventEmitter<number>();
 
   _selected: any[] = [];
   get selected(): any[] {
@@ -64,18 +67,6 @@ export class DatagridComponent implements AfterViewInit {
   }
   set selected(x: any[]) {
     this._selected = x;
-  }
-
-  set size(size: number) {
-    this.page.size = size;
-    this.page.pageNumber = 1;
-    if (this.name) {
-      localStorage.setItem(`gridSize_${this.name}`, String(size));
-    }
-    this.pageChanged.emit(this.page);
-  }
-  get size(): number {
-    return this.page.size;
   }
 
   private _columns: TableColumn[] = [];
@@ -95,17 +86,6 @@ export class DatagridComponent implements AfterViewInit {
   ];
 
   constructor(private cdr: ChangeDetectorRef) {}
-
-  ngAfterViewInit() {
-    this.page.size = this.pageSizes?.[0]?.value ?? this.page.size;
-    if (this.name) {
-      const size = Number(localStorage.getItem(`gridSize_${this.name}`));
-      if (!isNaN(size) && size > 0 && this.pageSizes.findIndex((x) => x.value == size) > -1) {
-        this.page.size = size;
-        this.cdr.detectChanges();
-      }
-    }
-  }
 
   select(row: any) {
     if (!row) {
@@ -159,24 +139,12 @@ export class DatagridComponent implements AfterViewInit {
     this.grid.onWindowResize();
   }
 
-  onPageChange(pageInfo: { offset: number; pageSize: number; limit: number; count: number }) {
+  onPageChange() {
     this.selected = [];
-    this.page = new Page({
-      pageNumber: pageInfo.offset + 1,
-      size: pageInfo.pageSize,
-      totalElements: pageInfo.count,
-    });
-    this.pageChanged.emit(this.page);
   }
 
-  setPage(page: Page) {
+  setPage(page: number) {
     this.selected = [];
-    if (this.page == page) {
-      return;
-    }
-    this.page = new Page(page);
-    this.grid.offset = this.page.pageOffset;
-    this.grid.calcPageSize();
   }
 
   onFocus($event: FocusEvent) {}

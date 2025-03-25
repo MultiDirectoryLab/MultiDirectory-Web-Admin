@@ -12,7 +12,6 @@ import {
   DatagridComponent,
   DropdownMenuComponent,
   DropdownOption,
-  Page,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
@@ -45,7 +44,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  page = new Page();
+  page = 1;
 
   private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
@@ -83,7 +82,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
 
   updateContent() {}
 
-  onPageChanged($event: Page) {}
+  onPageChanged($event: number) {}
   onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {

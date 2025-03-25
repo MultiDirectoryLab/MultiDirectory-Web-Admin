@@ -9,10 +9,11 @@ import { ContentViewService } from '@services/content-view.service';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, take, takeUntil } from 'rxjs';
+import { from, lastValueFrom, map, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { ViewMode } from './view-modes';
-import { BaseViewComponent } from './views/base-view.component';
 import { RightClickEvent } from '@models/core/context-menu/right-click-event';
+import { LdapBrowserService } from '@services/ldap/ldap-browser.service';
+import { LdapBrowserEntry } from '@models/core/ldap-browser/ldap-browser-entry';
 
 @Component({
   selector: 'app-catalog-content',
@@ -21,22 +22,21 @@ import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
   @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
-  @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-  private _selectedRows: NavigationNode[] = [];
   unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
   searchQuery = '';
+  rows: LdapBrowserEntry[] = [];
 
   constructor(
-    private navigation: AppNavigationService,
     private cdr: ChangeDetectorRef,
     private contentView: ContentViewService,
     private windows: AppWindowsService,
     private contextMenu: ContextMenuService,
     private hotkeysService: HotkeysService,
     private activatedRoute: ActivatedRoute,
+    private ldapContent: LdapBrowserService,
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         (event: KeyboardEvent): boolean => {
           this.openCreateUser();
           return false;
+          1;
         },
         undefined,
         translate('hotkeys.create-user'),
@@ -88,6 +89,18 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       this.currentView = x;
       this.cdr.detectChanges();
     });
+
+    this.activatedRoute.queryParams
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap((queryParams) => {
+          const dn = queryParams['distinguishedName'];
+          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, 5));
+        }),
+      )
+      .subscribe(([rows, pageCount, entiresCount]) => {
+        this.rows = rows;
+      });
   }
 
   ngOnDestroy(): void {
@@ -110,12 +123,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   showEntryProperties() {
-    this.windows
-      .openEntityProperiesModal(this._selectedRows[0])
+    /*this.windows
+      .openEntityProperiesModal()
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
-      });
+        //this.view?.updateContent();
+      });*/
   }
 
   showChangePassword() {
@@ -128,7 +141,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateUser(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        //this.view?.updateContent();
       });
   }
 
@@ -138,7 +151,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateGroup(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        //this.view?.updateContent();
       });
   }
 

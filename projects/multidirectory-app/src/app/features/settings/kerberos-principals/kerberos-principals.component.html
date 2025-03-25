@@ -17,7 +17,7 @@
         name="table-view"
         [rows]="principals"
         [columns]="columns"
-        [page]="page"
+        [offset]="0"
         (pageChanged)="onPageChanged($event)"
         (doubleclick)="onDoubleClick($event)"
         (contextmenu)="handleRightClick($event)"

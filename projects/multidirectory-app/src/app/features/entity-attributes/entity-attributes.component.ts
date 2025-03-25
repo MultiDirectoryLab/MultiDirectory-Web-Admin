@@ -4,7 +4,7 @@ import { translate } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
-import { DatagridComponent, Page } from 'multidirectory-ui-kit';
+import { DatagridComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -38,7 +38,7 @@ export class EntityAttributesComponent implements OnInit {
     return this._accessor;
   }
 
-  page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
+  page = 0;
   propColumns: TableColumn[] = [];
 
   constructor(
@@ -178,14 +178,11 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onFilterChange() {
-    this.page.pageNumber = 1;
     this.displayAttributes();
   }
 
-  onPageChanged(event: Page) {
+  onPageChanged(event: number) {
     this.page = event;
-    this.page.size = this.rows.length;
-    this.page.totalElements = this.rows.length;
     this.cdr.detectChanges();
   }
 }

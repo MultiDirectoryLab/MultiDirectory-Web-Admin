@@ -5,7 +5,9 @@
   [columns]="columns"
   [externalPaging]="true"
   (contextmenu)="handleRightClick($event)"
-  [page]="page"
+  [count]="120"
+  [limit]="10"
+  [offset]="0"
   (pageChanged)="onPageChanged($event)"
   (doubleclick)="onDoubleClick($event)"
   (selectionChanged)="onRowSelect($event)"
@@ -16,6 +18,7 @@
   [controlPanelRef]="showControlPanel ? controlPanel : null"
   [headerHeight]="showControlPanel ? 68 : 36"
 ></md-datagrid>
+
 <ng-template #iconTemplate let-row="row" let-value="value">
   <img class="row-icon" [src]="row.icon" />
   {{ row.name }}

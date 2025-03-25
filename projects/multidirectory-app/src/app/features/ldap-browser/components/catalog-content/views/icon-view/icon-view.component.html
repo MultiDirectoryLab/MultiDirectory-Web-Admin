@@ -14,7 +14,6 @@
           [big]="big"
           (clickOnItem)="setSelected([item])"
           (doubleClickOnItem)="selectCatalog(item)"
-          (rightClick)="handleRightClick($event)"
           [item]="item"
         ></app-grid-item>
       </div>
@@ -26,7 +25,7 @@
     pagerTitle="{{ 'icon-view.pagerTitle' | transloco }}"
     fromTitle="{{ 'icon-view.fromTitle' | transloco }}"
     (pageChanged)="onPageChanged($event)"
-    [page]="page"
+    [pageNumber]="page"
   ></md-pager>
 </div>
 

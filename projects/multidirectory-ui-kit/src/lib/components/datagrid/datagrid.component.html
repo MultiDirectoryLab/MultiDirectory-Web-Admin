@@ -14,16 +14,16 @@
     [externalSorting]="externalSorting"
     [scrollbarV]="scrollbarV"
     [scrollbarH]="false"
-    [count]="page.totalElements"
-    [offset]="page.pageOffset"
-    [limit]="page.size"
+    [count]="count"
+    [offset]="offset"
+    [limit]="limit"
     [virtualization]="false"
     [ngStyle]="{
       height: stretchHeight ? '100%' : 'auto',
       display: 'block',
     }"
     [rowHeight]="scrollbarV ? 24 : 'auto'"
-    (page)="onPageChange($event)"
+    (page)="onPageChange()"
     (tableContextmenu)="onTableContextMenu($event)"
     [messages]="{
       emptyMessage: emptyMessage,
@@ -41,11 +41,13 @@
     <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template
-        let-rowCount="rowCount"
-        let-pageSize="pageSize"
-        let-selectedCount="selectedCount"
-        let-curPage="curPage"
+        let-count="count"
         let-offset="offset"
+        let-limit="limit"
+        let-rowCount="count"
+        let-pageSize="limit"
+        let-selectedCount="selectedCount"
+        let-curPage="offset / limit"
       >
         @if (!scrollbarV) {
           <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
@@ -53,13 +55,11 @@
             <md-dropdown
               class="page-size-select"
               [options]="pageSizes"
-              [(ngModel)]="size"
+              [(ngModel)]="pageSize"
             ></md-dropdown>
             <div>
-              {{ (curPage - 1) * pageSize + 1 }}-{{
-                curPage * pageSize > rowCount ? rowCount : curPage * pageSize
-              }}
-              {{ fromTitle }} {{ rowCount }}
+              {{ (offset - 1) * limit + 1 }}-{{ offset > count ? count : offset }} {{ fromTitle }}
+              {{ count }}
             </div>
           </div>
 
@@ -70,10 +70,10 @@
             [pagerRightArrowIcon]="'datatable-icon-right'"
             [pagerPreviousIcon]="'datatable-icon-prev'"
             [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="curPage"
-            [size]="pageSize"
-            [count]="rowCount"
-            [hidden]="!(rowCount / pageSize > 1)"
+            [page]="offset / limit"
+            [size]="limit"
+            [count]="count"
+            [hidden]="!(count / limit > 1)"
             (change)="grid.onFooterPage($event)"
           >
           </datatable-pager>

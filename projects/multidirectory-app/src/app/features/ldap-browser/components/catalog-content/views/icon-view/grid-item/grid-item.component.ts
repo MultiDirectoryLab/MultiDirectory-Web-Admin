@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ContextmenuType } from 'ngx-datatable-gimefork';
-import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 
 @Component({
   selector: 'app-grid-item',
@@ -14,7 +14,7 @@ export class GridItemComponent {
   @Input() item!: NavigationNode;
   @Output() clickOnItem = new EventEmitter<MouseEvent>();
   @Output() doubleClickOnItem = new EventEmitter<Event>();
-  @Output() rightClick = new EventEmitter<ContextMenuEvent>();
+  @Output() rightClick = new EventEmitter<RightClickEvent>();
 
   @ViewChild(CdkDrag) drag!: CdkDrag;
   draggable = {
@@ -40,10 +40,5 @@ export class GridItemComponent {
     $event.preventDefault();
     $event.stopPropagation();
     this.clickOnItem.next($event);
-    this.rightClick.next({
-      content: this.item,
-      event: $event,
-      type: ContextmenuType.body,
-    });
   }
 }

@@ -2,21 +2,22 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnDestroy,
+  Output,
   TemplateRef,
   ViewChild,
   forwardRef,
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
+import { ContextMenuEvent, DatagridComponent, DropdownOption } from 'multidirectory-ui-kit';
 import { concat, Subject, switchMap, take } from 'rxjs';
-import { TableRow } from './table-row';
+import { LdapBrowserEntry } from '../../../../../../models/core/ldap-browser/ldap-browser-entry';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { BaseViewComponent } from '../base-view.component';
 import {
   faCrosshairs,
   faLevelUpAlt,
@@ -35,29 +36,29 @@ import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-ac
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 
 @Component({
   selector: 'app-table-view',
   styleUrls: ['table-view.component.scss'],
   templateUrl: './table-view.component.html',
-  providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => TableViewComponent) }],
 })
-export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
+export class TableViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+  @Output() rightClick = new EventEmitter<RightClickEvent>();
   private _searchQuery = '';
   @Input() set searchQuery(q: string) {
     this._searchQuery = q;
-    this.updateContent();
   }
   get searchQuery() {
     return this._searchQuery;
   }
 
   private _dn = '';
-  page = new Page();
+  page = 0;
   columns: TableColumn[] = [];
-  rows: TableRow[] = [];
+  @Input() rows: LdapBrowserEntry[] = [];
   unsubscribe = new Subject<void>();
   faToggleOff = faToggleOff;
   faTrashAlt = faTrashAlt;
@@ -86,19 +87,12 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     private bulkService: BulkService<NavigationNode>,
     private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
     private api: MultidirectoryApiService,
     private getAccessorStrategy: GetAccessorStrategy,
     private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
-    const pageSize = localStorage.getItem('gridSize_table-view');
-    if (pageSize && !isNaN(parseFloat(pageSize))) {
-      this.page.size = Math.floor(parseFloat(pageSize));
-    }
     this.columns = [
       {
         name: translate('table-view.name-column'),
@@ -106,10 +100,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
         flexGrow: 1,
         checkboxable: true,
         comparator: (
-          valueA: TableRow,
-          valueB: TableRow,
-          rowA: TableRow,
-          rowB: TableRow,
+          valueA: LdapBrowserEntry,
+          valueB: LdapBrowserEntry,
+          rowA: LdapBrowserEntry,
+          rowB: LdapBrowserEntry,
           sortDirection: string,
         ) => {
           if (valueA.name === valueB.name) {
@@ -134,32 +128,18 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     }
   }
 
-  onPageChanged(event: Page) {
-    this.page = event;
-    this.updateContent();
+  onPageChanged(event: number) {
+    // todo
   }
 
-  updateContentInner(dn: string) {
-    if (dn !== this._dn) {
-      this.page.pageNumber = 1;
-      this._dn = dn;
-    }
-  }
-
-  override updateContent() {
-    this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
-  }
-
-  override getSelected(): NavigationNode[] {
+  getSelected(): NavigationNode[] {
     return this.grid.selected.map((x) => x.entry);
   }
-  override setSelected(selected: NavigationNode[]) {
+  setSelected(selected: NavigationNode[]) {
     if (!this.rows || this.rows.length == 0 || !selected) {
       return;
     }
-    this.grid.selected = this.rows.filter(
-      (x) => selected.findIndex((y) => y.id == x.entry.id) > -1,
-    );
+    this.grid.selected = this.rows.filter((x) => selected.findIndex((y) => y.id == x.dn) > -1);
     //this.navigation.setSelection(selected);
     this.cdr.detectChanges();
   }
@@ -175,7 +155,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
         .openEntityProperiesModal(entry)
         .pipe(take(1))
         .subscribe((x) => {
-          this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
+          //this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
         });
     }
     this.cdr.detectChanges();
@@ -239,9 +219,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
           });
         }),
       )
-      .subscribe((result) => {
-        this.updateContent();
-      });
+      .subscribe((result) => {});
   }
 
   private _accountEnabledToggle = false;
@@ -277,4 +255,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   handleGoToParent(event: MouseEvent) {
     const dn = LdapNamesHelper.getDnParent(this._dn);
   }
+
+  handleRightClick($event: ContextMenuEvent) {}
 }

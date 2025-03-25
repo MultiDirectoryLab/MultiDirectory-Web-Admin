@@ -7,16 +7,13 @@ import {
   Input,
   OnInit,
   Output,
-  QueryList,
   TemplateRef,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
-import { Observable, Subject, lastValueFrom, of, take } from 'rxjs';
-import { Treenode } from './model/treenode';
-import { TreeSearchHelper } from './core/tree-search-helper';
 import { BaseControlComponent } from '../base-component/control.component';
+import { TreeSearchHelper } from './core/tree-search-helper';
 import { RightClickEvent } from './model/right-click-event';
+import { Treenode } from './model/treenode';
 
 @Component({
   selector: 'md-treeview',
@@ -68,5 +65,35 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
     event.preventDefault();
 
     this.nodeRightClick.emit({ event: event, node: node });
+  }
+
+  @HostListener('keydown', ['$event'])
+  handleKeyEvent(event: KeyboardEvent) {
+    if (event.key == 'ArrowUp') {
+      // parent
+      // let nextNode = TreeSearchHelper.findPrevious(this.tree, this._focusedNode);
+      // this.setNodeFocused(nextNode);
+    }
+    if (event.key == 'ArrowDown') {
+      // const sibling = TreeSearchHelper.findNext(this.tree, this._focusedNode);
+      // if (sibling) {
+      //  this.setNodeFocused(sibling);
+      // }
+    }
+    if (event.key == 'ArrowRight' || event.key == 'Enter') {
+      // expand + child
+      // let nextNode = this._focusedNode ?? null;
+      // if (nextNode) {
+      //  this.expand(nextNode);
+      // }
+    }
+    if (event.key == 'ArrowLeft') {
+      // parent + collapse
+      // let nextNode = this._focusedNode;
+      // if (nextNode?.parent && nextNode?.parent?.id !== 'root') {
+      //  nextNode.expanded = false;
+      //  this.cdr.detectChanges();
+      //}
+    }
   }
 }

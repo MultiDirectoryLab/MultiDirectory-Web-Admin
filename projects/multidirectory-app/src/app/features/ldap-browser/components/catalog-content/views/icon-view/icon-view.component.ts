@@ -2,8 +2,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -11,49 +13,45 @@ import {
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { GridItemComponent } from './grid-item/grid-item.component';
-import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
+import { DropdownMenuComponent, PagerComponent } from 'multidirectory-ui-kit';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AppNavigationService } from '@services/app-navigation.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BaseViewComponent } from '../base-view.component';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 
 @Component({
   selector: 'app-icon-view',
   templateUrl: './icon-view.component.html',
   styleUrls: ['./icon-view.component.scss'],
-  providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => IconViewComponent) }],
 })
-export class IconViewComponent extends BaseViewComponent {
+export class IconViewComponent {
   @Input() big = false;
   @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
   @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
   @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
   @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
   @ViewChild('pager') pager!: PagerComponent;
+  @Output() rightClick = new EventEmitter<RightClickEvent>();
   items: NavigationNode[] = [];
   alignItems = true;
-  page = new Page();
+  page = 0;
 
   constructor(
     public toast: ToastrService,
     private cdr: ChangeDetectorRef,
-  ) {
-    super();
-  }
+  ) {}
 
-  override updateContent() {}
+  updateContent() {}
 
-  override getSelected(): NavigationNode[] {
+  getSelected(): NavigationNode[] {
     return this.items.filter((x) => x.selected);
   }
-  override setSelected(selected: NavigationNode[]): void {
+  setSelected(selected: NavigationNode[]): void {
     this.items.forEach((i) => (i.selected = false));
     selected.filter((i) => !!i).forEach((i) => (i.selected = true));
     this.cdr.detectChanges();
   }
 
-  onPageChanged(page: Page) {}
+  onPageChanged(page: number) {}
 
   resetItems() {
     this.gridDrags.forEach((x) => {
