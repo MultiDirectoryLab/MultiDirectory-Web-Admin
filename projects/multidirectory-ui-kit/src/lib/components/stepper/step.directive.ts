@@ -5,6 +5,5 @@ import { Observable, of } from 'rxjs';
   selector: '[mdStep]',
 })
 export class StepDirective {
-  @Input() stepComplete: () => Observable<void | null> = () => of(null);
   constructor(public templateRef: TemplateRef<unknown>) {}
 }

@@ -6,10 +6,10 @@
   #fileSelector
 />
 <div class="img-container" (click)="onAvatarSelecting($event)">
-  <img *ngIf="!accessor?.photoBase64" src="/assets/empty_avatar.svg" class="avatar-img" />
-  <img
-    *ngIf="!!accessor?.photoBase64"
-    [src]="'data:image/jpg;base64,' + accessor?.photoBase64"
-    class="avatar-img"
-  />
+  @if (!accessor?.photoBase64) {
+    <img src="/assets/empty_avatar.svg" class="avatar-img" />
+  }
+  @if (!!accessor?.photoBase64) {
+    <img [src]="'data:image/jpg;base64,' + accessor?.photoBase64" class="avatar-img" />
+  }
 </div>

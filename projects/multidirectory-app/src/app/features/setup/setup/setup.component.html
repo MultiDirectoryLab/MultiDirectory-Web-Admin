@@ -28,24 +28,19 @@
       </div>
     </div>
     <div class="w-100">
-      <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onFinish()">
-        <ng-template mdStep>
-          <app-domain-settings [setupRequest]="setupRequest"></app-domain-settings>
-        </ng-template>
+      <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onSetup()">
+        <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
+        @if (setupRequest.setupDns) {
+          <app-dns-setup-settings *mdStep [setupRequest]="setupRequest"></app-dns-setup-settings>
+        }
+        @if (setupRequest.setupKdc && !setupRequest.generateKdcPasswords) {
+          <app-kerberos-settings *mdStep [setupRequest]="setupRequest"></app-kerberos-settings>
+        }
         <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
-        <ng-template mdStep [stepComplete]="onInitialSetup.bind(this)">
-          <app-admin-settings-second [setupRequest]="setupRequest"></app-admin-settings-second>
-        </ng-template>
-        <ng-container *ngIf="setupRequest.setupDns">
-          <ng-template mdStep [stepComplete]="onDnsSetup.bind(this)">
-            <app-dns-setup-settings [setupRequest]="setupRequest"></app-dns-setup-settings>
-          </ng-template>
-        </ng-container>
-        <ng-container *ngIf="setupRequest.setupKdc && !setupRequest.generateKdcPasswords">
-          <ng-template mdStep [stepComplete]="onKerberosSetup.bind(this)">
-            <app-kerberos-settings [setupRequest]="setupRequest"></app-kerberos-settings>
-          </ng-template>
-        </ng-container>
+        <app-admin-settings-second
+          *mdStep
+          [setupRequest]="setupRequest"
+        ></app-admin-settings-second>
       </md-stepper>
     </div>
     <ng-container class="app-modal-footer">

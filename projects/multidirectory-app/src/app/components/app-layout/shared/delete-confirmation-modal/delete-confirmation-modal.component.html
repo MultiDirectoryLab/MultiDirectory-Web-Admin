@@ -4,9 +4,11 @@
 <div class="flex-column w-100">
   <label>{{ 'catalog-content.approve-delete' | transloco }}</label>
   <ul>
-    <li *ngFor="let entry of toDeleteDNs">
-      {{ entry }}
-    </li>
+    @for (entry of toDeleteDNs; track entry) {
+      <li>
+        {{ entry }}
+      </li>
+    }
   </ul>
 </div>
 <ng-container class="app-modal-footer">

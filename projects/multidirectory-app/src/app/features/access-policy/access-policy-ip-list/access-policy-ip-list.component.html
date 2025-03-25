@@ -12,19 +12,20 @@
   <div class="cell-entries">
     <!--md-textarea class="input-textarea" class="w-100 h-100" [(ngModel)]="input"></md-textarea-->
     <div class="w-100 h-100" contentEditable="false">
-      <div
-        class="ip-list-entry"
-        [ngClass]="{
-          valid: entry.valid,
-        }"
-        *ngFor="let entry of _ipAddresses; let i = index"
-        (keydown)="onEditKeyDown($event, editField, i)"
-        (blur)="onEditBlur($event, i, editField)"
-        contenteditable="true"
-        #editField
-      >
-        {{ entry.title }}
-      </div>
+      @for (entry of _ipAddresses; track entry; let i = $index) {
+        <div
+          class="ip-list-entry"
+          [ngClass]="{
+            valid: entry.valid,
+          }"
+          (keydown)="onEditKeyDown($event, editField, i)"
+          (blur)="onEditBlur($event, i, editField)"
+          contenteditable="true"
+          #editField
+        >
+          {{ entry.title }}
+        </div>
+      }
       <div
         class="multiselect-input"
         (keydown)="onNewKeyDown($event)"

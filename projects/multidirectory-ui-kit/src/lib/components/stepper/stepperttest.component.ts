@@ -6,7 +6,6 @@ import { ThirdStepComponent } from './steps/third-step.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MultidirectoryUiKitModule } from '../../multidirectory-ui-kit.module';
-import { delay, Observable, of, tap } from 'rxjs';
 
 export class TestData {
   firstStep: string = '';
@@ -17,18 +16,23 @@ export class TestData {
 @Component({
   selector: 'md-stepper-test',
   template: `
-    <md-stepper #stepper (finish)="onFinish()">
+    <md-stepper #stepper (onFinish)="onFinish()">
       <ng-template mdStep>
         <test-first-step [context]="data"></test-first-step>
       </ng-template>
-      <test-second-step *mdStep [context]="data"></test-second-step>
-      <test-third-step *mdStep [context]="data"></test-third-step>
+      <ng-template mdStep>
+        <test-second-step [context]="data"></test-second-step>
+      </ng-template>
+      <ng-template mdStep>
+        <test-third-step [context]="data"></test-third-step>
+      </ng-template>
     </md-stepper>
-    <button #nextBtn (click)="stepper.next()">Next</button>
+    <button *ngIf="!finishedData" #nextBtn (click)="stepper.next()">Next</button>
     <div *ngIf="finishedData">
       <div>firstStep: {{ finishedData!.firstStep }}</div>
       <div>secondStep: {{ finishedData!.secondStep }}</div>
       <div>thirdStep: {{ finishedData!.thirdStep }}</div>
+      <button (click)="stepper.next()">Restart</button>
     </div>
   `,
 })
@@ -40,16 +44,6 @@ export class StepperTestComponent {
   onFinish() {
     this.finishedData = Object.assign({}, this.data);
     this.data = {} as TestData;
-    alert('finished');
-  }
-
-  firstStepComplete(): Observable<void | null> {
-    return of(null).pipe(
-      delay(1000),
-      tap((x) => {
-        alert('step complete');
-      }),
-    );
   }
 }
 

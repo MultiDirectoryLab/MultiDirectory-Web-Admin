@@ -1,94 +1,98 @@
-<div *ngIf="!setupRequest.generateKdcPasswords">
-  <div class="flex-row flex-space-between">
-    <div class="pv-8 accented w-100">
-      {{ 'setup.kerberos-settings.header' | transloco }}
-      <hr />
+@if (!setupRequest.generateKdcPasswords) {
+  <div>
+    <div class="flex-row flex-space-between">
+      <div class="pv-8 accented w-100">
+        {{ 'setup.kerberos-settings.header' | transloco }}
+        <hr />
+      </div>
     </div>
+    <md-form #form>
+      <div class="kerberos-grid">
+        <label class="textbox-label">{{
+          'setup.kerberos-settings.krbadmin-password-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [password]="true"
+            [appPasswordMatch]="krbRepeatPassword"
+            [appPasswordNotMatch]="stashPasswordInput"
+            appPasswordShouldBeValid
+            [(ngModel)]="setupRequest.krbadmin_password"
+            (keyup)="checkModel()"
+            #krbPasswordInput="ngModel"
+            [mdPopupContainer]="krbSuggest"
+            #krbSuggestContainer="PopupContainerDirective"
+            [openMenuOnClick]="false"
+            (focus)="krbSuggestContainer.openMenu()"
+            (blur)="krbSuggestContainer.closeMenu()"
+          ></md-textbox>
+          <md-popup-suggest #krbSuggest [closeOnClickOutside]="false">
+            <app-password-conditions
+              [currentPassword]="setupRequest.krbadmin_password"
+            ></app-password-conditions>
+          </md-popup-suggest>
+        </div>
+        <label class="textbox-label">{{
+          'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [appPasswordMatch]="krbPasswordInput"
+            [password]="true"
+            (keyup)="checkModel()"
+            [(ngModel)]="setupRequest.krbadmin_password_repeat"
+            #krbRepeatPassword="ngModel"
+          ></md-textbox>
+        </div>
+        <label class="textbox-label">{{
+          'setup.kerberos-settings.stash-password-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [password]="true"
+            [appPasswordMatch]="stashRepeatPassword"
+            [(ngModel)]="setupRequest.stash_password"
+            (keyup)="checkModel()"
+            #stashPasswordInput="ngModel"
+            [mdPopupContainer]="suggestStash"
+            #stashSuggestContainer="PopupContainerDirective"
+            [openMenuOnClick]="false"
+            (focus)="stashSuggestContainer.openMenu()"
+            (blur)="stashSuggestContainer.closeMenu()"
+          ></md-textbox>
+          <md-popup-suggest #suggestStash [closeOnClickOutside]="false">
+            <app-password-conditions
+              [currentPassword]="setupRequest.stash_password"
+            ></app-password-conditions>
+          </md-popup-suggest>
+        </div>
+        <label class="textbox-label">{{
+          'setup.kerberos-settings.stash-password-repeat-label' | transloco
+        }}</label>
+        <div class="flex-column flex-grow-1">
+          <md-textbox
+            appRequired
+            [appPasswordMatch]="stashPasswordInput"
+            [password]="true"
+            (keyup)="checkModel()"
+            [(ngModel)]="setupRequest.stash_password_repeat"
+            #stashRepeatPassword="ngModel"
+          ></md-textbox>
+        </div>
+      </div>
+      <div class="flex-row pt-16 justify-center">
+        <label class="textbox-label">
+          <md-button (click)="downloadPasswords()">{{
+            'setup.kerberos-settings.download-passwords' | transloco
+          }}</md-button>
+        </label>
+      </div>
+    </md-form>
   </div>
-  <md-form #form>
-    <div class="kerberos-grid">
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.krbadmin-password-label' | transloco
-      }}</label>
-      <div class="flex-column flex-grow-1">
-        <md-textbox
-          appRequired
-          [password]="true"
-          [appPasswordMatch]="krbRepeatPassword"
-          [appPasswordNotMatch]="stashPasswordInput"
-          appPasswordShouldBeValid
-          [(ngModel)]="setupRequest.krbadmin_password"
-          (keyup)="checkModel()"
-          #krbPasswordInput="ngModel"
-          [mdPopupContainer]="krbSuggest"
-          #krbSuggestContainer="PopupContainerDirective"
-          [openMenuOnClick]="false"
-          (focus)="krbSuggestContainer.openMenu()"
-          (blur)="krbSuggestContainer.closeMenu()"
-        ></md-textbox>
-        <md-popup-suggest #krbSuggest [closeOnClickOutside]="false">
-          <app-password-conditions
-            [currentPassword]="setupRequest.krbadmin_password"
-          ></app-password-conditions>
-        </md-popup-suggest>
-      </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco
-      }}</label>
-      <div class="flex-column flex-grow-1">
-        <md-textbox
-          appRequired
-          [appPasswordMatch]="krbPasswordInput"
-          [password]="true"
-          (keyup)="checkModel()"
-          [(ngModel)]="setupRequest.krbadmin_password_repeat"
-          #krbRepeatPassword="ngModel"
-        ></md-textbox>
-      </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.stash-password-label' | transloco
-      }}</label>
-      <div class="flex-column flex-grow-1">
-        <md-textbox
-          appRequired
-          [password]="true"
-          [appPasswordMatch]="stashRepeatPassword"
-          [(ngModel)]="setupRequest.stash_password"
-          (keyup)="checkModel()"
-          #stashPasswordInput="ngModel"
-          [mdPopupContainer]="suggestStash"
-          #stashSuggestContainer="PopupContainerDirective"
-          [openMenuOnClick]="false"
-          (focus)="stashSuggestContainer.openMenu()"
-          (blur)="stashSuggestContainer.closeMenu()"
-        ></md-textbox>
-        <md-popup-suggest #suggestStash [closeOnClickOutside]="false">
-          <app-password-conditions
-            [currentPassword]="setupRequest.stash_password"
-          ></app-password-conditions>
-        </md-popup-suggest>
-      </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.stash-password-repeat-label' | transloco
-      }}</label>
-      <div class="flex-column flex-grow-1">
-        <md-textbox
-          appRequired
-          [appPasswordMatch]="stashPasswordInput"
-          [password]="true"
-          (keyup)="checkModel()"
-          [(ngModel)]="setupRequest.stash_password_repeat"
-          #stashRepeatPassword="ngModel"
-        ></md-textbox>
-      </div>
-    </div>
-    <div class="flex-row pt-16 justify-center">
-      <label class="textbox-label">
-        <md-button (click)="downloadPasswords()">{{
-          'setup.kerberos-settings.download-passwords' | transloco
-        }}</md-button>
-      </label>
-    </div>
-  </md-form>
-</div>
-<div *ngIf="setupRequest.generateKdcPasswords"></div>
+}
+@if (setupRequest.generateKdcPasswords) {
+  <div></div>
+}

@@ -1,18 +1,21 @@
-<div *ngIf="drawBorder" class="group-container">
-  <div class="label-container">
-    <div class="before-title"></div>
-    <label class="group-label">{{ title }}</label>
-    <div class="after-title"></div>
+@if (drawBorder) {
+  <div class="group-container">
+    <div class="label-container">
+      <div class="before-title"></div>
+      <label class="group-label">{{ title }}</label>
+      <div class="after-title"></div>
+    </div>
+    <div class="group-content"><ng-container [ngTemplateOutlet]="content"></ng-container></div>
   </div>
-  <div class="group-content"><ng-container [ngTemplateOutlet]="content"></ng-container></div>
-</div>
+}
 
-<div *ngIf="!drawBorder" [ngTemplateOutlet]="content"></div>
+@if (!drawBorder) {
+  <div [ngTemplateOutlet]="content"></div>
+}
 
 <ng-template #content>
   <ng-content></ng-content>
 </ng-template>
-<md-error-label
-  *ngIf="controlAccessor && (controlAccessor.dirty || controlAccessor.touched)"
-  [ngControl]="controlAccessor"
-></md-error-label>
+@if (controlAccessor && (controlAccessor.dirty || controlAccessor.touched)) {
+  <md-error-label [ngControl]="controlAccessor"></md-error-label>
+}
