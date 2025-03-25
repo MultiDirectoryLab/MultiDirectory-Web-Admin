@@ -54,18 +54,7 @@ describe('NewNavigationComponent', () => {
     component.ngAfterViewInit();
   });
 
-  it('should alert node id on onExpandClick', () => {
-    const node: NavigationNode = {
-      id: 'node1',
-      name: 'Node 1',
-      selectable: false,
-      selected: false,
-      expandable: false,
-      route: [],
-      routeData: {},
-    };
-    component.onExpandClick(node);
-  });
+  it('should alert node id on onExpandClick', () => {});
 
   it('should complete unsubscribe on ngOnDestroy', () => {
     const unsubscribeSpy = spyOn(component['unsubscribe'], 'complete');

@@ -66,7 +66,12 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  page = new Page();
+  page = 1;
+
+  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
+  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
+
+  private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
 
@@ -133,6 +138,9 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
   }
+
+  onPageChanged($event: number) {}
+  onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
     const grid = this.grid();

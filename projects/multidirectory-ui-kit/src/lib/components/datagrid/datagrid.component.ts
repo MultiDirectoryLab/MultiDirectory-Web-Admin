@@ -50,7 +50,11 @@ export class DatagridComponent implements AfterViewInit {
   @Input() fromTitle = 'из';
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
-  @Input() page: Page = new Page({});
+
+  @Input() count = 0;
+  @Input() offset = 0;
+  @Input() limit = 0;
+  pageSize = 0;
   @Input() rows: any[] = [];
   @Input() stretchHeight = false;
   @Input() scrollbarV = false;
@@ -167,24 +171,12 @@ export class DatagridComponent implements AfterViewInit {
     this.grid.onWindowResize();
   }
 
-  onPageChange(pageInfo: { offset: number; pageSize: number; limit: number; count: number }) {
+  onPageChange() {
     this.selected = [];
-    this.page = new Page({
-      pageNumber: pageInfo.offset + 1,
-      size: pageInfo.pageSize,
-      totalElements: pageInfo.count,
-    });
-    this.pageChanged.emit(this.page);
   }
 
-  setPage(page: Page) {
+  setPage(page: number) {
     this.selected = [];
-    if (this.page == page) {
-      return;
-    }
-    this.page = new Page(page);
-    this.grid.offset = this.page.pageOffset;
-    this.grid.calcPageSize();
   }
 
   onFocus($event: FocusEvent) {}

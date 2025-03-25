@@ -33,13 +33,15 @@ export class PagerComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
 
   @Input() name = '';
-  @Input() page: Page = new Page({});
-  @Output() pageChanged = new EventEmitter<Page>();
+  @Output() pageChanged = new EventEmitter<number>();
+
   @Input() pagerTitle = 'Размер страницы:';
   @Input() fromTitle = 'из';
-  curPage = 0;
-  pageSize = 0;
-  rowCount = 0;
+
+  @Input() count = 0;
+  @Input() offset = 0;
+  private _limit = 0;
+
   pageSizes: DropdownOption[] = [
     { title: '5', value: 5 },
     { title: '10', value: 10 },
@@ -54,31 +56,23 @@ export class PagerComponent implements AfterViewInit {
   set size(size: number) {
     this.page.size = size;
     if (this.name) {
-      localStorage.setItem(`pager_${this.name}`, String(size));
+      localStorage.setItem(`pager_${this.name}`, String(limit));
     }
-    this.pageChanged.emit(this.page);
+    this.pageChanged.emit(0);
   }
 
   ngAfterViewInit() {
     if (this.name) {
-      const size = Number(localStorage.getItem(`pager_${this.name}`));
-      if (!isNaN(size) && size > 0) {
-        this.page.size = size;
+      const limit = Number(localStorage.getItem(`pager_${this.name}`));
+      if (!isNaN(limit) && limit > 0) {
+        this._limit = limit;
         this.cdr.detectChanges();
       }
     }
   }
 
   onPageChanged(event: any) {
-    this.page.pageNumber = event.page;
-    this.updatePager();
-    this.pageChanged.emit(this.page);
-  }
-
-  updatePager() {
-    this.curPage = this.page.pageNumber;
-    this.pageSize = this.page.size;
-    this.rowCount = this.page.totalElements;
-    this.cdr.detectChanges();
+    this.offset = 0;
+    this.pageChanged.emit(this.offset);
   }
 }

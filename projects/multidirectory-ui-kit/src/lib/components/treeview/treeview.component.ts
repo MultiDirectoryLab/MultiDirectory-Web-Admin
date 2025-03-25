@@ -130,4 +130,34 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
       this._focusedNode = node;
     }
   }
+
+  @HostListener('keydown', ['$event'])
+  handleKeyEvent(event: KeyboardEvent) {
+    if (event.key == 'ArrowUp') {
+      // parent
+      // let nextNode = TreeSearchHelper.findPrevious(this.tree, this._focusedNode);
+      // this.setNodeFocused(nextNode);
+    }
+    if (event.key == 'ArrowDown') {
+      // const sibling = TreeSearchHelper.findNext(this.tree, this._focusedNode);
+      // if (sibling) {
+      //  this.setNodeFocused(sibling);
+      // }
+    }
+    if (event.key == 'ArrowRight' || event.key == 'Enter') {
+      // expand + child
+      // let nextNode = this._focusedNode ?? null;
+      // if (nextNode) {
+      //  this.expand(nextNode);
+      // }
+    }
+    if (event.key == 'ArrowLeft') {
+      // parent + collapse
+      // let nextNode = this._focusedNode;
+      // if (nextNode?.parent && nextNode?.parent?.id !== 'root') {
+      //  nextNode.expanded = false;
+      //  this.cdr.detectChanges();
+      //}
+    }
+  }
 }

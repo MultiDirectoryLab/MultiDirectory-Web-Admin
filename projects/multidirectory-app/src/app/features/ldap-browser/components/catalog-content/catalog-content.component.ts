@@ -119,6 +119,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             });
           }
           return false;
+          1;
         },
         undefined,
         translate('hotkeys.create-user'),
@@ -199,6 +200,18 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       this.currentView = x;
       this.cdr.detectChanges();
     });
+
+    this.activatedRoute.queryParams
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap((queryParams) => {
+          const dn = queryParams['distinguishedName'];
+          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, 5));
+        }),
+      )
+      .subscribe(([rows, pageCount, entiresCount]) => {
+        this.rows = rows;
+      });
   }
 
   public ngOnDestroy(): void {

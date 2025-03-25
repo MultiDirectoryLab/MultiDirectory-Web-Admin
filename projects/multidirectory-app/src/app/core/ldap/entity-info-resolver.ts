@@ -1,6 +1,8 @@
 import { translate } from '@jsverse/transloco';
+import { LdapEntry } from '@models/core/ldap/ldap-entry';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
-import { NavigationNode } from '@models/core/navigation/navigation-node';
+import BitSet from 'bitset';
+import { UserAccountControlFlag } from './user-account-control-flags';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([
@@ -59,22 +61,21 @@ export class EntityInfoResolver {
     return objectClass?.some((x) => EntityInfoResolver.expandableClasses.includes(x));
   }
 
-  static getNodeDescription(entry: NavigationNode) {
-    // const descriptionAttirbute = entry.getAttibute('description');
-    // return descriptionAttirbute ? descriptionAttirbute.vals?.[0] : '';
+  static getNodeDescription(entry: LdapEntry) {
+    const descriptionAttirbute = entry.getAttibute('description');
+    return descriptionAttirbute?.[0] ?? '';
   }
 
-  static getNodeStatus(entry: NavigationNode): string {
-    return '';
-    /*const uacAttirbute = entry.getAttibute('userAccountControl');
-    if (!uacAttirbute?.vals?.[0]) {
+  static getNodeStatus(entry: LdapEntry): string {
+    const uacAttirbute = entry.getAttibute('userAccountControl');
+    if (!uacAttirbute?.[0]) {
       return '';
     }
-    const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
+    const uacBitSet = BitSet.fromHexString(Number(uacAttirbute[0]).toString(16));
 
     const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
     return enabled
       ? translate('entity-info-resolver.enabled')
-      : translate('entity-info-resolver.disabled');*/
+      : translate('entity-info-resolver.disabled');
   }
 }

@@ -76,6 +76,8 @@ export class EntityAttributesComponent implements OnInit {
   constructor() {
     effect(() => {
       this.filter();
+  page = 0;
+  propColumns: TableColumn[] = [];
 
       this.onFilterChange();
     });
@@ -252,5 +254,14 @@ export class EntityAttributesComponent implements OnInit {
         this.onFilterChange();
       }
     });
+  }
+
+  onFilterChange() {
+    this.displayAttributes();
+  }
+
+  onPageChanged(event: number) {
+    this.page = event;
+    this.cdr.detectChanges();
   }
 }

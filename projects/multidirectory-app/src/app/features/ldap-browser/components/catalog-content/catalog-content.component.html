@@ -48,6 +48,7 @@
       <app-table-view
         (rightClick)="showContextMenu($event)"
         [searchQuery]="searchQuery"
+        [rows]="rows"
       ></app-table-view>
     }
     @case (ViewMode.SmallIcons) {

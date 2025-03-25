@@ -16,7 +16,6 @@ export * from './lib/components/treeview/model/treenode';
 export * from './lib/components/dropdown-menu/dropdown-menu.component';
 export * from './lib/components/plane-button/plane-button.component';
 export * from './lib/components/datagrid/datagrid.component';
-export * from './lib/components/datagrid/page';
 export * from './lib/components/dropdown-menu/dropdown-container.directive';
 export * from './lib/components/shift-checkbox/shift-checkbox.component';
 export * from './lib/components/checkbox/checkbox.component';

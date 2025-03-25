@@ -7,6 +7,7 @@ import {
   inject,
   Input,
   OnDestroy,
+  Output,
   TemplateRef,
   viewChild,
 } from '@angular/core';
@@ -97,7 +98,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
   page = new Page();
   columns: TableColumn[] = [];
-  rows: TableRow[] = [];
+  @Input() rows: LdapBrowserEntry[] = [];
   unsubscribe = new Subject<void>();
   faToggleOff = faToggleOff;
   faTrashAlt = faTrashAlt;
@@ -146,10 +147,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   }
 
   ngAfterViewInit(): void {
-    const pageSize = localStorage.getItem('gridSize_table-view');
-    if (pageSize && !isNaN(parseFloat(pageSize))) {
-      this.page.size = Math.floor(parseFloat(pageSize));
-    }
     this.columns = [
       {
         name: translate('table-view.name-column'),
@@ -157,10 +154,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
         flexGrow: 1,
         checkboxable: true,
         comparator: (
-          valueA: TableRow,
-          valueB: TableRow,
-          rowA: TableRow,
-          rowB: TableRow,
+          valueA: LdapBrowserEntry,
+          valueB: LdapBrowserEntry,
+          rowA: LdapBrowserEntry,
+          rowB: LdapBrowserEntry,
           sortDirection: string,
         ) => {
           if (valueA.name === valueB.name) {
@@ -186,9 +183,8 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     }
   }
 
-  onPageChanged(event: Page) {
-    this.page = event;
-    this.updateContent();
+  onPageChanged(event: number) {
+    // todo
   }
 
   updateContentInner(dn: string) {
@@ -396,4 +392,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   handleGoToParent() {
     const dn = LdapNamesHelper.getDnParent(this._dn);
   }
+
+  handleRightClick($event: ContextMenuEvent) {}
 }

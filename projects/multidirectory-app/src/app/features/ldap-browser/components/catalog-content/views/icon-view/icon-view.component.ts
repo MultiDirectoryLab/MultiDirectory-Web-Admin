@@ -58,7 +58,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   readonly pager = viewChild.required<PagerComponent>('pager');
   items: LdapEntryNode[] = [];
   alignItems = true;
-  page = new Page();
+  page = 0;
 
   ngAfterViewInit(): void {
     this.navigation.reload();
@@ -75,7 +75,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       });
   }
 
-  override getSelected(): NavigationNode[] {
+  getSelected(): NavigationNode[] {
     return this.items.filter((x) => x.selected);
   }
 
