@@ -1,16 +1,13 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { PasswordGenerator } from '@core/setup/password-generator';
-import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
-import { SetupRequest } from '@models/setup/setup-request';
 import { translate } from '@jsverse/transloco';
+import { SetupRequest } from '@models/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, of, Subject, switchMap } from 'rxjs';
 import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';
+import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -61,7 +58,8 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       )
       .subscribe((x) => {
         this.toastr.success(translate('setup.kerberos-setup-complete'));
-        //window.location.reload();
+        this.modalInejctor.hideSpinner();
+        window.location.reload();
       });
   }
 

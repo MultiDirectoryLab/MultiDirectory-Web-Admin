@@ -9,7 +9,7 @@ services:
     restart: 'no'
     hostname: interface
     environment:
-      API_URL: http://md.localhost2/api
+      API_URL: http://md.localhost/api
     ports:
       - 9080:80
     working_dir: /app

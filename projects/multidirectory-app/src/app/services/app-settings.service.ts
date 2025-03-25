@@ -65,7 +65,7 @@ export class AppSettingsService {
     return this._languageRx.asObservable();
   }
 
-  private _kerberosStatus: KerberosStatuses = KerberosStatuses.READY;
+  private _kerberosStatus: KerberosStatuses = KerberosStatuses.NOT_CONFIGURED;
   get kerberosStatus(): KerberosStatuses {
     return this._kerberosStatus;
   }
