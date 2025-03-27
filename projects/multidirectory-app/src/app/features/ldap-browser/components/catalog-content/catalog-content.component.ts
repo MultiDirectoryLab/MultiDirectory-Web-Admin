@@ -206,11 +206,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe),
         switchMap((queryParams) => {
           const dn = queryParams['distinguishedName'];
-          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, 5));
+          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, this.limit));
         }),
       )
       .subscribe(([rows, pageCount, entiresCount]) => {
         this.rows = rows;
+        this.count = entiresCount;
       });
   }
 

@@ -25,6 +25,7 @@
     [page]="page"
     fromTitle="{{ 'icon-view.fromTitle' | transloco }}"
     pagerTitle="{{ 'icon-view.pagerTitle' | transloco }}"
+    (pageChanged)="onPageChanged($event)"
   ></md-pager>
 </div>
 

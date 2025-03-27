@@ -51,11 +51,22 @@ export class DatagridComponent implements AfterViewInit {
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
 
-  @Input() count = 0;
+  private _limit = 0;
+  @Input() get limit() {
+    return this._limit;
+  }
+  set limit(value: number) {
+    this._limit = value;
+    this.limitChange.emit(value);
+  }
+  @Output() limitChange = new EventEmitter<number>();
   @Input() offset = 0;
-  @Input() limit = 0;
-  pageSize = 0;
+  @Output() offsetChange = new EventEmitter<number>();
+  @Input() count = 0;
+  @Output() countChange = new EventEmitter<number>();
+
   @Input() rows: any[] = [];
+
   @Input() stretchHeight = false;
   @Input() scrollbarV = false;
   @Input() hideFooter = false;
@@ -172,10 +183,6 @@ export class DatagridComponent implements AfterViewInit {
   }
 
   onPageChange() {
-    this.selected = [];
-  }
-
-  setPage(page: number) {
     this.selected = [];
   }
 

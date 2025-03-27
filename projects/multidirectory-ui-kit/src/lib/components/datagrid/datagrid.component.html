@@ -43,11 +43,9 @@
         ngx-datatable-footer-template
         let-count="count"
         let-offset="offset"
-        let-limit="limit"
         let-rowCount="count"
         let-pageSize="limit"
         let-selectedCount="selectedCount"
-        let-curPage="offset / limit"
       >
         @if (!scrollbarV) {
           <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
@@ -55,10 +53,10 @@
             <md-dropdown
               class="page-size-select"
               [options]="pageSizes"
-              [(ngModel)]="pageSize"
+              [(ngModel)]="limit"
             ></md-dropdown>
             <div>
-              {{ (offset - 1) * limit + 1 }}-{{ offset > count ? count : offset }} {{ fromTitle }}
+              {{ offset + 1 }}-{{ offset + limit > count ? count : offset + limit }} {{ fromTitle }}
               {{ count }}
             </div>
           </div>
@@ -70,8 +68,8 @@
             [pagerRightArrowIcon]="'datatable-icon-right'"
             [pagerPreviousIcon]="'datatable-icon-prev'"
             [pagerNextIcon]="'datatable-icon-skip'"
-            [page]="offset / limit"
-            [size]="limit"
+            [limit]="limit"
+            [offset]="offset"
             [count]="count"
             [hidden]="!(count / limit > 1)"
             (change)="grid.onFooterPage($event)"

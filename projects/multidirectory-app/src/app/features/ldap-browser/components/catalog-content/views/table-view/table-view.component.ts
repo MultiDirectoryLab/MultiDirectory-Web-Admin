@@ -183,8 +183,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     }
   }
 
-  onPageChanged(event: number) {
+  onPageChanged(pageNumber: number) {
     // todo
+    this.offset = pageNumber * this.limit;
+    this.offsetChange.emit(this.offset);
   }
 
   updateContentInner(dn: string) {

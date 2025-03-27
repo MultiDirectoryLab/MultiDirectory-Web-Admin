@@ -49,6 +49,9 @@
         (rightClick)="showContextMenu($event)"
         [searchQuery]="searchQuery"
         [rows]="rows"
+        [(limit)]="limit"
+        [(count)]="count"
+        [(offset)]="offset"
       ></app-table-view>
     }
     @case (ViewMode.SmallIcons) {
