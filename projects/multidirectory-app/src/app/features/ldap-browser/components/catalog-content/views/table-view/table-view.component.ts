@@ -56,7 +56,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   private _dn = '';
-  page = 0;
   columns: TableColumn[] = [];
   @Input() rows: LdapBrowserEntry[] = [];
   unsubscribe = new Subject<void>();
@@ -82,6 +81,16 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
+
+  @Input() limit = 0;
+  @Output() limitChange = new EventEmitter<number>();
+
+  @Input() offset = 0;
+  @Output() offsetChange = new EventEmitter<number>();
+
+  @Input() count = 0;
+  @Output() countChange = new EventEmitter<number>();
+
   constructor(
     private appNavigation: AppNavigationService,
     private bulkService: BulkService<NavigationNode>,
@@ -128,8 +137,10 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onPageChanged(event: number) {
+  onPageChanged(pageNumber: number) {
     // todo
+    this.offset = pageNumber * this.limit;
+    this.offsetChange.emit(this.offset);
   }
 
   getSelected(): NavigationNode[] {

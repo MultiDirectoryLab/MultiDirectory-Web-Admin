@@ -32,7 +32,6 @@ export class PagerComponent implements AfterViewInit {
 
   @Input() count = 0;
   @Input() offset = 0;
-  private _limit = 0;
 
   pageSizes: DropdownOption[] = [
     { title: '5', value: 5 },
@@ -41,6 +40,7 @@ export class PagerComponent implements AfterViewInit {
     { title: '20', value: 20 },
   ];
 
+  private _limit = 0;
   @Input() set limit(limit: number) {
     this._limit = limit;
     if (this.name) {

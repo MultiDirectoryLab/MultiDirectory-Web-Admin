@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { translate } from '@jsverse/transloco';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
@@ -28,6 +28,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   currentView = this.contentView.contentView;
   searchQuery = '';
   rows: LdapBrowserEntry[] = [];
+
+  limit = 10;
+  count = 10;
+  offset = 0;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -95,11 +99,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe),
         switchMap((queryParams) => {
           const dn = queryParams['distinguishedName'];
-          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, 5));
+          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, this.limit));
         }),
       )
       .subscribe(([rows, pageCount, entiresCount]) => {
         this.rows = rows;
+        this.count = entiresCount;
       });
   }
 
