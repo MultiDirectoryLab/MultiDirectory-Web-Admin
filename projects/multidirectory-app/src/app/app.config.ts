@@ -1,4 +1,6 @@
+import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -24,12 +26,14 @@ import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-inte
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideTransloco, TranslocoService } from '@jsverse/transloco';
+import { CustomOverlayContainer } from '@models/custom-overlay-container';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from 'multidirectory-ui-kit';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { DIALOG_CONFIG_DEFAULT } from './components/modals/constants/dialog.constants';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 export const appConfig: ApplicationConfig = {
@@ -71,15 +75,6 @@ export const appConfig: ApplicationConfig = {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
     },
-    {
-      provide: SPINNER_CONFIGUARTION,
-      useFactory: (translateService: TranslocoService) => {
-        return new SpinnerConfiguration({
-          spinnerText: translateService.translate('spinner.please-wait'),
-        });
-      },
-      deps: [TranslocoService],
-    },
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
@@ -100,6 +95,22 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    {
+      provide: SPINNER_CONFIGUARTION,
+      useFactory: (translateService: TranslocoService) => {
+        return new SpinnerConfiguration({
+          spinnerText: translateService.translate('spinner.please-wait'),
+        });
+      },
+    },
+    {
+      provide: OverlayContainer,
+      useClass: CustomOverlayContainer,
+    },
+    {
+      provide: DEFAULT_DIALOG_CONFIG,
+      useValue: DIALOG_CONFIG_DEFAULT,
+    },
     provideAnimations(),
   ],
 };

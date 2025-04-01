@@ -17,6 +17,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class PasswordShouldNotMatchValidatorDirective implements Validator {
   readonly passwordInput = input.required<NgControl>({ alias: 'appPasswordNotMatch' });

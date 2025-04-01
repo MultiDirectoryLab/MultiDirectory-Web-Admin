@@ -2,7 +2,9 @@ import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
-import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
+import {
+  AccessPolicyViewModalComponent
+} from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
 import { AccessPolicyComponent } from '@features/access-policy/access-policy/access-policy.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -22,7 +24,7 @@ import { catchError, EMPTY, switchMap, take } from 'rxjs';
     CdkDrag,
     AccessPolicyComponent,
     ModalInjectDirective,
-    AccessPolicyViewModalComponent,
+    AccessPolicyViewModalComponent
   ],
 })
 export class AccessPolicySettingsComponent implements OnInit {

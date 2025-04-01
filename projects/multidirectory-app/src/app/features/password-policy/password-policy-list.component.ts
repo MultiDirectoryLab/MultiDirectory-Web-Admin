@@ -19,7 +19,7 @@ export class PasswordPolicyListComponent implements OnInit {
   private router = inject(Router);
   private windows = inject(AppWindowsService);
 
-  readonly appCratePolicyModal = viewChild(ModalInjectDirective);
+  appCratePolicyModal = viewChild(ModalInjectDirective);
 
   properties: any[] = [];
 

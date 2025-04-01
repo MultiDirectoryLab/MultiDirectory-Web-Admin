@@ -37,15 +37,6 @@ export class PasswordPolicyListItemComponent {
     this.deleteClick.emit(this.passwordPolicy);
   }
 
-  onTurnOffClick() {
-    if (!this.passwordPolicy) {
-      this.toastr.error(translate('password-policy.client-does-not-exist'));
-      return;
-    }
-    this.turnOffClick.emit(this.passwordPolicy);
-    this.cdr.detectChanges();
-  }
-
   onEditClick() {
     if (!this.passwordPolicy) {
       this.toastr.error(translate('password-policy.client-does-not-exist'));

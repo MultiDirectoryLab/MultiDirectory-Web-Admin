@@ -11,7 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import {
+  PasswordConditionsComponent
+} from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';

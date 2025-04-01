@@ -14,7 +14,6 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
 import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 import { SchemaEntry } from '@models/entity-attribute/schema-entry';
-import { AppWindowsService } from '@services/app-windows.service';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
 import {
   ButtonComponent,
@@ -28,6 +27,14 @@ import {
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
+import {
+  PropertyEditDialogComponent
+} from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
+import {
+  PropertyEditDialogData,
+  PropertyEditDialogReturnData,
+} from '../../components/modals/interfaces/property-edit-dialog.interface';
+import { DialogService } from '../../components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -49,7 +56,7 @@ export class EntityAttributesComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private properties = inject(LdapPropertiesService);
   private toastr = inject(ToastrService);
-  private windows = inject(AppWindowsService);
+  private dialogService: DialogService = inject(DialogService);
   private _unsubscribe = new Subject<boolean>();
   private _schema = new Map<string, SchemaEntry>();
   readonly propGrid = viewChild.required(DatagridComponent);
@@ -121,17 +128,21 @@ export class EntityAttributesComponent implements OnInit {
       });
     }
 
-    this.windows
-      .openPropertyEditorDialog(
-        new EditPropertyRequest({
-          propertyType: attribute.type,
-          propertyName: attribute.name,
-          propertyValue: this.accessor[attribute.name],
-        }),
-      )
-      .pipe(take(1))
+    this.dialogService
+      .open<PropertyEditDialogReturnData, PropertyEditDialogData, PropertyEditDialogComponent>({
+        component: PropertyEditDialogComponent,
+        dialogConfig: {
+          data: new EditPropertyRequest({
+            propertyType: attribute.type,
+            propertyName: attribute.name,
+            propertyValue: this.accessor[attribute.name],
+          }),
+        },
+      })
+      .closed.pipe(take(1))
       .subscribe((editedValue) => {
         if (!editedValue) return;
+
         this.accessor[attribute.name] = editedValue.propertyValue;
         this.displayAttributes();
       });

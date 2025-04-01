@@ -11,6 +11,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class MfKeyValidatorDirective implements Validator {
   keyErrorLabel = translate('error-message.mf-key-format-error');

@@ -25,12 +25,12 @@
         {{ 'catalog-content.create-group' | transloco }}
       </span>
     </md-button>
-    <md-button (click)="createObjectModal.open()" [disabled]="true" class="hidden">
-      <span class="flex-row flex-space-between flex-gap-5">
-        <img [src]="'assets/group_add.svg'" />
-        {{ 'catalog-content.create-object' | transloco }}
-      </span>
-    </md-button>
+    <!--    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">-->
+    <!--      <span class="flex-row flex-space-between flex-gap-5">-->
+    <!--        <img [src]="'assets/group_add.svg'" />-->
+    <!--        {{ 'catalog-content.create-object' | transloco }}-->
+    <!--      </span>-->
+    <!--    </md-button>-->
     <md-button (click)="openCreateComputer()">
       <span class="flex-row flex-space-between flex-gap-5">
         <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px" />
@@ -39,8 +39,7 @@
     </md-button>
   </div>
   <div>
-    <md-textbox [(ngModel)]="searchQuery" placeholder="{{ 'catalog-content.filter' | transloco }}">
-    </md-textbox>
+    <md-textbox [(ngModel)]="searchQuery" placeholder="{{ 'catalog-content.filter' | transloco }}" />
   </div>
 </div>
 <div [ngStyle]="{ display: 'block' }" class="flex-column-expanded">
@@ -102,4 +101,3 @@
   <div class="dropdown-item disabled hidden">mslmaging-PSP</div>
   <div class="dropdown-item disabled hidden">MSMQ Queue Alias</div>
 </md-dropdown-menu>
-<md-modal #createObjectModal> TODO</md-modal>

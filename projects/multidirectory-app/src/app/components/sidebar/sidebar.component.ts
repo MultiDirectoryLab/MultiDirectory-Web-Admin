@@ -1,11 +1,21 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
-import { AppWindowsService } from '@services/app-windows.service';
 import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
-import { Subject, take } from 'rxjs';
+import { take } from 'rxjs';
+import { ChangePasswordDialogComponent } from '../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
+import { EntityPropertiesDialogComponent } from '../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import {
+  ChangePasswordDialogData,
+  ChangePasswordDialogReturnData,
+} from '../modals/interfaces/change-password-dialog.interface';
+import {
+  EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
+} from '../modals/interfaces/entity-properties-dialog.interface';
+import { DialogService } from '../modals/services/dialog.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,46 +23,65 @@ import { Subject, take } from 'rxjs';
   styleUrls: ['./sidebar.component.scss'],
   imports: [TranslocoDirective, RouterOutlet, DropdownContainerDirective, DropdownMenuComponent],
 })
-export class SidebarComponent implements OnDestroy {
-  private app = inject(AppSettingsService);
-  private router = inject(Router);
-  private windows = inject(AppWindowsService);
+export class SidebarComponent {
+  private dialogService: DialogService = inject(DialogService);
+  private app: AppSettingsService = inject(AppSettingsService);
+  private router: Router = inject(Router);
 
-  private unsubscribe = new Subject<void>();
-
-  get user(): WhoamiResponse {
+  public get user(): WhoamiResponse {
     return this.app.user;
   }
 
-  logout() {
+  public logout() {
     this.app
       .logout()
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.router.navigate(['login']);
       });
   }
 
-  openAccountSettings() {
+  public openAccountSettings() {
     if (!this.app.userEntry) {
       return;
     }
-    this.windows.openEntityProperiesModal(this.app.userEntry);
+
+    this.dialogService.open<
+      EntityPropertiesDialogReturnData,
+      EntityPropertiesDialogData,
+      EntityPropertiesDialogComponent
+    >({
+      component: EntityPropertiesDialogComponent,
+      dialogConfig: {
+        width: '600px',
+        minHeight: '660px',
+        data: { entity: this.app.userEntry },
+      },
+    });
   }
 
-  openChangePassword() {
+  public openChangePassword() {
     if (!this.app.userEntry) {
       return;
     }
-    this.windows.openChangePasswordModal(this.app.userEntry);
+
+    const { id: identity, name: un } = this.app.userEntry;
+
+    this.dialogService.open<
+      ChangePasswordDialogReturnData,
+      ChangePasswordDialogData,
+      ChangePasswordDialogComponent
+    >({
+      component: ChangePasswordDialogComponent,
+      dialogConfig: {
+        minHeight: '220px',
+        height: '220px',
+        data: { identity, un },
+      },
+    });
   }
 
-  handleLogoClick(event: MouseEvent) {
+  public handleLogoClick() {
     this.router.navigate(['/ldap']);
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 }

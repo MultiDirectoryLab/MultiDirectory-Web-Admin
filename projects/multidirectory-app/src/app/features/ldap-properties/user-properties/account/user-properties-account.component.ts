@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
+import { DIALOG_DATA } from '@angular/cdk/dialog';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -21,11 +29,19 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
+import { LogonTimeEditorDialogComponent } from '../../../../components/modals/components/dialogs/logon-time-editor-dialog/logon-time-editor-dialog.component';
+import { EntityPropertiesDialogData } from '../../../../components/modals/interfaces/entity-properties-dialog.interface';
+import {
+  LogonTimeEditorDialogData,
+  LogonTimeEditorDialogReturnData,
+} from '../../../../components/modals/interfaces/logon-time-editor-dialog.interface';
+import { DialogService } from '../../../../components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-user-properties-account',
   templateUrl: './user-properties-account.component.html',
   styleUrls: ['./user-properties-account.component.scss'],
+  standalone: true,
   imports: [
     TranslocoPipe,
     TextboxComponent,
@@ -45,19 +61,17 @@ import { take } from 'rxjs';
 export class UserPropertiesAccountComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
   private nodeLoader = inject(LdapEntryLoader);
-  modalControl = inject(ModalInjectDirective);
+  private dialogService: DialogService = inject(DialogService);
+  public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
   readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
+  @Input() accessor!: LdapAttributes;
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
   uacBitSet?: BitSet;
   upnDomain?: DropdownOption;
-  accessor: LdapAttributes = {};
-  readonly editLogonTime = viewChild.required<ModalInjectDirective>('editLogonTime');
 
   get userShouldChangePassword(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0
-      ? true
-      : false;
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0;
   }
 
   set userShouldChangePassword(shouldChange: boolean) {
@@ -67,9 +81,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   get passwordNeverExpires(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0
-      ? true
-      : false;
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0;
   }
 
   set passwordNeverExpires(value: boolean) {
@@ -78,10 +90,9 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   get storePasswordReversible(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
-      0
-      ? true
-      : false;
+    return (
+      (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) > 0
+    );
   }
 
   set storePasswordReversible(value: boolean) {
@@ -90,9 +101,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   get accountDisabled(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0
-      ? true
-      : false;
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0;
   }
 
   set accountDisabled(value: boolean) {
@@ -117,14 +126,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  fileTimeToDate(filetime: number): moment.Moment {
-    return moment(new Date(filetime / 10000 - 11644473600000));
-  }
-
-  filetimeFromDate(date: moment.Moment): number {
-    return date.date() * 1e4 + 116444736e9;
-  }
-
   unixTimeToFileTime(unixTime: number) {
     // Windows FileTime starts at January 1, 1601, while Unix epoch starts at January 1, 1970.
     const epochDifference = 11644473600; // seconds between 1601-01-01 and 1970-01-01
@@ -138,7 +139,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.accessor = this.modalControl.contentOptions.accessor;
     const uacBits = this.accessor['userAccountControl']?.[0];
     this.uacBitSet = !!this.accessor['userAccountControl']
       ? BitSet.fromHexString(Number(uacBits).toString(16))
@@ -162,15 +162,38 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
       });
   }
 
+  // @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
   showLogonTimeEditor() {
-    this.editLogonTime()
-      .open({ width: '732px' }, { logonHours: this.accessor!.logonHours })
-      .pipe(take(1))
-      .subscribe((result: string | null) => {
+    this.dialogService
+      .open<
+        LogonTimeEditorDialogReturnData,
+        LogonTimeEditorDialogData,
+        LogonTimeEditorDialogComponent
+      >({
+        component: LogonTimeEditorDialogComponent,
+        dialogConfig: {
+          width: '732px',
+          data: {
+            logonHours: (this.accessor!.logonHours ?? '') as unknown as string,
+          },
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
         if (!this.accessor || !result) return;
 
         this.accessor.logonHours = [result];
       });
+
+    // this.editLogonTime
+    //   .open({ width: '732px' }, { logonHours: this.accessor!.logonHours })
+    //   .pipe(take(1))
+    //   .subscribe((result: string | null) => {
+    //     console.log('result', result);
+    //     if (!this.accessor || !result) return;
+    //
+    //     this.accessor.logonHours = [result];
+    //   });
   }
 
   setPwdLastSetTime(shouldChange: boolean) {

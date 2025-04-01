@@ -16,6 +16,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class RequiredWithMessageDirective extends RequiredValidator {
   readonly appRequiredErrorLabel = input('');

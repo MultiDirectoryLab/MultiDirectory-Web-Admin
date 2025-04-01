@@ -45,7 +45,23 @@ import {
   ShiftCheckboxComponent,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { concat, Subject, switchMap, take } from 'rxjs';
+import { concat, of, Subject, switchMap, take } from 'rxjs';
+import { ConfirmDeleteDialogComponent } from '../../../../../../components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDialogComponent } from '../../../../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { EntityPropertiesDialogComponent } from '../../../../../../components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import {
+  ConfirmDeleteDialogData,
+  ConfirmDeleteDialogReturnData,
+} from '../../../../../../components/modals/interfaces/confirm-delete-dialog.interface';
+import {
+  ConfirmDialogData,
+  ConfirmDialogReturnData,
+} from '../../../../../../components/modals/interfaces/confirm-dialog.interface';
+import {
+  EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
+} from '../../../../../../components/modals/interfaces/entity-properties-dialog.interface';
+import { DialogService } from '../../../../../../components/modals/services/dialog.service';
 import { BaseViewComponent } from '../base-view.component';
 import { TableRow } from './table-row';
 
@@ -66,6 +82,7 @@ import { TableRow } from './table-row';
   ],
 })
 export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
+  private dialogService = inject(DialogService);
   private appNavigation = inject(AppNavigationService);
   private ldapLoader = inject(LdapEntryLoader);
   private bulkService = inject<BulkService<LdapEntryNode>>(BulkService);
@@ -243,17 +260,28 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     } else if (entry && entry.expandable) {
       this.appNavigation.navigate(entry);
     } else if (entry && !entry.expandable) {
-      this.windows
-        .openEntityProperiesModal(entry)
-        .pipe(take(1))
-        .subscribe((x) => {
+      this.dialogService
+        .open<
+          EntityPropertiesDialogReturnData,
+          EntityPropertiesDialogData,
+          EntityPropertiesDialogComponent
+        >({
+          component: EntityPropertiesDialogComponent,
+          dialogConfig: {
+            width: '600px',
+            minHeight: '660px',
+            data: { entity: entry },
+          },
+        })
+        .closed.pipe(take(1))
+        .subscribe(() => {
           this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
         });
     }
     this.cdr.detectChanges();
   }
 
-  onRowSelect(event: any) {
+  onRowSelect() {
     this.showControlPanel = this.grid().selected.length > 0;
     this.cdr.detectChanges();
     this._checkAllCheckbox = false;
@@ -263,12 +291,23 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   onDelete(event: any) {
     event.preventDefault();
     event.stopPropagation();
-    this.windows
-      .openDeleteEntryConfirmation(this.grid().selected.map((x) => x.entry.id))
-      .pipe(take(1))
-      .subscribe((confirmed) => {
-        if (confirmed) {
-          concat(
+
+    this.dialogService
+      .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
+        component: ConfirmDeleteDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          data: {
+            toDeleteDNs: this.grid().selected.map((x) => x.entry.id),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((confirmed) => {
+          if (!confirmed) return of(confirmed);
+
+          return concat(
             ...this.grid().selected.map((x) =>
               this.api.delete(
                 new DeleteEntryRequest({
@@ -276,10 +315,11 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
                 }),
               ),
             ),
-          ).subscribe((x) => {
-            this.appNavigation.reload();
-          });
-        }
+          );
+        }),
+      )
+      .subscribe(() => {
+        this.appNavigation.reload();
       });
   }
 
@@ -301,7 +341,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
       .pipe(take(1))
       .pipe(
-        switchMap((x) => {
+        switchMap(() => {
           let all =
             translate('toggle-account.accounts-was-toggled') +
             (enabled ? translate('toggle-account.enabled') : translate('toggle-account.disabled')) +
@@ -309,20 +349,28 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
           all += '<br/>' + changed;
 
-          return this.windows.openConfirmDialog({
-            promptText: all,
-            promptHeader: translate('toggle-account.header'),
-            primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
-            secondaryButtons: [],
-          });
+          return this.dialogService.open<
+            ConfirmDialogReturnData,
+            ConfirmDialogData,
+            ConfirmDialogComponent
+          >({
+            component: ConfirmDialogComponent,
+            dialogConfig: {
+              minHeight: '160px',
+              data: {
+                promptText: all,
+                promptHeader: translate('toggle-account.header'),
+                primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
+                secondaryButtons: [],
+              },
+            },
+          }).closed;
         }),
       )
-      .subscribe((result) => {
-        this.updateContent();
-      });
+      .subscribe(() => this.updateContent());
   }
 
-  accountEnabledToggleClick(value: boolean) {
+  accountEnabledToggleClick() {
     this.toggleSelected(this._accountEnabledToggle);
   }
 
@@ -344,7 +392,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       });
   }
 
-  handleGoToParent(event: MouseEvent) {
+  handleGoToParent() {
     const dn = LdapNamesHelper.getDnParent(this._dn);
     this.appNavigation.goTo(dn).then((node) => {
       if (!node) {

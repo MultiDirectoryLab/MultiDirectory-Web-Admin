@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, inject, Input, viewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { DialogRef } from '@angular/cdk/dialog';
+import { EntityPropertiesDialogReturnData } from '../../../components/modals/interfaces/entity-properties-dialog.interface';
+import { EntityPropertiesDialogComponent } from '../../../components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 
 @Component({
   selector: 'app-avatar-upload',
@@ -8,7 +10,10 @@ import { ModalInjectDirective } from 'multidirectory-ui-kit';
   styleUrls: ['./avatar-upload.component.scss'],
 })
 export class AvatarUploadComponent {
-  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private dialogRef: DialogRef<
+    EntityPropertiesDialogReturnData,
+    EntityPropertiesDialogComponent
+  > | null = inject(DialogRef, { optional: true }) ?? null;
   private cdr = inject(ChangeDetectorRef);
 
   @Input() accessor: LdapAttributes | null = null;
@@ -39,16 +44,16 @@ export class AvatarUploadComponent {
         if (this.accessor) {
           this.accessor.photoBase64 = base64Data;
         }
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
         this.cdr.detectChanges();
       };
       reader.onerror = () => {
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };
       reader.onabort = () => {
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };
-      this.modalControl.modal?.showSpinner();
+      this.dialogRef?.componentInstance?.dialogComponent?.showSpinner();
       reader.readAsDataURL(file);
       this.fileSelected = true;
     }

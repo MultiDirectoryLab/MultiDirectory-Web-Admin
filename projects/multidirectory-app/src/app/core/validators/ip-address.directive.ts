@@ -11,6 +11,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class IpAddressValidatorDirective implements Validator {
   readonly errorLabel = input(translate('error-message.ip-valid'));

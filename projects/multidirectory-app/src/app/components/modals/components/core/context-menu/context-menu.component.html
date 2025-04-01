@@ -1,0 +1,33 @@
+<!--<md-context-menu #contextMenu>-->
+<div #dropdown class="context-menu">
+  <div (click)="openMoreDialog()" class="context-item">
+    {{ 'catalog-content.more' | transloco }}
+  </div>
+
+  @if (isSelectedRowsOfType(LdapEntryType.User)) {
+    <div class="context-item" (click)="openChangePasswordDialog()">
+      {{ 'catalog-content.change-password' | transloco }}
+    </div>
+  }
+
+  @if (isSelectedRowsOfType(LdapEntryType.User, LdapEntryType.Computer) && accountEnabled) {
+    <div class="context-item" (click)="toggleAccount(false)">
+      {{ 'catalog-content.disable-account' | transloco }}
+    </div>
+  }
+
+  @if (isSelectedRowsOfType(LdapEntryType.User, LdapEntryType.Computer) && !accountEnabled) {
+    <div class="context-item" (click)="toggleAccount(true)">
+      {{ 'catalog-content.enable-account' | transloco }}
+    </div>
+  }
+
+  <div (click)="openMoveDialog()" class="context-item">
+    {{ 'catalog-content.move' | transloco }}
+  </div>
+
+  <div (click)="openConfirmDeleteDialog()" class="context-item">
+    {{ 'catalog-content.delete' | transloco }}
+  </div>
+</div>
+<!--</md-context-menu>-->

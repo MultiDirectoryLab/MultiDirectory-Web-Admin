@@ -1,19 +1,13 @@
-import { ChangeDetectorRef, Component, inject, input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
-import { MemberOfComponent } from '@features/ldap-properties/member-of/member-of.component';
-import { UserPropertiesAccountComponent } from '@features/ldap-properties/user-properties/account/user-properties-account.component';
-import { UserPropertiesAddressComponent } from '@features/ldap-properties/user-properties/address/user-properties-address.component';
-import { UserPropertiesGeneralComponent } from '@features/ldap-properties/user-properties/general/user-properties-general.component';
-import { UserPropertiesProfileComponent } from '@features/ldap-properties/user-properties/profile/user-properties-profile.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-  ModalInjectDirective,
-  TabComponent,
-  TabDirective,
-  TabPaneComponent,
-} from 'multidirectory-ui-kit';
-import { Subject } from 'rxjs';
+import { TabComponent, TabDirective, TabPaneComponent } from 'multidirectory-ui-kit';
+import { EntityAttributesComponent } from '../../entity-attributes/entity-attributes.component';
+import { MemberOfComponent } from '../member-of/member-of.component';
+import { UserPropertiesAccountComponent } from './account/user-properties-account.component';
+import { UserPropertiesAddressComponent } from './address/user-properties-address.component';
+import { UserPropertiesGeneralComponent } from './general/user-properties-general.component';
+import { UserPropertiesProfileComponent } from './profile/user-properties-profile.component';
 
 @Component({
   selector: 'app-user-properties',
@@ -32,10 +26,8 @@ import { Subject } from 'rxjs';
     MemberOfComponent,
   ],
 })
-export class UserPropertiesComponent implements OnDestroy {
-  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+export class UserPropertiesComponent {
   private cdr = inject(ChangeDetectorRef);
-  unsubscribe = new Subject<boolean>();
   readonly accessor = input.required<LdapAttributes>();
   properties?: any[];
   propColumns = [
@@ -43,13 +35,7 @@ export class UserPropertiesComponent implements OnDestroy {
     { name: 'Значение', prop: 'val', flexGrow: 1 },
   ];
 
-  ngOnDestroy() {
-    this.unsubscribe.next(true);
-    this.unsubscribe.complete();
-  }
-
   onTabChanged() {
-    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

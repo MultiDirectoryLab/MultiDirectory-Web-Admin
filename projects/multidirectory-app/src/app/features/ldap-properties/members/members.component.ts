@@ -3,24 +3,25 @@ import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Member } from '@core/groups/member';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
-import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { AppWindowsService } from '@services/app-windows.service';
-import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
+import { translate } from '@jsverse/transloco';
+import { DatagridComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
+import { EntitySelectorDialogComponent } from '../../../components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
+import {
+  EntitySelectorDialogData,
+  EntitySelectorDialogReturnData,
+  EntitySelectorSettings,
+} from '../../../components/modals/interfaces/entity-selector-dialog.interface';
+import { DialogService } from '../../../components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss'],
-  imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
 export class MembersComponent {
-  private windows = inject(AppWindowsService);
-
+  private dialogService: DialogService = inject(DialogService);
   members: Member[] = [];
-  readonly memberSelector = viewChild<EntitySelectorComponent>('groupSelector');
   readonly memberList = viewChild<DatagridComponent>('groupList');
   columns = [
     { name: translate('members.name'), prop: 'name', flexGrow: 1 },
@@ -44,15 +45,24 @@ export class MembersComponent {
 
   addMember() {
     const types = ['group', 'user'];
-    this.windows
-      ?.openEntitySelector(
-        new EntitySelectorSettings({
-          selectedEntities: [],
-          selectedEntityTypes: ENTITY_TYPES.filter((x) => types.includes(x.entity)) ?? [],
-          allowSelectEntityTypes: false,
-        }),
-      )
-      .pipe(take(1))
+
+    this.dialogService
+      .open<
+        EntitySelectorDialogReturnData,
+        EntitySelectorDialogData,
+        EntitySelectorDialogComponent
+      >({
+        component: EntitySelectorDialogComponent,
+        dialogConfig: {
+          minHeight: '360px',
+          data: new EntitySelectorSettings({
+            selectedEntities: [],
+            selectedEntityTypes: ENTITY_TYPES.filter((x) => types.includes(x.entity)) ?? [],
+            allowSelectEntityTypes: false,
+          }),
+        },
+      })
+      .closed.pipe(take(1))
       .subscribe((res) => {
         if (res && !!this.accessor) {
           res = res.filter((x) => !this.accessor!.member?.includes(x.id)) ?? res;

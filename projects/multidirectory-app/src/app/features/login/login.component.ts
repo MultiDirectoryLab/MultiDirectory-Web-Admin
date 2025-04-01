@@ -6,47 +6,26 @@ import {
   OnDestroy,
   viewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { WebsocketTokenHandle } from '@core/websocket/websocket.service';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { LoginResponse } from '@models/login/login-response';
 import { LoginService } from '@services/login.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import {
-  ButtonComponent,
-  MdFormComponent,
-  MdModalComponent,
-  TextboxComponent,
-} from 'multidirectory-ui-kit';
+import { MdFormComponent } from 'multidirectory-ui-kit';
 import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
+import { DialogComponent } from '../../components/modals/components/core/dialog/dialog.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [
-    MdModalComponent,
-    MdFormComponent,
-    TextboxComponent,
-    RequiredWithMessageDirective,
-    FormsModule,
-    TranslocoPipe,
-    ButtonComponent,
-  ],
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
-  private api = inject(MultidirectoryApiService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private loginService = inject(LoginService);
   private unsubscribe = new Subject<void>();
   login = '';
   password = '';
-  wssHandle?: WebsocketTokenHandle;
   readonly loginForm = viewChild.required<MdFormComponent>('loginForm');
-  readonly modal = viewChild.required<MdModalComponent>('modal');
+  readonly dialogComponent = viewChild.required<DialogComponent>(DialogComponent);
   loginValid = false;
 
   ngAfterViewInit(): void {
@@ -68,17 +47,17 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   onLogin(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.modal().showSpinner();
+    this.dialogComponent().showSpinner();
     this.loginService
       .login(this.login, this.password)
       .pipe(
-        catchError((err, caught) => {
-          this.modal().hideSpinner();
+        catchError(() => {
+          this.dialogComponent().hideSpinner();
           return EMPTY;
         }),
       )
-      .subscribe((response: LoginResponse) => {
-        this.modal().hideSpinner();
+      .subscribe(() => {
+        this.dialogComponent().hideSpinner();
         this.router.navigate(['/']);
       });
   }

@@ -1,0 +1,35 @@
+<app-dialog #dialogComponent>
+  <div class="app-modal-header">
+    <div>{{ 'add-principal.modal-header' | transloco }}</div>
+  </div>
+  <div class="flex-row align-center flex-gap-10">
+    <div class="avatar"><img class="avatar-img" src="/assets/empty_avatar.svg" /></div>
+    <div class="place">{{ 'add-principal.header' | transloco }}</div>
+  </div>
+  <hr />
+  <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
+    <md-form #form>
+      <div class="flex-column align-start justify-end flex-gap-10">
+        <label for="ouname">{{ 'add-principal.name-label' | transloco }}</label>
+        <md-textbox
+          [(ngModel)]="principalName"
+          appPattern="^[A-Za-z0-9:!#$&()\-. ]+/[A-Z\:\[\]a-z0-9!#$&()\-. ]+$"
+          appRequired
+          name="principalName"
+          patternErrorMessage="{{ 'add-principal.format-error' | transloco }}"
+        ></md-textbox>
+      </div>
+    </md-form>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="flex-row align-center justify-end flex-gap-10">
+      <md-button (click)="onClose()">
+        {{ 'add-principal.cancel' | transloco }}
+      </md-button>
+      <md-button (click)="onFinish($event)" [disabled]="!formValid" [primary]="true">
+        {{ 'add-principal.apply' | transloco }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>

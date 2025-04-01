@@ -4,7 +4,9 @@ import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import {
+  PasswordConditionsComponent
+} from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
@@ -67,21 +69,6 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     );
   }
 
-  get storePasswordReversible(): boolean {
-    return (
-      (Number(this.setupRequest.uacBitSet?.toString(10)) &
-        UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
-      0
-    );
-  }
-
-  set storePasswordReversible(value: boolean) {
-    this.setupRequest.uacBitSet?.set(
-      Math.log2(UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT),
-      value ? 1 : 0,
-    );
-  }
-
   get accountDisabled(): boolean {
     return (
       (Number(this.setupRequest.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) >
@@ -118,7 +105,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.form().validate();
     });
-    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.setup.stepValid(this.form().valid);
     });
 

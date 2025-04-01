@@ -1,12 +1,12 @@
-<div [ngClass]="{ 'dark-theme': darkMode }" class="centered fullscreen dark-theme">
+<div class="centered fullscreen">
   <router-outlet></router-outlet>
-  <md-portal tag="dialog-portal"> </md-portal>
-  <md-portal tag="dropdown-portal"> </md-portal>
+  <md-portal tag="dialog-portal"></md-portal>
+  <md-portal tag="dropdown-portal"></md-portal>
 </div>
 <md-spinner
-  [name]="'primary'"
-  [fullscreen]="true"
   #spinner
+  [fullscreen]="true"
+  [name]="'primary'"
   [spinnerText]="'spinner.please-wait' | transloco"
 />
 <app-download-data #downloadData />

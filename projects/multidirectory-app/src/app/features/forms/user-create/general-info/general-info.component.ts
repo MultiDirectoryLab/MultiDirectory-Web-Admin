@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   inject,
   Input,
@@ -38,6 +39,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
   private ldapLoader = inject(LdapEntryLoader);
+  private cdr = inject(ChangeDetectorRef);
   setup = inject(UserCreateService);
   readonly form = viewChild.required<MdFormComponent>('form');
   readonly controls = viewChildren(AbstractControl);
@@ -61,7 +63,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.form().validate();
     });
-    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.setup.stepValid(this.form().valid);
     });
     this.ldapLoader
@@ -76,6 +78,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
             }),
         );
         this.setupRequest.upnDomain = this.domains?.[0]?.value;
+        this.cdr.detectChanges();
       });
   }
 

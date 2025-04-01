@@ -1,0 +1,50 @@
+<app-dialog #dialogComponent>
+  <div class="app-modal-header">
+    <div>{{ 'user-create.modal-header' | transloco }}</div>
+  </div>
+
+  <div>
+    <div class="flex-row align-center flex-gap-10">
+      <div class="avatar"><img class="avatar-img" src="assets/empty_avatar.svg" /></div>
+      <div class="place">{{ 'user-create.add-to' | transloco }} {{ parentDn }}</div>
+    </div>
+    <hr />
+    <md-stepper #createUserStepper (finish)="finish()">
+      <ng-template mdStep>
+        <app-user-create-general-info [setupRequest]="setupRequest"></app-user-create-general-info>
+      </ng-template>
+      <ng-template mdStep>
+        <app-user-create-password-settings
+          [setupRequest]="setupRequest"
+        ></app-user-create-password-settings>
+      </ng-template>
+      <ng-template mdStep>
+        <app-user-create-summary [setupRequest]="setupRequest"></app-user-create-summary>
+      </ng-template>
+    </md-stepper>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="flex-row align-center justify-end flex-gap-10">
+      @if (createUserStepper.currentIndex == 0) {
+        <md-button (click)="close()">
+          {{ 'user-create.cancel' | transloco }}
+        </md-button>
+      }
+      @if (createUserStepper.currentIndex > 0) {
+        <md-button (click)="createUserStepper.previous()">
+          {{ 'user-create.back' | transloco }}
+        </md-button>
+      }
+      <md-button (click)="nextStep()" [primary]="true">
+        {{
+          (createUserStepper.steps != null &&
+          createUserStepper.currentIndex + 1 == createUserStepper.steps.length
+            ? 'user-create.finish'
+            : 'user-create.next'
+          ) | transloco
+        }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>
