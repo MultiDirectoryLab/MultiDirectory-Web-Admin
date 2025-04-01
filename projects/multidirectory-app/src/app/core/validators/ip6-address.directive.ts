@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
+
 @Directive({
   selector: '[validIp6Address]',
   providers: [
@@ -10,6 +11,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class Ip6AddressValidatorDirective implements Validator {
   @Input() errorLabel = translate('error-message.ip6-valid');

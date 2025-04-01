@@ -1,7 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { SpinnerComponent } from 'multidirectory-ui-kit';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import {
+  MdSpinnerModule,
+  MultidirectoryUiKitModule,
+  SpinnerComponent,
+} from 'multidirectory-ui-kit';
 import { catchError, map, switchMap, throwError } from 'rxjs';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SearchQueries } from '@core/ldap/search';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';
@@ -11,11 +15,21 @@ import { SearchUsersComponent } from './search-forms/search-users/search-users.c
 import { SearchSource } from './models/search-source';
 import { SearchSourceProvider } from './services/search-source-provider';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-panel',
   templateUrl: './search-panel.component.html',
   styleUrls: ['./search-panel.component.scss'],
+  standalone: true,
+  imports: [
+    MultidirectoryUiKitModule,
+    FormsModule,
+    SearchUsersComponent,
+    SearchResultComponent,
+    MdSpinnerModule,
+    TranslocoPipe,
+  ],
 })
 export class SearchPanelComponent implements AfterViewInit {
   SearchType = SearchType;

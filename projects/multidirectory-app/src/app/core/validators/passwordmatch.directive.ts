@@ -5,7 +5,6 @@ import {
   NgControl,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
 
@@ -18,6 +17,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class PasswordMatchValidatorDirective implements Validator {
   @Input('appPasswordMatch') passwordInput!: NgControl;
@@ -30,7 +30,7 @@ export class PasswordMatchValidatorDirective implements Validator {
     ) {
       return null;
     }
-    
+
     return control.value == this.passwordInput.value
       ? null
       : {

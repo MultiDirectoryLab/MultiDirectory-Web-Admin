@@ -1,45 +1,52 @@
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
 import { SchemaEntry } from '@models/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
-import { DatagridComponent, Page } from 'multidirectory-ui-kit';
+import { DatagridComponent, MultidirectoryUiKitModule, Page } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AppWindowsService } from '@services/app-windows.service';
 import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { DialogService } from '../../components/modals/services/dialog.service';
+import {
+  PropertyEditDialogData,
+  PropertyEditDialogReturnData,
+} from '../../components/modals/interfaces/property-edit-dialog.interface';
+import { PropertyEditDialogComponent } from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
 
 @Component({
   selector: 'app-entity-attributes',
   templateUrl: './entity-attributes.component.html',
   styleUrls: ['./entity-attributes.component.scss'],
+  standalone: true,
+  imports: [MultidirectoryUiKitModule, FormsModule, TranslocoPipe, NgClass],
 })
 export class EntityAttributesComponent implements OnInit {
   @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
   @ViewChild('dataGridCellTemplate', { static: true })
   dataGridCellTemplateRef: TemplateRef<any> | null = null;
-
-  private _unsubscribe = new Subject<boolean>();
-  private _schema = new Map<string, SchemaEntry>();
-  private _accessor: LdapAttributes = {};
-  private _accessorRx = new BehaviorSubject<LdapAttributes>(this._accessor);
   rows: { name: string; val: string }[] = [];
-
   searchQuery = '';
   filter = new AttributeFilter();
-
-  @Input() set accessor(x: LdapAttributes) {
-    this._accessor = x;
-    this._accessorRx.next(x);
-  }
-  get accessor(): LdapAttributes {
-    return this._accessor;
-  }
-
   page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns: TableColumn[] = [];
+
+  private dialogService: DialogService = inject(DialogService);
+  private _unsubscribe = new Subject<boolean>();
+  private _schema = new Map<string, SchemaEntry>();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -47,6 +54,19 @@ export class EntityAttributesComponent implements OnInit {
     private toastr: ToastrService,
     private windows: AppWindowsService,
   ) {}
+
+  private _accessor: LdapAttributes = {};
+
+  private _accessorRx = new BehaviorSubject<LdapAttributes>(this._accessor);
+
+  get accessor(): LdapAttributes {
+    return this._accessor;
+  }
+
+  @Input() set accessor(x: LdapAttributes) {
+    this._accessor = x;
+    this._accessorRx.next(x);
+  }
 
   ngOnInit(): void {
     this._accessorRx.pipe(takeUntil(this._unsubscribe)).subscribe((_) => {
@@ -66,6 +86,66 @@ export class EntityAttributesComponent implements OnInit {
         cellTemplate: this.dataGridCellTemplateRef,
       },
     ];
+  }
+
+  onCopyClick(value: string): void {
+    from(navigator.clipboard.writeText(value))
+      .pipe(take(1))
+      .subscribe(() => this.toastr.success(translate('entity-attributes.copied')));
+  }
+
+  onDeleteClick() {
+    if (!this.propGrid?.selected?.[0]) {
+      this.toastr.error(translate('entity-attributes.select-attribute'));
+      return;
+    }
+    const attribute = this.propGrid.selected[0];
+    this.accessor[attribute.name] = this.accessor[attribute.name].filter(
+      (x) => x !== attribute.val,
+    );
+    this.rows = this.rows.filter((x) => x.name !== attribute.name || x.val !== attribute.val);
+    this.cdr.detectChanges();
+  }
+
+  onEditClick(attributeName = '') {
+    attributeName = attributeName || this.propGrid?._selected?.[0]?.name;
+    let attribute = this._schema.get(attributeName);
+    if (!attribute || !attribute.writable) {
+      attribute = new SchemaEntry({
+        name: attributeName,
+      });
+    }
+
+    this.dialogService
+      .open<PropertyEditDialogReturnData, PropertyEditDialogData, PropertyEditDialogComponent>({
+        component: PropertyEditDialogComponent,
+        dialogConfig: {
+          data: new EditPropertyRequest({
+            propertyType: attribute.type,
+            propertyName: attribute.name,
+            propertyValue: this.accessor[attribute.name],
+          }),
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((editedValue) => {
+        if (!editedValue) return;
+
+        this.accessor[attribute.name] = editedValue.propertyValue;
+        this.displayAttributes();
+      });
+  }
+
+  onFilterChange() {
+    this.page.pageNumber = 1;
+    this.displayAttributes();
+  }
+
+  onPageChanged(event: Page) {
+    this.page = event;
+    this.page.size = this.rows.length;
+    this.page.totalElements = this.rows.length;
+    this.cdr.detectChanges();
   }
 
   private loadEntityAttributes() {
@@ -131,61 +211,5 @@ export class EntityAttributesComponent implements OnInit {
           !this.searchQuery ||
           attr.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()),
       );
-  }
-
-  onCopyClick(value: string): void {
-    from(navigator.clipboard.writeText(value))
-      .pipe(take(1))
-      .subscribe(() => this.toastr.success(translate('entity-attributes.copied')));
-  }
-
-  onDeleteClick() {
-    if (!this.propGrid?.selected?.[0]) {
-      this.toastr.error(translate('entity-attributes.select-attribute'));
-      return;
-    }
-    const attribute = this.propGrid.selected[0];
-    this.accessor[attribute.name] = this.accessor[attribute.name].filter(
-      (x) => x !== attribute.val,
-    );
-    this.rows = this.rows.filter((x) => x.name !== attribute.name || x.val !== attribute.val);
-    this.cdr.detectChanges();
-  }
-
-  onEditClick(attributeName = '') {
-    attributeName = attributeName || this.propGrid?._selected?.[0]?.name;
-    let attribute = this._schema.get(attributeName);
-    if (!attribute || !attribute.writable) {
-      attribute = new SchemaEntry({
-        name: attributeName,
-      });
-    }
-
-    this.windows
-      .openPropertyEditorDialog(
-        new EditPropertyRequest({
-          propertyType: attribute.type,
-          propertyName: attribute.name,
-          propertyValue: this.accessor[attribute.name],
-        }),
-      )
-      .pipe(take(1))
-      .subscribe((editedValue) => {
-        if (!editedValue) return;
-        this.accessor[attribute.name] = editedValue.propertyValue;
-        this.displayAttributes();
-      });
-  }
-
-  onFilterChange() {
-    this.page.pageNumber = 1;
-    this.displayAttributes();
-  }
-
-  onPageChanged(event: Page) {
-    this.page = event;
-    this.page.size = this.rows.length;
-    this.page.totalElements = this.rows.length;
-    this.cdr.detectChanges();
   }
 }

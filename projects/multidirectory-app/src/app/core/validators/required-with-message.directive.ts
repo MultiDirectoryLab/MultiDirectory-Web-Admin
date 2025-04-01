@@ -2,13 +2,11 @@ import { Directive, Input } from '@angular/core';
 import {
   AbstractControl,
   NG_VALIDATORS,
-  PatternValidator,
   RequiredValidator,
   ValidationErrors,
-  Validator,
-  ValidatorFn,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
+
 @Directive({
   selector: '[appRequired]',
   providers: [
@@ -18,6 +16,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class RequiredWithMessageDirective extends RequiredValidator {
   @Input('appDomainFormat') domainPattern!: string;

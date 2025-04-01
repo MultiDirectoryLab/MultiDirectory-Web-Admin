@@ -24,14 +24,14 @@
       <label for="initials">{{ 'user-properties-generals.initials' | transloco }}</label>
     </div>
     <div class="col-xs-2">
-      <md-textbox name="initials" [(ngModel)]="accessor.initials"> </md-textbox>
+      <md-textbox name="initials" [(ngModel)]="accessor.initials"></md-textbox>
     </div>
   </div>
   <div class="row align-start pv-8">
     <div class="col-xs-4">
       <label for="surname">{{ 'user-properties-generals.last-name' | transloco }}</label>
     </div>
-    <md-textbox class="col-xs-8" [(ngModel)]="accessor.surname" name="surname"> </md-textbox>
+    <md-textbox class="col-xs-8" [(ngModel)]="accessor.surname" name="surname"></md-textbox>
   </div>
   <div class="row align-start pv-8">
     <div class="col-xs-4">
@@ -87,7 +87,3 @@
     </div>
   </div>
 }
-
-<ng-template modalInject #attributeList="modalInject">
-  <app-attribute-list></app-attribute-list>
-</ng-template>

@@ -1,0 +1,19 @@
+<app-dialog>
+  <div class="app-modal-header">
+    {{ 'entity-type-selector.modal-header' | transloco }}
+  </div>
+
+  <div class="flex-row">
+    {{ 'entity-type-selector.header' | transloco }}
+  </div>
+  <div class="h-100">
+    <md-treeview [checkboxes]="true" [tree]="tree"></md-treeview>
+  </div>
+
+  <div class="app-modal-footer flex-row justify-end flex-gap-10">
+    <md-button (click)="close()">{{ 'entity-type-selector.cancel' | transloco }}</md-button>
+    <md-button (click)="finish()" [primary]="true"
+      >{{ 'entity-type-selector.apply' | transloco }}
+    </md-button>
+  </div>
+</app-dialog>

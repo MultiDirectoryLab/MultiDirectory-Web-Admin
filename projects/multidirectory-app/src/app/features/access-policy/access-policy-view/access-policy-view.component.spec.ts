@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AccessPolicyViewComponent } from './access-policy-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -43,12 +43,12 @@ xdescribe('AccessPolicyViewComponent', () => {
     toastrService = jasmine.createSpyObj('ToastrService', ['error']);
 
     await TestBed.configureTestingModule({
-      declarations: [AccessPolicyViewComponent],
       imports: [
         FormsModule,
         MultidirectoryUiKitModule,
         TranslocoTestingModule,
         getTranslocoModule(),
+        AccessPolicyViewComponent,
       ],
       providers: [
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },

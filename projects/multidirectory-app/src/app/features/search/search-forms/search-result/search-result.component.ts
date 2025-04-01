@@ -1,12 +1,16 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SearchResult } from '@features/search/models/search-result';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { NgStyle } from '@angular/common';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
   styleUrls: ['./search-result.component.scss'],
+  standalone: true,
+  imports: [NgStyle, MultidirectoryUiKitModule, TranslocoPipe],
 })
 export class SearchResultComponent {
   columns = [{ name: translate('search-result.name'), prop: 'name', flexGrow: 1 }];

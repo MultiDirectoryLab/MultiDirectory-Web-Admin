@@ -1,15 +1,31 @@
-import { ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject } from 'rxjs';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { UserPropertiesGeneralComponent } from './general/user-properties-general.component';
+import { EntityAttributesComponent } from '../../entity-attributes/entity-attributes.component';
+import { UserPropertiesAddressComponent } from './address/user-properties-address.component';
+import { UserPropertiesProfileComponent } from './profile/user-properties-profile.component';
+import { UserPropertiesAccountComponent } from './account/user-properties-account.component';
+import { MemberOfComponent } from '../member-of/member-of.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-user-properties',
   styleUrls: ['./user-properties.component.scss'],
   templateUrl: 'user-properties.component.html',
+  standalone: true,
+  imports: [
+    MultidirectoryUiKitModule,
+    UserPropertiesGeneralComponent,
+    EntityAttributesComponent,
+    UserPropertiesAddressComponent,
+    UserPropertiesProfileComponent,
+    UserPropertiesAccountComponent,
+    TranslocoPipe,
+    MemberOfComponent,
+  ],
 })
-export class UserPropertiesComponent implements OnDestroy {
-  unsubscribe = new Subject<boolean>();
+export class UserPropertiesComponent {
   @Input() accessor!: LdapAttributes;
   properties?: any[];
   propColumns = [
@@ -17,18 +33,9 @@ export class UserPropertiesComponent implements OnDestroy {
     { name: 'Значение', prop: 'val', flexGrow: 1 },
   ];
 
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
-
-  ngOnDestroy() {
-    this.unsubscribe.next(true);
-    this.unsubscribe.complete();
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   onTabChanged() {
-    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

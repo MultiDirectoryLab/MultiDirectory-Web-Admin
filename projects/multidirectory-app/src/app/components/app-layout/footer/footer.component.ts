@@ -2,20 +2,24 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
+  standalone: true,
+  imports: [MultidirectoryUiKitModule, FaIconComponent, TranslocoPipe],
 })
 export class FooterComponent implements OnInit, OnDestroy {
   faCircleExclamation = faCircleExclamation;
-
-  private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;
+  private _unsubscribe = new Subject<void>();
+
   constructor(private app: AppSettingsService) {}
 
   ngOnInit(): void {

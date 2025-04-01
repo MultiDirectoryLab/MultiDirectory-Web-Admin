@@ -10,19 +10,9 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AccessPolicyViewComponent } from './access-policy-view/access-policy-view.component';
 import { AccessPolicyRoutingModule } from './access-policy-routing.module';
 import { AccessPolicyHeaderComponent } from './access-policy-header/access-policy-header.component';
-import { ValidatorsModule } from '@core/validators/validators.module';
-import { EntitySelectorModule } from '@features/forms/entity-selector/entity-selector.module';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
-  declarations: [
-    AccessPolicySettingsComponent,
-    AccessPolicyComponent,
-    AccessPolicyIpListComponent,
-    AccessPolicyViewComponent,
-    AccessPolicyViewModalComponent,
-    AccessPolicyHeaderComponent,
-  ],
   exports: [
     AccessPolicySettingsComponent,
     AccessPolicyComponent,
@@ -34,11 +24,15 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     CommonModule,
     FormsModule,
     MultidirectoryUiKitModule,
-    ValidatorsModule,
-    EntitySelectorModule,
     DragDropModule,
     TranslocoModule,
     AccessPolicyRoutingModule,
+    AccessPolicySettingsComponent,
+    AccessPolicyComponent,
+    AccessPolicyIpListComponent,
+    AccessPolicyViewComponent,
+    AccessPolicyViewModalComponent,
+    AccessPolicyHeaderComponent,
   ],
 })
 export class AccessPolicyModule {}

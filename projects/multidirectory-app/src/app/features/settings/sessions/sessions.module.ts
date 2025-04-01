@@ -9,7 +9,6 @@ import { SharedComponentsModule } from '../../../components/app-layout/shared/sh
 import { SessionComponent } from './session/session.component';
 
 @NgModule({
-  declarations: [SessionsComponent, SessionComponent],
   imports: [
     CommonModule,
     MultidirectoryUiKitModule,
@@ -17,6 +16,8 @@ import { SessionComponent } from './session/session.component';
     AppFormsModule,
     FontAwesomeModule,
     SharedComponentsModule,
+    SessionsComponent,
+    SessionComponent,
   ],
   exports: [SessionsComponent],
 })

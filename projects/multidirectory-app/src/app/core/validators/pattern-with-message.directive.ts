@@ -1,11 +1,6 @@
 import { Directive, Input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  PatternValidator,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+
 @Directive({
   selector: '[appPattern]',
   providers: [
@@ -15,6 +10,7 @@ import {
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class PatternWithMessageDirective implements Validator {
   @Input('appPattern') pattern!: string;

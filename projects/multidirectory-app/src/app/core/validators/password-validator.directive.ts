@@ -1,11 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  NgControl,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 
@@ -18,6 +12,7 @@ import { AppSettingsService } from '@services/app-settings.service';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class PasswordValidatorDirective implements Validator {
   @Input() errorLabel = '';

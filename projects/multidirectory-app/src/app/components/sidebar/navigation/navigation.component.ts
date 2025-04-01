@@ -1,26 +1,34 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { of, Subject, switchMap, takeUntil } from 'rxjs';
+import {
+  MultidirectoryUiKitModule,
+  RightClickEvent,
+  TreeSearchHelper,
+  TreeviewComponent,
+} from 'multidirectory-ui-kit';
 import { AppNavigationService, NavigationEventWrapper } from '@services/app-navigation.service';
-import { ContextMenuService } from '@services/contextmenu.service';
+
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { ContextMenuService } from '../../modals/services/context-menu.service';
+import { ContextMenuComponent } from '../../modals/components/core/context-menu/context-menu.component';
 
 @Component({
   selector: 'app-navigation',
   styleUrls: ['./navigation.component.scss'],
   templateUrl: './navigation.component.html',
+  standalone: true,
+  imports: [MultidirectoryUiKitModule],
 })
 export class NavigationComponent implements OnInit, OnDestroy {
   @ViewChild('treeView', { static: true }) treeView!: TreeviewComponent;
-
+  public navigationTree: NavigationNode[] = [];
+  private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private unsubscribe = new Subject<void>();
-  navigationTree: NavigationNode[] = [];
 
   constructor(
     private navigation: AppNavigationService,
-    private contextMenu: ContextMenuService,
     private route: ActivatedRoute,
   ) {}
 
@@ -96,10 +104,22 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.navigation.navigate(node);
   }
 
-  handleNodeRightClick(event: RightClickEvent) {
-    if (event.node instanceof LdapEntryNode) {
-      this.treeView.focus(event.node);
-      this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
+  handleNodeRightClick({ node, event: { x, y } }: RightClickEvent) {
+    if (node instanceof LdapEntryNode) {
+      this.treeView.focus(node);
+
+      this.contextMenuService
+        .open({
+          component: ContextMenuComponent,
+          x,
+          y,
+          contextMenuConfig: {
+            hasBackdrop: false,
+            data: { entity: [node] },
+          },
+        })
+        .closed.pipe(switchMap((result) => (!result ? of(null) : result)))
+        .subscribe();
     }
   }
 }

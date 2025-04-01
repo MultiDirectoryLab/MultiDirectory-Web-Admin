@@ -3,11 +3,14 @@ import { ContextmenuType } from 'ngx-datatable-gimefork';
 import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-grid-item',
   styleUrls: ['./grid-item.component.scss'],
   templateUrl: 'grid-item.component.html',
+  standalone: true,
+  imports: [NgClass],
 })
 export class GridItemComponent {
   @Input() big = false;
@@ -30,6 +33,7 @@ export class GridItemComponent {
     $event.stopPropagation();
     this.clickOnItem.next($event);
   }
+
   onDblClick($event: Event) {
     $event.preventDefault();
     this.item.selected = false;

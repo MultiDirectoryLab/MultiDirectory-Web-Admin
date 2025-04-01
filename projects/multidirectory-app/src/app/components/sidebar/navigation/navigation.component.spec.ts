@@ -1,11 +1,10 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { getTranslocoModule } from '@testing/transloco-testing';
 import { NavigationComponent } from './navigation.component';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
 import { NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
-import { Subject, of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
@@ -23,8 +22,7 @@ xdescribe('Navigation Component Test Suit', () => {
     routerSpy.events = routerEventSubj.asObservable();
 
     await TestBed.configureTestingModule({
-      imports: [RouterModule, MultidirectoryUiKitModule, getTranslocoModule()],
-      declarations: [NavigationComponent],
+      imports: [RouterModule, MultidirectoryUiKitModule, getTranslocoModule(), NavigationComponent],
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },

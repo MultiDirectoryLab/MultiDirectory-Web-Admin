@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { take } from 'rxjs';
+import { MfIntegrationFormComponent } from './mf-integration-form/mf-integration-form.component';
 
 @Component({
   selector: 'app-multifactor-settings',
   templateUrl: './multifactor-settings.component.html',
   styleUrls: ['./multifactor-settings.component.scss'],
+  standalone: true,
+  imports: [MfIntegrationFormComponent],
 })
 export class MultifactorSettingsComponent implements OnInit {
   apiKey = '';
@@ -14,6 +17,7 @@ export class MultifactorSettingsComponent implements OnInit {
   ldapApiSecret = '';
 
   constructor(private api: MultidirectoryApiService) {}
+
   ngOnInit(): void {
     this.api
       .getMultifactor()

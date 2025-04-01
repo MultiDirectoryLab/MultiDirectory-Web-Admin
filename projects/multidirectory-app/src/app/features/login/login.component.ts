@@ -1,35 +1,44 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Router } from '@angular/router';
-import { EMPTY, Subject, catchError, skipWhile, switchMap, take, takeUntil } from 'rxjs';
-import { MdFormComponent, MdModalComponent } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { WebSocketService, WebsocketTokenHandle } from '@core/websocket/websocket.service';
+import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
+import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { WebsocketTokenHandle } from '@core/websocket/websocket.service';
 import { LoginResponse } from '@models/login/login-response';
-import { translate } from '@jsverse/transloco';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { LoginService } from '@services/login.service';
+import { DialogComponent } from '../../components/modals/components/core/dialog/dialog.component';
+
+import { FormsModule } from '@angular/forms';
+import { RequiredWithMessageDirective } from '../../core/validators/required-with-message.directive';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    MultidirectoryUiKitModule,
+    RequiredWithMessageDirective,
+    TranslocoPipe,
+    FormsModule,
+    DialogComponent,
+  ],
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
   login = '';
   password = '';
-  private unsubscribe = new Subject<void>();
   wssHandle?: WebsocketTokenHandle;
   @ViewChild('loginForm') loginForm!: MdFormComponent;
-  @ViewChild('modal') modal!: MdModalComponent;
+  @ViewChild(DialogComponent) dialogComponent!: DialogComponent;
+  loginValid = false;
+  private unsubscribe = new Subject<void>();
 
   constructor(
-    private api: MultidirectoryApiService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private loginService: LoginService,
   ) {}
 
-  loginValid = false;
   ngAfterViewInit(): void {
     this.loginValid = this.loginForm.valid;
     this.loginForm.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((result) => {
@@ -47,17 +56,17 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   onLogin(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.modal.showSpinner();
+    this.dialogComponent.showSpinner();
     this.loginService
       .login(this.login, this.password)
       .pipe(
         catchError((err, caught) => {
-          this.modal.hideSpinner();
+          this.dialogComponent.hideSpinner();
           return EMPTY;
         }),
       )
       .subscribe((response: LoginResponse) => {
-        this.modal.hideSpinner();
+        this.dialogComponent.hideSpinner();
         this.router.navigate(['/']);
       });
   }

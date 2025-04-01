@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EntityAttributesComponent } from './entity-attributes.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
@@ -24,8 +24,7 @@ describe('EntityAttributesComponent', () => {
     attributeService = new AttributeService();
 
     TestBed.configureTestingModule({
-      imports: [MultidirectoryUiKitModule, getTranslocoModule()],
-      declarations: [EntityAttributesComponent],
+      imports: [MultidirectoryUiKitModule, getTranslocoModule(), EntityAttributesComponent],
       providers: [
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
         { provide: ToastrService, useValue: getToastrMock() },

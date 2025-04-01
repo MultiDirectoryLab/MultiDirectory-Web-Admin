@@ -1,27 +1,44 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { AppWindowsService } from '@services/app-windows.service';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY } from 'rxjs';
+import { EMPTY, take } from 'rxjs';
+import { NgClass } from '@angular/common';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogData,
+  ConfirmDialogReturnData,
+} from '../../../components/modals/interfaces/confirm-dialog.interface';
 
 @Component({
   selector: 'app-acccess-policy',
   templateUrl: './access-policy.component.html',
   styleUrls: ['./access-policy.component.scss'],
+  standalone: true,
+  imports: [NgClass, MultidirectoryUiKitModule, FormsModule],
 })
 export class AccessPolicyComponent {
   @Input() index = 0;
   @Output() deleteClick = new EventEmitter<AccessPolicy>();
   @Output() turnOffClick = new EventEmitter<AccessPolicy>();
   @Output() editClick = new EventEmitter<AccessPolicy>();
+  ipAddress = '';
+  groups = '';
+  private dialogService: DialogService = inject(DialogService);
+  private toastr: ToastrService = inject(ToastrService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   _accessClient: AccessPolicy | null = null;
+
   get accessClient(): AccessPolicy | null {
     return this._accessClient;
   }
+
   @Input() set accessClient(accessClient: AccessPolicy | null) {
     this._accessClient = accessClient;
     if (this._accessClient) {
@@ -37,15 +54,6 @@ export class AccessPolicyComponent {
     }
   }
 
-  ipAddress = '';
-
-  groups = '';
-  constructor(
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-    private windows: AppWindowsService,
-  ) {}
-
   onDeleteClick() {
     if (!this.accessClient) {
       this.toastr.error(translate('access-policy.client-does-not-exist'));
@@ -59,13 +67,22 @@ export class AccessPolicyComponent {
       secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
     };
 
-    this.windows.openConfirmDialog(prompt).subscribe((result) => {
-      if (result === 'yes') {
-        this.deleteClick.emit(this.accessClient!);
-        return;
-      }
-      return EMPTY;
-    });
+    this.dialogService
+      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+        component: ConfirmDialogComponent,
+        dialogConfig: {
+          minHeight: '160px',
+          data: prompt,
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
+        if (result === 'yes') {
+          this.deleteClick.emit(this.accessClient!);
+          return;
+        }
+        return EMPTY;
+      });
   }
 
   onTurnOffClick() {

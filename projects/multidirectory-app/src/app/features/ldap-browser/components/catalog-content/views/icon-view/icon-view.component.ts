@@ -3,30 +3,46 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  forwardRef,
   HostListener,
   Input,
   QueryList,
   ViewChild,
   ViewChildren,
-  forwardRef,
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { GridItemComponent } from './grid-item/grid-item.component';
-import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
+import {
+  DropdownMenuComponent,
+  MultidirectoryUiKitModule,
+  Page,
+  PagerComponent,
+} from 'multidirectory-ui-kit';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { take } from 'rxjs';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationRoot } from '@core/navigation/navigation-entry-point';
+import { ActivatedRoute } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-icon-view',
   templateUrl: './icon-view.component.html',
   styleUrls: ['./icon-view.component.scss'],
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => IconViewComponent) }],
+  standalone: true,
+  imports: [
+    NgClass,
+    CdkDrag,
+    GridItemComponent,
+    MultidirectoryUiKitModule,
+    FormsModule,
+    TranslocoPipe,
+  ],
 })
 export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
   @Input() big = false;
@@ -67,6 +83,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   override getSelected(): LdapEntryNode[] {
     return this.items.filter((x) => x.selected);
   }
+
   override setSelected(selected: LdapEntryNode[]): void {
     this.items.forEach((i) => (i.selected = false));
     selected.filter((i) => !!i).forEach((i) => (i.selected = true));
@@ -127,6 +144,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       return Number(pos[0]) == yPos && Number(pos[1]) == xPos;
     });
   }
+
   selectCatalog(item: LdapEntryNode) {}
 
   clickOutside(event: MouseEvent) {

@@ -1,4 +1,4 @@
 export interface ConfirmButtonDescriptor {
-  id: string;
+  id: string | boolean;
   text: string;
 }

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -32,15 +32,14 @@ describe('MfIntegrationFormComponent', () => {
     toastrService = jasmine.createSpyObj('ToastrService', ['success', 'error']);
 
     await TestBed.configureTestingModule({
-      declarations: [
+      declarations: [MdFormComponent, TextboxComponent, ButtonComponent, TooltipComponent],
+      imports: [
+        FormsModule,
+        TranslocoModule,
+        getTranslocoModule(),
         MfIntegrationFormComponent,
         MfKeyValidatorDirective,
-        MdFormComponent,
-        TextboxComponent,
-        ButtonComponent,
-        TooltipComponent,
       ],
-      imports: [FormsModule, TranslocoModule, getTranslocoModule()],
       providers: [
         { provide: MultidirectoryApiService, useValue: apiService },
         { provide: AppWindowsService, useValue: windowsService },

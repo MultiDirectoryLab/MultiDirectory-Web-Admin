@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { SearchEntry } from '@models/entry/search-response';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -15,29 +15,31 @@ import {
   DatagridComponent,
   DropdownMenuComponent,
   DropdownOption,
+  MultidirectoryUiKitModule,
   Page,
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import { AddPrincipalDialogComponent } from '../../../components/modals/components/dialogs/add-principal-dialog/add-principal-dialog.component';
+import {
+  AddPrincipalDialogData,
+  AddPrincipalDialogReturnData,
+} from '../../../components/modals/interfaces/add-principal-dialog.interface';
 
 @Component({
   selector: 'app-kerberos-principals',
   styleUrls: ['./kerberos-principals.component.scss'],
   templateUrl: './kerberos-principals.component.html',
+  standalone: true,
+  imports: [MultidirectoryUiKitModule, FormsModule, FaIconComponent, TranslocoPipe],
 })
 export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   @ViewChild('grid') grid!: DatagridComponent;
   @ViewChild('principalMenu') principalMenu!: DropdownMenuComponent;
   faCircleExclamation = faCircleExclamation;
-  private _searchQuery = '';
-  set searchQuery(query: string) {
-    this._searchQuery = query;
-    this.updateContent();
-  }
-  get searchQuery(): string {
-    return this._searchQuery;
-  }
-
   principals: SearchResult[] = [];
   columns: TableColumn[] = [];
   pageSizes: DropdownOption[] = [
@@ -48,13 +50,12 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     { title: '100', value: 100 },
   ];
   page = new Page();
-
-  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
-  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
-
-  private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
+  private dialogService: DialogService = inject(DialogService);
+  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
+  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
+  private _unsubscribe = new Subject<void>();
 
   constructor(
     private api: MultidirectoryApiService,
@@ -64,6 +65,17 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
   ) {}
+
+  private _searchQuery = '';
+
+  get searchQuery(): string {
+    return this._searchQuery;
+  }
+
+  set searchQuery(query: string) {
+    this._searchQuery = query;
+    this.updateContent();
+  }
 
   ngOnInit(): void {
     this.app.kerberosStatusRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
@@ -119,6 +131,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   }
 
   onPageChanged($event: Page) {}
+
   onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
@@ -175,10 +188,13 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   }
 
   addPrincipal() {
-    this.windows
-      .openAddPrincipalDialog()
-      .pipe(take(1))
-      .subscribe((x) => {
+    this.dialogService
+      .open<AddPrincipalDialogReturnData, AddPrincipalDialogData, AddPrincipalDialogComponent>({
+        component: AddPrincipalDialogComponent,
+        dialogConfig: { minHeight: '360px' },
+      })
+      .closed.pipe(take(1))
+      .subscribe(() => {
         this.updateContent();
       });
   }

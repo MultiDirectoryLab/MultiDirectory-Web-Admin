@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { PropertiesModule } from '../../../features/ldap-properties/properties.module';
 
 @NgModule({
-  declarations: [PlaceholderComponent, PlaceholderHeaderComponent],
   imports: [
     TranslocoModule,
     CommonModule,
@@ -26,6 +25,8 @@ import { PropertiesModule } from '../../../features/ldap-properties/properties.m
       },
     ]),
     PropertiesModule,
+    PlaceholderComponent,
+    PlaceholderHeaderComponent,
   ],
   exports: [RouterModule],
 })

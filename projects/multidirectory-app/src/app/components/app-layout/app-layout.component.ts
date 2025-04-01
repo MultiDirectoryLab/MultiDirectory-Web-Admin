@@ -1,33 +1,42 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  EMPTY,
-  Subject,
-  catchError,
-  combineLatest,
-  of,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
+import { HotkeyModule, HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { DnsApiService } from '@services/dns-api.service';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsStatuses } from '@models/dns/dns-statuses';
 import { ToastrService } from 'ngx-toastr';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { NgClass } from '@angular/common';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { HeaderComponent } from './header/header.component';
+import { RouterOutlet } from '@angular/router';
+import { MdSlideshiftModule } from 'multidirectory-ui-kit';
+import { NotificationsComponent } from './shared/notifications/notifications.component';
+import { WindowsComponent } from './shared/windows/windows.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    SidebarComponent,
+    HeaderComponent,
+    RouterOutlet,
+    MdSlideshiftModule,
+    NotificationsComponent,
+    HotkeyModule,
+    WindowsComponent,
+    TranslocoPipe,
+  ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;

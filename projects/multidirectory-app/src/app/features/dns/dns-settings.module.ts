@@ -8,13 +8,14 @@ import { AppFormsModule } from '@features/forms/forms.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [DnsSettingsComponent, DnsRuleListItemComponent],
   imports: [
     CommonModule,
     MultidirectoryUiKitModule,
     TranslocoModule,
     AppFormsModule,
     FontAwesomeModule,
+    DnsSettingsComponent,
+    DnsRuleListItemComponent,
   ],
 })
 export class DnsSettingsModule {}

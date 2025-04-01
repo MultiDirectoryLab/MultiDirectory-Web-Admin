@@ -1,44 +1,59 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsStatuses } from '@models/dns/dns-statuses';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { catchError, EMPTY, switchMap, take } from 'rxjs';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { DnsRuleListItemComponent } from './dns-rule-list-item/dns-rule-list-item.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { DialogService } from '../../components/modals/services/dialog.service';
+import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogData,
+  ConfirmDialogReturnData,
+} from '../../components/modals/interfaces/confirm-dialog.interface';
+import { DnsRuleDialogComponent } from '../../components/modals/components/dialogs/dns-rule-dialog/dns-rule-dialog.component';
+import {
+  DnsRuleDialogData,
+  DnsRuleDialogReturnData,
+} from '../../components/modals/interfaces/dns-rule-dialog.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dns-settings',
   templateUrl: './dns-settings.component.html',
   styleUrls: ['./dns-settings.component.scss'],
+  standalone: true,
+  imports: [MultidirectoryUiKitModule, DnsRuleListItemComponent, FaIconComponent, TranslocoPipe],
 })
-export class DnsSettingsComponent implements OnInit, OnDestroy {
-  private unsubscribe = new Subject<boolean>();
-  dnsStatuses = DnsStatuses;
-  dnsStatus = new DnsStatusResponse({});
-  rules: DnsRule[] = [];
-  faCircleExclamation = faCircleExclamation;
+export class DnsSettingsComponent implements OnInit {
+  public dnsStatuses = DnsStatuses;
+  public dnsStatus = new DnsStatusResponse({});
+  public rules: DnsRule[] = [];
+  public faCircleExclamation = faCircleExclamation;
 
-  constructor(
-    private dnsService: DnsApiService,
-    private windows: AppWindowsService,
-    private dns: DnsApiService,
-    private toastr: ToastrService,
-    private app: AppSettingsService,
-  ) {}
+  private dialogService: DialogService = inject(DialogService);
+  private dnsService: DnsApiService = inject(DnsApiService);
+  private windows: AppWindowsService = inject(AppWindowsService);
+  private dns: DnsApiService = inject(DnsApiService);
+  private toastr: ToastrService = inject(ToastrService);
+  private app: AppSettingsService = inject(AppSettingsService);
+  private destroyRef$: DestroyRef = inject(DestroyRef);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.windows.showSpinner();
     this.app.dnsStatusRx
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef$),
         catchError((err) => {
           this.windows.hideSpinner();
           throw err;
@@ -53,9 +68,97 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next(true);
-    this.unsubscribe.complete();
+  public onDelete(toDeleteIndex: number) {
+    const prompt: ConfirmDialogDescriptor = {
+      promptHeader: translate('remove-confirmation-dialog.prompt-header'),
+      promptText: translate('remove-confirmation-dialog.prompt-text'),
+      primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
+      secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
+    };
+
+    this.dialogService
+      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+        component: ConfirmDialogComponent,
+        dialogConfig: {
+          minHeight: '160px',
+          data: prompt,
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => {
+          if (x === 'cancel' || !x) {
+            return EMPTY;
+          }
+          const rule = this.enusreHostname(this.rules[toDeleteIndex]);
+          return this.dns.delete(rule);
+        }),
+      )
+      .subscribe(() => {
+        this.rules = this.rules.filter((_, ind) => ind !== toDeleteIndex);
+      });
+  }
+
+  public onAdd() {
+    this.dialogService
+      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+        component: DnsRuleDialogComponent,
+        dialogConfig: {
+          minHeight: '360px',
+          data: { rule: new DnsRule({}) },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
+      )
+      .subscribe(() => {
+        this.toastr.success(translate('dns-settings.success'));
+        this.reloadData();
+      });
+  }
+
+  public onEdit(index: number) {
+    const rule = this.enusreHostname(this.rules[index]);
+    const oldHostname = this.rules[index].record_name;
+
+    this.dialogService
+      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+        component: DnsRuleDialogComponent,
+        dialogConfig: {
+          minHeight: '360px',
+          data: { rule, isEdit: true },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => {
+          if (!x) return EMPTY;
+          this.rules[index] = rule;
+          return this.dns.update(rule);
+        }),
+      )
+      .subscribe(() => {
+        this.rules[index].record_name = oldHostname;
+        this.toastr.success(translate('dns-settings.success'));
+      });
+  }
+
+  public handleSetupClick() {
+    this.windows
+      .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))
+      .pipe(
+        take(1),
+        switchMap((request) => {
+          if (!request) {
+            return EMPTY;
+          }
+          return this.dns.setup(request);
+        }),
+      )
+      .subscribe(() => {
+        window.location.reload();
+      });
   }
 
   private reloadData() {
@@ -87,79 +190,5 @@ export class DnsSettingsComponent implements OnInit, OnDestroy {
     const result = new DnsRule(rule);
     result.record_name = result.record_name.replace('.' + this.dnsStatus.zone_name, '');
     return result;
-  }
-
-  onDelete(toDeleteIndex: number) {
-    const prompt: ConfirmDialogDescriptor = {
-      promptHeader: translate('remove-confirmation-dialog.prompt-header'),
-      promptText: translate('remove-confirmation-dialog.prompt-text'),
-      primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
-      secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
-    };
-
-    this.windows
-      .openConfirmDialog(prompt)
-      .pipe(take(1))
-      .pipe(
-        switchMap((x) => {
-          if (x === 'cancel' || !x) {
-            return EMPTY;
-          }
-          const rule = this.enusreHostname(this.rules[toDeleteIndex]);
-          return this.dns.delete(rule);
-        }),
-      )
-      .subscribe((result) => {
-        this.rules = this.rules.filter((x, ind) => ind !== toDeleteIndex);
-      });
-  }
-
-  onAdd() {
-    this.windows
-      .openDnsRuleDialog(new DnsRule({}))
-      .pipe(
-        take(1),
-        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
-      )
-      .subscribe((rule) => {
-        this.toastr.success(translate('dns-settings.success'));
-        this.reloadData();
-      });
-  }
-
-  onEdit(index: number) {
-    const rule = this.enusreHostname(this.rules[index]);
-    const oldHostname = this.rules[index].record_name;
-    this.windows
-      .openDnsRuleDialog(rule, true)
-      .pipe(
-        take(1),
-        switchMap((x) => {
-          if (!x) return EMPTY;
-          this.rules[index] = rule;
-          return this.dns.update(rule);
-        }),
-      )
-      .subscribe((rule) => {
-        this.rules[index].record_name = oldHostname;
-        this.toastr.success(translate('dns-settings.success'));
-      });
-  }
-
-  handleSetupClick() {
-    this.windows
-      .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))
-      .pipe(
-        take(1),
-        switchMap((request) => {
-          if (!request) {
-            return EMPTY;
-          }
-          return this.dns.setup(request);
-        }),
-      )
-      .subscribe((request) => {
-        window.location.reload();
-      });
   }
 }

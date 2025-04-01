@@ -1,20 +1,23 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-ldap-browser-header',
   templateUrl: './ldap-browser-header.component.html',
   styleUrls: ['./ldap-browser-header.component.scss'],
+  standalone: true,
+  imports: [FaIconComponent, TranslocoPipe],
 })
 export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
-  private unsubscribe = new Subject<boolean>();
   selectedCatalogDn = '';
   containerName = '';
   faCopy = faCopy;
+  private unsubscribe = new Subject<boolean>();
 
   constructor(
     private activatedRoute: ActivatedRoute,

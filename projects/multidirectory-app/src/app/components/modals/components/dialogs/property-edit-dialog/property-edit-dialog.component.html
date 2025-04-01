@@ -1,0 +1,46 @@
+<app-dialog>
+  <div class="app-modal-header">
+    {{ 'property-editor.header' | transloco }} {{ editRequest.propertyName }}
+  </div>
+  <div class="flex-column flex-gap-10 flex-grow-1">
+    <div class="flex-row flex-space-between">
+      <div>{{ 'property-editor.attribute' | transloco }}: {{ editRequest.propertyName }}</div>
+      <div>
+        <md-dropdown
+          [(ngModel)]="editRequest.propertyType"
+          [options]="propertyTypes"
+          class="page-size-select"
+        ></md-dropdown>
+      </div>
+    </div>
+    <div>
+      @switch (editRequest.propertyType) {
+        @case (LdapPropertyType.String) {
+          <app-string-property-editor
+            [(propertyValue)]="editRequest.propertyValue"
+          ></app-string-property-editor>
+        }
+        @case (LdapPropertyType.Integer) {
+          <app-integer-property-editor
+            [(propertyValue)]="editRequest.propertyValue"
+          ></app-integer-property-editor>
+        }
+        @case (LdapPropertyType.MultivaluedString) {
+          <app-multivalued-string-editor
+            [(propertyValue)]="editRequest.propertyValue"
+          ></app-multivalued-string-editor>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="app-modal-footer flex-row flex-space-between">
+    <div></div>
+    <div class="flex-row flex-gap-10">
+      <md-button (click)="close()">{{ 'property-editor.cancel' | transloco }}</md-button>
+      <md-button (click)="finish()" [primary]="true"
+        >{{ 'property-editor.apply' | transloco }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>

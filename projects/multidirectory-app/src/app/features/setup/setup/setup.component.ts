@@ -9,29 +9,49 @@ import {
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { SetupService } from '@services/setup.service';
-import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
+import {
+  MdModalComponent,
+  MultidirectoryUiKitModule,
+  StepperComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, delay, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { DomainSettingsComponent } from '@features/setup/domain-setttings/domain-settings.component';
+import { AdminSettingsComponent } from '@features/setup/admin-settings/admin-settings.component';
+import { AdminSettingsSecondComponent } from '@features/setup/admin-settings-second/admin-settings-second.component';
+import { DnsSetupSettingsComponent } from '@features/setup/dns-setup-settings/dns-setup-settings.component';
+import { KerberosSettingsComponent } from '@features/setup/kerberos-settings/kerberos-settings.component';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
+  standalone: true,
+  imports: [
+    MultidirectoryUiKitModule,
+    FaIconComponent,
+    TranslocoPipe,
+    DomainSettingsComponent,
+    AdminSettingsComponent,
+    AdminSettingsSecondComponent,
+    DnsSetupSettingsComponent,
+    KerberosSettingsComponent,
+  ],
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('modal') modal!: MdModalComponent;
   @ViewChild('stepper') stepper!: StepperComponent;
-
-  private unsubscribe = new Subject<boolean>();
   setupRequest = new SetupRequest();
   stepValid = false;
   faLanguage = faLanguage;
+  private unsubscribe = new Subject<boolean>();
 
   constructor(
     private app: AppSettingsService,

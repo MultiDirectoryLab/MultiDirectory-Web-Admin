@@ -3,61 +3,67 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  OnDestroy,
+  inject,
   Output,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { translate } from '@jsverse/transloco';
-import { Subject } from 'rxjs';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
-import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
 import { MenuService } from '@services/menu.service';
-import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
+import { MdSlideshiftComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import { FormsModule } from '@angular/forms';
+import { SearchPanelComponent } from '@features/search/search-panel.component';
+import {
+  EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
+} from '../../modals/interfaces/entity-properties-dialog.interface';
+import { EntityPropertiesDialogComponent } from '../../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { DialogService } from '../../modals/services/dialog.service';
+import {
+  ChangePasswordDialogData,
+  ChangePasswordDialogReturnData,
+} from '../../modals/interfaces/change-password-dialog.interface';
+import { ChangePasswordDialogComponent } from '../../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [
+    TranslocoDirective,
+    RouterOutlet,
+    MultidirectoryUiKitModule,
+    FormsModule,
+    RouterLink,
+    SearchPanelComponent,
+  ],
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent {
   @Output() helpMenuClick = new EventEmitter<MouseEvent>();
   @Output() accountSettingsClicked = new EventEmitter<void>();
   @Output() logoutClick = new EventEmitter<void>();
-
   @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef;
   @ViewChild('notifications', { read: MdSlideshiftComponent }) slideshift!: MdSlideshiftComponent;
-  showNotifications = false;
-  unsubscribe = new Subject<boolean>();
-  navigationalPanelInvisible = false;
-  darkMode = false;
 
-  ViewMode = ViewMode;
-  get contentView(): ViewMode {
-    return this.contentViewService.contentView;
-  }
-  set contentView(view: ViewMode) {
-    this.contentViewService.contentView = view;
-  }
+  public navigationalPanelInvisible = false;
+  public darkMode = false;
+  public ViewMode = ViewMode;
 
-  get user(): WhoamiResponse | undefined {
-    return this.app.user;
-  }
+  private app: AppSettingsService = inject(AppSettingsService);
+  private contentViewService: ContentViewService = inject(ContentViewService);
+  private hotkeysService: HotkeysService = inject(HotkeysService);
+  private menu: MenuService = inject(MenuService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private router: Router = inject(Router);
+  private dialogService: DialogService = inject(DialogService);
 
-  // TODO: TOO MUCH SERVICES
-  constructor(
-    private app: AppSettingsService,
-    private contentViewService: ContentViewService,
-    private hotkeysService: HotkeysService,
-    private ldapWindows: AppWindowsService,
-    private menu: MenuService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {
+  constructor() {
     this.hotkeysService.add(
       new Hotkey(
         ['ctrl+h', 'meta+h'],
@@ -77,7 +83,7 @@ export class HeaderComponent implements OnDestroy {
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']); TODO: Разобраться для чего
           return false; // Prevent bubbling
         },
         undefined,
@@ -167,9 +173,16 @@ export class HeaderComponent implements OnDestroy {
     this.darkMode = localStorage.getItem('dark-mode') == 'true';
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next(true);
-    this.unsubscribe.complete();
+  get contentView(): ViewMode {
+    return this.contentViewService.contentView;
+  }
+
+  set contentView(view: ViewMode) {
+    this.contentViewService.contentView = view;
+  }
+
+  get user(): WhoamiResponse | undefined {
+    return this.app.user;
   }
 
   onChange(value: boolean) {
@@ -200,14 +213,41 @@ export class HeaderComponent implements OnDestroy {
     if (!this.app.userEntry) {
       return;
     }
-    this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
+
+    this.dialogService.open<
+      EntityPropertiesDialogReturnData,
+      EntityPropertiesDialogData,
+      EntityPropertiesDialogComponent
+    >({
+      component: EntityPropertiesDialogComponent,
+      dialogConfig: {
+        hasBackdrop: false,
+        width: '600px',
+        minHeight: '660px',
+        data: { entity: this.app.userEntry },
+      },
+    });
   }
 
   onChangePasswordClick() {
     if (!this.app.userEntry) {
       return;
     }
-    this.ldapWindows.openChangePasswordModal(this.app.userEntry);
+
+    const { id: identity, name: un } = this.app.userEntry;
+
+    this.dialogService.open<
+      ChangePasswordDialogReturnData,
+      ChangePasswordDialogData,
+      ChangePasswordDialogComponent
+    >({
+      component: ChangePasswordDialogComponent,
+      dialogConfig: {
+        minHeight: '220px',
+        height: '220px',
+        data: { identity, un },
+      },
+    });
   }
 
   onLogout() {

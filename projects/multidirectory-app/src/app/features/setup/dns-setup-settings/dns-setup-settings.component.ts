@@ -3,11 +3,14 @@ import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { Subject, takeUntil } from 'rxjs';
+import { AppFormsModule } from '@features/forms/forms.module';
 
 @Component({
   selector: 'app-dns-setup-settings',
   templateUrl: './dns-setup-settings.component.html',
   styleUrls: ['./dns-setup-settings.component.scss'],
+  standalone: true,
+  imports: [AppFormsModule],
 })
 export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
   @Input() setupRequest!: SetupRequest;
@@ -16,21 +19,23 @@ export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
 
   constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
+  private _formValid = false;
+
+  get formValid() {
+    return this._formValid;
+  }
+
+  set formValid(valid: boolean) {
+    this._formValid = valid;
+    this.setupRequestValidatorService.stepValid(valid);
+  }
+
   ngAfterViewInit(): void {
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
         this.form.validate();
       });
-  }
-
-  private _formValid = false;
-  set formValid(valid: boolean) {
-    this._formValid = valid;
-    this.setupRequestValidatorService.stepValid(valid);
-  }
-  get formValid() {
-    return this._formValid;
   }
 
   ngOnDestroy(): void {

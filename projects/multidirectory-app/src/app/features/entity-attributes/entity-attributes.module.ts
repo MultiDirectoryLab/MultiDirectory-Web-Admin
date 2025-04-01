@@ -3,20 +3,17 @@ import { CommonModule } from '@angular/common';
 import { EntityAttributesComponent } from './entity-attributes.component';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { AppFormsModule } from '@features/forms/forms.module';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @NgModule({
   imports: [
     CommonModule,
     MultidirectoryUiKitModule,
     FormsModule,
-    EditorsModule,
     AppFormsModule,
     TranslocoModule,
+    EntityAttributesComponent,
   ],
-  declarations: [EntityAttributesComponent],
-  exports: [EntityAttributesComponent],
 })
 export class EntityAttributesModule {}

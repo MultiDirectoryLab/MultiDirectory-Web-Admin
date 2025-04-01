@@ -1,80 +1,162 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { translate } from '@jsverse/transloco';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import {
+  MdModalModule,
+  ModalInjectDirective,
+  MultidirectoryUiKitModule,
+} from 'multidirectory-ui-kit';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
 import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { ContextMenuService } from '@services/contextmenu.service';
 import { ActivatedRoute } from '@angular/router';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
+import { DialogService } from '../../../../components/modals/services/dialog.service';
+import { CreateUserDialogComponent } from '../../../../components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
+import {
+  CreateUserDialogData,
+  CreateUserDialogReturnData,
+} from '../../../../components/modals/interfaces/user-create-dialog.interface';
+import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
+import { ContextMenuComponent } from '../../../../components/modals/components/core/context-menu/context-menu.component';
+import { ContextMenuData } from '../../../../components/modals/interfaces/context-menu-dialog.interface';
+import { FormsModule } from '@angular/forms';
+import { NgStyle } from '@angular/common';
+import { TableViewComponent } from './views/table-view/table-view.component';
+import { IconViewComponent } from './views/icon-view/icon-view.component';
+import {
+  CreateGroupDialogData,
+  CreateGroupDialogReturnData,
+} from '../../../../components/modals/interfaces/create-group-dialog.interface';
+import { CreateGroupDialogComponent } from '../../../../components/modals/components/dialogs/create-group-dialog/create-group-dialog.component';
+import {
+  CreateComputerDialogData,
+  CreateComputerDialogReturnData,
+} from '../../../../components/modals/interfaces/create-computer-dialog.interface';
+import { CreateComputerDialogComponent } from '../../../../components/modals/components/dialogs/create-computer-dialog/create-computer-dialog.component';
+import { CreateRuleDialogComponent } from '../../../../components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
+import {
+  CreateRuleDialogData,
+  CreateRuleDialogReturnData,
+} from '../../../../components/modals/interfaces/create-rule-dialog.interface';
+import {
+  CreateCatalogDialogData,
+  CreateCatalogDialogReturnData,
+} from '../../../../components/modals/interfaces/create-catalog-dialog.interface';
+import { CreateCatalogDialogComponent } from '../../../../components/modals/components/dialogs/create-catalog-dialog/create-catalog-dialog.component';
+import {
+  CreateOrganizationUnitDialogData,
+  CreateOrganizationUnitDialogReturnData,
+} from '../../../../components/modals/interfaces/create-organization-unit-dialog.interface';
+import { CreateOrganizationUnitDialogComponent } from '../../../../components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
+import { DialogRef } from '@angular/cdk/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-catalog-content',
   templateUrl: './catalog-content.component.html',
   styleUrls: ['./catalog-content.component.scss'],
+  standalone: true,
+  imports: [
+    MultidirectoryUiKitModule,
+    FormsModule,
+    NgStyle,
+    TableViewComponent,
+    IconViewComponent,
+    MdModalModule,
+    TranslocoPipe,
+  ],
 })
-export class CatalogContentComponent implements OnInit, OnDestroy {
+export class CatalogContentComponent implements OnInit {
   @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
   @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-  private _selectedRows: LdapEntryNode[] = [];
-  unsubscribe = new Subject<void>();
-  LdapEntryType = LdapEntryType;
-  ViewMode = ViewMode;
-  currentView = this.contentView.contentView;
-  searchQuery = '';
 
-  constructor(
-    private navigation: AppNavigationService,
-    private cdr: ChangeDetectorRef,
-    private contentView: ContentViewService,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private contextMenu: ContextMenuService,
-    private hotkeysService: HotkeysService,
-    private activatedRoute: ActivatedRoute,
-  ) {}
+  public ViewMode = ViewMode;
+  public searchQuery = '';
 
-  ngOnInit(): void {
+  private contextMenuService: ContextMenuService = inject(ContextMenuService);
+  private dialogService: DialogService = inject(DialogService);
+  private navigation: AppNavigationService = inject(AppNavigationService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private contentView: ContentViewService = inject(ContentViewService);
+  public currentView = this.contentView.contentView;
+  private hotkeysService: HotkeysService = inject(HotkeysService);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private destroyRef$ = inject(DestroyRef);
+
+  public ngOnInit(): void {
+    let createUserDialogRef: DialogRef<
+      CreateUserDialogReturnData,
+      CreateUserDialogComponent
+    > | null = null;
+
     this.hotkeysService.add(
       new Hotkey(
         ['ctrl+a', 'meta+a'],
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();
-          this.openCreateUser();
+
+          if (!createUserDialogRef) {
+            createUserDialogRef = this.openCreateUser();
+
+            createUserDialogRef.closed.pipe(take(1)).subscribe(() => {
+              createUserDialogRef = null;
+            });
+          }
           return false;
         },
         undefined,
         translate('hotkeys.create-user'),
       ),
     );
+
+    let createGroupDialogRef: DialogRef<
+      CreateGroupDialogReturnData,
+      CreateGroupDialogComponent
+    > | null = null;
+
     this.hotkeysService.add(
       new Hotkey(
         ['ctrl+g', 'meta+g'],
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();
-          this.openCreateGroup();
+
+          if (!createGroupDialogRef) {
+            createGroupDialogRef = this.openCreateGroup();
+
+            createGroupDialogRef.closed.pipe(take(1)).subscribe(() => {
+              createGroupDialogRef = null;
+            });
+          }
           return false;
         },
         undefined,
         translate('hotkeys.create-group'),
       ),
     );
+
+    let createOrganizationUnitDialogRef: DialogRef<
+      CreateOrganizationUnitDialogReturnData,
+      CreateOrganizationUnitDialogComponent
+    > | null = null;
+
     this.hotkeysService.add(
       new Hotkey(
         ['ctrl+u', 'meta+u'],
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();
-          this.openCreateOu();
+
+          if (!createOrganizationUnitDialogRef) {
+            createOrganizationUnitDialogRef = this.openCreateOu();
+
+            createOrganizationUnitDialogRef.closed.pipe(take(1)).subscribe(() => {
+              createOrganizationUnitDialogRef = null;
+            });
+          }
           return false;
         },
         undefined,
@@ -94,115 +176,172 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+    this.navigation.navigationRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
       this.searchQuery = '';
       this.view?.updateContent();
       this.cdr.detectChanges();
     });
 
-    this.contentView.contentViewRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    this.contentView.contentViewRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.currentView = x;
       this.cdr.detectChanges();
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
+  public openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
+    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
 
-  deleteSelectedEntry() {
-    concat(
-      ...this._selectedRows.map((x) =>
-        this.api.delete(
-          new DeleteEntryRequest({
-            entry: (<any>x.entry).object_name,
-          }),
-        ),
-      ),
-    ).subscribe(() => {
+    const dialogRef = this.dialogService.open<
+      CreateGroupDialogReturnData,
+      CreateGroupDialogData,
+      CreateGroupDialogComponent
+    >({
+      component: CreateGroupDialogComponent,
+      dialogConfig: {
+        data: { parentDn },
+        width: '580px',
+        minHeight: '485px',
+      },
+    });
+
+    dialogRef.closed.pipe(take(1)).subscribe(() => {
       this.view?.updateContent();
     });
+
+    return dialogRef;
   }
 
-  showEntryProperties() {
-    this.windows
-      .openEntityProperiesModal(this._selectedRows[0])
-      .pipe(take(1))
+  public openCreateOu(): DialogRef<
+    CreateOrganizationUnitDialogReturnData,
+    CreateOrganizationUnitDialogComponent
+  > {
+    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+
+    const dialogRef = this.dialogService.open<
+      CreateOrganizationUnitDialogReturnData,
+      CreateOrganizationUnitDialogData,
+      CreateOrganizationUnitDialogComponent
+    >({
+      component: CreateOrganizationUnitDialogComponent,
+      dialogConfig: {
+        width: '580px',
+        minHeight: '485px',
+        data: { parentDn },
+      },
+    });
+
+    dialogRef.closed.pipe(take(1)).subscribe(() => {
+      this.view?.updateContent();
+    });
+
+    return dialogRef;
+  }
+
+  public openCreateRule() {
+    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+
+    this.dialogService
+      .open<CreateRuleDialogReturnData, CreateRuleDialogData, CreateRuleDialogComponent>({
+        component: CreateRuleDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          minHeight: '485px',
+          data: { parentDn },
+        },
+      })
+      .closed.pipe(take(1))
       .subscribe(() => {
         this.view?.updateContent();
       });
   }
 
-  showChangePassword() {
-    //this.ldapWindows.openChangePasswordModal(this.navigation.selectedEntity[0]);
-  }
+  public openCreateComputer() {
+    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
 
-  openCreateUser() {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateUser(dn)
-      .pipe(take(1))
+    this.dialogService
+      .open<
+        CreateComputerDialogReturnData,
+        CreateComputerDialogData,
+        CreateComputerDialogComponent
+      >({
+        component: CreateComputerDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          minHeight: '525px',
+          data: { parentDn },
+        },
+      })
+      .closed.pipe()
       .subscribe(() => {
         this.view?.updateContent();
       });
   }
 
-  openCreateGroup() {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateGroup(dn)
-      .pipe(take(1))
+  public openCreateCatalog() {
+    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+
+    this.dialogService
+      .open<CreateCatalogDialogReturnData, CreateCatalogDialogData, CreateCatalogDialogComponent>({
+        component: CreateCatalogDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          minHeight: '485px',
+          data: { parentDn },
+        },
+      })
+      .closed.pipe()
       .subscribe(() => {
         this.view?.updateContent();
       });
   }
 
-  openCreateOu() {
+  public openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
     const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateOu(dn)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.navigation.reload();
-      });
+
+    const dialogRef = this.dialogService.open<
+      CreateUserDialogReturnData,
+      CreateUserDialogData,
+      CreateUserDialogComponent
+    >({
+      component: CreateUserDialogComponent,
+      dialogConfig: {
+        data: { dn },
+        width: '580px',
+        height: '564px',
+      },
+    });
+
+    dialogRef.closed.subscribe(() => {
+      this.view?.updateContent();
+    });
+
+    return dialogRef;
   }
 
-  openCreateRule() {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateRule(dn)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.navigation.reload();
-      });
-  }
+  public showContextMenu({ selected, pointerEvent: { x, y } }: RightClickEvent) {
+    const data: ContextMenuData = {
+      entity: selected,
+    };
 
-  openCreateComputer() {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateComputer(dn)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.navigation.reload();
-      });
-  }
-
-  openCreateCatalog() {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
-    this.windows
-      .openCreateCatalog(dn)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.navigation.reload();
-      });
-  }
-
-  showContextMenu(event: RightClickEvent) {
-    this.contextMenu.showContextMenuOnNode(
-      event.pointerEvent.x,
-      event.pointerEvent.y,
-      event.selected,
-    );
+    this.contextMenuService
+      .open({
+        component: ContextMenuComponent,
+        x,
+        y,
+        contextMenuConfig: {
+          data,
+          hasBackdrop: false,
+          minWidth: 'auto',
+          minHeight: 'auto',
+        },
+      })
+      .closed.pipe(
+        take(1),
+        tap((data) => {
+          console.log('data', data);
+        }),
+        // switchMap((result) => (!result ? of(null) : result)),
+      )
+      .subscribe(() => this.view?.updateContent());
   }
 }

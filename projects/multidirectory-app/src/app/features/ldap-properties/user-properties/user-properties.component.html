@@ -1,41 +1,56 @@
-<md-tab-pane class="flex-column h-100" #tabs (tabChanged)="onTabChanged()">
-  <div class="tab-header">
-    <md-tab [el]="generals.el" [isSelected]="true">
-      {{ 'user-properties-tabs.general' | transloco }}
-    </md-tab>
-    <md-tab [el]="attributes.el">
-      {{ 'user-properties-tabs.attributes' | transloco }}
-    </md-tab>
-    <md-tab [el]="address.el">
-      {{ 'user-properties-tabs.address' | transloco }}
-    </md-tab>
-    <md-tab [el]="account.el">
-      {{ 'user-properties-tabs.account' | transloco }}
-    </md-tab>
-    <md-tab [el]="profile.el">
-      {{ 'user-properties-tabs.profile' | transloco }}
-    </md-tab>
-    <md-tab [el]="memberOf.el">
-      {{ 'user-properties-tabs.groups' | transloco }}
-    </md-tab>
-  </div>
-  <app-user-properties-general
-    mdTab
-    #generals="mdTab"
-    [accessor]="accessor"
-  ></app-user-properties-general>
-  <app-entity-attributes
-    [accessor]="accessor"
-    class="block h-100"
-    mdTab
-    #attributes="mdTab"
-  ></app-entity-attributes>
-  <app-user-properties-address mdTab #address="mdTab"></app-user-properties-address>
-  <app-user-properties-profile
-    mdTab
-    #profile="mdTab"
-    [accessor]="accessor"
-  ></app-user-properties-profile>
-  <app-user-properties-account mdTab #account="mdTab"></app-user-properties-account>
-  <app-member-of mdTab #memberOf="mdTab" [accessor]="accessor"></app-member-of>
+<md-tab-pane #tabs (tabChanged)="onTabChanged()" class="flex-column h-100">
+  @defer {
+    <div class="tab-header">
+      <md-tab [el]="generals.el" [isSelected]="true">
+        {{ 'user-properties-tabs.general' | transloco }}
+      </md-tab>
+      <md-tab [el]="attributes.el">
+        {{ 'user-properties-tabs.attributes' | transloco }}
+      </md-tab>
+      <md-tab [el]="address.el">
+        {{ 'user-properties-tabs.address' | transloco }}
+      </md-tab>
+      <md-tab [el]="account.el">
+        {{ 'user-properties-tabs.account' | transloco }}
+      </md-tab>
+      <md-tab [el]="profile.el">
+        {{ 'user-properties-tabs.profile' | transloco }}
+      </md-tab>
+      <md-tab [el]="memberOf.el">
+        {{ 'user-properties-tabs.groups' | transloco }}
+      </md-tab>
+    </div>
+    <app-user-properties-general
+      #generals="mdTab"
+      [accessor]="accessor"
+      mdTab
+    ></app-user-properties-general>
+
+    <app-entity-attributes
+      #attributes="mdTab"
+      [accessor]="accessor"
+      class="block h-100"
+      mdTab
+    ></app-entity-attributes>
+
+    <app-user-properties-address
+      #address="mdTab"
+      [accessor]="accessor"
+      mdTab
+    ></app-user-properties-address>
+
+    <app-user-properties-profile
+      #profile="mdTab"
+      [accessor]="accessor"
+      mdTab
+    ></app-user-properties-profile>
+
+    <app-user-properties-account
+      #account="mdTab"
+      mdTab
+      [accessor]="accessor"
+    ></app-user-properties-account>
+
+    <app-member-of #memberOf="mdTab" [accessor]="accessor" mdTab></app-member-of>
+  }
 </md-tab-pane>

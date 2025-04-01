@@ -1,23 +1,47 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthRouteGuard } from './core/authorization/auth-route-guard';
-import { SetupRouteGuard } from './core/setup/setup-route-guard';
+import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
+import { SetupRouteGuard } from '@core/setup/setup-route-guard';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
-import { translate } from '@jsverse/transloco';
+import {
+  DIALOG_COMPONENT_WRAPPER_CONFIG,
+  DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG,
+} from './components/modals/constants/dialog.constants';
 
 const routes: Routes = [
   {
     path: 'setup',
+    providers: [
+      {
+        provide: DIALOG_COMPONENT_WRAPPER_CONFIG,
+        useValue: {
+          ...DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG,
+          draggable: false,
+          closable: false,
+        },
+      },
+    ],
     canActivate: [SetupRouteGuard],
-    loadChildren: () => import('./features/setup/setup.module').then((x) => x.SetupModule),
+    loadComponent: () =>
+      import('./features/setup/setup/setup.component').then((c) => c.SetupComponent),
   },
   {
     path: 'login',
+    providers: [
+      {
+        provide: DIALOG_COMPONENT_WRAPPER_CONFIG,
+        useValue: {
+          ...DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG,
+          draggable: false,
+          closable: false,
+        },
+      },
+    ],
     canActivate: [SetupRouteGuard, AuthRouteGuard],
-    loadChildren: () => import('./features/login/login.module').then((x) => x.LoginModule),
+    loadComponent: () => import('./features/login/login.component').then((c) => c.LoginComponent),
   },
   {
     path: 'settings',

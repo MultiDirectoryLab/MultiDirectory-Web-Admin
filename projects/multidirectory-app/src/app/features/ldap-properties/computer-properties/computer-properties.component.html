@@ -7,6 +7,10 @@
       {{ 'user-properties-tabs.account' | transloco }}
     </md-tab>
   </div>
-  <app-entity-attributes mdTab #attributes="mdTab" [accessor]="accessor"></app-entity-attributes>
-  <app-computer-properties-account mdTab #account="mdTab"></app-computer-properties-account>
+  <app-entity-attributes #attributes="mdTab" [accessor]="accessor" mdTab></app-entity-attributes>
+  <app-computer-properties-account
+    #account="mdTab"
+    [accessor]="accessor"
+    mdTab
+  ></app-computer-properties-account>
 </md-tab-pane>

@@ -11,7 +11,7 @@ import { MultidirectorySettingsComponent } from './multidirectory-settings/multi
 import { MfIntegrationFormComponent } from './mulifactor-settings/mf-integration-form/mf-integration-form.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ValidatorsModule } from '@core/validators/validators.module';
+
 import { AboutComponent } from './about/about.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -22,7 +22,6 @@ import { SessionsModule } from '@features/settings/sessions/sessions.module';
   imports: [
     CommonModule,
     FormsModule,
-    ValidatorsModule,
     RouterModule,
     AppSettingsRoutingModule,
     DragDropModule,
@@ -32,8 +31,6 @@ import { SessionsModule } from '@features/settings/sessions/sessions.module';
     RouterModule,
     DnsSettingsModule,
     SessionsModule,
-  ],
-  declarations: [
     AppSettingsComponent,
     AppSettingsNavigationComponent,
     MultifactorSettingsComponent,

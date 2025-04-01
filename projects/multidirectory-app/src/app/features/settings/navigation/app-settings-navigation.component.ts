@@ -1,11 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subject, filter, startWith, takeUntil } from 'rxjs';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter, startWith, Subject } from 'rxjs';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-settings-navigation',
   templateUrl: './app-settings-navigation.component.html',
   styleUrls: ['./app-settings-navigation.component.scss'],
+  standalone: true,
+  imports: [TranslocoDirective, RouterLink, NgClass],
 })
 export class AppSettingsNavigationComponent implements OnDestroy {
   url = '';

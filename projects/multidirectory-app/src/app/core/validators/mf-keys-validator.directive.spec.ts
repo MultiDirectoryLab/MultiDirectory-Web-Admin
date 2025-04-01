@@ -7,6 +7,8 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   template: ` <input [formControl]="control" appMfKeyValidator [isSecret]="isSecret" /> `,
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 class TestComponent {
   control = new FormControl('');
@@ -20,8 +22,13 @@ describe('MfKeyValidatorDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent, MfKeyValidatorDirective],
-      imports: [FormsModule, ReactiveFormsModule, getTranslocoModule()],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        getTranslocoModule(),
+        TestComponent,
+        MfKeyValidatorDirective,
+      ],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
 

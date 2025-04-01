@@ -1,21 +1,26 @@
 import {
   AfterViewInit,
   Component,
+  forwardRef,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
-  forwardRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
+
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { RequiredWithMessageDirective } from '../../../core/validators/required-with-message.directive';
 
 @Component({
   selector: 'app-admin-settings-second',
   templateUrl: './admin-settings-second.component.html',
   styleUrls: ['./admin-settings-second.component.scss'],
+  standalone: true,
   providers: [
     {
       provide: MdFormComponent,
@@ -23,6 +28,7 @@ import { SetupRequestValidatorService } from '@services/setup-request-validator.
       multi: true,
     },
   ],
+  imports: [MultidirectoryUiKitModule, RequiredWithMessageDirective, FormsModule, TranslocoPipe],
 })
 export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() setupRequest!: SetupRequest;

@@ -1,0 +1,61 @@
+<app-dialog>
+  <div class="app-modal-header">
+    <div>{{ 'computer-create.modal-header' | transloco }}</div>
+  </div>
+  <div class="flex-row align-center flex-gap-10">
+    <div class="avatar"><img class="avatar-img" src="/assets/empty_avatar.svg" /></div>
+    <div class="place">{{ 'computer-create.header' | transloco }} {{ dialogData.parentDn }}</div>
+  </div>
+  <hr style="width: 100%" />
+  <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
+    <md-form #form>
+      <div class="flex-column align-start justify-end flex-gap-10">
+        <label for="computerName">{{ 'computer-create.computername-label' | transloco }}</label>
+        <md-textbox [(ngModel)]="computerName" appRequired name="computerName"></md-textbox>
+      </div>
+      <div class="pv-8">
+        <label>{{ 'computer-create.account-description' | transloco }}</label>
+      </div>
+      <div class="flex-column">
+        <label for="user-or-group">{{ 'computer-create.user-or-group' | transloco }}</label>
+        <div class="row">
+          <div class="col-md-5">
+            <md-textbox [(ngModel)]="ownerDn" [disabled]="true" name="ownerDn"></md-textbox>
+          </div>
+          <div class="col-md-2">
+            <md-button (click)="showAccountSelector($event)"
+              >{{ 'computer-create.change' | transloco }}
+            </md-button>
+          </div>
+        </div>
+        <div>
+          <md-checkbox [(ngModel)]="isLegacyAccount" [disabled]="true"
+            >{{ 'computer-create.assigns-legacy-account' | transloco }}
+          </md-checkbox>
+        </div>
+      </div>
+      <div class="flex-column align-start flex-space-between flex-gap-10 pt-16">
+        <label for="description">{{ 'computer-create.description' | transloco }}</label>
+        <div class="row">
+          <md-textarea
+            [(ngModel)]="description"
+            [expandWidth]="true"
+            class="col-md-7"
+            name="description"
+          ></md-textarea>
+        </div>
+      </div>
+    </md-form>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="flex-row align-center justify-end flex-gap-10">
+      <md-button (click)="onClose()">
+        {{ 'computer-create.cancel' | transloco }}
+      </md-button>
+      <md-button (click)="onFinish($event)" [disabled]="!formValid" [primary]="true">
+        {{ 'computer-create.apply' | transloco }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>

@@ -1,11 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { DialogRef } from '@angular/cdk/dialog';
+import { EntityPropertiesDialogReturnData } from '../../../components/modals/interfaces/entity-properties-dialog.interface';
+import { EntityPropertiesDialogComponent } from '../../../components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 
 @Component({
   selector: 'app-avatar-upload',
   templateUrl: './avatar-upload.component.html',
   styleUrls: ['./avatar-upload.component.scss'],
+  standalone: true,
 })
 export class AvatarUploadComponent {
   @Input() accessor: LdapAttributes | null = null;
@@ -16,10 +19,12 @@ export class AvatarUploadComponent {
     base64Data: string;
   };
   fileSelected = false;
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private dialogRef: DialogRef<
+    EntityPropertiesDialogReturnData,
+    EntityPropertiesDialogComponent
+  > | null = inject(DialogRef, { optional: true }) ?? null;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   onFileSelected(event: any) {
     if (!event?.target?.files || !this.accessor) {
@@ -40,16 +45,16 @@ export class AvatarUploadComponent {
         if (this.accessor) {
           this.accessor.photoBase64 = base64Data;
         }
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
         this.cdr.detectChanges();
       };
       reader.onerror = () => {
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };
       reader.onabort = () => {
-        this.modalControl.modal?.hideSpinner();
+        this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };
-      this.modalControl.modal?.showSpinner();
+      this.dialogRef?.componentInstance?.dialogComponent?.showSpinner();
       reader.readAsDataURL(file);
       this.fileSelected = true;
     }

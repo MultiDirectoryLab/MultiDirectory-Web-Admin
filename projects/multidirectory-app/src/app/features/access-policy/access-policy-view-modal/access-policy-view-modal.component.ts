@@ -1,12 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { ModalInjectDirective, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { AccessPolicyViewComponent } from '../access-policy-view/access-policy-view.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-access-policy-view-modal',
   templateUrl: './access-policy-view-modal.component.html',
   styleUrls: ['./access-policy-view-modal.component.scss'],
+  standalone: true,
+  imports: [AccessPolicyViewComponent, MultidirectoryUiKitModule, TranslocoPipe],
 })
 export class AccessPolicyViewModalComponent implements AfterViewInit {
   @ViewChild('view') view!: AccessPolicyViewComponent;

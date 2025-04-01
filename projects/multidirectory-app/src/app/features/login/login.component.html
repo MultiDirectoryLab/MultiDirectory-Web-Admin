@@ -1,34 +1,42 @@
-<md-modal #modal [opened]="true" class="paddingless" [closeable]="false" [width]="'330px'">
+<!--<md-modal-->
+<!--  #modal-->
+<!--  [opened]="true"-->
+<!--  class="paddingless"-->
+<!--  [closeable]="false"-->
+<!--  [width]="'330px'"-->
+<!--&gt;-->
+<app-dialog>
   <ng-container class="app-modal-header">
-    <img src="/assets/logo_login_transparent.svg" class="logo-img" />
+    <img class="logo-img" src="/assets/logo_login_transparent.svg" />
   </ng-container>
-  <div class="w-100 h-100 p-16">
+  <div class="w-100 h-100">
     <md-form #loginForm [autocomplete]="false">
       <div class="flex-column flex-space-between h-100 flex-gap-20">
         <div class="flex-row flex-space-between">
           <label class="form-label">{{ 'login.name' | transloco }}</label>
-          <md-textbox appRequired [(ngModel)]="login" name="login"></md-textbox>
+          <md-textbox [(ngModel)]="login" appRequired name="login"></md-textbox>
         </div>
         <div class="flex-row flex-space-between">
           <label class="form-label">{{ 'login.password' | transloco }}</label>
           <md-textbox
-            appRequired
-            [password]="true"
-            [autocomplete]="true"
             [(ngModel)]="password"
             [allowPasswordView]="false"
+            [autocomplete]="true"
+            [password]="true"
+            appRequired
             name="password"
           ></md-textbox>
         </div>
       </div>
-      <input type="submit" hidden (click)="onLogin($event)" />
+      <input (click)="onLogin($event)" hidden type="submit" />
     </md-form>
   </div>
   <ng-container class="app-modal-footer">
     <div class="flex-row flex-center">
-      <md-button [primary]="true" [disabled]="!loginValid" (click)="onLogin($event)">{{
-        'login.login' | transloco
-      }}</md-button>
+      <md-button (click)="onLogin($event)" [disabled]="!loginValid" [primary]="true"
+        >{{ 'login.login' | transloco }}
+      </md-button>
     </div>
   </ng-container>
-</md-modal>
+</app-dialog>
+<!--</md-modal>-->

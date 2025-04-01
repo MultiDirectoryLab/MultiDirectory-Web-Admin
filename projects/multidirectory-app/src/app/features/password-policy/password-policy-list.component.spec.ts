@@ -7,7 +7,6 @@ import { PasswordPolicyListComponent } from './password-policy-list.component';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { getMockModalInjectDirective } from '@testing/modal-inject-testing';
 import { ModalInjectDirective, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 
 let component: PasswordPolicyListComponent;
 let fixture: ComponentFixture<PasswordPolicyListComponent>;
@@ -27,8 +26,7 @@ describe('PasswordPolicyListComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [PasswordPolicyListComponent],
-      imports: [MultidirectoryUiKitModule],
+      imports: [MultidirectoryUiKitModule, PasswordPolicyListComponent],
       providers: [
         { provide: MultidirectoryApiService, useValue: mockApiService },
         { provide: Router, useValue: mockRouter },

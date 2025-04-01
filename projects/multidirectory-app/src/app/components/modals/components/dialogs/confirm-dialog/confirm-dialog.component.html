@@ -1,0 +1,18 @@
+<app-dialog>
+  <div class="app-modal-header">
+    {{ prompt.promptHeader }}
+  </div>
+  <div [innerHTML]="prompt.promptText"></div>
+  <div class="app-modal-footer flex-row justify-end flex-gap-10">
+    @for (primary of prompt.primaryButtons; track primary) {
+      <md-button [primary]="true" (click)="close(primary.id)">
+        {{ primary.text }}
+      </md-button>
+    }
+    @for (secondary of prompt.secondaryButtons; track secondary) {
+      <md-button (click)="close(secondary.id)">
+        {{ secondary.text }}
+      </md-button>
+    }
+  </div>
+</app-dialog>

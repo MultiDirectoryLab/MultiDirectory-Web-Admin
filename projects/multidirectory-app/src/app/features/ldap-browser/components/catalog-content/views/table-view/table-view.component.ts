@@ -2,24 +2,27 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  forwardRef,
   Input,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewChild,
-  forwardRef,
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
+import {
+  DatagridComponent,
+  DropdownOption,
+  MultidirectoryUiKitModule,
+  Page,
+} from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { concat, Subject, switchMap, take } from 'rxjs';
+import { concat, of, Subject, switchMap, take } from 'rxjs';
 import { TableRow } from './table-row';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { translate } from '@jsverse/transloco';
-import { AppWindowsService } from '@services/app-windows.service';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BaseViewComponent } from '../base-view.component';
 import {
   faCrosshairs,
@@ -29,7 +32,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { ToastrService } from 'ngx-toastr';
 import { BulkService } from '@services/bulk.service';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
@@ -39,26 +41,38 @@ import { FilterControllableStrategy } from '@core/bulk/strategies/filter-control
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { DialogService } from '../../../../../../components/modals/services/dialog.service';
+import { ConfirmDeleteDialogComponent } from '../../../../../../components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import {
+  ConfirmDeleteDialogData,
+  ConfirmDeleteDialogReturnData,
+} from '../../../../../../components/modals/interfaces/confirm-delete-dialog.interface';
+import {
+  ConfirmDialogData,
+  ConfirmDialogReturnData,
+} from '../../../../../../components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDialogComponent } from '../../../../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
+} from '../../../../../../components/modals/interfaces/entity-properties-dialog.interface';
+import { EntityPropertiesDialogComponent } from '../../../../../../components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { AttributeService } from '@services/attributes.service';
 
 @Component({
   selector: 'app-table-view',
   styleUrls: ['table-view.component.scss'],
   templateUrl: './table-view.component.html',
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => TableViewComponent) }],
+  standalone: true,
+  imports: [MultidirectoryUiKitModule, FormsModule, NgClass, FaIconComponent, TranslocoPipe],
 })
 export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
-  private _searchQuery = '';
-  @Input() set searchQuery(q: string) {
-    this._searchQuery = q;
-    this.updateContent();
-  }
-  get searchQuery() {
-    return this._searchQuery;
-  }
-
-  private _dn = '';
   page = new Page();
   columns: TableColumn[] = [];
   rows: TableRow[] = [];
@@ -68,16 +82,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   faCrosshair = faCrosshairs;
   faLevelUp = faLevelUpAlt;
   showControlPanel = true;
-
-  private _checkAllCheckbox = false;
-  get checkAllCheckbox() {
-    return this._checkAllCheckbox;
-  }
-  set checkAllCheckbox(value: boolean) {
-    this._checkAllCheckbox = value;
-    this.grid.toggleSelectedAll(value);
-  }
-
   pageSizes: DropdownOption[] = [
     { title: '15', value: 15 },
     { title: '20', value: 20 },
@@ -85,18 +89,54 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
+  accountEnabledToggleEnabled = false;
+  private _dn = '';
+
   constructor(
     private appNavigation: AppNavigationService,
     private ldapLoader: LdapEntryLoader,
     private bulkService: BulkService<LdapEntryNode>,
-    private windows: AppWindowsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private api: MultidirectoryApiService,
+    private attributeService: AttributeService,
     private getAccessorStrategy: GetAccessorStrategy,
     private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
+    private dialogService: DialogService,
   ) {
     super();
+  }
+
+  private _searchQuery = '';
+
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
+  @Input() set searchQuery(q: string) {
+    this._searchQuery = q;
+    this.updateContent();
+  }
+
+  private _checkAllCheckbox = false;
+
+  get checkAllCheckbox() {
+    return this._checkAllCheckbox;
+  }
+
+  set checkAllCheckbox(value: boolean) {
+    this._checkAllCheckbox = value;
+    this.grid.toggleSelectedAll(value);
+  }
+
+  private _accountEnabledToggle = false;
+
+  get accountEnabledToggle(): boolean {
+    return this._accountEnabledToggle;
+  }
+
+  set accountEnabledToggle(enabled: boolean) {
+    this._accountEnabledToggle = enabled;
   }
 
   ngAfterViewInit(): void {
@@ -194,6 +234,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   override getSelected(): LdapEntryNode[] {
     return this.grid.selected.map((x) => x.entry);
   }
+
   override setSelected(selected: LdapEntryNode[]) {
     if (!this.rows || this.rows.length == 0 || !selected) {
       return;
@@ -212,10 +253,21 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     } else if (entry && entry.expandable) {
       this.appNavigation.navigate(entry);
     } else if (entry && !entry.expandable) {
-      this.windows
-        .openEntityProperiesModal(entry)
-        .pipe(take(1))
-        .subscribe((x) => {
+      this.dialogService
+        .open<
+          EntityPropertiesDialogReturnData,
+          EntityPropertiesDialogData,
+          EntityPropertiesDialogComponent
+        >({
+          component: EntityPropertiesDialogComponent,
+          dialogConfig: {
+            width: '600px',
+            minHeight: '660px',
+            data: { entity: entry },
+          },
+        })
+        .closed.pipe(take(1))
+        .subscribe(() => {
           this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
         });
     }
@@ -232,12 +284,23 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   onDelete(event: any) {
     event.preventDefault();
     event.stopPropagation();
-    this.windows
-      .openDeleteEntryConfirmation(this.grid.selected.map((x) => x.entry.id))
-      .pipe(take(1))
-      .subscribe((confirmed) => {
-        if (confirmed) {
-          concat(
+
+    this.dialogService
+      .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
+        component: ConfirmDeleteDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          data: {
+            toDeleteDNs: this.grid.selected.map((x) => x.entry.id),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((confirmed) => {
+          if (!confirmed) return of(confirmed);
+
+          return concat(
             ...this.grid.selected.map((x) =>
               this.api.delete(
                 new DeleteEntryRequest({
@@ -245,10 +308,11 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
                 }),
               ),
             ),
-          ).subscribe((x) => {
-            this.appNavigation.reload();
-          });
-        }
+          );
+        }),
+      )
+      .subscribe(() => {
+        this.appNavigation.reload();
       });
   }
 
@@ -274,12 +338,22 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
           all += '<br/>' + changed;
 
-          return this.windows.openConfirmDialog({
-            promptText: all,
-            promptHeader: translate('toggle-account.header'),
-            primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
-            secondaryButtons: [],
-          });
+          return this.dialogService.open<
+            ConfirmDialogReturnData,
+            ConfirmDialogData,
+            ConfirmDialogComponent
+          >({
+            component: ConfirmDialogComponent,
+            dialogConfig: {
+              minHeight: '160px',
+              data: {
+                promptText: all,
+                promptHeader: translate('toggle-account.header'),
+                primaryButtons: [{ id: 'ok', text: translate('toggle-account.ok') }],
+                secondaryButtons: [],
+              },
+            },
+          }).closed;
         }),
       )
       .subscribe((result) => {
@@ -287,18 +361,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       });
   }
 
-  private _accountEnabledToggle = false;
-  get accountEnabledToggle(): boolean {
-    return this._accountEnabledToggle;
-  }
-  set accountEnabledToggle(enabled: boolean) {
-    this._accountEnabledToggle = enabled;
-  }
   accountEnabledToggleClick(value: boolean) {
     this.toggleSelected(this._accountEnabledToggle);
   }
 
-  accountEnabledToggleEnabled = false;
   setAccountEnabledToggle() {
     const selected = this.grid.selected.map((x) => x.entry);
     this.bulkService

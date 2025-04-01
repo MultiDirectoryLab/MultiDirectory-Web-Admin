@@ -9,8 +9,15 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { SearchSourceProvider } from './services/search-source-provider';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, MultidirectoryUiKitModule, TranslocoModule],
-  declarations: [SearchPanelComponent, SearchUsersComponent, SearchResultComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MultidirectoryUiKitModule,
+    TranslocoModule,
+    SearchPanelComponent,
+    SearchUsersComponent,
+    SearchResultComponent,
+  ],
   exports: [SearchPanelComponent],
   providers: [SearchSourceProvider],
 })
