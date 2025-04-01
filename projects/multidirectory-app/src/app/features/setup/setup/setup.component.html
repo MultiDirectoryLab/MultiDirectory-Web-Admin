@@ -28,33 +28,29 @@
       </div>
     </div>
     <div class="w-100">
-      <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onFinish()">
-        <ng-template mdStep>
-          <app-domain-settings [setupRequest]="setupRequest"></app-domain-settings>
-        </ng-template>
-        <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
-        <ng-template mdStep [stepComplete]="onInitialSetup.bind(this)">
-          <app-admin-settings-second [setupRequest]="setupRequest"></app-admin-settings-second>
-        </ng-template>
+      <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onSetup()">
+        <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
         @if (setupRequest.setupDns) {
-          <ng-template mdStep [stepComplete]="onDnsSetup.bind(this)">
-            <app-dns-setup-settings [setupRequest]="setupRequest"></app-dns-setup-settings>
-          </ng-template>
+          <app-dns-setup-settings *mdStep [setupRequest]="setupRequest"></app-dns-setup-settings>
         }
         @if (setupRequest.setupKdc && !setupRequest.generateKdcPasswords) {
-          <ng-template mdStep [stepComplete]="onKerberosSetup.bind(this)">
-            <app-kerberos-settings [setupRequest]="setupRequest"></app-kerberos-settings>
-          </ng-template>
+          <app-kerberos-settings *mdStep [setupRequest]="setupRequest"></app-kerberos-settings>
         }
+        <app-admin-settings *mdStep [setupRequest]="setupRequest"></app-admin-settings>
+        <app-admin-settings-second
+          *mdStep
+          [setupRequest]="setupRequest"
+        ></app-admin-settings-second>
       </md-stepper>
     </div>
     <ng-container class="app-modal-footer">
       <div class="flex-row flex-center flex-gap-20">
-        @if (stepper.currentIndex > 0) {
-          <md-button [primary]="false" (click)="stepper.previous()">{{
-            'setup.back' | transloco
-          }}</md-button>
-        }
+        <md-button
+          [primary]="false"
+          *ngIf="stepper.currentIndex > 0"
+          (click)="stepper.previous()"
+          >{{ 'setup.back' | transloco }}</md-button
+        >
         <md-button [primary]="true" (click)="showNextStep()">{{
           'setup.next' | transloco
         }}</md-button>

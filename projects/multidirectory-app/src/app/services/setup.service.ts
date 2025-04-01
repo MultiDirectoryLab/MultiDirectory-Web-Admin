@@ -19,6 +19,24 @@ export class SetupService {
     private loginService: LoginService,
   ) {}
 
+  setup(setupRequest: SetupRequest): Observable<boolean> {
+    return this.api.setup(setupRequest).pipe(
+      switchMap((success) =>
+        this.loginService.login(setupRequest.user_principal_name, setupRequest.password),
+      ),
+      switchMap((success) => {
+        return iif(
+          () => setupRequest.setupDns,
+          this.dns.setup(setupRequest.setupDnsRequest),
+          of(!!success),
+        );
+      }),
+      switchMap((success) => {
+        return iif(() => setupRequest.setupKdc, this.kerberosSetup(setupRequest), of(!!success));
+      }),
+    );
+  }
+
   kerberosSetup(setupRequest: SetupRequest) {
     return this.api
       .kerberosTreeSetup(new KerberosTreeSetupRequest({}).flll_from_setup_request(setupRequest))
@@ -48,17 +66,5 @@ export class SetupService {
           );
         }),
       );
-  }
-
-  initialSetup(setupRequest: SetupRequest): Observable<LoginResponse> {
-    return this.api.setup(setupRequest).pipe(
-      switchMap((success) => {
-        return this.loginService.login(setupRequest.user_principal_name, setupRequest.password);
-      }),
-    );
-  }
-
-  dnsSetup(setupRequest: SetupRequest): Observable<boolean> {
-    return this.dns.setup(setupRequest.setupDnsRequest);
   }
 }

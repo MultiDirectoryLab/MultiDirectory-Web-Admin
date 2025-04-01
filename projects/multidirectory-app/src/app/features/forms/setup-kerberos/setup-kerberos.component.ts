@@ -13,6 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, Subject } from 'rxjs';
 import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';
+import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Subject } from 'rxjs';
 
 import { FormsModule } from '@angular/forms';
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
@@ -81,7 +84,8 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       )
       .subscribe((x) => {
         this.toastr.success(translate('setup.kerberos-setup-complete'));
-        //window.location.reload();
+        this.modalInejctor.hideSpinner();
+        window.location.reload();
       });
   }
 

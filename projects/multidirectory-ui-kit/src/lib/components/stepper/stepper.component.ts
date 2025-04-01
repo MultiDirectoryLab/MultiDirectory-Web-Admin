@@ -28,25 +28,13 @@ export class StepperComponent {
   constructor(private cdr: ChangeDetectorRef) {}
 
   next(count: number = 1) {
-    const step = this.steps.get(this.currentIndex);
-    if (!step) {
-      throw 'Step was lost';
+    if (this.currentIndex + count == this.steps.length) {
+      this.finish.emit();
+    } else {
+      this.currentIndex += 1;
+      this.nextStep.emit(this.steps.get(this.currentIndex)?.templateRef);
     }
-    const stepSwitcher = () => {
-      if (this.currentIndex + count == this.steps.length) {
-        this.finish.emit();
-      } else {
-        this.currentIndex += 1;
-        this.nextStep.emit(this.steps.get(this.currentIndex)?.templateRef);
-      }
-    };
-    step
-      .stepComplete()
-      .pipe(take(1))
-      .subscribe(() => {
-        stepSwitcher.call(this);
-        this.cdr.detectChanges();
-      });
+    this.cdr.detectChanges();
   }
 
   previous(count: number = 1) {
