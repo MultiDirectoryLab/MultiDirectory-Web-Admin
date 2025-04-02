@@ -42,7 +42,7 @@ input:invalid {
   display: flex;
   flex-flow: column nowrap;
   max-width: 100%;
-  height: 26px;
+  max-height: 26px;
 
   .input-control {
     height: 100%;

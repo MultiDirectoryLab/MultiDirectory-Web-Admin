@@ -11,7 +11,7 @@ export const DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG: DialogComponentWrapperConf
 
 export const DIALOG_CONFIG_DEFAULT: DialogConfig = {
   hasBackdrop: true,
-  disableClose: true,
+  disableClose: false,
   role: 'dialog',
   minWidth: '16.25rem',
   minHeight: '12.5rem',

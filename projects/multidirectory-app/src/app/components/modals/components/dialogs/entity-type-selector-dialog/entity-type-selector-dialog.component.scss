@@ -4,3 +4,7 @@
   min-width: inherit;
   min-height: inherit;
 }
+
+.tree-container > md-treeview {
+  flex-grow: 1;
+}
