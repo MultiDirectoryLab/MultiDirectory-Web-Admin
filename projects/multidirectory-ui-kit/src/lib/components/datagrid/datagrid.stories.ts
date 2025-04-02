@@ -31,7 +31,7 @@ export const NonPaging: Story = {
   play: async ({ canvasElement }) => {
     console.log('play');
   },
-  argTypes: { pageChanged: { action: 'clicked' } },
+  argTypes: { pageChange: { action: 'clicked' } },
   render: () => ({
     props: {
       columns: [{ name: 'name' }],

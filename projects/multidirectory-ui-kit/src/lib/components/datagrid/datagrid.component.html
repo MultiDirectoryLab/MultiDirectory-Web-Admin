@@ -14,7 +14,7 @@
     [externalSorting]="externalSorting"
     [scrollbarV]="scrollbarV"
     [scrollbarH]="false"
-    [count]="count"
+    [count]="total"
     [offset]="offset"
     [limit]="limit"
     [virtualization]="false"
@@ -23,7 +23,7 @@
       display: 'block',
     }"
     [rowHeight]="scrollbarV ? 24 : 'auto'"
-    (page)="onPageChange()"
+    (page)="onPageChange($event)"
     (tableContextmenu)="onTableContextMenu($event)"
     [messages]="{
       emptyMessage: emptyMessage,
@@ -41,10 +41,7 @@
     <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template
-        let-count="count"
-        let-offset="offset"
         let-rowCount="count"
-        let-pageSize="limit"
         let-selectedCount="selectedCount"
       >
         @if (!scrollbarV) {
@@ -53,11 +50,12 @@
             <md-dropdown
               class="page-size-select"
               [options]="pageSizes"
-              [(ngModel)]="limit"
+              [ngModel]="limit"
+              (ngModelChange)="onPageChange({ offset: 0, limit: $event, total: total })"
             ></md-dropdown>
             <div>
-              {{ offset + 1 }}-{{ offset + limit > count ? count : offset + limit }} {{ fromTitle }}
-              {{ count }}
+              {{ offset + 1 }}-{{ offset + limit > total ? total : offset + limit }} {{ fromTitle }}
+              {{ total }}
             </div>
           </div>
 
@@ -68,10 +66,10 @@
             [pagerRightArrowIcon]="'datatable-icon-right'"
             [pagerPreviousIcon]="'datatable-icon-prev'"
             [pagerNextIcon]="'datatable-icon-skip'"
-            [limit]="limit"
-            [offset]="offset"
-            [count]="count"
-            [hidden]="!(count / limit > 1)"
+            [size]="limit"
+            [count]="total"
+            [page]="offset / limit + 1"
+            [hidden]="!(total / limit > 1)"
             (change)="grid.onFooterPage($event)"
           >
           </datatable-pager>

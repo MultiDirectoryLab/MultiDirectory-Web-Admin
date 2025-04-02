@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { GridItemComponent } from './grid-item/grid-item.component';
-import { DropdownMenuComponent, PagerComponent } from 'multidirectory-ui-kit';
+import { DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { RightClickEvent } from '@models/core/context-menu/right-click-event';
@@ -29,7 +29,6 @@ export class IconViewComponent {
   @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
   @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
   @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
-  @ViewChild('pager') pager!: PagerComponent;
   @Output() rightClick = new EventEmitter<RightClickEvent>();
   items: NavigationNode[] = [];
   alignItems = true;

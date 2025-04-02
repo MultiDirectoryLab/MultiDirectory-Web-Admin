@@ -63,18 +63,6 @@ export const Primary: StoryObj<TreeviewComponent> = {
             name: 'child1',
             expanded: false,
             children: [],
-            loadChildren: [
-              new Treenode({
-                name: 'child11',
-                expanded: false,
-                children: [],
-              }),
-              new Treenode({
-                name: 'child12',
-                expanded: false,
-                children: [],
-              }),
-            ],
           }),
           new Treenode({
             name: 'child2',

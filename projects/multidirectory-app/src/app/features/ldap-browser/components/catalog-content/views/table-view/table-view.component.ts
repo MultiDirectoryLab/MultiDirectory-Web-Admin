@@ -12,7 +12,17 @@ import {
 } from '@angular/core';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ContextMenuEvent, DatagridComponent, DropdownOption } from 'multidirectory-ui-kit';
-import { concat, Subject, switchMap, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  concat,
+  from,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+  zip,
+} from 'rxjs';
 import { LdapBrowserEntry } from '../../../../../../models/core/ldap-browser/ldap-browser-entry';
 import { translate } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -37,6 +47,7 @@ import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-accou
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { RightClickEvent } from '@models/core/context-menu/right-click-event';
+import { LdapBrowserService } from '@services/ldap/ldap-browser.service';
 
 @Component({
   selector: 'app-table-view',
@@ -48,16 +59,20 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
   @Output() rightClick = new EventEmitter<RightClickEvent>();
   private _searchQuery = '';
+  private _searchQueryRx = new BehaviorSubject(this._searchQuery);
   @Input() set searchQuery(q: string) {
-    this._searchQuery = q;
+    if (this._searchQuery != q) {
+      this._searchQuery = q;
+      this._searchQueryRx.next(q);
+    }
   }
   get searchQuery() {
     return this._searchQuery;
   }
 
-  private _dn = '';
+  rows: LdapBrowserEntry[] = [];
   columns: TableColumn[] = [];
-  @Input() rows: LdapBrowserEntry[] = [];
+
   unsubscribe = new Subject<void>();
   faToggleOff = faToggleOff;
   faTrashAlt = faTrashAlt;
@@ -75,23 +90,63 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   pageSizes: DropdownOption[] = [
-    { title: '15', value: 15 },
-    { title: '20', value: 20 },
-    { title: '30', value: 30 },
-    { title: '50', value: 50 },
-    { title: '100', value: 100 },
+    { title: '2', value: 2 },
+    { title: '3', value: 3 },
+    { title: '5', value: 5 },
   ];
 
-  @Input() limit = 0;
-  @Output() limitChange = new EventEmitter<number>();
+  private _parentDn = '';
+  private _parentDnRx = new BehaviorSubject(this._parentDn);
+  get parentDn(): string {
+    return this._parentDn;
+  }
+  set parentDn(dn: string) {
+    if (this._parentDn != dn) {
+      this._parentDn = dn;
+      this._parentDnRx.next(dn);
+    }
+  }
 
-  @Input() offset = 0;
-  @Output() offsetChange = new EventEmitter<number>();
+  private _limit = this.pageSizes[0].value;
+  private _limitRx = new BehaviorSubject(this._limit);
+  get limit() {
+    return this._limit;
+  }
+  set limit(limit: number) {
+    if (this._limit != limit) {
+      this._offset = 0;
+      this._limit = limit;
+      this._limitRx.next(limit);
+    }
+  }
 
-  @Input() count = 0;
-  @Output() countChange = new EventEmitter<number>();
+  private _offset = 0;
+  private _offsetRx = new BehaviorSubject(this._offset);
+  get offset() {
+    return this._offset;
+  }
+  set offset(offset: number) {
+    if (this._offset != offset) {
+      this._offset = offset;
+      this._offsetRx.next(offset);
+    }
+  }
+
+  private _total = 0;
+  private _totalRx = new BehaviorSubject(this._total);
+  get total() {
+    return this._total;
+  }
+  set total(total: number) {
+    if (this._total != total) {
+      this._total = total;
+      this._totalRx.next(total);
+    }
+  }
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private ldapContent: LdapBrowserService,
     private appNavigation: AppNavigationService,
     private bulkService: BulkService<NavigationNode>,
     private windows: AppWindowsService,
@@ -128,6 +183,23 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
       { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
+
+    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((queryParams) => {
+      const dn = queryParams['distinguishedName'];
+      this.parentDn = dn;
+    });
+
+    combineLatest([this._parentDnRx, this._searchQueryRx, this._offsetRx, this._limitRx])
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap(([parentDn, searchQuery, offset, limit]) => {
+          return this.ldapContent.loadContent(parentDn, searchQuery, this.offset, this.limit);
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntires]) => {
+        this.rows = rows;
+        this.total = totalEntires;
+      });
   }
 
   ngOnDestroy(): void {
@@ -140,7 +212,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   onPageChanged(pageNumber: number) {
     // todo
     this.offset = pageNumber * this.limit;
-    this.offsetChange.emit(this.offset);
   }
 
   getSelected(): NavigationNode[] {
@@ -264,7 +335,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   handleGoToParent(event: MouseEvent) {
-    const dn = LdapNamesHelper.getDnParent(this._dn);
+    const dn = LdapNamesHelper.getDnParent(this._parentDn);
   }
 
   handleRightClick($event: ContextMenuEvent) {}

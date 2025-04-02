@@ -27,11 +27,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
   searchQuery = '';
-  rows: LdapBrowserEntry[] = [];
-
-  limit = 10;
-  count = 10;
-  offset = 0;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -93,19 +88,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       this.currentView = x;
       this.cdr.detectChanges();
     });
-
-    this.activatedRoute.queryParams
-      .pipe(
-        takeUntil(this.unsubscribe),
-        switchMap((queryParams) => {
-          const dn = queryParams['distinguishedName'];
-          return from(this.ldapContent.loadContent(dn, this.searchQuery, 0, this.limit));
-        }),
-      )
-      .subscribe(([rows, pageCount, entiresCount]) => {
-        this.rows = rows;
-        this.count = entiresCount;
-      });
   }
 
   ngOnDestroy(): void {
