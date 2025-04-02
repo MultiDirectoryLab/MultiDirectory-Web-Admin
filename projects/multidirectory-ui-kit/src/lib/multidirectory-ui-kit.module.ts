@@ -24,7 +24,6 @@ import { RadioGroupComponent } from './components/radiobutton-group/radio-group.
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerHostDirective } from './components/spinner/spinner-host.directive';
-import { PagerComponent } from './components/pager/pager.component';
 import { TabPaneComponent } from './components/tab-pane/tab-pane.component';
 import { TabComponent } from './components/tab-pane/tab/tab.component';
 import { TabDirective } from './components/tab-pane/tab.directive';
@@ -73,7 +72,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormTestComponent,
     ErrorLabelComponent,
     RadioGroupComponent,
-    PagerComponent,
     TabPaneComponent,
     TabComponent,
     TabDirective,
@@ -112,7 +110,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MdFormComponent,
     SpinnerComponent,
     SpinnerHostDirective,
-    PagerComponent,
     TabPaneComponent,
     TabComponent,
     TabDirective,

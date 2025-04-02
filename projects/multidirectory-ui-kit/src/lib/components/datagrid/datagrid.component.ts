@@ -42,6 +42,7 @@ export class DatagridComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
 
   ColumnMode = ColumnMode;
+
   @ViewChild('datagrid') grid!: DatatableComponent;
 
   init = false;
@@ -57,13 +58,26 @@ export class DatagridComponent implements AfterViewInit {
   }
   set limit(value: number) {
     this._limit = value;
-    this.limitChange.emit(value);
   }
   @Output() limitChange = new EventEmitter<number>();
-  @Input() offset = 0;
+
+  private _offset = 0;
+  @Input() set offset(offset: number) {
+    this._offset = offset;
+  }
+  get offset() {
+    return this._offset;
+  }
   @Output() offsetChange = new EventEmitter<number>();
-  @Input() count = 0;
-  @Output() countChange = new EventEmitter<number>();
+
+  private _total = 0;
+  @Input() set total(total: number) {
+    this._total = total;
+  }
+  get total(): number {
+    return this._total;
+  }
+  @Output() totalChange = new EventEmitter<number>();
 
   @Input() rows: any[] = [];
 
@@ -182,8 +196,23 @@ export class DatagridComponent implements AfterViewInit {
     this.grid.onWindowResize();
   }
 
-  onPageChange() {
+  onPageChange(pageInfo: { offset: number; limit: number; total: number }) {
     this.selected = [];
+    const newOffset = pageInfo.offset * pageInfo.limit;
+    if (this.offset != newOffset) {
+      this.offset = newOffset;
+      this.offsetChange.emit(newOffset);
+    }
+
+    if (this.limit != pageInfo.limit) {
+      this.limit = pageInfo.limit;
+      this.limitChange.emit(pageInfo.limit);
+    }
+
+    if (this.total != pageInfo.total) {
+      this.total = pageInfo.total;
+      this.totalChange.emit(pageInfo.total);
+    }
   }
 
   onFocus($event: FocusEvent) {}

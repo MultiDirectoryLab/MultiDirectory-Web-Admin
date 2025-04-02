@@ -27,7 +27,6 @@ export * from './lib/components/radiobutton-group/radio-group.component';
 export * from './lib/components/spinner/spinner.component';
 export * from './lib/components/spinner/spinner-host.directive';
 export * from './lib/components/spinner/spinner-options';
-export * from './lib/components/pager/pager.component';
 export * from './lib/components/tab-pane/tab-pane.component';
 export * from './lib/components/tab-pane/tab/tab.component';
 export * from './lib/components/tab-pane/tab.directive';

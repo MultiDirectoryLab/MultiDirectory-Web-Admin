@@ -97,8 +97,23 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   readonly grid = viewChild.required<DatagridComponent>('grid');
   readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
   page = new Page();
+  private _searchQuery = '';
+  private _searchQueryRx = new BehaviorSubject(this._searchQuery);
+  @Input() set searchQuery(q: string) {
+    if (this._searchQuery != q) {
+      this._searchQuery = q;
+      this._searchQueryRx.next(q);
+    }
+  }
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
+  @Output() rightClick = new EventEmitter<RightClickEvent>();
+  @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+  @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   columns: TableColumn[] = [];
-  @Input() rows: LdapBrowserEntry[] = [];
+
   unsubscribe = new Subject<void>();
   faToggleOff = faToggleOff;
   faTrashAlt = faTrashAlt;
@@ -137,14 +152,78 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   }
 
   private _accountEnabledToggle = false;
+  pageSizes: DropdownOption[] = [
+    { title: '2', value: 2 },
+    { title: '3', value: 3 },
+    { title: '5', value: 5 },
+  ];
 
   get accountEnabledToggle(): boolean {
     return this._accountEnabledToggle;
+  }
+  private _parentDn = '';
+  private _parentDnRx = new BehaviorSubject(this._parentDn);
+  get parentDn(): string {
+    return this._parentDn;
+  }
+  set parentDn(dn: string) {
+    if (this._parentDn != dn) {
+      this._parentDn = dn;
+      this._parentDnRx.next(dn);
+    }
   }
 
   set accountEnabledToggle(enabled: boolean) {
     this._accountEnabledToggle = enabled;
   }
+  private _limit = this.pageSizes[0].value;
+  private _limitRx = new BehaviorSubject(this._limit);
+  get limit() {
+    return this._limit;
+  }
+  set limit(limit: number) {
+    if (this._limit != limit) {
+      this._offset = 0;
+      this._limit = limit;
+      this._limitRx.next(limit);
+    }
+  }
+
+  private _offset = 0;
+  private _offsetRx = new BehaviorSubject(this._offset);
+  get offset() {
+    return this._offset;
+  }
+  set offset(offset: number) {
+    if (this._offset != offset) {
+      this._offset = offset;
+      this._offsetRx.next(offset);
+    }
+  }
+
+  private _total = 0;
+  private _totalRx = new BehaviorSubject(this._total);
+  get total() {
+    return this._total;
+  }
+  set total(total: number) {
+    if (this._total != total) {
+      this._total = total;
+      this._totalRx.next(total);
+    }
+  }
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private ldapContent: LdapBrowserService,
+    private appNavigation: AppNavigationService,
+    private bulkService: BulkService<NavigationNode>,
+    private windows: AppWindowsService,
+    private cdr: ChangeDetectorRef,
+    private api: MultidirectoryApiService,
+    private getAccessorStrategy: GetAccessorStrategy,
+    private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
+  ) {}
 
   ngAfterViewInit(): void {
     this.columns = [
@@ -174,6 +253,23 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
       { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
+
+    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((queryParams) => {
+      const dn = queryParams['distinguishedName'];
+      this.parentDn = dn;
+    });
+
+    combineLatest([this._parentDnRx, this._searchQueryRx, this._offsetRx, this._limitRx])
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap(([parentDn, searchQuery, offset, limit]) => {
+          return this.ldapContent.loadContent(parentDn, searchQuery, this.offset, this.limit);
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntires]) => {
+        this.rows = rows;
+        this.total = totalEntires;
+      });
   }
 
   ngOnDestroy(): void {
@@ -186,7 +282,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   onPageChanged(pageNumber: number) {
     // todo
     this.offset = pageNumber * this.limit;
-    this.offsetChange.emit(this.offset);
   }
 
   updateContentInner(dn: string) {
