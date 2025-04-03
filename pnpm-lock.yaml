@@ -59,8 +59,8 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
       ng2-date-picker:
-        specifier: ^18.0.0
-        version: 18.0.0(@angular/cdk@18.2.12(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(dayjs@1.11.13)
+        specifier: ^19.0.0
+        version: 19.0.0(@angular/cdk@18.2.12(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(dayjs@1.11.13)
       ngx-datatable-gimefork:
         specifier: ^20.1.1
         version: 20.1.1(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(@angular/platform-browser@19.2.5(@angular/animations@19.2.5(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0)))(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0)))(rxjs@7.5.7)
@@ -5565,10 +5565,10 @@ packages:
         integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==,
       }
 
-  css-tree@3.0.1:
+  css-tree@3.1.0:
     resolution:
       {
-        integrity: sha512-8Fxxv+tGhORlshCdCwnNJytvlvq46sOLSYEx2ZIGurahWvMucSRnyjPA3AmrMq4VPRYbHVpWj5VkiVasrM2H4Q==,
+        integrity: sha512-0eW44TGN5SQXU1mWSkKwFstI/22X2bG1nYzZTYMAWjylYURhse752YgbE4Cx46AC+bAvI+/dYTPRk1LqSUnu6w==,
       }
     engines: { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0 }
 
@@ -5640,6 +5640,18 @@ packages:
     resolution:
       {
         integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==,
+      }
+    engines: { node: '>=6.0' }
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.0:
+    resolution:
+      {
+        integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==,
       }
     engines: { node: '>=6.0' }
     peerDependencies:
@@ -6578,6 +6590,12 @@ packages:
     resolution:
       {
         integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==,
+      }
+
+  flatted@3.3.3:
+    resolution:
+      {
+        integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==,
       }
 
   follow-redirects@1.15.9:
@@ -8120,10 +8138,10 @@ packages:
         integrity: sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==,
       }
 
-  mdn-data@2.12.1:
+  mdn-data@2.12.2:
     resolution:
       {
-        integrity: sha512-rsfnCbOHjqrhWxwt5/wtSLzpoKTzW7OXdT5lLOIH1OTYhWu9rRJveGq0sKvDZODABH7RX+uoR+DYcpFnq4Tf6Q==,
+        integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==,
       }
 
   media-typer@0.3.0:
@@ -8549,16 +8567,16 @@ packages:
       tailwindcss:
         optional: true
 
-  ng2-date-picker@18.0.0:
+  ng2-date-picker@19.0.0:
     resolution:
       {
-        integrity: sha512-5uYwNRxRY5duDlWNuMSz+1u5BUWprZgn9Ythkqx/aJ/PfE2c7SqutfFCQbPGMJcGDcN3coD6EY02suxbubMf3g==,
+        integrity: sha512-5D+zD47EvLLzMA2qKDp4EARTBWNGOtuQ1f7ylL3FPdxcYI5qe4AvnZ2CWWyGkxTncVG2yNiCWRvXtXwFMRg1rQ==,
       }
     peerDependencies:
-      '@angular/cdk': ^18.0.0
-      '@angular/common': ^18.0.0
-      '@angular/core': ^18.0.0
-      dayjs: ^1.11.4
+      '@angular/cdk': ^19.1.4
+      '@angular/common': ^19.1.6
+      '@angular/core': ^19.1.6
+      dayjs: ^1.11.13
 
   ngx-datatable-gimefork@20.1.1:
     resolution:
@@ -10337,10 +10355,10 @@ packages:
       }
     engines: { node: '>=10' }
 
-  supports-hyperlinks@3.1.0:
+  supports-hyperlinks@3.2.0:
     resolution:
       {
-        integrity: sha512-2rn0BZ+/f7puLOHZm1HOJfwBggfaHXUpPUSSG/SWM4TWp5KCfmNYwnC3hruy2rZlMnmWZ+QAGpZfchu3f3695A==,
+        integrity: sha512-zFObLMyZeEwzAoKCyu1B91U79K2t7ApXuQfo8OuxwXLDgcKxuwM+YvcbIhm6QWqz7mHUH1TVytR1PwVVjEuMig==,
       }
     engines: { node: '>=14.18' }
 
@@ -10371,10 +10389,10 @@ packages:
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
 
-  table@6.8.2:
+  table@6.9.0:
     resolution:
       {
-        integrity: sha512-w2sfv80nrAh2VCbqR5AK27wswXhqcck2AhfnNW76beQXskGZ1V12GwS//yYVa3d3fcvAip2OUnbDAjW2k3v9fA==,
+        integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==,
       }
     engines: { node: '>=10.0.0' }
 
@@ -14823,9 +14841,9 @@ snapshots:
       domutils: 3.1.0
       nth-check: 2.1.1
 
-  css-tree@3.0.1:
+  css-tree@3.1.0:
     dependencies:
-      mdn-data: 2.12.1
+      mdn-data: 2.12.2
       source-map-js: 1.2.1
 
   css-what@6.1.0: {}
@@ -14849,6 +14867,10 @@ snapshots:
       ms: 2.0.0
 
   debug@4.3.7:
+    dependencies:
+      ms: 2.1.3
+
+  debug@4.4.0:
     dependencies:
       ms: 2.1.3
 
@@ -15483,7 +15505,7 @@ snapshots:
 
   flat-cache@5.0.0:
     dependencies:
-      flatted: 3.3.1
+      flatted: 3.3.3
       keyv: 4.5.4
 
   flat@5.0.2: {}
@@ -15491,6 +15513,8 @@ snapshots:
   flat@6.0.1: {}
 
   flatted@3.3.1: {}
+
+  flatted@3.3.3: {}
 
   follow-redirects@1.15.9(debug@4.3.7):
     optionalDependencies:
@@ -16450,7 +16474,7 @@ snapshots:
 
   mathml-tag-names@2.1.3: {}
 
-  mdn-data@2.12.1: {}
+  mdn-data@2.12.2: {}
 
   media-typer@0.3.0: {}
 
@@ -16667,7 +16691,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.26.0
 
-  ng2-date-picker@18.0.0(@angular/cdk@18.2.12(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(dayjs@1.11.13):
+  ng2-date-picker@19.0.0(@angular/cdk@18.2.12(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(dayjs@1.11.13):
     dependencies:
       '@angular/cdk': 18.2.12(@angular/common@19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7))(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7)
       '@angular/common': 19.2.5(@angular/core@19.2.5(rxjs@7.5.7)(zone.js@0.15.0))(rxjs@7.5.7)
@@ -17866,8 +17890,8 @@ snapshots:
       colord: 2.9.3
       cosmiconfig: 9.0.0(typescript@5.8.2)
       css-functions-list: 3.2.3
-      css-tree: 3.0.1
-      debug: 4.3.7
+      css-tree: 3.1.0
+      debug: 4.4.0
       fast-glob: 3.3.3
       fastest-levenshtein: 1.0.16
       file-entry-cache: 9.1.0
@@ -17891,9 +17915,9 @@ snapshots:
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
       string-width: 4.2.3
-      supports-hyperlinks: 3.1.0
+      supports-hyperlinks: 3.2.0
       svg-tags: 1.0.0
-      table: 6.8.2
+      table: 6.9.0
       write-file-atomic: 5.0.1
     transitivePeerDependencies:
       - supports-color
@@ -17907,7 +17931,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  supports-hyperlinks@3.1.0:
+  supports-hyperlinks@3.2.0:
     dependencies:
       has-flag: 4.0.0
       supports-color: 7.2.0
@@ -17923,7 +17947,7 @@ snapshots:
       '@pkgr/core': 0.1.1
       tslib: 2.8.1
 
-  table@6.8.2:
+  table@6.9.0:
     dependencies:
       ajv: 8.17.1
       lodash.truncate: 4.4.2

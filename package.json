@@ -33,7 +33,7 @@
     "bitset": "^5.1.1",
     "dayjs": "^1.11.12",
     "moment": "^2.30.1",
-    "ng2-date-picker": "^18.0.0",
+    "ng2-date-picker": "^19.0.0",
     "ngx-datatable-gimefork": "^20.1.1",
     "ngx-drag-drop": "^18.0.2",
     "ngx-spinner": "^16.0.0",
