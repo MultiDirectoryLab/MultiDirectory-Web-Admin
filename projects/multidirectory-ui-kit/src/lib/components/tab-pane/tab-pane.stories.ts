@@ -1,17 +1,17 @@
-import { Meta, StoryFn, StoryObj, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { TabPaneComponent } from './tab-pane.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab/tab.component';
 import { PlaneButtonComponent } from '../plane-button/plane-button.component';
-import { MdModalModule } from '../modal/modal.module';
+
 const meta: Meta<TabPaneComponent> = {
   title: 'Components/TabPane',
   component: TabPaneComponent,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [MdModalModule, NgxSpinnerModule, CommonModule],
+      imports: [NgxSpinnerModule, CommonModule],
       declarations: [TabPaneComponent, TabComponent, PlaneButtonComponent],
     }),
   ],
@@ -32,13 +32,13 @@ const template: Story = {
               <div #first>
                   first
               </div>
-              
+
               <div #second>
                   second
               </div>
           </md-tab-pane>
-        
-          
+
+
       `,
   }),
 };

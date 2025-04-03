@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { PlaneButtonComponent } from './plane-button.component';
 
 describe('PlaneButtonComp', () => {
@@ -8,8 +8,7 @@ describe('PlaneButtonComp', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [],
-      declarations: [PlaneButtonComponent],
+      imports: [PlaneButtonComponent],
       providers: [],
       teardown: { destroyAfterEach: true },
     }).compileComponents();

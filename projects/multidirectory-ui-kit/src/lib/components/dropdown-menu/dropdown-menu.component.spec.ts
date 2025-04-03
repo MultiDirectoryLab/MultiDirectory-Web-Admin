@@ -13,7 +13,7 @@ describe('DropdownMenuComponent', () => {
     cdr = jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']);
 
     await TestBed.configureTestingModule({
-      declarations: [DropdownMenuComponent],
+      imports: [DropdownMenuComponent],
       providers: [
         { provide: Renderer2, useValue: renderer },
         { provide: ChangeDetectorRef, useValue: cdr },

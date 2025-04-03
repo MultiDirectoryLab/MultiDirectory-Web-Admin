@@ -11,8 +11,7 @@ describe('TextboxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TextboxComponent],
-      imports: [FormsModule, FontAwesomeModule],
+      imports: [FormsModule, FontAwesomeModule, TextboxComponent],
       providers: [ChangeDetectorRef],
     }).compileComponents();
 

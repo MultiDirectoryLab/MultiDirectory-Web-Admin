@@ -21,7 +21,7 @@ describe('ResizableDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestFixtureComponent, ResizableDirective],
+      imports: [TestFixtureComponent, ResizableDirective],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
   });

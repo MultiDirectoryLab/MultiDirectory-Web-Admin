@@ -10,8 +10,7 @@ describe('MdModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MdModalModule],
-      declarations: [ModalTestComponent, MdModalComponent, ModalInjectDirective],
+      imports: [MdModalModule, ModalTestComponent, MdModalComponent, ModalInjectDirective],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
   });

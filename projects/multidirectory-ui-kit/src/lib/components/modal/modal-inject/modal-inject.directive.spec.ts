@@ -17,7 +17,7 @@ describe('ModalInjectDirective', () => {
     portalService = jasmine.createSpyObj('MdPortalService', ['get']);
     modalService = jasmine.createSpyObj('MdModalService', ['push', 'pop', 'focusLastModal']);
     await TestBed.configureTestingModule({
-      declarations: [ModalInjectDirective],
+      imports: [ModalInjectDirective],
       providers: [
         { provide: MdPortalService, useValue: portalService },
         { provide: MdModalService, useValue: modalService },

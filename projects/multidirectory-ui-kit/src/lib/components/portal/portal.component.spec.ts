@@ -8,8 +8,7 @@ describe('Portal test suite', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MdPortalComponent, MdPortalDirective],
-      imports: [],
+      imports: [MdPortalComponent, MdPortalDirective],
       teardown: {
         destroyAfterEach: true,
       },

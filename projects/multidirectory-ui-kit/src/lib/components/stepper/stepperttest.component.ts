@@ -41,6 +41,7 @@ export class StepperTestComponent {
   @ViewChild('nextBtn', { static: true }) nextBtn?: ElementRef<HTMLButtonElement>;
   data = new TestData();
   finishedData?: TestData;
+
   onFinish() {
     this.finishedData = Object.assign({}, this.data);
     this.data = {} as TestData;
@@ -48,8 +49,15 @@ export class StepperTestComponent {
 }
 
 @NgModule({
-  imports: [MultidirectoryUiKitModule, CommonModule, FormsModule],
-  declarations: [FirstStepComponent, SecondStepComponent, ThirdStepComponent, StepperTestComponent],
+  imports: [
+    MultidirectoryUiKitModule,
+    CommonModule,
+    FormsModule,
+    FirstStepComponent,
+    SecondStepComponent,
+    ThirdStepComponent,
+    StepperTestComponent,
+  ],
   exports: [StepperTestComponent],
 })
 export class StepperTestModule {}

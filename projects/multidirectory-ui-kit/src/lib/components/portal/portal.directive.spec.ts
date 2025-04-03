@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MdPortalComponent } from './portal.component';
 import { MdPortalDirective } from './portal.directive';
 import { MdPortalService } from './portal.service';
@@ -10,7 +10,7 @@ describe('Portal Directive Test Suite', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MdPortalComponent, MdPortalDirective],
+      imports: [MdPortalComponent, MdPortalDirective],
       providers: [MdPortalService],
       teardown: {
         destroyAfterEach: true,
