@@ -30,7 +30,7 @@ export default meta;
 
 type Story = StoryObj<MdModalComponent>;
 const template: Story = {
-  render: (args) => ({
+  render: () => ({
     template: `
       <md-button [primary]=true (click)="modal.open()" >Open modal</md-button>
       <br /><br />

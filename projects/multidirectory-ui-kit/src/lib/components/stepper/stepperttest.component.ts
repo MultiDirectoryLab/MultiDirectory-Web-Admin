@@ -4,8 +4,9 @@ import { FirstStepComponent } from './steps/first-step.component';
 import { SecondStepComponent } from './steps/second-step.component';
 import { ThirdStepComponent } from './steps/third-step.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { MultidirectoryUiKitModule } from '../../multidirectory-ui-kit.module';
+import { StepDirective } from './step.directive';
 
 export class TestData {
   firstStep: string = '';
@@ -16,7 +17,7 @@ export class TestData {
 @Component({
   selector: 'md-stepper-test',
   template: `
-    <md-stepper #stepper (onFinish)="onFinish()">
+    <md-stepper #stepper (finish)="onFinish()">
       <ng-template mdStep>
         <test-first-step [context]="data"></test-first-step>
       </ng-template>
@@ -35,6 +36,14 @@ export class TestData {
       <button (click)="stepper.next()">Restart</button>
     </div>
   `,
+  imports: [
+    StepperComponent,
+    FirstStepComponent,
+    StepDirective,
+    SecondStepComponent,
+    ThirdStepComponent,
+    NgIf,
+  ],
 })
 export class StepperTestComponent {
   @ViewChild('stepper', { static: true }) stepper?: StepperComponent;
