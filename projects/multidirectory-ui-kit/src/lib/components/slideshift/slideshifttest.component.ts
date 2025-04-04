@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { ButtonComponent } from '../button/button.component';
+import { MdSlideshiftComponent } from './slideshift.component';
 
 @Component({
   selector: 'app-slideshift-test',
@@ -11,6 +13,7 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
       </div>
     </md-slideshift>
   `,
+  imports: [ButtonComponent, MdSlideshiftComponent],
 })
 export class SlideshiftTestComponent {
   @ViewChild('closeButton', { static: true }) closeButton?: ElementRef<HTMLButtonElement>;

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { PopupSuggestComponent } from '../suggest/popup-suggest.component';
+import { ButtonComponent } from '../../button/button.component';
+import { PopupContainerDirective } from '../popup-container.directive';
 
 @Component({
   selector: 'app-popup-base',
@@ -21,6 +24,7 @@ import { Component } from '@angular/core';
       <md-button [mdPopupContainer]="menuRef" [direction]="'right'">Open</md-button>
     </div>
   `,
+  imports: [PopupSuggestComponent, ButtonComponent, PopupContainerDirective],
 })
 export class PopupTestComponent {
   checkboxes: CheckboxState[] = [{ name: 'Item', state: false }];

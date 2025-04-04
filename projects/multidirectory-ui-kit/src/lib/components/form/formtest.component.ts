@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MdFormComponent } from './form.component';
+import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
   selector: 'app-formtest',
@@ -26,6 +28,7 @@ import { FormControl } from '@angular/forms';
       </div>
     </md-form>
   `,
+  imports: [MdFormComponent, TextboxComponent, ReactiveFormsModule],
 })
 export class FormTestComponent {
   first = new FormControl('');

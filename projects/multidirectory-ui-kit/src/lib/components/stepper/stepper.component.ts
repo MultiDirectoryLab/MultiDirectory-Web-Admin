@@ -12,12 +12,14 @@ import {
 } from '@angular/core';
 import { StepDirective } from './step.directive';
 import { take } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'md-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet],
 })
 export class StepperComponent {
   @ContentChildren(StepDirective) steps!: QueryList<StepDirective>;

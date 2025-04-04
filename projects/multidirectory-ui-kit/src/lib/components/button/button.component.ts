@@ -10,11 +10,13 @@ import {
   Output,
 } from '@angular/core';
 import { BaseControlComponent } from '../base-component/control.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
+  imports: [NgClass],
 })
 export class ButtonComponent extends BaseControlComponent implements OnInit, OnDestroy {
   @Input() label = '';

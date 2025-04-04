@@ -8,8 +8,11 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { DropdownOption } from '../dropdown/dropdown.component';
+import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
 import { Page } from '../datagrid/page';
+import { FormsModule } from '@angular/forms';
+import { NgxDatatableModule } from 'ngx-datatable-gimefork';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'md-pager',
@@ -23,6 +26,7 @@ import { Page } from '../datagrid/page';
     './../../../../../../node_modules/ngx-datatable-gimefork/assets/icons.css',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DropdownComponent, FormsModule, NgxDatatableModule, NgStyle],
 })
 export class PagerComponent implements AfterViewInit {
   @Input() name = '';

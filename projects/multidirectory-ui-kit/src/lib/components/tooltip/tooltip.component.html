@@ -1,19 +1,19 @@
 <div class="tooltip-icon-wrapper" (click)="toogleTooltip($event)">
-  <img class="tooltip-icon" [src]="iconPath" />
+  <img class="tooltip-icon" [ngSrc]="iconPath" width="24" height="24" />
   <div
     class="tooltip"
     [ngClass]="{
-      'tooltip-visible': tooltipVisible
+      'tooltip-visible': tooltipVisible,
     }"
     [ngStyle]="{
       minWidth: width + 'px',
-      maxWidth: width + 'px'
+      maxWidth: width + 'px',
     }"
   >
     <div
       class="relative"
       [ngStyle]="{
-        left: left + 'px'
+        left: left + 'px',
       }"
     >
       <ng-content></ng-content>

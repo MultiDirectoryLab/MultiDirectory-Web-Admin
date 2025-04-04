@@ -18,12 +18,17 @@ import { TreeSearchHelper } from './core/tree-search-helper';
 import { ExpandStrategy } from './model/expand-strategy';
 import { RightClickEvent } from './model/right-click-event';
 import { BaseControlComponent } from '../base-component/control.component';
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { TreeItemComponent } from './tree-item.component';
+import { CheckboxComponent } from '../checkbox/checkbox.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'md-treeview',
   templateUrl: './treeview.component.html',
   styleUrls: ['./treeview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgTemplateOutlet, TreeItemComponent, NgClass, NgStyle, CheckboxComponent, FormsModule],
 })
 export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;

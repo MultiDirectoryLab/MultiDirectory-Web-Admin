@@ -7,10 +7,10 @@ import {
   OnDestroy,
   ViewChild,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import moment from 'moment';
 import { IdProvider } from '../../utils/id-provider';
-import { DatePickerComponent } from 'ng2-date-picker';
+import { DatePickerComponent, DpDatePickerModule } from 'ng2-date-picker';
 import { skip, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -24,6 +24,7 @@ import { skip, Subject, takeUntil } from 'rxjs';
       multi: true,
     },
   ],
+  imports: [DpDatePickerModule, FormsModule],
 })
 export class DatepickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   private __ID = IdProvider.getUniqueId('base');

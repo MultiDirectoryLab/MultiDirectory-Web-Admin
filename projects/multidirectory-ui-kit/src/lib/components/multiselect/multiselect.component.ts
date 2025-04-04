@@ -14,6 +14,8 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { DropdownContainerDirective } from '../dropdown-menu/dropdown-container.directive';
 import { MultiselectModel } from './mutliselect-model';
+import { MultiselectBadgeComponent } from './multiselect-badge/multiselect-badge.component';
+import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 
 @Component({
   selector: 'md-multiselect',
@@ -27,6 +29,7 @@ import { MultiselectModel } from './mutliselect-model';
       multi: true,
     },
   ],
+  imports: [DropdownContainerDirective, MultiselectBadgeComponent, DropdownMenuComponent],
 })
 export class MultiselectComponent extends BaseComponent {
   @Input() suppressMenu = false;

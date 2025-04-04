@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SlideshiftDirection } from './slideshift-direction';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-slideshift',
   styleUrls: ['./slideshift.component.scss'],
   templateUrl: 'slideshift.component.html',
+  imports: [NgClass],
 })
 export class MdSlideshiftComponent {
   @Input() showOverlay = true;

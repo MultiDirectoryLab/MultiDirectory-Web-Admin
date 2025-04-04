@@ -7,9 +7,11 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
 
 @Component({
   selector: 'md-textbox',
@@ -22,6 +24,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
       multi: true,
     },
   ],
+  imports: [FormsModule, FaIconComponent, ErrorLabelComponent],
 })
 export class TextboxComponent extends BaseComponent {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;

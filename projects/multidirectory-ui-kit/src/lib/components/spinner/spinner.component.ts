@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { BaseControlComponent } from '../base-component/control.component';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from './spinner-options';
 
@@ -7,6 +7,7 @@ import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from './spinner-options';
   selector: 'md-spinner',
   styleUrls: ['./spinner.component.scss'],
   templateUrl: './spinner.component.html',
+  imports: [NgxSpinnerComponent],
 })
 export class SpinnerComponent extends BaseControlComponent {
   @Input() spinnerText = 'Please, wait...';

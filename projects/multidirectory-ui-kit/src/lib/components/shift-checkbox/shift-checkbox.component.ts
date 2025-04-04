@@ -7,8 +7,9 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-shift-checkbox',
@@ -21,6 +22,7 @@ import { BaseComponent } from '../base-component/base.component';
       multi: true,
     },
   ],
+  imports: [NgClass, FormsModule],
 })
 export class ShiftCheckboxComponent extends BaseComponent implements OnInit {
   @ViewChild('checkbox') checkbox!: ElementRef<HTMLInputElement>;

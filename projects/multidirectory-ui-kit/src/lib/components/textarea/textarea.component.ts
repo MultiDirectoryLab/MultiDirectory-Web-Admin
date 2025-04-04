@@ -1,6 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-textarea',
@@ -13,6 +14,7 @@ import { BaseComponent } from '../base-component/base.component';
       multi: true,
     },
   ],
+  imports: [NgClass, FormsModule],
 })
 export class TextareaComponent extends BaseComponent {
   @Input() label: string | null = null;

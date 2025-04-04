@@ -16,11 +16,14 @@ import {
   ColumnMode,
   ContextmenuType,
   DatatableComponent,
+  NgxDatatableModule,
   SelectionType,
   TableColumn,
 } from 'ngx-datatable-gimefork';
-import { DropdownOption } from '../dropdown/dropdown.component';
+import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
 import { Page } from './page';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'md-datagrid',
@@ -33,6 +36,7 @@ import { Page } from './page';
     './../../../../../../node_modules/ngx-datatable-gimefork/assets/icons.css',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgxDatatableModule, NgStyle, NgTemplateOutlet, DropdownComponent, FormsModule],
 })
 export class DatagridComponent implements AfterViewInit {
   ColumnMode = ColumnMode;
