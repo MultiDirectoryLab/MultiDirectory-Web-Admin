@@ -1,6 +1,6 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
@@ -9,9 +9,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/app-layout/header/header.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { ApiAdapter } from './core/api/api-adapter';
-import { GlobalErrorHandler } from './core/api/error-handling/global-error-handler';
-import { AuthorizationModule } from './core/authorization/authorization.module';
+import { ApiAdapter } from '@core/api/api-adapter';
+import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
+import { AuthorizationModule } from '@core/authorization/authorization.module';
 import { TranslocoRootModule } from './transloco-root.module';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 import {
@@ -21,26 +21,20 @@ import {
 } from 'multidirectory-ui-kit';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { EditorsModule } from './features/ldap-browser/components/editors/editors.module';
-import { AppSettingsModule } from './features/settings/app-settings.module';
-import { SearchPanelModule } from './features/search/search-panel.module';
-import { PropertiesModule } from './features/ldap-properties/properties.module';
-import { AppFormsModule } from './features/forms/forms.module';
+import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
+import { AppSettingsModule } from '@features/settings/app-settings.module';
+import { SearchPanelModule } from '@features/search/search-panel.module';
+import { PropertiesModule } from '@features/ldap-properties/properties.module';
+import { AppFormsModule } from '@features/forms/forms.module';
 import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
 import { HotkeyModule } from 'angular2-hotkeys';
-import { translate, Translation, TranslocoService } from '@jsverse/transloco';
+import { TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
-
-export function appInitializerFactory(translateService: TranslocoService) {
-  return (): Promise<Translation> => {
-    return lastValueFrom(translateService.load('ru-RU'));
-  };
-}
 
 @NgModule({
   declarations: [
@@ -78,12 +72,11 @@ export function appInitializerFactory(translateService: TranslocoService) {
   ],
   providers: [
     provideAnimations(),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      deps: [TranslocoService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const translateService: TranslocoService = inject(TranslocoService);
+
+      return lastValueFrom(translateService.load('ru-RU'));
+    }),
     {
       provide: 'apiAdapter',
       useFactory: (
@@ -110,9 +103,10 @@ export function appInitializerFactory(translateService: TranslocoService) {
       provide: SPINNER_CONFIGUARTION,
       useFactory: (translateService: TranslocoService) => {
         return new SpinnerConfiguration({
-          spinnerText: translate('spinner.please-wait'),
+          spinnerText: translateService.translate('spinner.please-wait'),
         });
       },
+      deps: [TranslocoService],
     },
     provideHttpClient(withInterceptorsFromDi()),
   ],
