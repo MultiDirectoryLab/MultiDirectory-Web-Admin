@@ -2,11 +2,14 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angu
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { NgOptimizedImage } from '@angular/common';
+import { PlaneButtonComponent } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-password-policy-list-item',
   templateUrl: './password-policy-list-item.component.html',
   styleUrls: ['./password-policy-list-item.component.scss'],
+  imports: [NgOptimizedImage, PlaneButtonComponent],
 })
 export class PasswordPolicyListItemComponent {
   @Input() index = 0;
@@ -14,19 +17,20 @@ export class PasswordPolicyListItemComponent {
   @Output() turnOffClick = new EventEmitter<PasswordPolicy>();
   @Output() editClick = new EventEmitter<PasswordPolicy>();
 
-  _passwordPolicy: PasswordPolicy | null = null;
-  get passwordPolicy(): PasswordPolicy | null {
-    return this._passwordPolicy;
-  }
-  @Input() set passwordPolicy(passwordPolicy: PasswordPolicy | null) {
-    this._passwordPolicy = passwordPolicy;
-  }
   constructor(
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
   ) {}
 
-  ngAfterViewInit(): void {}
+  _passwordPolicy: PasswordPolicy | null = null;
+
+  get passwordPolicy(): PasswordPolicy | null {
+    return this._passwordPolicy;
+  }
+
+  @Input() set passwordPolicy(passwordPolicy: PasswordPolicy | null) {
+    this._passwordPolicy = passwordPolicy;
+  }
 
   onDeleteClick() {
     if (!this.passwordPolicy) {
