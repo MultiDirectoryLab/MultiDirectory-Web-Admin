@@ -19,23 +19,10 @@
       {{ 'user-properties-tabs.groups' | transloco }}
     </md-tab>
   </div>
-  <app-user-properties-general
-    #generals="mdTab"
-    [accessor]="accessor()"
-    mdTab
-  ></app-user-properties-general>
-  <app-entity-attributes
-    #attributes="mdTab"
-    [accessor]="accessor()"
-    class="block h-100"
-    mdTab
-  ></app-entity-attributes>
-  <app-user-properties-address #address="mdTab" mdTab></app-user-properties-address>
-  <app-user-properties-profile
-    #profile="mdTab"
-    [accessor]="accessor()"
-    mdTab
-  ></app-user-properties-profile>
-  <app-user-properties-account #account="mdTab" mdTab></app-user-properties-account>
-  <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab></app-member-of>
+  <app-user-properties-general #generals="mdTab" [accessor]="accessor()" mdTab />
+  <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-100" mdTab />
+  <app-user-properties-address #address="mdTab" mdTab />
+  <app-user-properties-profile #profile="mdTab" [accessor]="accessor()" mdTab />
+  <app-user-properties-account #account="mdTab" mdTab />
+  <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab />
 </md-tab-pane>

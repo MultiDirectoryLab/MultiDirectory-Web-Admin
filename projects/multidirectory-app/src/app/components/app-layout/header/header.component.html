@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <md-radiogroup #radioGroup [(ngModel)]="contentView"></md-radiogroup>
+  <md-radiogroup #radioGroup [(ngModel)]="contentView" />
 
   <md-dropdown-menu #helpMenu>
     <div class="dropdown-item hidden disabled">{{ t('header.add-remove-columns') }}</div>
@@ -85,7 +85,7 @@
   </md-dropdown-menu>
 
   <md-dropdown-menu #searchMenu>
-    <app-search-panel></app-search-panel>
+    <app-search-panel />
   </md-dropdown-menu>
 
   <md-dropdown-menu #loginMenu>
