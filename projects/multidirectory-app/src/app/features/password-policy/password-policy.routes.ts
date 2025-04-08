@@ -3,7 +3,7 @@ import { PasswordPolicyHeaderComponent } from '@features/password-policy/passwor
 import { PasswordPolicyListComponent } from '@features/password-policy/password-policy-list.component';
 import { PasswordPolicyComponent } from '@features/password-policy/password-policy/password-policy.component';
 
-export const passwordPolicyRoute: Routes = [
+export const passwordPolicyRoutes: Routes = [
   {
     path: '',
     outlet: 'header',

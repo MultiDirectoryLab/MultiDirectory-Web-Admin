@@ -3,7 +3,7 @@ import { AccessPolicyHeaderComponent } from '@features/access-policy/access-poli
 import { AccessPolicySettingsComponent } from '@features/access-policy/access-policy-list.component';
 import { AccessPolicyViewComponent } from '@features/access-policy/access-policy-view/access-policy-view.component';
 
-export const accessPolicyRoute: Routes = [
+export const accessPolicyRoutes: Routes = [
   {
     path: '',
     outlet: 'header',

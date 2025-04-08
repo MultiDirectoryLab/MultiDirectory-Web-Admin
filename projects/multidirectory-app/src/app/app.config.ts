@@ -5,10 +5,16 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/core';
+import {
+  ApplicationConfig,
+  ErrorHandler,
+  importProvidersFrom,
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withRouterConfig } from '@angular/router';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
@@ -24,45 +30,27 @@ import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from 'multidirectory-ui-k
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
-import { AppComponent } from './app.component';
-import { appRoutes } from './app.route';
-import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { FooterComponent } from './components/app-layout/footer/footer.component';
-import { HeaderComponent } from './components/app-layout/header/header.component';
-import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
-import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
-import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { appRoutes } from './app.routes';
 import { TranslocoHttpLoader } from './transloco-loader';
 
-@NgModule({
-  bootstrap: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    DragDropModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-    HotkeyModule.forRoot({ cheatSheetCloseEsc: true }),
-    FontAwesomeModule,
-    AppComponent,
-    HeaderComponent,
-    NavigationComponent,
-    DisplayErrorComponent,
-    AppLayoutComponent,
-    SidebarComponent,
-    FooterComponent,
-    DownloadComponent,
-  ],
+export const appConfig: ApplicationConfig = {
   providers: [
-    AuthRouteGuard,
     provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    provideAnimations(),
     provideAppInitializer(() => {
       const translateService: TranslocoService = inject(TranslocoService);
       return lastValueFrom(translateService.load('ru-RU'));
     }),
+    provideAnimations(),
+    AuthRouteGuard,
+    importProvidersFrom(
+      BrowserModule,
+      DragDropModule,
+      FormsModule,
+      ReactiveFormsModule,
+      ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
+      HotkeyModule.forRoot({ cheatSheetCloseEsc: true }),
+      FontAwesomeModule,
+    ),
     {
       provide: 'apiAdapter',
       useFactory: (
@@ -114,6 +102,6 @@ import { TranslocoHttpLoader } from './transloco-loader';
       },
       loader: TranslocoHttpLoader,
     }),
+    provideAnimations(),
   ],
-})
-export class AppModule {}
+};

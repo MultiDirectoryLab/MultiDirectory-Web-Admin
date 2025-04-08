@@ -25,25 +25,25 @@ export const appRoutes: Routes = [
       {
         path: 'access-policy',
         loadChildren: () =>
-          import('./features/access-policy/access-policy.route').then((r) => r.accessPolicyRoute),
+          import('@features/access-policy/access-policy.routes').then((r) => r.accessPolicyRoutes),
       },
       {
         path: 'password-policy',
         loadChildren: () =>
-          import('./features/password-policy/password-policy.route').then(
-            (r) => r.passwordPolicyRoute,
+          import('@features/password-policy/password-policy.routes').then(
+            (r) => r.passwordPolicyRoutes,
           ),
       },
       {
         path: 'ldap',
         loadChildren: () =>
-          import('./features/ldap-browser/ldap-browser.route').then((r) => r.ldapBrowserRoute),
+          import('@features/ldap-browser/ldap-browser.routes').then((r) => r.ldapBrowserRoutes),
       },
       {
         path: '',
         loadChildren: () =>
-          import('./components/app-layout/placeholder/placeholder.route').then(
-            (r) => r.placeholderRoute,
+          import('./components/app-layout/placeholder/placeholder.routes').then(
+            (r) => r.placeholderRoutes,
           ),
       },
     ],
@@ -51,26 +51,24 @@ export const appRoutes: Routes = [
   {
     path: 'setup',
     canActivate: [SetupRouteGuard],
-    loadChildren: () => import('./features/setup/setup.route').then((r) => r.setupRoute),
+    loadChildren: () => import('@features/setup/setup.routes').then((r) => r.setupRoutes),
   },
   {
     path: 'login',
     canActivate: [SetupRouteGuard, AuthRouteGuard],
-    loadChildren: () => import('./features/login/login.route').then((r) => r.loginRoute),
+    loadChildren: () => import('@features/login/login.routes').then((r) => r.loginRoutes),
   },
   {
     path: 'settings',
     component: AppLayoutComponent,
     canActivate: [AuthRouteGuard],
     loadChildren: () =>
-      import('./features/settings/app-settings.route').then((r) => r.appSettingsRoute),
+      import('@features/settings/app-settings.routes').then((r) => r.appSettingsRoutes),
   },
   {
     path: 'enable-backend',
     component: DisplayErrorComponent,
-    data: {
-      message: 'errors.enable-backend',
-    },
+    data: { message: 'errors.enable-backend' },
   },
   {
     path: 'mfa_token_error',

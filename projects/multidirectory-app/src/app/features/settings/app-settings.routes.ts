@@ -9,7 +9,7 @@ import { AppSettingsNavigationComponent } from '@features/settings/navigation/ap
 import { SessionsComponent } from '@features/settings/sessions/sessions.component';
 import { FooterComponent } from '../../components/app-layout/footer/footer.component';
 
-export const appSettingsRoute: Routes = [
+export const appSettingsRoutes: Routes = [
   {
     path: '',
     outlet: 'sidebar',
