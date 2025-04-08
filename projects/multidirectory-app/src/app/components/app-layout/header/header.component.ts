@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
 import { SearchPanelComponent } from '@features/search/search-panel.component';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -44,6 +44,7 @@ import { Subject } from 'rxjs';
     SearchPanelComponent,
     RouterLink,
     FormsModule,
+    TranslocoDirective,
   ],
 })
 export class HeaderComponent implements OnDestroy {

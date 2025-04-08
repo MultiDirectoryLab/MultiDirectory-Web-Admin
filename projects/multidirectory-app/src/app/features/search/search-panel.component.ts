@@ -32,6 +32,7 @@ import { SearchSourceProvider } from './services/search-source-provider';
     SearchResultComponent,
     SpinnerComponent,
   ],
+  providers: [SearchSourceProvider],
 })
 export class SearchPanelComponent implements AfterViewInit {
   SearchType = SearchType;

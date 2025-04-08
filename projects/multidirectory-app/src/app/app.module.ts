@@ -17,27 +17,23 @@ import { PasswordPolicyViolationInterceptor } from '@core/api/error-handling/pas
 import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-interceptor';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
-import { AuthorizationModule } from '@core/authorization/authorization.module';
-import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
-import { PropertiesModule } from '@features/ldap-properties/properties.module';
-import { SearchPanelModule } from '@features/search/search-panel.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TranslocoService } from '@jsverse/transloco';
+import { provideTransloco, TranslocoService } from '@jsverse/transloco';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from 'multidirectory-ui-kit';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.route';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
 import { HeaderComponent } from './components/app-layout/header/header.component';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
-import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { TranslocoRootModule } from './transloco-root.module';
+import { TranslocoHttpLoader } from './transloco-loader';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -48,14 +44,7 @@ import { TranslocoRootModule } from './transloco-root.module';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
-    HotkeyModule.forRoot({
-      cheatSheetCloseEsc: true,
-    }),
-    TranslocoRootModule,
-    EditorsModule,
-    PropertiesModule,
-    SearchPanelModule,
-    SharedComponentsModule,
+    HotkeyModule.forRoot({ cheatSheetCloseEsc: true }),
     FontAwesomeModule,
     AppComponent,
     HeaderComponent,
@@ -116,6 +105,15 @@ import { TranslocoRootModule } from './transloco-root.module';
       useClass: PasswordPolicyViolationInterceptor,
       multi: true,
     },
+    provideTransloco({
+      config: {
+        availableLangs: ['en-US', 'ru-RU'],
+        defaultLang: localStorage.getItem('locale') ?? 'ru-RU',
+        prodMode: environment.production,
+        reRenderOnLangChange: true,
+      },
+      loader: TranslocoHttpLoader,
+    }),
   ],
 })
 export class AppModule {}
