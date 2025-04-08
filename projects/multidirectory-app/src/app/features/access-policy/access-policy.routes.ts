@@ -1,14 +1,26 @@
 import { Routes } from '@angular/router';
-import { AccessPolicyHeaderComponent } from '@features/access-policy/access-policy-header/access-policy-header.component';
-import { AccessPolicySettingsComponent } from '@features/access-policy/access-policy-list.component';
-import { AccessPolicyViewComponent } from '@features/access-policy/access-policy-view/access-policy-view.component';
 
 export const accessPolicyRoutes: Routes = [
   {
     path: '',
     outlet: 'header',
-    component: AccessPolicyHeaderComponent,
+    loadComponent: () =>
+      import('@features/access-policy/access-policy-header/access-policy-header.component').then(
+        (c) => c.AccessPolicyHeaderComponent,
+      ),
   },
-  { path: '', component: AccessPolicySettingsComponent },
-  { path: ':id', component: AccessPolicyViewComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('@features/access-policy/access-policy-list.component').then(
+        (c) => c.AccessPolicySettingsComponent,
+      ),
+  },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('@features/access-policy/access-policy-view/access-policy-view.component').then(
+        (c) => c.AccessPolicyViewComponent,
+      ),
+  },
 ];

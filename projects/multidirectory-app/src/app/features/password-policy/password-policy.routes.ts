@@ -1,20 +1,26 @@
 import { Routes } from '@angular/router';
-import { PasswordPolicyHeaderComponent } from '@features/password-policy/password-policy-header/password-policy-header.component';
-import { PasswordPolicyListComponent } from '@features/password-policy/password-policy-list.component';
-import { PasswordPolicyComponent } from '@features/password-policy/password-policy/password-policy.component';
 
 export const passwordPolicyRoutes: Routes = [
   {
     path: '',
     outlet: 'header',
-    component: PasswordPolicyHeaderComponent,
+    loadComponent: () =>
+      import(
+        '@features/password-policy/password-policy-header/password-policy-header.component'
+      ).then((c) => c.PasswordPolicyHeaderComponent),
   },
   {
     path: '',
-    component: PasswordPolicyListComponent,
+    loadComponent: () =>
+      import('@features/password-policy/password-policy-list.component').then(
+        (c) => c.PasswordPolicyListComponent,
+      ),
   },
   {
     path: ':id',
-    component: PasswordPolicyComponent,
+    loadComponent: () =>
+      import('@features/password-policy/password-policy/password-policy.component').then(
+        (c) => c.PasswordPolicyComponent,
+      ),
   },
 ];

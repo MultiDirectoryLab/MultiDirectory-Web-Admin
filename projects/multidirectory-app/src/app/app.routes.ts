@@ -1,25 +1,26 @@
 import { Routes } from '@angular/router';
 import { authRouteGuardCanActivateFn } from '@core/authorization/auth-route.can-activate.guard';
 import { setupRouteGuardCanActivateFn } from '@core/setup/setup-route.can-activate.guard';
-import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { FooterComponent } from './components/app-layout/footer/footer.component';
-import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
-import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 
 export const appRoutes: Routes = [
   {
     path: '',
-    component: AppLayoutComponent,
+    loadComponent: () =>
+      import('./components/app-layout/app-layout.component').then((c) => c.AppLayoutComponent),
     canActivate: [authRouteGuardCanActivateFn],
     children: [
       {
         path: '',
-        component: FooterComponent,
+        loadComponent: () =>
+          import('./components/app-layout/footer/footer.component').then((c) => c.FooterComponent),
         outlet: 'footer',
       },
       {
         path: '',
-        component: NavigationComponent,
+        loadComponent: () =>
+          import('./components/sidebar/navigation/navigation.component').then(
+            (c) => c.NavigationComponent,
+          ),
         outlet: 'sidebar',
       },
       {
@@ -60,19 +61,26 @@ export const appRoutes: Routes = [
   },
   {
     path: 'settings',
-    component: AppLayoutComponent,
+    loadComponent: () =>
+      import('./components/app-layout/app-layout.component').then((c) => c.AppLayoutComponent),
     canActivate: [authRouteGuardCanActivateFn],
     loadChildren: () =>
       import('@features/settings/app-settings.routes').then((r) => r.appSettingsRoutes),
   },
   {
     path: 'enable-backend',
-    component: DisplayErrorComponent,
+    loadComponent: () =>
+      import('./components/errors/display-error/display-error.component').then(
+        (c) => c.DisplayErrorComponent,
+      ),
     data: { message: 'errors.enable-backend' },
   },
   {
     path: 'mfa_token_error',
-    component: DisplayErrorComponent,
+    loadComponent: () =>
+      import('./components/errors/display-error/display-error.component').then(
+        (c) => c.DisplayErrorComponent,
+      ),
     data: { message: 'errors.mfa-token-error' },
   },
   { path: '**', redirectTo: '' },
