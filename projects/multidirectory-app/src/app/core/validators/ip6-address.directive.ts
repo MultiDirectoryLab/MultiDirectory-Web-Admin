@@ -1,6 +1,7 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
+
 @Directive({
   selector: '[validIp6Address]',
   providers: [
@@ -12,7 +13,7 @@ import { translate } from '@jsverse/transloco';
   ],
 })
 export class Ip6AddressValidatorDirective implements Validator {
-  @Input() errorLabel = translate('error-message.ip6-valid');
+  readonly errorLabel = input(translate('error-message.ip6-valid'));
   ipPattern = new RegExp(`^([a-f0-9:]+:+)+[a-f0-9]+$`);
 
   validate(control: AbstractControl): ValidationErrors | null {
@@ -20,6 +21,6 @@ export class Ip6AddressValidatorDirective implements Validator {
     if (result) {
       return null;
     }
-    return result ? null : { IpAddress: this.errorLabel };
+    return result ? null : { IpAddress: this.errorLabel() };
   }
 }

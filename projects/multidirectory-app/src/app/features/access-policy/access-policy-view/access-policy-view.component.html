@@ -1,18 +1,18 @@
 <div
-  class="access-policy-view"
   [ngClass]="{
-    'p-16': showConrolButton,
+    'p-16': showConrolButton(),
   }"
+  class="access-policy-view"
 >
   <md-form #form>
     <div class="form-grid">
       <!-- Domain Row -->
       <div>{{ 'access-policy-create.domain' | transloco }}</div>
-      <md-textbox appRequired [(ngModel)]="accessClient.name" class="span-two"></md-textbox>
+      <md-textbox [(ngModel)]="accessClient.name" appRequired class="span-two"></md-textbox>
 
       <!-- IP Addresses Row -->
       <div>{{ 'access-policy-create.ip-addresses' | transloco }}</div>
-      <md-textbox appRequired validIpAddress (blur)="onIpChanged()" [(ngModel)]="ipAddresses">
+      <md-textbox (blur)="onIpChanged()" [(ngModel)]="ipAddresses" appRequired validIpAddress>
       </md-textbox>
       <md-button (click)="changeIpAdressAttribute()" [stretch]="true">
         {{ 'access-policy-create.add' | transloco }}
@@ -21,12 +21,12 @@
       <!-- Access Group Row -->
       <div>{{ 'access-policy-create.access-group' | transloco }}</div>
       <md-multiselect
-        [suppressMenu]="true"
-        [options]="availableGroups"
-        [(ngModel)]="groupQuery"
-        (inputChanged)="checkGroups()"
-        notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
         #groupSelector
+        (inputChanged)="checkGroups()"
+        [(ngModel)]="groupQuery"
+        [options]="availableGroups"
+        [suppressMenu]="true"
+        notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
       >
       </md-multiselect>
       <md-button (click)="checkGroups()" [stretch]="true">
@@ -35,7 +35,7 @@
 
       <!-- MFA Row -->
       <div>MFA</div>
-      <md-dropdown [options]="options" [(ngModel)]="mfaAccess" appRequired class="span-two">
+      <md-dropdown [(ngModel)]="mfaAccess" [options]="options" appRequired class="span-two">
       </md-dropdown>
 
       <!-- MFA Groups Row (Conditional) -->
@@ -57,11 +57,11 @@
     </div>
 
     <div class="flex-column nowrap flex-gap-20 w-100">
-      <md-group title="{{ 'access-policy-create.protocols' | transloco }}" class="pt-16">
+      <md-group class="pt-16" title="{{ 'access-policy-create.protocols' | transloco }}">
         <div class="protocol-switch-column">
-          <md-shift-checkbox [(ngModel)]="accessClient.isLdap"> LDAP </md-shift-checkbox>
-          <md-shift-checkbox [(ngModel)]="accessClient.isHttp"> HTTP </md-shift-checkbox>
-          <md-shift-checkbox [(ngModel)]="accessClient.isKerberos"> Kerberos </md-shift-checkbox>
+          <md-shift-checkbox [(ngModel)]="accessClient.isLdap"> LDAP</md-shift-checkbox>
+          <md-shift-checkbox [(ngModel)]="accessClient.isHttp"> HTTP</md-shift-checkbox>
+          <md-shift-checkbox [(ngModel)]="accessClient.isKerberos"> Kerberos</md-shift-checkbox>
         </div>
       </md-group>
 
@@ -95,15 +95,15 @@
       }
     </div>
   </md-form>
-  @if (showConrolButton) {
+  @if (showConrolButton()) {
     <div class="flex-row justify-start flex-gap-10">
-      <md-button [disabled]="!form.valid" [primary]="true" (click)="save()">{{
-        'access-policy-create.approve' | transloco
-      }}</md-button>
+      <md-button [disabled]="!form.valid" [primary]="true" (click)="save()"
+        >{{ 'access-policy-create.approve' | transloco }}
+      </md-button>
     </div>
   }
 </div>
 
-<ng-template modalInject #ipListEditor="modalInject">
+<ng-template #ipListEditor="modalInject" modalInject>
   <app-access-policy-ip-list></app-access-policy-ip-list>
 </ng-template>

@@ -10,7 +10,7 @@
       {{ 'user-properties-tabs.members' | transloco }}
     </md-tab>
   </div>
-  <app-entity-attributes mdTab #attributes="mdTab" [accessor]="accessor"></app-entity-attributes>
-  <app-member-of mdTab #memberOf="mdTab" [accessor]="accessor"></app-member-of>
-  <app-members mdTab #members="mdTab" [accessor]="accessor"></app-members>
+  <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" mdTab></app-entity-attributes>
+  <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab></app-member-of>
+  <app-members #members="mdTab" [accessor]="accessor()" mdTab></app-members>
 </md-tab-pane>

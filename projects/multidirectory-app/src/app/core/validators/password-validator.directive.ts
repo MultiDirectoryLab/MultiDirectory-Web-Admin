@@ -1,11 +1,5 @@
-import { Directive, Input, inject } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  NgControl,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { Directive, inject, input } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 
@@ -21,8 +15,7 @@ import { AppSettingsService } from '@services/app-settings.service';
 })
 export class PasswordValidatorDirective implements Validator {
   private app = inject(AppSettingsService);
-
-  @Input() errorLabel = '';
+  readonly errorLabel = input('');
 
   validate(control: AbstractControl): ValidationErrors | null {
     if ((!control.touched && !control.value) || !this.app.validatePasswords) {

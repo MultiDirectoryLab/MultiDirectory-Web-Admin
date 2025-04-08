@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
 import { ComputerPropertiesAccountComponent } from '@features/ldap-properties/computer-properties/account/computer-properties-account.component';
@@ -27,9 +27,8 @@ import { Subject } from 'rxjs';
 export class ComputerPropertiesComponent {
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private cdr = inject(ChangeDetectorRef);
-
   unsubscribe = new Subject<boolean>();
-  @Input() accessor!: LdapAttributes;
+  readonly accessor = input.required<LdapAttributes>();
 
   onTabChanged() {
     this.modalControl.modal?.resizeToContentHeight();

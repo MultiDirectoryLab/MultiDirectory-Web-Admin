@@ -7,11 +7,11 @@ import {
   ElementRef,
   forwardRef,
   HostListener,
-  Input,
+  inject,
+  input,
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -47,13 +47,12 @@ import { GridItemComponent } from './grid-item/grid-item.component';
   ],
 })
 export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
-  toast = inject(ToastrService);
   private cdr = inject(ChangeDetectorRef);
   private ldapLoader = inject(LdapEntryLoader);
   private navigation = inject(AppNavigationService);
   private route = inject(ActivatedRoute);
-
-  @Input() big = false;
+  toast = inject(ToastrService);
+  readonly big = input(false);
   @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
   @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
   @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;

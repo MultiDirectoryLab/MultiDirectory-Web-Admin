@@ -2,12 +2,13 @@ import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
+  input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -65,14 +66,14 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
-
+  private _unsubscribe = new Subject<void>();
   @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
   @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
-  @Input() showConrolButton = true;
+  readonly showConrolButton = input(true);
   @Output() accessClientChange = new EventEmitter<AccessPolicy>();
-  @Input() accessPolicyId: number | undefined;
+  readonly accessPolicyId = input<number>();
   ipAddresses = '';
   MfaAccessEnum = MfaAccessEnum;
   mfaAccess = MfaAccessEnum.Noone;
@@ -89,7 +90,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   mfaGroupsQuery = '';
   availableMfaGroups: MultiselectModel[] = [];
   bypassAllowed = false;
-  private _unsubscribe = new Subject<void>();
 
   private _accessClient = new AccessPolicy();
 
@@ -131,7 +131,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         this.windows.hideSpinner();
         this.accessClient =
           policies.find(
-            (x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId,
+            (x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
           ) ?? new AccessPolicy();
         this.ipAddresses = this.accessClient.ipRange
           .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))

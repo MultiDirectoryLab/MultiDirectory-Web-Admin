@@ -3,7 +3,7 @@
     <div class="cell-drag-drop">
       <img class="control-button-logo" [src]="'assets/draggable.svg'" />
     </div>
-    <div class="cell-index">{{ index }}</div>
+    <div class="cell-index">{{ index() }}</div>
     <div class="cell-domain" [ngClass]="{ 'cell-domain-expand': !groups }">
       {{ accessClient.name }}
     </div>
