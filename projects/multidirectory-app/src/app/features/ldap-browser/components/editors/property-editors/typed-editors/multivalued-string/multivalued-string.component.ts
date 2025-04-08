@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, TextboxComponent, TreeviewComponent } from 'multidirectory-ui-kit';
@@ -53,14 +53,14 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
       }),
     );
     this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.next(this._propertyValue);
+    this.propertyValueChange.emit(this._propertyValue);
     this.newAttribute = '';
   }
 
   deleteAttribute() {
     this.treeview!.tree = this.treeview?.tree.filter((x) => !x.selected) ?? [];
     this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.next(this._propertyValue);
+    this.propertyValueChange.emit(this._propertyValue);
     this.treeview!.redraw();
   }
 }

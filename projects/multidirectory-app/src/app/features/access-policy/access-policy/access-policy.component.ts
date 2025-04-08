@@ -1,13 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
@@ -29,9 +21,9 @@ export class AccessPolicyComponent {
   private cdr = inject(ChangeDetectorRef);
   private windows = inject(AppWindowsService);
   readonly index = input(0);
-  @Output() deleteClick = new EventEmitter<AccessPolicy>();
-  @Output() turnOffClick = new EventEmitter<AccessPolicy>();
-  @Output() editClick = new EventEmitter<AccessPolicy>();
+  readonly deleteClick = output<AccessPolicy>();
+  readonly turnOffClick = output<AccessPolicy>();
+  readonly editClick = output<AccessPolicy>();
   ipAddress = '';
   groups = '';
 

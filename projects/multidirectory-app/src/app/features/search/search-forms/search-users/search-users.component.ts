@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
@@ -11,7 +11,7 @@ import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
 })
 export class SearchUsersComponent {
   searchQuery: string = '';
-  @Output() onClear = new EventEmitter<void>();
+  readonly onClear = output<void>();
 
   clear() {
     this.searchQuery = '';

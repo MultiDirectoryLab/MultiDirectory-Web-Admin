@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 
 export interface RightClickEvent {
@@ -12,7 +12,7 @@ export interface RightClickEvent {
 })
 export abstract class BaseViewComponent {
   @Input() selectedCatalog: LdapEntryNode | null = null;
-  @Output() rightClick = new EventEmitter<RightClickEvent>();
+  readonly rightClick = output<RightClickEvent>();
 
   handleRightClick(event: any) {
     let selected = this.getSelected();

@@ -1,16 +1,14 @@
+import { NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { BaseControlComponent } from '../base-component/control.component';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-button',
@@ -24,11 +22,12 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   @Input() primary = false;
   @Input() stretch = false;
   @Output() click = new EventEmitter();
-  unlistenClick = () => {};
 
   constructor(private el: ElementRef) {
     super();
   }
+
+  unlistenClick = () => {};
 
   ngOnInit(): void {
     this.unlistenClick = this.el.nativeElement.addEventListener(
@@ -56,7 +55,7 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
     if ($event.key == 'Enter' || $event.key == ' ') {
       $event.stopPropagation();
       $event.preventDefault();
-      this.click.next($event);
+      this.click.emit($event);
     }
   }
 }

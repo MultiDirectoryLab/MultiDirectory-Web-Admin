@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, output, ViewChild } from '@angular/core';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
 import { UserCreatePasswordSettingsComponent } from '@features/forms/user-create/password-settings/password-settings.component';
@@ -46,7 +38,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private toastr = inject(ToastrService);
 
-  @Output() onCreate = new EventEmitter<void>();
+  readonly onCreate = output<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
   unsubscribe = new Subject<void>();

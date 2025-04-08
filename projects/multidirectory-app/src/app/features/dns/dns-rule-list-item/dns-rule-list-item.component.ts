@@ -1,12 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
@@ -23,9 +15,9 @@ export class DnsRuleListItemComponent {
   private toastr = inject(ToastrService);
   private cdr = inject(ChangeDetectorRef);
   readonly index = input(0);
-  @Output() deleteClick = new EventEmitter<DnsRule>();
-  @Output() turnOffClick = new EventEmitter<DnsRule>();
-  @Output() editClick = new EventEmitter<DnsRule>();
+  readonly deleteClick = output<DnsRule>();
+  readonly turnOffClick = output<DnsRule>();
+  readonly editClick = output<DnsRule>();
 
   _dnsRule: DnsRule | null = null;
 

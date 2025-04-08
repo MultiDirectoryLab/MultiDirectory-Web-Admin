@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Injector,
   Input,
   OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -25,20 +22,18 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() focus = new EventEmitter<void>();
   unsubscribe = new Subject<boolean>();
+  innerValue: any = '';
+
   _controlAccessor: NgControl | null = null;
+
   get controlAccessor(): NgControl | null {
     return this._controlAccessor;
   }
+
   set controlAccessor(ca: NgControl | null) {
     this._controlAccessor = ca;
     this.cdr.detectChanges();
   }
-
-  constructor(protected cdr: ChangeDetectorRef) {
-    super();
-  }
-
-  innerValue: any = '';
 
   get value(): any {
     return this.innerValue;
@@ -51,8 +46,9 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     }
   }
 
-  protected _onChange = (value: any) => {};
-  protected _onTouched = () => {};
+  constructor(protected cdr: ChangeDetectorRef) {
+    super();
+  }
 
   writeValue(value: any): void {
     if (value !== this.innerValue) {
@@ -75,13 +71,13 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
   }
 
   onBlur() {
-    this.blur.next();
+    this.blur.emit();
     this._onTouched();
     this.cdr.detectChanges();
   }
 
   onFocus() {
-    this.focus.next();
+    this.focus.emit();
   }
 
   setFocus() {}
@@ -90,4 +86,8 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     this.unsubscribe.next(true);
     this.unsubscribe.complete();
   }
+
+  protected _onChange = (value: any) => {};
+
+  protected _onTouched = () => {};
 }

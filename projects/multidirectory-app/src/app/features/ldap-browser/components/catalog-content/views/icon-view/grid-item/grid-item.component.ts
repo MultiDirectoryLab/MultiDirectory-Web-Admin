@@ -1,6 +1,6 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, input, Output, ViewChild } from '@angular/core';
+import { Component, input, output, ViewChild } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { ContextmenuType } from 'ngx-datatable-gimefork';
@@ -14,9 +14,9 @@ import { ContextmenuType } from 'ngx-datatable-gimefork';
 export class GridItemComponent {
   readonly big = input(false);
   readonly item = input.required<LdapEntryNode>();
-  @Output() clickOnItem = new EventEmitter<MouseEvent>();
-  @Output() doubleClickOnItem = new EventEmitter<Event>();
-  @Output() rightClick = new EventEmitter<ContextMenuEvent>();
+  readonly clickOnItem = output<MouseEvent>();
+  readonly doubleClickOnItem = output<Event>();
+  readonly rightClick = output<ContextMenuEvent>();
 
   @ViewChild(CdkDrag) drag!: CdkDrag;
   draggable = {
@@ -30,20 +30,20 @@ export class GridItemComponent {
   onClick($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.clickOnItem.next($event);
+    this.clickOnItem.emit($event);
   }
 
   onDblClick($event: Event) {
     $event.preventDefault();
     this.item().selected = false;
-    this.doubleClickOnItem.next($event);
+    this.doubleClickOnItem.emit($event);
   }
 
   onRightClick($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.clickOnItem.next($event);
-    this.rightClick.next({
+    this.clickOnItem.emit($event);
+    this.rightClick.emit({
       content: this.item(),
       event: $event,
       type: ContextmenuType.body,

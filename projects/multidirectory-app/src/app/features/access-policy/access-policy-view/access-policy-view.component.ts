@@ -1,13 +1,12 @@
 import { NgClass } from '@angular/common';
 import {
   Component,
-  EventEmitter,
   inject,
   Input,
   input,
   OnDestroy,
   OnInit,
-  Output,
+  output,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -72,7 +71,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
   @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
   readonly showConrolButton = input(true);
-  @Output() accessClientChange = new EventEmitter<AccessPolicy>();
+  readonly accessClientChange = output<AccessPolicy>();
   readonly accessPolicyId = input<number>();
   ipAddresses = '';
   MfaAccessEnum = MfaAccessEnum;

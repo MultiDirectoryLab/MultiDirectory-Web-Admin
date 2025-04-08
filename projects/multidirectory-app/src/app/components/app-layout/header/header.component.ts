@@ -2,11 +2,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
-  OnDestroy,
-  Output,
-  ViewChild,
   inject,
+  OnDestroy,
+  output,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -57,9 +56,9 @@ export class HeaderComponent implements OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  @Output() helpMenuClick = new EventEmitter<MouseEvent>();
-  @Output() accountSettingsClicked = new EventEmitter<void>();
-  @Output() logoutClick = new EventEmitter<void>();
+  readonly helpMenuClick = output<MouseEvent>();
+  readonly accountSettingsClicked = output<void>();
+  readonly logoutClick = output<void>();
 
   @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef;
   @ViewChild('notifications', { read: MdSlideshiftComponent }) slideshift!: MdSlideshiftComponent;
@@ -69,6 +68,18 @@ export class HeaderComponent implements OnDestroy {
   darkMode = false;
 
   ViewMode = ViewMode;
+
+  get contentView(): ViewMode {
+    return this.contentViewService.contentView;
+  }
+
+  set contentView(view: ViewMode) {
+    this.contentViewService.contentView = view;
+  }
+
+  get user(): WhoamiResponse | undefined {
+    return this.app.user;
+  }
 
   // TODO: TOO MUCH SERVICES
   constructor() {
@@ -165,18 +176,6 @@ export class HeaderComponent implements OnDestroy {
     this.darkMode = localStorage.getItem('dark-mode') == 'true';
   }
 
-  get contentView(): ViewMode {
-    return this.contentViewService.contentView;
-  }
-
-  set contentView(view: ViewMode) {
-    this.contentViewService.contentView = view;
-  }
-
-  get user(): WhoamiResponse | undefined {
-    return this.app.user;
-  }
-
   ngOnDestroy(): void {
     this.unsubscribe.next(true);
     this.unsubscribe.complete();
@@ -221,7 +220,7 @@ export class HeaderComponent implements OnDestroy {
   }
 
   onLogout() {
-    this.logoutClick.next();
+    this.logoutClick.emit();
   }
 
   toggleNotificationPanel() {
