@@ -8,15 +8,34 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatuses } from '@models/dns/dns-statuses';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import {
+  CheckboxComponent,
+  MdFormComponent,
+  NumberComponent,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-setup',
   templateUrl: './dns-setup.component.html',
   styleUrls: ['./dns-setup.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    CheckboxComponent,
+    TextareaComponent,
+    NumberComponent,
+  ],
 })
 export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   @Input() formValid = false;
@@ -26,20 +45,21 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   @Output() dnsSetupRequestChange = new EventEmitter<DnsSetupRequest>();
 
   @ViewChild('form') form!: MdFormComponent;
+  private unsubscribe = new Subject<boolean>();
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   private _useExternalService = false;
+
+  get useExternalService(): boolean {
+    return this._useExternalService;
+  }
+
   set useExternalService(value: boolean) {
     this._useExternalService = value;
     this.dnsSetupRequest.dns_status = value ? DnsStatuses.HOSTED : DnsStatuses.SELFHOSTED;
     this.cdr.detectChanges();
   }
-  get useExternalService(): boolean {
-    return this._useExternalService;
-  }
-
-  private unsubscribe = new Subject<boolean>();
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.dnsSetupRequest.dns_status = this._useExternalService

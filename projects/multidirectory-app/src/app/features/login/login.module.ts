@@ -1,19 +1,11 @@
-import { NgModule } from '@angular/core';
-import { LoginComponent } from './login.component';
-import { LoginRoutingModule } from './login-routing.module';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
+import { LoginRoutingModule } from './login-routing.module';
+import { LoginComponent } from './login.component';
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
-    MultidirectoryUiKitModule,
-    CommonModule,
-    FormsModule,
-    TranslocoModule,
-    LoginRoutingModule,
-  ],
+  imports: [CommonModule, FormsModule, TranslocoModule, LoginRoutingModule, LoginComponent],
 })
 export class LoginModule {}

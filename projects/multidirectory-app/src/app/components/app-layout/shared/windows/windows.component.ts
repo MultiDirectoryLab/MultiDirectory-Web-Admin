@@ -1,24 +1,67 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { AppWindowsService } from '@services/app-windows.service';
-import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { AppSettingsService } from '@services/app-settings.service';
 import { EntityType } from '@core/entities/entities-type';
-import { AttributeService } from '@services/attributes.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { SearchQueries } from '@core/ldap/search';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { SearchQueries } from '@core/ldap/search';
+import { AddPrincipalDialogComponent } from '@features/forms/add-principal-dialog/add-principal-dialog.component';
+import { CatalogCreateComponent } from '@features/forms/catalog-create/catalog-create.component';
+import { CatalogSelectorComponent } from '@features/forms/catalog-selector/catalog-selector.component';
+import { ComputerCreateComponent } from '@features/forms/computer-create/computer-create.component';
+import { ConfirmDialogComponent } from '@features/forms/confirm-dialog/confirm-dialog.component';
+import { DnsRulesDialogComponent } from '@features/forms/dns-rule/dns-rule-dialog.component';
+import { DnsSetupDialogComponent } from '@features/forms/dns-setup/dns-setup-dialog.component';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
+import { EntityTypeSelectorComponent } from '@features/forms/entity-type-selector/entity-type-selector.component';
+import { GroupCreateComponent } from '@features/forms/group-create/group-create.component';
+import { ModifyDnComponent } from '@features/forms/modify-dn/modify-dn.component';
+import { MoveEntityDialogComponent } from '@features/forms/move-entity/move-entity.component';
+import { OuCreateComponent } from '@features/forms/ou-create/ou-create.component';
+import { RuleCreateComponent } from '@features/forms/rule-create/rule-create.component';
+import { SetupKerberosDialogComponent } from '@features/forms/setup-kerberos/setup-kerberos.component';
+import { UserCreateComponent } from '@features/forms/user-create/user-create.component';
+import { ChangePasswordComponent } from '@features/ldap-browser/components/editors/change-password/change-password.component';
+import { PropertyEditorComponent } from '@features/ldap-browser/components/editors/property-editors/property-editor.component';
+import { EntityPropertiesComponent } from '@features/ldap-properties/properties.component';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
+import { AppSettingsService } from '@services/app-settings.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { AttributeService } from '@services/attributes.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { DeleteConfirmationModalComponent } from '../delete-confirmation-modal/delete-confirmation-modal.component';
 
 @Component({
   selector: 'app-windows',
   styleUrls: ['./windows.component.scss'],
   templateUrl: './windows.component.html',
+  imports: [
+    ModalInjectDirective,
+    EntityPropertiesComponent,
+    ChangePasswordComponent,
+    UserCreateComponent,
+    OuCreateComponent,
+    RuleCreateComponent,
+    CatalogCreateComponent,
+    GroupCreateComponent,
+    ComputerCreateComponent,
+    DeleteConfirmationModalComponent,
+    ModifyDnComponent,
+    EntityTypeSelectorComponent,
+    EntitySelectorComponent,
+    CatalogSelectorComponent,
+    MoveEntityDialogComponent,
+    ConfirmDialogComponent,
+    AddPrincipalDialogComponent,
+    SetupKerberosDialogComponent,
+    DnsRulesDialogComponent,
+    DnsSetupDialogComponent,
+    PropertyEditorComponent,
+  ],
 })
 export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;

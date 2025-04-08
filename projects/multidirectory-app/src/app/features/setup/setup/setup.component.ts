@@ -8,30 +8,61 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
+import { AdminSettingsSecondComponent } from '@features/setup/admin-settings-second/admin-settings-second.component';
+import { AdminSettingsComponent } from '@features/setup/admin-settings/admin-settings.component';
+import { DnsSetupSettingsComponent } from '@features/setup/dns-setup-settings/dns-setup-settings.component';
+import { DomainSettingsComponent } from '@features/setup/domain-setttings/domain-settings.component';
+import { KerberosSettingsComponent } from '@features/setup/kerberos-settings/kerberos-settings.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { SetupService } from '@services/setup.service';
-import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdFormComponent,
+  MdModalComponent,
+  PlaneButtonComponent,
+  StepDirective,
+  StepperComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, delay, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
+  imports: [
+    MdFormComponent,
+    MdModalComponent,
+    TranslocoPipe,
+    PlaneButtonComponent,
+    FaIconComponent,
+    DropdownContainerDirective,
+    DropdownMenuComponent,
+    StepperComponent,
+    DomainSettingsComponent,
+    StepDirective,
+    DnsSetupSettingsComponent,
+    KerberosSettingsComponent,
+    AdminSettingsComponent,
+    AdminSettingsSecondComponent,
+    ButtonComponent,
+  ],
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('modal') modal!: MdModalComponent;
   @ViewChild('stepper') stepper!: StepperComponent;
-
-  private unsubscribe = new Subject<boolean>();
   setupRequest = new SetupRequest();
   stepValid = false;
   faLanguage = faLanguage;
+  private unsubscribe = new Subject<boolean>();
 
   constructor(
     private app: AppSettingsService,

@@ -1,19 +1,18 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { AccessPolicyViewComponent } from './access-policy-view.component';
-import { ActivatedRoute } from '@angular/router';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { AppWindowsService } from '@services/app-windows.service';
-import { AppNavigationService } from '@services/app-navigation.service';
-import { ToastrService } from 'ngx-toastr';
-import { of, Subject } from 'rxjs';
-import { AccessPolicy } from '@core/access-policy/access-policy';
-import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
-import { IpRange } from '@core/access-policy/access-policy-ip-address';
-import { TranslocoTestingModule } from '@jsverse/transloco';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { ActivatedRoute } from '@angular/router';
+import { AccessPolicy } from '@core/access-policy/access-policy';
+import { IpRange } from '@core/access-policy/access-policy-ip-address';
+import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
+import { TranslocoTestingModule } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getTranslocoModule } from '@testing/transloco-testing';
+import { ToastrService } from 'ngx-toastr';
+import { of, Subject } from 'rxjs';
+import { AccessPolicyViewComponent } from './access-policy-view.component';
 
 xdescribe('AccessPolicyViewComponent', () => {
   let component: AccessPolicyViewComponent;
@@ -43,12 +42,11 @@ xdescribe('AccessPolicyViewComponent', () => {
     toastrService = jasmine.createSpyObj('ToastrService', ['error']);
 
     await TestBed.configureTestingModule({
-      declarations: [AccessPolicyViewComponent],
       imports: [
         FormsModule,
-        MultidirectoryUiKitModule,
         TranslocoTestingModule,
         getTranslocoModule(),
+        AccessPolicyViewComponent,
       ],
       providers: [
         { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },

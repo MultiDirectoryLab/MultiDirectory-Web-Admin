@@ -1,16 +1,46 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import BitSet from 'bitset';
-import { DatepickerComponent, DropdownOption, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { take, tap } from 'rxjs';
-import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { LogonTimeEditorComponent } from '@features/ldap-properties/user-properties/account/logn-time-editor/logon-time-editor.component';
+import { TranslocoPipe } from '@jsverse/transloco';
+import BitSet from 'bitset';
 import moment from 'moment';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  DatepickerComponent,
+  DropdownComponent,
+  DropdownOption,
+  GroupComponent,
+  ModalInjectDirective,
+  RadiobuttonComponent,
+  RadioGroupComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-user-properties-account',
   templateUrl: './user-properties-account.component.html',
   styleUrls: ['./user-properties-account.component.scss'],
+  imports: [
+    TranslocoPipe,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    DropdownComponent,
+    ButtonComponent,
+    CheckboxComponent,
+    GroupComponent,
+    RadioGroupComponent,
+    RadiobuttonComponent,
+    DatepickerComponent,
+    LogonTimeEditorComponent,
+    ModalInjectDirective,
+  ],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
   @ViewChild('datePicker') datePicker!: DatepickerComponent;
@@ -19,16 +49,75 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   uacBitSet?: BitSet;
   upnDomain?: DropdownOption;
   accessor: LdapAttributes = {};
+  @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
+
+  constructor(
+    public modalControl: ModalInjectDirective,
+    private cdr: ChangeDetectorRef,
+    private nodeLoader: LdapEntryLoader,
+  ) {}
 
   get userShouldChangePassword(): boolean {
     return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0
       ? true
       : false;
   }
+
   set userShouldChangePassword(shouldChange: boolean) {
     this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), shouldChange ? 1 : 0);
     this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
     this.setPwdLastSetTime(shouldChange);
+  }
+
+  get passwordNeverExpires(): boolean {
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0
+      ? true
+      : false;
+  }
+
+  set passwordNeverExpires(value: boolean) {
+    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.DONT_EXPIRE_PASSWORD), value ? 1 : 0);
+    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
+  }
+
+  get storePasswordReversible(): boolean {
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
+      0
+      ? true
+      : false;
+  }
+
+  set storePasswordReversible(value: boolean) {
+    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT), value ? 1 : 0);
+    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
+  }
+
+  get accountDisabled(): boolean {
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0
+      ? true
+      : false;
+  }
+
+  set accountDisabled(value: boolean) {
+    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.ACCOUNTDISABLE), value ? 1 : 0);
+    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
+  }
+
+  _accountExpires = false;
+
+  get accountExpires(): boolean {
+    return this._accountExpires;
+  }
+
+  set accountExpires(value: boolean) {
+    this._accountExpires = value;
+    if (!value) {
+      this.accessor['accountExpires'] = ['0'];
+      this.datePicker.clearDate();
+    } else {
+      this.accessor['accountExpires'] = this.accessor['$accountExpires'];
+    }
+    this.cdr.detectChanges();
   }
 
   fileTimeToDate(filetime: number): moment.Moment {
@@ -50,12 +139,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     // Convert to BigInt for better precision, since FileTime can exceed regular number limits
     return BigInt(windowsFileTime);
   }
-
-  constructor(
-    public modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-    private nodeLoader: LdapEntryLoader,
-  ) {}
 
   ngAfterViewInit(): void {
     this.accessor = this.modalControl.contentOptions.accessor;
@@ -82,7 +165,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
       });
   }
 
-  @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
   showLogonTimeEditor() {
     this.editLogonTime
       .open({ width: '732px' }, { logonHours: this.accessor!.logonHours })
@@ -92,52 +174,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
 
         this.accessor.logonHours = [result];
       });
-  }
-
-  get passwordNeverExpires(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0
-      ? true
-      : false;
-  }
-  set passwordNeverExpires(value: boolean) {
-    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.DONT_EXPIRE_PASSWORD), value ? 1 : 0);
-    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
-  }
-
-  get storePasswordReversible(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
-      0
-      ? true
-      : false;
-  }
-  set storePasswordReversible(value: boolean) {
-    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT), value ? 1 : 0);
-    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
-  }
-
-  get accountDisabled(): boolean {
-    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0
-      ? true
-      : false;
-  }
-  set accountDisabled(value: boolean) {
-    this.uacBitSet?.set(Math.log2(UserAccountControlFlag.ACCOUNTDISABLE), value ? 1 : 0);
-    this.accessor['userAccountControl'] = [this.uacBitSet?.toString(10)];
-  }
-
-  _accountExpires = false;
-  set accountExpires(value: boolean) {
-    this._accountExpires = value;
-    if (!value) {
-      this.accessor['accountExpires'] = ['0'];
-      this.datePicker.clearDate();
-    } else {
-      this.accessor['accountExpires'] = this.accessor['$accountExpires'];
-    }
-    this.cdr.detectChanges();
-  }
-  get accountExpires(): boolean {
-    return this._accountExpires;
   }
 
   setPwdLastSetTime(shouldChange: boolean) {

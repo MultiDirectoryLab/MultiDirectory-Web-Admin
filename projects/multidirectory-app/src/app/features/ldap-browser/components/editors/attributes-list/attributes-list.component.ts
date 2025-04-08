@@ -1,19 +1,13 @@
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { Validator } from '@angular/forms';
-import {
-  MdModalComponent,
+  ButtonComponent,
   ModalInjectDirective,
+  TextboxComponent,
   Treenode,
   TreeviewComponent,
 } from 'multidirectory-ui-kit';
-import { Observable, Subject } from 'rxjs';
 
 export class AttributeListEntry extends Treenode {
   type = '';
@@ -29,6 +23,7 @@ export class AttributeListEntry extends Treenode {
   selector: 'app-attribute-list',
   styleUrls: ['./attributes-list.component.scss'],
   templateUrl: './attributes-list.component.html',
+  imports: [TranslocoPipe, TextboxComponent, FormsModule, ButtonComponent, TreeviewComponent],
 })
 export class AttributeListComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;

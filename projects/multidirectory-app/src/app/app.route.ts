@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthRouteGuard } from './core/authorization/auth-route-guard';
-import { SetupRouteGuard } from './core/setup/setup-route-guard';
+import { Routes } from '@angular/router';
+import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
+import { SetupRouteGuard } from '@core/setup/setup-route-guard';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
-import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
-import { translate } from '@jsverse/transloco';
+import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
+import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
 
-const routes: Routes = [
+export const appRoutes: Routes = [
   {
     path: 'setup',
     canActivate: [SetupRouteGuard],
@@ -81,10 +79,3 @@ const routes: Routes = [
   },
   { path: '**', redirectTo: '' },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
-  exports: [RouterModule],
-  providers: [AuthRouteGuard],
-})
-export class AppRoutingModule {}

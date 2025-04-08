@@ -1,21 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AccessPolicySettingsComponent } from './access-policy-list.component';
-import { AccessPolicyViewComponent } from './access-policy-view/access-policy-view.component';
-import { AccessPolicyHeaderComponent } from './access-policy-header/access-policy-header.component';
+import { accessPolicyRoutes } from '@features/access-policy/access-policy.route';
 
 @NgModule({
-  imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        outlet: 'header',
-        component: AccessPolicyHeaderComponent,
-      },
-      { path: '', component: AccessPolicySettingsComponent },
-      { path: ':id', component: AccessPolicyViewComponent },
-    ]),
-  ],
+  imports: [RouterModule.forChild(accessPolicyRoutes)],
   exports: [RouterModule],
 })
 export class AccessPolicyRoutingModule {}

@@ -1,64 +1,72 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  forwardRef,
   Input,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewChild,
-  forwardRef,
 } from '@angular/core';
-import { TableColumn } from 'ngx-datatable-gimefork';
-import { DatagridComponent, DropdownOption, Page } from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
+import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
+import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
+import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
+import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { concat, Subject, switchMap, take } from 'rxjs';
-import { TableRow } from './table-row';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { translate } from '@jsverse/transloco';
-import { AppWindowsService } from '@services/app-windows.service';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { BaseViewComponent } from '../base-view.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
   faCrosshairs,
   faLevelUpAlt,
   faToggleOff,
   faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { ToastrService } from 'ngx-toastr';
-import { BulkService } from '@services/bulk.service';
-import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
-import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { UpdateEntryResponse } from '@models/entry/update-response';
-import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
-import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
-import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
-import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { BulkService } from '@services/bulk.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  CheckboxComponent,
+  DatagridComponent,
+  DropdownOption,
+  Page,
+  PlaneButtonComponent,
+  ShiftCheckboxComponent,
+} from 'multidirectory-ui-kit';
+import { TableColumn } from 'ngx-datatable-gimefork';
+import { concat, Subject, switchMap, take } from 'rxjs';
+import { BaseViewComponent } from '../base-view.component';
+import { TableRow } from './table-row';
 
 @Component({
   selector: 'app-table-view',
   styleUrls: ['table-view.component.scss'],
   templateUrl: './table-view.component.html',
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => TableViewComponent) }],
+  imports: [
+    DatagridComponent,
+    TranslocoPipe,
+    CheckboxComponent,
+    FormsModule,
+    PlaneButtonComponent,
+    ShiftCheckboxComponent,
+    NgClass,
+    FaIconComponent,
+  ],
 })
 export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
-  private _searchQuery = '';
-  @Input() set searchQuery(q: string) {
-    this._searchQuery = q;
-    this.updateContent();
-  }
-  get searchQuery() {
-    return this._searchQuery;
-  }
-
-  private _dn = '';
   page = new Page();
   columns: TableColumn[] = [];
   rows: TableRow[] = [];
@@ -68,16 +76,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   faCrosshair = faCrosshairs;
   faLevelUp = faLevelUpAlt;
   showControlPanel = true;
-
-  private _checkAllCheckbox = false;
-  get checkAllCheckbox() {
-    return this._checkAllCheckbox;
-  }
-  set checkAllCheckbox(value: boolean) {
-    this._checkAllCheckbox = value;
-    this.grid.toggleSelectedAll(value);
-  }
-
   pageSizes: DropdownOption[] = [
     { title: '15', value: 15 },
     { title: '20', value: 20 },
@@ -85,6 +83,9 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
+  accountEnabledToggleEnabled = false;
+  private _dn = '';
+
   constructor(
     private appNavigation: AppNavigationService,
     private ldapLoader: LdapEntryLoader,
@@ -97,6 +98,38 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
   ) {
     super();
+  }
+
+  private _searchQuery = '';
+
+  get searchQuery() {
+    return this._searchQuery;
+  }
+
+  @Input() set searchQuery(q: string) {
+    this._searchQuery = q;
+    this.updateContent();
+  }
+
+  private _checkAllCheckbox = false;
+
+  get checkAllCheckbox() {
+    return this._checkAllCheckbox;
+  }
+
+  set checkAllCheckbox(value: boolean) {
+    this._checkAllCheckbox = value;
+    this.grid.toggleSelectedAll(value);
+  }
+
+  private _accountEnabledToggle = false;
+
+  get accountEnabledToggle(): boolean {
+    return this._accountEnabledToggle;
+  }
+
+  set accountEnabledToggle(enabled: boolean) {
+    this._accountEnabledToggle = enabled;
   }
 
   ngAfterViewInit(): void {
@@ -194,6 +227,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   override getSelected(): LdapEntryNode[] {
     return this.grid.selected.map((x) => x.entry);
   }
+
   override setSelected(selected: LdapEntryNode[]) {
     if (!this.rows || this.rows.length == 0 || !selected) {
       return;
@@ -287,18 +321,10 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       });
   }
 
-  private _accountEnabledToggle = false;
-  get accountEnabledToggle(): boolean {
-    return this._accountEnabledToggle;
-  }
-  set accountEnabledToggle(enabled: boolean) {
-    this._accountEnabledToggle = enabled;
-  }
   accountEnabledToggleClick(value: boolean) {
     this.toggleSelected(this._accountEnabledToggle);
   }
 
-  accountEnabledToggleEnabled = false;
   setAccountEnabledToggle() {
     const selected = this.grid.selected.map((x) => x.entry);
     this.bulkService

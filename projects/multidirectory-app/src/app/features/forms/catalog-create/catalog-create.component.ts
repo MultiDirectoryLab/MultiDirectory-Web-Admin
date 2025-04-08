@@ -1,32 +1,40 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { CreateEntryRequest } from '@models/entry/create-request';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { CreateEntryRequest } from '@models/entry/create-request';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-catalog-create',
   templateUrl: './catalog-create.component.html',
   styleUrls: ['./catalog-create.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    TextareaComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    ButtonComponent,
+  ],
 })
 export class CatalogCreateComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
-  private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
   description = '';
   catalogName = '';
+  private _unsubscribe = new Subject<void>();
 
   constructor(
     private api: MultidirectoryApiService,

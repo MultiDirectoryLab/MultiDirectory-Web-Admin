@@ -1,15 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MdFormComponent } from 'multidirectory-ui-kit';
-import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { AppSettingsService } from '@services/app-settings.service';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  GroupComponent,
+  MdFormComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-password-policy',
   templateUrl: './password-policy.component.html',
   styleUrls: ['./password-policy.component.scss'],
+  imports: [
+    MdFormComponent,
+    TranslocoPipe,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    GroupComponent,
+    CheckboxComponent,
+    ButtonComponent,
+  ],
 })
 export class PasswordPolicyComponent implements OnInit {
   @ViewChild('form') form!: MdFormComponent;

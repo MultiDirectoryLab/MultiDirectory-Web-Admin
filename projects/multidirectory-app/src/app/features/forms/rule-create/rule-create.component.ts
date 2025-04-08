@@ -1,22 +1,40 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-rule-create',
   templateUrl: './rule-create.component.html',
   styleUrls: ['./rule-create.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    TextareaComponent,
+    FormsModule,
+    ButtonComponent,
+  ],
 })
 export class RuleCreateComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
-  private _unsubscribe = new Subject<void>();
   formValid = false;
   parentDn = '';
   description = '';
   ruleName = '';
+  private _unsubscribe = new Subject<void>();
 
   constructor(
     private api: MultidirectoryApiService,

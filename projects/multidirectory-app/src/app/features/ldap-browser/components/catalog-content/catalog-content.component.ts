@@ -1,43 +1,59 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { translate } from '@jsverse/transloco';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { NgStyle } from '@angular/common';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { IconViewComponent } from '@features/ldap-browser/components/catalog-content/views/icon-view/icon-view.component';
+import { TableViewComponent } from '@features/ldap-browser/components/catalog-content/views/table-view/table-view.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DeleteEntryRequest } from '@models/entry/delete-request';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
+import { ContextMenuService } from '@services/contextmenu.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import {
+  ButtonComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdModalComponent,
+  ModalInjectDirective,
+  PlaneButtonComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { concat, Subject, take, takeUntil } from 'rxjs';
 import { ViewMode } from './view-modes';
 import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { ContextMenuService } from '@services/contextmenu.service';
-import { ActivatedRoute } from '@angular/router';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
 
 @Component({
   selector: 'app-catalog-content',
   templateUrl: './catalog-content.component.html',
   styleUrls: ['./catalog-content.component.scss'],
+  imports: [
+    PlaneButtonComponent,
+    DropdownContainerDirective,
+    ButtonComponent,
+    TranslocoPipe,
+    TextboxComponent,
+    NgStyle,
+    TableViewComponent,
+    IconViewComponent,
+    DropdownMenuComponent,
+    MdModalComponent,
+    FormsModule,
+  ],
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
   @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
   @ViewChild(BaseViewComponent) view?: BaseViewComponent;
-  private _selectedRows: LdapEntryNode[] = [];
   unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
   searchQuery = '';
+  private _selectedRows: LdapEntryNode[] = [];
 
   constructor(
     private navigation: AppNavigationService,

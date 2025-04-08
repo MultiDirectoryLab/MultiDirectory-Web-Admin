@@ -1,19 +1,24 @@
-import { ComponentFixture, TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
-import { EntitySelectorComponent } from './entity-selector.component';
-import { getMockModalInjectDirective } from '@testing/modal-inject-testing';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { EntitySelectorSettings } from './entity-selector-settings.component';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
-import { getTranslocoModule } from '@testing/transloco-testing';
+import {
+  ComponentFixture,
+  ComponentFixtureAutoDetect,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
 import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
 import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
+import { getMockModalInjectDirective } from '@testing/modal-inject-testing';
+import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { getSavedQueriesLoaderMock } from '@testing/saved-queries-node-loader-mock';
+import { getTranslocoModule } from '@testing/transloco-testing';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { EntitySelectorSettings } from './entity-selector-settings.component';
+import { EntitySelectorComponent } from './entity-selector.component';
 
 describe('Entity Selector Test Suite', () => {
   let component: EntitySelectorComponent;
@@ -28,8 +33,7 @@ describe('Entity Selector Test Suite', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EntitySelectorComponent],
-      imports: [getTranslocoModule()],
+      imports: [getTranslocoModule(), EntitySelectorComponent],
       providers: [
         EntitySelectorComponent,
         {

@@ -1,8 +1,11 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { getTranslocoModule } from '@testing/transloco-testing';
 import {
   ButtonComponent,
   MdFormComponent,
@@ -12,9 +15,6 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { MfIntegrationFormComponent } from './mf-integration-form.component';
-import { By } from '@angular/platform-browser';
-import { getTranslocoModule } from '@testing/transloco-testing';
-import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 
 describe('MfIntegrationFormComponent', () => {
   let component: MfIntegrationFormComponent;
@@ -32,7 +32,10 @@ describe('MfIntegrationFormComponent', () => {
     toastrService = jasmine.createSpyObj('ToastrService', ['success', 'error']);
 
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        FormsModule,
+        TranslocoModule,
+        getTranslocoModule(),
         MfIntegrationFormComponent,
         MfKeyValidatorDirective,
         MdFormComponent,
@@ -40,7 +43,6 @@ describe('MfIntegrationFormComponent', () => {
         ButtonComponent,
         TooltipComponent,
       ],
-      imports: [FormsModule, TranslocoModule, getTranslocoModule()],
       providers: [
         { provide: MultidirectoryApiService, useValue: apiService },
         { provide: AppWindowsService, useValue: windowsService },

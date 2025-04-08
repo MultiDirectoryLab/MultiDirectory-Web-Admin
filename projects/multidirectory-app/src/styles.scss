@@ -2,7 +2,7 @@
 @use '../../../node_modules/multidirectory-ui-kit/styles/global.scss';
 @use '../../../node_modules/multidirectory-ui-kit/styles/typings.scss';
 @use '@angular/cdk/overlay-prebuilt.css';
-@import 'ngx-toastr/toastr';
+@use 'ngx-toastr/toastr';
 
 .fullscreen {
   width: 100%;
@@ -42,9 +42,11 @@
 .flex-gap-20 {
   gap: 1rem;
 }
+
 .flex-gap-10 {
   gap: 0.5rem;
 }
+
 .flex-gap-5 {
   gap: 0.3rem;
 }
@@ -171,6 +173,7 @@
 .mw-16 {
   max-width: 16px;
 }
+
 .mw-12 {
   max-width: 12px;
 }

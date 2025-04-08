@@ -1,21 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { AlertComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss'],
+  imports: [AlertComponent, FaIconComponent, TranslocoPipe],
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   faCircleExclamation = faCircleExclamation;
-
-  private _unsubscribe = new Subject<void>();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;
+  private _unsubscribe = new Subject<void>();
+
   constructor(
     private api: MultidirectoryApiService,
     private app: AppSettingsService,

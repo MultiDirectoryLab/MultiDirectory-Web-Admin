@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { take } from 'rxjs';
@@ -7,6 +8,7 @@ import { take } from 'rxjs';
   selector: 'app-password-conditions',
   templateUrl: './password-conditions.component.html',
   styleUrls: ['./password-conditions.component.scss'],
+  imports: [TranslocoPipe],
 })
 export class PasswordConditionsComponent implements OnInit {
   minimumPasswordLength = 7;
@@ -15,6 +17,11 @@ export class PasswordConditionsComponent implements OnInit {
   checkPasswordComplexity = false;
   checkPasswordMinimalLength = false;
   checkPasswordWithoutOtp = false;
+
+  constructor(
+    private api: MultidirectoryApiService,
+    private app: AppSettingsService,
+  ) {}
 
   @Input() set currentPassword(password: string) {
     var hasUpperCase = /[A-ZА-Я]/.test(password);
@@ -26,11 +33,6 @@ export class PasswordConditionsComponent implements OnInit {
     this.checkPasswordMinimalLength = password.length >= this.minimumPasswordLength;
     this.checkPasswordWithoutOtp = !endsWith6Digits;
   }
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-  ) {}
 
   ngOnInit(): void {
     if (this.app.userEntry) {

@@ -1,8 +1,20 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild, forwardRef } from '@angular/core';
-import { MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
+import { AfterViewInit, Component, forwardRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
+import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
+import {
+  AutofocusDirective,
+  MdFormComponent,
+  PopupContainerDirective,
+  PopupSuggestComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-settings',
@@ -14,6 +26,19 @@ import { SetupRequestValidatorService } from '@services/setup-request-validator.
       useExisting: forwardRef(() => AdminSettingsComponent),
       multi: true,
     },
+  ],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    AutofocusDirective,
+    FormsModule,
+    PasswordMatchValidatorDirective,
+    PasswordValidatorDirective,
+    PopupContainerDirective,
+    PopupSuggestComponent,
+    PasswordConditionsComponent,
   ],
 })
 export class AdminSettingsComponent implements AfterViewInit, OnDestroy {

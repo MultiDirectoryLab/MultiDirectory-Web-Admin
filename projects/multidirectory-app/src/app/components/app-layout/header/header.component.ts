@@ -7,22 +7,44 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { translate } from '@jsverse/transloco';
-import { Subject } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
+import { SearchPanelComponent } from '@features/search/search-panel.component';
+import { translate } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
 import { MenuService } from '@services/menu.service';
-import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import {
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdSlideshiftComponent,
+  PlaneButtonComponent,
+  RadiobuttonComponent,
+  RadioGroupComponent,
+  ShiftCheckboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  imports: [
+    RouterOutlet,
+    PlaneButtonComponent,
+    DropdownContainerDirective,
+    RadioGroupComponent,
+    DropdownMenuComponent,
+    ShiftCheckboxComponent,
+    RadiobuttonComponent,
+    SearchPanelComponent,
+    RouterLink,
+    FormsModule,
+  ],
 })
 export class HeaderComponent implements OnDestroy {
   @Output() helpMenuClick = new EventEmitter<MouseEvent>();
@@ -37,16 +59,6 @@ export class HeaderComponent implements OnDestroy {
   darkMode = false;
 
   ViewMode = ViewMode;
-  get contentView(): ViewMode {
-    return this.contentViewService.contentView;
-  }
-  set contentView(view: ViewMode) {
-    this.contentViewService.contentView = view;
-  }
-
-  get user(): WhoamiResponse | undefined {
-    return this.app.user;
-  }
 
   // TODO: TOO MUCH SERVICES
   constructor(
@@ -149,6 +161,18 @@ export class HeaderComponent implements OnDestroy {
     );
 
     this.darkMode = localStorage.getItem('dark-mode') == 'true';
+  }
+
+  get contentView(): ViewMode {
+    return this.contentViewService.contentView;
+  }
+
+  set contentView(view: ViewMode) {
+    this.contentViewService.contentView = view;
+  }
+
+  get user(): WhoamiResponse | undefined {
+    return this.app.user;
   }
 
   ngOnDestroy(): void {

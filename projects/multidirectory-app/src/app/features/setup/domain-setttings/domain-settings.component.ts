@@ -1,14 +1,32 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
+import { FormControl, FormsModule } from '@angular/forms';
+import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
+import {
+  AutofocusDirective,
+  CheckboxComponent,
+  MdFormComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-domain-settings',
   templateUrl: './domain-settings.component.html',
   styleUrls: ['./domain-settings.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    DomainFormatValidatorDirective,
+    RequiredWithMessageDirective,
+    AutofocusDirective,
+    FormsModule,
+    CheckboxComponent,
+  ],
 })
 export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
   @Input() setupRequest!: SetupRequest;

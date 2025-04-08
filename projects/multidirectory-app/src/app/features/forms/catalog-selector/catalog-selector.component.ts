@@ -1,19 +1,21 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MdModalComponent, ModalInjectDirective, TreeviewComponent } from 'multidirectory-ui-kit';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ButtonComponent, ModalInjectDirective, TreeviewComponent } from 'multidirectory-ui-kit';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-catalog-selector',
   templateUrl: './catalog-selector.component.html',
   styleUrls: ['./catalog-selector.component.scss'],
+  imports: [TreeviewComponent, TranslocoPipe, ButtonComponent],
 })
 export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
   @ViewChild('ldapTree', { static: true }) treeView?: TreeviewComponent;
+  ldapRoots: LdapEntryNode[] = [];
   private unsubscribe = new Subject<void>();
   private _selectedNode: LdapEntryNode[] = [];
-  ldapRoots: LdapEntryNode[] = [];
 
   constructor(
     private ldapLoader: LdapEntryLoader,

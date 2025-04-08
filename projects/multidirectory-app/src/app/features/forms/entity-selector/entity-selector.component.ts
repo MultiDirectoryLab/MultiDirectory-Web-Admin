@@ -1,19 +1,35 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ModalInjectDirective, MultiselectComponent } from 'multidirectory-ui-kit';
-import { Subject, catchError, take, throwError, map } from 'rxjs';
-import { EntityType } from '@core/entities/entities-type';
+import { FormsModule } from '@angular/forms';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { EntityType } from '@core/entities/entities-type';
 import { SearchQueries } from '@core/ldap/search';
-import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  ButtonComponent,
+  ModalInjectDirective,
+  MultiselectComponent,
+  PlaneButtonComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
+import { catchError, map, Subject, take, throwError } from 'rxjs';
 import { EntitySelectorSettings } from './entity-selector-settings.component';
 
 @Component({
   selector: 'app-entity-selector',
   templateUrl: './entity-selector.component.html',
   styleUrls: ['./entity-selector.component.scss'],
+  imports: [
+    TranslocoPipe,
+    TextboxComponent,
+    FormsModule,
+    ButtonComponent,
+    PlaneButtonComponent,
+    MultiselectComponent,
+  ],
 })
 export class EntitySelectorComponent implements OnInit {
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;

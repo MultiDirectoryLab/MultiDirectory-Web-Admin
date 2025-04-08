@@ -16,6 +16,7 @@ import { PasswordMatchValidatorDirective } from './passwordmatch.directive';
       />
     </form>
   `,
+  imports: [ReactiveFormsModule, FormsModule],
 })
 class TestComponent {
   errorLabel = '';
@@ -31,8 +32,13 @@ describe('PasswordMatchValidatorDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, FormsModule, getTranslocoModule()],
-      declarations: [TestComponent, PasswordMatchValidatorDirective],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        getTranslocoModule(),
+        TestComponent,
+        PasswordMatchValidatorDirective,
+      ],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
 

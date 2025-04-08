@@ -1,18 +1,29 @@
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { EMPTY, catchError, switchMap, take, zip } from 'rxjs';
-import { translate } from '@jsverse/transloco';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { AppWindowsService } from '@services/app-windows.service';
-import { AccessPolicy } from '@core/access-policy/access-policy';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
+import { AccessPolicy } from '@core/access-policy/access-policy';
+import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
+import { AccessPolicyComponent } from '@features/access-policy/access-policy/access-policy.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-access-policy-list',
   templateUrl: './access-policy-list.component.html',
   styleUrls: ['./access-policy-list.component.scss'],
+  imports: [
+    ButtonComponent,
+    TranslocoPipe,
+    CdkDropList,
+    CdkDrag,
+    AccessPolicyComponent,
+    ModalInjectDirective,
+    AccessPolicyViewModalComponent,
+  ],
 })
 export class AccessPolicySettingsComponent implements OnInit {
   @ViewChild('createModal', { static: true }) accessClientCreateModal!: ModalInjectDirective;
@@ -26,6 +37,7 @@ export class AccessPolicySettingsComponent implements OnInit {
   ];
 
   clients: AccessPolicy[] = [];
+
   constructor(
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
@@ -33,6 +45,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     private windows: AppWindowsService,
     private router: Router,
   ) {}
+
   ngOnInit(): void {
     this.windows.showSpinner();
     this.api.getAccessPolicy().subscribe((x) => {

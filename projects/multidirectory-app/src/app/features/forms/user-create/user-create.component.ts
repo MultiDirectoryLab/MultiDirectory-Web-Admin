@@ -1,31 +1,44 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Inject,
-  Input,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { ModalInjectDirective, StepperComponent } from 'multidirectory-ui-kit';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
-import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
-import { UserCreateService } from '@services/user-create.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { ToastrService } from 'ngx-toastr';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
-import { translate } from '@jsverse/transloco';
+import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
+import { UserCreatePasswordSettingsComponent } from '@features/forms/user-create/password-settings/password-settings.component';
+import { UserCreateSummaryComponent } from '@features/forms/user-create/summary/summary.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { CreateEntryRequest } from '@models/entry/create-request';
+import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { UserCreateService } from '@services/user-create.service';
 import BitSet from 'bitset';
-import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
+import {
+  ButtonComponent,
+  ModalInjectDirective,
+  StepDirective,
+  StepperComponent,
+} from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.scss'],
+  imports: [
+    TranslocoPipe,
+    StepperComponent,
+    UserCreateGeneralInfoComponent,
+    UserCreatePasswordSettingsComponent,
+    UserCreateSummaryComponent,
+    ButtonComponent,
+    StepDirective,
+  ],
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
   @Output() onCreate = new EventEmitter<void>();

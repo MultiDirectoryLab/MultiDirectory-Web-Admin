@@ -1,14 +1,41 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
+import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
+import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passwordnotmatch.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
-import { MdFormComponent, StepperComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  PopupContainerDirective,
+  PopupSuggestComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-kerberos-settings',
   templateUrl: './kerberos-settings.component.html',
   styleUrls: ['./kerberos-settings.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    PasswordMatchValidatorDirective,
+    PasswordShouldNotMatchValidatorDirective,
+    PasswordValidatorDirective,
+    FormsModule,
+    PopupContainerDirective,
+    PopupSuggestComponent,
+    PasswordConditionsComponent,
+    ButtonComponent,
+  ],
 })
 export class KerberosSettingsComponent implements AfterViewInit {
   @Input() setupRequest!: SetupRequest;

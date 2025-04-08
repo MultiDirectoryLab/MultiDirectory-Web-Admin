@@ -1,21 +1,37 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { SpinnerComponent } from 'multidirectory-ui-kit';
-import { catchError, map, switchMap, throwError } from 'rxjs';
-import { translate } from '@jsverse/transloco';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
+import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  ButtonComponent,
+  DropdownComponent,
+  MdFormComponent,
+  SpinnerComponent,
+} from 'multidirectory-ui-kit';
+import { catchError, map, switchMap, throwError } from 'rxjs';
+import { SearchSource } from './models/search-source';
 import { SearchResultComponent } from './search-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './search-forms/search-users/search-users.component';
-import { SearchSource } from './models/search-source';
 import { SearchSourceProvider } from './services/search-source-provider';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 
 @Component({
   selector: 'app-search-panel',
   templateUrl: './search-panel.component.html',
   styleUrls: ['./search-panel.component.scss'],
+  imports: [
+    MdFormComponent,
+    DropdownComponent,
+    ButtonComponent,
+    FormsModule,
+    TranslocoPipe,
+    SearchUsersComponent,
+    SearchResultComponent,
+    SpinnerComponent,
+  ],
 })
 export class SearchPanelComponent implements AfterViewInit {
   SearchType = SearchType;

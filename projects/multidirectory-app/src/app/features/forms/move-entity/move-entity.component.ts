@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
 import { AppWindowsService } from '@services/app-windows.service';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { ButtonComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Component({
   selector: 'app-move-entity',
   templateUrl: './move-entity.component.html',
   styleUrls: ['./move-entity.component.scss'],
+  imports: [TranslocoPipe, TextboxComponent, ButtonComponent, FormsModule],
 })
 export class MoveEntityDialogComponent implements OnInit {
   toMove: LdapEntryNode[] = [];

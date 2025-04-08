@@ -1,22 +1,22 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@core/navigation/navigation-node';
 import { AppNavigationService, NavigationEventWrapper } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';
-import { NavigationNode } from '@core/navigation/navigation-node';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
   styleUrls: ['./navigation.component.scss'],
   templateUrl: './navigation.component.html',
+  imports: [TreeviewComponent],
 })
 export class NavigationComponent implements OnInit, OnDestroy {
   @ViewChild('treeView', { static: true }) treeView!: TreeviewComponent;
-
-  private unsubscribe = new Subject<void>();
   navigationTree: NavigationNode[] = [];
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private navigation: AppNavigationService,

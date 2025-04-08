@@ -1,34 +1,34 @@
 <md-form #form>
   <md-modal
     #modal
-    [opened]="true"
     [closeable]="false"
-    [width]="'510px'"
     [minHeight]="460"
+    [opened]="true"
     [spinnerText]="'spinner.please-wait' | transloco"
+    [width]="'510px'"
   >
     <div class="app-modal-header">
       <div style="flex-shrink: 1; display: flex">
-        <img src="/assets/logo_login_transparent.svg" class="logo-img" />
+        <img class="logo-img" src="/assets/logo_login_transparent.svg" />
       </div>
       <div>
-        <md-plane-button class="btn" [mdDropdownContainer]="languageMenu">
-          <fa-icon class="white" [icon]="faLanguage"></fa-icon>
+        <md-plane-button [mdDropdownContainer]="languageMenu" class="btn">
+          <fa-icon [icon]="faLanguage" class="white"></fa-icon>
         </md-plane-button>
         <md-dropdown-menu #languageMenu>
-          <div class="dropdown-item" (click)="languageMenu.close(); changeLanguage('ru')">
-            <img class="mw-16" [src]="'assets/ru.svg'" />
+          <div (click)="languageMenu.close(); changeLanguage('ru')" class="dropdown-item">
+            <img [src]="'assets/ru.svg'" class="mw-16" />
             {{ 'setup.russian' | transloco }}
           </div>
-          <div class="dropdown-item" (click)="languageMenu.close(); changeLanguage('en')">
-            <img class="mw-16" [src]="'assets/us.svg'" />
+          <div (click)="languageMenu.close(); changeLanguage('en')" class="dropdown-item">
+            <img [src]="'assets/us.svg'" class="mw-16" />
             {{ 'setup.english' | transloco }}
           </div>
         </md-dropdown-menu>
       </div>
     </div>
     <div class="w-100">
-      <md-stepper #stepper (nextStep)="onNext($event)" (finish)="onSetup()">
+      <md-stepper #stepper (finish)="onSetup()" (nextStep)="onNext($event)">
         <app-domain-settings *mdStep [setupRequest]="setupRequest"></app-domain-settings>
         @if (setupRequest.setupDns) {
           <app-dns-setup-settings *mdStep [setupRequest]="setupRequest"></app-dns-setup-settings>
@@ -45,15 +45,14 @@
     </div>
     <ng-container class="app-modal-footer">
       <div class="flex-row flex-center flex-gap-20">
-        <md-button
-          [primary]="false"
-          *ngIf="stepper.currentIndex > 0"
-          (click)="stepper.previous()"
-          >{{ 'setup.back' | transloco }}</md-button
-        >
-        <md-button [primary]="true" (click)="showNextStep()">{{
-          'setup.next' | transloco
-        }}</md-button>
+        @if (stepper.currentIndex > 0) {
+          <md-button [primary]="false" (click)="stepper.previous()"
+            >{{ 'setup.back' | transloco }}
+          </md-button>
+        }
+        <md-button (click)="showNextStep()" [primary]="true"
+          >{{ 'setup.next' | transloco }}
+        </md-button>
       </div>
     </ng-container>
   </md-modal>

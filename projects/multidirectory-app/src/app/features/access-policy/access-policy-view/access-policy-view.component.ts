@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -7,31 +8,55 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { translate } from '@jsverse/transloco';
-import {
-  DropdownOption,
-  MdFormComponent,
-  ModalInjectDirective,
-  MultiselectComponent,
-} from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { IpRange } from '@core/access-policy/access-policy-ip-address';
 import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Observable, Subject, map, of, switchMap, take, takeUntil } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { AppWindowsService } from '@services/app-windows.service';
+import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { AccessPolicyIpListComponent } from '@features/access-policy/access-policy-ip-list/access-policy-ip-list.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  ButtonComponent,
+  DropdownComponent,
+  DropdownOption,
+  GroupComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  MultiselectComponent,
+  ShiftCheckboxComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
+import { map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { MultiselectModel } from './multiselect-model';
-import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-access-policy-view',
   styleUrls: ['./access-policy-view.component.scss'],
   templateUrl: './access-policy-view.component.html',
+  imports: [
+    NgClass,
+    MdFormComponent,
+    TextboxComponent,
+    ButtonComponent,
+    MultiselectComponent,
+    FormsModule,
+    DropdownComponent,
+    GroupComponent,
+    ShiftCheckboxComponent,
+    AccessPolicyIpListComponent,
+    ModalInjectDirective,
+    RequiredWithMessageDirective,
+    IpAddressValidatorDirective,
+    TranslocoPipe,
+  ],
 })
 export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
@@ -39,18 +64,8 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
   @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
   @Input() showConrolButton = true;
-  private _accessClient = new AccessPolicy();
-  private _unsubscribe = new Subject<void>();
-  get accessClient(): AccessPolicy {
-    return this._accessClient;
-  }
-  @Input() set accessClient(value: AccessPolicy) {
-    this._accessClient = value;
-    this.accessClientChange.emit(value);
-  }
   @Output() accessClientChange = new EventEmitter<AccessPolicy>();
   @Input() accessPolicyId: number | undefined;
-
   ipAddresses = '';
   MfaAccessEnum = MfaAccessEnum;
   mfaAccess = MfaAccessEnum.Noone;
@@ -64,11 +79,10 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   ];
   groupQuery = '';
   availableGroups: MultiselectModel[] = [];
-
   mfaGroupsQuery = '';
   availableMfaGroups: MultiselectModel[] = [];
-
   bypassAllowed = false;
+  private _unsubscribe = new Subject<void>();
 
   constructor(
     private api: MultidirectoryApiService,
@@ -78,14 +92,15 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     private windows: AppWindowsService,
   ) {}
 
-  private getMultiselectOption(x: any) {
-    const groupName = new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x;
-    return new MultiselectModel({
-      selected: true,
-      id: x,
-      title: groupName,
-      badge_title: groupName,
-    });
+  private _accessClient = new AccessPolicy();
+
+  get accessClient(): AccessPolicy {
+    return this._accessClient;
+  }
+
+  @Input() set accessClient(value: AccessPolicy) {
+    this._accessClient = value;
+    this.accessClientChange.emit(value);
   }
 
   ngOnInit(): void {
@@ -186,6 +201,34 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  checkGroups() {
+    this.retrieveGroups(this.groupQuery)
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.availableGroups = result;
+        this.groupSelector.showMenu();
+      });
+  }
+
+  checkMfaGroups() {
+    this.retrieveGroups(this.mfaGroupsQuery)
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.availableMfaGroups = result;
+        this.mfaGroupSelector.showMenu();
+      });
+  }
+
+  private getMultiselectOption(x: any) {
+    const groupName = new RegExp(Constants.RegexGetNameFromDn).exec(x)?.[1] ?? x;
+    return new MultiselectModel({
+      selected: true,
+      id: x,
+      title: groupName,
+      badge_title: groupName,
+    });
+  }
+
   private retrieveGroups(groupQuery: string): Observable<MultiselectModel[]> {
     if (groupQuery.length < 2) {
       this.toastr.error(translate('errors.empty-filter'));
@@ -208,22 +251,5 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         });
       }),
     );
-  }
-
-  checkGroups() {
-    this.retrieveGroups(this.groupQuery)
-      .pipe(take(1))
-      .subscribe((result) => {
-        this.availableGroups = result;
-        this.groupSelector.showMenu();
-      });
-  }
-  checkMfaGroups() {
-    this.retrieveGroups(this.mfaGroupsQuery)
-      .pipe(take(1))
-      .subscribe((result) => {
-        this.availableMfaGroups = result;
-        this.mfaGroupSelector.showMenu();
-      });
   }
 }

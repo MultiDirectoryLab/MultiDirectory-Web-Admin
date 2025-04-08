@@ -4,59 +4,45 @@ import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/app-layout/header/header.component';
-import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { ApiAdapter } from '@core/api/api-adapter';
-import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
-import { AuthorizationModule } from '@core/authorization/authorization.module';
-import { TranslocoRootModule } from './transloco-root.module';
-import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
-import {
-  MultidirectoryUiKitModule,
-  SPINNER_CONFIGUARTION,
-  SpinnerConfiguration,
-} from 'multidirectory-ui-kit';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
-import { AppSettingsModule } from '@features/settings/app-settings.module';
-import { SearchPanelModule } from '@features/search/search-panel.module';
-import { PropertiesModule } from '@features/ldap-properties/properties.module';
-import { AppFormsModule } from '@features/forms/forms.module';
-import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
-import { FooterComponent } from './components/app-layout/footer/footer.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
-import { HotkeyModule } from 'angular2-hotkeys';
-import { TranslocoService } from '@jsverse/transloco';
-import { lastValueFrom } from 'rxjs';
-import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
+import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
+import { AuthorizationModule } from '@core/authorization/authorization.module';
+import { AppFormsModule } from '@features/forms/forms.module';
+import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
+import { PropertiesModule } from '@features/ldap-properties/properties.module';
+import { SearchPanelModule } from '@features/search/search-panel.module';
+import { AppSettingsModule } from '@features/settings/app-settings.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TranslocoService } from '@jsverse/transloco';
+import { HotkeyModule } from 'angular2-hotkeys';
+import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from 'multidirectory-ui-kit';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { lastValueFrom } from 'rxjs';
+import { AppComponent } from './app.component';
+import { appRoutes } from './app.route';
+import { AppLayoutComponent } from './components/app-layout/app-layout.component';
+import { FooterComponent } from './components/app-layout/footer/footer.component';
+import { HeaderComponent } from './components/app-layout/header/header.component';
+import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
+import { SharedComponentsModule } from './components/app-layout/shared/shared.module';
+import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
+import { NavigationComponent } from './components/sidebar/navigation/navigation.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    NavigationComponent,
-    DisplayErrorComponent,
-    AppLayoutComponent,
-    SidebarComponent,
-    FooterComponent,
-    DownloadComponent,
-  ],
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     DragDropModule,
-    AppRoutingModule,
     AppSettingsModule,
     FormsModule,
     ReactiveFormsModule,
-    MultidirectoryUiKitModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
     HotkeyModule.forRoot({
       cheatSheetCloseEsc: true,
@@ -69,12 +55,21 @@ import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
     AppFormsModule,
     SharedComponentsModule,
     FontAwesomeModule,
+    AppComponent,
+    HeaderComponent,
+    NavigationComponent,
+    DisplayErrorComponent,
+    AppLayoutComponent,
+    SidebarComponent,
+    FooterComponent,
+    DownloadComponent,
   ],
   providers: [
+    AuthRouteGuard,
+    provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
     provideAnimations(),
     provideAppInitializer(() => {
       const translateService: TranslocoService = inject(TranslocoService);
-
       return lastValueFrom(translateService.load('ru-RU'));
     }),
     {

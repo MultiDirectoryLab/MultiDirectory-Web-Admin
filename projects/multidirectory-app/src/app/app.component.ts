@@ -1,23 +1,33 @@
+import { NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { AppSettingsService } from '@services/app-settings.service';
+import { AppWindowsService } from '@services/app-windows.service';
 import { DownloadService } from '@services/download.service';
-import { SpinnerComponent } from 'multidirectory-ui-kit';
+import { MdPortalComponent, SpinnerComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
-import { AppSettingsService } from './services/app-settings.service';
-import { AppWindowsService } from './services/app-windows.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  imports: [
+    RouterOutlet,
+    MdPortalComponent,
+    SpinnerComponent,
+    TranslocoPipe,
+    DownloadComponent,
+    NgClass,
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private unsubscribe = new Subject<void>();
-
   title = 'multidirectory-app';
   darkMode = false;
   @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
   @ViewChild('downloadData') downloadComponent!: DownloadComponent;
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private windows: AppWindowsService,

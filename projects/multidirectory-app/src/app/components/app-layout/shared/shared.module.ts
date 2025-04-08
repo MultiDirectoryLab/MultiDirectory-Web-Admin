@@ -1,27 +1,19 @@
-import { NgModule } from '@angular/core';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
-import { WindowsComponent } from './windows/windows.component';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@jsverse/transloco';
+import { NgModule } from '@angular/core';
+import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
+import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/entity-type-selector.module';
+import { AppFormsModule } from '@features/forms/forms.module';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { PropertiesModule } from '@features/ldap-properties/properties.module';
-import { DeleteConfirmationModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
-import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/entity-type-selector.module';
-import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
-import { AppFormsModule } from '@features/forms/forms.module';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TranslocoModule } from '@jsverse/transloco';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { DeleteConfirmationModalComponent } from './delete-confirmation-modal/delete-confirmation-modal.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import { PlateListItemComponent } from './plate-list-item/plate-list-item.component';
+import { WindowsComponent } from './windows/windows.component';
 
 @NgModule({
-  declarations: [
-    ContextMenuComponent,
-    DeleteConfirmationModalComponent,
-    WindowsComponent,
-    NotificationsComponent,
-    PlateListItemComponent,
-  ],
   exports: [
     ContextMenuComponent,
     DeleteConfirmationModalComponent,
@@ -30,7 +22,6 @@ import { PlateListItemComponent } from './plate-list-item/plate-list-item.compon
     PlateListItemComponent,
   ],
   imports: [
-    MultidirectoryUiKitModule,
     CommonModule,
     TranslocoModule,
     EditorsModule,
@@ -39,6 +30,11 @@ import { PlateListItemComponent } from './plate-list-item/plate-list-item.compon
     PropertiesModule,
     CatalogSelectorModule,
     FontAwesomeModule,
+    ContextMenuComponent,
+    DeleteConfirmationModalComponent,
+    WindowsComponent,
+    NotificationsComponent,
+    PlateListItemComponent,
   ],
 })
 export class SharedComponentsModule {}

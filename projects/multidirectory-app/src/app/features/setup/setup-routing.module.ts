@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SetupComponent } from './setup/setup.component';
+import { setupRoutes } from '@features/setup/setup.route';
 
 @NgModule({
-  imports: [RouterModule.forChild([{ path: '', component: SetupComponent }])],
+  imports: [RouterModule.forChild(setupRoutes)],
   exports: [RouterModule],
 })
 export class SetupRoutingModule {}

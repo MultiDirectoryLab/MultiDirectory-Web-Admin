@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
+  imports: [ButtonComponent],
 })
 export class ConfirmDialogComponent implements OnInit {
   prompt: ConfirmDialogDescriptor = {

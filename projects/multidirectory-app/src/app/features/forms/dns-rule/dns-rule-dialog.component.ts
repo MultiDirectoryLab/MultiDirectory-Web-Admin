@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DropdownOption, MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, takeUntil } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
+import { Ip6AddressValidatorDirective } from '@core/validators/ip6-address.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { DnsRule } from '@models/dns/dns-rule';
 import {
   AvailableDnsRecordTypes,
@@ -8,26 +11,55 @@ import {
   DnsRuleType,
   DnsTypeToDataType,
 } from '@models/dns/dns-rule-type';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  DropdownComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-rule-dialog',
   templateUrl: './dns-rule-dialog.component.html',
   styleUrls: ['./dns-rule-dialog.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    CheckboxComponent,
+    Ip6AddressValidatorDirective,
+    IpAddressValidatorDirective,
+    DropdownComponent,
+    ButtonComponent,
+  ],
 })
 export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
-  private _unsubscribe = new Subject<void>();
   formValid = false;
   editMode = false;
   dnsRule: DnsRule = new DnsRule({});
   DnsRuleTypes = AvailableDnsRecordTypes;
   DnsRuleClass = DnsRuleClass;
   DnsTypeToDataType = DnsTypeToDataType;
+  recordDataType: number = -1;
+  private _unsubscribe = new Subject<void>();
+
+  constructor(
+    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   _sameAsZoneName = false;
+
   get sameAsZoneName(): boolean {
     return this._sameAsZoneName;
   }
+
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
@@ -36,10 +68,15 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  constructor(
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  get recordType() {
+    return this.dnsRule.record_type;
+  }
+
+  set recordType(type: DnsRuleType) {
+    this.dnsRule.record_type = type;
+    this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     this.formValid = this.form.valid;
@@ -65,15 +102,5 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
 
   onClose() {
     this.modalInejctor.close(null);
-  }
-
-  recordDataType: number = -1;
-  get recordType() {
-    return this.dnsRule.record_type;
-  }
-  set recordType(type: DnsRuleType) {
-    this.dnsRule.record_type = type;
-    this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
-    this.cdr.detectChanges();
   }
 }

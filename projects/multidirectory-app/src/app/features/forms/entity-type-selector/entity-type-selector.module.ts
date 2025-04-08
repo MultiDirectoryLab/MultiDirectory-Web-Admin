@@ -1,10 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EntityTypeSelectorComponent } from './entity-type-selector.component';
-import { TranslocoModule } from '@jsverse/transloco';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ValidatorsModule } from '@core/validators/validators.module';
+import { TranslocoModule } from '@jsverse/transloco';
+import { EntityTypeSelectorComponent } from './entity-type-selector.component';
 
 @NgModule({
   imports: [
@@ -13,9 +12,8 @@ import { ValidatorsModule } from '@core/validators/validators.module';
     ReactiveFormsModule,
     ValidatorsModule,
     TranslocoModule,
-    MultidirectoryUiKitModule,
+    EntityTypeSelectorComponent,
   ],
   exports: [EntityTypeSelectorComponent],
-  declarations: [EntityTypeSelectorComponent],
 })
 export class EntityTypeSelectorModule {}

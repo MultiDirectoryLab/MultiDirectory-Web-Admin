@@ -1,8 +1,9 @@
+import { NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { translate } from '@jsverse/transloco';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
 
 export class IpAddressStatus {
   title: string = '';
@@ -63,16 +64,18 @@ export class IpAddressStatus {
   selector: 'app-access-policy-ip-list',
   templateUrl: './access-policy-ip-list.component.html',
   styleUrls: ['./access-policy-ip-list.component.scss'],
+  imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent],
 })
 export class AccessPolicyIpListComponent implements OnInit {
-  @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
   _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
+  @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
   ) {}
+
   ngOnInit(): void {
     if (this.modalControl.contentOptions) {
       this._ipAddresses = this.modalControl.contentOptions.ipAddresses.map((x: IpOption) =>
@@ -115,6 +118,7 @@ export class AccessPolicyIpListComponent implements OnInit {
       this.cdr.detectChanges();
     }
   }
+
   onNewBlur(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -138,6 +142,7 @@ export class AccessPolicyIpListComponent implements OnInit {
       this.cdr.detectChanges();
     }
   }
+
   onEditBlur(event: Event, index: number, element: HTMLDivElement) {
     event.preventDefault();
     event.stopPropagation();

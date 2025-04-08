@@ -1,22 +1,37 @@
 import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { EntitySelectorComponent } from '../entity-selector/entity-selector.component';
-import { Subject, take, takeUntil } from 'rxjs';
-import { AppWindowsService } from '@services/app-windows.service';
+import { FormsModule } from '@angular/forms';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { AppWindowsService } from '@services/app-windows.service';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, take, takeUntil } from 'rxjs';
 import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
 @Component({
   selector: 'app-modify-dn',
   templateUrl: './modify-dn.component.html',
   styleUrls: ['./modify-dn.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    FormsModule,
+    ButtonComponent,
+    CheckboxComponent,
+  ],
 })
 export class ModifyDnComponent implements AfterViewInit, OnDestroy {
   @ViewChild('form') form!: MdFormComponent;
-  private unsubscribe = new Subject<void>();
   formValid = false;
   request = new ModifyDnRequest();
+  private unsubscribe = new Subject<void>();
 
   constructor(
     @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,

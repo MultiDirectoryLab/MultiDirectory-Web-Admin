@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ValidatorsModule } from '@core/validators/validators.module';
 import { TranslocoModule } from '@jsverse/transloco';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { PasswordConditionsComponent } from './password-conditions.component';
 
 @NgModule({
@@ -12,9 +11,8 @@ import { PasswordConditionsComponent } from './password-conditions.component';
     FormsModule,
     ValidatorsModule,
     TranslocoModule,
-    MultidirectoryUiKitModule,
+    PasswordConditionsComponent,
   ],
-  declarations: [PasswordConditionsComponent],
   exports: [PasswordConditionsComponent],
 })
 export class PasswordConditionsModule {}

@@ -1,18 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { translate } from '@jsverse/transloco';
+import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
+import { ComputerPropertiesComponent } from '@features/ldap-properties/computer-properties/computer-properties.component';
+import { GroupPropertiesComponent } from '@features/ldap-properties/group-properties/group-properties.component';
+import { UserPropertiesComponent } from '@features/ldap-properties/user-properties/user-properties.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { EMPTY, Subject, of, switchMap, take } from 'rxjs';
+import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { EMPTY, of, Subject, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-properties',
   styleUrls: ['./properties.component.scss'],
   templateUrl: './properties.component.html',
+  imports: [
+    UserPropertiesComponent,
+    GroupPropertiesComponent,
+    TranslocoPipe,
+    ComputerPropertiesComponent,
+    EntityAttributesComponent,
+    ButtonComponent,
+  ],
 })
 export class EntityPropertiesComponent implements OnInit {
   EntityTypes = LdapEntryType;

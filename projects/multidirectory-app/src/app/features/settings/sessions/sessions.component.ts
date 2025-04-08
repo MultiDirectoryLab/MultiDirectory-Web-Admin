@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { translate } from '@jsverse/transloco';
+import { SessionComponent } from '@features/settings/sessions/session/session.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { UserSession } from '@models/sessions/user-session';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import moment from 'moment';
+import { ButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, switchMap, take } from 'rxjs';
 
@@ -14,9 +14,11 @@ import { EMPTY, switchMap, take } from 'rxjs';
   selector: 'app-sessions',
   templateUrl: './sessions.component.html',
   styleUrls: ['./sessions.component.scss'],
+  imports: [TranslocoPipe, ButtonComponent, SessionComponent],
 })
 export class SessionsComponent implements OnInit {
   sessions: UserSession[] = [];
+
   constructor(
     private api: MultidirectoryApiService,
     private app: AppSettingsService,

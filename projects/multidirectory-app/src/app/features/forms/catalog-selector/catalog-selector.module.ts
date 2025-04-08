@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CatalogSelectorComponent } from './catalog-selector.component';
-import { TranslocoModule } from '@jsverse/transloco';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ValidatorsModule } from '@core/validators/validators.module';
+import { TranslocoModule } from '@jsverse/transloco';
+import { CatalogSelectorComponent } from './catalog-selector.component';
 
 @NgModule({
   imports: [
@@ -13,9 +12,8 @@ import { ValidatorsModule } from '@core/validators/validators.module';
     ReactiveFormsModule,
     ValidatorsModule,
     TranslocoModule,
-    MultidirectoryUiKitModule,
+    CatalogSelectorComponent,
   ],
   exports: [CatalogSelectorComponent],
-  declarations: [CatalogSelectorComponent],
 })
 export class CatalogSelectorModule {}
