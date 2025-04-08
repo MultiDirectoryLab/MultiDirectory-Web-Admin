@@ -53,11 +53,11 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   get passwordNeverExpires(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
-      UserAccountControlFlag.DONT_EXPIRE_PASSWORD) >
+    return (
+      (Number(this.setupRequest.uacBitSet?.toString(10)) &
+        UserAccountControlFlag.DONT_EXPIRE_PASSWORD) >
       0
-      ? true
-      : false;
+    );
   }
 
   set passwordNeverExpires(value: boolean) {
@@ -68,11 +68,11 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   get storePasswordReversible(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
-      UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
+    return (
+      (Number(this.setupRequest.uacBitSet?.toString(10)) &
+        UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) >
       0
-      ? true
-      : false;
+    );
   }
 
   set storePasswordReversible(value: boolean) {
@@ -83,11 +83,10 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   get accountDisabled(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
-      UserAccountControlFlag.ACCOUNTDISABLE) >
+    return (
+      (Number(this.setupRequest.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) >
       0
-      ? true
-      : false;
+    );
   }
 
   set accountDisabled(value: boolean) {
@@ -98,11 +97,11 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   get userShouldChangePassword(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) &
-      UserAccountControlFlag.PASSWORD_EXPIRED) >
+    return (
+      (Number(this.setupRequest.uacBitSet?.toString(10)) &
+        UserAccountControlFlag.PASSWORD_EXPIRED) >
       0
-      ? true
-      : false;
+    );
   }
 
   set userShouldChangePassword(shouldChange: boolean) {
