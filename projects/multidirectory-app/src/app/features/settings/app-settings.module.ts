@@ -9,7 +9,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslocoModule } from '@jsverse/transloco';
 import { DnsSettingsModule } from '../dns/dns-settings.module';
 import { AboutComponent } from './about/about.component';
-import { AppSettingsRoutingModule } from './app-settings-routes.module';
 import { AppSettingsComponent } from './app-settings.component';
 import { KerberosPrincipalsComponent } from './kerberos-principals/kerberos-principals.component';
 import { MfIntegrationFormComponent } from './mulifactor-settings/mf-integration-form/mf-integration-form.component';
@@ -23,7 +22,6 @@ import { AppSettingsNavigationComponent } from './navigation/app-settings-naviga
     FormsModule,
     ValidatorsModule,
     RouterModule,
-    AppSettingsRoutingModule,
     DragDropModule,
     TranslocoModule,
     FontAwesomeModule,
@@ -42,7 +40,6 @@ import { AppSettingsNavigationComponent } from './navigation/app-settings-naviga
     AppSettingsComponent,
     AppSettingsNavigationComponent,
     MultifactorSettingsComponent,
-    AppSettingsRoutingModule,
     MultidirectorySettingsComponent,
   ],
 })

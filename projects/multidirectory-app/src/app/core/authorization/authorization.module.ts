@@ -4,17 +4,6 @@ import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-inte
 import { PasswordPolicyViolationInterceptor } from '@core/api/error-handling/password-policy-violation-interceptor';
 
 @NgModule({
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ResultCodeInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: PasswordPolicyViolationInterceptor,
-      multi: true,
-    },
-  ],
+  providers: [],
 })
 export class AuthorizationModule {}

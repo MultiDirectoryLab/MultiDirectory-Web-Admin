@@ -8,7 +8,6 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AccessPolicyHeaderComponent } from './access-policy-header/access-policy-header.component';
 import { AccessPolicyIpListComponent } from './access-policy-ip-list/access-policy-ip-list.component';
 import { AccessPolicySettingsComponent } from './access-policy-list.component';
-import { AccessPolicyRoutingModule } from './access-policy-routing.module';
 import { AccessPolicyViewModalComponent } from './access-policy-view-modal/access-policy-view-modal.component';
 import { AccessPolicyViewComponent } from './access-policy-view/access-policy-view.component';
 import { AccessPolicyComponent } from './access-policy/access-policy.component';
@@ -28,7 +27,6 @@ import { AccessPolicyComponent } from './access-policy/access-policy.component';
     EntitySelectorModule,
     DragDropModule,
     TranslocoModule,
-    AccessPolicyRoutingModule,
     AccessPolicySettingsComponent,
     AccessPolicyComponent,
     AccessPolicyIpListComponent,

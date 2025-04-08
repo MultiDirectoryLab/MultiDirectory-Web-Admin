@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EntityAttributesModule } from '@features/entity-attributes/entity-attributes.module';
-import { AppFormsModule } from '@features/forms/forms.module';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { TranslocoModule } from '@jsverse/transloco';
 import { EntityAttributesComponent } from '../entity-attributes/entity-attributes.component';
@@ -25,7 +24,6 @@ import { UserPropertiesComponent } from './user-properties/user-properties.compo
     CommonModule,
     FormsModule,
     EditorsModule,
-    AppFormsModule,
     TranslocoModule,
     EntityAttributesModule,
     PropertiesComponent,

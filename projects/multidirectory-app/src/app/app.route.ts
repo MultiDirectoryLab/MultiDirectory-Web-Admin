@@ -8,23 +8,6 @@ import { NavigationComponent } from './components/sidebar/navigation/navigation.
 
 export const appRoutes: Routes = [
   {
-    path: 'setup',
-    canActivate: [SetupRouteGuard],
-    loadChildren: () => import('./features/setup/setup.module').then((x) => x.SetupModule),
-  },
-  {
-    path: 'login',
-    canActivate: [SetupRouteGuard, AuthRouteGuard],
-    loadChildren: () => import('./features/login/login.module').then((x) => x.LoginModule),
-  },
-  {
-    path: 'settings',
-    component: AppLayoutComponent,
-    canActivate: [AuthRouteGuard],
-    loadChildren: () =>
-      import('./features/settings/app-settings.module').then((x) => x.AppSettingsModule),
-  },
-  {
     path: '',
     component: AppLayoutComponent,
     canActivate: [AuthRouteGuard],
@@ -42,28 +25,45 @@ export const appRoutes: Routes = [
       {
         path: 'access-policy',
         loadChildren: () =>
-          import('./features/access-policy/access-policy.module').then((x) => x.AccessPolicyModule),
+          import('./features/access-policy/access-policy.route').then((r) => r.accessPolicyRoute),
       },
       {
         path: 'password-policy',
         loadChildren: () =>
-          import('./features/password-policy/password-policy.module').then(
-            (x) => x.PasswordPolicyModule,
+          import('./features/password-policy/password-policy.route').then(
+            (r) => r.passwordPolicyRoute,
           ),
       },
       {
         path: 'ldap',
         loadChildren: () =>
-          import('./features/ldap-browser/ldap-browser.module').then((x) => x.LdapBrowserModule),
+          import('./features/ldap-browser/ldap-browser.route').then((r) => r.ldapBrowserRoute),
       },
       {
         path: '',
         loadChildren: () =>
-          import('./components/app-layout/placeholder/placeholder.module').then(
-            (x) => x.PlaceholderModule,
+          import('./components/app-layout/placeholder/placeholder.route').then(
+            (r) => r.placeholderRoute,
           ),
       },
     ],
+  },
+  {
+    path: 'setup',
+    canActivate: [SetupRouteGuard],
+    loadChildren: () => import('./features/setup/setup.route').then((r) => r.setupRoute),
+  },
+  {
+    path: 'login',
+    canActivate: [SetupRouteGuard, AuthRouteGuard],
+    loadChildren: () => import('./features/login/login.route').then((r) => r.loginRoute),
+  },
+  {
+    path: 'settings',
+    component: AppLayoutComponent,
+    canActivate: [AuthRouteGuard],
+    loadChildren: () =>
+      import('./features/settings/app-settings.route').then((r) => r.appSettingsRoute),
   },
   {
     path: 'enable-backend',

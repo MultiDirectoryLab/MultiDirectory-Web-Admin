@@ -1,5 +1,10 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,14 +13,14 @@ import { provideRouter, withRouterConfig } from '@angular/router';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
+import { PasswordPolicyViolationInterceptor } from '@core/api/error-handling/password-policy-violation-interceptor';
+import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-interceptor';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
 import { AuthorizationModule } from '@core/authorization/authorization.module';
-import { AppFormsModule } from '@features/forms/forms.module';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { PropertiesModule } from '@features/ldap-properties/properties.module';
 import { SearchPanelModule } from '@features/search/search-panel.module';
-import { AppSettingsModule } from '@features/settings/app-settings.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslocoService } from '@jsverse/transloco';
 import { HotkeyModule } from 'angular2-hotkeys';
@@ -40,19 +45,16 @@ import { TranslocoRootModule } from './transloco-root.module';
     BrowserModule,
     BrowserAnimationsModule,
     DragDropModule,
-    AppSettingsModule,
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({ positionClass: 'toast-bottom-right' }),
     HotkeyModule.forRoot({
       cheatSheetCloseEsc: true,
     }),
-    AuthorizationModule,
     TranslocoRootModule,
     EditorsModule,
     PropertiesModule,
     SearchPanelModule,
-    AppFormsModule,
     SharedComponentsModule,
     FontAwesomeModule,
     AppComponent,
@@ -104,6 +106,16 @@ import { TranslocoRootModule } from './transloco-root.module';
       deps: [TranslocoService],
     },
     provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResultCodeInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PasswordPolicyViolationInterceptor,
+      multi: true,
+    },
   ],
 })
 export class AppModule {}

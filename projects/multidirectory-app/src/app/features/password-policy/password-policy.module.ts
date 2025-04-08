@@ -8,7 +8,6 @@ import { PasswordPolicyCreateComponent } from './password-policy-create/password
 import { PasswordPolicyHeaderComponent } from './password-policy-header/password-policy-header.component';
 import { PasswordPolicyListItemComponent } from './password-policy-list-item/password-policy-list-item.component';
 import { PasswordPolicyListComponent } from './password-policy-list.component';
-import { PasswordPolicyRoutingModule } from './password-policy-routing.module';
 import { PasswordPolicyComponent } from './password-policy/password-policy.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { PasswordPolicyComponent } from './password-policy/password-policy.compo
     FormsModule,
     TranslocoModule,
     DragDropModule,
-    PasswordPolicyRoutingModule,
     PasswordPolicyListComponent,
     PasswordPolicyListItemComponent,
     PasswordPolicyCreateComponent,

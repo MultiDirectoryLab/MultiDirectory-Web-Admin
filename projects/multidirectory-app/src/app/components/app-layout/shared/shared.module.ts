@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CatalogSelectorModule } from '@features/forms/catalog-selector/catalog-selector.module';
 import { EntityTypeSelectorModule } from '@features/forms/entity-type-selector/entity-type-selector.module';
-import { AppFormsModule } from '@features/forms/forms.module';
 import { EditorsModule } from '@features/ldap-browser/components/editors/editors.module';
 import { PropertiesModule } from '@features/ldap-properties/properties.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -25,7 +24,6 @@ import { WindowsComponent } from './windows/windows.component';
     CommonModule,
     TranslocoModule,
     EditorsModule,
-    AppFormsModule,
     EntityTypeSelectorModule,
     PropertiesModule,
     CatalogSelectorModule,
