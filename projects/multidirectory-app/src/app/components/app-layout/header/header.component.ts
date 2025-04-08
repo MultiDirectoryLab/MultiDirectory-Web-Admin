@@ -74,7 +74,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+h',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.onChange(!this.navigationalPanelInvisible);
           return false; // Prevent bubbling
         },
@@ -85,7 +85,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'esc',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.router.navigate(['/']);
           return false; // Prevent bubbling
         },
@@ -96,7 +96,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f1',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.SmallIcons;
           return false; // Prevent bubbling
         },
@@ -107,7 +107,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f2',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.BigIcons;
           return false; // Prevent bubbling
         },
@@ -118,7 +118,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f3',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.Table;
           return false; // Prevent bubbling
         },
@@ -129,7 +129,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f4',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.Details;
           return false; // Prevent bubbling
         },
@@ -140,7 +140,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+f',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.searchBtn?.nativeElement.click();
           return false;
         },
@@ -152,7 +152,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+d',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.onDarkMode(!this.darkMode);
           return false;
         },
