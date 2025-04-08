@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -11,17 +11,15 @@ import { take } from 'rxjs';
   imports: [TranslocoPipe],
 })
 export class PasswordConditionsComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private app = inject(AppSettingsService);
+
   minimumPasswordLength = 7;
   passwordMustMeetComplexityRequirements = true;
 
   checkPasswordComplexity = false;
   checkPasswordMinimalLength = false;
   checkPasswordWithoutOtp = false;
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-  ) {}
 
   @Input() set currentPassword(password: string) {
     var hasUpperCase = /[A-ZА-Я]/.test(password);

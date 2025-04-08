@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
@@ -12,7 +12,7 @@ import { TextboxComponent } from 'multidirectory-ui-kit';
   imports: [TranslocoPipe, TextboxComponent, FormsModule],
 })
 export class UserCreateSummaryComponent {
-  @Input() setupRequest!: UserCreateRequest;
+  setup = inject(UserCreateService);
 
-  constructor(public setup: UserCreateService) {}
+  @Input() setupRequest!: UserCreateRequest;
 }

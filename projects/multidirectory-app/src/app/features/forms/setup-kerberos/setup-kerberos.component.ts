@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
@@ -42,20 +42,18 @@ import { catchError, Subject } from 'rxjs';
   ],
 })
 export class SetupKerberosDialogComponent implements OnDestroy {
+  private modalInejctor = inject(ModalInjectDirective);
+  private toastr = inject(ToastrService);
+  private app = inject(AppSettingsService);
+  private download = inject(DownloadService);
+  private setup = inject(SetupService);
+
   setupRequest = new SetupRequest();
   @ViewChild('form') form!: MdFormComponent;
   @ViewChild('passwordInput') passwordInput!: TextboxComponent;
   @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
 
   unsubscribe = new Subject<void>();
-
-  constructor(
-    private modalInejctor: ModalInjectDirective,
-    private toastr: ToastrService,
-    private app: AppSettingsService,
-    private download: DownloadService,
-    private setup: SetupService,
-  ) {}
 
   checkModel() {
     this.form.validate(true);

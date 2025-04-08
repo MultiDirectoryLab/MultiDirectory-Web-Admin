@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { catchError, EMPTY, Observable, Subject, switchMap, take, tap } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LoginResponse } from '@models/login/login-response';
@@ -9,11 +9,10 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class LoginService {
+  private api = inject(MultidirectoryApiService);
+  private toastr = inject(ToastrService);
+
   private authComplete = new Subject<boolean>();
-  constructor(
-    private api: MultidirectoryApiService,
-    private toastr: ToastrService,
-  ) {}
 
   use2FA(login: string, password: string) {
     return this.api.getMultifactorACP(login, password).pipe(

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { EntityType } from '@core/entities/entities-type';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -64,6 +64,11 @@ import { DeleteConfirmationModalComponent } from '../delete-confirmation-modal/d
   ],
 })
 export class WindowsComponent implements AfterViewInit, OnDestroy {
+  private ldapWindows = inject(AppWindowsService);
+  private attributeService = inject(AttributeService);
+  private app = inject(AppSettingsService);
+  private api = inject(MultidirectoryApiService);
+
   @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
   @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
   @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
@@ -86,13 +91,6 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
 
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    private ldapWindows: AppWindowsService,
-    private attributeService: AttributeService,
-    private app: AppSettingsService,
-    private api: MultidirectoryApiService,
-  ) {}
 
   ngAfterViewInit(): void {
     this.ldapWindows.openEntityPropertiesModalRx

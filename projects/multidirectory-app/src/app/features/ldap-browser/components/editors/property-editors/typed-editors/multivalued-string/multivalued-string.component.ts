@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, TextboxComponent, TreeviewComponent } from 'multidirectory-ui-kit';
@@ -12,13 +12,11 @@ import { TypedEditorBaseComponent } from '../typed-editor-base.component';
   imports: [TranslocoPipe, TextboxComponent, FormsModule, ButtonComponent, TreeviewComponent],
 })
 export class MultivaluedStringComponent extends TypedEditorBaseComponent {
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('treeview', { static: true }) treeview!: TreeviewComponent;
   newAttribute: string = '';
   type: string = '';
-
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
-  }
 
   @Input() override set propertyValue(val: string[]) {
     this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';

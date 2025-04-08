@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -25,10 +25,10 @@ import { take } from 'rxjs';
   ],
 })
 export class UserPropertiesGeneralComponent {
+  toastr = inject(ToastrService);
+
   @Input() accessor: LdapAttributes | null = null;
   @ViewChild('attributeList', { static: true }) attributeList!: ModalInjectDirective;
-
-  constructor(public toastr: ToastrService) {}
 
   changeOtherAttributeList(title: string, field: string) {
     if (!this.accessor) {

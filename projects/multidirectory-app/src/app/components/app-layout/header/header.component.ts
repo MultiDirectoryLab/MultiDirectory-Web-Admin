@@ -6,6 +6,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -48,6 +49,14 @@ import { Subject } from 'rxjs';
   ],
 })
 export class HeaderComponent implements OnDestroy {
+  private app = inject(AppSettingsService);
+  private contentViewService = inject(ContentViewService);
+  private hotkeysService = inject(HotkeysService);
+  private ldapWindows = inject(AppWindowsService);
+  private menu = inject(MenuService);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+
   @Output() helpMenuClick = new EventEmitter<MouseEvent>();
   @Output() accountSettingsClicked = new EventEmitter<void>();
   @Output() logoutClick = new EventEmitter<void>();
@@ -62,15 +71,7 @@ export class HeaderComponent implements OnDestroy {
   ViewMode = ViewMode;
 
   // TODO: TOO MUCH SERVICES
-  constructor(
-    private app: AppSettingsService,
-    private contentViewService: ContentViewService,
-    private hotkeysService: HotkeysService,
-    private ldapWindows: AppWindowsService,
-    private menu: MenuService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {
+  constructor() {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+h',

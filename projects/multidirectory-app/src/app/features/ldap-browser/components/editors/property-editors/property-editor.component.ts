@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EntityAttributeType } from '@core/entity-attributes/entity-attribute-type';
 import { IntegerPropertyEditorComponent } from '@features/ldap-browser/components/editors/property-editors/typed-editors/integer/integer-property-editor.component';
@@ -28,6 +28,8 @@ import {
   ],
 })
 export class PropertyEditorComponent implements OnInit {
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+
   LdapPropertyType = EntityAttributeType;
   editRequest!: EditPropertyRequest;
 
@@ -40,8 +42,6 @@ export class PropertyEditorComponent implements OnInit {
           value: x,
         }),
     );
-
-  constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
 
   ngOnInit(): void {
     this.editRequest = this.modalControl.contentOptions as EditPropertyRequest;

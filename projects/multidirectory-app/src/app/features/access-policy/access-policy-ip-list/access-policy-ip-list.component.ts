@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
@@ -67,14 +67,12 @@ export class IpAddressStatus {
   imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent],
 })
 export class AccessPolicyIpListComponent implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+  private toastr = inject(ToastrService);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+
   _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
   @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private toastr: ToastrService,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     if (this.modalControl.contentOptions) {

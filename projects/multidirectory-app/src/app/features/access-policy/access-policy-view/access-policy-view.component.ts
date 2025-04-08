@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -59,6 +60,12 @@ import { MultiselectModel } from './multiselect-model';
   ],
 })
 export class AccessPolicyViewComponent implements OnInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private navigation = inject(AppNavigationService);
+  private activatedRoute = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private windows = inject(AppWindowsService);
+
   @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
@@ -83,14 +90,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   availableMfaGroups: MultiselectModel[] = [];
   bypassAllowed = false;
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private navigation: AppNavigationService,
-    private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
-    private windows: AppWindowsService,
-  ) {}
 
   private _accessClient = new AccessPolicy();
 

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -29,17 +29,15 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class OuCreateComponent implements OnInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
+
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   formValid = false;
   parentDn = '';
   description = '';
   ouName = '';
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     this.formValid = this.form.valid;

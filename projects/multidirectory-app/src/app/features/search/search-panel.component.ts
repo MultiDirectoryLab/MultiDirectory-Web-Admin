@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -35,6 +35,11 @@ import { SearchSourceProvider } from './services/search-source-provider';
   providers: [SearchSourceProvider],
 })
 export class SearchPanelComponent implements AfterViewInit {
+  private api = inject(MultidirectoryApiService);
+  private searchSourceProvider = inject(SearchSourceProvider);
+  private ldapLoader = inject(LdapEntryLoader);
+  private cdr = inject(ChangeDetectorRef);
+
   SearchType = SearchType;
   searchType = SearchType.Ldap;
   searchTypes = [{ title: translate('search-panel.user-search-type'), value: SearchType.Ldap }];
@@ -46,13 +51,6 @@ export class SearchPanelComponent implements AfterViewInit {
   @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;
   @ViewChild('searchResultForm') searchResultForm!: SearchResultComponent;
   @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private searchSourceProvider: SearchSourceProvider,
-    private ldapLoader: LdapEntryLoader,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngAfterViewInit(): void {
     const mapToDropdown = (x: SearchSource[]) => x.map((y) => y.title);

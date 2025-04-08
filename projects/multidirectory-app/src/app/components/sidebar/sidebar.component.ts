@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
@@ -14,13 +14,11 @@ import { Subject, take } from 'rxjs';
   imports: [TranslocoDirective, RouterOutlet, DropdownContainerDirective, DropdownMenuComponent],
 })
 export class SidebarComponent implements OnDestroy {
-  private unsubscribe = new Subject<void>();
+  private app = inject(AppSettingsService);
+  private router = inject(Router);
+  private windows = inject(AppWindowsService);
 
-  constructor(
-    private app: AppSettingsService,
-    private router: Router,
-    private windows: AppWindowsService,
-  ) {}
+  private unsubscribe = new Subject<void>();
 
   get user(): WhoamiResponse {
     return this.app.user;

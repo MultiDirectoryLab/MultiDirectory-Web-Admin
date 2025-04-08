@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -12,15 +12,13 @@ import { ButtonComponent, DropdownComponent, DropdownOption } from 'multidirecto
   imports: [TranslocoDirective, DropdownComponent, FormsModule, ButtonComponent],
 })
 export class MultidirectorySettingsComponent {
+  private settings = inject(AppSettingsService);
+  private router = inject(Router);
+
   lanugages: DropdownOption[] = [
     { title: 'Russian', value: 'ru-RU' },
     { title: 'English', value: 'en-US' },
   ];
-
-  constructor(
-    private settings: AppSettingsService,
-    private router: Router,
-  ) {}
 
   get selectedLanguage(): string {
     return this.settings.language;

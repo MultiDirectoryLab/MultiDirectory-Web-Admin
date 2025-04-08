@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -18,14 +18,14 @@ import { Subject } from 'rxjs';
   imports: [TranslocoPipe, TextareaComponent, FormsModule, TextboxComponent, DropdownComponent],
 })
 export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy {
+  private modalControl = inject(ModalInjectDirective);
+
   unsubscribe = new Subject();
   accessor: LdapAttributes = {};
   countries = [
     new DropdownOption({ title: 'Russia', value: 'Russia' }),
     new DropdownOption({ title: 'Kazakhstan', value: 'Kazakhstan' }),
   ];
-
-  constructor(private modalControl: ModalInjectDirective) {}
 
   private _country?: DropdownOption;
 

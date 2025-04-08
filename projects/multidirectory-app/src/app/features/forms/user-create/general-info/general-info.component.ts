@@ -6,6 +6,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { AbstractControl, FormsModule } from '@angular/forms';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -37,15 +38,13 @@ import { Subject, take, takeUntil } from 'rxjs';
   ],
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
+  setup = inject(UserCreateService);
+  private ldapLoader = inject(LdapEntryLoader);
+
   @ViewChild('form') form!: MdFormComponent;
   @ViewChildren(AbstractControl) controls!: QueryList<AbstractControl>;
   unsubscribe = new Subject<void>();
   domains: DropdownOption[] = [];
-
-  constructor(
-    public setup: UserCreateService,
-    private ldapLoader: LdapEntryLoader,
-  ) {}
 
   private _setupRequest!: UserCreateRequest;
 

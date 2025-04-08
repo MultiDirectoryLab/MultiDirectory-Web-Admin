@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
@@ -26,6 +26,12 @@ import { catchError, EMPTY, switchMap, take } from 'rxjs';
   ],
 })
 export class AccessPolicySettingsComponent implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private windows = inject(AppWindowsService);
+  private router = inject(Router);
+
   @ViewChild('createModal', { static: true }) accessClientCreateModal!: ModalInjectDirective;
 
   properties: any[] = [];
@@ -37,14 +43,6 @@ export class AccessPolicySettingsComponent implements OnInit {
   ];
 
   clients: AccessPolicy[] = [];
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private toastr: ToastrService,
-    private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.windows.showSpinner();

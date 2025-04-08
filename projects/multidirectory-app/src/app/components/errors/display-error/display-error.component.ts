@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, MdModalComponent } from 'multidirectory-ui-kit';
@@ -10,12 +10,10 @@ import { ButtonComponent, MdModalComponent } from 'multidirectory-ui-kit';
   imports: [MdModalComponent, TranslocoPipe, ButtonComponent],
 })
 export class DisplayErrorComponent implements OnInit {
-  errorMessage = 'Some error has occured, please, check the Multidirectory Log File';
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-  ) {}
+  errorMessage = 'Some error has occured, please, check the Multidirectory Log File';
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.data.message) {

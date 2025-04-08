@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntityType } from '@core/entities/entities-type';
@@ -32,6 +32,12 @@ import { EntitySelectorSettings } from './entity-selector-settings.component';
   ],
 })
 export class EntitySelectorComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private cdr = inject(ChangeDetectorRef);
+  private ldapLoader = inject(LdapEntryLoader);
+  private windows = inject(AppWindowsService);
+  private modalControl = inject(ModalInjectDirective);
+
   @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
   selectedCatalogDn = '';
   name = '';
@@ -42,14 +48,6 @@ export class EntitySelectorComponent implements OnInit {
   entityTypes: EntityType[] = ENTITY_TYPES;
   entityTypeDisplay = '';
   allowSelectEntityTypes = true;
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private cdr: ChangeDetectorRef,
-    private ldapLoader: LdapEntryLoader,
-    private windows: AppWindowsService,
-    private modalControl: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     if (this.modalControl.contentOptions.settings) {

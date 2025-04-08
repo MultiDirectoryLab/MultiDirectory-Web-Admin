@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -15,15 +15,13 @@ import { CheckboxComponent, GroupComponent, ModalInjectDirective } from 'multidi
   imports: [GroupComponent, TranslocoPipe, CheckboxComponent, FormsModule],
 })
 export class ComputerPropertiesAccountComponent implements AfterViewInit {
+  modalControl = inject(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+  private nodeLoader = inject(LdapEntryLoader);
+
   UserAccountControlFlag = UserAccountControlFlag;
   uacBitSet?: BitSet;
   accessor: LdapAttributes = {};
-
-  constructor(
-    public modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-    private nodeLoader: LdapEntryLoader,
-  ) {}
 
   get userShouldChangePassword(): boolean {
     return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0;

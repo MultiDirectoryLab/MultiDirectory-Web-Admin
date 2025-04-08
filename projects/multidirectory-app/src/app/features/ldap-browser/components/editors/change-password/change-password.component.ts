@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -37,18 +37,16 @@ import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
   ],
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   unsubscribe = new Subject<boolean>();
   formValid = false;
   changeRequest = new ChangePasswordRequest();
   repeatPassword = '';
   un = '';
-
-  constructor(
-    private toastr: ToastrService,
-    private api: MultidirectoryApiService,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     if (!!this.modalControl?.contentOptions?.identity) {

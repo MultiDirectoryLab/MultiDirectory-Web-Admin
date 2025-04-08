@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { Ip6AddressValidatorDirective } from '@core/validators/ip6-address.directive';
@@ -39,6 +39,9 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class DnsRulesDialogComponent implements OnInit, OnDestroy {
+  private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   formValid = false;
   editMode = false;
@@ -48,11 +51,6 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   DnsTypeToDataType = DnsTypeToDataType;
   recordDataType: number = -1;
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   _sameAsZoneName = false;
 

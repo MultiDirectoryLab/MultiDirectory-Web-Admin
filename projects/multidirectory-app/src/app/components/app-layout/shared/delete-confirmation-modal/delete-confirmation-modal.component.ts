@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 
@@ -9,9 +9,9 @@ import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
   imports: [TranslocoPipe, ButtonComponent],
 })
 export class DeleteConfirmationModalComponent implements OnInit {
-  toDeleteDNs: string[] = [];
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
 
-  constructor(@Inject(ModalInjectDirective) private modalControl: ModalInjectDirective) {}
+  toDeleteDNs: string[] = [];
 
   ngOnInit(): void {
     this.toDeleteDNs = this.modalControl.contentOptions?.['toDeleteDNs'] ?? [];

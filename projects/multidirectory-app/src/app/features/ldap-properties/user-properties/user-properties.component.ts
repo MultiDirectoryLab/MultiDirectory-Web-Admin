@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, inject } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
 import { MemberOfComponent } from '@features/ldap-properties/member-of/member-of.component';
@@ -33,6 +33,9 @@ import { Subject } from 'rxjs';
   ],
 })
 export class UserPropertiesComponent implements OnDestroy {
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
   unsubscribe = new Subject<boolean>();
   @Input() accessor!: LdapAttributes;
   properties?: any[];
@@ -40,11 +43,6 @@ export class UserPropertiesComponent implements OnDestroy {
     { name: 'Имя', prop: 'name', flexGrow: 1 },
     { name: 'Значение', prop: 'val', flexGrow: 1 },
   ];
-
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnDestroy() {
     this.unsubscribe.next(true);

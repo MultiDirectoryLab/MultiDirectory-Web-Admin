@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -55,6 +55,9 @@ export class LogonDayState {
   ],
 })
 export class LogonTimeEditorComponent implements OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+
   username = '';
   @ViewChild('logonMap', { static: true }) logonMap!: ElementRef<HTMLDivElement>;
   daysOfWeek: LogonMapDay[] = [
@@ -93,11 +96,6 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
     translate('logon-time-editor.to-sunday'),
   ];
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
 
   private _selectionAllowance: number | null = null;
 

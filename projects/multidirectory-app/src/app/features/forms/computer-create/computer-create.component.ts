@@ -1,11 +1,11 @@
 import {
   Component,
   EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
@@ -41,6 +41,10 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
   ],
 })
 export class ComputerCreateComponent implements OnInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private windows = inject(AppWindowsService);
+  private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
+
   @Output() create = new EventEmitter<void>();
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   formValid = false;
@@ -51,12 +55,6 @@ export class ComputerCreateComponent implements OnInit, OnDestroy {
   ownerDn = '';
   isLegacyAccount = false;
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     this.formValid = this.form.valid;

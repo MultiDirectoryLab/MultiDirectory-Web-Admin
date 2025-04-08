@@ -1,4 +1,4 @@
-import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
+import { ErrorHandler, Injectable, Injector, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
@@ -6,10 +6,8 @@ import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(
-    @Inject(Injector) private readonly injector: Injector,
-    private router: Router,
-  ) {}
+  private readonly injector = inject<Injector>(Injector);
+  private router = inject(Router);
 
   private _toastr?: ToastrService;
   private get toastr() {

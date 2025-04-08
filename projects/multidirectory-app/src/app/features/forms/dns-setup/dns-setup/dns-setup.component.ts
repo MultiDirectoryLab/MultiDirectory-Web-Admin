@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -38,6 +39,8 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class DnsSetupComponent implements AfterViewInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() formValid = false;
   @Output() formValidChange = new EventEmitter<boolean>();
 
@@ -46,8 +49,6 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('form') form!: MdFormComponent;
   private unsubscribe = new Subject<boolean>();
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   private _useExternalService = false;
 

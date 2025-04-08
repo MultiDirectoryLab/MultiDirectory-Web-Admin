@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -28,15 +28,13 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
   ],
 })
 export class ModifyDnComponent implements AfterViewInit, OnDestroy {
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private windows = inject(AppWindowsService);
+
   @ViewChild('form') form!: MdFormComponent;
   formValid = false;
   request = new ModifyDnRequest();
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private windows: AppWindowsService,
-  ) {}
 
   ngAfterViewInit(): void {
     this.request.entry = this.modalControl.contentOptions?.['toModifyDn'];

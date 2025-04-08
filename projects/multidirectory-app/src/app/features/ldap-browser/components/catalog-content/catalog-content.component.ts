@@ -1,5 +1,5 @@
 import { NgStyle } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -46,6 +46,15 @@ import { BaseViewComponent, RightClickEvent } from './views/base-view.component'
   ],
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
+  private navigation = inject(AppNavigationService);
+  private cdr = inject(ChangeDetectorRef);
+  private contentView = inject(ContentViewService);
+  private windows = inject(AppWindowsService);
+  private api = inject(MultidirectoryApiService);
+  private contextMenu = inject(ContextMenuService);
+  private hotkeysService = inject(HotkeysService);
+  private activatedRoute = inject(ActivatedRoute);
+
   @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
   @ViewChild(BaseViewComponent) view?: BaseViewComponent;
   unsubscribe = new Subject<void>();
@@ -54,17 +63,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   currentView = this.contentView.contentView;
   searchQuery = '';
   private _selectedRows: LdapEntryNode[] = [];
-
-  constructor(
-    private navigation: AppNavigationService,
-    private cdr: ChangeDetectorRef,
-    private contentView: ContentViewService,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private contextMenu: ContextMenuService,
-    private hotkeysService: HotkeysService,
-    private activatedRoute: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.hotkeysService.add(

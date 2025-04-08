@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BulkCompleteStrategy } from '../bulk-complete-strategy';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { AttributeService } from '@services/attributes.service';
@@ -10,12 +10,8 @@ import { UpdateEntryResponse } from '@models/entry/update-response';
   providedIn: 'root',
 })
 export class CompleteUpdateEntiresStrategies extends BulkCompleteStrategy<LdapAttributes> {
-  constructor(
-    private attributes: AttributeService,
-    private api: MultidirectoryApiService,
-  ) {
-    super();
-  }
+  private attributes = inject(AttributeService);
+  private api = inject(MultidirectoryApiService);
 
   override complete<RESULT>(accessors: LdapAttributes[]): Observable<RESULT> {
     const updatesRx: Observable<UpdateEntryResponse>[] = [];

@@ -1,5 +1,5 @@
 import { Observable, map, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { translate } from '@jsverse/transloco';
 import { NodeLoader } from '../../node-loader';
@@ -9,7 +9,7 @@ import { NavigationNode } from '@core/navigation/navigation-node';
   providedIn: 'root',
 })
 export class AccessPolicyNodeLoader implements NodeLoader {
-  constructor(private api: MultidirectoryApiService) {}
+  private api = inject(MultidirectoryApiService);
 
   get(): Observable<NavigationNode[]> {
     return of([

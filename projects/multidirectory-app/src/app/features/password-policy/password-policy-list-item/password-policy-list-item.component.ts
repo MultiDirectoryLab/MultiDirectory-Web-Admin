@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -12,15 +12,13 @@ import { PlaneButtonComponent } from 'multidirectory-ui-kit';
   imports: [NgOptimizedImage, PlaneButtonComponent],
 })
 export class PasswordPolicyListItemComponent {
+  private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() index = 0;
   @Output() deleteClick = new EventEmitter<PasswordPolicy>();
   @Output() turnOffClick = new EventEmitter<PasswordPolicy>();
   @Output() editClick = new EventEmitter<PasswordPolicy>();
-
-  constructor(
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   _passwordPolicy: PasswordPolicy | null = null;
 

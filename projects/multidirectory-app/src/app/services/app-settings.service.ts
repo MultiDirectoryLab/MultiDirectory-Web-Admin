@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, Subject, defaultIfEmpty, iif, of, tap } from 'rxjs';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
@@ -12,10 +12,9 @@ import { PasswordPolicy } from '@core/password-policy/password-policy';
   providedIn: 'root',
 })
 export class AppSettingsService {
-  constructor(
-    private api: MultidirectoryApiService,
-    private translocoService: TranslocoService,
-  ) {}
+  private api = inject(MultidirectoryApiService);
+  private translocoService = inject(TranslocoService);
+
   navigationalPanelVisibleRx = new BehaviorSubject<boolean>(true);
   setNavigationalPanelVisiblity(state: boolean) {
     this.navigationalPanelVisibleRx.next(state);

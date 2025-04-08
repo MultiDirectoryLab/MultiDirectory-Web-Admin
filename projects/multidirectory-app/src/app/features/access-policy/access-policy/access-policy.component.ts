@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
@@ -17,18 +17,16 @@ import { EMPTY } from 'rxjs';
   imports: [NgClass, PlaneButtonComponent, ShiftCheckboxComponent, FormsModule],
 })
 export class AccessPolicyComponent {
+  private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+  private windows = inject(AppWindowsService);
+
   @Input() index = 0;
   @Output() deleteClick = new EventEmitter<AccessPolicy>();
   @Output() turnOffClick = new EventEmitter<AccessPolicy>();
   @Output() editClick = new EventEmitter<AccessPolicy>();
   ipAddress = '';
   groups = '';
-
-  constructor(
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-    private windows: AppWindowsService,
-  ) {}
 
   _accessClient: AccessPolicy | null = null;
 

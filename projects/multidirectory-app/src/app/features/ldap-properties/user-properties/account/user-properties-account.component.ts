@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -43,6 +43,10 @@ import { take } from 'rxjs';
   ],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
+  modalControl = inject(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+  private nodeLoader = inject(LdapEntryLoader);
+
   @ViewChild('datePicker') datePicker!: DatepickerComponent;
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
@@ -50,12 +54,6 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   upnDomain?: DropdownOption;
   accessor: LdapAttributes = {};
   @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
-
-  constructor(
-    public modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-    private nodeLoader: LdapEntryLoader,
-  ) {}
 
   get userShouldChangePassword(): boolean {
     return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0

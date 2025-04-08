@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -17,13 +17,11 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
   imports: [TranslocoPipe, TextboxComponent, ButtonComponent, FormsModule],
 })
 export class MoveEntityDialogComponent implements OnInit {
+  private modalControl = inject(ModalInjectDirective);
+  private windows = inject(AppWindowsService);
+
   toMove: LdapEntryNode[] = [];
   targetDn = '';
-
-  constructor(
-    private modalControl: ModalInjectDirective,
-    private windows: AppWindowsService,
-  ) {}
 
   ngOnInit(): void {
     this.toMove = this.modalControl.contentOptions.toMove;

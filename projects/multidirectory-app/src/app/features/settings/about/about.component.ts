@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -10,9 +10,9 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
   imports: [TranslocoPipe],
 })
 export class AboutComponent implements OnInit {
-  vendorVersion = '';
+  private api = inject(MultidirectoryApiService);
 
-  constructor(private api: MultidirectoryApiService) {}
+  vendorVersion = '';
 
   ngOnInit(): void {
     this.api.search(SearchQueries.RootDse).subscribe((rootDse) => {

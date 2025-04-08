@@ -1,4 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -30,6 +37,11 @@ import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
   ],
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private loginService = inject(LoginService);
+
   login = '';
   password = '';
   wssHandle?: WebsocketTokenHandle;
@@ -37,13 +49,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   @ViewChild('modal') modal!: MdModalComponent;
   loginValid = false;
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private loginService: LoginService,
-  ) {}
 
   ngAfterViewInit(): void {
     this.loginValid = this.loginForm.valid;

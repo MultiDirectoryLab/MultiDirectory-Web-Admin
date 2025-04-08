@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -40,19 +40,17 @@ import { WindowsComponent } from './shared/windows/windows.component';
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
+  private app = inject(AppSettingsService);
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private dns = inject(DnsApiService);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
   showLeftPane = true;
   showNotifications = false;
 
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    private app: AppSettingsService,
-    private toastr: ToastrService,
-    private api: MultidirectoryApiService,
-    private dns: DnsApiService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit() {
     this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

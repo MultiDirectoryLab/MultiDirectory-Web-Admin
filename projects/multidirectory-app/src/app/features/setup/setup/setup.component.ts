@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
@@ -57,22 +58,20 @@ import { catchError, Subject, takeUntil } from 'rxjs';
   ],
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
+  private app = inject(AppSettingsService);
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+  private setup = inject(SetupService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private download = inject(DownloadService);
+
   @ViewChild('modal') modal!: MdModalComponent;
   @ViewChild('stepper') stepper!: StepperComponent;
   setupRequest = new SetupRequest();
   stepValid = false;
   faLanguage = faLanguage;
   private unsubscribe = new Subject<boolean>();
-
-  constructor(
-    private app: AppSettingsService,
-    private setupRequestValidatorService: SetupRequestValidatorService,
-    private setup: SetupService,
-    private toastr: ToastrService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private download: DownloadService,
-  ) {}
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;

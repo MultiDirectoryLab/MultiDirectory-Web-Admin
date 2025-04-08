@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -14,12 +14,12 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [AlertComponent, FaIconComponent, TranslocoPipe],
 })
 export class FooterComponent implements OnInit, OnDestroy {
+  private app = inject(AppSettingsService);
+
   faCircleExclamation = faCircleExclamation;
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.READY;
   private _unsubscribe = new Subject<void>();
-
-  constructor(private app: AppSettingsService) {}
 
   ngOnInit(): void {
     this.app.kerberosStatusRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {

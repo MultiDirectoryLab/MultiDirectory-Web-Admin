@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, forwardRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  forwardRef,
+  Input,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -42,14 +50,14 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+
   @Input() setupRequest!: SetupRequest;
   @ViewChild('form') form!: MdFormComponent;
   @ViewChild('passwordInput') passwordInput!: TextboxComponent;
   @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
 
   unsubscribe = new Subject<void>();
-
-  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
   ngAfterViewInit(): void {
     this.setupRequestValidatorService.stepValid(this.form.valid);

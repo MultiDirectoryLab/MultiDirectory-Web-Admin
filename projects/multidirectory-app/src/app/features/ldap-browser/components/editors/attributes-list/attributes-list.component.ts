@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -26,6 +26,9 @@ export class AttributeListEntry extends Treenode {
   imports: [TranslocoPipe, TextboxComponent, FormsModule, ButtonComponent, TreeviewComponent],
 })
 export class AttributeListComponent implements OnInit {
+  private modalControl = inject(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
   title = '';
   newAttribute: string = '';
@@ -33,11 +36,6 @@ export class AttributeListComponent implements OnInit {
   values: string[] = [];
   tree: AttributeListEntry[] = [];
   toDelete: AttributeListEntry[] = [];
-
-  constructor(
-    private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit(): void {
     this.title = this.modalControl.contentOptions.title;

@@ -1,4 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -12,16 +19,14 @@ import { Subject, take, takeUntil } from 'rxjs';
   imports: [TreeviewComponent, TranslocoPipe, ButtonComponent],
 })
 export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
+  private ldapLoader = inject(LdapEntryLoader);
+  private cdr = inject(ChangeDetectorRef);
+  private modalControl = inject(ModalInjectDirective);
+
   @ViewChild('ldapTree', { static: true }) treeView?: TreeviewComponent;
   ldapRoots: LdapEntryNode[] = [];
   private unsubscribe = new Subject<void>();
   private _selectedNode: LdapEntryNode[] = [];
-
-  constructor(
-    private ldapLoader: LdapEntryLoader,
-    private cdr: ChangeDetectorRef,
-    private modalControl: ModalInjectDirective,
-  ) {}
 
   ngAfterViewInit(): void {
     this.treeView?.nodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

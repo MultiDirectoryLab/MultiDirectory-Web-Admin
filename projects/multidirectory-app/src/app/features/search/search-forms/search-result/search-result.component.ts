@@ -1,5 +1,5 @@
 import { NgStyle } from '@angular/common';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { SearchResult } from '@features/search/models/search-result';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppNavigationService } from '@services/app-navigation.service';
@@ -12,13 +12,11 @@ import { DatagridComponent } from 'multidirectory-ui-kit';
   imports: [NgStyle, DatagridComponent, TranslocoPipe],
 })
 export class SearchResultComponent {
+  private cdr = inject(ChangeDetectorRef);
+  private navigation = inject(AppNavigationService);
+
   columns = [{ name: translate('search-result.name'), prop: 'name', flexGrow: 1 }];
   @Input() rows: SearchResult[] = [];
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private navigation: AppNavigationService,
-  ) {}
 
   goTo(event: any) {
     if (event?.row?.name) {

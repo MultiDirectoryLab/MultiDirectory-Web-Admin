@@ -1,5 +1,13 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -38,6 +46,11 @@ import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
   ],
 })
 export class EntityAttributesComponent implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+  private properties = inject(LdapPropertiesService);
+  private toastr = inject(ToastrService);
+  private windows = inject(AppWindowsService);
+
   @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
   @ViewChild('dataGridCellTemplate', { static: true })
   dataGridCellTemplateRef: TemplateRef<any> | null = null;
@@ -48,13 +61,6 @@ export class EntityAttributesComponent implements OnInit {
   propColumns: TableColumn[] = [];
   private _unsubscribe = new Subject<boolean>();
   private _schema = new Map<string, SchemaEntry>();
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private properties: LdapPropertiesService,
-    private toastr: ToastrService,
-    private windows: AppWindowsService,
-  ) {}
 
   private _accessor: LdapAttributes = {};
 

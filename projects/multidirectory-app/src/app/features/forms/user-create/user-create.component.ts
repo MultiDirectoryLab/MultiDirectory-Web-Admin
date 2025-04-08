@@ -1,11 +1,11 @@
 import {
   Component,
   EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
@@ -41,6 +41,11 @@ import { catchError, Subject, takeUntil } from 'rxjs';
   ],
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
+  private setup = inject(UserCreateService);
+  private api = inject(MultidirectoryApiService);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private toastr = inject(ToastrService);
+
   @Output() onCreate = new EventEmitter<void>();
   @ViewChild('createUserStepper') stepper!: StepperComponent;
   setupRequest = new UserCreateRequest();
@@ -48,13 +53,6 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   formValid = false;
   parentDn = '';
   uacBitSet?: BitSet;
-
-  constructor(
-    private setup: UserCreateService,
-    private api: MultidirectoryApiService,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private toastr: ToastrService,
-  ) {}
 
   ngOnInit(): void {
     this.setup.onStepValid.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

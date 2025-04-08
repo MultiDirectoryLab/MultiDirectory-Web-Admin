@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
 import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup.component';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
@@ -11,11 +11,11 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [DnsSetupComponent],
 })
 export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+
   @Input() setupRequest!: SetupRequest;
   unsubscribe = new Subject<void>();
   @ViewChild('form') form!: DnsSetupComponent;
-
-  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
   private _formValid = false;
 

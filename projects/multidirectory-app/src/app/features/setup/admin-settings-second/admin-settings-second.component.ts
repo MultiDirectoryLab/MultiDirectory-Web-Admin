@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -36,11 +37,11 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDestroy {
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+
   @Input() setupRequest!: SetupRequest;
   @ViewChild('form') form!: MdFormComponent;
   unsubscribe = new Subject<void>();
-
-  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
 
   ngOnInit(): void {
     const domain = this.setupRequest.domain;

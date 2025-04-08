@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -28,17 +28,15 @@ import { catchError } from 'rxjs';
   ],
 })
 export class MfIntegrationFormComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private windows = inject(AppWindowsService);
+  private toastr = inject(ToastrService);
+
   @ViewChild('form') form!: MdFormComponent;
   @Input() scope: 'ldap' | 'http' = 'http';
   @Input() apiKey: string = '';
   @Input() apiSecret: string = '';
   translocoSection = 'multifactor-settings.mf-admin-integration';
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
-    private toastr: ToastrService,
-  ) {}
 
   ngOnInit(): void {
     if (this.scope === 'ldap') {

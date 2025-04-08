@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DnsRuleListItemComponent } from '@features/dns/dns-rule-list-item/dns-rule-list-item.component';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
@@ -29,19 +29,17 @@ import { catchError, EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
   ],
 })
 export class DnsSettingsComponent implements OnInit, OnDestroy {
+  private dnsService = inject(DnsApiService);
+  private windows = inject(AppWindowsService);
+  private dns = inject(DnsApiService);
+  private toastr = inject(ToastrService);
+  private app = inject(AppSettingsService);
+
   dnsStatuses = DnsStatuses;
   dnsStatus = new DnsStatusResponse({});
   rules: DnsRule[] = [];
   faCircleExclamation = faCircleExclamation;
   private unsubscribe = new Subject<boolean>();
-
-  constructor(
-    private dnsService: DnsApiService,
-    private windows: AppWindowsService,
-    private dns: DnsApiService,
-    private toastr: ToastrService,
-    private app: AppSettingsService,
-  ) {}
 
   ngOnInit(): void {
     this.windows.showSpinner();

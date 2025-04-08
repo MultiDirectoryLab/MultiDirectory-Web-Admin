@@ -11,6 +11,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -46,6 +47,12 @@ import { GridItemComponent } from './grid-item/grid-item.component';
   ],
 })
 export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
+  toast = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+  private ldapLoader = inject(LdapEntryLoader);
+  private navigation = inject(AppNavigationService);
+  private route = inject(ActivatedRoute);
+
   @Input() big = false;
   @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
   @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
@@ -55,16 +62,6 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   items: LdapEntryNode[] = [];
   alignItems = true;
   page = new Page();
-
-  constructor(
-    public toast: ToastrService,
-    private cdr: ChangeDetectorRef,
-    private ldapLoader: LdapEntryLoader,
-    private navigation: AppNavigationService,
-    private route: ActivatedRoute,
-  ) {
-    super();
-  }
 
   ngAfterViewInit(): void {
     this.navigation.reload();

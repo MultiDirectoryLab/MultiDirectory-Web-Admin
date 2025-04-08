@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntityType } from '@core/entities/entities-type';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -16,9 +16,9 @@ import {
   imports: [TranslocoPipe, TreeviewComponent, ButtonComponent],
 })
 export class EntityTypeSelectorComponent implements OnInit {
-  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name, loadChildren: undefined }));
+  private modalControl = inject(ModalInjectDirective);
 
-  constructor(private modalControl: ModalInjectDirective) {}
+  tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name, loadChildren: undefined }));
 
   ngOnInit(): void {
     const selected = this.modalControl.contentOptions.selectedEntityTypes as EntityType[];

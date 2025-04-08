@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -31,15 +31,13 @@ import {
   ],
 })
 export class PasswordPolicyComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute);
+  private windows = inject(AppWindowsService);
+  private api = inject(MultidirectoryApiService);
+  private app = inject(AppSettingsService);
+
   @ViewChild('form') form!: MdFormComponent;
   passwordPolicy = new PasswordPolicy();
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-  ) {}
 
   ngOnInit(): void {
     const param = this.activatedRoute.snapshot.params['id'];

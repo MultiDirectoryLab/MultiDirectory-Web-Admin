@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordPolicyCreateComponent } from '@features/password-policy/password-policy-create/password-policy-create.component';
@@ -15,17 +15,15 @@ import { switchMap } from 'rxjs';
   imports: [PasswordPolicyListItemComponent, PasswordPolicyCreateComponent, ModalInjectDirective],
 })
 export class PasswordPolicyListComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private router = inject(Router);
+  private windows = inject(AppWindowsService);
+
   @ViewChild('modalInject') appCratePolicyModal?: ModalInjectDirective;
 
   properties: any[] = [];
 
   clients: PasswordPolicy[] = [];
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private router: Router,
-    private windows: AppWindowsService,
-  ) {}
 
   ngOnInit(): void {
     this.windows.showSpinner();

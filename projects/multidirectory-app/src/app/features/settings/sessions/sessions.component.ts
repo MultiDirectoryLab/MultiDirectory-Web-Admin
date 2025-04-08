@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SessionComponent } from '@features/settings/sessions/session/session.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { UserSession } from '@models/sessions/user-session';
@@ -17,15 +17,13 @@ import { EMPTY, switchMap, take } from 'rxjs';
   imports: [TranslocoPipe, ButtonComponent, SessionComponent],
 })
 export class SessionsComponent implements OnInit {
-  sessions: UserSession[] = [];
+  private api = inject(MultidirectoryApiService);
+  private app = inject(AppSettingsService);
+  private navigation = inject(AppNavigationService);
+  private toastr = inject(ToastrService);
+  private windows = inject(AppWindowsService);
 
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-    private navigation: AppNavigationService,
-    private toastr: ToastrService,
-    private windows: AppWindowsService,
-  ) {}
+  sessions: UserSession[] = [];
 
   ngOnInit(): void {
     this.api.getSessions(this.app.user.user_principal_name).subscribe((x) => {

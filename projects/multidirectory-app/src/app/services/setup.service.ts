@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
@@ -13,11 +13,9 @@ import { LoginResponse } from '@models/login/login-response';
   providedIn: 'root',
 })
 export class SetupService {
-  constructor(
-    private api: MultidirectoryApiService,
-    private dns: DnsApiService,
-    private loginService: LoginService,
-  ) {}
+  private api = inject(MultidirectoryApiService);
+  private dns = inject(DnsApiService);
+  private loginService = inject(LoginService);
 
   setup(setupRequest: SetupRequest): Observable<boolean> {
     return this.api.setup(setupRequest).pipe(

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -41,6 +41,13 @@ import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } fr
   ],
 })
 export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private app = inject(AppSettingsService);
+  private ldapLoader = inject(LdapEntryLoader);
+  private windows = inject(AppWindowsService);
+  private cdr = inject(ChangeDetectorRef);
+  private toastr = inject(ToastrService);
+
   @ViewChild('grid') grid!: DatagridComponent;
   @ViewChild('principalMenu') principalMenu!: DropdownMenuComponent;
   faCircleExclamation = faCircleExclamation;
@@ -59,15 +66,6 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-    private ldapLoader: LdapEntryLoader,
-    private windows: AppWindowsService,
-    private cdr: ChangeDetectorRef,
-    private toastr: ToastrService,
-  ) {}
 
   private _searchQuery = '';
 

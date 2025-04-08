@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -38,17 +38,15 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class KerberosSettingsComponent implements AfterViewInit {
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+  private download = inject(DownloadService);
+
   @Input() setupRequest!: SetupRequest;
   @ViewChild('form') form!: MdFormComponent;
   @ViewChild('passwordInput') passwordInput!: TextboxComponent;
   @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
 
   unsubscribe = new Subject<void>();
-
-  constructor(
-    private setupRequestValidatorService: SetupRequestValidatorService,
-    private download: DownloadService,
-  ) {}
 
   ngAfterViewInit(): void {
     if (this.form) {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
@@ -25,21 +25,19 @@ import { concat, EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
   imports: [DropdownMenuComponent, TranslocoPipe],
 })
 export class ContextMenuComponent implements AfterViewInit, OnDestroy {
+  private contextMenuService = inject(ContextMenuService);
+  private windows = inject(AppWindowsService);
+  private api = inject(MultidirectoryApiService);
+  private navigation = inject(AppNavigationService);
+  private bulk = inject<BulkService<LdapEntryNode>>(BulkService);
+  private getAccessorStrategy = inject(GetAccessorStrategy);
+  private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
+
   @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
   LdapEntryType = LdapEntryType;
   entries: LdapEntryNode[] = [];
   accountEnabled = false;
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    private contextMenuService: ContextMenuService,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private navigation: AppNavigationService,
-    private bulk: BulkService<LdapEntryNode>,
-    private getAccessorStrategy: GetAccessorStrategy,
-    private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
-  ) {}
 
   ngAfterViewInit(): void {
     this.contextMenuService.contextMenuOnNodeRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

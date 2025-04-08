@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
@@ -27,17 +27,15 @@ import { EMPTY, of, Subject, switchMap, take } from 'rxjs';
   ],
 })
 export class EntityPropertiesComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private modalControl = inject(ModalInjectDirective);
+  private attributes = inject(AttributeService);
+  private windows = inject(AppWindowsService);
+
   EntityTypes = LdapEntryType;
   unsubscribe = new Subject<boolean>();
   accessor: LdapAttributes = {};
   entityType = LdapEntryType.None;
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private modalControl: ModalInjectDirective,
-    private attributes: AttributeService,
-    private windows: AppWindowsService,
-  ) {}
 
   ngOnInit(): void {
     if (!this.modalControl.contentOptions?.accessor) {

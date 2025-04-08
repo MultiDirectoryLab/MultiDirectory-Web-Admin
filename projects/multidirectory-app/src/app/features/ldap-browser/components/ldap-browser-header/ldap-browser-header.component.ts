@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
@@ -13,16 +13,14 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [TranslocoPipe, FaIconComponent],
 })
 export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
+  private activatedRoute = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+
   selectedCatalogDn = '';
   containerName = '';
   faCopy = faCopy;
   private unsubscribe = new Subject<boolean>();
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngAfterViewInit(): void {
     this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

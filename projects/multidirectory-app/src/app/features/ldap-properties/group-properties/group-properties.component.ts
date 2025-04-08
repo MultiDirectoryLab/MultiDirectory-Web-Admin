@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
 import { MemberOfComponent } from '@features/ldap-properties/member-of/member-of.component';
@@ -27,13 +27,11 @@ import { Subject } from 'rxjs';
   ],
 })
 export class GroupPropertiesComponent {
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
   unsubscribe = new Subject<boolean>();
   @Input() accessor!: LdapAttributes;
-
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   onTabChanged() {
     this.modalControl.modal?.resizeToContentHeight();

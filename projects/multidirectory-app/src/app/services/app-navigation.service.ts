@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Navigation, NavigationEnd, Router } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
@@ -16,6 +16,10 @@ export type NavigationEvent = [NavigationNode[], NavigationEventWrapper];
   providedIn: 'root',
 })
 export class AppNavigationService {
+  private router = inject(Router);
+  private navigationRoot = inject(NavigationRoot);
+  private ldapTreeLoader = inject(LdapEntryLoader);
+
   private get _navigationEndRx() {
     return this.router.events.pipe(
       filter((x) => x instanceof NavigationEnd),
@@ -38,12 +42,6 @@ export class AppNavigationService {
   get navigationRx(): Observable<NavigationEvent> {
     return combineLatest<NavigationEvent>([this.navigationRoot.nodes, this._navigationEndRx]);
   }
-
-  constructor(
-    private router: Router,
-    private navigationRoot: NavigationRoot,
-    private ldapTreeLoader: LdapEntryLoader,
-  ) {}
 
   navigate(node: NavigationNode) {
     if (!node.route) {

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Group } from '@core/groups/group';
@@ -19,18 +19,16 @@ import { take } from 'rxjs';
   imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
 export class MemberOfComponent {
+  private windows = inject(AppWindowsService);
+  private navigation = inject(AppNavigationService);
+  private attributes = inject(AttributeService);
+
   groups: Group[] = [];
   @ViewChild('groupList') groupList?: DatagridComponent;
   columns = [
     { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
     { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
-
-  constructor(
-    private windows: AppWindowsService,
-    private navigation: AppNavigationService,
-    private attributes: AttributeService,
-  ) {}
 
   private _accessor: LdapAttributes | null = null;
 

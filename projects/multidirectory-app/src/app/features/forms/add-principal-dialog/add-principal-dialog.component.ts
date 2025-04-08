@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PatternWithMessageDirective } from '@core/validators/pattern-with-message.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -29,16 +29,14 @@ import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
   ],
 })
 export class AddPrincipalDialogComponent implements OnInit, OnDestroy {
+  private api = inject(MultidirectoryApiService);
+  private toastr = inject(ToastrService);
+  private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
+
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   formValid = false;
   principalName = '';
   private _unsubscribe = new Subject<void>();
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private toastr: ToastrService,
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     this.formValid = this.form.valid;

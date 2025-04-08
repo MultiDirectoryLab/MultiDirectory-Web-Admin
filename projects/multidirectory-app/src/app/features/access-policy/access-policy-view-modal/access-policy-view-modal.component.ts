@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
@@ -11,13 +11,11 @@ import { AccessPolicyViewComponent } from '../access-policy-view/access-policy-v
   imports: [AccessPolicyViewComponent, TranslocoPipe, ButtonComponent],
 })
 export class AccessPolicyViewModalComponent implements AfterViewInit {
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('view') view!: AccessPolicyViewComponent;
   accessClient = new AccessPolicy();
-
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngAfterViewInit(): void {
     if (this.modalControl.contentOptions.accessPolicy) {

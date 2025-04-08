@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
@@ -36,10 +36,10 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
+  setup = inject(UserCreateService);
+
   @ViewChild('form') form!: MdFormComponent;
   unsubscribe = new Subject<void>();
-
-  constructor(public setup: UserCreateService) {}
 
   private _setupRequest!: UserCreateRequest;
 

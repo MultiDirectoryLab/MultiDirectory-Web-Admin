@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { NavigationNode } from '@core/navigation/navigation-node';
@@ -14,15 +14,13 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [TreeviewComponent],
 })
 export class NavigationComponent implements OnInit, OnDestroy {
+  private navigation = inject(AppNavigationService);
+  private contextMenu = inject(ContextMenuService);
+  private route = inject(ActivatedRoute);
+
   @ViewChild('treeView', { static: true }) treeView!: TreeviewComponent;
   navigationTree: NavigationNode[] = [];
   private unsubscribe = new Subject<void>();
-
-  constructor(
-    private navigation: AppNavigationService,
-    private contextMenu: ContextMenuService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.navigation.navigationRx

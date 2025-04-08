@@ -8,6 +8,7 @@ import {
   OnDestroy,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -65,6 +66,16 @@ import { TableRow } from './table-row';
   ],
 })
 export class TableViewComponent extends BaseViewComponent implements AfterViewInit, OnDestroy {
+  private appNavigation = inject(AppNavigationService);
+  private ldapLoader = inject(LdapEntryLoader);
+  private bulkService = inject<BulkService<LdapEntryNode>>(BulkService);
+  private windows = inject(AppWindowsService);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private api = inject(MultidirectoryApiService);
+  private getAccessorStrategy = inject(GetAccessorStrategy);
+  private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
+
   @ViewChild('grid', { static: true }) grid!: DatagridComponent;
   @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
   page = new Page();
@@ -85,20 +96,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   ];
   accountEnabledToggleEnabled = false;
   private _dn = '';
-
-  constructor(
-    private appNavigation: AppNavigationService,
-    private ldapLoader: LdapEntryLoader,
-    private bulkService: BulkService<LdapEntryNode>,
-    private windows: AppWindowsService,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private api: MultidirectoryApiService,
-    private getAccessorStrategy: GetAccessorStrategy,
-    private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
-  ) {
-    super();
-  }
 
   private _searchQuery = '';
 
