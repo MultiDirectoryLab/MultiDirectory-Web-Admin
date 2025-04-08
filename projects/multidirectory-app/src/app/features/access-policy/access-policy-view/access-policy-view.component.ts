@@ -7,7 +7,7 @@ import {
   OnDestroy,
   OnInit,
   output,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -66,10 +66,10 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
   private _unsubscribe = new Subject<void>();
-  @ViewChild('ipListEditor', { static: true }) ipListEditor!: ModalInjectDirective;
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
-  @ViewChild('groupSelector', { static: true }) groupSelector!: MultiselectComponent;
-  @ViewChild('mfaGroupSelector') mfaGroupSelector!: MultiselectComponent;
+  readonly ipListEditor = viewChild.required<ModalInjectDirective>('ipListEditor');
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly groupSelector = viewChild.required<MultiselectComponent>('groupSelector');
+  readonly mfaGroupSelector = viewChild.required<MultiselectComponent>('mfaGroupSelector');
   readonly showConrolButton = input(true);
   readonly accessClientChange = output<AccessPolicy>();
   readonly accessPolicyId = input<number>();
@@ -150,15 +150,15 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.form?.inputs.forEach((x) => x.reset());
+    this.form()?.inputs.forEach((x) => x.reset());
     this.groupQuery = '';
     this.availableGroups = [];
   }
 
   flush() {
-    this.accessClient.groups = this.groupSelector.selectedData.map((x) => x.id);
+    this.accessClient.groups = this.groupSelector().selectedData.map((x) => x.id);
     this.accessClient.mfaStatus = this.mfaAccess;
-    this.accessClient.mfaGroups = this.mfaGroupSelector?.selectedData.map((x) => x.id) ?? [];
+    this.accessClient.mfaGroups = this.mfaGroupSelector()?.selectedData.map((x) => x.id) ?? [];
   }
 
   save() {
@@ -170,7 +170,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   changeIpAdressAttribute() {
-    const closeRx = this.ipListEditor!.open(
+    const closeRx = this.ipListEditor()!.open(
       { zIndex: 99 },
       { ipAddresses: this.accessClient.ipRange },
     );
@@ -204,7 +204,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.availableGroups = result;
-        this.groupSelector.showMenu();
+        this.groupSelector().showMenu();
       });
   }
 
@@ -213,7 +213,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.availableMfaGroups = result;
-        this.mfaGroupSelector.showMenu();
+        this.mfaGroupSelector().showMenu();
       });
   }
 

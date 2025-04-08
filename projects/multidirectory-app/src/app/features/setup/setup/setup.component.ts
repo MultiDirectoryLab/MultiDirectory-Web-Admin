@@ -2,10 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
@@ -65,13 +65,12 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private download = inject(DownloadService);
-
-  @ViewChild('modal') modal!: MdModalComponent;
-  @ViewChild('stepper') stepper!: StepperComponent;
+  private unsubscribe = new Subject<boolean>();
+  readonly modal = viewChild.required<MdModalComponent>('modal');
+  readonly stepper = viewChild.required<StepperComponent>('stepper');
   setupRequest = new SetupRequest();
   stepValid = false;
   faLanguage = faLanguage;
-  private unsubscribe = new Subject<boolean>();
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
@@ -94,13 +93,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(templateRef: any) {
-    if (this.stepper.currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
+    if (this.stepper().currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
       this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
         PasswordGenerator.generatePassword();
       this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
         PasswordGenerator.generatePassword();
     }
-    this.modal.resizeToContentHeight();
+    this.modal().resizeToContentHeight();
   }
 
   onSetup() {
@@ -108,18 +107,18 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       this.downloadPasswords();
     }
 
-    this.modal.showSpinner();
+    this.modal().showSpinner();
     this.setup
       .setup(this.setupRequest)
       .pipe(
         catchError((err) => {
-          this.modal.hideSpinner();
+          this.modal().hideSpinner();
           this.router.navigate(['/']);
           throw err;
         }),
       )
       .subscribe((res) => {
-        this.modal.hideSpinner();
+        this.modal().hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
         this.router.navigate(['/']);
       });
@@ -131,7 +130,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toastr.error(translate('please-check-errors'));
       return;
     }
-    this.stepper.next();
+    this.stepper().next();
   }
 
   downloadPasswords() {

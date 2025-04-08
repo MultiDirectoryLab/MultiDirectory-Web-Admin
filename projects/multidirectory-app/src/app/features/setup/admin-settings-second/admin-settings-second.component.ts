@@ -2,11 +2,11 @@ import {
   AfterViewInit,
   Component,
   forwardRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -40,7 +40,7 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
   private setupRequestValidatorService = inject(SetupRequestValidatorService);
 
   @Input() setupRequest!: SetupRequest;
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   unsubscribe = new Subject<void>();
 
   ngOnInit(): void {
@@ -53,13 +53,14 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    this.setupRequestValidatorService.stepValid(this.form.valid);
+    const form = this.form();
+    this.setupRequestValidatorService.stepValid(form.valid);
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.form.validate();
+        this.form().validate();
       });
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.setupRequestValidatorService.stepValid(valid);
     });
   }

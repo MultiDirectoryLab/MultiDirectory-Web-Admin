@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -47,9 +47,11 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   private windows = inject(AppWindowsService);
   private cdr = inject(ChangeDetectorRef);
   private toastr = inject(ToastrService);
-
-  @ViewChild('grid') grid!: DatagridComponent;
-  @ViewChild('principalMenu') principalMenu!: DropdownMenuComponent;
+  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
+  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
+  private _unsubscribe = new Subject<void>();
+  readonly grid = viewChild.required<DatagridComponent>('grid');
+  readonly principalMenu = viewChild.required<DropdownMenuComponent>('principalMenu');
   faCircleExclamation = faCircleExclamation;
   principals: SearchResult[] = [];
   columns: TableColumn[] = [];
@@ -63,9 +65,6 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   page = new Page();
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
-  private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
-  private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
-  private _unsubscribe = new Subject<void>();
 
   private _searchQuery = '';
 
@@ -136,11 +135,12 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
-    if (!this.grid?.selected?.length) {
+    const grid = this.grid();
+    if (!grid?.selected?.length) {
       this.toastr.error(translate('kerberos-settings.should-select-principals'));
       return;
     }
-    const selected = this.grid.selected as SearchResult[];
+    const selected = grid.selected as SearchResult[];
     const selectedName = selected.map((x) => {
       let name = x.name;
       const hasRealmIndex = x.name.indexOf('@');

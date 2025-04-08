@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -36,7 +36,7 @@ export class PasswordPolicyComponent implements OnInit {
   private api = inject(MultidirectoryApiService);
   private app = inject(AppSettingsService);
 
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   passwordPolicy = new PasswordPolicy();
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class PasswordPolicyComponent implements OnInit {
 
   save() {
     this.app.validatePasswords = this.passwordPolicy.passwordMustMeetComplexityRequirements;
-    this.form.validate();
+    this.form().validate();
     this.windows.showSpinner();
     this.api.savePasswordPolicy(this.passwordPolicy).subscribe({
       complete: () => {

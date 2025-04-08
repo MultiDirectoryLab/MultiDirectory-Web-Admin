@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
@@ -29,7 +29,7 @@ export class AttributeListComponent implements OnInit {
   private modalControl = inject(ModalInjectDirective);
   private cdr = inject(ChangeDetectorRef);
 
-  @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
+  readonly treeview = viewChild.required(TreeviewComponent);
   title = '';
   newAttribute: string = '';
   type: string = '';
@@ -55,7 +55,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   apply() {
-    const result = this.treeview?.tree.map((x) => x.name ?? '') ?? [];
+    const result = this.treeview().tree.map((x) => x.name ?? '') ?? [];
     this.modalControl.close(result);
   }
 
@@ -64,7 +64,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   addAttribute() {
-    this.treeview?.addRoot(
+    this.treeview().addRoot(
       new AttributeListEntry({
         name: this.newAttribute,
         id: this.newAttribute,

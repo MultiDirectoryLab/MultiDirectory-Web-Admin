@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, viewChild } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 
@@ -12,7 +12,7 @@ export class AvatarUploadComponent {
   private cdr = inject(ChangeDetectorRef);
 
   @Input() accessor: LdapAttributes | null = null;
-  @ViewChild('fileSelector') fileSelector!: ElementRef<HTMLInputElement>;
+  readonly fileSelector = viewChild.required<ElementRef<HTMLInputElement>>('fileSelector');
   selectedFile?: {
     name: string;
     size: number;
@@ -57,6 +57,6 @@ export class AvatarUploadComponent {
   onAvatarSelecting(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-    this.fileSelector.nativeElement.click();
+    this.fileSelector().nativeElement.click();
   }
 }

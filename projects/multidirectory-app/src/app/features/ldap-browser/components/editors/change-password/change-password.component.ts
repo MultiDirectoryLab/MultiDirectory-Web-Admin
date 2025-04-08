@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   private api = inject(MultidirectoryApiService);
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
 
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   unsubscribe = new Subject<boolean>();
   formValid = false;
   changeRequest = new ChangePasswordRequest();
@@ -54,10 +54,12 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       this.un = this.modalControl.contentOptions.un;
     }
 
-    this.formValid = this.form.valid;
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this.formValid = this.form().valid;
+    this.form()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
   }
 
   close() {
@@ -83,7 +85,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   checkModel() {
-    this.form.validate();
+    this.form().validate();
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, Input, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -32,7 +32,7 @@ export class MfIntegrationFormComponent implements OnInit {
   private windows = inject(AppWindowsService);
   private toastr = inject(ToastrService);
 
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   @Input() scope: 'ldap' | 'http' = 'http';
   @Input() apiKey: string = '';
   @Input() apiSecret: string = '';
@@ -75,7 +75,7 @@ export class MfIntegrationFormComponent implements OnInit {
       .subscribe(() => {
         this.toastr.success(translate(`${this.translocoSection}.clear-success`));
         this.apiKey = this.apiSecret = '';
-        this.form.inputs.forEach((input) => input.reset());
+        this.form().inputs.forEach((input) => input.reset());
         this.windows.hideSpinner();
       });
   }

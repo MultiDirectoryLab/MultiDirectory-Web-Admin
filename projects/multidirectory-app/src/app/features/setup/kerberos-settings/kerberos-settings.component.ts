@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -42,29 +42,30 @@ export class KerberosSettingsComponent implements AfterViewInit {
   private download = inject(DownloadService);
 
   @Input() setupRequest!: SetupRequest;
-  @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('passwordInput') passwordInput!: TextboxComponent;
-  @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly passwordInput = viewChild.required<TextboxComponent>('passwordInput');
+  readonly repeatPassword = viewChild.required<TextboxComponent>('repeatPassword');
 
   unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
-    if (this.form) {
-      this.setupRequestValidatorService.stepValid(this.form.valid);
+    const form = this.form();
+    if (form) {
+      this.setupRequestValidatorService.stepValid(form.valid);
       this.setupRequestValidatorService.invalidateRx
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(() => {
-          this.form.validate();
+          this.form().validate();
         });
 
-      this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+      form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
         this.setupRequestValidatorService.stepValid(valid);
       });
     }
   }
 
   checkModel() {
-    this.form.validate(true);
+    this.form().validate(true);
   }
 
   downloadPasswords() {

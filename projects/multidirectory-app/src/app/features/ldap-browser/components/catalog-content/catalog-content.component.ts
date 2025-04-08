@@ -1,5 +1,5 @@
 import { NgStyle } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -54,15 +54,14 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   private contextMenu = inject(ContextMenuService);
   private hotkeysService = inject(HotkeysService);
   private activatedRoute = inject(ActivatedRoute);
-
-  @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
-  @ViewChild(BaseViewComponent) view?: BaseViewComponent;
+  private _selectedRows: LdapEntryNode[] = [];
+  readonly properties = viewChild<ModalInjectDirective>('properties');
+  readonly view = viewChild(BaseViewComponent);
   unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
   searchQuery = '';
-  private _selectedRows: LdapEntryNode[] = [];
 
   ngOnInit(): void {
     this.hotkeysService.add(
@@ -111,7 +110,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
       this.searchQuery = '';
-      this.view?.updateContent();
+      this.view()?.updateContent();
       this.cdr.detectChanges();
     });
 
@@ -136,7 +135,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         ),
       ),
     ).subscribe((x) => {
-      this.view?.updateContent();
+      this.view()?.updateContent();
     });
   }
 
@@ -145,7 +144,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openEntityProperiesModal(this._selectedRows[0])
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 
@@ -159,7 +158,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateUser(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 
@@ -169,7 +168,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateGroup(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 

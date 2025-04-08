@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { EntityType } from '@core/entities/entities-type';
@@ -38,7 +38,7 @@ export class EntitySelectorComponent implements OnInit {
   private windows = inject(AppWindowsService);
   private modalControl = inject(ModalInjectDirective);
 
-  @ViewChild('selector', { static: true }) selector?: MultiselectComponent;
+  readonly selector = viewChild<MultiselectComponent>('selector');
   selectedCatalogDn = '';
   name = '';
   availableGroups: MultiselectModel[] = [];
@@ -128,12 +128,12 @@ export class EntitySelectorComponent implements OnInit {
             badge_title: x.object_name,
           });
         });
-        this.selector?.showMenu();
+        this.selector()?.showMenu();
         this.cdr.detectChanges();
       });
   }
 
   finish() {
-    this.modalControl?.close(this.selector?.selectedData ?? []);
+    this.modalControl?.close(this.selector()?.selectedData ?? []);
   }
 }

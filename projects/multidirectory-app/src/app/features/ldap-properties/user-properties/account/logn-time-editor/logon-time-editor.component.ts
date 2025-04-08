@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -57,9 +57,9 @@ export class LogonDayState {
 export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
-
+  private _unsubscribe = new Subject<void>();
   username = '';
-  @ViewChild('logonMap', { static: true }) logonMap!: ElementRef<HTMLDivElement>;
+  readonly logonMap = viewChild.required<ElementRef<HTMLDivElement>>('logonMap');
   daysOfWeek: LogonMapDay[] = [
     { id: null, title: translate('logon-time-editor.every') },
     { id: 0, title: translate('logon-time-editor.monday') },
@@ -95,7 +95,6 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
     translate('logon-time-editor.to-saturday'),
     translate('logon-time-editor.to-sunday'),
   ];
-  private _unsubscribe = new Subject<void>();
 
   private _selectionAllowance: number | null = null;
 
@@ -196,7 +195,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   finishSelection() {
     this.selectionInProgress = false;
     this.cdr.detectChanges();
-    const selectedElements = this.logonMap.nativeElement.querySelectorAll('.logon-selected');
+    const selectedElements = this.logonMap().nativeElement.querySelectorAll('.logon-selected');
     this.selectedDaysState = Array.from(selectedElements).map((x) => {
       let day = Number(x.getAttribute('data-day'));
       let hour = Number(x.getAttribute('data-hour'));

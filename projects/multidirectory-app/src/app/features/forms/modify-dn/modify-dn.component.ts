@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -30,20 +30,21 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
 export class ModifyDnComponent implements AfterViewInit, OnDestroy {
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private windows = inject(AppWindowsService);
-
-  @ViewChild('form') form!: MdFormComponent;
+  private unsubscribe = new Subject<void>();
+  readonly form = viewChild.required<MdFormComponent>('form');
   formValid = false;
   request = new ModifyDnRequest();
-  private unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
     this.request.entry = this.modalControl.contentOptions?.['toModifyDn'];
     this.request.new_superior = LdapNamesHelper.getDnParent(this.request.entry);
     this.request.newrdn = LdapNamesHelper.getDnName(this.request.entry);
 
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.formValid = valid;
-    });
+    this.form()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((valid) => {
+        this.formValid = valid;
+      });
   }
 
   ngOnDestroy(): void {

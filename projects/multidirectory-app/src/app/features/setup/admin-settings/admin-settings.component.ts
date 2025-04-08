@@ -2,10 +2,10 @@ import {
   AfterViewInit,
   Component,
   forwardRef,
+  inject,
   Input,
   OnDestroy,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
@@ -53,28 +53,29 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
   private setupRequestValidatorService = inject(SetupRequestValidatorService);
 
   @Input() setupRequest!: SetupRequest;
-  @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('passwordInput') passwordInput!: TextboxComponent;
-  @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly passwordInput = viewChild.required<TextboxComponent>('passwordInput');
+  readonly repeatPassword = viewChild.required<TextboxComponent>('repeatPassword');
 
   unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
-    this.setupRequestValidatorService.stepValid(this.form.valid);
+    const form = this.form();
+    this.setupRequestValidatorService.stepValid(form.valid);
 
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.form.validate();
+        this.form().validate();
       });
 
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.setupRequestValidatorService.stepValid(valid);
     });
   }
 
   checkModel() {
-    this.form.validate(true);
+    this.form().validate(true);
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, output, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -38,7 +38,7 @@ export class ComputerCreateComponent implements OnInit, OnDestroy {
   private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
   private _unsubscribe = new Subject<void>();
   readonly create = output<void>();
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   formValid = false;
   parentDn = '';
   description = '';
@@ -48,10 +48,12 @@ export class ComputerCreateComponent implements OnInit, OnDestroy {
   isLegacyAccount = false;
 
   ngOnInit(): void {
-    this.formValid = this.form.valid;
-    this.form.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this.formValid = this.form().valid;
+    this.form()
+      .onValidChanges.pipe(takeUntil(this._unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
     this.parentDn = this.modalInejctor.contentOptions?.['parentDn'] ?? '';
   }
 

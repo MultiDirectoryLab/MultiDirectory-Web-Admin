@@ -1,3 +1,4 @@
+import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,21 +8,18 @@ import {
   Input,
   OnInit,
   Output,
-  QueryList,
   TemplateRef,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
-import { Observable, Subject, lastValueFrom, of, take } from 'rxjs';
-import { Treenode } from './model/treenode';
+import { FormsModule } from '@angular/forms';
+import { Observable, of, take } from 'rxjs';
+import { BaseControlComponent } from '../base-component/control.component';
+import { CheckboxComponent } from '../checkbox/checkbox.component';
 import { TreeSearchHelper } from './core/tree-search-helper';
 import { ExpandStrategy } from './model/expand-strategy';
 import { RightClickEvent } from './model/right-click-event';
-import { BaseControlComponent } from '../base-component/control.component';
-import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { Treenode } from './model/treenode';
 import { TreeItemComponent } from './tree-item.component';
-import { CheckboxComponent } from '../checkbox/checkbox.component';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'md-treeview',
@@ -31,6 +29,8 @@ import { FormsModule } from '@angular/forms';
   imports: [NgTemplateOutlet, TreeItemComponent, NgClass, NgStyle, CheckboxComponent, FormsModule],
 })
 export class TreeviewComponent extends BaseControlComponent implements OnInit {
+  private _selectedNode: Treenode | null = null;
+  private _focusedNode: Treenode | null = null;
   @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
   @Input() tree: Treenode[] = [];
   @Input() expandStrategy = ExpandStrategy.AlwaysUpdate;
@@ -38,8 +38,6 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @Input() checkboxes = false;
   @Output() nodeSelect = new EventEmitter<Treenode>();
   @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
-  private _selectedNode: Treenode | null = null;
-  private _focusedNode: Treenode | null = null;
 
   constructor(private cdr: ChangeDetectorRef) {
     super();
@@ -48,51 +46,6 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   ngOnInit(): void {
     if (!this.nodeLabel) {
       this.nodeLabel = this.defaultLabel;
-    }
-  }
-
-  private loadChildren(node: Treenode): Observable<Treenode[]> {
-    if (!!node.loadChildren && this.expandStrategy == ExpandStrategy.AlwaysUpdate) {
-      return node.loadChildren ? node.loadChildren() : of([]);
-    }
-    return of(node.children);
-  }
-
-  private setNodeExpanded(node: Treenode, state: boolean = true): Observable<Treenode[]> {
-    node.expanded = state;
-    if (node.expanded) {
-      return this.loadChildren(node);
-    } else {
-      node.children.forEach((x) => this.setNodeExpanded(x, false));
-    }
-    return of(node.children ?? []);
-  }
-
-  private setNodeSelected(node: Treenode) {
-    this.setNodeFocused(null);
-    if (node.selectable) {
-      TreeSearchHelper.traverseTree(this.tree, (node, path) => {
-        node.selected = false;
-      });
-      node.selected = true;
-      this._selectedNode = node;
-      this.nodeSelect.emit(node);
-      this.cdr.detectChanges();
-    }
-  }
-
-  private setNodeFocused(node: Treenode | null) {
-    TreeSearchHelper.traverseTree(
-      this.tree,
-      (node, path) => {
-        node.focused = false;
-      },
-      [],
-    );
-    this._focusedNode = null;
-    if (node) {
-      node.focused = true;
-      this._focusedNode = node;
     }
   }
 
@@ -151,12 +104,14 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
         this.cdr.detectChanges();
       });
   }
+
   focus(node: Treenode) {
     TreeSearchHelper.traverseTree(this.tree, (n, path) => {
       n.focused = false;
     });
     node.focused = true;
   }
+
   @HostListener('keydown', ['$event'])
   handleKeyEvent(event: KeyboardEvent) {
     if (!this._focusedNode) {
@@ -204,5 +159,50 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
 
   redraw() {
     this.cdr.detectChanges();
+  }
+
+  private loadChildren(node: Treenode): Observable<Treenode[]> {
+    if (!!node.loadChildren && this.expandStrategy == ExpandStrategy.AlwaysUpdate) {
+      return node.loadChildren ? node.loadChildren() : of([]);
+    }
+    return of(node.children);
+  }
+
+  private setNodeExpanded(node: Treenode, state: boolean = true): Observable<Treenode[]> {
+    node.expanded = state;
+    if (node.expanded) {
+      return this.loadChildren(node);
+    } else {
+      node.children.forEach((x) => this.setNodeExpanded(x, false));
+    }
+    return of(node.children ?? []);
+  }
+
+  private setNodeSelected(node: Treenode) {
+    this.setNodeFocused(null);
+    if (node.selectable) {
+      TreeSearchHelper.traverseTree(this.tree, (node, path) => {
+        node.selected = false;
+      });
+      node.selected = true;
+      this._selectedNode = node;
+      this.nodeSelect.emit(node);
+      this.cdr.detectChanges();
+    }
+  }
+
+  private setNodeFocused(node: Treenode | null) {
+    TreeSearchHelper.traverseTree(
+      this.tree,
+      (node, path) => {
+        node.focused = false;
+      },
+      [],
+    );
+    this._focusedNode = null;
+    if (node) {
+      node.focused = true;
+      this._focusedNode = node;
+    }
   }
 }

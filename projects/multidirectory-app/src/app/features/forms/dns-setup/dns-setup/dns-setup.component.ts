@@ -6,7 +6,7 @@ import {
   Input,
   OnDestroy,
   output,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -44,7 +44,7 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   readonly formValidChange = output<boolean>();
   @Input() dnsSetupRequest: DnsSetupRequest = new DnsSetupRequest({});
   readonly dnsSetupRequestChange = output<DnsSetupRequest>();
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
 
   private _useExternalService = false;
 
@@ -62,10 +62,12 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
     this.dnsSetupRequest.dns_status = this._useExternalService
       ? DnsStatuses.HOSTED
       : DnsStatuses.SELFHOSTED;
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.formValid = valid;
-      this.formValidChange.emit(valid);
-    });
+    this.form()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((valid) => {
+        this.formValid = valid;
+        this.formValidChange.emit(valid);
+      });
   }
 
   ngOnDestroy(): void {
@@ -74,6 +76,6 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   }
 
   validate() {
-    this.form.validate();
+    this.form().validate();
   }
 }

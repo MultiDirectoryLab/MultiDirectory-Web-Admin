@@ -1,6 +1,6 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
-import { Component, input, output, ViewChild } from '@angular/core';
+import { Component, input, output, viewChild } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { ContextmenuType } from 'ngx-datatable-gimefork';
@@ -18,7 +18,7 @@ export class GridItemComponent {
   readonly doubleClickOnItem = output<Event>();
   readonly rightClick = output<ContextMenuEvent>();
 
-  @ViewChild(CdkDrag) drag!: CdkDrag;
+  readonly drag = viewChild.required(CdkDrag);
   draggable = {
     data: 'myDragData',
     effectAllowed: 'copyMove',

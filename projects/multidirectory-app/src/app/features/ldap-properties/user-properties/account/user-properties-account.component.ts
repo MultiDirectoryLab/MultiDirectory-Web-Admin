@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -43,17 +43,16 @@ import { take } from 'rxjs';
   ],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
-  modalControl = inject(ModalInjectDirective);
   private cdr = inject(ChangeDetectorRef);
   private nodeLoader = inject(LdapEntryLoader);
-
-  @ViewChild('datePicker') datePicker!: DatepickerComponent;
+  modalControl = inject(ModalInjectDirective);
+  readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
   uacBitSet?: BitSet;
   upnDomain?: DropdownOption;
   accessor: LdapAttributes = {};
-  @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
+  readonly editLogonTime = viewChild.required<ModalInjectDirective>('editLogonTime');
 
   get userShouldChangePassword(): boolean {
     return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0
@@ -111,7 +110,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this._accountExpires = value;
     if (!value) {
       this.accessor['accountExpires'] = ['0'];
-      this.datePicker.clearDate();
+      this.datePicker().clearDate();
     } else {
       this.accessor['accountExpires'] = this.accessor['$accountExpires'];
     }
@@ -164,7 +163,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   showLogonTimeEditor() {
-    this.editLogonTime
+    this.editLogonTime()
       .open({ width: '732px' }, { logonHours: this.accessor!.logonHours })
       .pipe(take(1))
       .subscribe((result: string | null) => {

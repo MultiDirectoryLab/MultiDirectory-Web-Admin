@@ -2,11 +2,11 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  inject,
   Input,
   OnInit,
   TemplateRef,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
@@ -50,17 +50,15 @@ export class EntityAttributesComponent implements OnInit {
   private properties = inject(LdapPropertiesService);
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
-
-  @ViewChild('propGrid', { static: true }) propGrid: DatagridComponent | null = null;
-  @ViewChild('dataGridCellTemplate', { static: true })
-  dataGridCellTemplateRef: TemplateRef<any> | null = null;
+  private _unsubscribe = new Subject<boolean>();
+  private _schema = new Map<string, SchemaEntry>();
+  readonly propGrid = viewChild.required(DatagridComponent);
+  readonly dataGridCellTemplateRef = viewChild.required<TemplateRef<any>>('dataGridCellTemplate');
   rows: { name: string; val: string }[] = [];
   searchQuery = '';
   filter = new AttributeFilter();
   page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns: TableColumn[] = [];
-  private _unsubscribe = new Subject<boolean>();
-  private _schema = new Map<string, SchemaEntry>();
 
   private _accessor: LdapAttributes = {};
 
@@ -90,7 +88,7 @@ export class EntityAttributesComponent implements OnInit {
         name: translate('entity-attributes.value'),
         prop: 'val',
         flexGrow: 2,
-        cellTemplate: this.dataGridCellTemplateRef,
+        cellTemplate: this.dataGridCellTemplateRef(),
       },
     ];
   }
@@ -102,11 +100,11 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onDeleteClick() {
-    if (!this.propGrid?.selected?.[0]) {
+    if (!this.propGrid()?.selected?.[0]) {
       this.toastr.error(translate('entity-attributes.select-attribute'));
       return;
     }
-    const attribute = this.propGrid.selected[0];
+    const attribute = this.propGrid().selected[0];
     this.accessor[attribute.name] = this.accessor[attribute.name].filter(
       (x) => x !== attribute.val,
     );
@@ -115,7 +113,7 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onEditClick(attributeName = '') {
-    attributeName = attributeName || this.propGrid?._selected?.[0]?.name;
+    attributeName = attributeName || this.propGrid()?._selected?.[0]?.name;
     let attribute = this._schema.get(attributeName);
     if (!attribute || !attribute.writable) {
       attribute = new SchemaEntry({

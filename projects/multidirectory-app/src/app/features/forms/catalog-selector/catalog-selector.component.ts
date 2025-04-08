@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  ViewChild,
   inject,
+  OnDestroy,
+  viewChild,
 } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -22,17 +22,18 @@ export class CatalogSelectorComponent implements AfterViewInit, OnDestroy {
   private ldapLoader = inject(LdapEntryLoader);
   private cdr = inject(ChangeDetectorRef);
   private modalControl = inject(ModalInjectDirective);
-
-  @ViewChild('ldapTree', { static: true }) treeView?: TreeviewComponent;
-  ldapRoots: LdapEntryNode[] = [];
   private unsubscribe = new Subject<void>();
   private _selectedNode: LdapEntryNode[] = [];
+  readonly treeView = viewChild<TreeviewComponent>('ldapTree');
+  ldapRoots: LdapEntryNode[] = [];
 
   ngAfterViewInit(): void {
-    this.treeView?.nodeSelect.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this._selectedNode = [<LdapEntryNode>x];
-      this.cdr.detectChanges();
-    });
+    this.treeView()
+      ?.nodeSelect.pipe(takeUntil(this.unsubscribe))
+      .subscribe((x) => {
+        this._selectedNode = [<LdapEntryNode>x];
+        this.cdr.detectChanges();
+      });
 
     this.ldapLoader
       .get()

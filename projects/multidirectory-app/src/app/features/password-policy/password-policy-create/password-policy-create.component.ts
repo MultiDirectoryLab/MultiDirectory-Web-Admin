@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -30,7 +30,7 @@ import {
 export class PasswordPolicyCreateComponent {
   private modalControl = inject(ModalInjectDirective);
 
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   passwordPolicy = new PasswordPolicy();
 
   close() {
@@ -38,6 +38,6 @@ export class PasswordPolicyCreateComponent {
   }
 
   save() {
-    this.form.validate();
+    this.form().validate();
   }
 }

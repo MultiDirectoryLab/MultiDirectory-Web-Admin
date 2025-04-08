@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -45,12 +45,10 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private api = inject(MultidirectoryApiService);
   private dns = inject(DnsApiService);
   private cdr = inject(ChangeDetectorRef);
-
-  @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
+  private unsubscribe = new Subject<void>();
+  readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
   showLeftPane = true;
   showNotifications = false;
-
-  private unsubscribe = new Subject<void>();
 
   ngOnInit() {
     this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
@@ -131,7 +129,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   closeCheatsheet() {
-    this.helpcheatSheet.toggleCheatSheet();
+    this.helpcheatSheet().toggleCheatSheet();
   }
 
   onNotificationsHide() {

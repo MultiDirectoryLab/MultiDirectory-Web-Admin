@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, inject, Input, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Group } from '@core/groups/group';
@@ -24,7 +24,7 @@ export class MemberOfComponent {
   private attributes = inject(AttributeService);
 
   groups: Group[] = [];
-  @ViewChild('groupList') groupList?: DatagridComponent;
+  readonly groupList = viewChild<DatagridComponent>('groupList');
   columns = [
     { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
     { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
@@ -67,21 +67,22 @@ export class MemberOfComponent {
   }
 
   deleteGroup() {
-    if ((this.groupList?.selected?.length ?? 0) > 0 && this.accessor) {
+    if ((this.groupList()?.selected?.length ?? 0) > 0 && this.accessor) {
       this.groups = this.groups.filter(
-        (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
       this.accessor.memberOf = this.accessor?.memberOf?.filter(
-        (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }
   }
 
   async openGroupProperties() {
-    if (!this.groupList?.selected?.[0]) {
+    const groupList = this.groupList();
+    if (!groupList?.selected?.[0]) {
       return;
     }
-    const entity = <LdapEntryNode>await this.navigation.goTo(this.groupList.selected[0].dn);
+    const entity = <LdapEntryNode>await this.navigation.goTo(groupList.selected[0].dn);
     if (!entity) {
       return;
     }

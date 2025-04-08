@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
@@ -32,7 +32,7 @@ export class AccessPolicySettingsComponent implements OnInit {
   private windows = inject(AppWindowsService);
   private router = inject(Router);
 
-  @ViewChild('createModal', { static: true }) accessClientCreateModal!: ModalInjectDirective;
+  readonly accessClientCreateModal = viewChild.required<ModalInjectDirective>('createModal');
 
   properties: any[] = [];
   propColumns = [
@@ -103,7 +103,7 @@ export class AccessPolicySettingsComponent implements OnInit {
   }
 
   onAddClick() {
-    this.accessClientCreateModal
+    this.accessClientCreateModal()
       ?.open({ minHeight: 435 }, { accessPolicy: new AccessPolicy() })
       .pipe(
         take(1),

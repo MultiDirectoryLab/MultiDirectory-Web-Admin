@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  ViewChild,
   inject,
+  OnDestroy,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -41,21 +41,22 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private loginService = inject(LoginService);
-
+  private unsubscribe = new Subject<void>();
   login = '';
   password = '';
   wssHandle?: WebsocketTokenHandle;
-  @ViewChild('loginForm') loginForm!: MdFormComponent;
-  @ViewChild('modal') modal!: MdModalComponent;
+  readonly loginForm = viewChild.required<MdFormComponent>('loginForm');
+  readonly modal = viewChild.required<MdModalComponent>('modal');
   loginValid = false;
-  private unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
-    this.loginValid = this.loginForm.valid;
-    this.loginForm.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((result) => {
-      this.loginValid = result;
-      this.cdr.detectChanges();
-    });
+    this.loginValid = this.loginForm().valid;
+    this.loginForm()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((result) => {
+        this.loginValid = result;
+        this.cdr.detectChanges();
+      });
     this.cdr.detectChanges();
   }
 
@@ -67,17 +68,17 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
   onLogin(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.modal.showSpinner();
+    this.modal().showSpinner();
     this.loginService
       .login(this.login, this.password)
       .pipe(
         catchError((err, caught) => {
-          this.modal.hideSpinner();
+          this.modal().hideSpinner();
           return EMPTY;
         }),
       )
       .subscribe((response: LoginResponse) => {
-        this.modal.hideSpinner();
+        this.modal().hideSpinner();
         this.router.navigate(['/']);
       });
   }

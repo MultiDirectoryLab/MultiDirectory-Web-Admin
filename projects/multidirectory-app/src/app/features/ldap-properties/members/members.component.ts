@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, inject, Input, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Member } from '@core/groups/member';
@@ -20,8 +20,8 @@ export class MembersComponent {
   private windows = inject(AppWindowsService);
 
   members: Member[] = [];
-  @ViewChild('groupSelector') memberSelector?: EntitySelectorComponent;
-  @ViewChild('groupList') memberList?: DatagridComponent;
+  readonly memberSelector = viewChild<EntitySelectorComponent>('groupSelector');
+  readonly memberList = viewChild<DatagridComponent>('groupList');
   columns = [
     { name: translate('members.name'), prop: 'name', flexGrow: 1 },
     { name: translate('members.catalog-path'), prop: 'path', flexGrow: 3 },
@@ -64,12 +64,12 @@ export class MembersComponent {
   }
 
   deleteMember() {
-    if ((this.memberList?.selected?.length ?? 0) > 0 && this.accessor) {
+    if ((this.memberList()?.selected?.length ?? 0) > 0 && this.accessor) {
       this.members = this.members.filter(
-        (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
       this.accessor.member = this.accessor?.memberOf?.filter(
-        (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }
   }

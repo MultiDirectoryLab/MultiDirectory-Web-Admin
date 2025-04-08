@@ -12,15 +12,14 @@
   </div>
   <md-button (click)="addAttribute()">{{ 'attributes-list.add' | transloco }}</md-button>
   <md-treeview
-    #treeview
     [tree]="tree"
     class="border-solid-1 h-100 w-100"
     style="min-height: 200px"
   ></md-treeview>
   <div class="flex-column flex-space-between">
     <md-button (click)="deleteAttribute()">{{ 'attributes-list.delete' | transloco }}</md-button>
-    <md-button [primary]="true" (click)="apply()">{{
-      'attributes-list.apply' | transloco
-    }}</md-button>
+    <md-button (click)="apply()" [primary]="true"
+      >{{ 'attributes-list.apply' | transloco }}
+    </md-button>
   </div>
 </div>

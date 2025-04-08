@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -48,9 +48,9 @@ export class SearchPanelComponent implements AfterViewInit {
   searchSources: string[] = [];
   searchResults: SearchResult[] = [];
 
-  @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;
-  @ViewChild('searchResultForm') searchResultForm!: SearchResultComponent;
-  @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
+  readonly searchUserForm = viewChild.required<SearchUsersComponent>('searchUserForm');
+  readonly searchResultForm = viewChild.required<SearchResultComponent>('searchResultForm');
+  readonly spinner = viewChild.required<SpinnerComponent>('spinner');
 
   ngAfterViewInit(): void {
     const mapToDropdown = (x: SearchSource[]) => x.map((y) => y.title);
@@ -65,7 +65,7 @@ export class SearchPanelComponent implements AfterViewInit {
   }
 
   search() {
-    const query = this.searchUserForm.searchQuery.trim();
+    const query = this.searchUserForm().searchQuery.trim();
     if (!query || query.length < 2) {
       return;
     }
@@ -73,13 +73,13 @@ export class SearchPanelComponent implements AfterViewInit {
     if (!source) {
       return;
     }
-    this.spinner.show();
+    this.spinner().show();
     this.ldapLoader
       .get()
       .pipe(
         switchMap((x) => this.api.search(SearchQueries.findByName(query, x[0].id))),
         catchError((err) => {
-          this.spinner.hide();
+          this.spinner().hide();
           return throwError(() => err);
         }),
       )
@@ -91,7 +91,7 @@ export class SearchPanelComponent implements AfterViewInit {
             },
         );
         this.cdr.detectChanges();
-        this.spinner.hide();
+        this.spinner().hide();
       });
   }
 

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
@@ -70,9 +70,8 @@ export class AccessPolicyIpListComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toastr = inject(ToastrService);
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
-
+  private readonly _ipInput = viewChild.required<ElementRef<HTMLInputElement>>('ipInput');
   _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
-  @ViewChild('ipInput', { static: true }) private _ipInput!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
     if (this.modalControl.contentOptions) {
@@ -102,14 +101,16 @@ export class AccessPolicyIpListComponent implements OnInit {
   }
 
   onNewKeyDown(event: KeyboardEvent) {
+    const _ipInput = this._ipInput();
     if (event.key == 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.addEntry(this._ipInput.nativeElement.innerText);
-      this._ipInput.nativeElement.innerText = '';
+      const _ipInput = this._ipInput();
+      this.addEntry(_ipInput.nativeElement.innerText);
+      _ipInput.nativeElement.innerText = '';
       this.cdr.detectChanges();
     }
-    if (event.key == 'Backspace' && this._ipInput.nativeElement.innerText.length == 0) {
+    if (event.key == 'Backspace' && _ipInput.nativeElement.innerText.length == 0) {
       event.preventDefault();
       event.stopPropagation();
       this._ipAddresses.pop();
@@ -120,8 +121,9 @@ export class AccessPolicyIpListComponent implements OnInit {
   onNewBlur(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.addEntry(this._ipInput.nativeElement.innerText);
-    this._ipInput.nativeElement.innerText = '';
+    const _ipInput = this._ipInput();
+    this.addEntry(_ipInput.nativeElement.innerText);
+    _ipInput.nativeElement.innerText = '';
     this.cdr.detectChanges();
   }
 
@@ -130,7 +132,7 @@ export class AccessPolicyIpListComponent implements OnInit {
       event.preventDefault();
       event.stopPropagation();
       this._ipAddresses[index].update(element.innerText);
-      this._ipInput.nativeElement.focus();
+      this._ipInput().nativeElement.focus();
       this.cdr.detectChanges();
     }
     if (event.key == 'Backspace' && element.innerText.length == 0) {
@@ -145,7 +147,7 @@ export class AccessPolicyIpListComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this._ipAddresses[index].update(element.innerText);
-    this._ipInput.nativeElement.focus();
+    this._ipInput().nativeElement.focus();
     this.cdr.detectChanges();
   }
 }

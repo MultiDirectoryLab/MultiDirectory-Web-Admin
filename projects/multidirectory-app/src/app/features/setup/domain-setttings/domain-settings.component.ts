@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, viewChild } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
 import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -32,20 +32,21 @@ export class DomainSettingsComponent implements AfterViewInit, OnDestroy {
   private setupRequestValidatorService = inject(SetupRequestValidatorService);
 
   @Input() setupRequest!: SetupRequest;
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   name = new FormControl('');
   unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
-    this.setupRequestValidatorService.stepValid(this.form.valid);
+    const form = this.form();
+    this.setupRequestValidatorService.stepValid(form.valid);
 
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.form.validate();
+        this.form().validate();
       });
 
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.setupRequestValidatorService.stepValid(valid);
     });
   }

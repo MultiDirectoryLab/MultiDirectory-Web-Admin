@@ -9,9 +9,8 @@ import {
   HostListener,
   inject,
   input,
-  QueryList,
-  ViewChild,
-  ViewChildren,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -53,11 +52,11 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   private route = inject(ActivatedRoute);
   toast = inject(ToastrService);
   readonly big = input(false);
-  @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
-  @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
-  @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
-  @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
-  @ViewChild('pager') pager!: PagerComponent;
+  readonly gridItems = viewChildren(GridItemComponent);
+  readonly gridDrags = viewChildren(CdkDrag);
+  readonly grid = viewChild.required<ElementRef<HTMLElement>>('grid');
+  readonly gridMenu = viewChild.required<DropdownMenuComponent>('gridMenu');
+  readonly pager = viewChild.required<PagerComponent>('pager');
   items: LdapEntryNode[] = [];
   alignItems = true;
   page = new Page();
@@ -72,7 +71,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       .pipe(take(1))
       .subscribe((rows) => {
         this.items = rows;
-        this.pager.updatePager();
+        this.pager().updatePager();
         this.cdr.detectChanges();
       });
   }
@@ -90,7 +89,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   onPageChanged(page: Page) {}
 
   resetItems() {
-    this.gridDrags.forEach((x) => {
+    this.gridDrags().forEach((x) => {
       x.reset();
       x.getRootElement().style.gridArea = '';
     });
@@ -98,8 +97,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
 
   showGridContextMenu(event: MouseEvent) {
     event.preventDefault();
-    this.gridMenu.setPosition(event.x, event.y);
-    this.gridMenu.toggle();
+    this.gridMenu().setPosition(event.x, event.y);
+    this.gridMenu().toggle();
   }
 
   drop(event: CdkDragDrop<LdapEntryNode[]>) {
@@ -115,8 +114,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     const cellWidth = 64 + 8;
     const cellHeight = 64 + 8;
 
-    const offsetLeft = this.grid.nativeElement.offsetLeft;
-    const offsetTop = this.grid.nativeElement.offsetTop;
+    const offsetLeft = this.grid().nativeElement.offsetLeft;
+    const offsetTop = this.grid().nativeElement.offsetTop;
 
     let gridXPos = Math.floor((pos.x - offsetLeft) / cellWidth) + 1;
     let gridYPos = Math.floor((pos.y - offsetTop) / cellHeight) + 1;
@@ -132,7 +131,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   }
 
   isCellOccupied(xPos: number, yPos: number) {
-    return this.gridDrags.some((x) => {
+    return this.gridDrags().some((x) => {
       const el = x.getRootElement();
       if (!el.style.gridArea) {
         return false;

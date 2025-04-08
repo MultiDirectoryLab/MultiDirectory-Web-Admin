@@ -1,12 +1,11 @@
 import {
   AfterViewInit,
   Component,
+  inject,
   Input,
   OnDestroy,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  inject,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { AbstractControl, FormsModule } from '@angular/forms';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -38,11 +37,10 @@ import { Subject, take, takeUntil } from 'rxjs';
   ],
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
-  setup = inject(UserCreateService);
   private ldapLoader = inject(LdapEntryLoader);
-
-  @ViewChild('form') form!: MdFormComponent;
-  @ViewChildren(AbstractControl) controls!: QueryList<AbstractControl>;
+  setup = inject(UserCreateService);
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly controls = viewChildren(AbstractControl);
   unsubscribe = new Subject<void>();
   domains: DropdownOption[] = [];
 
@@ -54,16 +52,17 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
 
   @Input() set setupRequest(request: UserCreateRequest) {
     this._setupRequest = request;
-    this.form?.inputs.forEach((x) => x.reset());
+    this.form()?.inputs.forEach((x) => x.reset());
   }
 
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
+    const form = this.form();
+    this.setup.stepValid(form.valid);
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
+      this.form().validate();
     });
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.setup.stepValid(this.form.valid);
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.setup.stepValid(this.form().valid);
     });
     this.ldapLoader
       .get()
@@ -81,7 +80,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.form.inputs.forEach((x) => x.reset());
+    this.form().inputs.forEach((x) => x.reset());
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

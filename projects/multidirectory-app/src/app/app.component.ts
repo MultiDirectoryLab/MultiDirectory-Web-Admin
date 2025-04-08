@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
@@ -26,19 +26,18 @@ export class AppComponent implements OnInit, OnDestroy {
   private windows = inject(AppWindowsService);
   private app = inject(AppSettingsService);
   private download = inject(DownloadService);
-
+  private unsubscribe = new Subject<void>();
   title = 'multidirectory-app';
   darkMode = false;
-  @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
-  @ViewChild('downloadData') downloadComponent!: DownloadComponent;
-  private unsubscribe = new Subject<void>();
+  readonly spinner = viewChild.required<SpinnerComponent>('spinner');
+  readonly downloadComponent = viewChild.required<DownloadComponent>('downloadData');
 
   ngOnInit(): void {
     this.windows.globalSpinnerRx.pipe(takeUntil(this.unsubscribe)).subscribe((show) => {
       if (show) {
-        this.spinner.show();
+        this.spinner().show();
       } else {
-        this.spinner.hide();
+        this.spinner().hide();
       }
     });
 
@@ -47,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.download.downlaodDictRx.pipe(takeUntil(this.unsubscribe)).subscribe(([data, name]) => {
-      this.downloadComponent.downloadDict(data, name);
+      this.downloadComponent().downloadDict(data, name);
     });
   }
 

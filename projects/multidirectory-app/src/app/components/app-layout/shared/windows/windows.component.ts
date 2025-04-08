@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { EntityType } from '@core/entities/entities-type';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -68,29 +68,29 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   private attributeService = inject(AttributeService);
   private app = inject(AppSettingsService);
   private api = inject(MultidirectoryApiService);
-
-  @ViewChild('createUserModal', { static: true }) createUserModal!: ModalInjectDirective;
-  @ViewChild('createGroupModal', { static: true }) createGroupModal!: ModalInjectDirective;
-  @ViewChild('createOuModal', { static: true }) createOuModal!: ModalInjectDirective;
-  @ViewChild('createRuleModal', { static: true }) createRuleModal!: ModalInjectDirective;
-  @ViewChild('createComputerModal', { static: true }) createComputerModal!: ModalInjectDirective;
-  @ViewChild('createCatalogModal', { static: true }) createCatalogModal!: ModalInjectDirective;
-  @ViewChild('properties') properties!: ModalInjectDirective;
-  @ViewChild('changePasswordModal') changePasswordModal!: ModalInjectDirective;
-  @ViewChild('deleteConfirmationModal') deleteConfirmationModal!: ModalInjectDirective;
-  @ViewChild('modifyDnModal') modifyDnModal!: ModalInjectDirective;
-  @ViewChild('entityTypeSelectorModal') entityTypeSelectorModal!: ModalInjectDirective;
-  @ViewChild('entitySelectorModal') entitySelectorModal!: ModalInjectDirective;
-  @ViewChild('catalogSelectorModal') catalogSelectorModal!: ModalInjectDirective;
-  @ViewChild('moveEntityDialog') moveEntityDialog!: ModalInjectDirective;
-  @ViewChild('confirmDialog') confirmDialog!: ModalInjectDirective;
-  @ViewChild('addPrincipalDialog') addPrincipalDialog!: ModalInjectDirective;
-  @ViewChild('setupKerberosDialog') setupKerberosDialog!: ModalInjectDirective;
-  @ViewChild('dnsRuleDialog') dnsRuleDialog!: ModalInjectDirective;
-  @ViewChild('dnsSetupDialog') dnsSetupDialog!: ModalInjectDirective;
-  @ViewChild('propertyEditor', { static: true }) attributeEditor!: ModalInjectDirective;
-
   private unsubscribe = new Subject<void>();
+  readonly createUserModal = viewChild.required<ModalInjectDirective>('createUserModal');
+  readonly createGroupModal = viewChild.required<ModalInjectDirective>('createGroupModal');
+  readonly createOuModal = viewChild.required<ModalInjectDirective>('createOuModal');
+  readonly createRuleModal = viewChild.required<ModalInjectDirective>('createRuleModal');
+  readonly createComputerModal = viewChild.required<ModalInjectDirective>('createComputerModal');
+  readonly createCatalogModal = viewChild.required<ModalInjectDirective>('createCatalogModal');
+  readonly properties = viewChild.required<ModalInjectDirective>('properties');
+  readonly changePasswordModal = viewChild.required<ModalInjectDirective>('changePasswordModal');
+  readonly deleteConfirmationModal =
+    viewChild.required<ModalInjectDirective>('deleteConfirmationModal');
+  readonly modifyDnModal = viewChild.required<ModalInjectDirective>('modifyDnModal');
+  readonly entityTypeSelectorModal =
+    viewChild.required<ModalInjectDirective>('entityTypeSelectorModal');
+  readonly entitySelectorModal = viewChild.required<ModalInjectDirective>('entitySelectorModal');
+  readonly catalogSelectorModal = viewChild.required<ModalInjectDirective>('catalogSelectorModal');
+  readonly moveEntityDialog = viewChild.required<ModalInjectDirective>('moveEntityDialog');
+  readonly confirmDialog = viewChild.required<ModalInjectDirective>('confirmDialog');
+  readonly addPrincipalDialog = viewChild.required<ModalInjectDirective>('addPrincipalDialog');
+  readonly setupKerberosDialog = viewChild.required<ModalInjectDirective>('setupKerberosDialog');
+  readonly dnsRuleDialog = viewChild.required<ModalInjectDirective>('dnsRuleDialog');
+  readonly dnsSetupDialog = viewChild.required<ModalInjectDirective>('dnsSetupDialog');
+  readonly attributeEditor = viewChild.required<ModalInjectDirective>('propertyEditor');
 
   ngAfterViewInit(): void {
     this.ldapWindows.openEntityPropertiesModalRx
@@ -216,7 +216,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
             entity,
             new LdapAttributes(attributes),
           );
-          return this.properties.open(
+          return this.properties().open(
             { width: '600px', minHeight: 660 },
             { accessor: accessor, entityType: entity.type },
           );
@@ -239,7 +239,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
       }
       entity = this.app.userEntry;
     }
-    this.changePasswordModal
+    this.changePasswordModal()
       ?.open(
         { minHeight: 220 },
         {
@@ -252,7 +252,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateUser(parentDn: string) {
-    this.createUserModal
+    this.createUserModal()
       .open({ width: '580px', minHeight: 564 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -261,7 +261,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateGroup(parentDn: string) {
-    this.createGroupModal
+    this.createGroupModal()
       .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -270,7 +270,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateOu(parentDn: string) {
-    this.createOuModal
+    this.createOuModal()
       .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -279,7 +279,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateRule(parentDn: string) {
-    this.createRuleModal
+    this.createRuleModal()
       .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -288,7 +288,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateCatalog(parentDn: string) {
-    this.createCatalogModal
+    this.createCatalogModal()
       .open({ width: '580px', minHeight: 485 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -297,7 +297,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCreateComputer(parentDn: string) {
-    this.createComputerModal
+    this.createComputerModal()
       .open({ width: '580px', minHeight: 525 }, { parentDn: parentDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -306,7 +306,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openDeleteRowsConfirmation(toDeleteDNs: string[]) {
-    this.deleteConfirmationModal
+    this.deleteConfirmationModal()
       .open({ width: '580px' }, { toDeleteDNs: toDeleteDNs })
       .pipe(take(1))
       .subscribe((x) => {
@@ -315,7 +315,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openModifyDn(toModifyDn: string) {
-    this.modifyDnModal
+    this.modifyDnModal()
       .open({ width: '580px' }, { toModifyDn: toModifyDn })
       .pipe(take(1))
       .subscribe((x) => {
@@ -324,7 +324,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openEntityTypeSelector(selectedEntityTypes: EntityType[] = []) {
-    this.entityTypeSelectorModal
+    this.entityTypeSelectorModal()
       .open({ width: '580px', minHeight: 360 }, { selectedEntityTypes: selectedEntityTypes })
       .pipe(take(1))
       .subscribe((result) => {
@@ -333,7 +333,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openEntitySelector(settings: EntitySelectorSettings) {
-    this.entitySelectorModal
+    this.entitySelectorModal()
       .open({ minHeight: 360 }, { settings: settings })
       .pipe(take(1))
       .subscribe((result) => {
@@ -342,7 +342,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCatalogSelector(selectedCatalog: LdapEntryNode[] = []) {
-    this.catalogSelectorModal
+    this.catalogSelectorModal()
       .open({ minHeight: 360 })
       .pipe(take(1))
       .subscribe((result) => {
@@ -351,7 +351,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openCopyEntityDialog(entities: LdapEntryNode[]) {
-    this.moveEntityDialog
+    this.moveEntityDialog()
       .open({ minHeight: 230 }, { toMove: entities })
       .pipe(take(1))
       .subscribe((result) => {
@@ -360,7 +360,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openConfirmDialog(prompt: ConfirmDialogDescriptor) {
-    this.confirmDialog
+    this.confirmDialog()
       .open({ minHeight: 160 }, { prompt: prompt })
       .pipe(take(1))
       .subscribe((result) => {
@@ -369,7 +369,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openAddPrincipalDialog() {
-    this.addPrincipalDialog
+    this.addPrincipalDialog()
       .open({ minHeight: 360 }, {})
       .pipe(take(1))
       .subscribe((result) => {
@@ -378,7 +378,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openSetupKerberosDialog() {
-    this.setupKerberosDialog
+    this.setupKerberosDialog()
       .open({ minHeight: 400 }, {})
       .pipe(take(1))
       .subscribe((result) => {
@@ -387,7 +387,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openDnsRuleDialog(dnsRule: DnsRule, editMode: boolean = false) {
-    this.dnsRuleDialog
+    this.dnsRuleDialog()
       .open({ minHeight: 360 }, { dnsRule: dnsRule, editMode: editMode })
       .pipe(take(1))
       .subscribe((result) => {
@@ -396,7 +396,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openDnsSetupDialog(dnsSetupRequest: DnsSetupRequest) {
-    this.dnsSetupDialog
+    this.dnsSetupDialog()
       .open({ minHeight: 460 }, { dnsSetupRequest: dnsSetupRequest })
       .pipe(take(1))
       .subscribe((result) => {
@@ -405,7 +405,7 @@ export class WindowsComponent implements AfterViewInit, OnDestroy {
   }
 
   openEditPropertyDialog(editPropertyRequest: EditPropertyRequest) {
-    this.attributeEditor
+    this.attributeEditor()
       .open({}, editPropertyRequest)
       .pipe(take(1))
       .subscribe((result) => {

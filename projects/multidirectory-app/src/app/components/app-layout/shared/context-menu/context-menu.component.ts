@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
@@ -32,19 +32,18 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
   private bulk = inject<BulkService<LdapEntryNode>>(BulkService);
   private getAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
-
-  @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
+  private unsubscribe = new Subject<void>();
+  readonly contextMenuRef = viewChild.required<DropdownMenuComponent>('contextMenu');
   LdapEntryType = LdapEntryType;
   entries: LdapEntryNode[] = [];
   accountEnabled = false;
-  private unsubscribe = new Subject<void>();
 
   ngAfterViewInit(): void {
     this.contextMenuService.contextMenuOnNodeRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.entries = x.entries;
       this.setAccountEnabled();
-      this.contextMenuRef.setPosition(x.openX, x.openY);
-      this.contextMenuRef.open();
+      this.contextMenuRef().setPosition(x.openX, x.openY);
+      this.contextMenuRef().open();
     });
   }
 

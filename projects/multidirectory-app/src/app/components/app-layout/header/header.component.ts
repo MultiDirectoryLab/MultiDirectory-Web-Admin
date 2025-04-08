@@ -5,7 +5,7 @@ import {
   inject,
   OnDestroy,
   output,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -60,8 +60,8 @@ export class HeaderComponent implements OnDestroy {
   readonly accountSettingsClicked = output<void>();
   readonly logoutClick = output<void>();
 
-  @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef;
-  @ViewChild('notifications', { read: MdSlideshiftComponent }) slideshift!: MdSlideshiftComponent;
+  readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
+  readonly slideshift = viewChild.required('notifications', { read: MdSlideshiftComponent });
   showNotifications = false;
   unsubscribe = new Subject<boolean>();
   navigationalPanelInvisible = false;
@@ -153,7 +153,7 @@ export class HeaderComponent implements OnDestroy {
       new Hotkey(
         'ctrl+f',
         (): boolean => {
-          this.searchBtn?.nativeElement.click();
+          this.searchBtn()?.nativeElement.click();
           return false;
         },
         undefined,

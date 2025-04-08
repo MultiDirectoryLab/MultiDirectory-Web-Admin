@@ -100,7 +100,7 @@ xdescribe('AccessPolicyViewComponent', () => {
     });
 
     it('should open IP list editor modal', () => {
-      const modalSpy = spyOn(component.ipListEditor, 'open').and.returnValue(
+      const modalSpy = spyOn(component.ipListEditor(), 'open').and.returnValue(
         of(['192.168.1.1', new IpRange({ start: '192.168.1.2', end: '192.168.1.10' })]),
       );
 

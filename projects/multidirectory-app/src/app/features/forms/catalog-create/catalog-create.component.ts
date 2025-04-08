@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -31,19 +31,20 @@ import { Subject, takeUntil } from 'rxjs';
 export class CatalogCreateComponent implements OnInit, OnDestroy {
   private api = inject(MultidirectoryApiService);
   private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
-
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
+  private _unsubscribe = new Subject<void>();
+  readonly form = viewChild.required<MdFormComponent>('form');
   formValid = false;
   parentDn = '';
   description = '';
   catalogName = '';
-  private _unsubscribe = new Subject<void>();
 
   ngOnInit(): void {
-    this.formValid = this.form.valid;
-    this.form.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this.formValid = this.form().valid;
+    this.form()
+      .onValidChanges.pipe(takeUntil(this._unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
     this.parentDn = this.modalInejctor.contentOptions?.['parentDn'] ?? '';
   }
 

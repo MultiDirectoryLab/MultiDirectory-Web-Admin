@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, output, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, output, viewChild } from '@angular/core';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
 import { UserCreatePasswordSettingsComponent } from '@features/forms/user-create/password-settings/password-settings.component';
@@ -39,7 +39,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
 
   readonly onCreate = output<void>();
-  @ViewChild('createUserStepper') stepper!: StepperComponent;
+  readonly stepper = viewChild.required<StepperComponent>('createUserStepper');
   setupRequest = new UserCreateRequest();
   unsubscribe = new Subject<void>();
   formValid = false;
@@ -140,6 +140,6 @@ export class UserCreateComponent implements OnInit, OnDestroy {
       this.toastr.error(translate('please-check-errors'));
       return;
     }
-    this.stepper.next();
+    this.stepper().next();
   }
 }

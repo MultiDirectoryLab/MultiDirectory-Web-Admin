@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordPolicyCreateComponent } from '@features/password-policy/password-policy-create/password-policy-create.component';
@@ -19,7 +19,7 @@ export class PasswordPolicyListComponent implements OnInit {
   private router = inject(Router);
   private windows = inject(AppWindowsService);
 
-  @ViewChild('modalInject') appCratePolicyModal?: ModalInjectDirective;
+  readonly appCratePolicyModal = viewChild(ModalInjectDirective);
 
   properties: any[] = [];
 
@@ -51,6 +51,6 @@ export class PasswordPolicyListComponent implements OnInit {
   }
 
   onAddClick() {
-    this.appCratePolicyModal?.open({});
+    this.appCratePolicyModal()?.open({});
   }
 }

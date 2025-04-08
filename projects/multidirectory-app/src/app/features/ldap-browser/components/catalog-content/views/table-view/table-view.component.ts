@@ -4,11 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   forwardRef,
+  inject,
   Input,
   OnDestroy,
   TemplateRef,
-  ViewChild,
-  inject,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -75,9 +75,9 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   private api = inject(MultidirectoryApiService);
   private getAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
-
-  @ViewChild('grid', { static: true }) grid!: DatagridComponent;
-  @ViewChild('iconTemplate', { static: true }) iconColumn!: TemplateRef<HTMLElement>;
+  private _dn = '';
+  readonly grid = viewChild.required<DatagridComponent>('grid');
+  readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
   page = new Page();
   columns: TableColumn[] = [];
   rows: TableRow[] = [];
@@ -95,7 +95,6 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     { title: '100', value: 100 },
   ];
   accountEnabledToggleEnabled = false;
-  private _dn = '';
 
   private _searchQuery = '';
 
@@ -116,7 +115,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
   set checkAllCheckbox(value: boolean) {
     this._checkAllCheckbox = value;
-    this.grid.toggleSelectedAll(value);
+    this.grid().toggleSelectedAll(value);
   }
 
   private _accountEnabledToggle = false;
@@ -137,7 +136,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     this.columns = [
       {
         name: translate('table-view.name-column'),
-        cellTemplate: this.iconColumn,
+        cellTemplate: this.iconColumn(),
         flexGrow: 1,
         checkboxable: true,
         comparator: (
@@ -194,18 +193,19 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
               status: node.entry ? EntityInfoResolver.getNodeStatus(node) : '',
             },
         );
-        this.grid.page.totalElements = this.rows.length;
+        const grid = this.grid();
+        grid.page.totalElements = this.rows.length;
         this.rows = this.rows.slice(
           this.page.pageOffset * this.page.size,
           this.page.pageOffset * this.page.size + this.page.size,
         );
 
-        if (this.grid.selected?.length > 0) {
-          const selected = this.grid.selected.map((x) => x.entry.id);
-          this.grid.selected = [];
+        if (grid.selected?.length > 0) {
+          const selected = grid.selected.map((x) => x.entry.id);
+          grid.selected = [];
           this.rows.forEach((row) => {
             if (selected.includes(row.entry.id)) {
-              this.grid.selected.push(row);
+              this.grid().selected.push(row);
             }
           });
         } else {
@@ -222,14 +222,14 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   }
 
   override getSelected(): LdapEntryNode[] {
-    return this.grid.selected.map((x) => x.entry);
+    return this.grid().selected.map((x) => x.entry);
   }
 
   override setSelected(selected: LdapEntryNode[]) {
     if (!this.rows || this.rows.length == 0 || !selected) {
       return;
     }
-    this.grid.selected = this.rows.filter(
+    this.grid().selected = this.rows.filter(
       (x) => selected.findIndex((y) => y.id == x.entry.id) > -1,
     );
     //this.navigation.setSelection(selected);
@@ -254,7 +254,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   }
 
   onRowSelect(event: any) {
-    this.showControlPanel = this.grid.selected.length > 0;
+    this.showControlPanel = this.grid().selected.length > 0;
     this.cdr.detectChanges();
     this._checkAllCheckbox = false;
     this.setAccountEnabledToggle();
@@ -264,12 +264,12 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
     event.preventDefault();
     event.stopPropagation();
     this.windows
-      .openDeleteEntryConfirmation(this.grid.selected.map((x) => x.entry.id))
+      .openDeleteEntryConfirmation(this.grid().selected.map((x) => x.entry.id))
       .pipe(take(1))
       .subscribe((confirmed) => {
         if (confirmed) {
           concat(
-            ...this.grid.selected.map((x) =>
+            ...this.grid().selected.map((x) =>
               this.api.delete(
                 new DeleteEntryRequest({
                   entry: (<any>x.entry).id,
@@ -285,12 +285,16 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
   toggleSelected(enabled: boolean) {
     const toChange = this.bulkService
-      .create(this.grid.selected.map((x) => x.entry))
+      .create(this.grid().selected.map((x) => x.entry))
       .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy());
 
     const changed =
-      '<ul>' + this.grid.selected.map((x) => `<li>${x.entry.id}</li>`).join('') + '</ul>';
+      '<ul>' +
+      this.grid()
+        .selected.map((x) => `<li>${x.entry.id}</li>`)
+        .join('') +
+      '</ul>';
 
     toChange
       .mutate<LdapAttributes>(new ToggleAccountDisableStrategy(enabled))
@@ -323,7 +327,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
   }
 
   setAccountEnabledToggle() {
-    const selected = this.grid.selected.map((x) => x.entry);
+    const selected = this.grid().selected.map((x) => x.entry);
     this.bulkService
       .create(selected)
       .mutate<LdapAttributes>(this.getAccessorStrategy)

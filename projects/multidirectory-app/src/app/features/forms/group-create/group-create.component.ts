@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
@@ -40,17 +40,18 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
   private api = inject(MultidirectoryApiService);
   private toastr = inject(ToastrService);
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
-
+  private readonly _form = viewChild.required<MdFormComponent>('groupForm');
+  private _unsubscribe = new Subject<boolean>();
   setupRequest = new GroupCreateRequest();
   formValid: boolean = false;
   parentDn = '';
-  @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
-  private _unsubscribe = new Subject<boolean>();
 
   ngOnInit(): void {
-    this._form?.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this._form()
+      ?.onValidChanges.pipe(takeUntil(this._unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
     this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
   }
 
@@ -69,7 +70,7 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
     event.preventDefault();
     if (!this.formValid) {
       this.toastr.error(translate('please-check-errors'));
-      this._form.validate();
+      this._form().validate();
       return;
     }
     this.modalControl?.modal?.showSpinner();

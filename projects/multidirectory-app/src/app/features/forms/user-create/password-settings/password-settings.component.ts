@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
@@ -38,7 +38,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
   setup = inject(UserCreateService);
 
-  @ViewChild('form') form!: MdFormComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
   unsubscribe = new Subject<void>();
 
   private _setupRequest!: UserCreateRequest;
@@ -49,7 +49,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   @Input() set setupRequest(request: UserCreateRequest) {
     this._setupRequest = request;
-    this.form?.inputs.forEach((x) => x.reset());
+    this.form()?.inputs.forEach((x) => x.reset());
   }
 
   get passwordNeverExpires(): boolean {
@@ -114,12 +114,13 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
+    const form = this.form();
+    this.setup.stepValid(form.valid);
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
+      this.form().validate();
     });
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.setup.stepValid(this.form.valid);
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.setup.stepValid(this.form().valid);
     });
 
     this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.NORMAL_ACCOUNT), 1);
@@ -131,6 +132,6 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   checkModel() {
-    this.form.validate();
+    this.form().validate();
   }
 }

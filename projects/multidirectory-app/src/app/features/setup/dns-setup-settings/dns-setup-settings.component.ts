@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, viewChild } from '@angular/core';
 import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup.component';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
@@ -15,7 +15,7 @@ export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
 
   @Input() setupRequest!: SetupRequest;
   unsubscribe = new Subject<void>();
-  @ViewChild('form') form!: DnsSetupComponent;
+  readonly form = viewChild.required<DnsSetupComponent>('form');
 
   private _formValid = false;
 
@@ -32,7 +32,7 @@ export class DnsSetupSettingsComponent implements AfterViewInit, OnDestroy {
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.form.validate();
+        this.form().validate();
       });
   }
 
