@@ -22,7 +22,6 @@ import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handle
 import { PasswordPolicyViolationInterceptor } from '@core/api/error-handling/password-policy-violation-interceptor';
 import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-interceptor';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideTransloco, TranslocoService } from '@jsverse/transloco';
 import { HotkeyModule } from 'angular2-hotkeys';
@@ -41,7 +40,6 @@ export const appConfig: ApplicationConfig = {
       return lastValueFrom(translateService.load('ru-RU'));
     }),
     provideAnimations(),
-    AuthRouteGuard,
     importProvidersFrom(
       BrowserModule,
       DragDropModule,

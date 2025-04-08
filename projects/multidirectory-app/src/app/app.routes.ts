@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
-import { SetupRouteGuard } from '@core/setup/setup-route-guard';
+import { authRouteGuardCanActivateFn } from '@core/authorization/auth-route.can-activate.guard';
+import { setupRouteGuardCanActivateFn } from '@core/setup/setup-route.can-activate.guard';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { FooterComponent } from './components/app-layout/footer/footer.component';
 import { DisplayErrorComponent } from './components/errors/display-error/display-error.component';
@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivate: [AuthRouteGuard],
+    canActivate: [authRouteGuardCanActivateFn],
     children: [
       {
         path: '',
@@ -50,18 +50,18 @@ export const appRoutes: Routes = [
   },
   {
     path: 'setup',
-    canActivate: [SetupRouteGuard],
+    canActivate: [setupRouteGuardCanActivateFn],
     loadChildren: () => import('@features/setup/setup.routes').then((r) => r.setupRoutes),
   },
   {
     path: 'login',
-    canActivate: [SetupRouteGuard, AuthRouteGuard],
+    canActivate: [setupRouteGuardCanActivateFn, authRouteGuardCanActivateFn],
     loadChildren: () => import('@features/login/login.routes').then((r) => r.loginRoutes),
   },
   {
     path: 'settings',
     component: AppLayoutComponent,
-    canActivate: [AuthRouteGuard],
+    canActivate: [authRouteGuardCanActivateFn],
     loadChildren: () =>
       import('@features/settings/app-settings.routes').then((r) => r.appSettingsRoutes),
   },

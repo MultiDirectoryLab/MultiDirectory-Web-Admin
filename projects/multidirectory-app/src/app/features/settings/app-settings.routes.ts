@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthRouteGuard } from '@core/authorization/auth-route-guard';
+import { authRouteGuardCanActivateFn } from '@core/authorization/auth-route.can-activate.guard';
 import { DnsSettingsComponent } from '@features/dns/dns-settings.component';
 import { AboutComponent } from '@features/settings/about/about.component';
 import { KerberosPrincipalsComponent } from '@features/settings/kerberos-principals/kerberos-principals.component';
@@ -18,7 +18,7 @@ export const appSettingsRoutes: Routes = [
   {
     path: 'multifactor',
     component: MultifactorSettingsComponent,
-    canActivate: [AuthRouteGuard],
+    canActivate: [authRouteGuardCanActivateFn],
   },
   {
     path: 'about',
