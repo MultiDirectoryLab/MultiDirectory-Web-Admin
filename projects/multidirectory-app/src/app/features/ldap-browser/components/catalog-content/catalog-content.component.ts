@@ -1,54 +1,67 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { translate } from '@jsverse/transloco';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
-import { DropdownMenuComponent, ModalInjectDirective, Page } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { NgStyle } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { IconViewComponent } from '@features/ldap-browser/components/catalog-content/views/icon-view/icon-view.component';
+import { TableViewComponent } from '@features/ldap-browser/components/catalog-content/views/table-view/table-view.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DeleteEntryRequest } from '@models/entry/delete-request';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
+import { ContextMenuService } from '@services/contextmenu.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Subject, concat, take, takeUntil } from 'rxjs';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import {
+  ButtonComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdModalComponent,
+  ModalInjectDirective,
+  PlaneButtonComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { concat, Subject, take, takeUntil } from 'rxjs';
 import { ViewMode } from './view-modes';
 import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { ContextMenuService } from '@services/contextmenu.service';
-import { ActivatedRoute } from '@angular/router';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
 
 @Component({
   selector: 'app-catalog-content',
   templateUrl: './catalog-content.component.html',
   styleUrls: ['./catalog-content.component.scss'],
+  imports: [
+    PlaneButtonComponent,
+    DropdownContainerDirective,
+    ButtonComponent,
+    TranslocoPipe,
+    TextboxComponent,
+    NgStyle,
+    TableViewComponent,
+    IconViewComponent,
+    DropdownMenuComponent,
+    MdModalComponent,
+    FormsModule,
+  ],
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
-  @ViewChild('properties', { static: true }) properties?: ModalInjectDirective;
-  @ViewChild(BaseViewComponent) view?: BaseViewComponent;
+  private navigation = inject(AppNavigationService);
+  private cdr = inject(ChangeDetectorRef);
+  private contentView = inject(ContentViewService);
+  private windows = inject(AppWindowsService);
+  private api = inject(MultidirectoryApiService);
+  private contextMenu = inject(ContextMenuService);
+  private hotkeysService = inject(HotkeysService);
+  private activatedRoute = inject(ActivatedRoute);
   private _selectedRows: LdapEntryNode[] = [];
+  readonly properties = viewChild<ModalInjectDirective>('properties');
+  readonly view = viewChild(BaseViewComponent);
   unsubscribe = new Subject<void>();
   LdapEntryType = LdapEntryType;
   ViewMode = ViewMode;
   currentView = this.contentView.contentView;
   searchQuery = '';
-
-  constructor(
-    private navigation: AppNavigationService,
-    private cdr: ChangeDetectorRef,
-    private contentView: ContentViewService,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private contextMenu: ContextMenuService,
-    private hotkeysService: HotkeysService,
-    private activatedRoute: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.hotkeysService.add(
@@ -97,7 +110,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     this.navigation.navigationRx.pipe(takeUntil(this.unsubscribe)).subscribe((e) => {
       this.searchQuery = '';
-      this.view?.updateContent();
+      this.view()?.updateContent();
       this.cdr.detectChanges();
     });
 
@@ -122,7 +135,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         ),
       ),
     ).subscribe((x) => {
-      this.view?.updateContent();
+      this.view()?.updateContent();
     });
   }
 
@@ -131,7 +144,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openEntityProperiesModal(this._selectedRows[0])
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 
@@ -145,7 +158,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateUser(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 
@@ -155,7 +168,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       .openCreateGroup(dn)
       .pipe(take(1))
       .subscribe((x) => {
-        this.view?.updateContent();
+        this.view()?.updateContent();
       });
   }
 

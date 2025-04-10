@@ -2,39 +2,38 @@
   <div class="flex-row flex-gap-10 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
     <md-textbox
-      name="search"
-      [(ngModel)]="searchQuery"
       (ngModelChange)="onFilterChange()"
+      [(ngModel)]="searchQuery"
+      name="search"
     ></md-textbox>
-    <md-button [disabled]="!searchQuery" (click)="onEditClick(searchQuery)">{{
-      'entity-attributes.add' | transloco
-    }}</md-button>
+    <md-button (click)="onEditClick(searchQuery)" [disabled]="!searchQuery"
+      >{{ 'entity-attributes.add' | transloco }}
+    </md-button>
   </div>
   <div class="h-100">
     <md-datagrid
-      #propGrid
-      [rows]="rows"
-      [columns]="propColumns"
-      [scrollbarV]="true"
-      [externalPaging]="true"
-      [page]="page"
-      [stretchHeight]="true"
-      [hideFooter]="true"
       (doubleclick)="onEditClick()"
       (pageChanged)="onPageChanged($event)"
-      pagerTitle="{{ 'grid.pager-title' | transloco }}"
-      fromTitle="{{ 'grid.from-title' | transloco }}"
+      [columns]="propColumns"
+      [externalPaging]="true"
+      [hideFooter]="true"
+      [page]="page"
+      [rows]="rows"
+      [scrollbarV]="true"
+      [stretchHeight]="true"
       emptyMessage="{{ 'grid.no-data' | transloco }}"
+      fromTitle="{{ 'grid.from-title' | transloco }}"
+      pagerTitle="{{ 'grid.pager-title' | transloco }}"
     >
-      <ng-template #dataGridCellTemplate let-value="value" let-isSelected="isSelected">
+      <ng-template #dataGridCellTemplate let-isSelected="isSelected" let-value="value">
         <div class="datatable-body-cell-label body-cell-label">
           <img
-            [ngClass]="['copy-icon', isSelected ? 'active' : '']"
             (click)="onCopyClick(value)"
-            src="./assets/copy.svg"
+            [ngClass]="['copy-icon', isSelected ? 'active' : '']"
             alt="copy"
-            width="12"
             height="12"
+            src="./assets/copy.svg"
+            width="12"
           />
 
           <span [title]="value">{{ value }}</span>
@@ -47,29 +46,29 @@
       <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
       <md-button (click)="onDeleteClick()">{{ 'entity-attributes.delete' | transloco }}</md-button>
     </div>
-    <md-button [mdDropdownContainer]="filterMenu" class="">{{
-      'entity-attributes.filter' | transloco
-    }}</md-button>
+    <md-button [mdDropdownContainer]="filterMenu" class=""
+      >{{ 'entity-attributes.filter' | transloco }}
+    </md-button>
   </div>
 </div>
 
 <md-dropdown-menu #filterMenu>
   <div class="dropdown-item">
     <md-checkbox
-      name="show-with-values-only"
-      id="show-with-values-only"
-      [(ngModel)]="filter.showWithValuesOnly"
       (change)="onFilterChange()"
+      [(ngModel)]="filter.showWithValuesOnly"
+      id="show-with-values-only"
+      name="show-with-values-only"
     >
       {{ 'entity-attributes.with-values-only' | transloco }}
     </md-checkbox>
   </div>
   <div class="dropdown-item">
     <md-checkbox
-      name="show-writable-only"
-      id="show-writable-only"
-      [(ngModel)]="filter.showWritableOnly"
       (change)="onFilterChange()"
+      [(ngModel)]="filter.showWritableOnly"
+      id="show-writable-only"
+      name="show-writable-only"
     >
       {{ 'entity-attributes.writable-only' | transloco }}
     </md-checkbox>
@@ -79,29 +78,29 @@
     {{ 'entity-attributes.show-attributes' | transloco }}
   </label>
   <div class="dropdown-item">
-    <md-checkbox name="mandatory-only" id="mandatory-only" [disabled]="true">
+    <md-checkbox [disabled]="true" id="mandatory-only" name="mandatory-only">
       {{ 'entity-attributes.mandatory' | transloco }}
     </md-checkbox>
   </div>
   <div class="dropdown-item">
-    <md-checkbox name="optional-only" id="optional-only" [disabled]="true">
+    <md-checkbox [disabled]="true" id="optional-only" name="optional-only">
       {{ 'entity-attributes.optional-only' | transloco }}
     </md-checkbox>
   </div>
 
   <label class="filter-label">{{ 'entity-attributes.read-only' | transloco }}</label>
   <div class="dropdown-item">
-    <md-checkbox name="constructed-only" id="constructed-only" [disabled]="true">
+    <md-checkbox [disabled]="true" id="constructed-only" name="constructed-only">
       {{ 'entity-attributes.constructed-only' | transloco }}
     </md-checkbox>
   </div>
   <div class="dropdown-item">
-    <md-checkbox name="backlinks-only" id="backlinks-only" [disabled]="true">
+    <md-checkbox [disabled]="true" id="backlinks-only" name="backlinks-only">
       {{ 'entity-attributes.backlinks-only' | transloco }}
     </md-checkbox>
   </div>
   <div class="dropdown-item">
-    <md-checkbox name="system-only" id="system-only" [disabled]="true">
+    <md-checkbox [disabled]="true" id="system-only" name="system-only">
       {{ 'entity-attributes.system-only' | transloco }}
     </md-checkbox>
   </div>

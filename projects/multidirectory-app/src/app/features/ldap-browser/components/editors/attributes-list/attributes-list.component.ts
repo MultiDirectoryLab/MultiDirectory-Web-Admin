@@ -1,19 +1,13 @@
+import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { Validator } from '@angular/forms';
-import {
-  MdModalComponent,
+  ButtonComponent,
   ModalInjectDirective,
+  TextboxComponent,
   Treenode,
   TreeviewComponent,
 } from 'multidirectory-ui-kit';
-import { Observable, Subject } from 'rxjs';
 
 export class AttributeListEntry extends Treenode {
   type = '';
@@ -29,20 +23,19 @@ export class AttributeListEntry extends Treenode {
   selector: 'app-attribute-list',
   styleUrls: ['./attributes-list.component.scss'],
   templateUrl: './attributes-list.component.html',
+  imports: [TranslocoPipe, TextboxComponent, FormsModule, ButtonComponent, TreeviewComponent],
 })
 export class AttributeListComponent implements OnInit {
-  @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
+  private modalControl = inject(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
+
+  readonly treeview = viewChild.required(TreeviewComponent);
   title = '';
   newAttribute: string = '';
   type: string = '';
   values: string[] = [];
   tree: AttributeListEntry[] = [];
   toDelete: AttributeListEntry[] = [];
-
-  constructor(
-    private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit(): void {
     this.title = this.modalControl.contentOptions.title;
@@ -62,7 +55,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   apply() {
-    const result = this.treeview?.tree.map((x) => x.name ?? '') ?? [];
+    const result = this.treeview().tree.map((x) => x.name ?? '') ?? [];
     this.modalControl.close(result);
   }
 
@@ -71,7 +64,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   addAttribute() {
-    this.treeview?.addRoot(
+    this.treeview().addRoot(
       new AttributeListEntry({
         name: this.newAttribute,
         id: this.newAttribute,

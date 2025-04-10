@@ -9,11 +9,13 @@ import {
   Output,
 } from '@angular/core';
 import { BaseControlComponent } from '../base-component/control.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-plane-button',
   templateUrl: './plane-button.component.html',
   styleUrls: ['./plane-button.component.scss'],
+  imports: [NgClass],
 })
 export class PlaneButtonComponent extends BaseControlComponent implements AfterViewInit, OnDestroy {
   @Input() label = '';

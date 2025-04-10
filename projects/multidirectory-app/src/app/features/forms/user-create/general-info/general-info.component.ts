@@ -1,52 +1,68 @@
 import {
   AfterViewInit,
   Component,
+  inject,
   Input,
   OnDestroy,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  forwardRef,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
-import { Subject, take, takeUntil } from 'rxjs';
-import { AbstractControl } from '@angular/forms';
-import { DropdownOption, MdFormComponent } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { UserCreateService } from '@services/user-create.service';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { AbstractControl, FormsModule } from '@angular/forms';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateService } from '@services/user-create.service';
+import {
+  DropdownComponent,
+  DropdownOption,
+  MdFormComponent,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-create-general-info',
   styleUrls: ['./general-info.component.scss'],
   templateUrl: './general-info.component.html',
+  imports: [
+    TranslocoPipe,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    TextareaComponent,
+    DropdownComponent,
+    MdFormComponent,
+  ],
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
+  private ldapLoader = inject(LdapEntryLoader);
+  setup = inject(UserCreateService);
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly controls = viewChildren(AbstractControl);
+  unsubscribe = new Subject<void>();
+  domains: DropdownOption[] = [];
+
   private _setupRequest!: UserCreateRequest;
-  @Input() set setupRequest(request: UserCreateRequest) {
-    this._setupRequest = request;
-    this.form?.inputs.forEach((x) => x.reset());
-  }
+
   get setupRequest(): UserCreateRequest {
     return this._setupRequest;
   }
 
-  @ViewChild('form') form!: MdFormComponent;
-  @ViewChildren(AbstractControl) controls!: QueryList<AbstractControl>;
+  @Input() set setupRequest(request: UserCreateRequest) {
+    this._setupRequest = request;
+    this.form()?.inputs.forEach((x) => x.reset());
+  }
 
-  unsubscribe = new Subject<void>();
-  domains: DropdownOption[] = [];
-  constructor(
-    public setup: UserCreateService,
-    private ldapLoader: LdapEntryLoader,
-  ) {}
   ngAfterViewInit(): void {
-    this.setup.stepValid(this.form.valid);
+    const form = this.form();
+    this.setup.stepValid(form.valid);
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.form.validate();
+      this.form().validate();
     });
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.setup.stepValid(this.form.valid);
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+      this.setup.stepValid(this.form().valid);
     });
     this.ldapLoader
       .get()
@@ -64,7 +80,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.form.inputs.forEach((x) => x.reset());
+    this.form().inputs.forEach((x) => x.reset());
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }

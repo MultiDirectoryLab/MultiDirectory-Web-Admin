@@ -1,8 +1,15 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { translate } from '@jsverse/transloco';
+import { Component, inject, Input, OnInit, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  TextboxComponent,
+  TooltipComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs';
 
@@ -10,18 +17,26 @@ import { catchError } from 'rxjs';
   selector: 'app-mf-integration-form',
   templateUrl: './mf-integration-form.component.html',
   styleUrls: ['./mf-integration-form.component.scss'],
+  imports: [
+    TranslocoDirective,
+    MdFormComponent,
+    TooltipComponent,
+    TextboxComponent,
+    FormsModule,
+    MfKeyValidatorDirective,
+    ButtonComponent,
+  ],
 })
 export class MfIntegrationFormComponent implements OnInit {
-  @ViewChild('form') form!: MdFormComponent;
+  private api = inject(MultidirectoryApiService);
+  private windows = inject(AppWindowsService);
+  private toastr = inject(ToastrService);
+
+  readonly form = viewChild.required<MdFormComponent>('form');
   @Input() scope: 'ldap' | 'http' = 'http';
   @Input() apiKey: string = '';
   @Input() apiSecret: string = '';
   translocoSection = 'multifactor-settings.mf-admin-integration';
-  constructor(
-    private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
-    private toastr: ToastrService,
-  ) {}
 
   ngOnInit(): void {
     if (this.scope === 'ldap') {
@@ -60,7 +75,7 @@ export class MfIntegrationFormComponent implements OnInit {
       .subscribe(() => {
         this.toastr.success(translate(`${this.translocoSection}.clear-success`));
         this.apiKey = this.apiSecret = '';
-        this.form.inputs.forEach((input) => input.reset());
+        this.form().inputs.forEach((input) => input.reset());
         this.windows.hideSpinner();
       });
   }

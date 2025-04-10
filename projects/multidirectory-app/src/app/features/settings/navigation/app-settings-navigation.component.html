@@ -1,42 +1,42 @@
-<div class="nav" *transloco="let t; read: 'settings-navigation'">
+<div *transloco="let t; prefix: 'settings-navigation'" class="nav">
   <div
+    [ngClass]="{ selected: url.endsWith('multidirectory') || url.endsWith('settings') }"
     class="nav-item"
     routerLink="/settings/"
-    [ngClass]="{ selected: url.endsWith('multidirectory') || url.endsWith('settings') }"
   >
     {{ t('md-settings') }}
   </div>
   <div
-    class="nav-item"
     [ngClass]="{ selected: url.endsWith('multifactor') }"
+    class="nav-item"
     routerLink="/settings/multifactor"
   >
     {{ t('mf-settings') }}
   </div>
 
   <div
-    class="nav-item"
     [ngClass]="{ selected: url.endsWith('about') }"
+    class="nav-item"
     routerLink="/settings/about"
   >
     {{ t('about') }}
   </div>
 
   <div
-    class="nav-item"
     [ngClass]="{ selected: url.endsWith('kdc-principals') }"
+    class="nav-item"
     routerLink="/settings/kdc-principals"
   >
     {{ t('kdc-principals') }}
   </div>
 
-  <div class="nav-item" [ngClass]="{ selected: url.endsWith('dns') }" routerLink="/settings/dns">
+  <div [ngClass]="{ selected: url.endsWith('dns') }" class="nav-item" routerLink="/settings/dns">
     {{ t('dns-settings') }}
   </div>
 
   <div
-    class="nav-item"
     [ngClass]="{ selected: url.endsWith('sessions') }"
+    class="nav-item"
     routerLink="/settings/sessions"
   >
     {{ t('sessions') }}

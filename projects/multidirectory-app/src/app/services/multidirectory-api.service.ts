@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LoginResponse } from '@models/login/login-response';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { Observable, map, of } from 'rxjs';
@@ -39,9 +39,7 @@ import { UserSession } from '@models/sessions/user-session';
   providedIn: 'root',
 })
 export class MultidirectoryApiService {
-  constructor(
-    @Inject('apiAdapter') private httpClient: ApiAdapter<MultidirectoryAdapterSettings>,
-  ) {}
+  private httpClient = inject<ApiAdapter<MultidirectoryAdapterSettings>>('apiAdapter' as any);
 
   login(login: string, password: string): Observable<LoginResponse> {
     const payload = new HttpParams().set('username', login).set('password', password);

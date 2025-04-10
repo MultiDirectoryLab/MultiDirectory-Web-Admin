@@ -2,8 +2,8 @@
   "name": "multidirectory-ui-kit",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0"
+    "@angular/common": "^19.2.5",
+    "@angular/core": "^19.2.5"
   },
   "dependencies": {
     "tslib": "^2.3.0"

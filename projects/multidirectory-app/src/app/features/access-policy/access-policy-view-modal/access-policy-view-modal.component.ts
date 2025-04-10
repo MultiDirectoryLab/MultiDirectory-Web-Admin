@@ -1,21 +1,21 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { AccessPolicyViewComponent } from '../access-policy-view/access-policy-view.component';
 
 @Component({
   selector: 'app-access-policy-view-modal',
   templateUrl: './access-policy-view-modal.component.html',
   styleUrls: ['./access-policy-view-modal.component.scss'],
+  imports: [AccessPolicyViewComponent, TranslocoPipe, ButtonComponent],
 })
 export class AccessPolicyViewModalComponent implements AfterViewInit {
-  @ViewChild('view') view!: AccessPolicyViewComponent;
-  accessClient = new AccessPolicy();
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private cdr = inject(ChangeDetectorRef);
 
-  constructor(
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  readonly view = viewChild.required<AccessPolicyViewComponent>('view');
+  accessClient = new AccessPolicy();
 
   ngAfterViewInit(): void {
     if (this.modalControl.contentOptions.accessPolicy) {
@@ -29,7 +29,7 @@ export class AccessPolicyViewModalComponent implements AfterViewInit {
   }
 
   save() {
-    this.view.flush();
+    this.view().flush();
     this.modalControl.close(this.accessClient);
   }
 }

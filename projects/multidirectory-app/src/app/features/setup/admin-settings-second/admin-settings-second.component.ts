@@ -1,16 +1,20 @@
 import {
   AfterViewInit,
   Component,
+  forwardRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
-  forwardRef,
+  viewChild,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
+import { AutofocusDirective, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-settings-second',
@@ -23,13 +27,21 @@ import { SetupRequestValidatorService } from '@services/setup-request-validator.
       multi: true,
     },
   ],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    AutofocusDirective,
+    FormsModule,
+  ],
 })
 export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() setupRequest!: SetupRequest;
-  @ViewChild('form') form!: MdFormComponent;
-  unsubscribe = new Subject<void>();
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
 
-  constructor(private setupRequestValidatorService: SetupRequestValidatorService) {}
+  @Input() setupRequest!: SetupRequest;
+  readonly form = viewChild.required<MdFormComponent>('form');
+  unsubscribe = new Subject<void>();
 
   ngOnInit(): void {
     const domain = this.setupRequest.domain;
@@ -41,13 +53,14 @@ export class AdminSettingsSecondComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    this.setupRequestValidatorService.stepValid(this.form.valid);
+    const form = this.form();
+    this.setupRequestValidatorService.stepValid(form.valid);
     this.setupRequestValidatorService.invalidateRx
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => {
-        this.form.validate();
+        this.form().validate();
       });
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
       this.setupRequestValidatorService.stepValid(valid);
     });
   }

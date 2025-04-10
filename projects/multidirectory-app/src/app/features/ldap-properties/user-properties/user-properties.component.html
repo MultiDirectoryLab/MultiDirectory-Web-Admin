@@ -1,4 +1,4 @@
-<md-tab-pane class="flex-column h-100" #tabs (tabChanged)="onTabChanged()">
+<md-tab-pane #tabs (tabChanged)="onTabChanged()" class="flex-column h-100">
   <div class="tab-header">
     <md-tab [el]="generals.el" [isSelected]="true">
       {{ 'user-properties-tabs.general' | transloco }}
@@ -19,23 +19,10 @@
       {{ 'user-properties-tabs.groups' | transloco }}
     </md-tab>
   </div>
-  <app-user-properties-general
-    mdTab
-    #generals="mdTab"
-    [accessor]="accessor"
-  ></app-user-properties-general>
-  <app-entity-attributes
-    [accessor]="accessor"
-    class="block h-100"
-    mdTab
-    #attributes="mdTab"
-  ></app-entity-attributes>
-  <app-user-properties-address mdTab #address="mdTab"></app-user-properties-address>
-  <app-user-properties-profile
-    mdTab
-    #profile="mdTab"
-    [accessor]="accessor"
-  ></app-user-properties-profile>
-  <app-user-properties-account mdTab #account="mdTab"></app-user-properties-account>
-  <app-member-of mdTab #memberOf="mdTab" [accessor]="accessor"></app-member-of>
+  <app-user-properties-general #generals="mdTab" [accessor]="accessor()" mdTab />
+  <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-100" mdTab />
+  <app-user-properties-address #address="mdTab" mdTab />
+  <app-user-properties-profile #profile="mdTab" [accessor]="accessor()" mdTab />
+  <app-user-properties-account #account="mdTab" mdTab />
+  <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab />
 </md-tab-pane>

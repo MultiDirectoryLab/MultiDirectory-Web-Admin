@@ -42,15 +42,18 @@ import { PopupBaseComponent } from './components/popup/base/popup-base.component
 import { PopupTestComponent } from './components/popup/popuptest/popuptest.component';
 import { PopupContainerDirective } from './components/popup/popup-container.directive';
 import { PopupSuggestComponent } from './components/popup/suggest/popup-suggest.component';
-import { MdModalModule } from './components/modal/modal.module';
-import { MdSpinnerModule } from './components/spinner/spinner.module';
-import { MdPortalModule } from './components/portal/portal.module';
 import { SlideshiftTestComponent } from './components/slideshift/slideshifttest.component';
-import { MdSlideshiftModule } from './components/slideshift/slideshift.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxDatatableModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    DpDatePickerModule,
+    FontAwesomeModule,
     ButtonComponent,
     TextboxComponent,
     TextareaComponent,
@@ -88,19 +91,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     PopupContainerDirective,
     PopupSuggestComponent,
     SlideshiftTestComponent,
-  ],
-  imports: [
-    CommonModule,
-    MdPortalModule,
-    MdModalModule,
-    MdSlideshiftModule,
-    MdSpinnerModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    DpDatePickerModule,
-    FontAwesomeModule,
+    SpinnerComponent,
+    SpinnerHostDirective,
   ],
   exports: [
     ButtonComponent,
@@ -134,10 +126,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AutofocusDirective,
     PopupContainerDirective,
     PopupSuggestComponent,
-    MdPortalModule,
-    MdModalModule,
-    MdSpinnerModule,
-    MdSlideshiftModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

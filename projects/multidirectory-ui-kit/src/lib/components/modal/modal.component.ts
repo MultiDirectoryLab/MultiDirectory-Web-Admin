@@ -21,6 +21,9 @@ import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
 import { ResizableEvent } from './ng-modal-lib/lib/resizable/types';
 import { MdModalService } from './modal.service';
 import { BaseControlComponent } from '../base-component/control.component';
+import { ResizableDirective } from './ng-modal-lib/lib/resizable/resizable.directive';
+import { NgClass, NgStyle } from '@angular/common';
+import { DraggableDirective } from './ng-modal-lib/lib/draggable/draggable.directive';
 
 @Component({
   selector: 'md-modal',
@@ -28,6 +31,7 @@ import { BaseControlComponent } from '../base-component/control.component';
   styleUrls: ['./modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  imports: [SpinnerHostDirective, ResizableDirective, NgStyle, DraggableDirective, NgClass],
 })
 export class MdModalComponent extends BaseControlComponent implements OnInit, AfterViewChecked {
   override __ID = IdProvider.getUniqueId('modal');

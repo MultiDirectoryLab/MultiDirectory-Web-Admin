@@ -1,21 +1,25 @@
+import { NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
   ElementRef,
-  Inject,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
+  viewChild,
 } from '@angular/core';
-import { translate } from '@jsverse/transloco';
+import { FormsModule } from '@angular/forms';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { Subject, fromEvent, take, takeUntil } from 'rxjs';
+import {
+  ButtonComponent,
+  ModalInjectDirective,
+  PlaneButtonComponent,
+  RadiobuttonComponent,
+  RadioGroupComponent,
+} from 'multidirectory-ui-kit';
+import { fromEvent, Subject, take } from 'rxjs';
 
 export class LogonMapDay {
   id: number | null = null;
@@ -25,10 +29,12 @@ export class LogonMapDay {
     Object.assign(this, obj);
   }
 }
+
 export class LogonDayState {
   day: number = -1;
   hour: number = -1;
   allowed: number = 0;
+
   constructor(obj: Partial<LogonDayState>) {
     Object.assign(this, obj);
   }
@@ -38,10 +44,22 @@ export class LogonDayState {
   selector: 'app-logon-time-editor',
   styleUrls: ['./logon-time-editor.component.scss'],
   templateUrl: './logon-time-editor.component.html',
+  imports: [
+    TranslocoPipe,
+    PlaneButtonComponent,
+    NgClass,
+    RadioGroupComponent,
+    FormsModule,
+    RadiobuttonComponent,
+    ButtonComponent,
+  ],
 })
 export class LogonTimeEditorComponent implements OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private _unsubscribe = new Subject<void>();
   username = '';
-  @ViewChild('logonMap', { static: true }) logonMap!: ElementRef<HTMLDivElement>;
+  readonly logonMap = viewChild.required<ElementRef<HTMLDivElement>>('logonMap');
   daysOfWeek: LogonMapDay[] = [
     { id: null, title: translate('logon-time-editor.every') },
     { id: 0, title: translate('logon-time-editor.monday') },
@@ -61,13 +79,41 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   selectionInProgress = false;
   currentSelectionStatus: boolean | null = null;
   selectedDaysState: LogonDayState[] = [];
-  private _selectionAllowance: number | null = null;
-  private _unsubscribe = new Subject<void>();
+  fromDescription: string[] = [
+    translate('logon-time-editor.from-monday'),
+    translate('logon-time-editor.from-tuesday'),
+    translate('logon-time-editor.from-wednesday'),
+    translate('logon-time-editor.from-thursday'),
+    translate('logon-time-editor.from-friday'),
+    translate('logon-time-editor.from-saturday'),
+    translate('logon-time-editor.from-sunday'),
+    translate('logon-time-editor.to-monday'),
+    translate('logon-time-editor.to-tuesday'),
+    translate('logon-time-editor.to-wednesday'),
+    translate('logon-time-editor.to-thursday'),
+    translate('logon-time-editor.to-friday'),
+    translate('logon-time-editor.to-saturday'),
+    translate('logon-time-editor.to-sunday'),
+  ];
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
+  private _selectionAllowance: number | null = null;
+
+  get selectionAllowance(): number | null {
+    return this._selectionAllowance;
+  }
+
+  @Input() set selectionAllowance(state: number | null) {
+    this.selectedDaysState.forEach((x) => {
+      this.setDayBit(x.day, x.hour, state);
+    });
+    this.selectDayStarted = -1;
+    this.selectHourStarted = -1;
+    this.selectDayCurrent = -1;
+    this.selectHourCurrent = -1;
+    this._selectionAllowance = null;
+    this.selectedDaysState = [];
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     if (!!this.modalControl?.contentOptions?.logonHours) {
@@ -114,6 +160,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
     this.selectHourCurrent = this.hours.length;
     this.finishSelection();
   }
+
   onDaySelectAll($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -132,22 +179,6 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
     this.finishSelection();
   }
 
-  @Input() set selectionAllowance(state: number | null) {
-    this.selectedDaysState.forEach((x) => {
-      this.setDayBit(x.day, x.hour, state);
-    });
-    this.selectDayStarted = -1;
-    this.selectHourStarted = -1;
-    this.selectDayCurrent = -1;
-    this.selectHourCurrent = -1;
-    this._selectionAllowance = null;
-    this.selectedDaysState = [];
-    this.cdr.detectChanges();
-  }
-  get selectionAllowance(): number | null {
-    return this._selectionAllowance;
-  }
-
   onSelectStarted($event: MouseEvent, day: LogonMapDay, hour: number) {
     this.selectDayStarted = day.id ?? -1;
     this.selectHourStarted = hour;
@@ -164,7 +195,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
   finishSelection() {
     this.selectionInProgress = false;
     this.cdr.detectChanges();
-    const selectedElements = this.logonMap.nativeElement.querySelectorAll('.logon-selected');
+    const selectedElements = this.logonMap().nativeElement.querySelectorAll('.logon-selected');
     this.selectedDaysState = Array.from(selectedElements).map((x) => {
       let day = Number(x.getAttribute('data-day'));
       let hour = Number(x.getAttribute('data-hour'));
@@ -224,6 +255,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
       hour <= Math.max(this.selectHourCurrent, this.selectHourStarted)
     );
   }
+
   isSelectionColumnStart(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
@@ -235,6 +267,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
       dayId <= Math.max(this.selectDayCurrent, this.selectDayStarted)
     );
   }
+
   isSelectionColumnEnd(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
@@ -246,6 +279,7 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
       dayId <= Math.max(this.selectDayCurrent, this.selectDayStarted)
     );
   }
+
   isSelectionRowEnd(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
@@ -257,22 +291,6 @@ export class LogonTimeEditorComponent implements OnInit, OnDestroy {
     );
   }
 
-  fromDescription: string[] = [
-    translate('logon-time-editor.from-monday'),
-    translate('logon-time-editor.from-tuesday'),
-    translate('logon-time-editor.from-wednesday'),
-    translate('logon-time-editor.from-thursday'),
-    translate('logon-time-editor.from-friday'),
-    translate('logon-time-editor.from-saturday'),
-    translate('logon-time-editor.from-sunday'),
-    translate('logon-time-editor.to-monday'),
-    translate('logon-time-editor.to-tuesday'),
-    translate('logon-time-editor.to-wednesday'),
-    translate('logon-time-editor.to-thursday'),
-    translate('logon-time-editor.to-friday'),
-    translate('logon-time-editor.to-saturday'),
-    translate('logon-time-editor.to-sunday'),
-  ];
   getSelectionDescription() {
     if (
       this.selectDayCurrent < 0 ||

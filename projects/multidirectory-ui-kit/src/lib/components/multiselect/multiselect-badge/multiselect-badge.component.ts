@@ -9,14 +9,14 @@ export class MultiselectBadgeComponent {
   @Output() badgeClose = new EventEmitter<void>();
 
   onClose() {
-    this.badgeClose.next();
+    this.badgeClose.emit();
   }
 
   onEnterPress(event: KeyboardEvent) {
     if (event.key == 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.badgeClose.next();
+      this.badgeClose.emit();
       return;
     }
   }

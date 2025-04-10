@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { AppWindowsService } from '@services/app-windows.service';
+import { PlaneButtonComponent, ShiftCheckboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY } from 'rxjs';
 
@@ -11,17 +14,25 @@ import { EMPTY } from 'rxjs';
   selector: 'app-acccess-policy',
   templateUrl: './access-policy.component.html',
   styleUrls: ['./access-policy.component.scss'],
+  imports: [NgClass, PlaneButtonComponent, ShiftCheckboxComponent, FormsModule],
 })
 export class AccessPolicyComponent {
-  @Input() index = 0;
-  @Output() deleteClick = new EventEmitter<AccessPolicy>();
-  @Output() turnOffClick = new EventEmitter<AccessPolicy>();
-  @Output() editClick = new EventEmitter<AccessPolicy>();
+  private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+  private windows = inject(AppWindowsService);
+  readonly index = input(0);
+  readonly deleteClick = output<AccessPolicy>();
+  readonly turnOffClick = output<AccessPolicy>();
+  readonly editClick = output<AccessPolicy>();
+  ipAddress = '';
+  groups = '';
 
   _accessClient: AccessPolicy | null = null;
+
   get accessClient(): AccessPolicy | null {
     return this._accessClient;
   }
+
   @Input() set accessClient(accessClient: AccessPolicy | null) {
     this._accessClient = accessClient;
     if (this._accessClient) {
@@ -36,15 +47,6 @@ export class AccessPolicyComponent {
         .join(', ');
     }
   }
-
-  ipAddress = '';
-
-  groups = '';
-  constructor(
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-    private windows: AppWindowsService,
-  ) {}
 
   onDeleteClick() {
     if (!this.accessClient) {

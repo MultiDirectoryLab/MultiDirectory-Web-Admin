@@ -13,6 +13,8 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
+import { NgTemplateOutlet } from '@angular/common';
+import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
 
 @Component({
   selector: 'md-radiogroup',
@@ -25,6 +27,7 @@ import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
       multi: true,
     },
   ],
+  imports: [NgTemplateOutlet, ErrorLabelComponent],
 })
 export class RadioGroupComponent extends BaseComponent {
   @Input() drawBorder = false;

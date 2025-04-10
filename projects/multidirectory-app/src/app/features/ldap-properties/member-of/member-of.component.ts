@@ -1,26 +1,40 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { take } from 'rxjs';
-import { DatagridComponent } from 'multidirectory-ui-kit';
-import { Group } from '@core/groups/group';
+import { Component, inject, Input, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
-import { translate } from '@jsverse/transloco';
-import { AppWindowsService } from '@services/app-windows.service';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { AttributeService } from '@services/attributes.service';
-import { AppNavigationService } from '@services/app-navigation.service';
-import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { Group } from '@core/groups/group';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { AttributeService } from '@services/attributes.service';
+import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-member-of',
   templateUrl: './member-of.component.html',
   styleUrls: ['./member-of.component.scss'],
+  imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
 export class MemberOfComponent {
-  private _accessor: LdapAttributes | null = null;
+  private windows = inject(AppWindowsService);
+  private navigation = inject(AppNavigationService);
+  private attributes = inject(AttributeService);
+
   groups: Group[] = [];
-  @ViewChild('groupList') groupList?: DatagridComponent;
+  readonly groupList = viewChild<DatagridComponent>('groupList');
+  columns = [
+    { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
+    { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
+  ];
+
+  private _accessor: LdapAttributes | null = null;
+
+  get accessor(): LdapAttributes | null {
+    return this._accessor;
+  }
 
   @Input() set accessor(accessor: LdapAttributes | null) {
     if (!accessor) {
@@ -29,31 +43,6 @@ export class MemberOfComponent {
     }
     this._accessor = accessor;
     this.groups = this._accessor.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
-  }
-
-  get accessor(): LdapAttributes | null {
-    return this._accessor;
-  }
-
-  columns = [
-    { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
-    { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
-  ];
-
-  constructor(
-    private windows: AppWindowsService,
-    private navigation: AppNavigationService,
-    private attributes: AttributeService,
-  ) {}
-
-  private createGroupFromDn(dn: string) {
-    const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);
-    const path = new RegExp(Constants.RegexGetPathFormDn).exec(dn);
-    return new Group({
-      name: name?.[1] ?? '',
-      path: path?.[1] ?? '',
-      dn: dn,
-    });
   }
 
   addGroup() {
@@ -78,24 +67,35 @@ export class MemberOfComponent {
   }
 
   deleteGroup() {
-    if ((this.groupList?.selected?.length ?? 0) > 0 && this.accessor) {
+    if ((this.groupList()?.selected?.length ?? 0) > 0 && this.accessor) {
       this.groups = this.groups.filter(
-        (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
       this.accessor.memberOf = this.accessor?.memberOf?.filter(
-        (x) => (this.groupList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }
   }
 
   async openGroupProperties() {
-    if (!this.groupList?.selected?.[0]) {
+    const groupList = this.groupList();
+    if (!groupList?.selected?.[0]) {
       return;
     }
-    const entity = <LdapEntryNode>await this.navigation.goTo(this.groupList.selected[0].dn);
+    const entity = <LdapEntryNode>await this.navigation.goTo(groupList.selected[0].dn);
     if (!entity) {
       return;
     }
     this.windows.openEntityProperiesModal(entity);
+  }
+
+  private createGroupFromDn(dn: string) {
+    const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);
+    const path = new RegExp(Constants.RegexGetPathFormDn).exec(dn);
+    return new Group({
+      name: name?.[1] ?? '',
+      path: path?.[1] ?? '',
+      dn: dn,
+    });
   }
 }

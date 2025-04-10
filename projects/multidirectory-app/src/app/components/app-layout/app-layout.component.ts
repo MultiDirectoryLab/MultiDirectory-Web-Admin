@@ -1,48 +1,54 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  EMPTY,
-  Subject,
-  catchError,
-  combineLatest,
-  of,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { AppSettingsService } from '@services/app-settings.service';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NgClass } from '@angular/common';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { HotkeysCheatsheetComponent } from 'angular2-hotkeys';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { DnsApiService } from '@services/dns-api.service';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { SearchQueries } from '@core/ldap/search';
+import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsStatuses } from '@models/dns/dns-statuses';
+import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { AppSettingsService } from '@services/app-settings.service';
+import { DnsApiService } from '@services/dns-api.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { HotkeyModule, HotkeysCheatsheetComponent } from 'angular2-hotkeys';
+import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { translate } from '@jsverse/transloco';
+import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { HeaderComponent } from './header/header.component';
+import { ContextMenuComponent } from './shared/context-menu/context-menu.component';
+import { NotificationsComponent } from './shared/notifications/notifications.component';
+import { WindowsComponent } from './shared/windows/windows.component';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss'],
+  imports: [
+    NgClass,
+    SidebarComponent,
+    HeaderComponent,
+    RouterOutlet,
+    MdSlideshiftComponent,
+    NotificationsComponent,
+    HotkeyModule,
+    TranslocoPipe,
+    WindowsComponent,
+    ContextMenuComponent,
+  ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
-  @ViewChild('helpcheatSheet') helpcheatSheet!: HotkeysCheatsheetComponent;
+  private app = inject(AppSettingsService);
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private dns = inject(DnsApiService);
+  private cdr = inject(ChangeDetectorRef);
+  private unsubscribe = new Subject<void>();
+  readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
   showLeftPane = true;
   showNotifications = false;
-
-  private unsubscribe = new Subject<void>();
-
-  constructor(
-    private app: AppSettingsService,
-    private toastr: ToastrService,
-    private api: MultidirectoryApiService,
-    private dns: DnsApiService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit() {
     this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
@@ -123,7 +129,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   closeCheatsheet() {
-    this.helpcheatSheet.toggleCheatSheet();
+    this.helpcheatSheet().toggleCheatSheet();
   }
 
   onNotificationsHide() {

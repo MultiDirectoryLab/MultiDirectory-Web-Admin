@@ -1,36 +1,43 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { AppSettingsService } from '@services/app-settings.service';
+import { AppWindowsService } from '@services/app-windows.service';
 import { DownloadService } from '@services/download.service';
-import { SpinnerComponent } from 'multidirectory-ui-kit';
+import { MdPortalComponent, SpinnerComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { DownloadComponent } from './components/app-layout/shared/download-dict.component';
-import { AppSettingsService } from './services/app-settings.service';
-import { AppWindowsService } from './services/app-windows.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  imports: [
+    RouterOutlet,
+    MdPortalComponent,
+    SpinnerComponent,
+    TranslocoPipe,
+    DownloadComponent,
+    NgClass,
+  ],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private windows = inject(AppWindowsService);
+  private app = inject(AppSettingsService);
+  private download = inject(DownloadService);
   private unsubscribe = new Subject<void>();
-
   title = 'multidirectory-app';
   darkMode = false;
-  @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
-  @ViewChild('downloadData') downloadComponent!: DownloadComponent;
-
-  constructor(
-    private windows: AppWindowsService,
-    private app: AppSettingsService,
-    private download: DownloadService,
-  ) {}
+  readonly spinner = viewChild.required<SpinnerComponent>('spinner');
+  readonly downloadComponent = viewChild.required<DownloadComponent>('downloadData');
 
   ngOnInit(): void {
     this.windows.globalSpinnerRx.pipe(takeUntil(this.unsubscribe)).subscribe((show) => {
       if (show) {
-        this.spinner.show();
+        this.spinner().show();
       } else {
-        this.spinner.hide();
+        this.spinner().hide();
       }
     });
 
@@ -39,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.download.downlaodDictRx.pipe(takeUntil(this.unsubscribe)).subscribe(([data, name]) => {
-      this.downloadComponent.downloadDict(data, name);
+      this.downloadComponent().downloadDict(data, name);
     });
   }
 

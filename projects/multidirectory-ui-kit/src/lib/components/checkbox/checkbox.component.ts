@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 
 @Component({
@@ -13,6 +13,7 @@ import { BaseComponent } from '../base-component/base.component';
       multi: true,
     },
   ],
+  imports: [FormsModule],
 })
 export class CheckboxComponent extends BaseComponent {
   @Output() change = new EventEmitter<boolean>();

@@ -1,28 +1,25 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@core/navigation/navigation-node';
 import { AppNavigationService, NavigationEventWrapper } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';
-import { NavigationNode } from '@core/navigation/navigation-node';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
   styleUrls: ['./navigation.component.scss'],
   templateUrl: './navigation.component.html',
+  imports: [TreeviewComponent],
 })
 export class NavigationComponent implements OnInit, OnDestroy {
-  @ViewChild('treeView', { static: true }) treeView!: TreeviewComponent;
-
+  private navigation = inject(AppNavigationService);
+  private contextMenu = inject(ContextMenuService);
+  private route = inject(ActivatedRoute);
   private unsubscribe = new Subject<void>();
+  readonly treeView = viewChild.required<TreeviewComponent>('treeView');
   navigationTree: NavigationNode[] = [];
-
-  constructor(
-    private navigation: AppNavigationService,
-    private contextMenu: ContextMenuService,
-    private route: ActivatedRoute,
-  ) {}
 
   ngOnInit(): void {
     this.navigation.navigationRx
@@ -44,7 +41,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     let node: NavigationNode | undefined;
     // Что у нас есть в node, по чему мы можем идентифицировать узел?
     if (url == '') {
-      this.treeView.select(null);
+      this.treeView().select(null);
       return;
     }
     if (url == 'ldap') {
@@ -59,7 +56,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         }
         const reloadSelection = event.navigation?.extras?.state?.['reloadSelection'] ?? false;
         if (!node.selected || reloadSelection) {
-          this.treeView.select(node);
+          this.treeView().select(node);
         }
       });
       return;
@@ -83,7 +80,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
     );
     if (!!node) {
-      this.treeView.select(node);
+      this.treeView().select(node);
     }
   }
 
@@ -98,7 +95,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   handleNodeRightClick(event: RightClickEvent) {
     if (event.node instanceof LdapEntryNode) {
-      this.treeView.focus(event.node);
+      this.treeView().focus(event.node);
       this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
     }
   }

@@ -1,12 +1,12 @@
-<div [ngStyle]="{ display: rows.length > 0 ? 'block' : 'none' }" class="h-100">
+<div [ngStyle]="{ display: rows().length > 0 ? 'block' : 'none' }" class="h-100">
   <md-datagrid
+    (doubleclick)="goTo($event)"
+    [columns]="columns"
+    [rows]="rows()"
+    [stretchHeight]="true"
+    emptyMessage="{{ 'grid.no-data' | transloco }}"
+    fromTitle="{{ 'grid.from-title' | transloco }}"
     name="search-result"
     pagerTitle="{{ 'grid.pager-title' | transloco }}"
-    fromTitle="{{ 'grid.from-title' | transloco }}"
-    emptyMessage="{{ 'grid.no-data' | transloco }}"
-    [stretchHeight]="true"
-    [columns]="columns"
-    [rows]="rows"
-    (doubleclick)="goTo($event)"
   ></md-datagrid>
 </div>

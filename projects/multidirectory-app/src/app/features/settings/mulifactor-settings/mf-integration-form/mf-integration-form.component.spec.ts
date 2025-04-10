@@ -1,8 +1,11 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { getTranslocoModule } from '@testing/transloco-testing';
 import {
   ButtonComponent,
   MdFormComponent,
@@ -12,9 +15,6 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { MfIntegrationFormComponent } from './mf-integration-form.component';
-import { By } from '@angular/platform-browser';
-import { getTranslocoModule } from '@testing/transloco-testing';
-import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.directive';
 
 describe('MfIntegrationFormComponent', () => {
   let component: MfIntegrationFormComponent;
@@ -32,7 +32,10 @@ describe('MfIntegrationFormComponent', () => {
     toastrService = jasmine.createSpyObj('ToastrService', ['success', 'error']);
 
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        FormsModule,
+        TranslocoModule,
+        getTranslocoModule(),
         MfIntegrationFormComponent,
         MfKeyValidatorDirective,
         MdFormComponent,
@@ -40,7 +43,6 @@ describe('MfIntegrationFormComponent', () => {
         ButtonComponent,
         TooltipComponent,
       ],
-      imports: [FormsModule, TranslocoModule, getTranslocoModule()],
       providers: [
         { provide: MultidirectoryApiService, useValue: apiService },
         { provide: AppWindowsService, useValue: windowsService },
@@ -79,15 +81,15 @@ describe('MfIntegrationFormComponent', () => {
     xit('should validate API key and secret format', () => {
       component.apiKey = 'rs_1234567890123456789012345678x';
       component.apiSecret = '12345678901234567890123456789012';
-      component.form.inputs.forEach((x) => x.control?.markAsTouched());
-      component.form.validate();
-      expect(component.form.valid).toBeTruthy();
+      component.form().inputs.forEach((x) => x.control?.markAsTouched());
+      component.form().validate();
+      expect(component.form().valid).toBeTruthy();
     });
 
     it('should invalidate form with incorrect API key format', () => {
       component.apiKey = 'invalid_key';
       fixture.detectChanges();
-      expect(component.form.valid).toBeFalsy();
+      expect(component.form().valid).toBeFalsy();
     });
   });
 
@@ -170,7 +172,7 @@ describe('MfIntegrationFormComponent', () => {
 
     it('should reset form inputs after successful clear', fakeAsync(() => {
       apiService.clearMultifactor.and.returnValue(of(void 0));
-      const input = component.form.inputs.first;
+      const input = component.form().inputs.first;
       spyOn(input, 'reset');
 
       component.clear();
@@ -195,7 +197,7 @@ describe('MfIntegrationFormComponent', () => {
       component.apiKey = 'rs_1234567890123456789012345678x';
       component.apiSecret = '12345678901234567890123456789012';
       fixture.detectChanges();
-      component.form.validate();
+      component.form().validate();
       fixture.detectChanges();
       const applyButton = fixture.debugElement.query(By.css('button.md-button-primary'));
       expect(applyButton.nativeElement.disabled).toBeFalsy();

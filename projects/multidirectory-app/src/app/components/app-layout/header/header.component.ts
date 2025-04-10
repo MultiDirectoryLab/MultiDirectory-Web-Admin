@@ -2,44 +2,77 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
+  inject,
   OnDestroy,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { translate } from '@jsverse/transloco';
-import { Subject } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
+import { SearchPanelComponent } from '@features/search/search-panel.component';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
 import { MenuService } from '@services/menu.service';
-import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
+import {
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdSlideshiftComponent,
+  PlaneButtonComponent,
+  RadiobuttonComponent,
+  RadioGroupComponent,
+  ShiftCheckboxComponent,
+} from 'multidirectory-ui-kit';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  imports: [
+    RouterOutlet,
+    PlaneButtonComponent,
+    DropdownContainerDirective,
+    RadioGroupComponent,
+    DropdownMenuComponent,
+    ShiftCheckboxComponent,
+    RadiobuttonComponent,
+    SearchPanelComponent,
+    RouterLink,
+    FormsModule,
+    TranslocoDirective,
+  ],
 })
 export class HeaderComponent implements OnDestroy {
-  @Output() helpMenuClick = new EventEmitter<MouseEvent>();
-  @Output() accountSettingsClicked = new EventEmitter<void>();
-  @Output() logoutClick = new EventEmitter<void>();
+  private app = inject(AppSettingsService);
+  private contentViewService = inject(ContentViewService);
+  private hotkeysService = inject(HotkeysService);
+  private ldapWindows = inject(AppWindowsService);
+  private menu = inject(MenuService);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
 
-  @ViewChild('searchBtn', { read: ElementRef }) searchBtn?: ElementRef;
-  @ViewChild('notifications', { read: MdSlideshiftComponent }) slideshift!: MdSlideshiftComponent;
+  readonly helpMenuClick = output<MouseEvent>();
+  readonly accountSettingsClicked = output<void>();
+  readonly logoutClick = output<void>();
+
+  readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
+  readonly slideshift = viewChild.required('notifications', { read: MdSlideshiftComponent });
   showNotifications = false;
   unsubscribe = new Subject<boolean>();
   navigationalPanelInvisible = false;
   darkMode = false;
 
   ViewMode = ViewMode;
+
   get contentView(): ViewMode {
     return this.contentViewService.contentView;
   }
+
   set contentView(view: ViewMode) {
     this.contentViewService.contentView = view;
   }
@@ -49,19 +82,11 @@ export class HeaderComponent implements OnDestroy {
   }
 
   // TODO: TOO MUCH SERVICES
-  constructor(
-    private app: AppSettingsService,
-    private contentViewService: ContentViewService,
-    private hotkeysService: HotkeysService,
-    private ldapWindows: AppWindowsService,
-    private menu: MenuService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-  ) {
+  constructor() {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+h',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.onChange(!this.navigationalPanelInvisible);
           return false; // Prevent bubbling
         },
@@ -72,7 +97,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'esc',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.router.navigate(['/']);
           return false; // Prevent bubbling
         },
@@ -83,7 +108,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f1',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.SmallIcons;
           return false; // Prevent bubbling
         },
@@ -94,7 +119,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f2',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.BigIcons;
           return false; // Prevent bubbling
         },
@@ -105,7 +130,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f3',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.Table;
           return false; // Prevent bubbling
         },
@@ -116,7 +141,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f4',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.contentView = ViewMode.Details;
           return false; // Prevent bubbling
         },
@@ -127,8 +152,8 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+f',
-        (event: KeyboardEvent): boolean => {
-          this.searchBtn?.nativeElement.click();
+        (): boolean => {
+          this.searchBtn()?.nativeElement.click();
           return false;
         },
         undefined,
@@ -139,7 +164,7 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'ctrl+d',
-        (event: KeyboardEvent): boolean => {
+        (): boolean => {
           this.onDarkMode(!this.darkMode);
           return false;
         },
@@ -195,7 +220,7 @@ export class HeaderComponent implements OnDestroy {
   }
 
   onLogout() {
-    this.logoutClick.next();
+    this.logoutClick.emit();
   }
 
   toggleNotificationPanel() {

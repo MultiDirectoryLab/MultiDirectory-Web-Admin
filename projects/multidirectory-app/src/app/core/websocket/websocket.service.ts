@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { Observable, Subject, tap } from 'rxjs';
 import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
@@ -78,7 +78,7 @@ export class WebsocketTokenHandle {
   providedIn: 'root',
 })
 export class WebSocketService {
-  constructor(private _settings: MultidirectoryAdapterSettings) {}
+  private _settings = inject(MultidirectoryAdapterSettings);
 
   getBaseUrl(resource: string): string {
     return this._settings.baseUrl + '/' + resource;

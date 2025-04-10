@@ -1,49 +1,49 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { DropdownMenuComponent } from 'multidirectory-ui-kit';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { AppNavigationService } from '@services/app-navigation.service';
-import { AppWindowsService } from '@services/app-windows.service';
-import { ContextMenuService } from '@services/contextmenu.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { EMPTY, Subject, concat, switchMap, take, takeUntil } from 'rxjs';
-import { BulkService } from '@services/bulk.service';
-import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
+import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { LdapEntryType } from '@core/ldap/ldap-entity-type';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DeleteEntryRequest } from '@models/entry/delete-request';
 import { UpdateEntryResponse } from '@models/entry/update-response';
-import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
-import { translate } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { AppWindowsService } from '@services/app-windows.service';
+import { BulkService } from '@services/bulk.service';
+import { ContextMenuService } from '@services/contextmenu.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { DropdownMenuComponent } from 'multidirectory-ui-kit';
+import { concat, EMPTY, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss'],
+  imports: [DropdownMenuComponent, TranslocoPipe],
 })
 export class ContextMenuComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('contextMenu', { static: true }) contextMenuRef!: DropdownMenuComponent;
+  private contextMenuService = inject(ContextMenuService);
+  private windows = inject(AppWindowsService);
+  private api = inject(MultidirectoryApiService);
+  private navigation = inject(AppNavigationService);
+  private bulk = inject<BulkService<LdapEntryNode>>(BulkService);
+  private getAccessorStrategy = inject(GetAccessorStrategy);
+  private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
   private unsubscribe = new Subject<void>();
+  readonly contextMenuRef = viewChild.required<DropdownMenuComponent>('contextMenu');
   LdapEntryType = LdapEntryType;
   entries: LdapEntryNode[] = [];
-  constructor(
-    private contextMenuService: ContextMenuService,
-    private windows: AppWindowsService,
-    private api: MultidirectoryApiService,
-    private navigation: AppNavigationService,
-    private bulk: BulkService<LdapEntryNode>,
-    private getAccessorStrategy: GetAccessorStrategy,
-    private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies,
-  ) {}
+  accountEnabled = false;
 
   ngAfterViewInit(): void {
     this.contextMenuService.contextMenuOnNodeRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.entries = x.entries;
       this.setAccountEnabled();
-      this.contextMenuRef.setPosition(x.openX, x.openY);
-      this.contextMenuRef.open();
+      this.contextMenuRef().setPosition(x.openX, x.openY);
+      this.contextMenuRef().open();
     });
   }
 
@@ -159,7 +159,6 @@ export class ContextMenuComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  accountEnabled = false;
   setAccountEnabled() {
     this.bulk
       .create(this.entries)

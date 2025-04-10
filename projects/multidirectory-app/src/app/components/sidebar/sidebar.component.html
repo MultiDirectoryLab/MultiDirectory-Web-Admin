@@ -1,5 +1,5 @@
-<ng-container *transloco="let t; read: 'home'">
-  <img src="/assets/logo_login.svg" class="logo-img" (click)="handleLogoClick($event)" />
+<ng-container *transloco="let t; prefix: 'home'">
+  <img (click)="handleLogoClick($event)" class="logo-img" src="/assets/logo_login.svg" />
   <div class="sidebar">
     <div class="treeview">
       <router-outlet name="sidebar"></router-outlet>
@@ -17,17 +17,17 @@
         <label>{{ user.display_name }}</label>
         <label>{{ user.mail }}</label>
       </div>
-      <div class="more-container" [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20">
-        <img src="/assets/more_vert.svg" class="more" />
+      <div [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20" class="more-container">
+        <img class="more" src="/assets/more_vert.svg" />
       </div>
       <md-dropdown-menu #loginMenu>
-        <div class="dropdown-item" (click)="loginMenu.close(); openAccountSettings()">
+        <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
           {{ t('account-settings') }}
         </div>
-        <div class="dropdown-item" (click)="loginMenu.close(); openChangePassword()">
+        <div (click)="loginMenu.close(); openChangePassword()" class="dropdown-item">
           {{ t('change-password') }}
         </div>
-        <div class="dropdown-item" (click)="logout()">{{ t('logout') }}</div>
+        <div (click)="logout()" class="dropdown-item">{{ t('logout') }}</div>
       </md-dropdown-menu>
     </div>
   </div>

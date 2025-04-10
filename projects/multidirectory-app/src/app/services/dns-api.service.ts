@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
@@ -13,10 +13,9 @@ import { map, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class DnsApiService {
-  constructor(
-    @Inject('apiAdapter') private httpClient: ApiAdapter<MultidirectoryAdapterSettings>,
-    @Inject('dnsAdapter') private dnsHttpClient: ApiAdapter<DnsAdapterSettings>,
-  ) {}
+  private httpClient = inject<ApiAdapter<MultidirectoryAdapterSettings>>('apiAdapter' as any);
+  private dnsHttpClient = inject<ApiAdapter<DnsAdapterSettings>>('dnsAdapter' as any);
+
   get(): Observable<DnsServiceResponse[]> {
     return this.httpClient.get<DnsServiceResponse[]>('dns/record').execute();
   }

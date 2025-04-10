@@ -1,45 +1,57 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
-import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { GroupCreateRequest } from '@models/group-create/group-create.request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { translate } from '@jsverse/transloco';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  RadiobuttonComponent,
+  RadioGroupComponent,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-group-create',
   templateUrl: './group-create.component.html',
   styleUrls: ['./group-create.component.scss'],
+  imports: [
+    TranslocoDirective,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    TextareaComponent,
+    RadioGroupComponent,
+    RadiobuttonComponent,
+    TranslocoPipe,
+    ButtonComponent,
+  ],
 })
 export class GroupCreateComponent implements OnInit, OnDestroy {
-  @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
+  private cdr = inject(ChangeDetectorRef);
+  private api = inject(MultidirectoryApiService);
+  private toastr = inject(ToastrService);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+  private readonly _form = viewChild.required<MdFormComponent>('groupForm');
   private _unsubscribe = new Subject<boolean>();
   setupRequest = new GroupCreateRequest();
   formValid: boolean = false;
   parentDn = '';
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private api: MultidirectoryApiService,
-    private toastr: ToastrService,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
-
   ngOnInit(): void {
-    this._form?.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this._form()
+      ?.onValidChanges.pipe(takeUntil(this._unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
     this.parentDn = this.modalControl.contentOptions?.['parentDn'] ?? '';
   }
 
@@ -58,7 +70,7 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
     event.preventDefault();
     if (!this.formValid) {
       this.toastr.error(translate('please-check-errors'));
-      this._form.validate();
+      this._form().validate();
       return;
     }
     this.modalControl?.modal?.showSpinner();

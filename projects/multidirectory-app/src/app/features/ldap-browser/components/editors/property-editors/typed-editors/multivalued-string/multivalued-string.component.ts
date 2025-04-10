@@ -1,20 +1,26 @@
-import { ChangeDetectorRef, Component, Input, ViewChild } from '@angular/core';
-import { TreeviewComponent } from 'multidirectory-ui-kit';
+import { ChangeDetectorRef, Component, inject, Input, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { ButtonComponent, TextboxComponent, TreeviewComponent } from 'multidirectory-ui-kit';
 import { AttributeListEntry } from '../../../attributes-list/attributes-list.component';
 import { TypedEditorBaseComponent } from '../typed-editor-base.component';
+
 @Component({
   selector: 'app-multivalued-string-editor',
   templateUrl: './multivalued-string.component.html',
   styleUrls: ['./multivalued-string.component.scss'],
+  imports: [TranslocoPipe, TextboxComponent, FormsModule, ButtonComponent, TreeviewComponent],
 })
 export class MultivaluedStringComponent extends TypedEditorBaseComponent {
-  @ViewChild('treeview', { static: true }) treeview!: TreeviewComponent;
+  private cdr = inject(ChangeDetectorRef);
+
+  readonly treeview = viewChild.required<TreeviewComponent>('treeview');
   newAttribute: string = '';
   type: string = '';
 
   @Input() override set propertyValue(val: string[]) {
-    this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.treeview!.tree = [];
+    this._propertyValue = this.treeview()?.tree.map((x) => x?.name ?? '') ?? '';
+    this.treeview()!.tree = [];
     if (!Array.isArray(val)) {
       val = [val];
     }
@@ -31,17 +37,15 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
           }),
       );
     setTimeout(() => {
-      this.treeview.tree = tree;
-      this.treeview.redraw();
+      const treeview = this.treeview();
+      treeview.tree = tree;
+      treeview.redraw();
     });
   }
 
-  constructor(private cdr: ChangeDetectorRef) {
-    super();
-  }
-
   addAttribute() {
-    this.treeview?.addRoot(
+    const treeview = this.treeview();
+    treeview?.addRoot(
       new AttributeListEntry({
         name: this.newAttribute,
         id: this.newAttribute,
@@ -50,15 +54,16 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
         new: true,
       }),
     );
-    this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.next(this._propertyValue);
+    this._propertyValue = treeview?.tree.map((x) => x?.name ?? '') ?? '';
+    this.propertyValueChange.emit(this._propertyValue);
     this.newAttribute = '';
   }
 
   deleteAttribute() {
-    this.treeview!.tree = this.treeview?.tree.filter((x) => !x.selected) ?? [];
-    this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.next(this._propertyValue);
-    this.treeview!.redraw();
+    const treeview = this.treeview();
+    treeview!.tree = treeview?.tree.filter((x) => !x.selected) ?? [];
+    this._propertyValue = treeview?.tree.map((x) => x?.name ?? '') ?? '';
+    this.propertyValueChange.emit(this._propertyValue);
+    treeview!.redraw();
   }
 }

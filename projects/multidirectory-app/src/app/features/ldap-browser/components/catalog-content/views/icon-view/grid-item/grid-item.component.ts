@@ -1,22 +1,24 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ContextmenuType } from 'ngx-datatable-gimefork';
-import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { NgClass } from '@angular/common';
+import { Component, input, output, viewChild } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { ContextMenuEvent } from 'multidirectory-ui-kit';
+import { ContextmenuType } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-grid-item',
   styleUrls: ['./grid-item.component.scss'],
   templateUrl: 'grid-item.component.html',
+  imports: [NgClass],
 })
 export class GridItemComponent {
-  @Input() big = false;
-  @Input() item!: LdapEntryNode;
-  @Output() clickOnItem = new EventEmitter<MouseEvent>();
-  @Output() doubleClickOnItem = new EventEmitter<Event>();
-  @Output() rightClick = new EventEmitter<ContextMenuEvent>();
+  readonly big = input(false);
+  readonly item = input.required<LdapEntryNode>();
+  readonly clickOnItem = output<MouseEvent>();
+  readonly doubleClickOnItem = output<Event>();
+  readonly rightClick = output<ContextMenuEvent>();
 
-  @ViewChild(CdkDrag) drag!: CdkDrag;
+  readonly drag = viewChild.required(CdkDrag);
   draggable = {
     data: 'myDragData',
     effectAllowed: 'copyMove',
@@ -28,20 +30,21 @@ export class GridItemComponent {
   onClick($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.clickOnItem.next($event);
+    this.clickOnItem.emit($event);
   }
+
   onDblClick($event: Event) {
     $event.preventDefault();
-    this.item.selected = false;
-    this.doubleClickOnItem.next($event);
+    this.item().selected = false;
+    this.doubleClickOnItem.emit($event);
   }
 
   onRightClick($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.clickOnItem.next($event);
-    this.rightClick.next({
-      content: this.item,
+    this.clickOnItem.emit($event);
+    this.rightClick.emit({
+      content: this.item(),
       event: $event,
       type: ContextmenuType.body,
     });

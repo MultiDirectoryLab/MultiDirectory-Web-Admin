@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, mergeMap, of, take, zip } from 'rxjs';
 import { NavigationNode } from './navigation-node';
 import { LdapEntryLoader } from './node-loaders/ldap-entry-loader/ldap-entry-loader';
@@ -10,16 +10,14 @@ import { SavedQueriesNodeLoader } from './node-loaders/saved-query-node-loader/s
   providedIn: 'root',
 })
 export class NavigationRoot {
+  private ldapTreeLoader = inject(LdapEntryLoader);
+  private policyNodeLoader = inject(PolicyNodeLoaders);
+
   private loaders: NodeLoader[] = [
     this.policyNodeLoader,
     new SavedQueriesNodeLoader(),
     this.ldapTreeLoader,
   ];
-
-  constructor(
-    private ldapTreeLoader: LdapEntryLoader,
-    private policyNodeLoader: PolicyNodeLoaders,
-  ) {}
 
   get nodes(): Observable<NavigationNode[]> {
     const branches = this.loaders.map((x) => x.get());

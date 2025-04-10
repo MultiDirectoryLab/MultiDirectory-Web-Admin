@@ -1,6 +1,6 @@
 import { Observable, map, of, tap } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SearchEntry, SearchResponse } from '@models/entry/search-response';
 import { Page, Treenode } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
@@ -13,7 +13,7 @@ import { NodeLoader } from '../node-loader';
   providedIn: 'root',
 })
 export class LdapEntryLoader implements NodeLoader {
-  constructor(private api: MultidirectoryApiService) {}
+  private api = inject(MultidirectoryApiService);
 
   get(): Observable<LdapEntryNode[]> {
     return this.api.search(SearchQueries.RootDse).pipe(

@@ -1,5 +1,5 @@
 import { Observable, map, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { translate } from '@jsverse/transloco';
 import { NavigationNode } from '@core/navigation/navigation-node';
@@ -9,7 +9,7 @@ import { NodeLoader } from '../../node-loader';
   providedIn: 'root',
 })
 export class PasswordPolicyNodeLoader implements NodeLoader {
-  constructor(private api: MultidirectoryApiService) {}
+  private api = inject(MultidirectoryApiService);
 
   get(): Observable<NavigationNode[]> {
     return of([

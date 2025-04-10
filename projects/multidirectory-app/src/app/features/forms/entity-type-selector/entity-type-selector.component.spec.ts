@@ -1,17 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { EntityTypeSelectorComponent } from './entity-type-selector.component';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import {
-  MockModalInjectDirective,
-  getMockModalInjectDirective,
-} from '@testing/modal-inject-testing';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { getMockModalInjectDirective } from '@testing/modal-inject-testing';
+import { ModalInjectDirective } from 'multidirectory-ui-kit';
+import { EntityTypeSelectorComponent } from './entity-type-selector.component';
 
 describe('Entity Type Selector Test Suite', () => {
   let component: EntityTypeSelectorComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EntityTypeSelectorComponent],
+      imports: [EntityTypeSelectorComponent],
       providers: [
         EntityTypeSelectorComponent,
         {

@@ -1,10 +1,12 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, delay, fromEvent, skipWhile, takeUntil } from 'rxjs';
+import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'md-tooltip',
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
+  imports: [NgClass, NgStyle, NgOptimizedImage],
 })
 export class TooltipComponent implements OnInit, OnDestroy {
   @Input() iconPath = 'info-circle.svg';

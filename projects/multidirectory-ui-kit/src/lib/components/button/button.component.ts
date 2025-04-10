@@ -1,9 +1,8 @@
+import { NgClass } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
-  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -15,6 +14,7 @@ import { BaseControlComponent } from '../base-component/control.component';
   selector: 'md-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
+  imports: [NgClass],
 })
 export class ButtonComponent extends BaseControlComponent implements OnInit, OnDestroy {
   @Input() label = '';
@@ -22,11 +22,12 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   @Input() primary = false;
   @Input() stretch = false;
   @Output() click = new EventEmitter();
-  unlistenClick = () => {};
 
   constructor(private el: ElementRef) {
     super();
   }
+
+  unlistenClick = () => {};
 
   ngOnInit(): void {
     this.unlistenClick = this.el.nativeElement.addEventListener(
@@ -54,7 +55,7 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
     if ($event.key == 'Enter' || $event.key == ' ') {
       $event.stopPropagation();
       $event.preventDefault();
-      this.click.next($event);
+      this.click.emit($event);
     }
   }
 }

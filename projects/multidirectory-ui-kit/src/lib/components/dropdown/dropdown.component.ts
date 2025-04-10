@@ -1,5 +1,5 @@
 import { Component, Input, Output, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 
 export class DropdownOption {
@@ -21,6 +21,7 @@ export class DropdownOption {
       multi: true,
     },
   ],
+  imports: [FormsModule],
 })
 export class DropdownComponent extends BaseComponent {
   @Input() options: (DropdownOption | string)[] = [];

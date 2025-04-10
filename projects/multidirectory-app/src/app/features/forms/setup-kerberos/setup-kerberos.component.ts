@@ -1,11 +1,24 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PasswordGenerator } from '@core/setup/password-generator';
-import { translate } from '@jsverse/transloco';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
+import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
+import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passwordnotmatch.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';
-import { MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  PopupContainerDirective,
+  PopupSuggestComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Subject } from 'rxjs';
 
@@ -13,25 +26,37 @@ import { catchError, Subject } from 'rxjs';
   selector: 'app-setup-kerberos-dialog',
   templateUrl: './setup-kerberos.component.html',
   styleUrls: ['./setup-kerberos.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    PasswordMatchValidatorDirective,
+    PasswordShouldNotMatchValidatorDirective,
+    PasswordValidatorDirective,
+    PopupContainerDirective,
+    PopupSuggestComponent,
+    PasswordConditionsComponent,
+    ButtonComponent,
+  ],
 })
 export class SetupKerberosDialogComponent implements OnDestroy {
+  private modalInejctor = inject(ModalInjectDirective);
+  private toastr = inject(ToastrService);
+  private app = inject(AppSettingsService);
+  private download = inject(DownloadService);
+  private setup = inject(SetupService);
+
   setupRequest = new SetupRequest();
-  @ViewChild('form') form!: MdFormComponent;
-  @ViewChild('passwordInput') passwordInput!: TextboxComponent;
-  @ViewChild('repeatPassword') repeatPassword!: TextboxComponent;
+  readonly form = viewChild.required<MdFormComponent>('form');
+  readonly passwordInput = viewChild.required<TextboxComponent>('passwordInput');
+  readonly repeatPassword = viewChild.required<TextboxComponent>('repeatPassword');
 
   unsubscribe = new Subject<void>();
 
-  constructor(
-    private modalInejctor: ModalInjectDirective,
-    private toastr: ToastrService,
-    private app: AppSettingsService,
-    private download: DownloadService,
-    private setup: SetupService,
-  ) {}
-
   checkModel() {
-    this.form.validate(true);
+    this.form().validate(true);
   }
 
   ngOnDestroy(): void {
@@ -43,8 +68,9 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     event.stopPropagation();
     event.preventDefault();
     this.setupRequest.mail = this.app.user.mail;
-    if (!this.form.valid) {
-      this.form.validate();
+    const form = this.form();
+    if (!form.valid) {
+      form.validate();
       return;
     }
     this.modalInejctor.showSpinner();

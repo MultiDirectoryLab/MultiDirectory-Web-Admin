@@ -1,28 +1,52 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { translate } from '@jsverse/transloco';
-import { MdFormComponent, MdModalComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
-import { ToastrService } from 'ngx-toastr';
+import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
+import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ChangePasswordRequest } from '@models/user/change-password-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
+import {
+  ButtonComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  PopupContainerDirective,
+  PopupSuggestComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
+  imports: [
+    MdFormComponent,
+    TranslocoPipe,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    PasswordMatchValidatorDirective,
+    PasswordValidatorDirective,
+    PopupContainerDirective,
+    PopupSuggestComponent,
+    PasswordConditionsComponent,
+    ButtonComponent,
+  ],
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
+
+  readonly form = viewChild.required<MdFormComponent>('form');
   unsubscribe = new Subject<boolean>();
   formValid = false;
   changeRequest = new ChangePasswordRequest();
   repeatPassword = '';
   un = '';
-  constructor(
-    private toastr: ToastrService,
-    private api: MultidirectoryApiService,
-    @Inject(ModalInjectDirective) private modalControl: ModalInjectDirective,
-  ) {}
 
   ngOnInit(): void {
     if (!!this.modalControl?.contentOptions?.identity) {
@@ -30,10 +54,12 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       this.un = this.modalControl.contentOptions.un;
     }
 
-    this.formValid = this.form.valid;
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this.formValid = this.form().valid;
+    this.form()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
   }
 
   close() {
@@ -59,7 +85,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   checkModel() {
-    this.form.validate();
+    this.form().validate();
   }
 
   ngOnDestroy(): void {

@@ -7,7 +7,7 @@ export * from './lib/components/button/button.component';
 export * from './lib/components/textbox/textbox.component';
 export * from './lib/components/dropdown/dropdown.component';
 export * from './lib/components/modal/modal.component';
-export * from './lib/components/modal/modal.module';
+
 export * from './lib/components/modal/modal-inject/modal-inject.directive';
 export * from './lib/components/number/number.component';
 export * from './lib/components/textarea/textarea.component';
@@ -44,7 +44,5 @@ export * from './lib/components/popup/popup-container.directive';
 export * from './lib/components/popup/suggest/popup-suggest.component';
 export * from './lib/components/portal/portal.component';
 export * from './lib/components/portal/portal.directive';
-export * from './lib/components/portal/portal.module';
-export * from './lib/components/spinner/spinner.module';
+
 export * from './lib/components/slideshift/slideshift.component';
-export * from './lib/components/slideshift/slideshift.module';

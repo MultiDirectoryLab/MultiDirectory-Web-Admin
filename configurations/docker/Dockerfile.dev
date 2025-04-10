@@ -14,7 +14,7 @@ RUN apt-get install -y gettext
 WORKDIR /app
 COPY package.json /app/package.json
 COPY . /app
-RUN pnpm install -g @angular/cli@18 &&\
+RUN pnpm install -g @angular/cli@19 &&\
     pnpm install &&\
     ng build multidirectory-ui-kit &&\
     pnpm add file:dist/multidirectory-ui-kit/

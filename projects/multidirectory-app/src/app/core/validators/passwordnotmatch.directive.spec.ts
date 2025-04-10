@@ -16,6 +16,7 @@ import { PasswordShouldNotMatchValidatorDirective } from './passwordnotmatch.dir
       />
     </form>
   `,
+  imports: [ReactiveFormsModule, FormsModule],
 })
 class TestComponent {
   errorLabel = '';
@@ -31,8 +32,13 @@ describe('PasswordShouldNotMatchValidatorDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, FormsModule, getTranslocoModule()],
-      declarations: [TestComponent, PasswordShouldNotMatchValidatorDirective],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        getTranslocoModule(),
+        TestComponent,
+        PasswordShouldNotMatchValidatorDirective,
+      ],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
 

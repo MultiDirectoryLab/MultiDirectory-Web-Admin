@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MfKeyValidatorDirective } from './mf-keys-validator.directive';
-import { getTranslocoModule } from '@testing/transloco-testing';
 import { By } from '@angular/platform-browser';
+import { getTranslocoModule } from '@testing/transloco-testing';
+import { MfKeyValidatorDirective } from './mf-keys-validator.directive';
 
 @Component({
   template: ` <input [formControl]="control" appMfKeyValidator [isSecret]="isSecret" /> `,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 class TestComponent {
   control = new FormControl('');
@@ -20,8 +21,13 @@ describe('MfKeyValidatorDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent, MfKeyValidatorDirective],
-      imports: [FormsModule, ReactiveFormsModule, getTranslocoModule()],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        getTranslocoModule(),
+        TestComponent,
+        MfKeyValidatorDirective,
+      ],
       teardown: { destroyAfterEach: true },
     }).compileComponents();
 

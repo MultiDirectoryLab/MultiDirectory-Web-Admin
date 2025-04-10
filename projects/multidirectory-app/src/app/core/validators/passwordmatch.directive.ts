@@ -1,11 +1,10 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import {
   AbstractControl,
   NG_VALIDATORS,
   NgControl,
   ValidationErrors,
   Validator,
-  ValidatorFn,
 } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
 
@@ -20,22 +19,21 @@ import { translate } from '@jsverse/transloco';
   ],
 })
 export class PasswordMatchValidatorDirective implements Validator {
-  @Input('appPasswordMatch') passwordInput!: NgControl;
-  @Input() passwordMatchErrorLabel = '';
+  readonly passwordInput = input.required<NgControl>({ alias: 'appPasswordMatch' });
+  readonly passwordMatchErrorLabel = input('');
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (
-      (!this.passwordInput.touched && !this.passwordInput.value) ||
-      (!control.touched && !control.value)
-    ) {
+    const passwordInput = this.passwordInput();
+    if ((!passwordInput.touched && !passwordInput.value) || (!control.touched && !control.value)) {
       return null;
     }
-    
-    return control.value == this.passwordInput.value
+
+    const passwordMatchErrorLabel = this.passwordMatchErrorLabel();
+    return control.value == passwordInput.value
       ? null
       : {
-          PasswordsDoNotMatch: this.passwordMatchErrorLabel
-            ? translate(this.passwordMatchErrorLabel)
+          PasswordsDoNotMatch: passwordMatchErrorLabel
+            ? translate(passwordMatchErrorLabel)
             : translate('error-message.passwords-not-match'),
         };
   }

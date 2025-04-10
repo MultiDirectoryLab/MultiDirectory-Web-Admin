@@ -1,15 +1,18 @@
-import { Component, Input } from '@angular/core';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { Component, Input, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
+import { TextboxComponent } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-user-create-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss'],
+  imports: [TranslocoPipe, TextboxComponent, FormsModule],
 })
 export class UserCreateSummaryComponent {
-  @Input() setupRequest!: UserCreateRequest;
+  setup = inject(UserCreateService);
 
-  constructor(public setup: UserCreateService) {}
+  @Input() setupRequest!: UserCreateRequest;
 }

@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -9,18 +10,17 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-ldap-browser-header',
   templateUrl: './ldap-browser-header.component.html',
   styleUrls: ['./ldap-browser-header.component.scss'],
+  imports: [TranslocoPipe, FaIconComponent],
 })
 export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
-  private unsubscribe = new Subject<boolean>();
+  private activatedRoute = inject(ActivatedRoute);
+  private toastr = inject(ToastrService);
+  private cdr = inject(ChangeDetectorRef);
+
   selectedCatalogDn = '';
   containerName = '';
   faCopy = faCopy;
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private unsubscribe = new Subject<boolean>();
 
   ngAfterViewInit(): void {
     this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

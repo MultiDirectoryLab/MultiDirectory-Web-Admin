@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { take } from 'rxjs';
@@ -7,8 +8,12 @@ import { take } from 'rxjs';
   selector: 'app-password-conditions',
   templateUrl: './password-conditions.component.html',
   styleUrls: ['./password-conditions.component.scss'],
+  imports: [TranslocoPipe],
 })
 export class PasswordConditionsComponent implements OnInit {
+  private api = inject(MultidirectoryApiService);
+  private app = inject(AppSettingsService);
+
   minimumPasswordLength = 7;
   passwordMustMeetComplexityRequirements = true;
 
@@ -26,11 +31,6 @@ export class PasswordConditionsComponent implements OnInit {
     this.checkPasswordMinimalLength = password.length >= this.minimumPasswordLength;
     this.checkPasswordWithoutOtp = !endsWith6Digits;
   }
-
-  constructor(
-    private api: MultidirectoryApiService,
-    private app: AppSettingsService,
-  ) {}
 
   ngOnInit(): void {
     if (this.app.userEntry) {

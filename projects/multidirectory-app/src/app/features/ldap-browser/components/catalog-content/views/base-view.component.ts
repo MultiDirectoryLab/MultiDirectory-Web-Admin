@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Page } from 'multidirectory-ui-kit';
+import { Component, Input, output } from '@angular/core';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { NavigationEvent } from '@services/app-navigation.service';
 
 export interface RightClickEvent {
   selected: LdapEntryNode[];
@@ -14,7 +12,7 @@ export interface RightClickEvent {
 })
 export abstract class BaseViewComponent {
   @Input() selectedCatalog: LdapEntryNode | null = null;
-  @Output() onRightClick = new EventEmitter<RightClickEvent>();
+  readonly rightClick = output<RightClickEvent>();
 
   handleRightClick(event: any) {
     let selected = this.getSelected();
@@ -29,14 +27,16 @@ export abstract class BaseViewComponent {
     if (!selected || selected.length == 0) {
       return;
     }
-    this.onRightClick.emit({
+    this.rightClick.emit({
       pointerEvent: event instanceof PointerEvent ? event : event.event,
       selected: this.getSelected(),
     });
   }
 
   abstract updateContent(): void;
+
   abstract getSelected(): LdapEntryNode[];
+
   abstract setSelected(selected: LdapEntryNode[]): void;
 
   setCatalog(catalog: LdapEntryNode): void {

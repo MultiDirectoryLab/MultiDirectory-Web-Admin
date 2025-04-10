@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AccessPolicyNodeLoader } from './access-policy-node-loader/access-policy-node-loader';
 import { PasswordPolicyNodeLoader } from './password-policy-node-loader/password-policy-node-loader';
 import { translate } from '@jsverse/transloco';
@@ -10,12 +10,10 @@ import { NodeLoader } from '../node-loader';
   providedIn: 'root',
 })
 export class PolicyNodeLoaders implements NodeLoader {
-  policyLoaders: NodeLoader[] = [this.accessPolicyNodeLoader, this.passwordPolicyNodeLoader];
+  private accessPolicyNodeLoader = inject(AccessPolicyNodeLoader);
+  private passwordPolicyNodeLoader = inject(PasswordPolicyNodeLoader);
 
-  constructor(
-    private accessPolicyNodeLoader: AccessPolicyNodeLoader,
-    private passwordPolicyNodeLoader: PasswordPolicyNodeLoader,
-  ) {}
+  policyLoaders: NodeLoader[] = [this.accessPolicyNodeLoader, this.passwordPolicyNodeLoader];
   get(): Observable<NavigationNode[]> {
     return of([
       new NavigationNode({

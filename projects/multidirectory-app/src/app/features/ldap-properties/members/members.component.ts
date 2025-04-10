@@ -1,25 +1,37 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { DatagridComponent } from 'multidirectory-ui-kit';
+import { Component, inject, Input, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
-import { translate } from '@jsverse/transloco';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Member } from '@core/groups/member';
-import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntitySelectorSettings } from '@features/forms/entity-selector/entity-selector-settings.component';
+import { EntitySelectorComponent } from '@features/forms/entity-selector/entity-selector.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss'],
+  imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
 export class MembersComponent {
-  private _accessor: LdapAttributes | null = null;
+  private windows = inject(AppWindowsService);
+
   members: Member[] = [];
-  @ViewChild('groupSelector') memberSelector?: EntitySelectorComponent;
-  @ViewChild('groupList') memberList?: DatagridComponent;
+  readonly memberSelector = viewChild<EntitySelectorComponent>('groupSelector');
+  readonly memberList = viewChild<DatagridComponent>('groupList');
+  columns = [
+    { name: translate('members.name'), prop: 'name', flexGrow: 1 },
+    { name: translate('members.catalog-path'), prop: 'path', flexGrow: 3 },
+  ];
+
+  private _accessor: LdapAttributes | null = null;
+
+  get accessor(): LdapAttributes | null {
+    return this._accessor;
+  }
 
   @Input() set accessor(accessor: LdapAttributes | null) {
     if (!accessor) {
@@ -28,27 +40,6 @@ export class MembersComponent {
     }
     this._accessor = accessor;
     this.members = this._accessor.member?.map((x) => this.createMemberFromDn(x)) ?? [];
-  }
-
-  get accessor(): LdapAttributes | null {
-    return this._accessor;
-  }
-
-  columns = [
-    { name: translate('members.name'), prop: 'name', flexGrow: 1 },
-    { name: translate('members.catalog-path'), prop: 'path', flexGrow: 3 },
-  ];
-
-  constructor(private windows: AppWindowsService) {}
-
-  private createMemberFromDn(dn: string) {
-    const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);
-    const path = new RegExp(Constants.RegexGetPathFormDn).exec(dn);
-    return new Member({
-      name: name?.[1] ?? '',
-      path: path?.[1] ?? '',
-      dn: dn,
-    });
   }
 
   addMember() {
@@ -73,13 +64,23 @@ export class MembersComponent {
   }
 
   deleteMember() {
-    if ((this.memberList?.selected?.length ?? 0) > 0 && this.accessor) {
+    if ((this.memberList()?.selected?.length ?? 0) > 0 && this.accessor) {
       this.members = this.members.filter(
-        (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
       );
       this.accessor.member = this.accessor?.memberOf?.filter(
-        (x) => (this.memberList?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
       );
     }
+  }
+
+  private createMemberFromDn(dn: string) {
+    const name = new RegExp(Constants.RegexGetNameFromDn).exec(dn);
+    const path = new RegExp(Constants.RegexGetPathFormDn).exec(dn);
+    return new Member({
+      name: name?.[1] ?? '',
+      path: path?.[1] ?? '',
+      dn: dn,
+    });
   }
 }

@@ -1,53 +1,65 @@
+import { CdkDrag, CdkDragDrop, CdkDragEnd, moveItemInArray } from '@angular/cdk/drag-drop';
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
-  Input,
-  QueryList,
-  ViewChild,
-  ViewChildren,
   forwardRef,
+  HostListener,
+  inject,
+  input,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { GridItemComponent } from './grid-item/grid-item.component';
-import { DropdownMenuComponent, Page, PagerComponent } from 'multidirectory-ui-kit';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, DragRef, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { AppNavigationService, NavigationEvent } from '@services/app-navigation.service';
-import { take } from 'rxjs';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationRoot } from '@core/navigation/navigation-entry-point';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
+import {
+  CheckboxComponent,
+  DropdownMenuComponent,
+  Page,
+  PagerComponent,
+} from 'multidirectory-ui-kit';
+import { ToastrService } from 'ngx-toastr';
+import { take } from 'rxjs';
 import { BaseViewComponent } from '../base-view.component';
+import { GridItemComponent } from './grid-item/grid-item.component';
 
 @Component({
   selector: 'app-icon-view',
   templateUrl: './icon-view.component.html',
   styleUrls: ['./icon-view.component.scss'],
   providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => IconViewComponent) }],
+  imports: [
+    NgClass,
+    CdkDrag,
+    GridItemComponent,
+    PagerComponent,
+    TranslocoPipe,
+    DropdownMenuComponent,
+    CheckboxComponent,
+    FormsModule,
+  ],
 })
 export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
-  @Input() big = false;
-  @ViewChildren(GridItemComponent) gridItems!: QueryList<GridItemComponent>;
-  @ViewChildren(CdkDrag) gridDrags!: QueryList<CdkDrag>;
-  @ViewChild('grid', { static: false }) grid!: ElementRef<HTMLElement>;
-  @ViewChild('gridMenu') gridMenu!: DropdownMenuComponent;
-  @ViewChild('pager') pager!: PagerComponent;
+  private cdr = inject(ChangeDetectorRef);
+  private ldapLoader = inject(LdapEntryLoader);
+  private navigation = inject(AppNavigationService);
+  private route = inject(ActivatedRoute);
+  toast = inject(ToastrService);
+  readonly big = input(false);
+  readonly gridItems = viewChildren(GridItemComponent);
+  readonly gridDrags = viewChildren(CdkDrag);
+  readonly grid = viewChild.required<ElementRef<HTMLElement>>('grid');
+  readonly gridMenu = viewChild.required<DropdownMenuComponent>('gridMenu');
+  readonly pager = viewChild.required<PagerComponent>('pager');
   items: LdapEntryNode[] = [];
   alignItems = true;
   page = new Page();
-
-  constructor(
-    public toast: ToastrService,
-    private cdr: ChangeDetectorRef,
-    private ldapLoader: LdapEntryLoader,
-    private navigation: AppNavigationService,
-    private route: ActivatedRoute,
-  ) {
-    super();
-  }
 
   ngAfterViewInit(): void {
     this.navigation.reload();
@@ -59,7 +71,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       .pipe(take(1))
       .subscribe((rows) => {
         this.items = rows;
-        this.pager.updatePager();
+        this.pager().updatePager();
         this.cdr.detectChanges();
       });
   }
@@ -67,6 +79,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   override getSelected(): LdapEntryNode[] {
     return this.items.filter((x) => x.selected);
   }
+
   override setSelected(selected: LdapEntryNode[]): void {
     this.items.forEach((i) => (i.selected = false));
     selected.filter((i) => !!i).forEach((i) => (i.selected = true));
@@ -76,7 +89,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   onPageChanged(page: Page) {}
 
   resetItems() {
-    this.gridDrags.forEach((x) => {
+    this.gridDrags().forEach((x) => {
       x.reset();
       x.getRootElement().style.gridArea = '';
     });
@@ -84,8 +97,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
 
   showGridContextMenu(event: MouseEvent) {
     event.preventDefault();
-    this.gridMenu.setPosition(event.x, event.y);
-    this.gridMenu.toggle();
+    this.gridMenu().setPosition(event.x, event.y);
+    this.gridMenu().toggle();
   }
 
   drop(event: CdkDragDrop<LdapEntryNode[]>) {
@@ -101,8 +114,8 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     const cellWidth = 64 + 8;
     const cellHeight = 64 + 8;
 
-    const offsetLeft = this.grid.nativeElement.offsetLeft;
-    const offsetTop = this.grid.nativeElement.offsetTop;
+    const offsetLeft = this.grid().nativeElement.offsetLeft;
+    const offsetTop = this.grid().nativeElement.offsetTop;
 
     let gridXPos = Math.floor((pos.x - offsetLeft) / cellWidth) + 1;
     let gridYPos = Math.floor((pos.y - offsetTop) / cellHeight) + 1;
@@ -118,7 +131,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
   }
 
   isCellOccupied(xPos: number, yPos: number) {
-    return this.gridDrags.some((x) => {
+    return this.gridDrags().some((x) => {
       const el = x.getRootElement();
       if (!el.style.gridArea) {
         return false;
@@ -127,6 +140,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       return Number(pos[0]) == yPos && Number(pos[1]) == xPos;
     });
   }
+
   selectCatalog(item: LdapEntryNode) {}
 
   clickOutside(event: MouseEvent) {

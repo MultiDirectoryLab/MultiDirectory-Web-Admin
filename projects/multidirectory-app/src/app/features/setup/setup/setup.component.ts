@@ -2,46 +2,75 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  inject,
   OnDestroy,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
+import { AdminSettingsSecondComponent } from '@features/setup/admin-settings-second/admin-settings-second.component';
+import { AdminSettingsComponent } from '@features/setup/admin-settings/admin-settings.component';
+import { DnsSetupSettingsComponent } from '@features/setup/dns-setup-settings/dns-setup-settings.component';
+import { DomainSettingsComponent } from '@features/setup/domain-setttings/domain-settings.component';
+import { KerberosSettingsComponent } from '@features/setup/kerberos-settings/kerberos-settings.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { SetupService } from '@services/setup.service';
-import { MdModalComponent, StepperComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  MdFormComponent,
+  MdModalComponent,
+  PlaneButtonComponent,
+  StepDirective,
+  StepperComponent,
+} from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, delay, of, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
   styleUrls: ['./setup.component.scss'],
+  imports: [
+    MdFormComponent,
+    MdModalComponent,
+    TranslocoPipe,
+    PlaneButtonComponent,
+    FaIconComponent,
+    DropdownContainerDirective,
+    DropdownMenuComponent,
+    StepperComponent,
+    DomainSettingsComponent,
+    StepDirective,
+    DnsSetupSettingsComponent,
+    KerberosSettingsComponent,
+    AdminSettingsComponent,
+    AdminSettingsSecondComponent,
+    ButtonComponent,
+  ],
 })
 export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('modal') modal!: MdModalComponent;
-  @ViewChild('stepper') stepper!: StepperComponent;
-
+  private app = inject(AppSettingsService);
+  private setupRequestValidatorService = inject(SetupRequestValidatorService);
+  private setup = inject(SetupService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private download = inject(DownloadService);
   private unsubscribe = new Subject<boolean>();
+  readonly modal = viewChild.required<MdModalComponent>('modal');
+  readonly stepper = viewChild.required<StepperComponent>('stepper');
   setupRequest = new SetupRequest();
   stepValid = false;
   faLanguage = faLanguage;
-
-  constructor(
-    private app: AppSettingsService,
-    private setupRequestValidatorService: SetupRequestValidatorService,
-    private setup: SetupService,
-    private toastr: ToastrService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private download: DownloadService,
-  ) {}
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
@@ -64,13 +93,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(templateRef: any) {
-    if (this.stepper.currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
+    if (this.stepper().currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
       this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
         PasswordGenerator.generatePassword();
       this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
         PasswordGenerator.generatePassword();
     }
-    this.modal.resizeToContentHeight();
+    this.modal().resizeToContentHeight();
   }
 
   onSetup() {
@@ -78,18 +107,18 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       this.downloadPasswords();
     }
 
-    this.modal.showSpinner();
+    this.modal().showSpinner();
     this.setup
       .setup(this.setupRequest)
       .pipe(
         catchError((err) => {
-          this.modal.hideSpinner();
+          this.modal().hideSpinner();
           this.router.navigate(['/']);
           throw err;
         }),
       )
       .subscribe((res) => {
-        this.modal.hideSpinner();
+        this.modal().hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
         this.router.navigate(['/']);
       });
@@ -101,7 +130,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toastr.error(translate('please-check-errors'));
       return;
     }
-    this.stepper.next();
+    this.stepper().next();
   }
 
   downloadPasswords() {

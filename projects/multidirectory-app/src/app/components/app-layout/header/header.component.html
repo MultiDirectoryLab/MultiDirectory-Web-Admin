@@ -20,62 +20,62 @@
       <!--md-plane-button class="search control-button" (click)="toggleNotificationPanel()">
       <img [src]="'assets/notifications.svg'" />
     </md-plane-button-->
-      <md-plane-button [mdDropdownContainer]="searchMenu" class="search control-button" #searchBtn>
+      <md-plane-button #searchBtn [mdDropdownContainer]="searchMenu" class="search control-button">
         <img [src]="'assets/search.svg'" />
       </md-plane-button>
-      <md-plane-button class="settings control-button" [mdDropdownContainer]="helpMenu">
+      <md-plane-button [mdDropdownContainer]="helpMenu" class="settings control-button">
         <img [src]="'assets/settings.svg'" />
       </md-plane-button>
-      <md-plane-button class="settings control-button" (click)="showHelp()">
+      <md-plane-button (click)="showHelp()" class="settings control-button">
         <img [src]="'assets/help.svg'" />
       </md-plane-button>
-      <md-plane-button class="settings control-button" (click)="closeCatalog()">
+      <md-plane-button (click)="closeCatalog()" class="settings control-button">
         <img [src]="'assets/close.svg'" />
       </md-plane-button>
     </div>
   </div>
 
-  <md-radiogroup [(ngModel)]="contentView" #radiogroup></md-radiogroup>
+  <md-radiogroup #radioGroup [(ngModel)]="contentView" />
 
   <md-dropdown-menu #helpMenu>
     <div class="dropdown-item hidden disabled">{{ t('header.add-remove-columns') }}</div>
     <div class="dropdown-item">
-      <md-shift-checkbox [ngModel]="navigationalPanelInvisible" (ngModelChange)="onChange($event)">
+      <md-shift-checkbox (ngModelChange)="onChange($event)" [ngModel]="navigationalPanelInvisible">
         <label>{{ t('header.hide-left-panel') }}</label>
         <label>Ctrl-H</label>
       </md-shift-checkbox>
     </div>
     <div class="dropdown-item">
-      <md-shift-checkbox [ngModel]="darkMode" (ngModelChange)="onDarkMode($event)">
+      <md-shift-checkbox (ngModelChange)="onDarkMode($event)" [ngModel]="darkMode">
         <label>{{ t('header.dark-mode') }}</label>
         <label>Ctrl-D</label>
       </md-shift-checkbox>
     </div>
     <div class="dropdown-item">
-      <md-radiobutton name="viewmode" [value]="ViewMode.SmallIcons" [group]="radiogroup">
+      <md-radiobutton [group]="radioGroup" [value]="ViewMode.SmallIcons" name="viewmode">
         <label>{{ t('header.small-icons') }}</label>
         <label>F1</label>
       </md-radiobutton>
     </div>
     <div class="dropdown-item">
-      <md-radiobutton name="viewmode" [value]="ViewMode.BigIcons" [group]="radiogroup">
+      <md-radiobutton [group]="radioGroup" [value]="ViewMode.BigIcons" name="viewmode">
         <label>{{ t('header.big-icons') }}</label>
         <label>F2</label>
       </md-radiobutton>
     </div>
     <div class="dropdown-item">
-      <md-radiobutton name="viewmode" [value]="ViewMode.Table" [group]="radiogroup">
+      <md-radiobutton [group]="radioGroup" [value]="ViewMode.Table" name="viewmode">
         <label>{{ t('header.list') }}</label>
         <label>F3</label>
       </md-radiobutton>
     </div>
     <div class="dropdown-item hidden">
-      <md-radiobutton name="viewmode" [value]="ViewMode.Details" [group]="radiogroup">
+      <md-radiobutton [group]="radioGroup" [value]="ViewMode.Details" name="viewmode">
         <label>{{ t('header.details') }}</label>
         <label>F4</label>
       </md-radiobutton>
     </div>
-    <div class="dropdown-item" [routerLink]="['/settings']">
+    <div [routerLink]="['/settings']" class="dropdown-item">
       {{ t('header.multidirectory-settings') }}
     </div>
     <div class="dropdown-item hidden disabled">{{ t('header.users-etc') }}</div>
@@ -85,16 +85,16 @@
   </md-dropdown-menu>
 
   <md-dropdown-menu #searchMenu>
-    <app-search-panel></app-search-panel>
+    <app-search-panel />
   </md-dropdown-menu>
 
   <md-dropdown-menu #loginMenu>
-    <div class="dropdown-item" (click)="loginMenu.close(); onChangePasswordClick()">
+    <div (click)="loginMenu.close(); onChangePasswordClick()" class="dropdown-item">
       {{ t('header.change-password') }}
     </div>
-    <div class="dropdown-item" (click)="loginMenu.close(); onAccountSettingsClick()">
+    <div (click)="loginMenu.close(); onAccountSettingsClick()" class="dropdown-item">
       {{ t('header.account-settings') }}
     </div>
-    <div class="dropdown-item" (click)="onLogout()">{{ t('header.logout') }}</div>
+    <div (click)="onLogout()" class="dropdown-item">{{ t('header.logout') }}</div>
   </md-dropdown-menu>
 </ng-container>

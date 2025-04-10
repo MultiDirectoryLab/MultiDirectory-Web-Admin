@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { Observable, map, of } from 'rxjs';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
@@ -7,7 +7,7 @@ import { SearchSource } from '../models/search-source';
 
 @Injectable()
 export class SearchSourceProvider {
-  constructor(private ldap: LdapEntryLoader) {}
+  private ldap = inject(LdapEntryLoader);
 
   getSearchSources(type: SearchType): Observable<SearchSource[]> {
     if (type == SearchType.Ldap) {

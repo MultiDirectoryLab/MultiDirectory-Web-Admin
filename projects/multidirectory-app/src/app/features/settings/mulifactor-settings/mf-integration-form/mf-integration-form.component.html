@@ -1,10 +1,10 @@
-<div *transloco="let t; read: translocoSection" class="flex-column flex-gap-10 p-8 w-100">
+<div *transloco="let t; prefix: translocoSection" class="flex-column flex-gap-10 p-8 w-100">
   <md-form #form [autocomplete]="false">
     <div class="flex-row flex-center">
       <div class="title">
         {{ t('header') }}
       </div>
-      <md-tooltip class="help" [width]="550" [left]="-250" [iconPath]="'assets/info-circle.svg'">
+      <md-tooltip [iconPath]="'assets/info-circle.svg'" [left]="-250" [width]="550" class="help">
         <div [innerHTML]="t('help')"></div>
       </md-tooltip>
     </div>
@@ -14,27 +14,27 @@
       <md-textbox
         [(ngModel)]="apiKey"
         appMfKeyValidator
-        name="api-key"
         class="col-xs-4"
+        name="api-key"
       ></md-textbox>
 
       <label class="flex-gap-10" for="api-secret">API Secret</label>
       <md-textbox
         [(ngModel)]="apiSecret"
-        appMfKeyValidator
+        [allowPasswordView]="false"
         [isSecret]="true"
         [password]="true"
-        [allowPasswordView]="false"
-        name="api-secret"
+        appMfKeyValidator
         class="col-xs-4"
+        name="api-secret"
       ></md-textbox>
     </div>
 
     <div class="flex-row flex-end pv-16 flex-gap-10">
       <md-button (click)="clear()">{{ t('clear') }}</md-button>
-      <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true">{{
-        t('apply')
-      }}</md-button>
+      <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true"
+        >{{ t('apply') }}
+      </md-button>
     </div>
   </md-form>
 </div>

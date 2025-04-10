@@ -1,18 +1,19 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Inject,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, output, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { CreateEntryRequest } from '@models/entry/create-request';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { MdFormComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  MdFormComponent,
+  ModalInjectDirective,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, take, takeUntil } from 'rxjs';
 import { EntitySelectorSettings } from '../entity-selector/entity-selector-settings.component';
 
@@ -20,11 +21,24 @@ import { EntitySelectorSettings } from '../entity-selector/entity-selector-setti
   selector: 'app-computer-create',
   templateUrl: './computer-create.component.html',
   styleUrls: ['./computer-create.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    ButtonComponent,
+    CheckboxComponent,
+    TextareaComponent,
+  ],
 })
 export class ComputerCreateComponent implements OnInit, OnDestroy {
-  @Output() create = new EventEmitter<void>();
-  @ViewChild('form', { static: true }) form!: MdFormComponent;
+  private api = inject(MultidirectoryApiService);
+  private windows = inject(AppWindowsService);
+  private modalInejctor = inject<ModalInjectDirective>(ModalInjectDirective);
   private _unsubscribe = new Subject<void>();
+  readonly create = output<void>();
+  readonly form = viewChild.required<MdFormComponent>('form');
   formValid = false;
   parentDn = '';
   description = '';
@@ -33,17 +47,13 @@ export class ComputerCreateComponent implements OnInit, OnDestroy {
   ownerDn = '';
   isLegacyAccount = false;
 
-  constructor(
-    private api: MultidirectoryApiService,
-    private windows: AppWindowsService,
-    @Inject(ModalInjectDirective) private modalInejctor: ModalInjectDirective,
-  ) {}
-
   ngOnInit(): void {
-    this.formValid = this.form.valid;
-    this.form.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
-      this.formValid = x;
-    });
+    this.formValid = this.form().valid;
+    this.form()
+      .onValidChanges.pipe(takeUntil(this._unsubscribe))
+      .subscribe((x) => {
+        this.formValid = x;
+      });
     this.parentDn = this.modalInejctor.contentOptions?.['parentDn'] ?? '';
   }
 

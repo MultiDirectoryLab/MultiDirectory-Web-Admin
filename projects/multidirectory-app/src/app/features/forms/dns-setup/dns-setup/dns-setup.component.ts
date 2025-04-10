@@ -2,53 +2,72 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  inject,
   Input,
   OnDestroy,
-  Output,
-  ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatuses } from '@models/dns/dns-statuses';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import {
+  CheckboxComponent,
+  MdFormComponent,
+  NumberComponent,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dns-setup',
   templateUrl: './dns-setup.component.html',
   styleUrls: ['./dns-setup.component.scss'],
+  imports: [
+    TranslocoPipe,
+    MdFormComponent,
+    TextboxComponent,
+    RequiredWithMessageDirective,
+    FormsModule,
+    CheckboxComponent,
+    TextareaComponent,
+    NumberComponent,
+  ],
 })
 export class DnsSetupComponent implements AfterViewInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+  private unsubscribe = new Subject<boolean>();
   @Input() formValid = false;
-  @Output() formValidChange = new EventEmitter<boolean>();
-
+  readonly formValidChange = output<boolean>();
   @Input() dnsSetupRequest: DnsSetupRequest = new DnsSetupRequest({});
-  @Output() dnsSetupRequestChange = new EventEmitter<DnsSetupRequest>();
-
-  @ViewChild('form') form!: MdFormComponent;
+  readonly dnsSetupRequestChange = output<DnsSetupRequest>();
+  readonly form = viewChild.required<MdFormComponent>('form');
 
   private _useExternalService = false;
+
+  get useExternalService(): boolean {
+    return this._useExternalService;
+  }
+
   set useExternalService(value: boolean) {
     this._useExternalService = value;
     this.dnsSetupRequest.dns_status = value ? DnsStatuses.HOSTED : DnsStatuses.SELFHOSTED;
     this.cdr.detectChanges();
   }
-  get useExternalService(): boolean {
-    return this._useExternalService;
-  }
-
-  private unsubscribe = new Subject<boolean>();
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.dnsSetupRequest.dns_status = this._useExternalService
       ? DnsStatuses.HOSTED
       : DnsStatuses.SELFHOSTED;
-    this.form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
-      this.formValid = valid;
-      this.formValidChange.emit(valid);
-    });
+    this.form()
+      .onValidChanges.pipe(takeUntil(this.unsubscribe))
+      .subscribe((valid) => {
+        this.formValid = valid;
+        this.formValidChange.emit(valid);
+      });
   }
 
   ngOnDestroy(): void {
@@ -57,6 +76,6 @@ export class DnsSetupComponent implements AfterViewInit, OnDestroy {
   }
 
   validate() {
-    this.form.validate();
+    this.form().validate();
   }
 }
