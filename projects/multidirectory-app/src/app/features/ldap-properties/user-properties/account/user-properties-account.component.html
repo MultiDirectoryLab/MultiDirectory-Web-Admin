@@ -12,12 +12,7 @@
   </div>
   <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
     <label>{{ 'user-properties.domain-label' | transloco }}</label>
-    <md-dropdown
-      [(ngModel)]="upnDomain"
-      [options]="domains"
-      appRequired
-      name="upnDomain"
-    />
+    <md-dropdown [(ngModel)]="upnDomain" [options]="domains" appRequired name="upnDomain" />
   </div>
 </div>
 <!--div class="row align-start pv-8">
@@ -47,7 +42,7 @@
 >
   <div class="col-xs-12">
     <div class="flex-column" style="height: 90px; overflow-y: scroll">
-      <!-- user musst change password at next logon  -->
+      <!-- user must change password at next logon  -->
       <md-checkbox
         [(ngModel)]="userShouldChangePassword"
         id="userShouldChangePassword"
@@ -87,7 +82,7 @@
       <!-- Use only Kerberos DES encryption types with this account  -->
       <!-- This account supports Kerberos AES 128 bit encryption -->
       <!-- This account supports Kerberos AES 256 bit encryption -->
-      <!-- Do not require Kerberos preauthentication -->
+      <!-- Do not require Kerberos pre-authentication -->
     </div>
   </div>
 </md-group>
@@ -123,7 +118,3 @@
     </div>
   </md-group>
 </div>
-
-<!--<ng-template modalInject #editLogonTime="modalInject">-->
-<!--  <app-logon-time-editor></app-logon-time-editor>-->
-<!--</ng-template>-->

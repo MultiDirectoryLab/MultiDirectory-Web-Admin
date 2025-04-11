@@ -12,7 +12,6 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { LogonTimeEditorComponent } from '@features/ldap-properties/user-properties/account/logn-time-editor/logon-time-editor.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
 import moment from 'moment';
@@ -23,7 +22,6 @@ import {
   DropdownComponent,
   DropdownOption,
   GroupComponent,
-  ModalInjectDirective,
   RadiobuttonComponent,
   RadioGroupComponent,
   TextboxComponent,
@@ -54,8 +52,6 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
     RadioGroupComponent,
     RadiobuttonComponent,
     DatepickerComponent,
-    LogonTimeEditorComponent,
-    ModalInjectDirective,
   ],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
