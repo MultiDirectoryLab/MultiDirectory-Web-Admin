@@ -102,6 +102,7 @@ export const appConfig: ApplicationConfig = {
           spinnerText: translateService.translate('spinner.please-wait'),
         });
       },
+      deps: [TranslocoService],
     },
     {
       provide: OverlayContainer,
