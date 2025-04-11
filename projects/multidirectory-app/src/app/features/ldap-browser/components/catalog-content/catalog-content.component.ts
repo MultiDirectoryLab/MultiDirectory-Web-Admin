@@ -2,10 +2,12 @@ import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, viewChild } f
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import {
-  ButtonComponent, DropdownContainerDirective,
-  DropdownMenuComponent, MdModalComponent,
+  ButtonComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
   ModalInjectDirective,
-  PlaneButtonComponent, TextboxComponent,
+  PlaneButtonComponent,
+  TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ContentViewService } from '@services/content-view.service';
@@ -68,7 +70,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TableViewComponent,
     IconViewComponent,
     DropdownMenuComponent,
-    MdModalComponent,
     FormsModule,
   ],
 })

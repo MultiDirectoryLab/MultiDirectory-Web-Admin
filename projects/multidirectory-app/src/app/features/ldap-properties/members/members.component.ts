@@ -3,8 +3,8 @@ import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Member } from '@core/groups/member';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { translate } from '@jsverse/transloco';
-import { DatagridComponent } from 'multidirectory-ui-kit';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 import { EntitySelectorDialogComponent } from '../../../components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
 import {
@@ -18,6 +18,7 @@ import { DialogService } from '../../../components/modals/services/dialog.servic
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss'],
+  imports: [DatagridComponent, TranslocoPipe, ButtonComponent],
 })
 export class MembersComponent {
   private dialogService: DialogService = inject(DialogService);

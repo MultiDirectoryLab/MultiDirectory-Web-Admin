@@ -6,9 +6,12 @@ import {
   OnDestroy,
   viewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { LoginService } from '@services/login.service';
-import { MdFormComponent } from 'multidirectory-ui-kit';
+import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 import { DialogComponent } from '../../components/modals/components/core/dialog/dialog.component';
 
@@ -16,6 +19,15 @@ import { DialogComponent } from '../../components/modals/components/core/dialog/
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  imports: [
+    DialogComponent,
+    MdFormComponent,
+    TextboxComponent,
+    FormsModule,
+    RequiredWithMessageDirective,
+    TranslocoPipe,
+    ButtonComponent,
+  ],
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);

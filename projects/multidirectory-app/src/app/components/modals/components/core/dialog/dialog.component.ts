@@ -21,12 +21,12 @@ import {
 } from '../../../constants/dialog.constants';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IdProvider } from '../../../../../../../../multidirectory-ui-kit/src/lib/utils/id-provider';
-import { MdSpinnerModule, SpinnerHostDirective } from 'multidirectory-ui-kit';
+import { SpinnerHostDirective } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [MdSpinnerModule, AsyncPipe, NgClass],
+  imports: [AsyncPipe, NgClass, SpinnerHostDirective],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

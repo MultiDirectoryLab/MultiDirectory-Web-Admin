@@ -13,14 +13,7 @@ import { DownloadComponent } from './components/app-layout/shared/download-dict.
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [
-    RouterOutlet,
-    SpinnerComponent,
-    TranslocoPipe,
-    DownloadComponent,
-    NgClass,
-    MdPortalComponent,
-  ],
+  imports: [RouterOutlet, SpinnerComponent, TranslocoPipe, DownloadComponent, MdPortalComponent],
 })
 export class AppComponent implements OnInit {
   private windows = inject(AppWindowsService);

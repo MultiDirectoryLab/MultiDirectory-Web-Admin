@@ -1,10 +1,3 @@
-<!--<md-modal-->
-<!--  #modal-->
-<!--  [opened]="true"-->
-<!--  class="paddingless"-->
-<!--  [closeable]="false"-->
-<!--  [width]="'330px'"-->
-<!--&gt;-->
 <app-dialog>
   <ng-container class="app-modal-header">
     <img class="logo-img" src="/assets/logo_login_transparent.svg" />
@@ -25,7 +18,7 @@
             [password]="true"
             appRequired
             name="password"
-          ></md-textbox>
+          />
         </div>
       </div>
       <input (click)="onLogin($event)" hidden type="submit" />
