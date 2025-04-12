@@ -4,22 +4,15 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  forwardRef,
+  inject,
   InjectionToken,
   Input,
   OnDestroy,
   QueryList,
-  forwardRef,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, NgControl, NgModel } from '@angular/forms';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  Subscription,
-  combineLatest,
-  takeUntil,
-  zip,
-} from 'rxjs';
+import { NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { BehaviorSubject, combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
 
 export const MD_FORM = new InjectionToken<MdFormComponent>('MDFORM');
@@ -38,6 +31,8 @@ export const MD_FORM = new InjectionToken<MdFormComponent>('MDFORM');
   ],
 })
 export class MdFormComponent implements AfterViewInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+
   @ContentChildren(NgControl, { descendants: true }) inputs!: QueryList<NgControl>;
   @ContentChildren(NG_VALUE_ACCESSOR, { descendants: true })
   valueAccessors!: QueryList<BaseComponent>;
@@ -50,11 +45,10 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
   get valid() {
     return this._valid.value;
   }
+
   get onValidChanges() {
     return this._valid.asObservable();
   }
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.updateValueAccessors();

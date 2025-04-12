@@ -1,18 +1,19 @@
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
-import { Page } from '../datagrid/page';
 import { FormsModule } from '@angular/forms';
 import { NgxDatatableModule } from 'ngx-datatable-gimefork';
-import { NgStyle } from '@angular/common';
+import { Page } from '../datagrid/page';
+import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
 
 @Component({
   selector: 'md-pager',
@@ -29,6 +30,8 @@ import { NgStyle } from '@angular/common';
   imports: [DropdownComponent, FormsModule, NgxDatatableModule, NgStyle],
 })
 export class PagerComponent implements AfterViewInit {
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() name = '';
   @Input() page: Page = new Page({});
   @Output() pageChanged = new EventEmitter<Page>();
@@ -43,6 +46,11 @@ export class PagerComponent implements AfterViewInit {
     { title: '15', value: 15 },
     { title: '20', value: 20 },
   ];
+
+  get size(): number {
+    return this.page.size;
+  }
+
   set size(size: number) {
     this.page.size = size;
     if (this.name) {
@@ -50,10 +58,7 @@ export class PagerComponent implements AfterViewInit {
     }
     this.pageChanged.emit(this.page);
   }
-  get size(): number {
-    return this.page.size;
-  }
-  constructor(private cdr: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
     if (this.name) {
       const size = Number(localStorage.getItem(`pager_${this.name}`));
@@ -63,6 +68,7 @@ export class PagerComponent implements AfterViewInit {
       }
     }
   }
+
   onPageChanged(event: any) {
     this.page.pageNumber = event.page;
     this.updatePager();

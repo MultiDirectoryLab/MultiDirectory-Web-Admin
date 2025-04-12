@@ -1,14 +1,13 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[mdTab]',
   exportAs: 'mdTab',
 })
-export class TabDirective implements OnInit {
+export class TabDirective {
+  elRef = inject(ElementRef);
+
   get el(): HTMLElement {
     return this.elRef.nativeElement;
   }
-  constructor(public elRef: ElementRef) {}
-
-  ngOnInit() {}
 }

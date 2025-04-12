@@ -1,31 +1,23 @@
 import {
   Directive,
   ElementRef,
-  Input,
-  Output,
   EventEmitter,
-  OnDestroy,
-  OnChanges,
-  SimpleChanges,
+  inject,
+  Input,
   NgZone,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
-import { isLeftButton, getEvent } from '../common/utils';
+import { getEvent, isLeftButton } from '../common/utils';
+
 @Directive({
   selector: '[appDraggable]',
 })
 export class DraggableDirective implements OnChanges, OnDestroy {
-  @Input() dragEventTarget: MouseEvent | TouchEvent = <MouseEvent>{};
-  @Input() dragX = true;
-  @Input() dragY = true;
-  @Input() inViewport: boolean = false;
-
-  @Output() dragStart: EventEmitter<any> = new EventEmitter();
-  @Output() dragMove: EventEmitter<any> = new EventEmitter();
-  @Output() dragEnd: EventEmitter<any> = new EventEmitter();
-
-  isDragging: boolean = false;
-  lastPageX: number = 0;
-  lastPageY: number = 0;
+  private element = inject(ElementRef);
+  private ngZone = inject(NgZone);
   private globalListeners = new Map<
     string,
     {
@@ -37,11 +29,16 @@ export class DraggableDirective implements OnChanges, OnDestroy {
   private elementHeight: number = 0;
   private vw: number = 0;
   private vh: number = 0;
-
-  constructor(
-    private element: ElementRef,
-    private ngZone: NgZone,
-  ) {}
+  @Input() dragEventTarget: MouseEvent | TouchEvent = <MouseEvent>{};
+  @Input() dragX = true;
+  @Input() dragY = true;
+  @Input() inViewport: boolean = false;
+  @Output() dragStart: EventEmitter<any> = new EventEmitter();
+  @Output() dragMove: EventEmitter<any> = new EventEmitter();
+  @Output() dragEnd: EventEmitter<any> = new EventEmitter();
+  isDragging: boolean = false;
+  lastPageX: number = 0;
+  lastPageY: number = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.dragEventTarget && changes.dragEventTarget.currentValue) {

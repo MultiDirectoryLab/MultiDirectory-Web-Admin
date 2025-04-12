@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   Input,
   Renderer2,
   TemplateRef,
@@ -18,6 +19,9 @@ import { DropdownContainerDirective } from './dropdown-container.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownMenuComponent {
+  private renderer = inject(Renderer2);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() items!: any[];
   @Input() direction: 'up' | 'right' = 'right';
   @Input() itemTemplate!: TemplateRef<any>;
@@ -31,10 +35,6 @@ export class DropdownMenuComponent {
   dropdownVisible = false;
   unlistenClick = () => {};
   unlistenListener = (e: Event) => {};
-  constructor(
-    private renderer: Renderer2,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   setPosition(left: number, top: number) {
     this._top = top;
@@ -47,35 +47,10 @@ export class DropdownMenuComponent {
     this._width = width;
     this.cdr.detectChanges();
   }
+
   setMinWidth(minWidth?: number) {
     this._minWidth = minWidth;
     this.cdr.detectChanges();
-  }
-
-  private checkOverflow() {
-    const bottomPoint = this.menu.nativeElement.offsetTop + this.menu.nativeElement.offsetHeight;
-    if (bottomPoint > window.innerHeight) {
-      this.renderer.setStyle(
-        this.menu.nativeElement,
-        'top',
-        `${window.innerHeight - this.menu.nativeElement.offsetHeight - 32}px`,
-      );
-    }
-
-    const rightPoint = this.menu.nativeElement.offsetLeft + this.menu.nativeElement.offsetWidth;
-    if (rightPoint > window.innerWidth) {
-      this.renderer.setStyle(
-        this.menu.nativeElement,
-        'left',
-        `${window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 40}px`,
-      );
-      this.renderer.setStyle(this.menu.nativeElement, 'right', `1rem`);
-    }
-  }
-
-  private setOutsideClickHandler() {
-    this.unlistenListener = this.handleClickOuside.bind(this);
-    document.addEventListener('mousedown', this.unlistenListener, { capture: true });
   }
 
   public handleClickOuside(e: Event) {
@@ -144,5 +119,31 @@ export class DropdownMenuComponent {
       event.preventDefault();
       this.close();
     }
+  }
+
+  private checkOverflow() {
+    const bottomPoint = this.menu.nativeElement.offsetTop + this.menu.nativeElement.offsetHeight;
+    if (bottomPoint > window.innerHeight) {
+      this.renderer.setStyle(
+        this.menu.nativeElement,
+        'top',
+        `${window.innerHeight - this.menu.nativeElement.offsetHeight - 32}px`,
+      );
+    }
+
+    const rightPoint = this.menu.nativeElement.offsetLeft + this.menu.nativeElement.offsetWidth;
+    if (rightPoint > window.innerWidth) {
+      this.renderer.setStyle(
+        this.menu.nativeElement,
+        'left',
+        `${window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 40}px`,
+      );
+      this.renderer.setStyle(this.menu.nativeElement, 'right', `1rem`);
+    }
+  }
+
+  private setOutsideClickHandler() {
+    this.unlistenListener = this.handleClickOuside.bind(this);
+    document.addEventListener('mousedown', this.unlistenListener, { capture: true });
   }
 }

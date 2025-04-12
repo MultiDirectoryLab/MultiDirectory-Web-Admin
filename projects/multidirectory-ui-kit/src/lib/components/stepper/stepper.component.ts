@@ -1,18 +1,17 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
   EventEmitter,
+  inject,
   Input,
   Output,
   QueryList,
   TemplateRef,
-  ViewChildren,
 } from '@angular/core';
 import { StepDirective } from './step.directive';
-import { take } from 'rxjs';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'md-stepper',
@@ -22,12 +21,13 @@ import { NgTemplateOutlet } from '@angular/common';
   imports: [NgTemplateOutlet],
 })
 export class StepperComponent {
+  private cdr = inject(ChangeDetectorRef);
+
   @ContentChildren(StepDirective) steps!: QueryList<StepDirective>;
   currentIndex = 0;
   @Output() nextStep = new EventEmitter<TemplateRef<any>>();
   @Output() finish = new EventEmitter<void>();
   @Input() context!: any;
-  constructor(private cdr: ChangeDetectorRef) {}
 
   next(count: number = 1) {
     if (this.currentIndex + count == this.steps.length) {

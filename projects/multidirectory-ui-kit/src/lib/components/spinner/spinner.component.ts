@@ -1,8 +1,8 @@
-import { Component, Inject, Input, Optional } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { translate } from '@jsverse/transloco';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { BaseControlComponent } from '../base-component/control.component';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from './spinner-options';
-import { translate } from '@jsverse/transloco';
 
 @Component({
   selector: 'md-spinner',
@@ -11,14 +11,15 @@ import { translate } from '@jsverse/transloco';
   imports: [NgxSpinnerComponent],
 })
 export class SpinnerComponent extends BaseControlComponent {
+  private spinner = inject(NgxSpinnerService);
+
   @Input() spinnerText = 'Please, wait...';
   @Input() name = 'primary';
   @Input() fullscreen = false;
 
-  constructor(
-    private spinner: NgxSpinnerService,
-    @Optional() @Inject(SPINNER_CONFIGUARTION) configuration: SpinnerConfiguration,
-  ) {
+  constructor() {
+    let configuration = inject<SpinnerConfiguration>(SPINNER_CONFIGUARTION, { optional: true });
+
     if (!configuration) {
       configuration = new SpinnerConfiguration({ spinnerText: translate('spinner.please-wait') });
     }

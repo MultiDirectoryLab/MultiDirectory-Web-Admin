@@ -1,16 +1,5 @@
-import {
-  AfterViewInit,
-  ContentChildren,
-  Directive,
-  ElementRef,
-  Inject,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-  forwardRef,
-} from '@angular/core';
-import { NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { AfterViewInit, Directive, forwardRef, inject } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../components/base-component/base.component';
 
 @Directive({
@@ -23,9 +12,9 @@ import { BaseComponent } from '../components/base-component/base.component';
   ],
 })
 export class AutofocusDirective implements AfterViewInit {
-  constructor(@Inject(NG_VALUE_ACCESSOR) private accessor: BaseComponent[]) {}
+  private accessor = inject(NG_VALUE_ACCESSOR);
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.accessor?.[0]?.setFocus(), 5);
+    setTimeout(() => (this.accessor?.[0] as BaseComponent)?.setFocus(), 5);
   }
 }

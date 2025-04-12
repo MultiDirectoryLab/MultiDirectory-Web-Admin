@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject, delay, fromEvent, skipWhile, takeUntil } from 'rxjs';
 import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
+import { Component, ElementRef, inject, Input, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'md-tooltip',
@@ -8,7 +8,9 @@ import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
   styleUrls: ['./tooltip.component.scss'],
   imports: [NgClass, NgStyle, NgOptimizedImage],
 })
-export class TooltipComponent implements OnInit, OnDestroy {
+export class TooltipComponent implements OnDestroy {
+  private elRef = inject(ElementRef);
+
   @Input() iconPath = 'info-circle.svg';
   @Input() delay = 200;
   @Input() width = 140;
@@ -16,9 +18,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
   tooltipVisible = false;
   unsubscribe = new Subject<boolean>();
 
-  constructor(private elRef: ElementRef) {}
   clickOutsideListener = (e?: any) => {};
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.unsubscribe.next(true);
@@ -32,11 +32,6 @@ export class TooltipComponent implements OnInit, OnDestroy {
     this.setOutsideClickHandler();
   }
 
-  private setOutsideClickHandler() {
-    this.clickOutsideListener = this.handleClickOuside.bind(this);
-    document.addEventListener('mousedown', this.clickOutsideListener, { capture: true });
-  }
-
   public handleClickOuside(e: Event) {
     if (this.elRef?.nativeElement.contains(e.target)) {
       e.stopPropagation();
@@ -45,5 +40,10 @@ export class TooltipComponent implements OnInit, OnDestroy {
     document.removeEventListener('mousedown', this.clickOutsideListener, { capture: true });
     this.clickOutsideListener = () => {};
     return true;
+  }
+
+  private setOutsideClickHandler() {
+    this.clickOutsideListener = this.handleClickOuside.bind(this);
+    document.addEventListener('mousedown', this.clickOutsideListener, { capture: true });
   }
 }

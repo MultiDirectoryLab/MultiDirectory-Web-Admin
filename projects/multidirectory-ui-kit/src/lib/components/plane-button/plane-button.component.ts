@@ -1,15 +1,15 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { BaseControlComponent } from '../base-component/control.component';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'md-plane-button',
@@ -18,6 +18,8 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
 })
 export class PlaneButtonComponent extends BaseControlComponent implements AfterViewInit, OnDestroy {
+  private el = inject(ElementRef);
+
   @Input() label = '';
   @Input() disabled = false;
   @Input() primary = false;
@@ -25,11 +27,12 @@ export class PlaneButtonComponent extends BaseControlComponent implements AfterV
   @Input() isRow = false;
   @Input() rightBorder = false;
   @Output() click = new EventEmitter();
-  unlistenClick = () => {};
 
-  constructor(private el: ElementRef) {
+  constructor() {
     super();
   }
+
+  unlistenClick = () => {};
 
   ngAfterViewInit(): void {
     this.unlistenClick = this.el.nativeElement.addEventListener(

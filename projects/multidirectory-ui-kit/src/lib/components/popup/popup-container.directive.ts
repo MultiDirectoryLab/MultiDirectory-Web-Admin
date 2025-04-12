@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { PopupBaseComponent } from './base/popup-base.component';
 
 @Directive({
@@ -13,25 +13,49 @@ import { PopupBaseComponent } from './base/popup-base.component';
   exportAs: 'PopupContainerDirective',
 })
 export class PopupContainerDirective implements OnInit {
+  private el = inject(ElementRef);
+
   @Input() mdPopupContainer!: PopupBaseComponent;
   @Input() openMenuOnClick = true;
   @Input() mdPopupXOffset = 8;
   @Input() mdPopupYOffset = -8;
   @Input() direction: 'bottom' | 'right' = 'right';
 
-  constructor(private el: ElementRef) {}
-
   ngOnInit() {
     if (this.mdPopupContainer) {
       this.mdPopupContainer.container = this;
     }
   }
+
   @HostListener('click', ['$event']) onClick($event: Event) {
     if (!this.openMenuOnClick) {
       return;
     }
     $event?.stopPropagation();
     this.toggleMenu();
+  }
+
+  toggleMenu(focus = true, minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
+    this.mdPopupContainer.toggle(this.el, focus);
+  }
+
+  openMenu(minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
+    this.mdPopupContainer.open();
+  }
+
+  closeMenu(minWidth: number | undefined = undefined) {
+    this.prepareContainer(minWidth);
+    this.mdPopupContainer.close();
+  }
+
+  isVisible(): boolean {
+    return this.mdPopupContainer.popupVisible;
+  }
+
+  focus() {
+    this.mdPopupContainer.focus();
   }
 
   private prepareContainer(minWidth: number | undefined = undefined) {
@@ -60,28 +84,5 @@ export class PopupContainerDirective implements OnInit {
 
     this.mdPopupContainer.setMinWidth(minWidth);
     this.mdPopupContainer.caller = this.el;
-  }
-
-  toggleMenu(focus = true, minWidth: number | undefined = undefined) {
-    this.prepareContainer(minWidth);
-    this.mdPopupContainer.toggle(this.el, focus);
-  }
-
-  openMenu(minWidth: number | undefined = undefined) {
-    this.prepareContainer(minWidth);
-    this.mdPopupContainer.open();
-  }
-
-  closeMenu(minWidth: number | undefined = undefined) {
-    this.prepareContainer(minWidth);
-    this.mdPopupContainer.close();
-  }
-
-  isVisible(): boolean {
-    return this.mdPopupContainer.popupVisible;
-  }
-
-  focus() {
-    this.mdPopupContainer.focus();
   }
 }

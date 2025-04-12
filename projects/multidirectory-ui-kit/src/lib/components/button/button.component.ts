@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -17,13 +18,15 @@ import { BaseControlComponent } from '../base-component/control.component';
   imports: [NgClass],
 })
 export class ButtonComponent extends BaseControlComponent implements OnInit, OnDestroy {
+  private el = inject(ElementRef);
+
   @Input() label = '';
   @Input() disabled = false;
   @Input() primary = false;
   @Input() stretch = false;
   @Output() click = new EventEmitter();
 
-  constructor(private el: ElementRef) {
+  constructor() {
     super();
   }
 

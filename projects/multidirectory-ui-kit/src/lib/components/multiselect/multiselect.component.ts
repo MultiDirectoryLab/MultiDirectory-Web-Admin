@@ -4,18 +4,18 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Injector,
+  forwardRef,
+  inject,
   Input,
   Output,
   ViewChild,
-  forwardRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
 import { DropdownContainerDirective } from '../dropdown-menu/dropdown-container.directive';
-import { MultiselectModel } from './mutliselect-model';
-import { MultiselectBadgeComponent } from './multiselect-badge/multiselect-badge.component';
 import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
+import { MultiselectBadgeComponent } from './multiselect-badge/multiselect-badge.component';
+import { MultiselectModel } from './mutliselect-model';
 
 @Component({
   selector: 'md-multiselect',
@@ -32,18 +32,20 @@ import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component'
   imports: [DropdownContainerDirective, MultiselectBadgeComponent, DropdownMenuComponent],
 })
 export class MultiselectComponent extends BaseComponent {
+  private _originalOptions: MultiselectModel[] = [];
+  protected override cdr = inject(ChangeDetectorRef);
   @Input() suppressMenu = false;
   @Input() notFoundText = 'Опции не найдены';
   @Output() inputChanged = new EventEmitter<string>();
   @ViewChild('inputContainer') inputContainer!: ElementRef<HTMLElement>;
   @ViewChild('menuContainer', { read: DropdownContainerDirective })
   menuContainer!: DropdownContainerDirective;
-  private _originalOptions: MultiselectModel[] = [];
-  private _options: MultiselectModel[] = [];
   selectedData: MultiselectModel[] = [];
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  private _options: MultiselectModel[] = [];
+
+  get options(): MultiselectModel[] {
+    return this._options;
   }
 
   @Input() set options(value: MultiselectModel[]) {
@@ -54,8 +56,9 @@ export class MultiselectComponent extends BaseComponent {
       this.selectedData = this.selectedData.concat(value.filter((x) => x.selected));
     }
   }
-  get options(): MultiselectModel[] {
-    return this._options;
+
+  constructor() {
+    super();
   }
 
   preventEnterKey(event: KeyboardEvent) {
