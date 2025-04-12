@@ -22,9 +22,9 @@
     </div>
     <app-user-properties-general #generals="mdTab" [accessor]="accessor()" mdTab />
     <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-100" mdTab />
-    <app-user-properties-address #address="mdTab" mdTab />
+    <app-user-properties-address #address="mdTab" [accessor]="accessor()" mdTab />
     <app-user-properties-profile #profile="mdTab" [accessor]="accessor()" mdTab />
-    <app-user-properties-account #account="mdTab" mdTab />
+    <app-user-properties-account #account="mdTab" [accessor]="accessor()" mdTab />
     <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab />
   }
 </md-tab-pane>
