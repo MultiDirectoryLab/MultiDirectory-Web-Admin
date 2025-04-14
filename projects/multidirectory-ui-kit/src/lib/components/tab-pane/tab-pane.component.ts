@@ -1,22 +1,18 @@
 import {
   AfterViewInit,
   Component,
-  ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
-  Input,
+  inject,
   OnDestroy,
-  OnInit,
   Output,
   QueryList,
   Renderer2,
-  TemplateRef,
-  ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
+import { merge, Subject, Subscription, takeUntil } from 'rxjs';
 import { TabComponent } from './tab/tab.component';
-import { Subject, Subscription, merge, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'md-tab-pane',
@@ -25,12 +21,13 @@ import { Subject, Subscription, merge, takeUntil } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class TabPaneComponent implements AfterViewInit, OnDestroy {
+  private renderer = inject(Renderer2);
+
   @Output() tabChanged = new EventEmitter<TabComponent>();
   @ContentChildren(TabComponent, { descendants: true }) tabs!: QueryList<TabComponent>;
   unsubscribe = new Subject();
   selectedElementRef: ElementRef<any> | null = null;
   lastSubscription: Subscription | null = null;
-  constructor(private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
     this.tabs.changes.pipe(takeUntil(this.unsubscribe)).subscribe((tab) => {
@@ -54,6 +51,7 @@ export class TabPaneComponent implements AfterViewInit, OnDestroy {
     }
     this.tabChanged.emit(tab);
   }
+
   trackSelection() {
     if (this.lastSubscription) {
       this.lastSubscription.unsubscribe();

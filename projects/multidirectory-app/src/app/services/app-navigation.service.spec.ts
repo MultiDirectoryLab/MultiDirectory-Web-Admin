@@ -1,4 +1,4 @@
-import { of, take } from 'rxjs';
+import { take } from 'rxjs';
 import { NavigationNode } from '@core/navigation/navigation-node';
 import { AppNavigationService } from './app-navigation.service';
 import { TestBed } from '@angular/core/testing';

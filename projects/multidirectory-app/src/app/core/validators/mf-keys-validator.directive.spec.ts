@@ -6,7 +6,7 @@ import { getTranslocoModule } from '@testing/transloco-testing';
 import { MfKeyValidatorDirective } from './mf-keys-validator.directive';
 
 @Component({
-  template: ` <input [formControl]="control" appMfKeyValidator [isSecret]="isSecret" /> `,
+  template: ' <input [formControl]="control" appMfKeyValidator [isSecret]="isSecret" /> ',
   imports: [FormsModule, ReactiveFormsModule],
 })
 class TestComponent {

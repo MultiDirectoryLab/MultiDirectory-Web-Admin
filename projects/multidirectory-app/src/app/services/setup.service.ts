@@ -7,7 +7,6 @@ import { delay, EMPTY, expand, iif, map, Observable, of, switchMap, takeWhile } 
 import { DnsApiService } from './dns-api.service';
 import { LoginService } from './login.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
-import { LoginResponse } from '@models/login/login-response';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,7 @@ export class SetupService {
 
   setup(setupRequest: SetupRequest): Observable<boolean> {
     return this.api.setup(setupRequest).pipe(
-      switchMap((success) =>
+      switchMap(() =>
         this.loginService.login(setupRequest.user_principal_name, setupRequest.password),
       ),
       switchMap((success) => {
@@ -39,7 +38,7 @@ export class SetupService {
     return this.api
       .kerberosTreeSetup(new KerberosTreeSetupRequest({}).flll_from_setup_request(setupRequest))
       .pipe(
-        switchMap((value) => {
+        switchMap(() => {
           return this.api.kerberosSetup(
             new KerberosSetupRequest({}).flll_from_setup_request(setupRequest),
           );

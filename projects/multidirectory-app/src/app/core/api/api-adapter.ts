@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AdapterSettings } from './adapter-settings';
 import { ToastrService } from 'ngx-toastr';
 //
@@ -74,7 +74,7 @@ export class PostRequest<ResponseType> extends HttpRequest<ResponseType> {
   useUrlEncodedForm(): PostRequest<ResponseType> {
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Content-Type',
-      `application/x-www-form-urlencoded`,
+      'application/x-www-form-urlencoded',
     );
     return this;
   }
@@ -97,7 +97,7 @@ export class PutRequest<ResponseType> extends HttpRequest<ResponseType> {
   useUrlEncodedForm(): PutRequest<ResponseType> {
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Content-Type',
-      `application/x-www-form-urlencoded`,
+      'application/x-www-form-urlencoded',
     );
     return this;
   }
@@ -120,7 +120,7 @@ export class PatchRequest<ResponseType> extends HttpRequest<ResponseType> {
   useUrlEncodedForm(): PatchRequest<ResponseType> {
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Content-Type',
-      `application/x-www-form-urlencoded`,
+      'application/x-www-form-urlencoded',
     );
     return this;
   }
@@ -153,7 +153,7 @@ export class DeleteRequest<ResponseType> extends HttpRequest<ResponseType> {
   useUrlEncodedForm(): DeleteRequest<ResponseType> {
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Content-Type',
-      `application/x-www-form-urlencoded`,
+      'application/x-www-form-urlencoded',
     );
     return this;
   }

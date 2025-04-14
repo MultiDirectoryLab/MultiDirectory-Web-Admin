@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { AppComponent } from './app.component';
-import { getTranslocoModule } from './testing/transloco-testing';
+import { getTranslocoModule } from '@testing/transloco-testing';
 
 describe('AppComponent', () => {
   beforeEach(async () => {

@@ -4,7 +4,7 @@ import { PasswordValidatorDirective } from '@core/validators/password-validator.
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passwordnotmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/change-password/password-conditions/password-conditions.component';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/setup/setup-request';
 import { DownloadService } from '@services/download.service';
@@ -43,8 +43,6 @@ export class KerberosSettingsComponent implements AfterViewInit {
 
   @Input() setupRequest!: SetupRequest;
   readonly form = viewChild.required<MdFormComponent>('form');
-  readonly passwordInput = viewChild.required<TextboxComponent>('passwordInput');
-  readonly repeatPassword = viewChild.required<TextboxComponent>('repeatPassword');
 
   unsubscribe = new Subject<void>();
 

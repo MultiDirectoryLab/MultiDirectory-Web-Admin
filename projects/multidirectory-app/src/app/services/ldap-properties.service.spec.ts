@@ -3,7 +3,7 @@ import { SearchRequest } from '@models/entry/search-request';
 import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
 import { ShortMockedSchema } from '@testing/scheme/short-mocked-schema';
 import { getTranslocoModule } from '@testing/transloco-testing';
-import { of, take, zip } from 'rxjs';
+import { of, take } from 'rxjs';
 import { LdapPropertiesService } from './ldap-properties.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 

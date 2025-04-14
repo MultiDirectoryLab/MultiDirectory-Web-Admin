@@ -1,32 +1,32 @@
 <div class="bg-white-neutral app-layout flex-row">
   <div
-    class="left-pane"
     [ngClass]="{
       'left-pane-visible': showLeftPane,
     }"
+    class="left-pane"
   >
-    <app-sidebar></app-sidebar>
+    <app-sidebar />
   </div>
   <div class="right-pane w-100 h-100">
-    <app-header></app-header>
+    <app-header />
     <div class="right-pane-content">
       <router-outlet></router-outlet>
       <md-slideshift
         #notifications
-        [showSlideshift]="showNotifications"
         (hide)="onNotificationsHide()"
+        [showSlideshift]="showNotifications"
       >
-        <app-notifications></app-notifications>
+        <app-notifications />
       </md-slideshift>
     </div>
     <hotkeys-cheatsheet
       title="{{ 'home.hotkeys' | transloco }}"
       #helpcheatSheet
       (keydown)="closeCheatsheet()"
-    ></hotkeys-cheatsheet>
+      title="{{ 'home.hotkeys' | transloco }}"
+    />
 
     <router-outlet name="footer"></router-outlet>
   </div>
 </div>
 <app-windows />
-<app-context-menu />

@@ -37,7 +37,7 @@ export const SearchQueries = {
     });
   },
 
-  getContent(baseObject: string, query: string = ''): SearchRequest {
+  getContent(baseObject: string, query = ''): SearchRequest {
     const req = new SearchRequest({
       base_object: baseObject,
       scope: 1,
@@ -91,13 +91,13 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: `(|(objectClass=group))`,
+      filter: '(|(objectClass=group))',
       attributes: ['*'],
     });
   },
 
   findEntities(name: string, baseDn: string, entityType: string[] = []): SearchRequest {
-    let typeQuery = `(!(objectClass=krbprincipal))`;
+    let typeQuery = '(!(objectClass=krbprincipal))';
     if (entityType.length > 0) {
       const entityTypes = entityType.map((x) => `(objectClass=${x})`).join('');
       typeQuery = `(|${entityTypes})`;

@@ -1,21 +1,23 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
 import { DropdownMenuComponent } from './dropdown-menu.component';
 
 @Directive({
   selector: '[mdDropdownContainer]',
 })
 export class DropdownContainerDirective implements OnInit {
+  private el = inject(ElementRef);
+
   @Input() mdDropdownContainer!: DropdownMenuComponent;
   @Input() openMenuOnClick = true;
   @Input() mdDropdownXOffset = 0;
   @Input() mdDropdownYOffset = 0;
-  constructor(private el: ElementRef) {}
 
   ngOnInit() {
     if (this.mdDropdownContainer) {
       this.mdDropdownContainer.container = this;
     }
   }
+
   @HostListener('click', ['$event']) onClick($event: Event) {
     if (!this.openMenuOnClick) {
       return;

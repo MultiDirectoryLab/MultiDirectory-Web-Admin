@@ -10,7 +10,7 @@
       >{{ 'entity-attributes.add' | transloco }}
     </md-button>
   </div>
-  <div class="h-100">
+  <div class="flex-row w-100 h-100" style="min-height: 400px">
     <md-datagrid
       (doubleclick)="onEditClick()"
       (pageChanged)="onPageChanged($event)"
@@ -24,6 +24,7 @@
       emptyMessage="{{ 'grid.no-data' | transloco }}"
       fromTitle="{{ 'grid.from-title' | transloco }}"
       pagerTitle="{{ 'grid.pager-title' | transloco }}"
+      style="flex: 1"
     >
       <ng-template #dataGridCellTemplate let-isSelected="isSelected" let-value="value">
         <div class="datatable-body-cell-label body-cell-label">

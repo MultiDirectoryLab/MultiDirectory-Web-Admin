@@ -1,39 +1,23 @@
 import {
+  AfterViewInit,
   Directive,
   ElementRef,
-  HostListener,
-  Input,
-  Output,
   EventEmitter,
+  HostListener,
+  inject,
+  Input,
   OnDestroy,
-  AfterViewInit,
+  Output,
 } from '@angular/core';
-import { Subscription, fromEvent } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { isLeftButton, getEvent } from '../common/utils';
+import { getEvent, isLeftButton } from '../common/utils';
 import { ResizableEvent } from './types';
 
 @Directive({
   selector: '[appResizable]',
 })
 export class ResizableDirective implements OnDestroy, AfterViewInit {
-  @Input() appResizable = true;
-  @Input() south: boolean = false;
-  @Input() east: boolean = false;
-  @Input() southEast: boolean = false;
-  @Input() ghost: boolean = false;
-  @Input() southWest: boolean = false;
-  @Input() west: boolean = false;
-  @Input() northWest: boolean = false;
-  @Input() north: boolean = false;
-  @Input() northEast: boolean = false;
-  @Input() restrictHeight: number = 0;
-
-  @Output() resizeBegin: EventEmitter<any> = new EventEmitter();
-  @Output() resizing: EventEmitter<ResizableEvent> = new EventEmitter();
-  @Output() resizeEnd: EventEmitter<ResizableEvent> = new EventEmitter();
-
-  element: HTMLElement;
   private subscription?: Subscription;
   private newWidth: number = 0;
   private newHeight: number = 0;
@@ -47,13 +31,29 @@ export class ResizableDirective implements OnDestroy, AfterViewInit {
   private resizingNW: boolean = false;
   private resizingN: boolean = false;
   private resizingNE: boolean = false;
-
   private minWidth: number = 0;
   private maxWidth: number = 0;
   private minHeight: number = 0;
   private maxHeight: number = 0;
+  @Input() appResizable = true;
+  @Input() south: boolean = false;
+  @Input() east: boolean = false;
+  @Input() southEast: boolean = false;
+  @Input() ghost: boolean = false;
+  @Input() southWest: boolean = false;
+  @Input() west: boolean = false;
+  @Input() northWest: boolean = false;
+  @Input() north: boolean = false;
+  @Input() northEast: boolean = false;
+  @Input() restrictHeight: number = 0;
+  @Output() resizeBegin: EventEmitter<any> = new EventEmitter();
+  @Output() resizing: EventEmitter<ResizableEvent> = new EventEmitter();
+  @Output() resizeEnd: EventEmitter<ResizableEvent> = new EventEmitter();
+  element: HTMLElement;
 
-  constructor(element: ElementRef) {
+  constructor() {
+    const element = inject(ElementRef);
+
     this.element = element.nativeElement;
   }
 
@@ -188,19 +188,6 @@ export class ResizableDirective implements OnDestroy, AfterViewInit {
     this.destroySubscription();
   }
 
-  private destroySubscription(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-      this.subscription = undefined;
-    }
-  }
-
-  private createHandle(edgeClass: string): void {
-    const node = document.createElement('span');
-    node.className = edgeClass;
-    this.element.appendChild(node);
-  }
-
   initResize(
     event: MouseEvent | TouchEvent,
     isSouth: boolean,
@@ -312,5 +299,18 @@ export class ResizableDirective implements OnDestroy, AfterViewInit {
       height: this.newHeight,
       direction: 'vertical',
     });
+  }
+
+  private destroySubscription(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = undefined;
+    }
+  }
+
+  private createHandle(edgeClass: string): void {
+    const node = document.createElement('span');
+    node.className = edgeClass;
+    this.element.appendChild(node);
   }
 }

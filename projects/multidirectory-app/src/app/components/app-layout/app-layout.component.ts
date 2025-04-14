@@ -18,7 +18,6 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
-import { ContextMenuComponent } from './shared/context-menu/context-menu.component';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
 import { WindowsComponent } from './shared/windows/windows.component';
 
@@ -36,7 +35,6 @@ import { WindowsComponent } from './shared/windows/windows.component';
     HotkeyModule,
     TranslocoPipe,
     WindowsComponent,
-    ContextMenuComponent,
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
@@ -63,7 +61,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .getKerberosStatus()
       .pipe(
         take(1),
-        catchError((x) => {
+        catchError(() => {
           this.app.kerberosStatus = KerberosStatuses.ERROR;
           return EMPTY;
         }),
@@ -105,7 +103,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.dns
       .status()
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           this.toastr.error(translate('dns-settings.dns-unavailable'));
           return of(
             new DnsStatusResponse({

@@ -14,7 +14,6 @@
           "options": {
             "project": "projects/multidirectory-ui-kit/ng-package.json"
           },
-
           "configurations": {
             "production": {
               "tsConfig": "projects/multidirectory-ui-kit/tsconfig.lib.prod.json"
@@ -59,6 +58,16 @@
             "browserTarget": "multidirectory-ui-kit:build",
             "compodoc": false,
             "outputDir": "storybook-static"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/multidirectory-ui-kit/**/*.ts",
+              "projects/multidirectory-ui-kit/**/*.html"
+            ],
+            "eslintConfig": "projects/multidirectory-ui-kit/eslint.config.js"
           }
         }
       }
@@ -164,7 +173,11 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"]
+            "lintFilePatterns": [
+              "projects/multidirectory-app/**/*.ts",
+              "projects/multidirectory-app/**/*.html"
+            ],
+            "eslintConfig": "projects/multidirectory-app/eslint.config.js"
           }
         }
       }

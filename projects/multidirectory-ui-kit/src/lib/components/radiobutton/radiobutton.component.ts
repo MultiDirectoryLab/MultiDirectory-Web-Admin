@@ -22,5 +22,3 @@ export class RadiobuttonComponent implements OnInit {
     this.group.value = this.value;
   }
 }
-
-export { RadioGroupComponent };

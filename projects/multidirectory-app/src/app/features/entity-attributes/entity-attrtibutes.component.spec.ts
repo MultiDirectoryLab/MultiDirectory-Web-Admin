@@ -48,7 +48,7 @@ describe('EntityAttributesComponent', () => {
   function getAccessor(): LdapAttributes {
     const attributes = new LdapAttributes(partialAttributes);
     const node = LdapNodeMock;
-    let accessor = attributeService.getTrackableAttributes(node, attributes);
+    const accessor = attributeService.getTrackableAttributes(node, attributes);
     return accessor;
   }
 

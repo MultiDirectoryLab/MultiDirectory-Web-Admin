@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   DropdownComponent,
   DropdownOption,
-  ModalInjectDirective,
   TextareaComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
@@ -18,10 +17,8 @@ import { Subject } from 'rxjs';
   imports: [TranslocoPipe, TextareaComponent, FormsModule, TextboxComponent, DropdownComponent],
 })
 export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy {
-  private modalControl = inject(ModalInjectDirective);
-
+  @Input() accessor: LdapAttributes = {};
   unsubscribe = new Subject();
-  accessor: LdapAttributes = {};
   countries = [
     new DropdownOption({ title: 'Russia', value: 'Russia' }),
     new DropdownOption({ title: 'Kazakhstan', value: 'Kazakhstan' }),
@@ -41,10 +38,10 @@ export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit(): void {
-    if (!this.modalControl.contentOptions?.accessor) {
+    if (!this.accessor) {
       return;
     }
-    this.accessor = this.modalControl.contentOptions?.accessor;
+
     if (this.accessor.country?.[0]) {
       this.country = this.countries?.find((x) => x.value == this.accessor.country[0])?.value ?? '';
     }

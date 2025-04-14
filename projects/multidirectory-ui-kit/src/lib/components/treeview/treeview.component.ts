@@ -5,6 +5,7 @@ import {
   Component,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   OnInit,
   Output,
@@ -29,6 +30,8 @@ import { TreeItemComponent } from './tree-item.component';
   imports: [NgTemplateOutlet, TreeItemComponent, NgClass, NgStyle, CheckboxComponent, FormsModule],
 })
 export class TreeviewComponent extends BaseControlComponent implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+
   private _selectedNode: Treenode | null = null;
   private _focusedNode: Treenode | null = null;
   @ViewChild('defaultLabel', { static: true }) defaultLabel!: TemplateRef<any>;
@@ -39,7 +42,7 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @Output() nodeSelect = new EventEmitter<Treenode>();
   @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor() {
     super();
   }
 

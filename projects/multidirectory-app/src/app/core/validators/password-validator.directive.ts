@@ -22,10 +22,10 @@ export class PasswordValidatorDirective implements Validator {
       return null;
     }
     const password = control.value;
-    var hasUpperCase = /[A-ZА-Я]/.test(password);
-    var hasLowerCase = /[a-zа-я]/.test(password);
-    var hasNumbers = /\d/.test(password);
-    var endsWith6Digits = /.*\d{6,}$/.test(password);
+    const hasUpperCase = /[A-ZА-Я]/.test(password);
+    const hasLowerCase = /[a-zа-я]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const endsWith6Digits = /.*\d{6,}$/.test(password);
     if (!hasUpperCase || !hasLowerCase || !hasNumbers || endsWith6Digits) {
       return { PasswordValidator: translate('password-conditions.password-must-meet-conditions') };
     }

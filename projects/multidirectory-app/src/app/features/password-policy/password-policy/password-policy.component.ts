@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -31,7 +30,6 @@ import {
   ],
 })
 export class PasswordPolicyComponent implements OnInit {
-  private activatedRoute = inject(ActivatedRoute);
   private windows = inject(AppWindowsService);
   private api = inject(MultidirectoryApiService);
   private app = inject(AppSettingsService);
@@ -40,20 +38,17 @@ export class PasswordPolicyComponent implements OnInit {
   passwordPolicy = new PasswordPolicy();
 
   ngOnInit(): void {
-    const param = this.activatedRoute.snapshot.params['id'];
     this.windows.showSpinner();
     this.api.getPasswordPolicy().subscribe({
       next: (x) => {
         this.passwordPolicy = x;
         this.windows.hideSpinner();
       },
-      error: (err) => {
+      error: () => {
         this.windows.hideSpinner();
       },
     });
   }
-
-  close() {}
 
   save() {
     this.app.validatePasswords = this.passwordPolicy.passwordMustMeetComplexityRequirements;

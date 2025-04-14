@@ -1,12 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  output,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
@@ -14,25 +6,33 @@ import { SearchPanelComponent } from '@features/search/search-panel.component';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
-import { AppWindowsService } from '@services/app-windows.service';
 import { ContentViewService } from '@services/content-view.service';
-import { MenuService } from '@services/menu.service';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import {
   DropdownContainerDirective,
   DropdownMenuComponent,
-  MdSlideshiftComponent,
   PlaneButtonComponent,
   RadiobuttonComponent,
   RadioGroupComponent,
   ShiftCheckboxComponent,
 } from 'multidirectory-ui-kit';
-import { Subject } from 'rxjs';
+import { ChangePasswordDialogComponent } from '../../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
+import { EntityPropertiesDialogComponent } from '../../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import {
+  ChangePasswordDialogData,
+  ChangePasswordDialogReturnData,
+} from '../../modals/interfaces/change-password-dialog.interface';
+import {
+  EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
+} from '../../modals/interfaces/entity-properties-dialog.interface';
+import { DialogService } from '../../modals/services/dialog.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  standalone: true,
   imports: [
     RouterOutlet,
     PlaneButtonComponent,
@@ -47,27 +47,20 @@ import { Subject } from 'rxjs';
     TranslocoDirective,
   ],
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent {
   private app = inject(AppSettingsService);
   private contentViewService = inject(ContentViewService);
   private hotkeysService = inject(HotkeysService);
-  private ldapWindows = inject(AppWindowsService);
-  private menu = inject(MenuService);
-  private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private dialogService: DialogService = inject(DialogService);
   readonly helpMenuClick = output<MouseEvent>();
   readonly accountSettingsClicked = output<void>();
   readonly logoutClick = output<void>();
-
   readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
-  readonly slideshift = viewChild.required('notifications', { read: MdSlideshiftComponent });
-  showNotifications = false;
-  unsubscribe = new Subject<boolean>();
-  navigationalPanelInvisible = false;
-  darkMode = false;
-
-  ViewMode = ViewMode;
+  public navigationalPanelInvisible = false;
+  public darkMode = false;
+  public ViewMode = ViewMode;
 
   get contentView(): ViewMode {
     return this.contentViewService.contentView;
@@ -81,12 +74,13 @@ export class HeaderComponent implements OnDestroy {
     return this.app.user;
   }
 
-  // TODO: TOO MUCH SERVICES
   constructor() {
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+h',
-        (): boolean => {
+        ['ctrl+h', 'meta+h'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onChange(!this.navigationalPanelInvisible);
           return false; // Prevent bubbling
         },
@@ -97,8 +91,10 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'esc',
-        (): boolean => {
-          this.router.navigate(['/']);
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
+          // this.router.navigate(['/']); TODO: Разобраться для чего
           return false; // Prevent bubbling
         },
         undefined,
@@ -108,7 +104,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f1',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.SmallIcons;
           return false; // Prevent bubbling
         },
@@ -119,7 +117,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f2',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.BigIcons;
           return false; // Prevent bubbling
         },
@@ -130,7 +130,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f3',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Table;
           return false; // Prevent bubbling
         },
@@ -141,7 +143,9 @@ export class HeaderComponent implements OnDestroy {
     this.hotkeysService.add(
       new Hotkey(
         'f4',
-        (): boolean => {
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.contentView = ViewMode.Details;
           return false; // Prevent bubbling
         },
@@ -151,8 +155,10 @@ export class HeaderComponent implements OnDestroy {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+f',
-        (): boolean => {
+        ['ctrl+f', 'meta+f'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.searchBtn()?.nativeElement.click();
           return false;
         },
@@ -163,8 +169,10 @@ export class HeaderComponent implements OnDestroy {
 
     this.hotkeysService.add(
       new Hotkey(
-        'ctrl+d',
-        (): boolean => {
+        ['ctrl+d', 'meta+d'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
           this.onDarkMode(!this.darkMode);
           return false;
         },
@@ -174,11 +182,6 @@ export class HeaderComponent implements OnDestroy {
     );
 
     this.darkMode = localStorage.getItem('dark-mode') == 'true';
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next(true);
-    this.unsubscribe.complete();
   }
 
   onChange(value: boolean) {
@@ -201,29 +204,48 @@ export class HeaderComponent implements OnDestroy {
     this.cdr.detectChanges();
   }
 
-  openAccessControl() {
-    this.menu.showAccessControlMenu();
-  }
-
   onAccountSettingsClick() {
     if (!this.app.userEntry) {
       return;
     }
-    this.ldapWindows.openEntityProperiesModal(this.app.userEntry);
+
+    this.dialogService.open<
+      EntityPropertiesDialogReturnData,
+      EntityPropertiesDialogData,
+      EntityPropertiesDialogComponent
+    >({
+      component: EntityPropertiesDialogComponent,
+      dialogConfig: {
+        hasBackdrop: false,
+        width: '600px',
+        minHeight: '660px',
+        data: { entity: this.app.userEntry },
+      },
+    });
   }
 
   onChangePasswordClick() {
     if (!this.app.userEntry) {
       return;
     }
-    this.ldapWindows.openChangePasswordModal(this.app.userEntry);
+
+    const { id: identity, name: un } = this.app.userEntry;
+
+    this.dialogService.open<
+      ChangePasswordDialogReturnData,
+      ChangePasswordDialogData,
+      ChangePasswordDialogComponent
+    >({
+      component: ChangePasswordDialogComponent,
+      dialogConfig: {
+        minHeight: '220px',
+        height: '220px',
+        data: { identity, un },
+      },
+    });
   }
 
   onLogout() {
     this.logoutClick.emit();
-  }
-
-  toggleNotificationPanel() {
-    this.app.notificationVisible = true;
   }
 }

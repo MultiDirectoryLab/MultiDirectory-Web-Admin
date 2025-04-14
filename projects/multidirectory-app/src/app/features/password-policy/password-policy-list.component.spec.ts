@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -44,7 +45,7 @@ describe('PasswordPolicyListComponent', () => {
     component = fixture.componentInstance;
 
     // Access the mock directive
-    component.appCratePolicyModal = TestBed.inject(ModalInjectDirective);
+    component.appCratePolicyModal = signal(TestBed.inject(ModalInjectDirective));
   });
 
   it('should create', () => {
@@ -54,7 +55,7 @@ describe('PasswordPolicyListComponent', () => {
   describe('onAddClick', () => {
     it('should open the modal', () => {
       component.onAddClick();
-      expect(component.appCratePolicyModal?.open).toHaveBeenCalledWith({});
+      expect(component.appCratePolicyModal()?.open).toHaveBeenCalledWith({});
     });
   });
 
@@ -132,7 +133,7 @@ describe('PasswordPolicyListComponent', () => {
     it('should open the modal', () => {
       component.onAddClick();
 
-      expect(component.appCratePolicyModal?.open).toHaveBeenCalledWith({});
+      expect(component.appCratePolicyModal()?.open).toHaveBeenCalledWith({});
     });
   });
 });

@@ -1,8 +1,8 @@
 import { SetupRequest } from './setup-request';
 
 export class KerberosTreeSetupRequest {
-  mail: string = '';
-  krbadmin_password: string = '';
+  mail = '';
+  krbadmin_password = '';
 
   constructor(obj: Partial<KerberosTreeSetupRequest>) {
     Object.assign(this, obj);

@@ -26,5 +26,5 @@ import {
 })
 export class UserPropertiesProfileComponent {
   @Input() accessor: LdapAttributes | null = null;
-  homeDirectorySelection: number = 1;
+  homeDirectorySelection = 1;
 }

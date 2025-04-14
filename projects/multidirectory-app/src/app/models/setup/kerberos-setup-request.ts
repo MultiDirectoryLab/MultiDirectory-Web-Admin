@@ -1,9 +1,9 @@
 import { SetupRequest } from './setup-request';
 
 export class KerberosSetupRequest {
-  krbadmin_password: string = '';
-  admin_password: string = '';
-  stash_password: string = '';
+  krbadmin_password = '';
+  admin_password = '';
+  stash_password = '';
 
   constructor(obj: Partial<KerberosSetupRequest>) {
     Object.assign(this, obj);

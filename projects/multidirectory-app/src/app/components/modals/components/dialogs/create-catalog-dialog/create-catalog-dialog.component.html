@@ -1,0 +1,40 @@
+<app-dialog>
+  <div class="app-modal-header">
+    <div>{{ 'catalog-create.modal-header' | transloco }}</div>
+  </div>
+
+  <div class="flex-row align-center flex-gap-10">
+    <div class="avatar"><img class="avatar-img" src="/assets/empty_avatar.svg" /></div>
+    <div class="place">{{ 'catalog-create.header' | transloco }} {{ dialogData.parentDn }}</div>
+  </div>
+  <hr />
+  <div class="flex-column align-start justify-end flex-gap-10" style="max-height: 400px">
+    <md-form #form>
+      <div class="flex-column flex-gap-10">
+        <div class="flex-column align-start justify-end flex-gap-10">
+          <label for="catalogName">{{ 'catalog-create.catalogname-label' | transloco }}</label>
+          <md-textbox [(ngModel)]="catalogName" appRequired name="catalogName"></md-textbox>
+        </div>
+        <div class="flex-column align-start flex-space-between flex-gap-10">
+          <label for="description">{{ 'catalog-create.description' | transloco }}</label>
+          <md-textarea
+            [(ngModel)]="description"
+            [expandWidth]="true"
+            name="description"
+          ></md-textarea>
+        </div>
+      </div>
+    </md-form>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="flex-row align-center justify-end flex-gap-10">
+      <md-button (click)="onClose()">
+        {{ 'catalog-create.cancel' | transloco }}
+      </md-button>
+      <md-button (click)="onFinish($event)" [disabled]="!formValid" [primary]="true">
+        {{ 'catalog-create.apply' | transloco }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>

@@ -1,6 +1,6 @@
 export class GroupSelection {
-  dn: string = '';
-  name: string = '';
+  dn = '';
+  name = '';
   selected = false;
   constructor(obj: Partial<GroupSelection>) {
     Object.assign(this, obj);

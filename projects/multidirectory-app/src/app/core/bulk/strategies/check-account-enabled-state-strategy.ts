@@ -10,7 +10,7 @@ export class CheckAccountEnabledStateStrategy extends BulkCompleteStrategy<LdapA
       return of(null as RESULT);
     }
     const result = entires.map((accessor) => {
-      const uacBitSet = !!accessor['userAccountControl']
+      const uacBitSet = accessor['userAccountControl']
         ? BitSet.fromHexString(Number(accessor['userAccountControl']?.[0]).toString(16))
         : new BitSet();
       const value =

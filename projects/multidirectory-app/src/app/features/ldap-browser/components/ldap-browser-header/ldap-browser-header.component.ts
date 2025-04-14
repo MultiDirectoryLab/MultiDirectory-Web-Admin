@@ -23,14 +23,14 @@ export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<boolean>();
 
   ngAfterViewInit(): void {
-    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.selectedCatalogDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
       this.containerName = this.selectedCatalogDn;
       this.cdr.detectChanges();
     });
   }
 
-  onCopyDn($event: any) {
+  onCopyDn() {
     navigator.clipboard
       .writeText(this.containerName)
       .then(() => {

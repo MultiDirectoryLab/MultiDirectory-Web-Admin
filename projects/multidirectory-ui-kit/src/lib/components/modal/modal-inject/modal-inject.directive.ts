@@ -3,7 +3,7 @@ import {
   ComponentRef,
   Directive,
   EmbeddedViewRef,
-  Inject,
+  inject,
   OnChanges,
   OnDestroy,
   SimpleChanges,
@@ -11,10 +11,10 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable, of, Subject, takeUntil } from 'rxjs';
-import { MdModalComponent } from '../modal.component';
-import { getModalParts } from './modal-inject-helper';
 import { MdPortalService } from '../../portal/portal.service';
+import { MdModalComponent } from '../modal.component';
 import { MdModalService } from '../modal.service';
+import { getModalParts } from './modal-inject-helper';
 import { PORTAL_AWARE_VIEW_CONTAINER_RESOLVER } from './portal-aware-view-container-resolver';
 
 @Directive({
@@ -31,18 +31,26 @@ import { PORTAL_AWARE_VIEW_CONTAINER_RESOLVER } from './portal-aware-view-contai
   ],
 })
 export class ModalInjectDirective implements OnChanges, OnDestroy {
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private getViewContainerRef = inject(PORTAL_AWARE_VIEW_CONTAINER_RESOLVER);
+  private cdr = inject(ChangeDetectorRef);
+  private modalService = inject(MdModalService);
+
   private templateView!: EmbeddedViewRef<any>;
   private _modalWrapper?: ComponentRef<MdModalComponent>;
   private viewContainerRef!: ViewContainerRef;
   private unsubscribe = new Subject<void>();
+  contentOptions: { [key: string]: any } = {};
 
-  constructor(
-    private templateRef: TemplateRef<any>,
-    @Inject(PORTAL_AWARE_VIEW_CONTAINER_RESOLVER)
-    private getViewContainerRef: () => ViewContainerRef,
-    private cdr: ChangeDetectorRef,
-    private modalService: MdModalService,
-  ) {}
+  private _resultRx = new Subject<any | boolean | null>();
+
+  get resultRx(): Observable<any | boolean | null> {
+    return this._resultRx.asObservable();
+  }
+
+  get modal(): MdModalComponent {
+    return this._modalWrapper!.instance;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.templateView?.detectChanges();
@@ -52,17 +60,6 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
     this.unsubscribe.next();
     this.unsubscribe.complete();
   }
-
-  private _resultRx = new Subject<any | boolean | null>();
-  get resultRx(): Observable<any | boolean | null> {
-    return this._resultRx.asObservable();
-  }
-
-  get modal(): MdModalComponent {
-    return this._modalWrapper!.instance;
-  }
-
-  contentOptions: { [key: string]: any } = {};
 
   open(
     modalOptions?: { [key: string]: any },
@@ -103,17 +100,8 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
   close(result: any | boolean | null = null) {
     this.shutdownWindow(result);
   }
-  closeWrapperFn: (result: any) => boolean = (result: any) => true;
 
-  private shutdownWindow(result: any) {
-    this.modal.visible = false;
-    this._resultRx.next(result);
-    this.templateView.destroy();
-    this._modalWrapper!.destroy();
-    this.modalService.pop();
-    this._modalWrapper = undefined;
-    this.modalService.focusLastModal();
-  }
+  closeWrapperFn: (result: any) => boolean = (result: any) => true;
 
   resizeToContentHeight() {
     this.modal.resizeToContentHeight();
@@ -125,5 +113,15 @@ export class ModalInjectDirective implements OnChanges, OnDestroy {
 
   hideSpinner() {
     this.modal.hideSpinner();
+  }
+
+  private shutdownWindow(result: any) {
+    this.modal.visible = false;
+    this._resultRx.next(result);
+    this.templateView.destroy();
+    this._modalWrapper!.destroy();
+    this.modalService.pop();
+    this._modalWrapper = undefined;
+    this.modalService.focusLastModal();
   }
 }

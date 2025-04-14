@@ -19,13 +19,6 @@ export class GridItemComponent {
   readonly rightClick = output<ContextMenuEvent>();
 
   readonly drag = viewChild.required(CdkDrag);
-  draggable = {
-    data: 'myDragData',
-    effectAllowed: 'copyMove',
-    disable: false,
-    handle: false,
-  };
-  isSelected = false;
 
   onClick($event: MouseEvent) {
     $event.preventDefault();

@@ -14,7 +14,6 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import {
   AlertComponent,
   ButtonComponent,
-  ContextMenuEvent,
   DatagridComponent,
   DropdownMenuComponent,
   DropdownOption,
@@ -24,6 +23,12 @@ import {
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { AddPrincipalDialogComponent } from '../../../components/modals/components/dialogs/add-principal-dialog/add-principal-dialog.component';
+import {
+  AddPrincipalDialogData,
+  AddPrincipalDialogReturnData,
+} from '../../../components/modals/interfaces/add-principal-dialog.interface';
+import { DialogService } from '../../../components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-kerberos-principals',
@@ -50,8 +55,8 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
   private _unsubscribe = new Subject<void>();
+  private dialogService = inject(DialogService);
   readonly grid = viewChild.required<DatagridComponent>('grid');
-  readonly principalMenu = viewChild.required<DropdownMenuComponent>('principalMenu');
   faCircleExclamation = faCircleExclamation;
   principals: SearchResult[] = [];
   columns: TableColumn[] = [];
@@ -120,19 +125,15 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
           .filter((x) => this.filterPrincipals(x))
           .map(
             (node) =>
-              <SearchResult>{
+              ({
                 name:
                   node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
                   node.object_name,
-              },
+              }) as SearchResult,
           );
         this.cdr.detectChanges();
       });
   }
-
-  onPageChanged($event: Page) {}
-
-  onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
     const grid = this.grid();
@@ -166,13 +167,13 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
       .subscribe((x) => {
         // It is necessary to create a new blob object with mime-type explicitly set
         // otherwise only Chrome works like it should
-        var newBlob = new Blob([x], { type: 'application/text' });
+        const newBlob = new Blob([x], { type: 'application/text' });
 
         // For other browsers:
         // Create a link pointing to the ObjectURL containing the blob.
         const data = window.URL.createObjectURL(newBlob);
 
-        var link = document.createElement('a');
+        const link = document.createElement('a');
         link.href = data;
         link.download = 'krb5.keytab';
         // this is necessary as link.click() does not work on the latest firefox
@@ -189,22 +190,18 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   }
 
   addPrincipal() {
-    this.windows
-      .openAddPrincipalDialog()
-      .pipe(take(1))
-      .subscribe((x) => {
+    this.dialogService
+      .open<AddPrincipalDialogReturnData, AddPrincipalDialogData, AddPrincipalDialogComponent>({
+        component: AddPrincipalDialogComponent,
+        dialogConfig: { minHeight: '360px' },
+      })
+      .closed.pipe(take(1))
+      .subscribe(() => {
         this.updateContent();
       });
   }
 
   setupKerberos() {
-    this.windows
-      .openSetupKerberosDialog()
-      .pipe(take(1))
-      .subscribe((x) => {});
-  }
-
-  handleRightClick(e: ContextMenuEvent) {
-    // TODO
+    this.windows.openSetupKerberosDialog().pipe(take(1)).subscribe();
   }
 }

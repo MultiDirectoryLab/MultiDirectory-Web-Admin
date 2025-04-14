@@ -26,7 +26,7 @@ export class ResultCodeInterceptor implements HttpInterceptor {
           return resp;
         }
 
-        if (!!resp.body.errorMessage) {
+        if (resp.body.errorMessage) {
           throw new HttpErrorResponse({
             status: resp.body.resultCode,
             statusText: resp.body.errorMessage,

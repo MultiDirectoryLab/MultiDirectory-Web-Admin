@@ -14,7 +14,7 @@ import { NavigationComponent } from './navigation.component';
 
 xdescribe('Navigation Component Test Suit', () => {
   let routerSpy: any;
-  let routerEventSubj = new Subject<RouterEvent>();
+  const routerEventSubj = new Subject<RouterEvent>();
   beforeEach(async () => {
     routerSpy = jasmine.createSpyObj(Router, ['navigate']);
     routerSpy.navigate.and.returnValue(of(new NavigationEnd(0, '/', '/')));
@@ -51,7 +51,7 @@ xdescribe('Navigation Component Test Suit', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.outerHTML).toContain('tree-label');
       const testNode1 = navigation.navigationTree[1].data;
-      let treeNode = fixture.debugElement.nativeElement.querySelector(
+      const treeNode = fixture.debugElement.nativeElement.querySelector(
         '.tree-item-wrapper[data-id=' + testNode1.id + ']',
       );
       expect(testNode1.selectable).toBeTrue();

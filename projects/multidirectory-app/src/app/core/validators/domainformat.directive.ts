@@ -16,6 +16,7 @@ import {
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class DomainFormatValidatorDirective implements Validator {
   readonly domainPattern = input.required<string>({ alias: 'appDomainFormat' });

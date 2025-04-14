@@ -1,9 +1,8 @@
-import { Directive, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Directive, inject, TemplateRef } from '@angular/core';
 
 @Directive({
   selector: '[mdStep]',
 })
 export class StepDirective {
-  constructor(public templateRef: TemplateRef<unknown>) {}
+  templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 }

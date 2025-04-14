@@ -1,29 +1,27 @@
+import { NgClass, NgStyle } from '@angular/common';
 import {
   AfterViewChecked,
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
   ElementRef,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   OnInit,
   Output,
   Renderer2,
-  TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { IdProvider } from '../../utils/id-provider';
-import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
-import { ResizableEvent } from './ng-modal-lib/lib/resizable/types';
-import { MdModalService } from './modal.service';
 import { BaseControlComponent } from '../base-component/control.component';
-import { ResizableDirective } from './ng-modal-lib/lib/resizable/resizable.directive';
-import { NgClass, NgStyle } from '@angular/common';
+import { SpinnerHostDirective } from '../spinner/spinner-host.directive';
+import { MdModalService } from './modal.service';
 import { DraggableDirective } from './ng-modal-lib/lib/draggable/draggable.directive';
+import { ResizableDirective } from './ng-modal-lib/lib/resizable/resizable.directive';
+import { ResizableEvent } from './ng-modal-lib/lib/resizable/types';
 
 @Component({
   selector: 'md-modal',
@@ -34,6 +32,10 @@ import { DraggableDirective } from './ng-modal-lib/lib/draggable/draggable.direc
   imports: [SpinnerHostDirective, ResizableDirective, NgStyle, DraggableDirective, NgClass],
 })
 export class MdModalComponent extends BaseControlComponent implements OnInit, AfterViewChecked {
+  private renderer = inject(Renderer2);
+  private modalService = inject(MdModalService);
+  private cdr = inject(ChangeDetectorRef);
+
   override __ID = IdProvider.getUniqueId('modal');
 
   @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost?: SpinnerHostDirective;
@@ -69,11 +71,7 @@ export class MdModalComponent extends BaseControlComponent implements OnInit, Af
   preMaximizePageY: number = 0;
   dragEventTarget: MouseEvent | TouchEvent = <MouseEvent>{};
 
-  constructor(
-    private renderer: Renderer2,
-    private modalService: MdModalService,
-    private cdr: ChangeDetectorRef,
-  ) {
+  constructor() {
     super();
   }
 

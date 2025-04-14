@@ -1,4 +1,6 @@
+import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -11,6 +13,7 @@ import {
   importProvidersFrom,
   inject,
   provideAppInitializer,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,21 +27,20 @@ import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-inte
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideTransloco, TranslocoService } from '@jsverse/transloco';
+import { CustomOverlayContainer } from '@models/custom-overlay-container';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from 'multidirectory-ui-kit';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
+import { DIALOG_CONFIG_DEFAULT } from './components/modals/constants/dialog.constants';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    provideAppInitializer(() => {
-      const translateService: TranslocoService = inject(TranslocoService);
-      return lastValueFrom(translateService.load('ru-RU'));
-    }),
+    provideAppInitializer(() => lastValueFrom(inject(TranslocoService).load('ru-RU'))),
     provideAnimations(),
     importProvidersFrom(
       BrowserModule,
@@ -51,34 +53,25 @@ export const appConfig: ApplicationConfig = {
     ),
     {
       provide: 'apiAdapter',
-      useFactory: (
-        adapterSettings: MultidirectoryAdapterSettings,
-        httpClient: HttpClient,
-        toastr: ToastrService,
-      ) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
-      deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService],
+      useFactory: () =>
+        new ApiAdapter<MultidirectoryAdapterSettings>(
+          inject(HttpClient),
+          inject(MultidirectoryAdapterSettings),
+          inject(ToastrService),
+        ),
     },
     {
       provide: 'dnsAdapter',
-      useFactory: (
-        adapterSettings: DnsAdapterSettings,
-        httpClient: HttpClient,
-        toastr: ToastrService,
-      ) => new ApiAdapter<DnsAdapterSettings>(httpClient, adapterSettings, toastr),
-      deps: [DnsAdapterSettings, HttpClient, ToastrService],
+      useFactory: () =>
+        new ApiAdapter<DnsAdapterSettings>(
+          inject(HttpClient),
+          inject(DnsAdapterSettings),
+          inject(ToastrService),
+        ),
     },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
-    },
-    {
-      provide: SPINNER_CONFIGUARTION,
-      useFactory: (translateService: TranslocoService) => {
-        return new SpinnerConfiguration({
-          spinnerText: translateService.translate('spinner.please-wait'),
-        });
-      },
-      deps: [TranslocoService],
     },
     provideHttpClient(withInterceptorsFromDi()),
     {
@@ -100,6 +93,23 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    {
+      provide: SPINNER_CONFIGUARTION,
+      useFactory: () => {
+        return new SpinnerConfiguration({
+          spinnerText: inject(TranslocoService).translate('spinner.please-wait'),
+        });
+      },
+    },
+    {
+      provide: OverlayContainer,
+      useClass: CustomOverlayContainer,
+    },
+    {
+      provide: DEFAULT_DIALOG_CONFIG,
+      useValue: DIALOG_CONFIG_DEFAULT,
+    },
     provideAnimations(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
   ],
 };

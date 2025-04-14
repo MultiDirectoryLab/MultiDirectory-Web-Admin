@@ -86,8 +86,6 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     this.cdr.detectChanges();
   }
 
-  onPageChanged(page: Page) {}
-
   resetItems() {
     this.gridDrags().forEach((x) => {
       x.reset();
@@ -141,9 +139,7 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
     });
   }
 
-  selectCatalog(item: LdapEntryNode) {}
-
-  clickOutside(event: MouseEvent) {
+  clickOutside() {
     this.items.forEach((x) => (x.selected = false));
   }
 
@@ -177,13 +173,13 @@ export class IconViewComponent extends BaseViewComponent implements AfterViewIni
       }
       this.setSelected([this.items[currentIndex]]);
     }
+
     if (event.key == 'Enter') {
       const selectedItems = this.getSelected();
       if (selectedItems.length == 0) {
         this.setSelected([this.items[0]]);
         return;
       }
-      this.selectCatalog(selectedItems[0]);
     }
   }
 }

@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ButtonComponent, DropdownComponent, DropdownOption } from 'multidirectory-ui-kit';
@@ -13,7 +12,6 @@ import { ButtonComponent, DropdownComponent, DropdownOption } from 'multidirecto
 })
 export class MultidirectorySettingsComponent {
   private settings = inject(AppSettingsService);
-  private router = inject(Router);
 
   lanugages: DropdownOption[] = [
     { title: 'Russian', value: 'ru-RU' },

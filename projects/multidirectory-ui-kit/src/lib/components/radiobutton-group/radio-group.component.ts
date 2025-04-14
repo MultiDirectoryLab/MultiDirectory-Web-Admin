@@ -1,20 +1,17 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Injector,
+  forwardRef,
+  inject,
   Input,
   Output,
-  QueryList,
-  ViewChildren,
-  forwardRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
-import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
-import { NgTemplateOutlet } from '@angular/common';
 import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
+import { RadiobuttonComponent } from '../radiobutton/radiobutton.component';
 
 @Component({
   selector: 'md-radiogroup',
@@ -30,13 +27,15 @@ import { ErrorLabelComponent } from '../base-component/error-label/error-label.c
   imports: [NgTemplateOutlet, ErrorLabelComponent],
 })
 export class RadioGroupComponent extends BaseComponent {
+  protected override cdr = inject(ChangeDetectorRef);
+
   @Input() drawBorder = false;
   @Input() title = '';
   @Output() valueChanges = new EventEmitter<any>();
   buttons: RadiobuttonComponent[] = [];
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  constructor() {
+    super();
   }
 
   override writeValue(value: any): void {

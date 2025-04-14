@@ -3,12 +3,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
 import { ComputerPropertiesAccountComponent } from '@features/ldap-properties/computer-properties/account/computer-properties-account.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-  ModalInjectDirective,
-  TabComponent,
-  TabDirective,
-  TabPaneComponent,
-} from 'multidirectory-ui-kit';
+import { TabComponent, TabDirective, TabPaneComponent } from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -25,13 +20,11 @@ import { Subject } from 'rxjs';
   ],
 })
 export class ComputerPropertiesComponent {
-  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private cdr = inject(ChangeDetectorRef);
   unsubscribe = new Subject<boolean>();
   readonly accessor = input.required<LdapAttributes>();
 
   onTabChanged() {
-    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

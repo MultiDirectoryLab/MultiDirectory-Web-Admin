@@ -1,8 +1,8 @@
 export class ModifyDnRequest {
-  entry: string = '';
-  newrdn: string = '';
-  deleteoldrdn: boolean = true;
-  new_superior: string = '';
+  entry = '';
+  newrdn = '';
+  deleteoldrdn = true;
+  new_superior = '';
 
   constructor(obj?: Partial<ModifyDnRequest>) {
     if (obj) {

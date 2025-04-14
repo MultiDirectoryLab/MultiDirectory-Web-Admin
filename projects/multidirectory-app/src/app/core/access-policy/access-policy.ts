@@ -2,9 +2,9 @@ import { IpOption } from './access-policy-ip-address';
 
 export class AccessPolicy {
   id?: number;
-  name: string = '';
+  name = '';
   ipRange: IpOption[] = [];
-  enabled: boolean = false;
+  enabled = false;
   groups: string[] = [];
   priority?: number;
   mfaStatus?: number;

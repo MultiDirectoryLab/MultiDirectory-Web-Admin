@@ -1,9 +1,9 @@
 import { IpRange } from '@core/access-policy/access-policy-ip-address';
 
 export class PolicyResponse {
-  enabled: boolean = false;
-  id: number = 0;
-  name: string = '';
+  enabled = false;
+  id = 0;
+  name = '';
   netmasks: string[] = [];
   raw: (IpRange | string)[] = [];
   groups: string[] = [];

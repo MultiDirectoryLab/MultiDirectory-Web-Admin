@@ -4,12 +4,7 @@ import { EntityAttributesComponent } from '@features/entity-attributes/entity-at
 import { MemberOfComponent } from '@features/ldap-properties/member-of/member-of.component';
 import { MembersComponent } from '@features/ldap-properties/members/members.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-  ModalInjectDirective,
-  TabComponent,
-  TabDirective,
-  TabPaneComponent,
-} from 'multidirectory-ui-kit';
+import { TabComponent, TabDirective, TabPaneComponent } from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -27,13 +22,11 @@ import { Subject } from 'rxjs';
   ],
 })
 export class GroupPropertiesComponent {
-  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private cdr = inject(ChangeDetectorRef);
   unsubscribe = new Subject<boolean>();
   readonly accessor = input.required<LdapAttributes>();
 
   onTabChanged() {
-    this.modalControl.modal?.resizeToContentHeight();
     this.cdr.detectChanges();
   }
 }

@@ -1,10 +1,9 @@
 import {
   AfterViewInit,
   Directive,
-  ElementRef,
+  inject,
   Input,
   OnDestroy,
-  OnInit,
   ViewContainerRef,
 } from '@angular/core';
 import { MdPortalService } from './portal.service';
@@ -14,12 +13,11 @@ import { MdPortalService } from './portal.service';
   exportAs: 'mdPortal',
 })
 export class MdPortalDirective implements AfterViewInit, OnDestroy {
+  private viewContainerRef = inject(ViewContainerRef);
+  private portalService = inject(MdPortalService);
+
   @Input('mdPortal') portalKey = 'portal';
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private portalService: MdPortalService,
-  ) {}
   ngAfterViewInit(): void {
     if (!this.portalKey) {
       throw 'Wrong Portal Key';

@@ -6,7 +6,7 @@ import { MockedSchema, MockedTree } from './scheme/mocked-schema';
 
 export function getMultidirectoryApiMock() {
   // Create jasmine spy object
-  let multidirectoryApiServiceMock = jasmine.createSpyObj(MultidirectoryApiService, [
+  const multidirectoryApiServiceMock = jasmine.createSpyObj(MultidirectoryApiService, [
     'login',
     'search',
     'getAccessPolicy',
@@ -14,7 +14,11 @@ export function getMultidirectoryApiMock() {
   ]);
 
   // Provide the dummy/mock data to sortNumberData method.
-  const loginResponse = <LoginResponse>{ access_token: 'xxx', refresh_token: 'xxx', type: 'user' };
+  const loginResponse = {
+    access_token: 'xxx',
+    refresh_token: 'xxx',
+    type: 'user',
+  } as LoginResponse;
   multidirectoryApiServiceMock.login.and.returnValue(of(loginResponse));
   multidirectoryApiServiceMock.search.and.callFake((request: SearchRequest) => {
     if (request.base_object.includes('CN=Schema')) {

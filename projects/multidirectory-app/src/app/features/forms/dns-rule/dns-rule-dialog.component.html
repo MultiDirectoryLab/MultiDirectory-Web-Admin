@@ -18,7 +18,11 @@
       <div>
         @switch (recordDataType) {
           @case (DnsRuleClass.IP6.valueOf()) {
-            <md-textbox appRequired validIp6Address [(ngModel)]="dnsRule.record_value"></md-textbox>
+            <md-textbox
+              appRequired
+              appValidIp6Address
+              [(ngModel)]="dnsRule.record_value"
+            ></md-textbox>
           }
           @case (DnsRuleClass.IP4.valueOf()) {
             <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.record_value"></md-textbox>

@@ -1,8 +1,8 @@
 import {
-  AfterViewInit,
   ComponentRef,
   Directive,
   ElementRef,
+  inject,
   Input,
   OnInit,
   Renderer2,
@@ -14,16 +14,15 @@ import { SpinnerComponent } from './spinner.component';
   selector: '[spinnerHost]',
 })
 export class SpinnerHostDirective implements OnInit {
+  renderer2 = inject(Renderer2);
+  el = inject(ElementRef);
+  viewContainerRef = inject(ViewContainerRef);
+
   @Input() spinnerName = '';
   @Input() spinnerText = '';
 
   public spinner?: SpinnerComponent;
   public spinnerRef?: ComponentRef<SpinnerComponent>;
-  constructor(
-    public renderer2: Renderer2,
-    public el: ElementRef,
-    public viewContainerRef: ViewContainerRef,
-  ) {}
 
   ngOnInit(): void {
     this.spinnerRef = this.viewContainerRef.createComponent(SpinnerComponent);

@@ -20,7 +20,7 @@
     </div>
     @switch (searchType) {
       @case (SearchType.Ldap) {
-        <app-search-users (onClear)="clear()" #searchUserForm></app-search-users>
+        <app-search-users (clear)="clear()" #searchUserForm></app-search-users>
       }
     }
   </md-form>

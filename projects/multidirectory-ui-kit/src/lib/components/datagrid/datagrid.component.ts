@@ -1,17 +1,19 @@
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ElementRef,
+  Component,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   Output,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   ColumnMode,
   ContextmenuType,
@@ -22,8 +24,6 @@ import {
 } from 'ngx-datatable-gimefork';
 import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
 import { Page } from './page';
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'md-datagrid',
@@ -39,6 +39,8 @@ import { FormsModule } from '@angular/forms';
   imports: [NgxDatatableModule, NgStyle, NgTemplateOutlet, DropdownComponent, FormsModule],
 })
 export class DatagridComponent implements AfterViewInit {
+  private cdr = inject(ChangeDetectorRef);
+
   ColumnMode = ColumnMode;
   @ViewChild('datagrid') grid!: DatatableComponent;
 
@@ -61,13 +63,26 @@ export class DatagridComponent implements AfterViewInit {
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
   @Output() pageChanged = new EventEmitter<Page>();
+  SelectionType = SelectionType;
+  @Input() pageSizes: DropdownOption[] = [
+    { title: '5', value: 5 },
+    { title: '10', value: 10 },
+    { title: '15', value: 15 },
+    { title: '20', value: 20 },
+  ];
 
   _selected: any[] = [];
+
   get selected(): any[] {
     return this._selected;
   }
+
   set selected(x: any[]) {
     this._selected = x;
+  }
+
+  get size(): number {
+    return this.page.size;
   }
 
   set size(size: number) {
@@ -78,27 +93,16 @@ export class DatagridComponent implements AfterViewInit {
     }
     this.pageChanged.emit(this.page);
   }
-  get size(): number {
-    return this.page.size;
-  }
 
   private _columns: TableColumn[] = [];
-  @Input() set columns(columns: TableColumn[]) {
-    this._columns = columns;
-  }
+
   get columns(): TableColumn[] {
     return this._columns;
   }
 
-  SelectionType = SelectionType;
-  @Input() pageSizes: DropdownOption[] = [
-    { title: '5', value: 5 },
-    { title: '10', value: 10 },
-    { title: '15', value: 15 },
-    { title: '20', value: 20 },
-  ];
-
-  constructor(private cdr: ChangeDetectorRef) {}
+  @Input() set columns(columns: TableColumn[]) {
+    this._columns = columns;
+  }
 
   ngAfterViewInit() {
     this.page.size = this.pageSizes?.[0]?.value ?? this.page.size;

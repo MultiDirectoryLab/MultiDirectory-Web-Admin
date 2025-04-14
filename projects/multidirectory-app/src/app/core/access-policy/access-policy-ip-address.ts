@@ -1,6 +1,6 @@
 export class IpRange {
-  start: string = '';
-  end: string = '';
+  start = '';
+  end = '';
 
   constructor(obj: Partial<IpRange>) {
     Object.assign(this, obj);

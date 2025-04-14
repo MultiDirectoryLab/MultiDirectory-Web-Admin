@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  inject,
   Input,
   Renderer2,
   TemplateRef,
@@ -16,6 +17,9 @@ import { PopupContainerDirective } from '../popup-container.directive';
   styleUrls: ['./popup-base.component.scss'],
 })
 export class PopupBaseComponent {
+  private renderer = inject(Renderer2);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('popup') popup!: ElementRef;
 
   @Input() items!: any[];
@@ -33,11 +37,6 @@ export class PopupBaseComponent {
   unlistenClick = () => {};
   unlistenListener = (e: Event) => {};
 
-  constructor(
-    private renderer: Renderer2,
-    private cdr: ChangeDetectorRef,
-  ) {}
-
   setPosition(left: number, top: number) {
     this._top = top;
     this._left = left;
@@ -49,35 +48,10 @@ export class PopupBaseComponent {
     this._width = width;
     this.cdr.detectChanges();
   }
+
   setMinWidth(minWidth?: number) {
     this._minWidth = minWidth;
     this.cdr.detectChanges();
-  }
-
-  private checkOverflow() {
-    const bottomPoint = this.popup.nativeElement.offsetTop + this.popup.nativeElement.offsetHeight;
-    if (bottomPoint > window.innerHeight) {
-      this.renderer.setStyle(
-        this.popup.nativeElement,
-        'top',
-        `${window.innerHeight - this.popup.nativeElement.offsetHeight - 32}px`,
-      );
-    }
-
-    const rightPoint = this.popup.nativeElement.offsetLeft + this.popup.nativeElement.offsetWidth;
-    if (rightPoint > window.innerWidth) {
-      this.renderer.setStyle(
-        this.popup.nativeElement,
-        'left',
-        `${window.innerWidth - this.popup.nativeElement.getBoundingClientRect().width - 40}px`,
-      );
-      this.renderer.setStyle(this.popup.nativeElement, 'right', `1rem`);
-    }
-  }
-
-  private setOutsideClickHandler() {
-    this.unlistenListener = this.handleClickOuside.bind(this);
-    document.addEventListener('mousedown', this.unlistenListener, { capture: true });
   }
 
   public handleClickOuside(e: Event) {
@@ -146,5 +120,31 @@ export class PopupBaseComponent {
       event.preventDefault();
       this.close();
     }
+  }
+
+  private checkOverflow() {
+    const bottomPoint = this.popup.nativeElement.offsetTop + this.popup.nativeElement.offsetHeight;
+    if (bottomPoint > window.innerHeight) {
+      this.renderer.setStyle(
+        this.popup.nativeElement,
+        'top',
+        `${window.innerHeight - this.popup.nativeElement.offsetHeight - 32}px`,
+      );
+    }
+
+    const rightPoint = this.popup.nativeElement.offsetLeft + this.popup.nativeElement.offsetWidth;
+    if (rightPoint > window.innerWidth) {
+      this.renderer.setStyle(
+        this.popup.nativeElement,
+        'left',
+        `${window.innerWidth - this.popup.nativeElement.getBoundingClientRect().width - 40}px`,
+      );
+      this.renderer.setStyle(this.popup.nativeElement, 'right', `1rem`);
+    }
+  }
+
+  private setOutsideClickHandler() {
+    this.unlistenListener = this.handleClickOuside.bind(this);
+    document.addEventListener('mousedown', this.unlistenListener, { capture: true });
   }
 }

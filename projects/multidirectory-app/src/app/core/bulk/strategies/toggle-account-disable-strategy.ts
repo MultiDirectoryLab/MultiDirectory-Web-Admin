@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { BulkPerformStrategy } from '../bulk-perfrom-strategy';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -13,7 +12,7 @@ export class ToggleAccountDisableStrategy extends BulkPerformStrategy<LdapAttrib
   }
 
   override mutate<TARGET>(accessor: LdapAttributes): TARGET {
-    const uacBitSet = !!accessor['userAccountControl']
+    const uacBitSet = accessor['userAccountControl']
       ? BitSet.fromHexString(Number(accessor['userAccountControl']?.[0]).toString(16))
       : new BitSet();
 

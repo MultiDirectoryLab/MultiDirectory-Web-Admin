@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-download-data',
-  template: ``,
+  template: '',
+  standalone: true,
 })
 export class DownloadComponent {
   downloadDict(data: any, name: string) {

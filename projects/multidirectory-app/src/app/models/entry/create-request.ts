@@ -1,7 +1,7 @@
 import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 
 export class CreateEntryRequest {
-  entry: string = '';
+  entry = '';
   attributes: PartialAttribute[] = [];
   password?: string;
 

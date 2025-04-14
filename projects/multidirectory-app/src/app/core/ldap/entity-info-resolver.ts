@@ -50,7 +50,7 @@ export class EntityInfoResolver {
       return LdapEntryType.None;
     }
 
-    for (let x of objectClass) {
+    for (const x of objectClass) {
       if (this.TypeMap.has(x)) return this.TypeMap.get(x) ?? LdapEntryType.None;
     }
     return LdapEntryType.Folder;

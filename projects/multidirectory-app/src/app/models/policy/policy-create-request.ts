@@ -3,7 +3,7 @@ import { IpOption } from '@core/access-policy/access-policy-ip-address';
 
 export class PolicyCreateRequest {
   id?: number;
-  name: string = '';
+  name = '';
   netmasks: IpOption[] = [];
   raw?: string;
   groups: string[] = [];

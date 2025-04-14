@@ -7,16 +7,16 @@
   user-select: none;
 
   .tab {
-    height: 32px;
+    height: 24px;
     position: relative;
     top: 2px;
-    padding: 4px 8px;
+    padding: 4px;
     border: 1px solid var(--md-neutral-300);
     border-right: none;
     background-color: var(--md-neutral-100);
 
     &.selected {
-      height: 34px;
+      height: 24px;
       position: relative;
       top: 1px;
       z-index: 3;

@@ -7,7 +7,7 @@ export enum LdapOperation {
   Replace = 2,
 }
 export class LdapChange {
-  operation: number = 0;
+  operation = 0;
   modification: PartialAttribute = new PartialAttribute({});
 
   constructor(obj: Partial<LdapChange>) {
@@ -16,7 +16,7 @@ export class LdapChange {
 }
 
 export class UpdateEntryRequest {
-  object: string = '';
+  object = '';
   changes: LdapChange[] = [];
 
   constructor(obj: Partial<UpdateEntryRequest>) {

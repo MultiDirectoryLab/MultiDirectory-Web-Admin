@@ -5,11 +5,11 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class DownloadService {
-  private _downloadDictRx = new Subject<[Object, string]>();
-  get downlaodDictRx(): Observable<[Object, string]> {
+  private _downloadDictRx = new Subject<[object, string]>();
+  get downlaodDictRx(): Observable<[object, string]> {
     return this._downloadDictRx.asObservable();
   }
-  downloadDict(dict: Object, name: string) {
+  downloadDict(dict: object, name: string) {
     this._downloadDictRx.next([dict, name]);
   }
 }

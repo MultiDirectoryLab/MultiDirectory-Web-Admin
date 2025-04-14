@@ -1,12 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
-import moment from 'moment';
-import { CheckboxComponent, GroupComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
+import { CheckboxComponent, GroupComponent } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-computer-properties-account',
@@ -15,13 +13,9 @@ import { CheckboxComponent, GroupComponent, ModalInjectDirective } from 'multidi
   imports: [GroupComponent, TranslocoPipe, CheckboxComponent, FormsModule],
 })
 export class ComputerPropertiesAccountComponent implements AfterViewInit {
-  modalControl = inject(ModalInjectDirective);
+  @Input() accessor: LdapAttributes = {};
   private cdr = inject(ChangeDetectorRef);
-  private nodeLoader = inject(LdapEntryLoader);
-
-  UserAccountControlFlag = UserAccountControlFlag;
   uacBitSet?: BitSet;
-  accessor: LdapAttributes = {};
 
   get userShouldChangePassword(): boolean {
     return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0;
@@ -77,18 +71,9 @@ export class ComputerPropertiesAccountComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  fileTimeToDate(filetime: number): moment.Moment {
-    return moment(new Date(filetime / 10000 - 11644473600000));
-  }
-
-  filetimeFromDate(date: moment.Moment): number {
-    return date.date() * 1e4 + 116444736e9;
-  }
-
   ngAfterViewInit(): void {
-    this.accessor = this.modalControl.contentOptions.accessor;
     const uacBits = this.accessor['userAccountControl']?.[0];
-    this.uacBitSet = !!this.accessor['userAccountControl']
+    this.uacBitSet = this.accessor['userAccountControl']
       ? BitSet.fromHexString(Number(uacBits).toString(16))
       : new BitSet();
 

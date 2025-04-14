@@ -12,12 +12,7 @@
   </div>
   <div class="col-xs-5 flex-column align-start flex-grow-1 flex-gap-10">
     <label>{{ 'user-properties.domain-label' | transloco }}</label>
-    <md-dropdown
-      appRequired
-      name="upnDomain"
-      [options]="domains"
-      [(ngModel)]="upnDomain"
-    ></md-dropdown>
+    <md-dropdown [(ngModel)]="upnDomain" [options]="domains" appRequired name="upnDomain" />
   </div>
 </div>
 <!--div class="row align-start pv-8">
@@ -31,9 +26,9 @@
   </div>
 </div-->
 <div class="flex-row flex-gap-10 align-start pv-8">
-  <md-button (click)="showLogonTimeEditor()">{{
-    'user-properties.login-time' | transloco
-  }}</md-button>
+  <md-button (click)="showLogonTimeEditor()"
+    >{{ 'user-properties.login-time' | transloco }}
+  </md-button>
   <!--md-button>{{ 'user-properties.login-resources' | transloco }}</md-button-->
 </div>
 <div class="row align-start pv-8">
@@ -42,42 +37,42 @@
   </div>
 </div>
 <md-group
-  title="{{ 'user-properties.password-settings-title' | transloco }}"
   class="align-start pv-8 mv-16"
+  title="{{ 'user-properties.password-settings-title' | transloco }}"
 >
   <div class="col-xs-12">
     <div class="flex-column" style="height: 90px; overflow-y: scroll">
-      <!-- user musst change password at next logon  -->
+      <!-- user must change password at next logon  -->
       <md-checkbox
-        name="userShouldChangePassword"
-        id="userShouldChangePassword"
         [(ngModel)]="userShouldChangePassword"
+        id="userShouldChangePassword"
+        name="userShouldChangePassword"
       >
         {{ 'user-properties.user-should-change-password' | transloco }}
       </md-checkbox>
       <!-- user cannot change password-->
       <md-checkbox
-        name="user-unable-change-password"
-        id="user-unable-change-password"
         [disabled]="true"
+        id="user-unable-change-password"
+        name="user-unable-change-password"
       >
         {{ 'user-properties.user-unable-change-password' | transloco }}
       </md-checkbox>
       <md-checkbox
-        name="password-never-expires"
-        id="password-never-expires"
         [(ngModel)]="passwordNeverExpires"
+        id="password-never-expires"
+        name="password-never-expires"
       >
         {{ 'user-properties.password-never-expires' | transloco }}
       </md-checkbox>
-      <md-checkbox name="account-disabled" id="account-disabled" [(ngModel)]="accountDisabled">
+      <md-checkbox [(ngModel)]="accountDisabled" id="account-disabled" name="account-disabled">
         {{ 'user-properties.account-disabled' | transloco }}
       </md-checkbox>
       <!-- Store password using reversible encryption -->
       <md-checkbox
-        name="store-password-reversible"
-        id="store-password-reversible"
         [(ngModel)]="storePasswordReversible"
+        id="store-password-reversible"
+        name="store-password-reversible"
       >
         {{ 'user-properties.store-password-reversible' | transloco }}
       </md-checkbox>
@@ -87,19 +82,19 @@
       <!-- Use only Kerberos DES encryption types with this account  -->
       <!-- This account supports Kerberos AES 128 bit encryption -->
       <!-- This account supports Kerberos AES 256 bit encryption -->
-      <!-- Do not require Kerberos preauthentication -->
+      <!-- Do not require Kerberos pre-authentication -->
     </div>
   </div>
 </md-group>
 <div class="row align-start pv-8">
-  <md-group title="{{ 'user-properties.password-expire-title' | transloco }}" class="col-xs-12">
+  <md-group class="col-xs-12" title="{{ 'user-properties.password-expire-title' | transloco }}">
     <div class="flex-column">
-      <md-radiogroup [(ngModel)]="accountExpires" #accountExpirationRadiogroup></md-radiogroup>
+      <md-radiogroup #accountExpirationRadiogroup [(ngModel)]="accountExpires"></md-radiogroup>
       <md-radiobutton
         [group]="accountExpirationRadiogroup"
         [value]="false"
-        name="accountNeverExpires"
         id="accountNeverExpires"
+        name="accountNeverExpires"
       >
         {{ 'user-properties.never' | transloco }}
       </md-radiobutton>
@@ -107,23 +102,19 @@
         <md-radiobutton
           [group]="accountExpirationRadiogroup"
           [value]="true"
-          name="accountNeverExpires"
           id="accountSometimesExpires"
+          name="accountNeverExpires"
         >
           <label style="padding-right: 8px">
             {{ 'user-properties.expires-label' | transloco }}
           </label>
         </md-radiobutton>
         <md-datepicker
-          [disabled]="!accountExpirationRadiogroup.value"
-          [(ngModel)]="accessor.accountExpires"
           #datePicker
+          [(ngModel)]="accessor.accountExpires"
+          [disabled]="!accountExpirationRadiogroup.value"
         ></md-datepicker>
       </div>
     </div>
   </md-group>
 </div>
-
-<ng-template modalInject #editLogonTime="modalInject">
-  <app-logon-time-editor />
-</ng-template>

@@ -13,8 +13,6 @@ export class AppSettingsComponent implements OnDestroy {
   user: WhoamiResponse | null = null;
   unsubscribe = new Subject<void>();
 
-  constructor() {}
-
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();

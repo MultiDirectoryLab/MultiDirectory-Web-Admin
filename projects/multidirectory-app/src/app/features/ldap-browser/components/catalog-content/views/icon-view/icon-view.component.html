@@ -1,7 +1,7 @@
 <div class="icon-grid-container">
   <div
     #grid
-    (click)="clickOutside($event)"
+    (click)="clickOutside()"
     (contextmenu)="showGridContextMenu($event)"
     (focus)="onGetFocus()"
     [ngClass]="{ 'big-icon': big() }"
@@ -13,7 +13,6 @@
         <app-grid-item
           [big]="big()"
           (clickOnItem)="setSelected([item])"
-          (doubleClickOnItem)="selectCatalog(item)"
           (rightClick)="handleRightClick($event)"
           [item]="item"
         ></app-grid-item>
@@ -22,7 +21,6 @@
   </div>
   <md-pager
     #pager
-    (pageChanged)="onPageChanged($event)"
     [name]="'iconView'"
     [page]="page"
     fromTitle="{{ 'icon-view.fromTitle' | transloco }}"

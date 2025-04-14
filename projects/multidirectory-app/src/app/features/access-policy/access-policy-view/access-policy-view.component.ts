@@ -102,7 +102,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
+    this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe(() => {
       this.load();
     });
 
@@ -164,7 +164,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   save() {
     this.windows.showSpinner();
     this.flush();
-    this.api.editAccessPolicy(this.accessClient).subscribe((x) => {
+    this.api.editAccessPolicy(this.accessClient).subscribe(() => {
       this.windows.hideSpinner();
     });
   }

@@ -2,15 +2,15 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Injector,
+  forwardRef,
+  inject,
   Input,
   ViewChild,
-  forwardRef,
 } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BaseComponent } from '../base-component/base.component';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { BaseComponent } from '../base-component/base.component';
 import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
 
 @Component({
@@ -27,6 +27,8 @@ import { ErrorLabelComponent } from '../base-component/error-label/error-label.c
   imports: [FormsModule, FaIconComponent, ErrorLabelComponent],
 })
 export class TextboxComponent extends BaseComponent {
+  protected override cdr = inject(ChangeDetectorRef);
+
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   @Input() label = '';
   @Input() password = false;
@@ -37,8 +39,8 @@ export class TextboxComponent extends BaseComponent {
   passwordVisible = false;
   faEye = faEye;
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+  constructor() {
+    super();
   }
 
   override setFocus() {

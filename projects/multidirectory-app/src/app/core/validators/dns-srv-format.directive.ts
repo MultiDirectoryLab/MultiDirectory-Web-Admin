@@ -1,11 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  PatternValidator,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { translate } from '@jsverse/transloco';
 
 @Directive({
@@ -17,6 +11,7 @@ import { translate } from '@jsverse/transloco';
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class DnsSrvValidatorDirective implements Validator {
   @Input() srvErrorMessage = translate('error-message.dns-srv-format-valid');

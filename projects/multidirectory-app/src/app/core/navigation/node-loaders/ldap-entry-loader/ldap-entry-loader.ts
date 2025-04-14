@@ -1,8 +1,8 @@
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Injectable, inject } from '@angular/core';
 import { SearchEntry, SearchResponse } from '@models/entry/search-response';
-import { Page, Treenode } from 'multidirectory-ui-kit';
+import { Treenode } from 'multidirectory-ui-kit';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapEntryType } from '@core/ldap/ldap-entity-type';
@@ -69,7 +69,7 @@ export class LdapEntryLoader implements NodeLoader {
     );
   }
 
-  getContent(parent: string, query: string = ''): Observable<LdapEntryNode[]> {
+  getContent(parent: string, query = ''): Observable<LdapEntryNode[]> {
     return this.api.search(SearchQueries.getContent(parent, query)).pipe(
       map((res: SearchResponse) =>
         res.search_result.map((x) => {

@@ -5,10 +5,15 @@ import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { AppWindowsService } from '@services/app-windows.service';
 import { PlaneButtonComponent, ShiftCheckboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY } from 'rxjs';
+import { EMPTY, take } from 'rxjs';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogData,
+  ConfirmDialogReturnData,
+} from '../../../components/modals/interfaces/confirm-dialog.interface';
 
 @Component({
   selector: 'app-acccess-policy',
@@ -17,9 +22,9 @@ import { EMPTY } from 'rxjs';
   imports: [NgClass, PlaneButtonComponent, ShiftCheckboxComponent, FormsModule],
 })
 export class AccessPolicyComponent {
-  private toastr = inject(ToastrService);
-  private cdr = inject(ChangeDetectorRef);
-  private windows = inject(AppWindowsService);
+  private dialogService: DialogService = inject(DialogService);
+  private toastr: ToastrService = inject(ToastrService);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   readonly index = input(0);
   readonly deleteClick = output<AccessPolicy>();
   readonly turnOffClick = output<AccessPolicy>();
@@ -61,13 +66,22 @@ export class AccessPolicyComponent {
       secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
     };
 
-    this.windows.openConfirmDialog(prompt).subscribe((result) => {
-      if (result === 'yes') {
-        this.deleteClick.emit(this.accessClient!);
-        return;
-      }
-      return EMPTY;
-    });
+    this.dialogService
+      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+        component: ConfirmDialogComponent,
+        dialogConfig: {
+          minHeight: '160px',
+          data: prompt,
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
+        if (result === 'yes') {
+          this.deleteClick.emit(this.accessClient!);
+          return;
+        }
+        return EMPTY;
+      });
   }
 
   onTurnOffClick() {

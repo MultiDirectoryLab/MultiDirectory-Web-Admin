@@ -92,7 +92,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  onNext(templateRef: any) {
+  onNext() {
     if (this.stepper().currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
       this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
         PasswordGenerator.generatePassword();
@@ -117,7 +117,7 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
           throw err;
         }),
       )
-      .subscribe((res) => {
+      .subscribe(() => {
         this.modal().hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
         this.router.navigate(['/']);

@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { LoginResponse } from '@models/login/login-response';
 import { ApiAdapter } from '@core/api/api-adapter';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { SearchRequest } from '@models/entry/search-request';
 import { SearchResponse } from '@models/entry/search-response';
@@ -139,7 +139,7 @@ export class MultidirectoryApiService {
 
   editAccessPolicy(policy: AccessPolicy): Observable<boolean> {
     const editPolicyRequest = new PolicyPutRequest(policy);
-    return this.httpClient.put<boolean>(`policy`, editPolicyRequest).execute();
+    return this.httpClient.put<boolean>('policy', editPolicyRequest).execute();
   }
 
   switchAccessPolicy(policyId: number): Observable<boolean> {
@@ -151,7 +151,7 @@ export class MultidirectoryApiService {
       first_policy_id: previousPolicyId,
       second_policy_id: currentPolicyId,
     });
-    return this.httpClient.post<SwapPolicyResponse>(`policy/swap`, request).execute();
+    return this.httpClient.post<SwapPolicyResponse>('policy/swap', request).execute();
   }
 
   setupMultifactor(apiKey: string, apiSecret: string, isLdapScope: boolean) {

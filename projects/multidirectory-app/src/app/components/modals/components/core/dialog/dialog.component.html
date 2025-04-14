@@ -1,0 +1,51 @@
+<!--<div-->
+<!--  spinnerHost-->
+<!--  [spinnerName]="__ID"-->
+<!--  [spinnerText]="spinnerText"-->
+
+<!--  [appResizable]="resizeable"-->
+<!--  [south]="true"-->
+<!--  [east]="true"-->
+<!--  [southEast]="true"-->
+<!--  [southWest]="true"-->
+<!--  [west]="true"-->
+<!--  [northWest]="true"-->
+<!--  [north]="true"-->
+<!--  [northEast]="true"-->
+<!--  (resizing)="onResize($event)"-->
+
+<!--&gt;-->
+<div
+  [class.dragging]="dragging$ | async"
+  [spinnerName]="__ID"
+  [spinnerText]="spinnerText"
+  class="ui-modal"
+  spinnerHost
+>
+  <div #modalHeader (mousedown)="modalHeaderMouseDown()" class="ui-modal-header">
+    <div class="ui-titlebar">
+      <ng-content select=".app-modal-header"></ng-content>
+    </div>
+    <div #controlBar class="ui-controlbar">
+      @if (componentConfig.maximizable) {
+        <i
+          class="ui-icon"
+          [ngClass]="[(maximized$ | async) ? 'dt-icon-normalize' : 'dt-icon-maximize']"
+          (click)="toggleMaximize()"
+        >
+        </i>
+      }
+      @if (componentConfig.closable) {
+        <i class="ui-icon dt-icon-close" (click)="close()"> </i>
+      }
+    </div>
+  </div>
+
+  <div class="ui-modal-body">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="ui-modal-footer">
+    <ng-content select=".app-modal-footer"></ng-content>
+  </div>
+</div>
