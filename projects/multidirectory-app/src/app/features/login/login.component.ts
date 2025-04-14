@@ -14,6 +14,7 @@ import { LoginService } from '@services/login.service';
 import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 import { DialogComponent } from '../../components/modals/components/core/dialog/dialog.component';
+import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '../../components/modals/constants/dialog.constants';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,15 @@ import { DialogComponent } from '../../components/modals/components/core/dialog/
     RequiredWithMessageDirective,
     TranslocoPipe,
     ButtonComponent,
+  ],
+  providers: [
+    {
+      provide: DIALOG_COMPONENT_WRAPPER_CONFIG,
+      useValue: {
+        closable: false,
+        draggable: false,
+      },
+    },
   ],
 })
 export class LoginComponent implements AfterViewInit, OnDestroy {
@@ -45,6 +55,7 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.loginForm()
       .onValidChanges.pipe(takeUntil(this.unsubscribe))
       .subscribe((result) => {
+        console.log(result);
         this.loginValid = result;
         this.cdr.detectChanges();
       });

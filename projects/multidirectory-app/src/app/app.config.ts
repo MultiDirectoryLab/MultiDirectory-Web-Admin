@@ -13,6 +13,7 @@ import {
   importProvidersFrom,
   inject,
   provideAppInitializer,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -113,5 +114,6 @@ export const appConfig: ApplicationConfig = {
       useValue: DIALOG_CONFIG_DEFAULT,
     },
     provideAnimations(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
   ],
 };
