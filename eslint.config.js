@@ -6,6 +6,8 @@ const angularEslintPlugin = require('@angular-eslint/eslint-plugin');
 const angularEslintTemplatePlugin = require('@angular-eslint/eslint-plugin-template');
 const angularTemplateParser = require('@angular-eslint/template-parser');
 const unusedImports = require('eslint-plugin-unused-imports');
+const stylisticTs = require('@stylistic/eslint-plugin-ts');
+const stylisticPlus = require('@stylistic/eslint-plugin-plus');
 
 module.exports = tseslint.config(
   {
@@ -20,6 +22,8 @@ module.exports = tseslint.config(
       'angular-eslint-plugin': angularEslintPlugin,
       'angular-eslint-template-plugin': angularEslintTemplatePlugin,
       'unused-imports': unusedImports,
+      '@stylistic/ts': stylisticTs,
+      '@stylistic/plus': stylisticPlus,
     },
     processor: angular.processInlineTemplates,
     rules: {
@@ -50,14 +54,67 @@ module.exports = tseslint.config(
           argsIgnorePattern: '^_',
         },
       ],
+      '@stylistic/ts/comma-dangle': [
+        'error',
+        {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'always-multiline',
+          importAttributes: 'always-multiline',
+          dynamicImports: 'never',
+          enums: 'always-multiline',
+        },
+      ],
+      '@stylistic/ts/indent': ['error', 2],
+      '@stylistic/ts/quotes': ['error', 'single'],
+      '@stylistic/ts/block-spacing': ['error', 'always'],
+      '@stylistic/ts/semi': ['error', 'always'],
+      '@stylistic/ts/no-extra-semi': 'error',
+      '@stylistic/ts/object-curly-spacing': ['error', 'always'],
+      '@stylistic/ts/comma-spacing': ['error', { before: false, after: true }],
+      '@stylistic/ts/space-before-blocks': 'error',
+      '@stylistic/ts/member-delimiter-style': 'error',
+      '@stylistic/ts/space-infix-ops': 'error',
+      '@stylistic/ts/padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: 'block-like',
+          next: 'block-like',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: ['enum', 'interface', 'type', 'class'],
+        },
+        {
+          blankLine: 'never',
+          prev: 'function-overload',
+          next: 'function',
+        },
+      ],
+      '@stylistic/plus/type-generic-spacing': ['error'],
+      '@stylistic/plus/type-named-tuple-spacing': ['error'],
+      '@stylistic/plus/curly-newline': [
+        'error',
+        {
+          multiline: true,
+          minElements: 1,
+        },
+      ],
+      '@stylistic/plus/indent-binary-ops': ['error', 2],
     },
   },
   {
     files: ['**/*.html'],
-    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+    extends: [...angular.configs.templateRecommended],
     languageOptions: {
       parser: angularTemplateParser,
     },
-    rules: {},
+    rules: {
+      '@angular-eslint/template/label-has-associated-control': 'off',
+    },
   },
 );

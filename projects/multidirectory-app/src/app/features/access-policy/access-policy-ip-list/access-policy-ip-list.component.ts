@@ -10,7 +10,7 @@ export class IpAddressStatus {
   address: IpOption = '';
   valid = false;
 
-  constructor(address: IpOption = '', valid = false) {
+  constructor(address: IpOption = '') {
     this.address = address;
     this.title =
       typeof this.address == 'string' ? this.address : `${this.address.start}-${this.address.end}`;
@@ -110,6 +110,7 @@ export class AccessPolicyIpListComponent implements OnInit {
       _ipInput.nativeElement.innerText = '';
       this.cdr.detectChanges();
     }
+
     if (event.key == 'Backspace' && _ipInput.nativeElement.innerText.length == 0) {
       event.preventDefault();
       event.stopPropagation();
@@ -135,6 +136,7 @@ export class AccessPolicyIpListComponent implements OnInit {
       this._ipInput().nativeElement.focus();
       this.cdr.detectChanges();
     }
+
     if (event.key == 'Backspace' && element.innerText.length == 0) {
       event.preventDefault();
       event.stopPropagation();

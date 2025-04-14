@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 import { translate } from '@jsverse/transloco';
 
 @Directive({
-  selector: '[validIp6Address]',
+  selector: '[appValidIp6Address]',
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -15,7 +15,7 @@ import { translate } from '@jsverse/transloco';
 })
 export class Ip6AddressValidatorDirective implements Validator {
   readonly errorLabel = input(translate('error-message.ip6-valid'));
-  ipPattern = new RegExp(`^([a-f0-9:]+:+)+[a-f0-9]+$`);
+  ipPattern = new RegExp('^([a-f0-9:]+:+)+[a-f0-9]+$');
 
   validate(control: AbstractControl): ValidationErrors | null {
     const result = this.ipPattern.test(control.value);

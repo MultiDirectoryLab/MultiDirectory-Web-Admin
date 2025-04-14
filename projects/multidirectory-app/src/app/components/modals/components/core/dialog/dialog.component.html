@@ -22,7 +22,7 @@
   class="ui-modal"
   spinnerHost
 >
-  <div #modalHeader (mousedown)="modalHeaderMouseDown($event)" class="ui-modal-header">
+  <div #modalHeader (mousedown)="modalHeaderMouseDown()" class="ui-modal-header">
     <div class="ui-titlebar">
       <ng-content select=".app-modal-header"></ng-content>
     </div>
@@ -30,11 +30,8 @@
       @if (componentConfig.maximizable) {
         <i
           class="ui-icon"
-          [ngClass]="{
-            'dt-icon-maximize': !(maximized$ | async),
-            'dt-icon-normalize': !!(maximized$ | async),
-          }"
-          (click)="toggleMaximize($event)"
+          [ngClass]="[(maximized$ | async) ? 'dt-icon-normalize' : 'dt-icon-maximize']"
+          (click)="toggleMaximize()"
         >
         </i>
       }

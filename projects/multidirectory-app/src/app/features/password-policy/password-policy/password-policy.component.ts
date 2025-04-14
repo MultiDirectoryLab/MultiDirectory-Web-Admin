@@ -50,8 +50,6 @@ export class PasswordPolicyComponent implements OnInit {
     });
   }
 
-  close() {}
-
   save() {
     this.app.validatePasswords = this.passwordPolicy.passwordMustMeetComplexityRequirements;
     this.form().validate();

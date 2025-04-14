@@ -9,7 +9,7 @@ import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { switchMap } from 'rxjs';
 
 @Component({
-  selector: 'password-policy-list',
+  selector: 'app-password-policy-list',
   templateUrl: './password-policy-list.component.html',
   styleUrls: ['./password-policy-list.component.scss'],
   imports: [PasswordPolicyListItemComponent, PasswordPolicyCreateComponent, ModalInjectDirective],

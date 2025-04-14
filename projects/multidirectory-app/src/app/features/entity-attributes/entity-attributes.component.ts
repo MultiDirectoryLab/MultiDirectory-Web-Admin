@@ -27,9 +27,7 @@ import {
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
-import {
-  PropertyEditDialogComponent
-} from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
+import { PropertyEditDialogComponent } from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
 import {
   PropertyEditDialogData,
   PropertyEditDialogReturnData,

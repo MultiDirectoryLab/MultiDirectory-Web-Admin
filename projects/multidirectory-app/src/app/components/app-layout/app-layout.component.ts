@@ -61,7 +61,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .getKerberosStatus()
       .pipe(
         take(1),
-        catchError((x) => {
+        catchError(() => {
           this.app.kerberosStatus = KerberosStatuses.ERROR;
           return EMPTY;
         }),
@@ -103,7 +103,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.dns
       .status()
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           this.toastr.error(translate('dns-settings.dns-unavailable'));
           return of(
             new DnsStatusResponse({

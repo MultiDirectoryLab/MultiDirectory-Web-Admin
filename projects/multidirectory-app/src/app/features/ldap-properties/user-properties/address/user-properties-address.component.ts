@@ -2,7 +2,12 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { DropdownComponent, DropdownOption, TextareaComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import {
+  DropdownComponent,
+  DropdownOption,
+  TextareaComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -36,6 +41,7 @@ export class UserPropertiesAddressComponent implements AfterViewInit, OnDestroy 
     if (!this.accessor) {
       return;
     }
+
     if (this.accessor.country?.[0]) {
       this.country = this.countries?.find((x) => x.value == this.accessor.country[0])?.value ?? '';
     }

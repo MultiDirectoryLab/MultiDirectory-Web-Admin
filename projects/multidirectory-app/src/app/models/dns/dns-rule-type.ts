@@ -25,7 +25,7 @@ export enum DnsRuleClass {
 }
 
 export const AvailableDnsRecordTypes = Object.keys(DnsRuleType).map(
-  (x, index) =>
+  (x) =>
     new DropdownOption({
       title: x,
       value: x,

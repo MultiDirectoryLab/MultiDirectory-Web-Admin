@@ -135,10 +135,6 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onPageChanged() {}
-
-  onDoubleClick() {}
-
   exportKeytab() {
     const grid = this.grid();
     if (!grid?.selected?.length) {
@@ -206,13 +202,6 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   }
 
   setupKerberos() {
-    this.windows
-      .openSetupKerberosDialog()
-      .pipe(take(1))
-      .subscribe(() => {});
-  }
-
-  handleRightClick() {
-    // TODO
+    this.windows.openSetupKerberosDialog().pipe(take(1)).subscribe();
   }
 }

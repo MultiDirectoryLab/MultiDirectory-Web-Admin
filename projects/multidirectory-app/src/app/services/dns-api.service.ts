@@ -23,14 +23,14 @@ export class DnsApiService {
     return this.httpClient
       .post<string>('dns/record', rule)
       .execute()
-      .pipe(map((x) => rule));
+      .pipe(map(() => rule));
   }
 
   update(rule: DnsRule): Observable<DnsRule> {
     return this.httpClient
       .patch<string>('dns/record', rule)
       .execute()
-      .pipe(map((x) => rule));
+      .pipe(map(() => rule));
   }
 
   delete(rule: DnsRule): Observable<string> {

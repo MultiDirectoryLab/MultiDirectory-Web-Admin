@@ -33,15 +33,15 @@ export class WebsocketTokenHandle {
           }
           this.disconnect();
         },
-        error: (error) => {
+        error: () => {
           console.log('error');
         },
       },
       openObserver: {
-        next: (event: Event) => {
+        next: () => {
           console.log('WebSocket connected!');
         },
-        error: (error) => {
+        error: () => {
           console.log('error');
         },
       },
@@ -54,7 +54,6 @@ export class WebsocketTokenHandle {
       return;
     }
     this.socketSubject.pipe(tap((msg) => this._inputRx.next(msg))).subscribe({
-      next: (message) => {},
       error: (error) => {
         this.state = WebsocketState.ERROR;
         throw error;

@@ -22,7 +22,7 @@ export class WindowsComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.ldapWindows.showSetupKerberosDialogRx
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.openSetupKerberosDialog();
       });
 
@@ -37,7 +37,7 @@ export class WindowsComponent implements AfterViewInit {
     this.setupKerberosDialog()
       .open({ minHeight: 400 }, {})
       .pipe(take(1), takeUntilDestroyed(this.destroyRef$))
-      .subscribe((result) => {
+      .subscribe(() => {
         this.ldapWindows.closeSetupKerberosDialog();
       });
   }

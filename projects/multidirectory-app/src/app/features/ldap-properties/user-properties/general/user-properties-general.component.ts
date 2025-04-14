@@ -35,6 +35,7 @@ export class UserPropertiesGeneralComponent {
     if (!this.accessor) {
       return;
     }
+
     if (!this.accessor[field]) {
       this.accessor[field] = [];
     }

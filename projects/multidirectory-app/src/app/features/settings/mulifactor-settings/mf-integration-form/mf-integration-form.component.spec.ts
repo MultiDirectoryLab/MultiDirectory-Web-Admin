@@ -140,7 +140,9 @@ describe('MfIntegrationFormComponent', () => {
         expect(windowsService.showSpinner).toHaveBeenCalled();
         expect(windowsService.hideSpinner).toHaveBeenCalled();
         expect(apiService.setupMultifactor).toThrowError();
-      } catch {}
+      } catch (error) {
+        console.log('error', error);
+      }
     }));
   });
 

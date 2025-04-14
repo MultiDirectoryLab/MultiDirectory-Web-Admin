@@ -166,6 +166,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
           if (valueA.name === valueB.name) {
             return 0;
           }
+
           if (sortDirection === 'asc') {
             return valueA.name > valueB.name ? 1 : -1;
           }
@@ -255,9 +256,8 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
 
   onDoubleClick(event: any) {
     const entry = event?.row?.entry;
-    if (event?.row?.name == '...') {
-      //this.navigation.setCatalog(this.selectedCatalog?.parent!);
-    } else if (entry && entry.expandable) {
+
+    if (entry && entry.expandable) {
       this.appNavigation.navigate(entry);
     } else if (entry && !entry.expandable) {
       this.dialogService

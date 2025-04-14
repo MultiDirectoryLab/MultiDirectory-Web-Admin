@@ -19,6 +19,7 @@ export abstract class BaseViewComponent {
     if (!!event.content?.entry && !selected.includes(event.content?.entry)) {
       this.setSelected([event.content?.entry]);
     }
+
     if (event instanceof PointerEvent) {
       event.preventDefault();
       event.stopPropagation();

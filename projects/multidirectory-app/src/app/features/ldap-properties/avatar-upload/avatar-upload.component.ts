@@ -47,9 +47,11 @@ export class AvatarUploadComponent {
         this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
         this.cdr.detectChanges();
       };
+
       reader.onerror = () => {
         this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };
+
       reader.onabort = () => {
         this.dialogRef?.componentInstance?.dialogComponent?.hideSpinner();
       };

@@ -11,10 +11,10 @@ import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
 })
 export class SearchUsersComponent {
   searchQuery = '';
-  readonly onClear = output<void>();
+  readonly clear = output<void>();
 
-  clear() {
+  clearSearch() {
     this.searchQuery = '';
-    this.onClear.emit();
+    this.clear.emit();
   }
 }

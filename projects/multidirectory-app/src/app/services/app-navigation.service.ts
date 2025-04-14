@@ -74,6 +74,7 @@ export class AppNavigationService {
     if (targetDnParts.length == 0) {
       return currentNode;
     }
+
     for (let i = 0; i < targetDnParts.length && currentNode; i++) {
       if (!!currentNode.loadChildren && currentNode.children.length == 0) {
         const childRx = currentNode.loadChildren();
@@ -120,6 +121,7 @@ export class AppNavigationService {
         currentNode = found?.node;
       }
     }
+
     if (!!currentNode && found && LdapNamesHelper.dnEqual(targetDnParts, found!.dn)) {
       return currentNode;
     }

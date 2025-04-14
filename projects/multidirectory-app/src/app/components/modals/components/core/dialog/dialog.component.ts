@@ -72,7 +72,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     this.dialogService.bringToFront(this.dialogRef);
   }
 
-  @HostListener('mouseup', ['$event']) mouseUp(event: Event): void {
+  @HostListener('mouseup', ['$event']) mouseUp(): void {
     this.dragging$.next(false);
 
     this.dialogService.bringToFront(this.dialogRef);
@@ -91,7 +91,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     this.maximized$.complete();
   }
 
-  public toggleMaximize($event?: MouseEvent): void {
+  public toggleMaximize(): void {
     if (this.dialogRef && this.dialogRefConfig) {
       const isMaximized = this.maximized$.getValue();
 
@@ -117,7 +117,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  public close(data?: any): void {
+  public close(): void {
     if (!this.dialogRef) return;
 
     this.dialogService.close(this.dialogRef);
@@ -135,8 +135,8 @@ export class DialogComponent implements OnInit, OnDestroy {
     this.spinnerHost.hide();
   }
 
-  public modalHeaderMouseDown(event: MouseEvent): void {
-    this.dragStart(event);
+  public modalHeaderMouseDown(): void {
+    this.dragStart();
   }
 
   private updateGlobalOverlayTransition(): void {
@@ -174,18 +174,16 @@ export class DialogComponent implements OnInit, OnDestroy {
 
     this.dragRef.started
       .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(({ event }) => this.dragStart(event));
+      .subscribe(() => this.dragStart());
 
-    this.dragRef.ended
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(({ event }) => this.dragEnd(event));
+    this.dragRef.ended.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => this.dragEnd());
   }
 
-  private dragStart<T extends Event>(event: T): void {
+  private dragStart(): void {
     this.dialogService.bringToFront(this.dialogRef);
   }
 
-  private dragEnd<T extends Event>(event: T): void {
+  private dragEnd(): void {
     this.dragging$.next(false);
     this.saveLastPosition();
   }

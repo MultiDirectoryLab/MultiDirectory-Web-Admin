@@ -166,7 +166,7 @@ export class ContextMenuComponent implements OnInit {
         .complete<UpdateEntryResponse>(this.completeUpdateEntiresStrategy)
         .pipe(
           take(1),
-          switchMap((x) => {
+          switchMap(() => {
             let promptText =
               translate('toggle-account.accounts-was-toggled') +
               (enabled

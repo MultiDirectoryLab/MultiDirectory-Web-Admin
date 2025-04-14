@@ -60,7 +60,7 @@ export class ChangePasswordDialogComponent {
     this.api
       .changePassword(this.changeRequest)
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           this.toastr.error(translate('change-password.unable-change-password'));
           this.dialogService.close(this.dialogRef);
 

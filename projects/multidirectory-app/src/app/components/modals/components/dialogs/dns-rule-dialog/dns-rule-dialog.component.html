@@ -21,7 +21,7 @@
             @case (DnsRuleClass.IP6.valueOf()) {
               <md-textbox
                 appRequired
-                validIp6Address
+                appValidIp6Address
                 [(ngModel)]="dnsRule.record_value"
               ></md-textbox>
             }

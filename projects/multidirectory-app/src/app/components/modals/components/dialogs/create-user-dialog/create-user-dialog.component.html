@@ -26,7 +26,7 @@
 
   <div class="app-modal-footer">
     <div class="flex-row align-center justify-end flex-gap-10">
-      @if (createUserStepper.currentIndex == 0) {
+      @if (createUserStepper.currentIndex === 0) {
         <md-button (click)="close()">
           {{ 'user-create.cancel' | transloco }}
         </md-button>
@@ -38,8 +38,8 @@
       }
       <md-button (click)="nextStep()" [primary]="true">
         {{
-          (createUserStepper.steps != null &&
-          createUserStepper.currentIndex + 1 == createUserStepper.steps.length
+          (createUserStepper.steps !== null &&
+          createUserStepper.currentIndex + 1 === createUserStepper.steps.length
             ? 'user-create.finish'
             : 'user-create.next'
           ) | transloco

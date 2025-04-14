@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-download-data',
-  template: ``,
+  template: '',
   standalone: true,
 })
 export class DownloadComponent {

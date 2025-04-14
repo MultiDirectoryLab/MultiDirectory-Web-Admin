@@ -2,9 +2,7 @@ import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
-import {
-  AccessPolicyViewModalComponent
-} from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
+import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
 import { AccessPolicyComponent } from '@features/access-policy/access-policy/access-policy.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -24,7 +22,7 @@ import { catchError, EMPTY, switchMap, take } from 'rxjs';
     CdkDrag,
     AccessPolicyComponent,
     ModalInjectDirective,
-    AccessPolicyViewModalComponent
+    AccessPolicyViewModalComponent,
   ],
 })
 export class AccessPolicySettingsComponent implements OnInit {
@@ -58,6 +56,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     if (!client?.id) {
       return;
     }
+
     if (this.clients.length <= 1) {
       this.toastr.error(translate('access-policy-settings.must-be-enabled'));
       return;
@@ -80,6 +79,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     if (!client.id) {
       return;
     }
+
     if (!this.clients.some((x) => x.enabled)) {
       this.toastr.error(translate('access-policy-settings.must-be-enabled'));
       const toRevert = this.clients.find((x) => x.id == client.id);
@@ -91,7 +91,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     }
     this.api
       .switchAccessPolicy(client.id)
-      .pipe(switchMap((x) => this.api.getAccessPolicy()))
+      .pipe(switchMap(() => this.api.getAccessPolicy()))
       .subscribe((x) => {
         this.clients = x;
       });
@@ -118,7 +118,7 @@ export class AccessPolicySettingsComponent implements OnInit {
           this.clients.push(new AccessPolicy(client));
           return this.api.saveAccessPolicy(client);
         }),
-        catchError((err) => {
+        catchError(() => {
           this.clients.pop();
           this.toastr.error(translate('access-policy-settings.unable-to-create-policy'));
           return EMPTY;
@@ -141,6 +141,7 @@ export class AccessPolicySettingsComponent implements OnInit {
       this.toastr.error(translate('access-policy-settings.policy-id-not-found'));
       return;
     }
+
     if (previous.id == current.id) {
       return;
     }

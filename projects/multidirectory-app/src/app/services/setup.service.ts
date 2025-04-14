@@ -18,7 +18,7 @@ export class SetupService {
 
   setup(setupRequest: SetupRequest): Observable<boolean> {
     return this.api.setup(setupRequest).pipe(
-      switchMap((success) =>
+      switchMap(() =>
         this.loginService.login(setupRequest.user_principal_name, setupRequest.password),
       ),
       switchMap((success) => {
@@ -38,7 +38,7 @@ export class SetupService {
     return this.api
       .kerberosTreeSetup(new KerberosTreeSetupRequest({}).flll_from_setup_request(setupRequest))
       .pipe(
-        switchMap((value) => {
+        switchMap(() => {
           return this.api.kerberosSetup(
             new KerberosSetupRequest({}).flll_from_setup_request(setupRequest),
           );

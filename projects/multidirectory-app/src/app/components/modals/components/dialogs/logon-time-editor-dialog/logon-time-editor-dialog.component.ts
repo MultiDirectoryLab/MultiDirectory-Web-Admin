@@ -176,7 +176,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.selectionInProgress = true;
     fromEvent(document, 'mouseup')
       .pipe(take(1))
-      .subscribe((x) => {
+      .subscribe(() => {
         this.finishSelection();
       });
   }

@@ -22,11 +22,13 @@ export class GlobalErrorHandler implements ErrorHandler {
       this.router.navigate(['/enable-backend']);
       return;
     }
+
     if (error.error?.detail) {
       if (typeof error.error?.detail === 'string' || error.error?.detail instanceof String) {
         this.toastr.error(error.error.detail);
         return;
       }
+
       for (const i of error.error.detail) {
         this.toastr.error(i?.msg ?? i);
       }

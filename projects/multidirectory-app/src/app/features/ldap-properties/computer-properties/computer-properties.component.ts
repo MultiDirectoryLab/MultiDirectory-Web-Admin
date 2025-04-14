@@ -3,11 +3,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
 import { ComputerPropertiesAccountComponent } from '@features/ldap-properties/computer-properties/account/computer-properties-account.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import {
-  TabComponent,
-  TabDirective,
-  TabPaneComponent,
-} from 'multidirectory-ui-kit';
+import { TabComponent, TabDirective, TabPaneComponent } from 'multidirectory-ui-kit';
 import { Subject } from 'rxjs';
 
 @Component({

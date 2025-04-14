@@ -8,9 +8,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, switchMap, take } from 'rxjs';
-import {
-  ConfirmDialogComponent
-} from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,

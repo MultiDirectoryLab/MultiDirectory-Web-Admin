@@ -87,7 +87,7 @@ export class CreateGroupDialogComponent implements OnInit {
         }),
       )
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           this.dialogComponent?.hideSpinner();
           this.toastr.error(translate('group-create.unable-create-group'));
           this.dialogService.close(this.dialogRef);

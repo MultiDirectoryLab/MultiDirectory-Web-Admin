@@ -131,6 +131,12 @@ importers:
       '@storybook/test':
         specifier: ^8.6.12
         version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
+      '@stylistic/eslint-plugin-plus':
+        specifier: ^4.2.0
+        version: 4.2.0(eslint@9.24.0(jiti@2.4.2))
+      '@stylistic/eslint-plugin-ts':
+        specifier: ^4.2.0
+        version: 4.2.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       '@types/jasmine':
         specifier: ~4.0.3
         version: 4.0.3
@@ -3595,6 +3601,23 @@ packages:
       }
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
+
+  '@stylistic/eslint-plugin-plus@4.2.0':
+    resolution:
+      {
+        integrity: sha512-w7HArI09lCB7u9hj0ZXojY49iQmcmL8mJKkZ3EXCRCy6nlM8AeHZCFxNDXJo4EW/sP08RiaspXEbL9ZtDs4cPQ==,
+      }
+    peerDependencies:
+      eslint: '>=9.0.0'
+
+  '@stylistic/eslint-plugin-ts@4.2.0':
+    resolution:
+      {
+        integrity: sha512-j2o2GvOx9v66x8hmp/HJ+0T+nOppiO5ycGsCkifh7JPGgjxEhpkGmIGx3RWsoxpWbad3VCX8e8/T8n3+7ze1Zg==,
+      }
+    engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+    peerDependencies:
+      eslint: '>=9.0.0'
 
   '@testing-library/dom@10.4.0':
     resolution:
@@ -12926,6 +12949,22 @@ snapshots:
   '@storybook/theming@8.6.12(storybook@8.6.12(prettier@3.5.3))':
     dependencies:
       storybook: 8.6.12(prettier@3.5.3)
+
+  '@stylistic/eslint-plugin-plus@4.2.0(eslint@9.24.0(jiti@2.4.2))':
+    dependencies:
+      eslint: 9.24.0(jiti@2.4.2)
+      eslint-visitor-keys: 4.2.0
+      espree: 10.3.0
+
+  '@stylistic/eslint-plugin-ts@4.2.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)':
+    dependencies:
+      '@typescript-eslint/utils': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
+      eslint: 9.24.0(jiti@2.4.2)
+      eslint-visitor-keys: 4.2.0
+      espree: 10.3.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   '@testing-library/dom@10.4.0':
     dependencies:

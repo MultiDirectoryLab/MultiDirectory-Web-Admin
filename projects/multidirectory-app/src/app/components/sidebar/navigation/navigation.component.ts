@@ -45,10 +45,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       this.treeView().select(null);
       return;
     }
+
     if (url == 'ldap') {
       this.navigation.navigate(rootDse);
       return;
     }
+
     if (url.startsWith('ldap?')) {
       const dn = this.route.snapshot.queryParams['distinguishedName'];
       this.navigation.goTo(dn, [rootDse]).then((node) => {
@@ -72,6 +74,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       if (nodeUrl.startsWith('/')) {
         nodeUrl = nodeUrl.substring(1);
       }
+
       // Мы ищем узел в LDAP каталоге по query и это плохо
       if (nodeUrl == url) {
         node = n;

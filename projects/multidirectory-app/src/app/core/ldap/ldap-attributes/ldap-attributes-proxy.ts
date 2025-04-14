@@ -16,9 +16,11 @@ export class LdapAttributesProxyHandler {
     if (key.toLocaleLowerCase() == '$entitydn') {
       return [this._entity.id];
     }
+
     if (key.toLocaleLowerCase() == '$changes') {
       return this._changes;
     }
+
     if (key.startsWith('$')) {
       return this._original[key.slice(1)];
     }

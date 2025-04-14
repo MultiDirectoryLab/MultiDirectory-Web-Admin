@@ -167,7 +167,7 @@ export class EntitySelectorDialogComponent implements OnInit {
       });
   }
 
-  public close(params: EntitySelectorDialogReturnData = []): void {
+  public close(): void {
     this.dialogService.close(this.dialogRef);
   }
 

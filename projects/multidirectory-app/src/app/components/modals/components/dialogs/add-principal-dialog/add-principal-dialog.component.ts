@@ -67,7 +67,7 @@ export class AddPrincipalDialogComponent implements OnInit {
     this.api
       .addPrincipal(request)
       .pipe(
-        catchError((err) => {
+        catchError(() => {
           this.toastr.error(translate('add-principal.unable-to-add'));
           this.dialogComponent.hideSpinner();
 

@@ -4,9 +4,7 @@ import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import {
-  PasswordConditionsComponent
-} from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
