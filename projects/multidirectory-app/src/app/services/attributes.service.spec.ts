@@ -48,7 +48,7 @@ describe('Attributes Test Service', () => {
     naviagtionService.getRoot().subscribe((node) => {
       const partialAttributes = getParitalAttributes();
       const attributes = new LdapAttributes(partialAttributes);
-      let accessor = attributeService.getTrackableAttributes(node[0], attributes);
+      const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       expect(accessor).toBeTruthy();
     });
   });
@@ -57,7 +57,7 @@ describe('Attributes Test Service', () => {
     naviagtionService.getRoot().subscribe((node) => {
       const partialAttributes = getParitalAttributes();
       const attributes = new LdapAttributes(partialAttributes);
-      let accessor = attributeService.getTrackableAttributes(node[0], attributes);
+      const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       accessor.last_name = ['value'];
       expect(accessor).toBeTruthy();
@@ -82,7 +82,7 @@ describe('Attributes Test Service', () => {
     naviagtionService.getRoot().subscribe((node) => {
       const partialAttributes = getParitalAttributes();
       const attributes = new LdapAttributes(partialAttributes);
-      let accessor = attributeService.getTrackableAttributes(node[0], attributes);
+      const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       expect(accessor).toBeTruthy();
       const changes = attributeService.getChanges(accessor);
@@ -100,12 +100,12 @@ describe('Attributes Test Service', () => {
     naviagtionService.getRoot().subscribe((node) => {
       const partialAttributes = getParitalAttributes();
       const attributes = new LdapAttributes(partialAttributes);
-      let accessor = attributeService.getTrackableAttributes(node[0], attributes);
+      const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       const updateRequest = attributeService.createAttributeUpdateRequest(accessor);
       expect(updateRequest.object).toMatch(node[0].id);
       const cnChange = updateRequest.changes.find((x) => x.modification.type == 'cn');
-      expect(cnChange?.operation).toBe(<number>LdapOperation.Replace);
+      expect(cnChange?.operation).toBe(LdapOperation.Replace as number);
       expect(cnChange?.modification.vals?.[0]).toBe('test2');
     });
   });

@@ -6,11 +6,11 @@ import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidi
 import { ToastrService } from 'ngx-toastr';
 
 export class IpAddressStatus {
-  title: string = '';
+  title = '';
   address: IpOption = '';
-  valid: boolean = false;
+  valid = false;
 
-  constructor(address: IpOption = '', valid: boolean = false) {
+  constructor(address: IpOption = '', valid = false) {
     this.address = address;
     this.title =
       typeof this.address == 'string' ? this.address : `${this.address.start}-${this.address.end}`;

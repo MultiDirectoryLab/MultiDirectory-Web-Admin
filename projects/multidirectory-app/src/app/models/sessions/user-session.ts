@@ -1,10 +1,10 @@
 export class UserSession {
-  id: number = 0;
-  session_id: string = '';
-  ip: string = '';
-  issued: string = '';
+  id = 0;
+  session_id = '';
+  ip = '';
+  issued = '';
   protocol: string | 'ldap' | 'http' = '';
-  sign: string = '';
+  sign = '';
 
   constructor(obj: Partial<UserSession>) {
     Object.assign(this, obj);

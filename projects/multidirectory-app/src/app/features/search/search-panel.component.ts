@@ -86,9 +86,9 @@ export class SearchPanelComponent implements AfterViewInit {
       .subscribe((res) => {
         this.searchResults = res.search_result.map(
           (node) =>
-            <SearchResult>{
+            ({
               name: node.object_name,
-            },
+            }) as SearchResult,
         );
         this.cdr.detectChanges();
         this.spinner().hide();

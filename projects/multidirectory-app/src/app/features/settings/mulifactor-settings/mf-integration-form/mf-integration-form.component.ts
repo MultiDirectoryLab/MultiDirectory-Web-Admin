@@ -34,8 +34,8 @@ export class MfIntegrationFormComponent implements OnInit {
 
   readonly form = viewChild.required<MdFormComponent>('form');
   @Input() scope: 'ldap' | 'http' = 'http';
-  @Input() apiKey: string = '';
-  @Input() apiSecret: string = '';
+  @Input() apiKey = '';
+  @Input() apiSecret = '';
   translocoSection = 'multifactor-settings.mf-admin-integration';
 
   ngOnInit(): void {

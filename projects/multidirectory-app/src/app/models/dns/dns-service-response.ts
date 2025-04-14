@@ -1,7 +1,7 @@
 import { DnsRule } from './dns-rule';
 
 export class DnsServiceResponse {
-  record_type: string = '';
+  record_type = '';
   records: DnsRule[] = [];
 
   constructor(obj: Partial<DnsServiceResponse>) {

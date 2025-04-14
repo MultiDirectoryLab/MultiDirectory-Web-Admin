@@ -201,14 +201,14 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
       .subscribe((rows) => {
         this.rows = rows.map(
           (node) =>
-            <TableRow>{
+            ({
               icon: node.icon,
               name: node.name,
               type: node.entry ? EntityInfoResolver.resolveTypeName(node.type) : '',
               entry: node,
               description: node.entry ? EntityInfoResolver.getNodeDescription(node) : '',
               status: node.entry ? EntityInfoResolver.getNodeStatus(node) : '',
-            },
+            }) as TableRow,
         );
         const grid = this.grid();
         grid.page.totalElements = this.rows.length;
@@ -311,7 +311,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
             ...this.grid().selected.map((x) =>
               this.api.delete(
                 new DeleteEntryRequest({
-                  entry: (<any>x.entry).id,
+                  entry: (x.entry as any).id,
                 }),
               ),
             ),

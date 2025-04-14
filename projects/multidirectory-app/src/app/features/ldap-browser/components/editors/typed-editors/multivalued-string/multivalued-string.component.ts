@@ -2,9 +2,7 @@ import { Component, Input, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, TextboxComponent, TreeviewComponent } from 'multidirectory-ui-kit';
-import {
-  AttributeListEntry
-} from '../../../../../../components/modals/components/dialogs/attribute-list-dialog/attribute-list-dialog.component';
+import { AttributeListEntry } from '../../../../../../components/modals/components/dialogs/attribute-list-dialog/attribute-list-dialog.component';
 import { TypedEditorBaseComponent } from '../typed-editor-base.component';
 
 @Component({
@@ -15,8 +13,8 @@ import { TypedEditorBaseComponent } from '../typed-editor-base.component';
 })
 export class MultivaluedStringComponent extends TypedEditorBaseComponent {
   readonly treeview = viewChild.required<TreeviewComponent>('treeview');
-  newAttribute: string = '';
-  type: string = '';
+  newAttribute = '';
+  type = '';
 
   @Input() override set propertyValue(val: string[]) {
     this._propertyValue = this.treeview()?.tree.map((x) => x?.name ?? '') ?? '';

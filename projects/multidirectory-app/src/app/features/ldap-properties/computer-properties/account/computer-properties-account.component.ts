@@ -2,10 +2,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, inject, Input } from '@ang
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
-import moment from 'moment';
 import { CheckboxComponent, GroupComponent } from 'multidirectory-ui-kit';
 
 @Component({
@@ -75,7 +73,7 @@ export class ComputerPropertiesAccountComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const uacBits = this.accessor['userAccountControl']?.[0];
-    this.uacBitSet = !!this.accessor['userAccountControl']
+    this.uacBitSet = this.accessor['userAccountControl']
       ? BitSet.fromHexString(Number(uacBits).toString(16))
       : new BitSet();
 

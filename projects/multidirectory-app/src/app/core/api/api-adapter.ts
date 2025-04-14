@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EMPTY, Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AdapterSettings } from './adapter-settings';
 import { ToastrService } from 'ngx-toastr';
 //

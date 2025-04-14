@@ -41,7 +41,7 @@ export class CatalogSelectorDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.treeView?.nodeSelect.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((x) => {
-      this._selectedNode = [<LdapEntryNode>x];
+      this._selectedNode = [x as LdapEntryNode];
       this.cdr.detectChanges();
     });
 

@@ -98,7 +98,7 @@ export class MemberOfComponent {
     if (!groupList?.selected?.[0]) {
       return;
     }
-    const entity = <LdapEntryNode>await this.navigation.goTo(groupList.selected[0].dn);
+    const entity = (await this.navigation.goTo(groupList.selected[0].dn)) as LdapEntryNode;
     if (!entity) {
       return;
     }

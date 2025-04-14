@@ -62,25 +62,22 @@ export class NavigationComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    TreeSearchHelper.traverseTree<NavigationNode>(
-      this.navigationTree,
-      (n: NavigationNode) => {
-        n.selected = false;
-        if (!n.route) {
-          return;
-        }
-        // Что такое nodeUrl?
-        let nodeUrl = n.route.join('/');
-        if (nodeUrl.startsWith('/')) {
-          nodeUrl = nodeUrl.substring(1);
-        }
-        // Мы ищем узел в LDAP каталоге по query и это плохо
-        if (nodeUrl == url) {
-          node = n;
-        }
-      },
-    );
-    if (!!node) {
+    TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode) => {
+      n.selected = false;
+      if (!n.route) {
+        return;
+      }
+      // Что такое nodeUrl?
+      let nodeUrl = n.route.join('/');
+      if (nodeUrl.startsWith('/')) {
+        nodeUrl = nodeUrl.substring(1);
+      }
+      // Мы ищем узел в LDAP каталоге по query и это плохо
+      if (nodeUrl == url) {
+        node = n;
+      }
+    });
+    if (node) {
       this.treeView().select(node);
     }
   }

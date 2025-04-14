@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
-import { Observable, map, of, switchMap, tap, zip } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SchemaEntry } from '@models/entity-attribute/schema-entry';
 import { AttributesSearchResult } from '@models/entity-attribute/attribute-search-result';
 

@@ -125,11 +125,11 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
           .filter((x) => this.filterPrincipals(x))
           .map(
             (node) =>
-              <SearchResult>{
+              ({
                 name:
                   node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
                   node.object_name,
-              },
+              }) as SearchResult,
           );
         this.cdr.detectChanges();
       });

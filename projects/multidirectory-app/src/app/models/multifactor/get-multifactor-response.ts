@@ -1,6 +1,6 @@
 export class GetMultifactorResponse {
-  mfa_key: string = '';
-  mfa_secret: string = '';
-  mfa_key_ldap: string = '';
-  mfa_secret_ldap: string = '';
+  mfa_key = '';
+  mfa_secret = '';
+  mfa_key_ldap = '';
+  mfa_secret_ldap = '';
 }

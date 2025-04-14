@@ -48,7 +48,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   dnsRule: DnsRule = new DnsRule({});
   DnsRuleTypes = AvailableDnsRecordTypes;
   DnsRuleClass = DnsRuleClass;
-  recordDataType: number = -1;
+  recordDataType = -1;
 
   _sameAsZoneName = false;
 

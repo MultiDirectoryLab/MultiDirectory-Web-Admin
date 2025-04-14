@@ -4,7 +4,7 @@ import { NavigationNode } from '@core/navigation/navigation-node';
 
 export function getAccessPolicyNodeLoaderMock() {
   // Create jasmine spy object
-  let accessPolicyLoaderSpy = jasmine.createSpyObj(AccessPolicyNodeLoader, ['get']);
+  const accessPolicyLoaderSpy = jasmine.createSpyObj(AccessPolicyNodeLoader, ['get']);
   // Provide the dummy/mock data to sortNumberData method.
   accessPolicyLoaderSpy.get.and.returnValue(
     of([

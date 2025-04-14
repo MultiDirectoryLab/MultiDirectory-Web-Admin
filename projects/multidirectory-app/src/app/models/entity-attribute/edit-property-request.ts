@@ -2,7 +2,7 @@ import { EntityAttributeType } from '@core/entity-attributes/entity-attribute-ty
 
 export class EditPropertyRequest {
   propertyType: EntityAttributeType = EntityAttributeType.String;
-  propertyName: string = '';
+  propertyName = '';
   propertyValue: any[] = [];
 
   constructor(obj: Partial<EditPropertyRequest>) {

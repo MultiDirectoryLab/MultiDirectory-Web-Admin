@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, DestroyRef, HostBinding, inject, OnInit, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';

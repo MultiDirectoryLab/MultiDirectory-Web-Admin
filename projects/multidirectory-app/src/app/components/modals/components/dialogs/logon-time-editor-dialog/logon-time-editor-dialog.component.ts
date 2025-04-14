@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 
 export class LogonMapDay {
   id: number | null = null;
-  title: string = '';
+  title = '';
 
   constructor(obj: Partial<LogonMapDay>) {
     Object.assign(this, obj);
@@ -29,9 +29,9 @@ export class LogonMapDay {
 }
 
 export class LogonDayState {
-  day: number = -1;
-  hour: number = -1;
-  allowed: number = 0;
+  day = -1;
+  hour = -1;
+  allowed = 0;
 
   constructor(obj: Partial<LogonDayState>) {
     Object.assign(this, obj);
@@ -61,10 +61,10 @@ export class LogonTimeEditorDialogComponent implements OnInit {
   ];
   public hours = Array.from(Array(24).keys());
   public bitValues = new BitSet().setRange(0, 24 * 7, 1);
-  public selectDayStarted: number = -1;
-  public selectHourStarted: number = -1;
-  public selectDayCurrent: number = -1;
-  public selectHourCurrent: number = -1;
+  public selectDayStarted = -1;
+  public selectHourStarted = -1;
+  public selectDayCurrent = -1;
+  public selectHourCurrent = -1;
   public selectionInProgress = false;
   public currentSelectionStatus: boolean | null = null;
   public selectedDaysState: LogonDayState[] = [];
@@ -186,8 +186,8 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.cdr.detectChanges();
     const selectedElements = this.logonMap.nativeElement.querySelectorAll('.logon-selected');
     this.selectedDaysState = Array.from(selectedElements).map((x) => {
-      let day = Number(x.getAttribute('data-day'));
-      let hour = Number(x.getAttribute('data-hour'));
+      const day = Number(x.getAttribute('data-day'));
+      const hour = Number(x.getAttribute('data-hour'));
       return {
         day: day,
         hour: hour,

@@ -1,7 +1,7 @@
 export class EntityType {
-  entity: string = '';
-  name: string = '';
-  id: string = '';
+  entity = '';
+  name = '';
+  id = '';
 
   constructor(obj: Partial<EntityType>) {
     Object.assign(this, obj);

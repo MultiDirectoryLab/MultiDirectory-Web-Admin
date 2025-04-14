@@ -1,5 +1,5 @@
 export class DeleteEntryRequest {
-  entry: string = '';
+  entry = '';
 
   constructor(obj: Partial<DeleteEntryRequest>) {
     Object.assign(this, obj);

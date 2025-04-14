@@ -2,7 +2,6 @@ import { ErrorHandler, Injectable, Injector, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { translate } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY } from 'rxjs';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
@@ -28,7 +27,7 @@ export class GlobalErrorHandler implements ErrorHandler {
         this.toastr.error(error.error.detail);
         return;
       }
-      for (let i of error.error.detail) {
+      for (const i of error.error.detail) {
         this.toastr.error(i?.msg ?? i);
       }
       return;

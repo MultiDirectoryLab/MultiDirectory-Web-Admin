@@ -146,7 +146,7 @@ export class EntitySelectorDialogComponent implements OnInit {
           ...res,
           search_result: res.search_result.filter((entity) =>
             this.settings.entityToMove.every(
-              (e) => !entity.object_name.includes(<string>e.entry?.object_name),
+              (e) => !entity.object_name.includes(e.entry?.object_name as string),
             ),
           ),
         })),

@@ -1,6 +1,6 @@
 export class ChangePasswordRequest {
-  identity: string = '';
-  new_password: string = '';
+  identity = '';
+  new_password = '';
 
   constructor(obj?: Partial<ChangePasswordRequest>) {
     Object.assign(this, obj);

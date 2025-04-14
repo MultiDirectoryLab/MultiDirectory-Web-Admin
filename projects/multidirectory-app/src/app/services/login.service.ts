@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { catchError, EMPTY, Observable, Subject, switchMap, take, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, Subject, switchMap, take } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LoginResponse } from '@models/login/login-response';
 import { translate } from '@jsverse/transloco';

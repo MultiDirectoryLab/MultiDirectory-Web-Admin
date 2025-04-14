@@ -37,7 +37,7 @@ export const SearchQueries = {
     });
   },
 
-  getContent(baseObject: string, query: string = ''): SearchRequest {
+  getContent(baseObject: string, query = ''): SearchRequest {
     const req = new SearchRequest({
       base_object: baseObject,
       scope: 1,

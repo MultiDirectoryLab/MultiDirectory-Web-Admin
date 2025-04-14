@@ -1,7 +1,7 @@
 import { SearchType } from './search-type';
 
 export class SearchSource {
-  title: string = '';
+  title = '';
   type: SearchType = SearchType.None;
   data: any;
 

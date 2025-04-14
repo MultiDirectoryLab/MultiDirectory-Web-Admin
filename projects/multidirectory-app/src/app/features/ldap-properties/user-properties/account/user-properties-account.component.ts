@@ -136,7 +136,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const uacBits = this.accessor['userAccountControl']?.[0];
-    this.uacBitSet = !!this.accessor['userAccountControl']
+    this.uacBitSet = this.accessor['userAccountControl']
       ? BitSet.fromHexString(Number(uacBits).toString(16))
       : new BitSet();
 

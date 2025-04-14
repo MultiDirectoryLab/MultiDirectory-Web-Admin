@@ -1,17 +1,15 @@
 export class MockModalInjectDirective {
-  contentOptions: {
-    [value: string]: any;
-  } = {};
+  contentOptions: Record<string, any> = {};
 
   open = jasmine.createSpy();
 
-  constructor(contentOptions: { [value: string]: any }) {
+  constructor(contentOptions: Record<string, any>) {
     Object.assign(this.contentOptions, contentOptions);
   }
 }
 
-export function getMockModalInjectDirective(contentOptions: {
-  [value: string]: any;
-}): MockModalInjectDirective {
+export function getMockModalInjectDirective(
+  contentOptions: Record<string, any>,
+): MockModalInjectDirective {
   return new MockModalInjectDirective(contentOptions);
 }

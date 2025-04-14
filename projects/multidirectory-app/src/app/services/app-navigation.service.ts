@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRoute, Navigation, NavigationEnd, Router } from '@angular/router';
+import { Navigation, NavigationEnd, Router } from '@angular/router';
 import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationRoot } from '@core/navigation/navigation-entry-point';
@@ -25,17 +25,17 @@ export class AppNavigationService {
       filter((x) => x instanceof NavigationEnd),
       map(
         (event) =>
-          <NavigationEventWrapper>{
+          ({
             event: event,
             navigation: this.router.getCurrentNavigation(),
-          },
+          }) as NavigationEventWrapper,
       ),
-      startWith(<NavigationEventWrapper>{
+      startWith({
         event: {
           id: 0,
           url: this.router.routerState.snapshot.url,
         },
-      }),
+      } as NavigationEventWrapper),
     );
   }
 
@@ -77,7 +77,7 @@ export class AppNavigationService {
     for (let i = 0; i < targetDnParts.length && currentNode; i++) {
       if (!!currentNode.loadChildren && currentNode.children.length == 0) {
         const childRx = currentNode.loadChildren();
-        currentNode.children = !!childRx ? await lastValueFrom(childRx) : [];
+        currentNode.children = childRx ? await lastValueFrom(childRx) : [];
       }
 
       if (!currentNode.children) {

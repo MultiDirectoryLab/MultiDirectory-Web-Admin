@@ -37,7 +37,7 @@ export class PasswordPolicyViolationInterceptor implements HttpInterceptor {
           resp?.body?.errorMessage?.includes('password') &&
           resp.body.resultCode == LdapCode.OPERATIONS_ERROR
         ) {
-          const messages = (<string>resp.body.errorMessage)
+          const messages = (resp.body.errorMessage as string)
             .toLowerCase()
             .split(';')
             .map((x) => x.trim());

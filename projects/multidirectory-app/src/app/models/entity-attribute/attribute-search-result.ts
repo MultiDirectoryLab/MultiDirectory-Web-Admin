@@ -1,9 +1,9 @@
 export interface AttributesSearchResult {
-  search_result: Array<{
+  search_result: {
     object_name: string;
-    partial_attributes: Array<{
+    partial_attributes: {
       type: string;
       vals: string[];
-    }>;
-  }>;
+    }[];
+  }[];
 }

@@ -1,6 +1,6 @@
 export class GroupCreateRequest {
-  public groupName: string = '';
-  public groupNameLegacy: string = '';
+  public groupName = '';
+  public groupNameLegacy = '';
   public groupType = '';
   public groupScope = '';
   public description = '';

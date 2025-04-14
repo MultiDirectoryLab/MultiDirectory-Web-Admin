@@ -4,7 +4,7 @@ import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class CustomOverlayContainer extends OverlayContainer {
-  constructor(@Inject(DOCUMENT) document: Document, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(@Inject(DOCUMENT) document: Document, @Inject(PLATFORM_ID) platformId: object) {
     super(document, platformId as any);
   }
 

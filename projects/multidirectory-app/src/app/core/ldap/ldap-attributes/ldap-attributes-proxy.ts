@@ -32,9 +32,9 @@ export class LdapAttributesProxyHandler {
       value.length > 0 &&
       value[0] instanceof ChangeDescription
     ) {
-      this._changes = <ChangeDescription[]>value;
+      this._changes = value as ChangeDescription[];
     } else if (Array.isArray(value)) {
-      target[key] = <string[]>value.map((x) => x);
+      target[key] = value.map((x) => x) as string[];
     } else {
       target[key] = [value];
     }

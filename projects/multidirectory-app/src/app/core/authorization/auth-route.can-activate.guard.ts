@@ -22,7 +22,7 @@ export const authRouteGuardCanActivateFn = (
     }),
     switchMap((user) => {
       if (route.url.join('/') == 'login') {
-        if (!!user?.display_name) {
+        if (user?.display_name) {
           router.navigate(['/']);
         } else {
           return of(true);

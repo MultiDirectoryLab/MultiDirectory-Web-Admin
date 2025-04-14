@@ -1,6 +1,6 @@
 export class MultiselectModel {
-  id: string = '';
-  title: string = '';
+  id = '';
+  title = '';
   badge_title?: string;
   selected = false;
   key = '';

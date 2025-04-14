@@ -3,12 +3,12 @@ import { IpOption } from '@core/access-policy/access-policy-ip-address';
 
 export class PolicyPutRequest {
   id?: number;
-  name: string = '';
+  name = '';
   netmasks: IpOption[] = [];
   raw?: string;
   groups: string[] = [];
   priority?: number;
-  mfa_status: number = 0;
+  mfa_status = 0;
   mfa_groups: string[] = [];
   bypass_no_connection = false;
   bypass_service_failure = false;

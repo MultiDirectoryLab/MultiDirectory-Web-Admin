@@ -5,7 +5,11 @@ import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 
 export function getLdapTreeLoaderMock() {
   // Create jasmine spy object
-  let ldapTreeLoaderSpy = jasmine.createSpyObj(LdapEntryLoader, ['get', 'getContent', 'getChild']);
+  const ldapTreeLoaderSpy = jasmine.createSpyObj(LdapEntryLoader, [
+    'get',
+    'getContent',
+    'getChild',
+  ]);
   const zeroLevelRoot = [
     new LdapEntryNode({
       id: 'dc=test,dc=local',
@@ -14,7 +18,7 @@ export function getLdapTreeLoaderMock() {
       type: LdapEntryType.Root,
     }),
   ];
-  let childFirstLevel = [
+  const childFirstLevel = [
     new LdapEntryNode({
       id: 'cn=ldap-child-1,dc=test,dc=local',
       selectable: true,
@@ -30,7 +34,7 @@ export function getLdapTreeLoaderMock() {
       type: LdapEntryType.Folder,
     }),
   ];
-  let contentFirstLevel = [
+  const contentFirstLevel = [
     new LdapEntryNode({
       id: 'cn=ldap-content-1,dc=test,dc=local',
       selectable: true,

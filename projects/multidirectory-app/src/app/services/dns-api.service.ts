@@ -3,11 +3,10 @@ import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { DnsServiceResponse } from '@models/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

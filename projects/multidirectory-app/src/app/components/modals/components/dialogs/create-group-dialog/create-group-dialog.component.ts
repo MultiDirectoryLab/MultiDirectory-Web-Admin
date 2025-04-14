@@ -35,7 +35,7 @@ import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attrib
 export class CreateGroupDialogComponent implements OnInit {
   public dialogData: CreateGroupDialogData = inject(DIALOG_DATA);
   public setupRequest = new GroupCreateRequest();
-  public formValid: boolean = false;
+  public formValid = false;
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> =

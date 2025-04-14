@@ -10,7 +10,7 @@ import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
   imports: [TranslocoDirective, TextboxComponent, FormsModule, ButtonComponent],
 })
 export class SearchUsersComponent {
-  searchQuery: string = '';
+  searchQuery = '';
   readonly onClear = output<void>();
 
   clear() {

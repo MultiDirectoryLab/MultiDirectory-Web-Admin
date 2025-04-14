@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  multidirectoryApiUrl: (<any>window)['env']['multidirectoryApiUrl'] || 'http://md.localhost',
+  multidirectoryApiUrl: (window as any)['env']['multidirectoryApiUrl'] || 'http://md.localhost',
 };
 /*
  * For easier debugging in development mode, you can import the following file

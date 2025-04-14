@@ -18,7 +18,7 @@ export class Ip6AddressValidatorDirective implements Validator {
   ipPattern = new RegExp(`^([a-f0-9:]+:+)+[a-f0-9]+$`);
 
   validate(control: AbstractControl): ValidationErrors | null {
-    let result = this.ipPattern.test(control.value);
+    const result = this.ipPattern.test(control.value);
     if (result) {
       return null;
     }

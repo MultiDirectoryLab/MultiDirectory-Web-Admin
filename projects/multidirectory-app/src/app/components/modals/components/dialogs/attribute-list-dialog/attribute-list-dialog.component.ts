@@ -34,8 +34,8 @@ export class AttributeListEntry extends Treenode {
 })
 export class AttributeListDialogComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
-  public newAttribute: string = '';
-  public type: string = '';
+  public newAttribute = '';
+  public type = '';
   public tree: AttributeListEntry[] = [];
   public toDelete: AttributeListEntry[] = [];
 
@@ -83,8 +83,9 @@ export class AttributeListDialogComponent implements OnInit {
 
   public deleteAttribute() {
     this.toDelete = this.toDelete.concat(
-      <AttributeListEntry[]>this.tree.filter((x) => x.selected && !(<AttributeListEntry>x).new) ??
-        [],
+      (this.tree.filter(
+        (x) => x.selected && !(x as AttributeListEntry).new,
+      ) as AttributeListEntry[]) ?? [],
     );
     this.tree = this.tree.filter((x) => !x.selected) ?? [];
   }

@@ -83,7 +83,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
     this.dialogService.close(this.dialogRef);
   }
 
-  public save(needConfirmation: boolean = false) {
+  public save(needConfirmation = false) {
     this.dialogComponent.showSpinner();
     const updateRequest = this.attributeService.createAttributeUpdateRequest(this.accessor);
 

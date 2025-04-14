@@ -1,5 +1,5 @@
 export class PartialAttribute {
-  type: string = '';
+  type = '';
   vals: string[] = [];
 
   constructor(obj: Partial<PartialAttribute>) {

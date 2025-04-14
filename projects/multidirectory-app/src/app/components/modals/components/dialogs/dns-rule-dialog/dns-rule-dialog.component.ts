@@ -53,7 +53,7 @@ export class DnsRuleDialogComponent implements OnInit {
   public dnsRule: DnsRule = new DnsRule({});
   public DnsRuleTypes = AvailableDnsRecordTypes;
   public DnsRuleClass = DnsRuleClass;
-  public recordDataType: number = -1;
+  public recordDataType = -1;
 
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private destroyRef$: DestroyRef = inject(DestroyRef);

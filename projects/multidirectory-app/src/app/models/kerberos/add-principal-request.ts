@@ -1,6 +1,6 @@
 export class AddPrincipalRequest {
-  primary: string = '';
-  instance: string = '';
+  primary = '';
+  instance = '';
 
   constructor(principalName: string) {
     [this.primary, this.instance] = principalName.split('/');

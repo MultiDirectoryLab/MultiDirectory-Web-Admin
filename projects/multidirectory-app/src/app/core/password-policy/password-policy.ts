@@ -1,21 +1,21 @@
 export class PasswordPolicy {
   id?: number;
-  name: string = '';
+  name = '';
   // Enforce password history
   // Count of passwords remembered
-  enforcePasswordHistory: number = 0;
+  enforcePasswordHistory = 0;
 
   // Maximum password age 90 days
-  maximumPasswordAge: number = 90;
+  maximumPasswordAge = 90;
 
   // Minimum password age 0 days
-  minimumPasswordAge: number = 0;
+  minimumPasswordAge = 0;
 
   // Minimum password length 5 characters
-  minimumPasswordLength: number = 5;
+  minimumPasswordLength = 5;
 
   // Password must meet complexity requirements Disabled
-  passwordMustMeetComplexityRequirements: boolean = false;
+  passwordMustMeetComplexityRequirements = false;
   // Store passwords using reversible encryption Disabled
   useReversibleEncryption = false;
 

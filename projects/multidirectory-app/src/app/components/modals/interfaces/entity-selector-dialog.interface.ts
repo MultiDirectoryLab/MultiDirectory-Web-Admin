@@ -15,7 +15,7 @@ export type EntitySelectorDialogReturnData = MultiselectModel[];
 export class EntitySelectorSettings {
   selectedEntities: LdapEntryNode[] = [];
   selectedEntityTypes: EntityType[] = [];
-  selectedPlaceDn: string = '';
+  selectedPlaceDn = '';
   entityToMove: LdapEntryNode[] = [];
 
   allowSelectEntityTypes = true;
