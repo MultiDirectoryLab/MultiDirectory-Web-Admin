@@ -30,10 +30,10 @@ export class DialogService {
       providers: [
         {
           provide: DIALOG_COMPONENT_WRAPPER_CONFIG,
-          useFactory: () => ({
+          useValue: {
             ...DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG,
             ...(componentConfig ?? {}),
-          }),
+          },
         },
       ],
       ...(dialogConfig ?? {}),

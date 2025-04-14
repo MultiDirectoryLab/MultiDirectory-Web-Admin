@@ -40,10 +40,7 @@ import { TranslocoHttpLoader } from './transloco-loader';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    provideAppInitializer(() => {
-      const translateService: TranslocoService = inject(TranslocoService);
-      return lastValueFrom(translateService.load('ru-RU'));
-    }),
+    provideAppInitializer(() => lastValueFrom(inject(TranslocoService).load('ru-RU'))),
     provideAnimations(),
     importProvidersFrom(
       BrowserModule,
@@ -56,21 +53,21 @@ export const appConfig: ApplicationConfig = {
     ),
     {
       provide: 'apiAdapter',
-      useFactory: (
-        adapterSettings: MultidirectoryAdapterSettings,
-        httpClient: HttpClient,
-        toastr: ToastrService,
-      ) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
-      deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService],
+      useFactory: () =>
+        new ApiAdapter<MultidirectoryAdapterSettings>(
+          inject(HttpClient),
+          inject(MultidirectoryAdapterSettings),
+          inject(ToastrService),
+        ),
     },
     {
       provide: 'dnsAdapter',
-      useFactory: (
-        adapterSettings: DnsAdapterSettings,
-        httpClient: HttpClient,
-        toastr: ToastrService,
-      ) => new ApiAdapter<DnsAdapterSettings>(httpClient, adapterSettings, toastr),
-      deps: [DnsAdapterSettings, HttpClient, ToastrService],
+      useFactory: () =>
+        new ApiAdapter<DnsAdapterSettings>(
+          inject(HttpClient),
+          inject(DnsAdapterSettings),
+          inject(ToastrService),
+        ),
     },
     {
       provide: ErrorHandler,
@@ -98,12 +95,11 @@ export const appConfig: ApplicationConfig = {
     }),
     {
       provide: SPINNER_CONFIGUARTION,
-      useFactory: (translateService: TranslocoService) => {
+      useFactory: () => {
         return new SpinnerConfiguration({
-          spinnerText: translateService.translate('spinner.please-wait'),
+          spinnerText: inject(TranslocoService).translate('spinner.please-wait'),
         });
       },
-      deps: [TranslocoService],
     },
     {
       provide: OverlayContainer,
