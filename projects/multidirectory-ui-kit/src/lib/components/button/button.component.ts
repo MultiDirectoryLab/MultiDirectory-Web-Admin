@@ -41,6 +41,7 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   }
 
   handleClickEvent(event: any) {
+    event.preventDefault();
     event.stopPropagation();
     if (this.disabled) {
       return;
