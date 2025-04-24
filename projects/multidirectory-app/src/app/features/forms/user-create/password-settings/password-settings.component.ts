@@ -1,21 +1,25 @@
-import { AfterViewInit, Component, inject, Input, OnDestroy, viewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { DialogRef } from '@angular/cdk/dialog';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  Input,
+  OnDestroy,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { FormsModule, NgModel } from '@angular/forms';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
-import {
-  CheckboxComponent,
-  MdFormComponent,
-  PopupContainerDirective,
-  PopupSuggestComponent,
-  TextboxComponent,
-} from 'multidirectory-ui-kit';
+import { CheckboxComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
+import { PasswordSuggestContextMenuComponent } from '../../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
+import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
 
 @Component({
   selector: 'app-user-create-password-settings',
@@ -28,15 +32,16 @@ import { Subject, takeUntil } from 'rxjs';
     FormsModule,
     PasswordMatchValidatorDirective,
     PasswordValidatorDirective,
-    PopupContainerDirective,
-    PopupSuggestComponent,
-    PasswordConditionsComponent,
     CheckboxComponent,
     MdFormComponent,
   ],
 })
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
   setup = inject(UserCreateService);
+  private contextMenuService = inject(ContextMenuService);
+  private suggestDialogRef: DialogRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private passwordInput = viewChild.required<NgModel>('passwordInput');
+  private password = signal('');
 
   readonly form = viewChild.required<MdFormComponent>('form');
   unsubscribe = new Subject<void>();
@@ -49,7 +54,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   @Input() set setupRequest(request: UserCreateRequest) {
     this._setupRequest = request;
-    this.form()?.inputs.forEach((x) => x.reset());
+    this.form()?.inputs?.forEach((x) => x.reset());
   }
 
   get passwordNeverExpires(): boolean {
@@ -117,5 +122,31 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   checkModel() {
     this.form().validate();
+    this.password.set(this.passwordInput().value);
+
+    if (this.passwordInput().valid) {
+      this.closeSuggest();
+    }
+  }
+
+  public openSuggest(event: FocusEvent): void {
+    const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
+    const targetRect = target.getBoundingClientRect();
+
+    this.suggestDialogRef = this.contextMenuService.open({
+      contextMenuConfig: {
+        hasBackdrop: false,
+        data: { password: this.password },
+      },
+      component: PasswordSuggestContextMenuComponent,
+      y: targetRect.y,
+      x: targetRect.right + 8,
+    });
+  }
+
+  public closeSuggest(): void {
+    if (this.suggestDialogRef) {
+      this.suggestDialogRef.close();
+    }
   }
 }

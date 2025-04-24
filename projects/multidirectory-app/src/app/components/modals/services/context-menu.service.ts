@@ -6,7 +6,7 @@ import {
   ContextMenuData,
   ContextMenuReturnData,
 } from '../interfaces/context-menu-dialog.interface';
-import { skip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ContextMenuComponent } from '../components/core/context-menu/context-menu.component';
 
 @Injectable({
@@ -70,10 +70,14 @@ export class ContextMenuService {
   }
 
   private initHandleOverlaySubscriptions(): void {
-    this.clickOutsideSubscription = this.contextMenuRef?.outsidePointerEvents
-      .pipe(skip(1))
-      .subscribe(() => {
-        this.close('close');
-      });
+    let isFirst = true;
+
+    this.clickOutsideSubscription = this.contextMenuRef?.outsidePointerEvents.subscribe((data) => {
+      if (data.type !== 'auxclick' && !isFirst) {
+        this.close(this.contextMenuRef?.config.data);
+        isFirst = true;
+      }
+      isFirst = false;
+    });
   }
 }

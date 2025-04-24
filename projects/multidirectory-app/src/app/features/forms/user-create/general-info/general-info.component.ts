@@ -54,7 +54,7 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
 
   @Input() set setupRequest(request: UserCreateRequest) {
     this._setupRequest = request;
-    this.form()?.inputs.forEach((x) => x.reset());
+    this.form()?.inputs?.forEach((x) => x.reset());
   }
 
   ngAfterViewInit(): void {
