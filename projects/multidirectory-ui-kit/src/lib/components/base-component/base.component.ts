@@ -45,7 +45,7 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
   set value(v: any) {
     if (v !== this.innerValue) {
       this.innerValue = v;
-      this._onChange();
+      this._onChange(v);
     }
   }
 
@@ -90,7 +90,7 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     this.unsubscribe.complete();
   }
 
-  protected _onChange = () => {};
+  protected _onChange = (value: any) => {};
 
   protected _onTouched = () => {};
 }
