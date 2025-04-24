@@ -38,6 +38,7 @@ export class PlaneButtonComponent extends BaseControlComponent implements AfterV
     this.unlistenClick = this.el.nativeElement.addEventListener(
       'click',
       (event: any) => {
+        event.preventDefault();
         event.stopPropagation();
         if (this.disabled) {
           return;
