@@ -9,20 +9,14 @@
         <app-user-properties class="block h-100" [accessor]="accessor || {}"></app-user-properties>
       }
       @case (EntityTypes.Group) {
-        <app-group-properties
-          class="block h-100"
-          [accessor]="accessor || {}"
-        ></app-group-properties>
+        <app-group-properties class="block h-100" [accessor]="accessor || {}" />
       }
       @case (EntityTypes.Computer) {
-        <app-computer-properties
-          class="block h-100"
-          [accessor]="accessor || {}"
-        ></app-computer-properties>
+        <app-computer-properties class="block h-100" [accessor]="accessor || {}" />
       }
       @default {
         <div class="block flex-row h-100">
-          <app-entity-attributes [accessor]="accessor || {}" class="w-100"></app-entity-attributes>
+          <app-entity-attributes [accessor]="accessor || {}" class="w-100" />
         </div>
       }
     }

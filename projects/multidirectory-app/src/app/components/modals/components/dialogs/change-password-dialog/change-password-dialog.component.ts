@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+  viewChild,
+  ViewChild,
+} from '@angular/core';
+import { ContextMenuService } from '../../../services/context-menu.service';
+import { PasswordSuggestContextMenuComponent } from '../../context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { catchError, EMPTY, Subject } from 'rxjs';
 import { ChangePasswordRequest } from '@models/user/change-password-request';
 import { ToastrService } from 'ngx-toastr';
@@ -15,9 +23,9 @@ import {
   ChangePasswordDialogData,
   ChangePasswordDialogReturnData,
 } from '../../../interfaces/change-password-dialog.interface';
-import { PasswordMatchValidatorDirective } from '../../../../../core/validators/passwordmatch.directive';
-import { RequiredWithMessageDirective } from '../../../../../core/validators/required-with-message.directive';
-import { PasswordValidatorDirective } from '../../../../../core/validators/password-validator.directive';
+import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -25,7 +33,6 @@ import { PasswordValidatorDirective } from '../../../../../core/validators/passw
   imports: [
     DialogComponent,
     MultidirectoryUiKitModule,
-    PasswordConditionsComponent,
     TranslocoPipe,
     PasswordMatchValidatorDirective,
     RequiredWithMessageDirective,
@@ -51,6 +58,10 @@ export class ChangePasswordDialogComponent {
   public un = this.dialogData.un;
   private toastr: ToastrService = inject(ToastrService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private contextMenuService = inject(ContextMenuService);
+  private suggestDialogRef: DialogRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private passwordInput = viewChild.required<NgModel>('passwordInput');
+  private password = signal('');
 
   public close() {
     this.dialogService.close(this.dialogRef);
@@ -77,5 +88,31 @@ export class ChangePasswordDialogComponent {
 
   public checkModel() {
     this.form.validate();
+    this.password.set(this.passwordInput().value);
+
+    if (this.passwordInput().valid) {
+      this.closeSuggest();
+    }
+  }
+
+  public openSuggest(event: FocusEvent): void {
+    const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
+    const targetRect = target.getBoundingClientRect();
+
+    this.suggestDialogRef = this.contextMenuService.open({
+      contextMenuConfig: {
+        hasBackdrop: false,
+        data: { password: this.password },
+      },
+      component: PasswordSuggestContextMenuComponent,
+      y: targetRect.y,
+      x: targetRect.right + 8,
+    });
+  }
+
+  public closeSuggest(): void {
+    if (this.suggestDialogRef) {
+      this.suggestDialogRef.close();
+    }
   }
 }

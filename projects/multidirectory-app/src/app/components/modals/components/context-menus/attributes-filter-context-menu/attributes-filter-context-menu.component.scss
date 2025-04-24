@@ -1,0 +1,29 @@
+@use '../../../../../../../../../node_modules/multidirectory-ui-kit/styles/global';
+
+.context-menu {
+  position: fixed;
+  z-index: 999;
+  background: var(--md-white);
+  color: var(--md-black);
+  border: 1px solid var(--md-dark-blue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-y: auto;
+
+  .context-item {
+    padding: 6px;
+    border-bottom: 1px solid var(--md-neutral-300);
+    color: var(--md-black);
+
+    &.disabled {
+      pointer-events: none;
+      background-color: var(--md-neutral-200);
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--md-neutral-150);
+    }
+  }
+}

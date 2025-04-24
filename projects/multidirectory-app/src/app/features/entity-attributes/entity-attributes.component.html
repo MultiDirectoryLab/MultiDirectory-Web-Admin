@@ -47,62 +47,8 @@
       <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
       <md-button (click)="onDeleteClick()">{{ 'entity-attributes.delete' | transloco }}</md-button>
     </div>
-    <md-button [mdDropdownContainer]="filterMenu" class=""
-      >{{ 'entity-attributes.filter' | transloco }}
-    </md-button>
+    <md-button (click)="openFilterContext($event)">{{
+      'entity-attributes.filter' | transloco
+    }}</md-button>
   </div>
 </div>
-
-<md-dropdown-menu #filterMenu>
-  <div class="dropdown-item">
-    <md-checkbox
-      (change)="onFilterChange()"
-      [(ngModel)]="filter.showWithValuesOnly"
-      id="show-with-values-only"
-      name="show-with-values-only"
-    >
-      {{ 'entity-attributes.with-values-only' | transloco }}
-    </md-checkbox>
-  </div>
-  <div class="dropdown-item">
-    <md-checkbox
-      (change)="onFilterChange()"
-      [(ngModel)]="filter.showWritableOnly"
-      id="show-writable-only"
-      name="show-writable-only"
-    >
-      {{ 'entity-attributes.writable-only' | transloco }}
-    </md-checkbox>
-  </div>
-
-  <label class="filter-label">
-    {{ 'entity-attributes.show-attributes' | transloco }}
-  </label>
-  <div class="dropdown-item">
-    <md-checkbox [disabled]="true" id="mandatory-only" name="mandatory-only">
-      {{ 'entity-attributes.mandatory' | transloco }}
-    </md-checkbox>
-  </div>
-  <div class="dropdown-item">
-    <md-checkbox [disabled]="true" id="optional-only" name="optional-only">
-      {{ 'entity-attributes.optional-only' | transloco }}
-    </md-checkbox>
-  </div>
-
-  <label class="filter-label">{{ 'entity-attributes.read-only' | transloco }}</label>
-  <div class="dropdown-item">
-    <md-checkbox [disabled]="true" id="constructed-only" name="constructed-only">
-      {{ 'entity-attributes.constructed-only' | transloco }}
-    </md-checkbox>
-  </div>
-  <div class="dropdown-item">
-    <md-checkbox [disabled]="true" id="backlinks-only" name="backlinks-only">
-      {{ 'entity-attributes.backlinks-only' | transloco }}
-    </md-checkbox>
-  </div>
-  <div class="dropdown-item">
-    <md-checkbox [disabled]="true" id="system-only" name="system-only">
-      {{ 'entity-attributes.system-only' | transloco }}
-    </md-checkbox>
-  </div>
-</md-dropdown-menu>

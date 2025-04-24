@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  model,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -49,7 +50,7 @@ export class CreateComputerDialogComponent implements OnInit {
   public description = '';
   public computerName = '';
   public legacyComputerName = '';
-  public ownerDn = '';
+  public ownerDn = model('');
   public isLegacyAccount = false;
 
   private destroyRef$: DestroyRef = inject(DestroyRef);
@@ -111,18 +112,7 @@ export class CreateComputerDialogComponent implements OnInit {
       })
       .closed.pipe(take(1))
       .subscribe((x) => {
-        this.ownerDn = x?.[0]?.id ?? '';
+        this.ownerDn.set(x?.[0]?.id ?? '');
       });
-
-    // this.windows
-    //   .openEntitySelector(
-    //     new EntitySelectorSettings({
-    //       selectedEntities: [],
-    //     }),
-    //   )
-    //   .pipe(take(1))
-    //   .subscribe((x) => {
-    //     this.ownerDn = x?.[0]?.id ?? '';
-    //   });
   }
 }
