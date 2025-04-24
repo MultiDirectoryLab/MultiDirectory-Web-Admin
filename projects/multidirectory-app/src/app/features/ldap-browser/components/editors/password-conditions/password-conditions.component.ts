@@ -28,7 +28,7 @@ export class PasswordConditionsComponent implements OnInit {
     const endsWith6Digits = /.*\d{6,}$/.test(password);
 
     this.checkPasswordComplexity = hasLowerCase && hasNumbers && hasUpperCase;
-    this.checkPasswordMinimalLength = password.length >= this.minimumPasswordLength;
+    this.checkPasswordMinimalLength = password?.length >= this.minimumPasswordLength;
     this.checkPasswordWithoutOtp = !endsWith6Digits;
   }
 
