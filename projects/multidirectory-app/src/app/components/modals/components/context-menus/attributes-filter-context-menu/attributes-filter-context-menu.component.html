@@ -1,0 +1,59 @@
+<div #dropdown class="context-menu">
+  <div class="context-item">
+    <md-checkbox
+      (change)="onFilterChange()"
+      [(ngModel)]="showWithValuesOnly"
+      id="show-with-values-only"
+      name="show-with-values-only"
+    >
+      {{ 'entity-attributes.with-values-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <div class="context-item">
+    <md-checkbox
+      (change)="onFilterChange()"
+      [(ngModel)]="showWritableOnly"
+      id="show-writable-only"
+      name="show-writable-only"
+    >
+      {{ 'entity-attributes.writable-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <label class="filter-label">
+    {{ 'entity-attributes.show-attributes' | transloco }}
+  </label>
+
+  <div class="context-item">
+    <md-checkbox [disabled]="true" id="mandatory-only" name="mandatory-only">
+      {{ 'entity-attributes.mandatory' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <div class="context-item">
+    <md-checkbox [disabled]="true" id="optional-only" name="optional-only">
+      {{ 'entity-attributes.optional-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <label class="filter-label">{{ 'entity-attributes.read-only' | transloco }}</label>
+
+  <div class="context-item">
+    <md-checkbox [disabled]="true" id="constructed-only" name="constructed-only">
+      {{ 'entity-attributes.constructed-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <div class="context-item">
+    <md-checkbox [disabled]="true" id="backlinks-only" name="backlinks-only">
+      {{ 'entity-attributes.backlinks-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <div class="context-item">
+    <md-checkbox [disabled]="true" id="system-only" name="system-only">
+      {{ 'entity-attributes.system-only' | transloco }}
+    </md-checkbox>
+  </div>
+</div>

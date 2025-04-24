@@ -13,17 +13,17 @@ import { Subject } from 'rxjs';
 import { BaseControlComponent } from './control.component';
 
 @Component({
-  template: ``,
+  template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseComponent extends BaseControlComponent implements ControlValueAccessor, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
 
-  @Input() disabled: boolean = false;
+  @Input() disabled = false;
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() blur = new EventEmitter<void>();
   // eslint-disable-next-line @angular-eslint/no-output-native
-  @Output() focus = new EventEmitter<void>();
+  @Output() focus = new EventEmitter<FocusEvent>();
   unsubscribe = new Subject<boolean>();
   innerValue: any = '';
 
@@ -45,7 +45,7 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
   set value(v: any) {
     if (v !== this.innerValue) {
       this.innerValue = v;
-      this._onChange(v);
+      this._onChange();
     }
   }
 
@@ -79,8 +79,8 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     this.cdr.detectChanges();
   }
 
-  onFocus() {
-    this.focus.emit();
+  onFocus(event: FocusEvent) {
+    this.focus.emit(event);
   }
 
   setFocus() {}
@@ -90,7 +90,7 @@ export class BaseComponent extends BaseControlComponent implements ControlValueA
     this.unsubscribe.complete();
   }
 
-  protected _onChange = (value: any) => {};
+  protected _onChange = () => {};
 
   protected _onTouched = () => {};
 }

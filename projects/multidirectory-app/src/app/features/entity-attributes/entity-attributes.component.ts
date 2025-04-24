@@ -2,11 +2,14 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  effect,
   inject,
   Input,
   OnInit,
+  signal,
   TemplateRef,
   viewChild,
+  WritableSignal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
@@ -15,23 +18,17 @@ import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
 import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
 import { SchemaEntry } from '@models/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap-properties.service';
-import {
-  ButtonComponent,
-  CheckboxComponent,
-  DatagridComponent,
-  DropdownContainerDirective,
-  DropdownMenuComponent,
-  Page,
-  TextboxComponent,
-} from 'multidirectory-ui-kit';
+import { ButtonComponent, DatagridComponent, Page, TextboxComponent } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
+import { AttributesFilterContextMenuComponent } from '../../components/modals/components/context-menus/attributes-filter-context-menu/attributes-filter-context-menu.component';
 import { PropertyEditDialogComponent } from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
 import {
   PropertyEditDialogData,
   PropertyEditDialogReturnData,
 } from '../../components/modals/interfaces/property-edit-dialog.interface';
+import { ContextMenuService } from '../../components/modals/services/context-menu.service';
 import { DialogService } from '../../components/modals/services/dialog.service';
 
 @Component({
@@ -45,15 +42,13 @@ import { DialogService } from '../../components/modals/services/dialog.service';
     ButtonComponent,
     DatagridComponent,
     NgClass,
-    DropdownContainerDirective,
-    DropdownMenuComponent,
-    CheckboxComponent,
   ],
 })
 export class EntityAttributesComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private properties = inject(LdapPropertiesService);
   private toastr = inject(ToastrService);
+  private contextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
   private _unsubscribe = new Subject<boolean>();
   private _schema = new Map<string, SchemaEntry>();
@@ -61,7 +56,7 @@ export class EntityAttributesComponent implements OnInit {
   readonly dataGridCellTemplateRef = viewChild.required<TemplateRef<any>>('dataGridCellTemplate');
   rows: { name: string; val: string }[] = [];
   searchQuery = '';
-  filter = new AttributeFilter();
+  filter = signal(new AttributeFilter());
   page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns: TableColumn[] = [];
 
@@ -76,6 +71,14 @@ export class EntityAttributesComponent implements OnInit {
   @Input() set accessor(x: LdapAttributes) {
     this._accessor = x;
     this._accessorRx.next(x);
+  }
+
+  constructor() {
+    effect(() => {
+      this.filter();
+
+      this.onFilterChange();
+    });
   }
 
   ngOnInit(): void {
@@ -214,12 +217,40 @@ export class EntityAttributesComponent implements OnInit {
 
   private filterData(result: { name: string; val: string }[]): { name: string; val: string }[] {
     return result
-      .filter((attr) => !this.filter.showWithValuesOnly || this._accessor[attr.name])
-      .filter((attr) => !this.filter.showWritableOnly || this._schema.get(attr.name)?.writable)
+      .filter((attr) => !this.filter().showWithValuesOnly || this._accessor[attr.name])
+      .filter((attr) => !this.filter().showWritableOnly || this._schema.get(attr.name)?.writable)
       .filter(
         (attr) =>
           !this.searchQuery ||
           attr.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()),
       );
+  }
+
+  public openFilterContext(e: Event) {
+    const target = e.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+
+    const filterContextMenuRef = this.contextMenuService.open<
+      { filter: AttributeFilter },
+      { filter: WritableSignal<AttributeFilter> },
+      AttributesFilterContextMenuComponent
+    >({
+      component: AttributesFilterContextMenuComponent,
+      x: rect.left,
+      y: rect.bottom,
+      contextMenuConfig: {
+        data: { filter: this.filter },
+        hasBackdrop: false,
+        minWidth: 'auto',
+        minHeight: 'auto',
+      },
+    });
+
+    filterContextMenuRef.closed.subscribe((data) => {
+      if (data && data.filter) {
+        this.filter.update((filter) => ({ ...filter, ...data.filter }));
+        this.onFilterChange();
+      }
+    });
   }
 }
