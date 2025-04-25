@@ -48,7 +48,6 @@ import {
 import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DialogService } from '../../../services/dialog.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { AttributeService } from '@services/attributes.service';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { DeleteEntryRequest } from '@models/entry/delete-request';
 import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
@@ -69,7 +68,6 @@ export class ContextMenuComponent implements OnInit {
   private ngZone: NgZone = inject(NgZone);
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
-  private attributeService: AttributeService = inject(AttributeService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private bulk: BulkService<LdapEntryNode> = inject(BulkService<LdapEntryNode>);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
@@ -106,35 +104,6 @@ export class ContextMenuComponent implements OnInit {
         })
         .closed.pipe(take(1)),
     );
-    // this.api
-    //   .search(SearchQueries.getProperites(this.entries[0].id))
-    //   .pipe(
-    //     take(1),
-    //     tap((props) => {
-    //       const attributes = props.search_result[0].partial_attributes;
-    //       const accessor = this.attributeService.getTrackableAttributes(
-    //         this.entries[0],
-    //         new LdapAttributes(attributes),
-    //       );
-    //
-    //       const dialogRef = this.dialogService.open<
-    //         EntityPropertiesDialogReturnData,
-    //         EntityPropertiesDialogData,
-    //         EntityPropertiesDialogComponent
-    //       >({
-    //         component: EntityPropertiesDialogComponent,
-    //         dialogConfig: {
-    //           hasBackdrop: false,
-    //           width: '600px',
-    //           minHeight: '660px',
-    //           data: { accessor, entityType: this.entries[0].type },
-    //         },
-    //       });
-    //
-    //       this.contextMenuService.close(dialogRef.closed);
-    //     }),
-    //   )
-    //   .subscribe();
   }
 
   public openChangePasswordDialog() {

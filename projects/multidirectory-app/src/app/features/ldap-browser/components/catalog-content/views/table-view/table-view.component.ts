@@ -268,6 +268,7 @@ export class TableViewComponent extends BaseViewComponent implements AfterViewIn
         >({
           component: EntityPropertiesDialogComponent,
           dialogConfig: {
+            hasBackdrop: false,
             width: '600px',
             minHeight: '660px',
             data: { entity: entry },
