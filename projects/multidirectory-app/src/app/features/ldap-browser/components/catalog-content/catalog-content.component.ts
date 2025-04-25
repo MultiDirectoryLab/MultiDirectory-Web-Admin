@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, viewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import {
@@ -73,7 +81,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     FormsModule,
   ],
 })
-export class CatalogContentComponent implements OnInit {
+export class CatalogContentComponent implements OnInit, OnDestroy {
   readonly properties = viewChild<ModalInjectDirective>('properties');
   readonly view = viewChild(BaseViewComponent);
 
@@ -191,6 +199,10 @@ export class CatalogContentComponent implements OnInit {
       this.currentView = x;
       this.cdr.detectChanges();
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.hotkeysService.reset();
   }
 
   public openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
