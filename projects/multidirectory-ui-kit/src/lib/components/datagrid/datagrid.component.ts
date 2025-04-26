@@ -23,7 +23,6 @@ import {
   TableColumn,
 } from 'ngx-datatable-gimefork';
 import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
-import { Page } from './page';
 
 @Component({
   selector: 'md-datagrid',
@@ -38,7 +37,7 @@ import { Page } from './page';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgxDatatableModule, NgStyle, NgTemplateOutlet, DropdownComponent, FormsModule],
 })
-export class DatagridComponent implements AfterViewInit {
+export class DatagridComponent {
   private cdr = inject(ChangeDetectorRef);
 
   ColumnMode = ColumnMode;
@@ -91,7 +90,23 @@ export class DatagridComponent implements AfterViewInit {
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
-  @Output() pageChanged = new EventEmitter<Page>();
+
+  _selected: any[] = [];
+  get selected(): any[] {
+    return this._selected;
+  }
+  set selected(x: any[]) {
+    this._selected = x;
+  }
+
+  private _columns: TableColumn[] = [];
+  @Input() set columns(columns: TableColumn[]) {
+    this._columns = columns;
+  }
+  get columns(): TableColumn[] {
+    return this._columns;
+  }
+
   SelectionType = SelectionType;
   @Input() pageSizes: DropdownOption[] = [
     { title: '5', value: 5 },
@@ -99,50 +114,6 @@ export class DatagridComponent implements AfterViewInit {
     { title: '15', value: 15 },
     { title: '20', value: 20 },
   ];
-
-  _selected: any[] = [];
-
-  get selected(): any[] {
-    return this._selected;
-  }
-
-  set selected(x: any[]) {
-    this._selected = x;
-  }
-
-  get size(): number {
-    return this.page.size;
-  }
-
-  set size(size: number) {
-    this.page.size = size;
-    this.page.pageNumber = 1;
-    if (this.name) {
-      localStorage.setItem(`gridSize_${this.name}`, String(size));
-    }
-    this.pageChanged.emit(this.page);
-  }
-
-  private _columns: TableColumn[] = [];
-
-  get columns(): TableColumn[] {
-    return this._columns;
-  }
-
-  @Input() set columns(columns: TableColumn[]) {
-    this._columns = columns;
-  }
-
-  ngAfterViewInit() {
-    this.page.size = this.pageSizes?.[0]?.value ?? this.page.size;
-    if (this.name) {
-      const size = Number(localStorage.getItem(`gridSize_${this.name}`));
-      if (!isNaN(size) && size > 0 && this.pageSizes.findIndex((x) => x.value == size) > -1) {
-        this.page.size = size;
-        this.cdr.detectChanges();
-      }
-    }
-  }
 
   select(row: any) {
     if (!row) {

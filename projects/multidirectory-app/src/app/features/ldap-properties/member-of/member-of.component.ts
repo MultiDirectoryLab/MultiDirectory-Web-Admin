@@ -3,17 +3,11 @@ import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Group } from '@core/groups/group';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
-import { EntityPropertiesDialogComponent } from '../../../components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import { EntitySelectorDialogComponent } from '../../../components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
-import {
-  EntityPropertiesDialogData,
-  EntityPropertiesDialogReturnData,
-} from '../../../components/modals/interfaces/entity-properties-dialog.interface';
 import {
   EntitySelectorDialogData,
   EntitySelectorDialogReturnData,
@@ -93,28 +87,11 @@ export class MemberOfComponent {
     }
   }
 
-  public async openGroupProperties() {
+  public openGroupProperties() {
     const groupList = this.groupList();
     if (!groupList?.selected?.[0]) {
       return;
     }
-    const entity = (await this.navigation.goTo(groupList.selected[0].dn)) as LdapEntryNode;
-    if (!entity) {
-      return;
-    }
-    // this.windows.openEntityProperiesModal(entity);
-    this.dialogService.open<
-      EntityPropertiesDialogReturnData,
-      EntityPropertiesDialogData,
-      EntityPropertiesDialogComponent
-    >({
-      component: EntityPropertiesDialogComponent,
-      dialogConfig: {
-        width: '600px',
-        minHeight: '660px',
-        data: { entity },
-      },
-    });
   }
 
   private createGroupFromDn(dn: string) {

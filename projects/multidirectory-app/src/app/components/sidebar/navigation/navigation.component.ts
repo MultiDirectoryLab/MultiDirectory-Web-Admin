@@ -1,10 +1,19 @@
-import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  viewChild,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { ContextMenuService } from '@services/contextmenu.service';
 import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
-import { Subject } from 'rxjs';
+import { of, Subject, switchMap } from 'rxjs';
+import { ContextMenuComponent } from '../../modals/components/core/context-menu/context-menu.component';
 
 @Component({
   selector: 'app-navigation',
@@ -12,18 +21,13 @@ import { Subject } from 'rxjs';
   templateUrl: './navigation.component.html',
   imports: [TreeviewComponent],
 })
-export class NavigationComponent implements OnInit, OnDestroy {
+export class NavigationComponent implements OnDestroy {
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private navigation = inject(AppNavigationService);
   private route = inject(ActivatedRoute);
   private unsubscribe = new Subject<void>();
   readonly treeView = viewChild.required<TreeviewComponent>('treeView');
   public navigationTree: NavigationNode[] = [];
-
-  constructor(
-    private navigation: AppNavigationService,
-    private contextMenu: ContextMenuService,
-  ) {}
 
   handleRouteChange(navigationTree: NavigationNode[], event: any) {
     let url = event.event.url;
@@ -42,21 +46,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   handleNodeRightClick({ node, event: { x, y } }: RightClickEvent) {
-    if (node instanceof LdapEntryNode) {
-      this.treeView().focus(node);
-
-      this.contextMenuService
-        .open({
-          component: ContextMenuComponent,
-          x,
-          y,
-          contextMenuConfig: {
-            hasBackdrop: false,
-            data: { entity: [node] },
-          },
-        })
-        .closed.pipe(switchMap((result) => (!result ? of(null) : of(result))))
-        .subscribe();
+    if (node instanceof NavigationNode) {
+      //   this.contextMenuService
+      //     .open({
+      //       component: ContextMenuComponent,
+      //       x,
+      //       y,
+      //       contextMenuConfig: {
+      //         hasBackdrop: false,
+      //         data: { entity: [node] },
+      //       },
+      //     })
+      //     .closed.pipe(switchMap((result) => (!result ? of(null) : of(result))))
+      //     .subscribe();
     }
   }
 }

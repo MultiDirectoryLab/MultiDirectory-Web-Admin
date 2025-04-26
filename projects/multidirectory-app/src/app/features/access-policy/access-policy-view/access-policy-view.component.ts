@@ -37,9 +37,6 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { MultiselectModel } from './multiselect-model';
-import { AccessPolicy } from '@core/access-policy/access-policy';
-import { IpRange } from '@core/access-policy/access-policy-ip-address';
-import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -105,10 +102,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.navigation.navigationRx.pipe(takeUntil(this._unsubscribe)).subscribe(() => {
-      this.load();
-    });
-
     this.api
       .getMultifactor()
       .pipe(take(1))

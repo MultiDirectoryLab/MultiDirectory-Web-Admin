@@ -1,8 +1,8 @@
 import { Component, inject, input, output } from '@angular/core';
-import { UserSession } from '@models/sessions/user-session';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { PlaneButtonComponent } from 'multidirectory-ui-kit';
 import { PlateListItemComponent } from '../../../../components/app-layout/shared/plate-list-item/plate-list-item.component';
+import { UserSession } from '@models/api/sessions/user-session';
 
 @Component({
   selector: 'app-session',

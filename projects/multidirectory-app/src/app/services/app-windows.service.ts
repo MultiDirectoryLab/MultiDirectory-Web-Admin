@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { Observable, Subject } from 'rxjs';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 
 @Injectable({
   providedIn: 'root',

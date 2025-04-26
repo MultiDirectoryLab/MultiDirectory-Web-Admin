@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { MultidirectoryApiService } from './multidirectory-api.service';
 import { SearchQueries } from '@core/ldap/search';
+import { AttributesSearchResult } from '@models/api/entity-attribute/attribute-search-result';
+import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { Observable, map } from 'rxjs';
-import { SchemaEntry } from '@models/entity-attribute/schema-entry';
-import { AttributesSearchResult } from '@models/entity-attribute/attribute-search-result';
 
 @Injectable({
   providedIn: 'root',

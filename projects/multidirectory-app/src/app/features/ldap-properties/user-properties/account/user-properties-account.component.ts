@@ -10,7 +10,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
@@ -56,7 +55,6 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
-  private nodeLoader = inject(LdapEntryLoader);
   private dialogService: DialogService = inject(DialogService);
   public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
   readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');

@@ -8,7 +8,7 @@ import { NavigationNode } from '@models/core/navigation/navigation-node';
 @Injectable({
   providedIn: 'root',
 })
-export class GetAccessorStrategy extends BulkPerformStrategy<LdapEntryNode> {
+export class GetAccessorStrategy extends BulkPerformStrategy<NavigationNode> {
   private attributeService = inject(AttributeService);
 
   override mutate<LdapAttributes>(entry: NavigationNode): LdapAttributes {

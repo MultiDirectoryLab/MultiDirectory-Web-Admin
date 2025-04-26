@@ -5,7 +5,6 @@ import { RequiredWithMessageDirective } from '@core/validators/required-with-mes
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
-import { GroupCreateRequest } from '@models/group-create/group-create.request';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
@@ -14,8 +13,9 @@ import {
 } from '../../../interfaces/create-group-dialog.interface';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { GroupCreateRequest } from '@models/api/group-create/group-create.request';
 
 @Component({
   selector: 'app-create-group-dialog',
@@ -75,11 +75,11 @@ export class CreateGroupDialogComponent implements OnInit {
         new CreateEntryRequest({
           entry: `cn=${this.setupRequest.groupName},` + this.dialogData.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['group', 'top', 'posixGroup'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.setupRequest.description],
             }),

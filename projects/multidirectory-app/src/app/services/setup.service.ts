@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { KerberosSetupRequest } from '@models/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/setup/kerberos-tree-setup-request';
-import { SetupRequest } from '@models/setup/setup-request';
 import { delay, EMPTY, expand, iif, map, Observable, of, switchMap, takeWhile } from 'rxjs';
 import { DnsApiService } from './dns-api.service';
 import { LoginService } from './login.service';
 import { MultidirectoryApiService } from './multidirectory-api.service';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 
 @Injectable({
   providedIn: 'root',

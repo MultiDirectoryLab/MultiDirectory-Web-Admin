@@ -2,10 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsServiceResponse } from '@models/dns/dns-service-response';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsServiceResponse } from '@models/api/dns/dns-service-response';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { map, Observable } from 'rxjs';
 
 @Injectable({

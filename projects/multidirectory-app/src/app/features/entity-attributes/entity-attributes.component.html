@@ -2,38 +2,38 @@
   <div class="flex-row flex-gap-10 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
     <md-textbox
-      (ngModelChange)="onFilterChange()"
-      [(ngModel)]="searchQuery"
       name="search"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="onFilterChange()"
     ></md-textbox>
-    <md-button (click)="onEditClick(searchQuery)" [disabled]="!searchQuery"
-      >{{ 'entity-attributes.add' | transloco }}
-    </md-button>
+    <md-button [disabled]="!searchQuery" (click)="onEditClick(searchQuery)">{{
+      'entity-attributes.add' | transloco
+    }}</md-button>
   </div>
-  <div class="flex-row w-100 h-100" style="min-height: 400px">
+  <div class="h-100">
     <md-datagrid
-      (doubleclick)="onEditClick()"
-      (pageChanged)="onPageChanged($event)"
+      #propGrid
+      [rows]="rows"
       [columns]="propColumns"
+      [scrollbarV]="true"
       [externalPaging]="true"
+      [offset]="0"
+      [stretchHeight]="true"
       [hideFooter]="true"
       (doubleclick)="onEditClick()"
       pagerTitle="{{ 'grid.pager-title' | transloco }}"
       fromTitle="{{ 'grid.from-title' | transloco }}"
       emptyMessage="{{ 'grid.no-data' | transloco }}"
-      fromTitle="{{ 'grid.from-title' | transloco }}"
-      pagerTitle="{{ 'grid.pager-title' | transloco }}"
-      style="flex: 1"
     >
-      <ng-template #dataGridCellTemplate let-isSelected="isSelected" let-value="value">
+      <ng-template #dataGridCellTemplate let-value="value" let-isSelected="isSelected">
         <div class="datatable-body-cell-label body-cell-label">
           <img
-            (click)="onCopyClick(value)"
             [ngClass]="['copy-icon', isSelected ? 'active' : '']"
-            alt="copy"
-            height="12"
+            (click)="onCopyClick(value)"
             src="./assets/copy.svg"
+            alt="copy"
             width="12"
+            height="12"
           />
 
           <span [title]="value">{{ value }}</span>
@@ -46,8 +46,56 @@
       <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
       <md-button (click)="onDeleteClick()">{{ 'entity-attributes.delete' | transloco }}</md-button>
     </div>
-    <md-button (click)="openFilterContext($event)">{{
+    <md-button [mdDropdownContainer]="filterMenu" class="">{{
       'entity-attributes.filter' | transloco
     }}</md-button>
   </div>
 </div>
+
+<md-dropdown-menu #filterMenu>
+  <div class="dropdown-item">
+    <md-checkbox
+      name="show-with-values-only"
+      id="show-with-values-only"
+      (change)="onFilterChange()"
+    >
+      {{ 'entity-attributes.with-values-only' | transloco }}
+    </md-checkbox>
+  </div>
+  <div class="dropdown-item">
+    <md-checkbox name="show-writable-only" id="show-writable-only" (change)="onFilterChange()">
+      {{ 'entity-attributes.writable-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <label class="filter-label">
+    {{ 'entity-attributes.show-attributes' | transloco }}
+  </label>
+  <div class="dropdown-item">
+    <md-checkbox name="mandatory-only" id="mandatory-only" [disabled]="true">
+      {{ 'entity-attributes.mandatory' | transloco }}
+    </md-checkbox>
+  </div>
+  <div class="dropdown-item">
+    <md-checkbox name="optional-only" id="optional-only" [disabled]="true">
+      {{ 'entity-attributes.optional-only' | transloco }}
+    </md-checkbox>
+  </div>
+
+  <label class="filter-label">{{ 'entity-attributes.read-only' | transloco }}</label>
+  <div class="dropdown-item">
+    <md-checkbox name="constructed-only" id="constructed-only" [disabled]="true">
+      {{ 'entity-attributes.constructed-only' | transloco }}
+    </md-checkbox>
+  </div>
+  <div class="dropdown-item">
+    <md-checkbox name="backlinks-only" id="backlinks-only" [disabled]="true">
+      {{ 'entity-attributes.backlinks-only' | transloco }}
+    </md-checkbox>
+  </div>
+  <div class="dropdown-item">
+    <md-checkbox name="system-only" id="system-only">
+      {{ 'entity-attributes.system-only' | transloco }}
+    </md-checkbox>
+  </div>
+</md-dropdown-menu>

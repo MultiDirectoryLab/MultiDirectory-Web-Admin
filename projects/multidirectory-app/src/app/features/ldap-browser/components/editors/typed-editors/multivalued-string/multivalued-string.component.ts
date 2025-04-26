@@ -37,31 +37,28 @@ export class MultivaluedStringComponent extends TypedEditorBaseComponent {
     setTimeout(() => {
       const treeview = this.treeview();
       treeview.tree = tree;
-      treeview.redraw();
+      //treeview.redraw();
     });
   }
 
   addAttribute() {
-    const treeview = this.treeview();
-    treeview?.addRoot(
-      new AttributeListEntry({
-        name: this.newAttribute,
-        id: this.newAttribute,
-        selectable: true,
-        type: this.type,
-        new: true,
-      }),
-    );
-    this._propertyValue = treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.emit(this._propertyValue);
+    // this.treeview?.addRoot(
+    //   new AttributeListEntry({
+    //     name: this.newAttribute,
+    //     id: this.newAttribute,
+    //     selectable: true,
+    //     type: this.type,
+    //     new: true,
+    //   }),
+    // );
+    //this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
+    //this.propertyValueChange.next(this._propertyValue);
     this.newAttribute = '';
   }
 
   deleteAttribute() {
-    const treeview = this.treeview();
-    treeview!.tree = treeview?.tree.filter((x) => !x.selected) ?? [];
-    this._propertyValue = treeview?.tree.map((x) => x?.name ?? '') ?? '';
-    this.propertyValueChange.emit(this._propertyValue);
-    treeview!.redraw();
+    //this.treeview!.tree = this.treeview?.tree.filter((x) => !x.selected) ?? [];
+    //this._propertyValue = this.treeview?.tree.map((x) => x?.name ?? '') ?? '';
+    //this.propertyValueChange()next(this._propertyValue);
   }
 }

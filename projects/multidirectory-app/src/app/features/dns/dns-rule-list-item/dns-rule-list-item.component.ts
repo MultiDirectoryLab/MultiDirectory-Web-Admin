@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
 import { translate } from '@jsverse/transloco';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 import { PlaneButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 

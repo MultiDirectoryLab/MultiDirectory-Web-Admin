@@ -12,74 +12,43 @@ import {
   viewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { AppNavigationService } from '@services/app-navigation.service';
-import {
-  CheckboxComponent,
-  DropdownMenuComponent,
-  Page,
-  PagerComponent,
-} from 'multidirectory-ui-kit';
+import { CheckboxComponent, DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { take } from 'rxjs';
-import { BaseViewComponent } from '../base-view.component';
 import { GridItemComponent } from './grid-item/grid-item.component';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-icon-view',
   templateUrl: './icon-view.component.html',
   styleUrls: ['./icon-view.component.scss'],
-  providers: [{ provide: BaseViewComponent, useExisting: forwardRef(() => IconViewComponent) }],
   imports: [
     NgClass,
     CdkDrag,
     GridItemComponent,
-    PagerComponent,
     TranslocoPipe,
     DropdownMenuComponent,
     CheckboxComponent,
     FormsModule,
   ],
 })
-export class IconViewComponent extends BaseViewComponent implements AfterViewInit {
+export class IconViewComponent {
   private cdr = inject(ChangeDetectorRef);
-  private ldapLoader = inject(LdapEntryLoader);
-  private navigation = inject(AppNavigationService);
-  private route = inject(ActivatedRoute);
   toast = inject(ToastrService);
   readonly big = input(false);
   readonly gridItems = viewChildren(GridItemComponent);
   readonly gridDrags = viewChildren(CdkDrag);
   readonly grid = viewChild.required<ElementRef<HTMLElement>>('grid');
   readonly gridMenu = viewChild.required<DropdownMenuComponent>('gridMenu');
-  readonly pager = viewChild.required<PagerComponent>('pager');
-  items: LdapEntryNode[] = [];
+  items: NavigationNode[] = [];
   alignItems = true;
   page = 0;
-
-  ngAfterViewInit(): void {
-    this.navigation.reload();
-  }
-
-  override updateContent() {
-    this.ldapLoader
-      .getContent(this.route.snapshot.queryParams['distinguishedName'])
-      .pipe(take(1))
-      .subscribe((rows) => {
-        this.items = rows;
-        this.pager().updatePager();
-        this.cdr.detectChanges();
-      });
-  }
 
   getSelected(): NavigationNode[] {
     return this.items.filter((x) => x.selected);
   }
 
-  override setSelected(selected: LdapEntryNode[]): void {
+  setSelected(selected: NavigationNode[]): void {
     this.items.forEach((i) => (i.selected = false));
     selected.filter((i) => !!i).forEach((i) => (i.selected = true));
     this.cdr.detectChanges();

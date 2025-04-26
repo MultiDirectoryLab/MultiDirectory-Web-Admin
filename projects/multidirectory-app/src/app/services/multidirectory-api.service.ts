@@ -1,27 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LoginResponse } from '@models/login/login-response';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { Observable, map } from 'rxjs';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
-import { SearchRequest } from '@models/entry/search-request';
-import { SearchResponse } from '@models/entry/search-response';
-import { SetupRequest } from '@models/setup/setup-request';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { CreateEntryResponse } from '@models/entry/create-response';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
-import { DeleteEntryResponse } from '@models/entry/delete-response';
-import { UpdateEntryResponse } from '@models/entry/update-response';
-import { UpdateEntryRequest } from '@models/entry/update-request';
-import { AccessPolicy } from '@core/access-policy/access-policy';
-import { PolicyCreateRequest } from '@models/policy/policy-create-request';
-import { PolicyResponse } from '@models/policy/policy-get-response';
-import { PolicyPutRequest } from '@models/policy/policy-put-request';
-import { SwapPolicyRequest } from '@models/policy/policy-swap-request';
-import { SwapPolicyResponse } from '@models/policy/policy-swap-response';
-import { SetupMultifactorRequest } from '@models/multifactor/setup-multifactor-request';
-import { GetMultifactorResponse } from '@models/multifactor/get-multifactor-response';
-import { ChangePasswordRequest } from '@models/user/change-password-request';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordPolicyGetResponse } from '@models/api/password-policy/password-policy-get-response';
 import { PasswordPolicyPutRequest } from '@models/api/password-policy/password-policy-put-request';
@@ -35,6 +15,25 @@ import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.
 import { GetSessionsResponse } from '@models/api/sessions/get-session-response';
 import { UserSession } from '@models/api/sessions/user-session';
 import { AccessPolicy } from '@core/access-policy/access-policy';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { CreateEntryResponse } from '@models/api/entry/create-response';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { DeleteEntryResponse } from '@models/api/entry/delete-response';
+import { SearchRequest } from '@models/api/entry/search-request';
+import { SearchResponse } from '@models/api/entry/search-response';
+import { UpdateEntryRequest } from '@models/api/entry/update-request';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { LoginResponse } from '@models/api/login/login-response';
+import { GetMultifactorResponse } from '@models/api/multifactor/get-multifactor-response';
+import { SetupMultifactorRequest } from '@models/api/multifactor/setup-multifactor-request';
+import { PolicyCreateRequest } from '@models/api/policy/policy-create-request';
+import { PolicyResponse } from '@models/api/policy/policy-get-response';
+import { PolicyPutRequest } from '@models/api/policy/policy-put-request';
+import { SwapPolicyRequest } from '@models/api/policy/policy-swap-request';
+import { SwapPolicyResponse } from '@models/api/policy/policy-swap-response';
+import { SetupRequest } from '@models/api/setup/setup-request';
+import { ChangePasswordRequest } from '@models/api/user/change-password-request';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 
 @Injectable({
   providedIn: 'root',

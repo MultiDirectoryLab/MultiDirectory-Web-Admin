@@ -49,13 +49,13 @@ export function getMultidirectoryApiMock() {
 /**
  * .returnValue(
     of([
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-1',
       }),
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-2',
       }),
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-3',
       }),
     ]),

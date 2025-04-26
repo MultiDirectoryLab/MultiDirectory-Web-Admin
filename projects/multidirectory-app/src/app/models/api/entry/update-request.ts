@@ -8,7 +8,7 @@ export enum LdapOperation {
 }
 export class LdapChange {
   operation = 0;
-  modification: PartialAttribute = new PartialAttribute({});
+  modification: LdapAttribute = new LdapAttribute({});
 
   constructor(obj: Partial<LdapChange>) {
     Object.assign(this, obj);

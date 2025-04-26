@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { LdapEntryNode } from '@models/core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/ldap/ldap-entity';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 
 export function getLdapTreeLoaderMock() {
@@ -11,7 +11,7 @@ export function getLdapTreeLoaderMock() {
     'getChild',
   ]);
   const zeroLevelRoot = [
-    new LdapEntryNode({
+    new NavigationNode({
       id: 'dc=test,dc=local',
       selectable: true,
       route: ['/'],
@@ -19,14 +19,14 @@ export function getLdapTreeLoaderMock() {
     }),
   ];
   const childFirstLevel = [
-    new LdapEntryNode({
+    new NavigationNode({
       id: 'cn=ldap-child-1,dc=test,dc=local',
       selectable: true,
       route: ['/'],
       parent: zeroLevelRoot[0],
       type: LdapEntryType.Folder,
     }),
-    new LdapEntryNode({
+    new NavigationNode({
       id: 'cn=ldap-child-2,dc=test,dc=local',
       selectable: true,
       route: ['/'],
@@ -35,14 +35,14 @@ export function getLdapTreeLoaderMock() {
     }),
   ];
   const contentFirstLevel = [
-    new LdapEntryNode({
+    new NavigationNode({
       id: 'cn=ldap-content-1,dc=test,dc=local',
       selectable: true,
       route: ['/'],
       parent: zeroLevelRoot[0],
       type: LdapEntryType.User,
     }),
-    new LdapEntryNode({
+    new NavigationNode({
       id: 'cn=ldap-content-2,dc=test,dc=local',
       selectable: true,
       route: ['/'],

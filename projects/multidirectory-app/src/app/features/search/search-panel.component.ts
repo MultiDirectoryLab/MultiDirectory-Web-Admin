@@ -1,17 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { SearchType } from '@features/search/models/search-type';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import {
   ButtonComponent,
   DropdownComponent,
   MdFormComponent,
   SpinnerComponent,
 } from 'multidirectory-ui-kit';
-import { catchError, map, switchMap, throwError } from 'rxjs';
+import { map } from 'rxjs';
 import { SearchSource } from './models/search-source';
 import { SearchResultComponent } from './search-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './search-forms/search-users/search-users.component';
@@ -34,11 +32,8 @@ import { SearchSourceProvider } from './services/search-source-provider';
   providers: [SearchSourceProvider],
 })
 export class SearchPanelComponent implements AfterViewInit {
-  private api = inject(MultidirectoryApiService);
   private searchSourceProvider = inject(SearchSourceProvider);
-  private ldapLoader = inject(LdapEntryLoader);
   private cdr = inject(ChangeDetectorRef);
-
   SearchType = SearchType;
   searchType = SearchType.Ldap;
   searchTypes = [{ title: translate('search-panel.user-search-type'), value: SearchType.Ldap }];
@@ -47,9 +42,9 @@ export class SearchPanelComponent implements AfterViewInit {
   searchSources: string[] = [];
   searchResults: SearchResult[] = [];
 
-  readonly searchUserForm = viewChild.required<SearchUsersComponent>('searchUserForm');
-  readonly searchResultForm = viewChild.required<SearchResultComponent>('searchResultForm');
-  readonly spinner = viewChild.required<SpinnerComponent>('spinner');
+  @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;
+  @ViewChild('searchResultForm') searchResultForm!: SearchResultComponent;
+  @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
 
   ngAfterViewInit(): void {
     const mapToDropdown = (x: SearchSource[]) => x.map((y) => y.title);
@@ -64,7 +59,7 @@ export class SearchPanelComponent implements AfterViewInit {
   }
 
   search() {
-    const query = this.searchUserForm().searchQuery.trim();
+    const query = this.searchUserForm.searchQuery.trim();
     if (!query || query.length < 2) {
       return;
     }
@@ -72,26 +67,7 @@ export class SearchPanelComponent implements AfterViewInit {
     if (!source) {
       return;
     }
-    this.spinner().show();
-    this.ldapLoader
-      .get()
-      .pipe(
-        switchMap((x) => this.api.search(SearchQueries.findByName(query, x[0].id))),
-        catchError((err) => {
-          this.spinner().hide();
-          return throwError(() => err);
-        }),
-      )
-      .subscribe((res) => {
-        this.searchResults = res.search_result.map(
-          (node) =>
-            ({
-              name: node.object_name,
-            }) as SearchResult,
-        );
-        this.cdr.detectChanges();
-        this.spinner().hide();
-      });
+    this.spinner.show();
   }
 
   clear() {

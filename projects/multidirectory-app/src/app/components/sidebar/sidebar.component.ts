@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
@@ -16,6 +15,7 @@ import {
   EntityPropertiesDialogReturnData,
 } from '../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../modals/services/dialog.service';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 
 @Component({
   selector: 'app-sidebar',

@@ -25,7 +25,7 @@ export class LdapBrowserService {
     const response = await lastValueFrom(this.api.search(request));
     const ldapEntries = response.search_result
       .map((x) => {
-        const objectClass = LdapSearchResultHelper.getPartialAttributes(
+        const objectClass = LdapSearchResultHelper.getLdapAttributes(
           x.partial_attributes,
           'objectClass',
         );

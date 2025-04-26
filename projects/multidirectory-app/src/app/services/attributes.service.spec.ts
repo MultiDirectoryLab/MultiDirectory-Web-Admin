@@ -41,8 +41,8 @@ describe('Attributes Test Service', () => {
 
   it('should get accessor', () => {
     naviagtionService.getRoot().subscribe((node) => {
-      const partialAttributes = getParitalAttributes();
-      const attributes = new LdapAttributes(partialAttributes);
+      const LdapAttributes = getParitalAttributes();
+      const attributes = new LdapAttributes(LdapAttributes);
       const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       expect(accessor).toBeTruthy();
     });
@@ -50,8 +50,8 @@ describe('Attributes Test Service', () => {
 
   it('should track changes', () => {
     naviagtionService.getRoot().subscribe((node) => {
-      const partialAttributes = getParitalAttributes();
-      const attributes = new LdapAttributes(partialAttributes);
+      const LdapAttributes = getParitalAttributes();
+      const attributes = new LdapAttributes(LdapAttributes);
       const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       accessor.last_name = ['value'];
@@ -62,7 +62,7 @@ describe('Attributes Test Service', () => {
       expect(cn_change!.attribute.vals[0]).toMatch('test2');
       expect(cn_change!.operation == LdapOperation.Replace);
 
-  it('should return original value', () => {});
+      it('should return original value', () => {});
 
       const fullname_change = changes.find((x) => x.attribute.type == 'fullname');
       expect(fullname_change).toBeTruthy();
@@ -72,8 +72,8 @@ describe('Attributes Test Service', () => {
 
   it('should return original value', () => {
     naviagtionService.getRoot().subscribe((node) => {
-      const partialAttributes = getParitalAttributes();
-      const attributes = new LdapAttributes(partialAttributes);
+      const LdapAttributes = getParitalAttributes();
+      const attributes = new LdapAttributes(LdapAttributes);
       const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       expect(accessor).toBeTruthy();
@@ -90,8 +90,8 @@ describe('Attributes Test Service', () => {
 
   it('should get update request', () => {
     naviagtionService.getRoot().subscribe((node) => {
-      const partialAttributes = getParitalAttributes();
-      const attributes = new LdapAttributes(partialAttributes);
+      const LdapAttributes = getParitalAttributes();
+      const attributes = new LdapAttributes(LdapAttributes);
       const accessor = attributeService.getTrackableAttributes(node[0], attributes);
       accessor.cn = ['test2'];
       const updateRequest = attributeService.createAttributeUpdateRequest(accessor);

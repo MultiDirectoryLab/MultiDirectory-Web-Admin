@@ -26,14 +26,14 @@ export class LdapTreeService {
 
     let children: string[] = [];
     for (let resultEntry of searchResult) {
-      const objectClass = LdapSearchResultHelper.getPartialAttributes(
+      const objectClass = LdapSearchResultHelper.getLdapAttributes(
         resultEntry.partial_attributes,
         'objectClass',
       );
 
       const rootDSEAwareDn = !!resultEntry.object_name
         ? resultEntry.object_name
-        : (LdapSearchResultHelper.getPartialAttributes(
+        : (LdapSearchResultHelper.getLdapAttributes(
             resultEntry.partial_attributes,
             'rootDomainNamingContext',
           )?.[0] ?? '');

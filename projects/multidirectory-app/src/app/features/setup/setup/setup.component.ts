@@ -17,7 +17,7 @@ import { KerberosSettingsComponent } from '@features/setup/kerberos-settings/ker
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';

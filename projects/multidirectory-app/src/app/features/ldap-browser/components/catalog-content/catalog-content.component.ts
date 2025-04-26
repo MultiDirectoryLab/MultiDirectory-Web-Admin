@@ -21,7 +21,6 @@ import { AppNavigationService } from '@services/app-navigation.service';
 import { ContentViewService } from '@services/content-view.service';
 import { take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
-import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
 import { CreateUserDialogComponent } from '../../../../components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
@@ -63,6 +62,7 @@ import {
 import { CreateOrganizationUnitDialogComponent } from '../../../../components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RightClickEvent } from '@models/core/context-menu/right-click-event';
 
 @Component({
   selector: 'app-catalog-content',
@@ -83,7 +83,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
   readonly properties = viewChild<ModalInjectDirective>('properties');
-  readonly view = viewChild(BaseViewComponent);
 
   public ViewMode = ViewMode;
   public searchQuery = '';
@@ -190,12 +189,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
-      this.searchQuery = '';
-      this.view()?.updateContent();
-      this.cdr.detectChanges();
-    });
-
     this.contentView.contentViewRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.currentView = x;
       this.cdr.detectChanges();
@@ -223,7 +216,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.pipe(take(1)).subscribe(() => {
-      this.view()?.updateContent();
+      {
+      }
     });
 
     return dialogRef;
@@ -249,7 +243,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.pipe(take(1)).subscribe(() => {
-      this.view()?.updateContent();
+      {
+      }
     });
 
     return dialogRef;
@@ -269,7 +264,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe(take(1))
       .subscribe(() => {
-        this.view()?.updateContent();
+        {
+        }
       });
   }
 
@@ -291,7 +287,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe()
       .subscribe(() => {
-        this.view()?.updateContent();
+        {
+        }
       });
   }
 
@@ -309,7 +306,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe()
       .subscribe(() => {
-        this.view()?.updateContent();
+        {
+        }
       });
   }
 
@@ -330,13 +328,14 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.subscribe(() => {
-      this.view()?.updateContent();
+      {
+      }
     });
 
     return dialogRef;
   }
 
-  public showContextMenu({ selected, pointerEvent: { x, y } }: RightClickEvent) {
+  public showContextMenu({ selected, pointerEvent: { x, y } }: any) {
     const data: ContextMenuData = {
       entity: selected,
     };
@@ -360,6 +359,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         }),
         // switchMap((result) => (!result ? of(null) : result)),
       )
-      .subscribe(() => this.view()?.updateContent());
+      .subscribe(() => {});
   }
 }

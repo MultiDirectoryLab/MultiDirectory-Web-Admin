@@ -14,7 +14,6 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { FormsModule, NgModel } from '@angular/forms';
 import { catchError, EMPTY, Subject } from 'rxjs';
-import { ChangePasswordRequest } from '@models/user/change-password-request';
 import { ToastrService } from 'ngx-toastr';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -26,6 +25,7 @@ import {
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
+import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 
 @Component({
   selector: 'app-change-password-dialog',
