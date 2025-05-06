@@ -7,13 +7,13 @@ import { translate } from '@jsverse/transloco';
 import { PlaneButtonComponent, ShiftCheckboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, take } from 'rxjs';
-import { DialogService } from '../../../components/modals/services/dialog.service';
-import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
-} from '../../../components/modals/interfaces/confirm-dialog.interface';
+} from '@components/modals/interfaces/confirm-dialog.interface';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DialogService } from '@components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-acccess-policy',

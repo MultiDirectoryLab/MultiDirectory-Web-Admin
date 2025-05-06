@@ -13,7 +13,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable, of, take } from 'rxjs';
 import { BaseControlComponent } from '../base-component/control.component';
 import { CheckboxComponent } from '../checkbox/checkbox.component';
 import { TreeSearchHelper } from './core/tree-search-helper';
