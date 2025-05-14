@@ -1,4 +1,24 @@
-@if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
+@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
+  <div>
+    <div class="p-16">
+      <md-alert>
+        <div class="flex-row flex-gap-20">
+          <div class="flex-row justify-center flex-align-center">
+            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+          </div>
+          <div class="flex-column">
+            <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
+            <div class="pv-8">
+              <md-button [primary]="true" (click)="handleSetupClick()">
+                {{ 'dns-settings.setup-dns' | transloco }}
+              </md-button>
+            </div>
+          </div>
+        </div>
+      </md-alert>
+    </div>
+  </div>
+} @else {
   <div class="p-16 dns-container">
     <div class="flex-row flex-space-between flex-align-center">
       <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
@@ -18,28 +38,6 @@
           </app-dns-rule-list-item>
         }
       </div>
-    </div>
-  </div>
-}
-
-@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
-  <div>
-    <div class="p-16">
-      <md-alert>
-        <div class="flex-row flex-gap-20">
-          <div class="flex-row justify-center flex-align-center">
-            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
-          </div>
-          <div class="flex-column">
-            <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
-            <div class="pv-8">
-              <md-button [primary]="true" (click)="handleSetupClick()">{{
-                'dns-settings.setup-dns' | transloco
-              }}</md-button>
-            </div>
-          </div>
-        </div>
-      </md-alert>
     </div>
   </div>
 }
