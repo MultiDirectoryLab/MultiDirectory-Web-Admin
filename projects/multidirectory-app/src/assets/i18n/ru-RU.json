@@ -660,9 +660,15 @@
     "success": "Операция выполнена успешно",
     "zone": "Зона: ",
     "add": "Добавить запись",
+    "delete": "Удалить",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
     "setup-dns": "Выполнить настройку",
-    "dns-unavailable": "Сервис DNS недоступен"
+    "dns-unavailable": "Сервис DNS недоступен",
+    "records-tab": "DNS записи",
+    "redirection-zones-tab": "Зоны перенаправления DNS",
+    "should-select-zones": "Необходимо выбрать зоны для удаления",
+    "enable": "Включить",
+    "disable": "Выключить"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",

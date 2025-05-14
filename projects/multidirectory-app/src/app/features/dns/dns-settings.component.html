@@ -1,6 +1,16 @@
-@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
-  <div>
-    <div class="p-16">
+<md-tab-pane (tabChanged)="onTabChanged()">
+  <div class="tab-header">
+    <md-tab [el]="dnsRecords.el" [isSelected]="true">
+      {{ 'dns-settings.records-tab' | transloco }}
+    </md-tab>
+    <md-tab [el]="dnsRedirectionZones.el">
+      {{ 'dns-settings.redirection-zones-tab' | transloco }}
+    </md-tab>
+  </div>
+
+  <!-- DNS Records Tab -->
+  <div #dnsRecords="mdTab" mdTab class="p-16 dns-container">
+    @if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
       <md-alert>
         <div class="flex-row flex-gap-20">
           <div class="flex-row justify-center flex-align-center">
@@ -16,28 +26,58 @@
           </div>
         </div>
       </md-alert>
-    </div>
+    } @else {
+      <div class="flex-row flex-space-between flex-align-center">
+        <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
+        <div class="flex-row flex-gap-10">
+          <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
+        </div>
+      </div>
+      <div class="flex flex-column flex-grow-1 dns-records-container">
+        <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
+          @for (rule of rules; track rule; let i = $index) {
+            <app-dns-rule-list-item
+              [dnsRule]="rule"
+              [index]="i + 1"
+              (deleteClick)="onDelete(i)"
+              (editClick)="onEdit(i)"
+            >
+            </app-dns-rule-list-item>
+          }
+        </div>
+      </div>
+    }
   </div>
-} @else {
-  <div class="p-16 dns-container">
+
+  <!-- DNS Redirection Zones Tab -->
+  <div #dnsRedirectionZones="mdTab" mdTab class="p-16 dns-container">
     <div class="flex-row flex-space-between flex-align-center">
-      <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
+      <h2 class="bold">{{ 'dns-settings.redirection-zones-tab' | transloco }}</h2>
       <div class="flex-row flex-gap-10">
-        <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
+        <md-button (click)="onAddRedirectionZone()">{{ 'dns-settings.add' | transloco }}</md-button>
+
+        <md-button (click)="onDeleteRedirectionZone()">{{
+          'dns-settings.delete' | transloco
+        }}</md-button>
+
+        <md-button (click)="onEnableRedirectionZone()">{{
+          'dns-settings.enable' | transloco
+        }}</md-button>
+
+        <md-button (click)="onDisableRedirectionZone()">{{
+          'dns-settings.disable' | transloco
+        }}</md-button>
       </div>
     </div>
-    <div class="flex flex-column flex-grow-1 dns-records-container">
-      <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
-        @for (rule of rules; track rule; let i = $index) {
-          <app-dns-rule-list-item
-            [dnsRule]="rule"
-            [index]="i + 1"
-            (deleteClick)="onDelete(i)"
-            (editClick)="onEdit(i)"
-          >
-          </app-dns-rule-list-item>
-        }
-      </div>
+    <div class="flex flex-column flex-grow-1 dns-redirection-zones-container">
+      <md-datagrid
+        name="redirection-zones-grid"
+        [rows]="redirectionZonesRows"
+        [columns]="redirectionZonesColumns"
+        [page]="redirectionZonesPage"
+        (selectionChanged)="onRedirectionZonesSelectionChanged($event)"
+        emptyMessage="{{ 'grid.no-data' | transloco }}"
+      ></md-datagrid>
     </div>
   </div>
-}
+</md-tab-pane>

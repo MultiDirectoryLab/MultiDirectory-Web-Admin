@@ -663,9 +663,15 @@
     "success": "Operation completed successfully",
     "zone": "Zone: ",
     "add": "Add entry",
+    "delete": "Delete",
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
-    "dns-unavailable": "DNS Service is unavailable"
+    "dns-unavailable": "DNS Service is unavailable",
+    "records-tab": "DNS Records",
+    "redirection-zones-tab": "DNS Redirection Zones",
+    "should-select-zones": "You should select zones to delete",
+    "enable": "Enable",
+    "disable": "Enable"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",
