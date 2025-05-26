@@ -24,13 +24,7 @@ export class LdapTreeviewService {
 
   private createNode(entry: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode {
     if (this._nodes.has(entry.dn)) {
-      let oldNode = this._nodes.get(entry.dn)!;
-      oldNode = new NavigationNode({
-        ...oldNode,
-        children: this.buildNextLevel(entry, entries),
-      });
-      this._nodes.set(entry.dn, oldNode);
-      return oldNode;
+      return this._nodes.get(entry.dn)!;
     }
 
     const newNode = new NavigationNode({
@@ -42,7 +36,9 @@ export class LdapTreeviewService {
       routeData: { distinguishedName: entry.dn },
       icon: EntityInfoResolver.resolveIcon(entry.type),
     });
+
     this._nodes.set(entry.dn, newNode);
+
     return newNode;
   }
 
@@ -78,6 +74,7 @@ export class LdapTreeviewService {
   }
 
   setSelected(dn: string, selected = true) {
+    this._nodes.forEach((node) => (node.selected = false));
     const node = this._nodes.get(dn);
     if (!node) {
       return;

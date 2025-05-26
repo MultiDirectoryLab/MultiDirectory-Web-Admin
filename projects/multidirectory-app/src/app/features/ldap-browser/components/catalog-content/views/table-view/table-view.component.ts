@@ -14,7 +14,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
@@ -47,23 +46,23 @@ import {
   ShiftCheckboxComponent,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { ConfirmDeleteDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import { ConfirmDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
-import { EntityPropertiesDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import {
   ConfirmDeleteDialogReturnData,
   ConfirmDeleteDialogData,
-} from 'projects/multidirectory-app/src/app/components/modals/interfaces/confirm-delete-dialog.interface';
+} from '@components/modals/interfaces/confirm-delete-dialog.interface';
 import {
   ConfirmDialogReturnData,
   ConfirmDialogData,
-} from 'projects/multidirectory-app/src/app/components/modals/interfaces/confirm-dialog.interface';
+} from '@components/modals/interfaces/confirm-dialog.interface';
 import {
   EntityPropertiesDialogReturnData,
   EntityPropertiesDialogData,
-} from 'projects/multidirectory-app/src/app/components/modals/interfaces/entity-properties-dialog.interface';
-import { DialogService } from 'projects/multidirectory-app/src/app/components/modals/services/dialog.service';
-import { AppNavigationService } from 'projects/multidirectory-app/src/app/services/app-navigation.service';
+} from '@components/modals/interfaces/entity-properties-dialog.interface';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { AppNavigationService } from '@services/app-navigation.service';
 import {
   BehaviorSubject,
   Subject,
@@ -95,14 +94,11 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   private appNavigation = inject(AppNavigationService);
   private bulkService = inject<BulkService<NavigationNode>>(BulkService);
   private cdr = inject(ChangeDetectorRef);
-  private route = inject(ActivatedRoute);
   private api = inject(MultidirectoryApiService);
   private getAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
-  private activatedRoute = inject(ActivatedRoute);
   private ldapContent = inject(LdapBrowserService);
 
-  private _dn = '';
   readonly grid = viewChild.required<DatagridComponent>('grid');
   readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
 
@@ -152,16 +148,13 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   get accountEnabledToggle(): boolean {
     return this._accountEnabledToggle;
   }
+
   private _parentDn = '';
-  private _parentDnRx = new BehaviorSubject(this._parentDn);
   get parentDn(): string {
     return this._parentDn;
   }
   set parentDn(dn: string) {
-    if (this._parentDn != dn) {
-      this._parentDn = dn;
-      this._parentDnRx.next(dn);
-    }
+    this._parentDn = dn;
   }
 
   set accountEnabledToggle(enabled: boolean) {
@@ -235,16 +228,17 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
 
-    this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe((queryParams) => {
-      const dn = queryParams['distinguishedName'];
-      this.parentDn = dn;
-    });
-
-    combineLatest([this._parentDnRx, this._searchQueryRx, this._offsetRx, this._limitRx])
+    combineLatest([
+      this.appNavigation.navigationEnd,
+      this._searchQueryRx,
+      this._offsetRx,
+      this._limitRx,
+    ])
       .pipe(
         takeUntil(this.unsubscribe),
-        switchMap(([parentDn, searchQuery, offset, limit]) => {
-          return this.ldapContent.loadContent(parentDn, searchQuery, this.offset, this.limit);
+        switchMap(([navigationEnd, searchQuery, offset, limit]) => {
+          this.parentDn = this.appNavigation.snapshot.queryParams['distinguishedName'];
+          return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
@@ -282,7 +276,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     const entry = event?.row?.entry;
 
     if (entry && entry.expandable) {
-      this.appNavigation.navigate(entry);
+      this.appNavigation.navigate(entry.route, entry.routeData);
     } else if (entry && !entry.expandable) {
       this.dialogService
         .open<
@@ -418,7 +412,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   handleGoToParent() {
-    const dn = LdapNamesHelper.getDnParent(this._dn);
+    const dn = LdapNamesHelper.getDnParent(this._parentDn);
+    this.appNavigation.navigate(['ldap'], { distinguishedName: dn });
   }
 
   handleRightClick($event: ContextMenuEvent) {}

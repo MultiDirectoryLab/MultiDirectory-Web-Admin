@@ -18,7 +18,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withRouterConfig } from '@angular/router';
+import { provideRouter, RouteReuseStrategy, withRouterConfig } from '@angular/router';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
@@ -36,6 +36,7 @@ import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { DIALOG_CONFIG_DEFAULT } from './components/modals/constants/dialog.constants';
 import { TranslocoHttpLoader } from './transloco-loader';
+import DontPreserveRouteReuseStrategy from '@core/navigation/dont-preserve.route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -111,5 +112,9 @@ export const appConfig: ApplicationConfig = {
     },
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    {
+      provide: RouteReuseStrategy,
+      useClass: DontPreserveRouteReuseStrategy,
+    },
   ],
 };

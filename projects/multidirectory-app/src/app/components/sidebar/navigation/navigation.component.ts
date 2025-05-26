@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
@@ -17,21 +17,18 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   private currentLdapPosition: string = '';
 
+  private navigation = inject(AppNavigationService);
+  private ldap = inject(LdapTreeviewService);
+  private contextMenu = inject(ContextMenuService);
+
   ldapTree: NavigationNode[] = [];
 
-  constructor(
-    private navigation: AppNavigationService,
-    private activatedRoute: ActivatedRoute,
-    private ldap: LdapTreeviewService,
-    private contextMenu: ContextMenuService,
-  ) {}
-
   ngAfterViewInit(): void {
-    this.activatedRoute.queryParams
+    this.navigation.navigationEnd
       .pipe(
         takeUntil(this.unsubscribe),
         tap((x) => {
-          const distinguishedName = x['distinguishedName'];
+          const distinguishedName = this.navigation.snapshot.queryParams['distinguishedName'];
           this.currentLdapPosition = distinguishedName;
         }),
         switchMap((x) => {
@@ -54,7 +51,7 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
 
   handleNodeSelection(node: Treenode) {
     if (node instanceof NavigationNode) {
-      this.navigation.navigate(node);
+      this.navigation.navigate(node.route, node.routeData);
     }
   }
 

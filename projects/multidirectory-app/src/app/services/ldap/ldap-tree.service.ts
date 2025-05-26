@@ -56,19 +56,19 @@ export class LdapTreeService {
     return children;
   }
 
-  async load(dn: string): Promise<string[]> {
+  async load(dn: string): Promise<void> {
     let currentDn = dn;
-    let expanded: string[] = [];
     do {
-      expanded = expanded.concat(await this.loadInner(currentDn));
+      if (currentDn == dn || !this._ldapMap.has(currentDn)) {
+        console.log(currentDn, dn);
+        await this.loadInner(currentDn);
+      }
       currentDn = LdapNamesHelper.getDnParent(currentDn);
     } while (!!currentDn);
 
     if (!this._ldapMap.has('')) {
       await this.loadInner('');
     }
-
-    return expanded;
   }
 
   getEntries(): Map<string, LdapEntry> {

@@ -55,11 +55,9 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.loginForm()
       .onValidChanges.pipe(takeUntil(this.unsubscribe))
       .subscribe((result) => {
-        console.log(result);
         this.loginValid = result;
         this.cdr.detectChanges();
       });
-    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
