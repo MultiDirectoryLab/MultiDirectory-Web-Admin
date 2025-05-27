@@ -3,7 +3,7 @@
 @use '../../../node_modules/multidirectory-ui-kit/styles/typings.scss';
 @use '@angular/cdk/overlay-prebuilt.css';
 @use 'ngx-toastr/toastr';
-@use 'tailwindcss';
+@use './tailwind.css';
 
 .fullscreen {
   width: 100%;
