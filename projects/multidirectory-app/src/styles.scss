@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/cdk/overlay-prebuilt.css';
 @use 'ngx-toastr/toastr';
-@use './tailwind.css';
 
 .fullscreen {
   width: 100%;
@@ -11,14 +10,6 @@
   position: fixed;
   inset: 0;
   background-image: url('/assets/bckgrnd.png');
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-start {
-  justify-content: start;
 }
 
 .text-align-end {

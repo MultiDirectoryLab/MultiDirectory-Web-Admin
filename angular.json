@@ -100,6 +100,9 @@
             "styles": [
               "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
               "projects/multidirectory-ui-kit/src/lib/styles/typings.scss",
+              "projects/multidirectory-app/src/tailwind.css",
+              "node_modules/@diz1/mui-kit/styles/variables.css",
+              "node_modules/@diz1/mui-kit/styles/theme-base.css",
               "projects/multidirectory-app/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/ngx-spinner/animations/line-spin-fade.css"

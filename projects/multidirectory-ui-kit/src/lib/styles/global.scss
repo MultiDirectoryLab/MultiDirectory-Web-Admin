@@ -1,5 +1,4 @@
 @use './layout.scss';
-@use 'tailwindcss';
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
   font-family: $fontfame;

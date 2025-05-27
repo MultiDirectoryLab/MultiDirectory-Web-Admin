@@ -57,22 +57,6 @@
   filter: brightness(0%) invert(100%);
 }
 
-.more-container {
-  padding: 3px 8px;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  width: 5px;
-  margin-bottom: 4px;
-  cursor: pointer;
-  padding: unset;
-  right: 4px;
-  position: relative;
-  &:hover {
-    background-color: var(--md-white-blue-2);
-  }
-}
-
 .left-pane {
   border-right: 1px solid lightgrey;
   display: flex;
