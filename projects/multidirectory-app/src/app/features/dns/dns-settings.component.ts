@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, DestroyRef, signal } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { DnsForwardZonesComponent } from '@features/dns/dns-forward-zones/dns-forward-zones.component';
 import { DnsRuleListItemComponent } from '@features/dns/dns-rule-list-item/dns-rule-list-item.component';
-import { RedirectZonesRow } from '@features/dns/interfaces/redirect-zones.interface';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -19,10 +19,7 @@ import {
   TabPaneComponent,
   TabComponent,
   TabDirective,
-  DatagridComponent,
-  Page,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, take } from 'rxjs';
 import { DialogService } from '../../components/modals/services/dialog.service';
@@ -53,7 +50,7 @@ export const MOCK_REDIRECTION_ZONES = [];
     TabPaneComponent,
     TabComponent,
     TabDirective,
-    DatagridComponent,
+    DnsForwardZonesComponent,
   ],
 })
 export class DnsSettingsComponent implements OnInit {
@@ -61,31 +58,6 @@ export class DnsSettingsComponent implements OnInit {
   public dnsStatus = new DnsStatusResponse({});
   public rules: DnsRule[] = [];
   public faCircleExclamation = faCircleExclamation;
-
-  public redirectionZonesColumns: TableColumn[] = [
-    { name: 'Имя зоны', prop: 'zoneName', flexGrow: 1, checkboxable: true },
-    { name: 'Состояние', prop: 'status', flexGrow: 1 },
-    { name: 'Перенаправление зон', prop: 'redirection', flexGrow: 1 },
-  ];
-  public redirectionZonesRows: RedirectZonesRow[] = [
-    {
-      zoneName: 'Зона 1',
-      status: 'Включена',
-      redirection: 'example.com',
-    },
-    {
-      zoneName: 'Зона 2',
-      status: 'Выключена',
-      redirection: '1.2.3.4',
-    },
-    {
-      zoneName: 'Зона 3',
-      status: 'Включена',
-      redirection: '192.168.1.10',
-    },
-  ];
-  public redirectionZonesPage = new Page();
-  private selectedRedirectionZones = signal<RedirectZonesRow[]>([]);
 
   private dialogService: DialogService = inject(DialogService);
   private dnsService: DnsApiService = inject(DnsApiService);
@@ -239,32 +211,5 @@ export class DnsSettingsComponent implements OnInit {
 
   public onTabChanged() {
     console.log('tab changed');
-  }
-
-  public onAddRedirectionZone() {
-    this.toastr.info('Add redirection zone functionality will be implemented in the future');
-  }
-
-  public onEnableRedirectionZone() {
-    this.toastr.info('Enable redirection zone functionality will be implemented in the future');
-  }
-
-  public onDisableRedirectionZone() {
-    this.toastr.info('Disable redirection zone functionality will be implemented in the future');
-  }
-
-  public onDeleteRedirectionZone() {
-    const selectedRows = this.selectedRedirectionZones();
-
-    if (!selectedRows.length) {
-      this.toastr.error(translate('dns-settings.should-select-zones'));
-      return;
-    }
-
-    this.toastr.info('Delete redirection zone functionality will be implemented in the future');
-  }
-
-  public onRedirectionZonesSelectionChanged(rows: RedirectZonesRow[]) {
-    this.selectedRedirectionZones.set(rows);
   }
 }

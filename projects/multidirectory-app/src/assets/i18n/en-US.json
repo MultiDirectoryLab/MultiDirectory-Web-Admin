@@ -667,7 +667,7 @@
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
     "dns-unavailable": "DNS Service is unavailable",
-    "records-tab": "DNS Records",
+    "zone-tab": "DNS Zones",
     "redirection-zones-tab": "DNS Redirection Zones",
     "should-select-zones": "You should select zones to delete",
     "enable": "Enable",

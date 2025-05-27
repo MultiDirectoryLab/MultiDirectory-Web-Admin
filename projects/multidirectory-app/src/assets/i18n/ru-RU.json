@@ -664,7 +664,7 @@
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
     "setup-dns": "Выполнить настройку",
     "dns-unavailable": "Сервис DNS недоступен",
-    "records-tab": "DNS записи",
+    "zone-tab": "DNS Зоны",
     "redirection-zones-tab": "Зоны перенаправления DNS",
     "should-select-zones": "Необходимо выбрать зоны для удаления",
     "enable": "Включить",
