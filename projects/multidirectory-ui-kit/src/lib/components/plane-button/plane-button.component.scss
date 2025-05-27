@@ -9,6 +9,7 @@
   flex-flow: column;
   justify-content: center;
   user-select: none;
+  color: var(--md-black);
 
   &:disabled {
     color: var(--md-neutral-400);

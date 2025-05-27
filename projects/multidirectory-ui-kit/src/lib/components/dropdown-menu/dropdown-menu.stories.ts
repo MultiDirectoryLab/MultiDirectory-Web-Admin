@@ -8,7 +8,7 @@ const meta: Meta<DropdownMenuComponent> = {
   component: DropdownMenuComponent,
   decorators: [
     moduleMetadata({
-      declarations: [ButtonComponent, DropdownContainerDirective],
+      imports: [DropdownContainerDirective, ButtonComponent],
     }),
   ],
   tags: ['autodocs'],

@@ -67,7 +67,9 @@
   width: 5px;
   margin-bottom: 4px;
   cursor: pointer;
-
+  padding: unset;
+  right: 4px;
+  position: relative;
   &:hover {
     background-color: var(--md-white-blue-2);
   }

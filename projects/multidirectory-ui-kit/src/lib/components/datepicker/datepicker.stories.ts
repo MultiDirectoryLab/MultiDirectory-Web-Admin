@@ -11,7 +11,6 @@ const meta: Meta<DatepickerComponent> = {
   decorators: [
     moduleMetadata({
       imports: [DpDatePickerModule, FormsModule, CommonModule],
-      declarations: [DatepickerComponent],
     }),
   ],
 };

@@ -12,8 +12,14 @@ const meta: Meta<MdModalComponent> = {
   component: MdModalComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, FormsModule],
-      declarations: [ButtonComponent, ModalTestComponent, TextboxComponent],
+      imports: [
+        CommonModule,
+        FormsModule,
+        MdModalComponent,
+        ButtonComponent,
+        TextboxComponent,
+        ModalTestComponent,
+      ],
       entryComponents: [MdModalComponent],
       providers: [
         {

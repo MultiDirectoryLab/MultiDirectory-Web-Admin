@@ -27,7 +27,9 @@
   justify-content: center;
   width: 5px;
   margin-bottom: 4px;
-
+  padding: unset;
+  right: 4px;
+  position: relative;
   .more {
     cursor: pointer;
 
