@@ -20,7 +20,6 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
 import { WindowsComponent } from './shared/windows/windows.component';
-import { MuiBadgeComponent, MuiButtonComponent } from '@diz1/mui-kit';
 
 @Component({
   selector: 'app-layout',
@@ -36,7 +35,6 @@ import { MuiBadgeComponent, MuiButtonComponent } from '@diz1/mui-kit';
     HotkeyModule,
     TranslocoPipe,
     WindowsComponent,
-    MuiBadgeComponent,
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
