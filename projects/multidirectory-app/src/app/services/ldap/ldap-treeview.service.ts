@@ -23,11 +23,13 @@ export class LdapTreeviewService {
   }
 
   private createNode(entry: LdapEntry, entries: Map<string, LdapEntry>): NavigationNode {
+    let newNode;
     if (this._nodes.has(entry.dn)) {
-      return this._nodes.get(entry.dn)!;
+      newNode = this._nodes.get(entry.dn)!;
     }
 
-    const newNode = new NavigationNode({
+    newNode = new NavigationNode({
+      ...newNode,
       id: entry.dn,
       name: LdapNamesHelper.getDnName(entry.dn).split('=')[1],
       children: this.buildNextLevel(entry, entries),

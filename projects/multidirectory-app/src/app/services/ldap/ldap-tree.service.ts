@@ -60,7 +60,6 @@ export class LdapTreeService {
     let currentDn = dn;
     do {
       if (currentDn == dn || !this._ldapMap.has(currentDn)) {
-        console.log(currentDn, dn);
         await this.loadInner(currentDn);
       }
       currentDn = LdapNamesHelper.getDnParent(currentDn);

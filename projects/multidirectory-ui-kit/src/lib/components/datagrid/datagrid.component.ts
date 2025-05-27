@@ -30,9 +30,9 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
     './datagrid.component.scss',
-    './../../../../../../node_modules/ngx-datatable-gimefork/index.css',
-    './../../../../../../node_modules/ngx-datatable-gimefork/themes/dark.scss',
-    './../../../../../../node_modules/ngx-datatable-gimefork/assets/icons.css',
+    './../../styles/ngx-datatable/index.css',
+    './../../styles/ngx-datatable/dark.scss',
+    './../../styles/ngx-datatable/icons.css',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgxDatatableModule, NgStyle, NgTemplateOutlet, DropdownComponent, FormsModule],
