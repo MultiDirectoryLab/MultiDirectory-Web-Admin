@@ -8,7 +8,6 @@ const meta: Meta<SpinnerComponent> = {
   decorators: [
     moduleMetadata({
       imports: [NgxSpinnerModule],
-      declarations: [SpinnerComponent],
     }),
   ],
 };

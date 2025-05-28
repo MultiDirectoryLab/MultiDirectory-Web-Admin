@@ -1,5 +1,4 @@
 import { Component, inject, Input } from '@angular/core';
-import { translate } from '@jsverse/transloco';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { BaseControlComponent } from '../base-component/control.component';
 import { SPINNER_CONFIGUARTION, SpinnerConfiguration } from './spinner-options';
@@ -21,7 +20,7 @@ export class SpinnerComponent extends BaseControlComponent {
     let configuration = inject<SpinnerConfiguration>(SPINNER_CONFIGUARTION, { optional: true });
 
     if (!configuration) {
-      configuration = new SpinnerConfiguration({ spinnerText: translate('spinner.please-wait') });
+      configuration = new SpinnerConfiguration({ spinnerText: 'spinner.please-wait' });
     }
 
     super();

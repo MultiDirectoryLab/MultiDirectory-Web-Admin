@@ -8,16 +8,7 @@ import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component'
 const meta: Meta<MultiselectComponent> = {
   title: 'Components/Multiselect',
   component: MultiselectComponent,
-  decorators: [
-    moduleMetadata({
-      declarations: [
-        MultiselectComponent,
-        MultiselectBadgeComponent,
-        DropdownMenuComponent,
-        DropdownContainerDirective,
-      ],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   tags: ['autodocs'],
 };
 

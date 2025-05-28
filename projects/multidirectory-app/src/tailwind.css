@@ -1,0 +1,8 @@
+@import 'tailwindcss' source('./app');
+@source '../../../node_modules/@diz1/mui-kit';
+
+@custom-variant dark (&:where(.dark-theme, .dark-theme *));
+
+@theme {
+  /* Здесь определяем переменные для своей темы tailwind */
+}

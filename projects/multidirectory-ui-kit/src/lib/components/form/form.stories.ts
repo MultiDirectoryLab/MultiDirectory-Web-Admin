@@ -10,8 +10,13 @@ const meta: Meta<MdFormComponent> = {
   component: MdFormComponent,
   decorators: [
     moduleMetadata({
-      imports: [FormsModule, ReactiveFormsModule, CommonModule],
-      declarations: [MdFormComponent, TextboxComponent, FormTestComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        FormTestComponent,
+        TextboxComponent,
+      ],
     }),
   ],
   tags: ['autodocs'],

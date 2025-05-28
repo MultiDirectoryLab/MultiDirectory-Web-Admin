@@ -1,7 +1,14 @@
 @use './layout.scss';
 
-* {
-  color: unset;
+@mixin use-typography($fontfame, $weight, $size, $lineheight) {
+  font-family: $fontfame;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $lineheight;
+}
+
+@mixin use-inter-typography($weight, $size, $lineheight) {
+  @include use-typography('Inter', $weight, $size, $lineheight);
 }
 
 :root {
@@ -24,8 +31,49 @@
   --md-dark-blue-5: #324960;
   --md-red: #f26969;
   --md-black: #202124;
+}
 
-  color: unset;
+// Base styles for form elements
+input,
+select,
+textarea {
+  color: var(--md-black);
+  background-color: var(--md-white);
+  border: 1px solid var(--md-neutral-300);
+  border-radius: 4px;
+  padding: 6px 10px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--md-dark-blue);
+    box-shadow: 0 0 0 2px rgba(56, 121, 180, 0.2);
+  }
+
+  &:disabled {
+    background-color: var(--md-neutral-200);
+    color: var(--md-neutral-400);
+    cursor: not-allowed;
+  }
+}
+
+// Button base style
+button {
+  background-color: var(--md-dark-blue);
+  color: white;
+  border: 1px solid var(--md-dark-blue-3);
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: var(--md-dark-blue-4);
+  }
 }
 
 .dark-theme {
@@ -62,24 +110,43 @@
   button {
     color: var(--md-black);
   }
-}
 
-@mixin use-typography($fontfame, $weight, $size, $lineheight) {
-  font-family: $fontfame;
-  font-weight: $weight;
-  font-size: $size;
-  line-height: $lineheight;
-}
+  input,
+  select,
+  textarea {
+    background-color: var(--md-neutral-100);
+    border-color: var(--md-neutral-300);
+    color: var(--md-black);
+    border: 1px solid;
+    &:focus {
+      border-color: var(--md-blue);
+      box-shadow: 0 0 0 2px rgba(56, 121, 180, 0.3);
+    }
 
-@mixin use-inter-typography($weight, $size, $lineheight) {
-  @include use-typography('Inter', $weight, $size, $lineheight);
+    &:disabled {
+      background-color: var(--md-neutral-200);
+      color: var(--md-neutral-400);
+    }
+  }
+
+  button {
+    background-color: var(--md-blue);
+    border-color: var(--md-dark-blue-2);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: var(--md-dark-blue-2);
+    }
+
+    &:disabled {
+      background-color: var(--md-neutral-200);
+      border-color: var(--md-neutral-300);
+      color: var(--md-neutral-400);
+    }
+  }
 }
 
 /* TYPOGRAPHY */
-* {
-  color: unset;
-}
-
 h1,
 .h1 {
   @include use-inter-typography(700, 42px, 58.8px);
@@ -208,6 +275,7 @@ div {
 
 .page-size-select .select-input {
   height: 24px;
+  padding: unset;
 }
 
 .ngx-datatable .datatable-footer .datatable-pager .pager {

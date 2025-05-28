@@ -83,6 +83,10 @@
     padding-right: 1rem;
     .datatable-body-cell-label {
       @include global.use-inter-typography(500, 14px, 19.6px);
+      display: flex;
+      flex-flow: row;
+      gap: 4px;
+      align-items: baseline;
       user-select: none;
       white-space: nowrap;
       margin-right: 1rem;
@@ -107,7 +111,4 @@
 
 .relative {
   position: relative;
-}
-
-.scrollable-y {
 }
