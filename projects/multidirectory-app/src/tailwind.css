@@ -1,5 +1,5 @@
 @import 'tailwindcss' source('./app');
-@source '../../../node_modules/@diz1/mui-kit';
+@source '../../../node_modules/@mflab/mui-kit';
 
 @custom-variant dark (&:where(.dark-theme, .dark-theme *));
 

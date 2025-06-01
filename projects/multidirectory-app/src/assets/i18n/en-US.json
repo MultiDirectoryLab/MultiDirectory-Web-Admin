@@ -480,7 +480,9 @@
     "about": "About",
     "kdc-principals": "Kerberos Principals",
     "dns-settings": "DNS Settings",
-    "sessions": "Sessions"
+    "sessions": "Sessions",
+    "dns-zone-header": "DNS Zones",
+    "dns-forwarding-header": "DNS Forwarding"
   },
   "settings": {
     "account-settings": "Account Settings",

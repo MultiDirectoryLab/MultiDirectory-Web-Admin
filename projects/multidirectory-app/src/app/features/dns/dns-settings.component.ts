@@ -27,18 +27,13 @@ import {
   DnsRuleDialogReturnData,
 } from '../../components/modals/interfaces/dns-rule-dialog.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MuiTabsComponent, MuiTabDirective } from '@mflab/mui-kit';
 
 @Component({
   selector: 'app-dns-settings',
   templateUrl: './dns-settings.component.html',
   styleUrls: ['./dns-settings.component.scss'],
-  imports: [
-    TranslocoPipe,
-    ButtonComponent,
-    DnsRuleListItemComponent,
-    AlertComponent,
-    FaIconComponent,
-  ],
+  imports: [TranslocoPipe, MuiTabsComponent, MuiTabDirective],
 })
 export class DnsSettingsComponent implements OnInit {
   public dnsStatuses = DnsStatuses;

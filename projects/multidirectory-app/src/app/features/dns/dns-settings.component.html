@@ -1,45 +1,5 @@
-@if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
-  <div class="p-16 dns-container">
-    <div class="flex-row flex-space-between flex-align-center">
-      <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
-      <div class="flex-row flex-gap-10">
-        <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
-      </div>
-    </div>
-    <div class="flex flex-column flex-grow-1 dns-records-container">
-      <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
-        @for (rule of rules; track rule; let i = $index) {
-          <app-dns-rule-list-item
-            [dnsRule]="rule"
-            [index]="i + 1"
-            (deleteClick)="onDelete(i)"
-            (editClick)="onEdit(i)"
-          >
-          </app-dns-rule-list-item>
-        }
-      </div>
-    </div>
-  </div>
-}
-
-@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
-  <div>
-    <div class="p-16">
-      <md-alert>
-        <div class="flex-row flex-gap-20">
-          <div class="flex-row justify-center flex-align-center">
-            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
-          </div>
-          <div class="flex-column">
-            <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
-            <div class="pv-8">
-              <md-button [primary]="true" (click)="handleSetupClick()">{{
-                'dns-settings.setup-dns' | transloco
-              }}</md-button>
-            </div>
-          </div>
-        </div>
-      </md-alert>
-    </div>
-  </div>
-}
+<mui-tabs>
+  <div *muiTab="'dns-settings.dns-zone-header' | transloco"></div>
+  <div *muiTab="'dns-settings.dns-forwarding-header' | transloco"></div>
+</mui-tabs>
+<hr />
