@@ -101,6 +101,7 @@
               "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
               "projects/multidirectory-ui-kit/src/lib/styles/typings.scss",
               "projects/multidirectory-app/src/tailwind.css",
+              "node_modules/@mflab/mui-kit/styles/styles.css",
               "node_modules/@mflab/mui-kit/styles/variables.css",
               "node_modules/@mflab/mui-kit/styles/theme-base.css",
               "projects/multidirectory-app/src/styles.scss",

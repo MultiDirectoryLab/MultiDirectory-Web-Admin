@@ -1,0 +1,8 @@
+<div class="flex-row w-full justify-end pb-2 pr-2">
+  <mui-button color="secondary" variant="rounded" size="sm" (clicked)="onAddDnsZone()">
+    {{ 'dns-settings.add-zone-header' | transloco }}
+  </mui-button>
+</div>
+@for (zone of zones; track zone; let i = $index) {
+  <app-dns-zone-list-item [zone]="zone" [index]="i + 1"> </app-dns-zone-list-item>
+}

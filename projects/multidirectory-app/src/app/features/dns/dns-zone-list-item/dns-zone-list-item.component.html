@@ -1,0 +1,29 @@
+@if (zone) {
+  <div class="client-grid p-8">
+    <div class="cell-index">{{ index() }}</div>
+    <div class="cell-domain">{{ zone.zone_name }}</div>
+    <div class="cell-value">{{ zone.zone_type }}</div>
+    <div class="cell-type"></div>
+    <div class="cell-ttl"></div>
+    <div class="cell-control-buttons">
+      @if (expanded()) {
+        <md-button>{{ 'dns-zone-list-item.add' | transloco }}</md-button>
+      }
+      <md-plane-button class="control-button" (click)="toggleExpand()">
+        <fa-icon [icon]="expanded() ? faCaretUp : faCaretDown"></fa-icon>
+      </md-plane-button>
+      <md-plane-button class="control-button" (click)="onDeleteClick()">
+        <img class="control-button-logo" [src]="'assets/trash.svg'" />
+      </md-plane-button>
+    </div>
+    @if (expanded()) {
+      <div class="cell-content">
+        @for (type of zone.records; track $index) {
+          @for (record of type.records; track $index) {
+            {{ record.record_name }}
+          }
+        }
+      </div>
+    }
+  </div>
+}

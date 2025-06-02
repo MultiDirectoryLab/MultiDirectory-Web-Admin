@@ -6,7 +6,8 @@ import { DnsRule } from '@models/dns/dns-rule';
 import { DnsServiceResponse } from '@models/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { map, Observable } from 'rxjs';
+import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,77 @@ export class DnsApiService {
       .post<string>('dns/setup', request)
       .execute()
       .pipe(map((x) => !!x));
+  }
+
+  zone(request: string): Observable<DnsZoneListResponse[]> {
+    // return this.dnsHttpClient
+    //   .get<DnsZoneListResponse>(`dns/zone`)
+    //   .execute();
+    return of([
+      new DnsZoneListResponse({
+        zone_name: 'multidirectory.beta.io',
+        zone_type: 'master',
+        records: [
+          new DnsZoneRecordWithType({
+            record_type: 'master',
+            records: [
+              new DnsRule({
+                record_name: 'master 1',
+                record_value: '127.0.0.1',
+              }),
+              new DnsRule({
+                record_name: 'master 2',
+                record_value: '127.0.0.2',
+              }),
+            ],
+          }),
+          new DnsZoneRecordWithType({
+            record_type: 'slave',
+            records: [
+              new DnsRule({
+                record_name: 'master 1',
+                record_value: '127.0.0.1',
+              }),
+              new DnsRule({
+                record_name: 'master 2',
+                record_value: '127.0.0.2',
+              }),
+            ],
+          }),
+        ],
+      }),
+      new DnsZoneListResponse({
+        zone_name: 'mydomain.local',
+        zone_type: 'slave',
+        records: [
+          new DnsZoneRecordWithType({
+            record_type: 'slave',
+            records: [
+              new DnsRule({
+                record_name: 'slave 1',
+                record_value: '127.0.0.1',
+              }),
+              new DnsRule({
+                record_name: 'slave 2',
+                record_value: '127.0.0.2',
+              }),
+            ],
+          }),
+          new DnsZoneRecordWithType({
+            record_type: 'slave',
+            records: [
+              new DnsRule({
+                record_name: 'slave 1',
+                record_value: '127.0.0.1',
+              }),
+              new DnsRule({
+                record_name: 'slave 2',
+                record_value: '127.0.0.2',
+              }),
+            ],
+          }),
+        ],
+      }),
+    ]);
   }
 }
