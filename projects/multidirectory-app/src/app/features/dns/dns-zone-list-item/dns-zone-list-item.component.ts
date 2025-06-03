@@ -1,17 +1,18 @@
 import { ChangeDetectorRef, Component, inject, Input, input, output, signal } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faCaretDown, faCaretUp, faExpand } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { MuiButtonComponent } from '@mflab/mui-kit';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
-import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
-import { ButtonComponent, PlaneButtonComponent } from 'multidirectory-ui-kit';
+import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { ToastrService } from 'ngx-toastr';
+import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
 
 @Component({
   selector: 'app-dns-zone-list-item',
   templateUrl: './dns-zone-list-item.component.html',
   styleUrls: ['./dns-zone-list-item.component.scss'],
-  imports: [PlaneButtonComponent, ButtonComponent, TranslocoModule, FaIconComponent],
+  imports: [MuiButtonComponent, TranslocoModule, FaIconComponent, DnsRuleListItemComponent],
 })
 export class DnsZoneListItemComponent {
   private toastr = inject(ToastrService);
@@ -20,7 +21,7 @@ export class DnsZoneListItemComponent {
   readonly deleteClick = output<DnsZoneListResponse>();
   readonly turnOffClick = output<DnsZoneListResponse>();
   readonly editClick = output<DnsZoneListResponse>();
-
+  readonly addZoneClick = output<any>();
   readonly faCaretDown = faCaretDown;
   readonly faCaretUp = faCaretUp;
 
@@ -34,6 +35,10 @@ export class DnsZoneListItemComponent {
 
   @Input() set zone(dnsRule: DnsZoneListResponse | null) {
     this._dnsZone = dnsRule;
+  }
+
+  addZoneRecord() {
+    this.addZoneClick.emit(null);
   }
 
   onDeleteClick() {

@@ -4,6 +4,8 @@ import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { DnsApiService } from '@services/dns-api.service';
 import { DnsZoneListItemComponent } from '../dns-zone-list-item/dns-zone-list-item.component';
 import { TranslocoModule } from '@jsverse/transloco';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import { AddZoneDialogComponent } from '../add-zone-dialog/add-zone-dialog.component';
 
 @Component({
   selector: 'app-dns-zones',
@@ -13,6 +15,8 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export default class DnsZonesComponent implements OnInit {
   private dns = inject(DnsApiService);
+  private dialogService = inject(DialogService);
+
   zones: DnsZoneListResponse[] = [];
 
   listDnsZones(name: string = '') {}
@@ -26,6 +30,19 @@ export default class DnsZonesComponent implements OnInit {
   }
 
   onAddDnsZone() {
-    alert('test');
+    this.dialogService
+      .open<AddZoneDialogComponent, object, object>({
+        component: AddZoneDialogComponent,
+        dialogConfig: {
+          data: {},
+        },
+      })
+      .closed.pipe()
+      .subscribe((result: any) => {
+        if (!result) {
+          return;
+        }
+        console.log(result);
+      });
   }
 }

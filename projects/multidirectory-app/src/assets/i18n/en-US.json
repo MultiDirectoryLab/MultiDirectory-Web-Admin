@@ -665,9 +665,16 @@
     "success": "Operation completed successfully",
     "zone": "Zone: ",
     "add": "Add entry",
+    "add-zone": "Add Zone",
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
     "dns-unavailable": "DNS Service is unavailable"
+  },
+  "dns-zone-list-item": {
+    "add": "Add"
+  },
+  "add-zone-dialog": {
+    "modal-header": "Add a new zone"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",

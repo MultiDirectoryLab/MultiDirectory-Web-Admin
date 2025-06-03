@@ -1,6 +1,6 @@
 <div class="flex-row w-full justify-end pb-2 pr-2">
   <mui-button color="secondary" variant="rounded" size="sm" (clicked)="onAddDnsZone()">
-    {{ 'dns-settings.add-zone-header' | transloco }}
+    {{ 'dns-settings.add-zone' | transloco }}
   </mui-button>
 </div>
 @for (zone of zones; track zone; let i = $index) {

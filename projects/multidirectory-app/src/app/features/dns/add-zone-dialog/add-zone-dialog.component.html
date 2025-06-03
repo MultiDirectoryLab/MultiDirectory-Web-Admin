@@ -1,0 +1,21 @@
+<app-dialog *transloco="let t">
+  <div class="app-modal-header">{{ 'add-zone-dialog.modal-header' | transloco }}</div>
+  <div class="flex-column gap-y-1">
+    <div>
+      <label>{{ 'add-zone-dialog.header' | transloco }}</label>
+    </div>
+    <div class="flex-row gap-x-1 justify-between">
+      <div>
+        <label>{{ 'add-zone-dialog.domain-input' | transloco }}</label>
+      </div>
+      <div><mui-input [placeholder]="t('add-zone-dialog.domain-input')" /></div>
+    </div>
+    <div class="flex-row gap-x-1 justify-between">
+      <div>
+        <label>{{ 'add-zone-dialog.domain-input' | transloco }}</label>
+      </div>
+      <div><mui-input [placeholder]="t('add-zone-dialog.domain-input')" /></div>
+    </div>
+    <div></div>
+  </div>
+</app-dialog>

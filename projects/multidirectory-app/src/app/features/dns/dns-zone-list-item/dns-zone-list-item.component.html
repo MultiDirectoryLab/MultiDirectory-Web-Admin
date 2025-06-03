@@ -7,20 +7,22 @@
     <div class="cell-ttl"></div>
     <div class="cell-control-buttons">
       @if (expanded()) {
-        <md-button>{{ 'dns-zone-list-item.add' | transloco }}</md-button>
+        <mui-button (clicked)="addZoneRecord()">{{
+          'dns-zone-list-item.add' | transloco
+        }}</mui-button>
       }
-      <md-plane-button class="control-button" (click)="toggleExpand()">
+      <mui-button class="control-button" (clicked)="toggleExpand()">
         <fa-icon [icon]="expanded() ? faCaretUp : faCaretDown"></fa-icon>
-      </md-plane-button>
-      <md-plane-button class="control-button" (click)="onDeleteClick()">
+      </mui-button>
+      <mui-button class="control-button" (clicked)="onDeleteClick()">
         <img class="control-button-logo" [src]="'assets/trash.svg'" />
-      </md-plane-button>
+      </mui-button>
     </div>
     @if (expanded()) {
-      <div class="cell-content">
+      <div class="cell-content flex-column">
         @for (type of zone.records; track $index) {
           @for (record of type.records; track $index) {
-            {{ record.record_name }}
+            <app-dns-rule-list-item [dnsRule]="record"></app-dns-rule-list-item>
           }
         }
       </div>

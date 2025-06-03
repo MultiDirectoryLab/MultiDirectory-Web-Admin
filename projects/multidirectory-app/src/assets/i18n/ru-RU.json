@@ -662,9 +662,16 @@
     "add": "Добавить запись",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
     "setup-dns": "Выполнить настройку",
+    "add-zone": "Добавить зону",
     "dns-unavailable": "Сервис DNS недоступен",
     "dns-zone-header": "Зоны DNS",
     "dns-forwarding-header": "DNS Forwarding"
+  },
+  "dns-zone-list-item": {
+    "add": "Добавить"
+  },
+  "add-zone-dialog": {
+    "modal-header": "Добавить новую зону"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",
