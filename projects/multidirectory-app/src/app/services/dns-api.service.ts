@@ -6,7 +6,8 @@ import { DnsRule } from '@models/dns/dns-rule';
 import { DnsServiceResponse } from '@models/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { map, Observable } from 'rxjs';
+import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,9 @@ export class DnsApiService {
       .post<string>('dns/setup', request)
       .execute()
       .pipe(map((x) => !!x));
+  }
+
+  zone(request: string): Observable<DnsZoneListResponse[]> {
+    return this.dnsHttpClient.get<DnsZoneListResponse[]>(`dns/zone`).execute();
   }
 }

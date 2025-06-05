@@ -1,5 +1,3 @@
-@use '../../../../../../node_modules/multidirectory-ui-kit/styles/global.scss';
-
 :host {
   background-color: var(--md-white);
   height: 100%;
@@ -27,7 +25,9 @@
   justify-content: center;
   width: 5px;
   margin-bottom: 4px;
-
+  padding: unset;
+  right: 4px;
+  position: relative;
   .more {
     cursor: pointer;
 

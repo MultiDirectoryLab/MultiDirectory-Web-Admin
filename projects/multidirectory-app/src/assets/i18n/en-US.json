@@ -480,7 +480,9 @@
     "about": "About",
     "kdc-principals": "Kerberos Principals",
     "dns-settings": "DNS Settings",
-    "sessions": "Sessions"
+    "sessions": "Sessions",
+    "dns-zone-header": "DNS Zones",
+    "dns-forwarding-header": "DNS Forwarding"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -663,15 +665,23 @@
     "success": "Operation completed successfully",
     "zone": "Zone: ",
     "add": "Add entry",
-    "delete": "Delete",
+    "add-zone": "Add Zone",
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
-    "dns-unavailable": "DNS Service is unavailable",
-    "zone-tab": "DNS Zones",
-    "redirection-zones-tab": "DNS Redirection Zones",
-    "should-select-zones": "You should select zones to delete",
-    "enable": "Enable",
-    "disable": "Enable"
+    "dns-unavailable": "DNS Service is unavailable"
+  },
+  "dns-zone-list-item": {
+    "add": "Add"
+  },
+  "add-zone-dialog": {
+    "modal-header": "Add a new zone",
+    "header": "DNS Zone wizard",
+    "domain-input": "Domain",
+    "allowed-ip-input": "Allowed IP addresses",
+    "ttl-input": "TTL",
+    "add": "Add",
+    "cancel": "Cancel",
+    "apply": "Apply"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",

@@ -660,15 +660,25 @@
     "success": "Операция выполнена успешно",
     "zone": "Зона: ",
     "add": "Добавить запись",
-    "delete": "Удалить",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
     "setup-dns": "Выполнить настройку",
+    "add-zone": "Добавить зону",
     "dns-unavailable": "Сервис DNS недоступен",
-    "zone-tab": "DNS Зоны",
-    "redirection-zones-tab": "Зоны перенаправления DNS",
-    "should-select-zones": "Необходимо выбрать зоны для удаления",
-    "enable": "Включить",
-    "disable": "Выключить"
+    "dns-zone-header": "Зоны DNS",
+    "dns-forwarding-header": "DNS Forwarding"
+  },
+  "dns-zone-list-item": {
+    "add": "Добавить"
+  },
+  "add-zone-dialog": {
+    "modal-header": "Добавить новую зону",
+    "header": "Мастер добавления зон DNS",
+    "domain-input": "Домен",
+    "allowed-ip-input": "Разрешенные IP адреса",
+    "ttl-input": "TTL",
+    "add": "Добавить",
+    "apply": "Применить",
+    "cancel": "Отменить"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",

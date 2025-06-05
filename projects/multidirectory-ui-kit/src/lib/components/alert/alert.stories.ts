@@ -1,14 +1,10 @@
+import { FormControl } from '@angular/forms';
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertComponent } from './alert.component';
 const meta: Meta<AlertComponent> = {
   title: 'Layout/Alert',
   component: AlertComponent,
-  decorators: [
-    moduleMetadata({
-      declarations: [AlertComponent],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   tags: ['autodocs'],
 };
 

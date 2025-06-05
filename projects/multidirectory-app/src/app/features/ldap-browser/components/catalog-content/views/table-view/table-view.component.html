@@ -22,7 +22,7 @@
 </ng-template>
 
 <ng-template #controlPanel>
-  <div class="flex-row flex-space-between flex-gap-5 pl-8">
+  <div class="flex-row flex-space-between flex-gap-5 pl-8 overflow-hidden control-row">
     <div class="flex-row flex-gap-5">
       <md-checkbox [(ngModel)]="checkAllCheckbox">
         {{ 'table-view.select-all' | transloco }}
@@ -34,7 +34,7 @@
         </label>
       </md-plane-button>
     </div>
-    <div class="flex-row">
+    <div class="flex-row overflow-hidden h-100">
       <md-shift-checkbox
         class="accountEnabledToggle"
         [ngClass]="{ disabled: !accountEnabledToggleEnabled }"

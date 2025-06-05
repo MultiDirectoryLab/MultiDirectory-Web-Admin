@@ -1,16 +1,15 @@
-<md-tab-pane (tabChanged)="onTabChanged()">
-  <div class="tab-header">
-    <md-tab [el]="dnsRecords.el" [isSelected]="true">
-      {{ 'dns-settings.zone-tab' | transloco }}
-    </md-tab>
-    <md-tab [el]="dnsRedirectionZones.el">
-      {{ 'dns-settings.redirection-zones-tab' | transloco }}
-    </md-tab>
-  </div>
+@if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
+  <mui-tabs>
+    <div *muiTab="'dns-settings.dns-zone-header' | transloco">
+      <app-dns-zones></app-dns-zones>
+    </div>
+    <div *muiTab="'dns-settings.dns-forwarding-header' | transloco"></div>
+  </mui-tabs>
+}
 
-  <!-- DNS Records Tab -->
-  <div #dnsRecords="mdTab" mdTab class="p-16 dns-container">
-    @if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
+@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
+  <div>
+    <div class="p-16">
       <md-alert>
         <div class="flex-row flex-gap-20">
           <div class="flex-row justify-center flex-align-center">
@@ -19,38 +18,13 @@
           <div class="flex-column">
             <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
             <div class="pv-8">
-              <md-button [primary]="true" (click)="handleSetupClick()">
-                {{ 'dns-settings.setup-dns' | transloco }}
-              </md-button>
+              <mui-button (clicked)="handleSetupClick()">{{
+                'dns-settings.setup-dns' | transloco
+              }}</mui-button>
             </div>
           </div>
         </div>
       </md-alert>
-    } @else {
-      <div class="flex-row flex-space-between flex-align-center">
-        <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
-        <div class="flex-row flex-gap-10">
-          <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
-        </div>
-      </div>
-      <div class="flex flex-column flex-grow-1 dns-records-container">
-        <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
-          @for (rule of rules; track rule; let i = $index) {
-            <app-dns-rule-list-item
-              [dnsRule]="rule"
-              [index]="i + 1"
-              (deleteClick)="onDelete(i)"
-              (editClick)="onEdit(i)"
-            >
-            </app-dns-rule-list-item>
-          }
-        </div>
-      </div>
-    }
+    </div>
   </div>
-
-  <!-- DNS Redirection Zones Tab -->
-  <div #dnsRedirectionZones="mdTab" mdTab class="p-16 dns-container">
-    <app-dns-forward-zones />
-  </div>
-</md-tab-pane>
+}

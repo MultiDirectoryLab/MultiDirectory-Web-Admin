@@ -18,7 +18,7 @@ import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { AccessPolicyIpListComponent } from '@features/access-policy/access-policy-ip-list/access-policy-ip-list.component';
+import { IpListDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/access-policy-ip-list/ip-list-dialog.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -29,7 +29,6 @@ import {
   DropdownOption,
   GroupComponent,
   MdFormComponent,
-  ModalInjectDirective,
   MultiselectComponent,
   ShiftCheckboxComponent,
   TextboxComponent,
@@ -52,8 +51,6 @@ import { MultiselectModel } from './multiselect-model';
     DropdownComponent,
     GroupComponent,
     ShiftCheckboxComponent,
-    AccessPolicyIpListComponent,
-    ModalInjectDirective,
     RequiredWithMessageDirective,
     IpAddressValidatorDirective,
     TranslocoPipe,
@@ -66,7 +63,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
   private _unsubscribe = new Subject<void>();
-  readonly ipListEditor = viewChild.required<ModalInjectDirective>('ipListEditor');
   readonly form = viewChild.required<MdFormComponent>('form');
   readonly groupSelector = viewChild.required<MultiselectComponent>('groupSelector');
   readonly mfaGroupSelector = viewChild.required<MultiselectComponent>('mfaGroupSelector');
@@ -170,7 +166,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   changeIpAdressAttribute() {
-    const closeRx = this.ipListEditor()!.open(
+    /*const closeRx = this.ipListEditor()!.open(
       { zIndex: 99 },
       { ipAddresses: this.accessClient.ipRange },
     );
@@ -182,7 +178,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
         .join(', ');
       this.accessClient.ipRange = this.accessClient.ipRange = result;
-    });
+    });*/
   }
 
   onIpChanged() {

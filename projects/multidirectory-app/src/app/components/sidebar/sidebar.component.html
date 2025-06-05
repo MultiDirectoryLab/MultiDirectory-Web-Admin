@@ -17,8 +17,12 @@
         <label>{{ user.display_name }}</label>
         <label>{{ user.mail }}</label>
       </div>
-      <div [mdDropdownContainer]="loginMenu" [mdDropdownXOffset]="20" class="more-container">
-        <img class="more" src="/assets/more_vert.svg" />
+      <div
+        [mdDropdownContainer]="loginMenu"
+        [mdDropdownXOffset]="20"
+        class="flex items-center justify-center px-2 hover:bg-(--md-white-blue-2) hover:cursor-pointer"
+      >
+        <img class="w-1.5" src="/assets/more_vert.svg" />
       </div>
       <md-dropdown-menu #loginMenu>
         <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
