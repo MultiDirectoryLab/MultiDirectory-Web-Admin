@@ -4,6 +4,7 @@ import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address'
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
+import { DialogComponent } from '../../core/dialog/dialog.component';
 
 export class IpAddressStatus {
   title = '';
@@ -61,12 +62,12 @@ export class IpAddressStatus {
 }
 
 @Component({
-  selector: 'app-access-policy-ip-list',
-  templateUrl: './access-policy-ip-list.component.html',
-  styleUrls: ['./access-policy-ip-list.component.scss'],
-  imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent],
+  selector: 'app-ip-list-dialog-component',
+  templateUrl: './ip-list-dialog.component.html',
+  styleUrls: ['./ip-list-dialog.component.scss'],
+  imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent, DialogComponent],
 })
-export class AccessPolicyIpListComponent implements OnInit {
+export class IpListDialogComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toastr = inject(ToastrService);
   private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);

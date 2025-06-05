@@ -1,6 +1,30 @@
-<mui-tabs>
-  <div *muiTab="'dns-settings.dns-zone-header' | transloco">
-    <app-dns-zones></app-dns-zones>
+@if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
+  <mui-tabs>
+    <div *muiTab="'dns-settings.dns-zone-header' | transloco">
+      <app-dns-zones></app-dns-zones>
+    </div>
+    <div *muiTab="'dns-settings.dns-forwarding-header' | transloco"></div>
+  </mui-tabs>
+}
+
+@if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
+  <div>
+    <div class="p-16">
+      <md-alert>
+        <div class="flex-row flex-gap-20">
+          <div class="flex-row justify-center flex-align-center">
+            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+          </div>
+          <div class="flex-column">
+            <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
+            <div class="pv-8">
+              <mui-button (clicked)="handleSetupClick()">{{
+                'dns-settings.setup-dns' | transloco
+              }}</mui-button>
+            </div>
+          </div>
+        </div>
+      </md-alert>
+    </div>
   </div>
-  <div *muiTab="'dns-settings.dns-forwarding-header' | transloco"></div>
-</mui-tabs>
+}

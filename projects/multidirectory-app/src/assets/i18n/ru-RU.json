@@ -671,7 +671,14 @@
     "add": "Добавить"
   },
   "add-zone-dialog": {
-    "modal-header": "Добавить новую зону"
+    "modal-header": "Добавить новую зону",
+    "header": "Мастер добавления зон DNS",
+    "domain-input": "Домен",
+    "allowed-ip-input": "Разрешенные IP адреса",
+    "ttl-input": "TTL",
+    "add": "Добавить",
+    "apply": "Применить",
+    "cancel": "Отменить"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",

@@ -7,6 +7,7 @@ import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { ToastrService } from 'ngx-toastr';
 import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
+import { DnsRule } from '@models/dns/dns-rule';
 
 @Component({
   selector: 'app-dns-zone-list-item',
@@ -18,10 +19,12 @@ export class DnsZoneListItemComponent {
   private toastr = inject(ToastrService);
   private cdr = inject(ChangeDetectorRef);
   readonly index = input(0);
-  readonly deleteClick = output<DnsZoneListResponse>();
-  readonly turnOffClick = output<DnsZoneListResponse>();
-  readonly editClick = output<DnsZoneListResponse>();
+  readonly deleteRuleClick = output<DnsRule>();
+  readonly turnOffRuleClick = output<DnsRule>();
+  readonly editRuleClick = output<DnsRule>();
   readonly addZoneClick = output<any>();
+  readonly deleteZoneClick = output<DnsZoneListResponse>();
+
   readonly faCaretDown = faCaretDown;
   readonly faCaretUp = faCaretUp;
 
@@ -41,34 +44,24 @@ export class DnsZoneListItemComponent {
     this.addZoneClick.emit(null);
   }
 
-  onDeleteClick() {
-    if (!this._dnsZone) {
-      this.toastr.error(translate('dns-rule.client-does-not-exist'));
-      return;
-    }
-    this.deleteClick.emit(this.zone!);
-  }
-
-  onTurnOffClick() {
+  onTurnOffRuleClick(record: DnsRule) {
     if (!this.zone) {
       this.toastr.error(translate('dns-rule.client-does-not-exist'));
       return;
     }
-    this.turnOffClick.emit(this.zone);
-    this.cdr.detectChanges();
+    this.turnOffRuleClick.emit(record);
   }
 
-  onEditClick() {
-    if (!this.zone) {
-      this.toastr.error(translate('dns-rule.client-does-not-exist'));
-      return;
-    }
-    this.editClick.emit(this.zone);
-    this.cdr.detectChanges();
+  onEditRuleClick(record: DnsRule) {
+    this.editRuleClick.emit(record);
   }
 
-  getType(type: DnsRuleType) {
-    return DnsRuleType[type];
+  onDeleteRuleClick(record: DnsRule) {
+    this.deleteRuleClick.emit(record);
+  }
+
+  onDeleteZoneClick(record: DnsZoneListResponse) {
+    this.deleteZoneClick.emit(record);
   }
 
   toggleExpand() {

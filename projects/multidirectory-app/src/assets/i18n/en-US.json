@@ -674,7 +674,14 @@
     "add": "Add"
   },
   "add-zone-dialog": {
-    "modal-header": "Add a new zone"
+    "modal-header": "Add a new zone",
+    "header": "DNS Zone wizard",
+    "domain-input": "Domain",
+    "allowed-ip-input": "Allowed IP addresses",
+    "ttl-input": "TTL",
+    "add": "Add",
+    "cancel": "Cancel",
+    "apply": "Apply"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",

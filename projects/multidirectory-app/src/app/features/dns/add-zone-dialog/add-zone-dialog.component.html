@@ -5,17 +5,14 @@
       <label>{{ 'add-zone-dialog.header' | transloco }}</label>
     </div>
     <div class="flex-row gap-x-1 justify-between">
-      <div>
-        <label>{{ 'add-zone-dialog.domain-input' | transloco }}</label>
-      </div>
-      <div><mui-input [placeholder]="t('add-zone-dialog.domain-input')" /></div>
+      <mui-input [placeholder]="t('add-zone-dialog.domain-input')" class="grow" />
     </div>
     <div class="flex-row gap-x-1 justify-between">
-      <div>
-        <label>{{ 'add-zone-dialog.domain-input' | transloco }}</label>
-      </div>
-      <div><mui-input [placeholder]="t('add-zone-dialog.domain-input')" /></div>
+      <mui-input type="number" [placeholder]="t('add-zone-dialog.ttl-input')" class="grow" />
     </div>
-    <div></div>
+    <div class="flex-row gap-x-1 justify-between">
+      <mui-input [placeholder]="t('add-zone-dialog.allowed-ip-input')" class="grow" />
+      <mui-button>{{ 'add-zone-dialog.add' | transloco }}</mui-button>
+    </div>
   </div>
 </app-dialog>

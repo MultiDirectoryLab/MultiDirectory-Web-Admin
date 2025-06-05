@@ -4,5 +4,14 @@
   </mui-button>
 </div>
 @for (zone of zones; track zone; let i = $index) {
-  <app-dns-zone-list-item [zone]="zone" [index]="i + 1"> </app-dns-zone-list-item>
+  <app-dns-zone-list-item
+    (addZoneClick)="addZoneClick(zone)"
+    (editRuleClick)="onEditRuleClick($event)"
+    (deleteRuleClick)="onDeleteRuleClick($event)"
+    (turnOffRuleClick)="onTurnOffRuleClick($event)"
+    (deleteZoneClick)="onDeleteZoneClick()"
+    [zone]="zone"
+    [index]="i + 1"
+  >
+  </app-dns-zone-list-item>
 }
