@@ -6,6 +6,7 @@ import { DnsRule } from '@models/dns/dns-rule';
 import { DnsServiceResponse } from '@models/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { DnsAddZoneRequest } from '@models/dns/zones/dns-add-zone-response';
 import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
 import { map, Observable, of } from 'rxjs';
 
@@ -51,5 +52,9 @@ export class DnsApiService {
 
   zone(request: string): Observable<DnsZoneListResponse[]> {
     return this.dnsHttpClient.get<DnsZoneListResponse[]>(`dns/zone`).execute();
+  }
+
+  addZone(request: DnsAddZoneRequest): Observable<string> {
+    return this.dnsHttpClient.post<string>('dns/zone', request).execute();
   }
 }

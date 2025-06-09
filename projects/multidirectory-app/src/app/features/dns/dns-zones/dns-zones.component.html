@@ -3,15 +3,17 @@
     {{ 'dns-settings.add-zone' | transloco }}
   </mui-button>
 </div>
-@for (zone of zones; track zone; let i = $index) {
-  <app-dns-zone-list-item
-    (addZoneClick)="addZoneClick(zone)"
-    (editRuleClick)="onEditRuleClick($event)"
-    (deleteRuleClick)="onDeleteRuleClick($event)"
-    (turnOffRuleClick)="onTurnOffRuleClick($event)"
-    (deleteZoneClick)="onDeleteZoneClick()"
-    [zone]="zone"
-    [index]="i + 1"
-  >
-  </app-dns-zone-list-item>
-}
+<div class="flex-column gap-y-2 p-2">
+  @for (zone of zones; track zone; let i = $index) {
+    <app-dns-zone-list-item
+      (addZoneClick)="addZoneClick(zone)"
+      (editRuleClick)="onEditRuleClick($event)"
+      (deleteRuleClick)="onDeleteRuleClick($event)"
+      (turnOffRuleClick)="onTurnOffRuleClick($event)"
+      (deleteZoneClick)="onDeleteZoneClick()"
+      [zone]="zone"
+      [index]="i + 1"
+    >
+    </app-dns-zone-list-item>
+  }
+</div>
