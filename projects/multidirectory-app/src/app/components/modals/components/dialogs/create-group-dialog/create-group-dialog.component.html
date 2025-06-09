@@ -3,7 +3,7 @@
     <div transloco="group-create.header"></div>
   </div>
   <div>
-    <div class="flex align-center flex-gap-10">
+    <div class="flex align-center gap-1">
       <div class="avatar"><img class="avatar-img" src="/assets/empty_avatar.svg" /></div>
       <div class="place">
         <span transloco="group-create.addto"></span>: {{ dialogData.parentDn }}
@@ -29,7 +29,7 @@
         <md-textarea
           [(ngModel)]="setupRequest.description"
           [expandWidth]="true"
-          class="col-xs-6 w-100 flex-grow-1"
+          class="col-xs-6 w-full flex-grow-1"
           name="description"
         ></md-textarea>
       </div>
@@ -81,7 +81,7 @@
     </md-form>
   </div>
   <div class="app-modal-footer">
-    <div class="flex align-center justify-end flex-gap-10">
+    <div class="flex align-center justify-end gap-1">
       <md-button (click)="onClose()">
         <span transloco="group-create.cancel"></span>
       </md-button>

@@ -1,5 +1,5 @@
 @if (accessor) {
-  <div class="flex align-center flex-gap-10 p-8">
+  <div class="flex align-center gap-1 p-1">
     <div class="avatar">
       <app-avatar-upload [accessor]="accessor"></app-avatar-upload>
     </div>
@@ -10,11 +10,11 @@
     <div class="col-xs-4">
       <label for="givenName">{{ 'user-properties-generals.name' | transloco }}</label>
     </div>
-    <div class="col-xs-4 flex align-start flex-grow-1 flex-gap-10">
+    <div class="col-xs-4 flex align-start flex-grow-1 gap-1">
       <md-textbox
         [(ngModel)]="accessor.givenName"
         appRequired
-        class="w-100"
+        class="w-full"
         name="givenName"
         id="givenName"
       >

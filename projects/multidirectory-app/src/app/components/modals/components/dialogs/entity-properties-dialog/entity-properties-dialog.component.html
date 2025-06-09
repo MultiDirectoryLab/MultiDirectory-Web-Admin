@@ -16,13 +16,13 @@
       }
       @default {
         <div class="block flex h-100">
-          <app-entity-attributes [accessor]="accessor || {}" class="w-100" />
+          <app-entity-attributes [accessor]="accessor || {}" class="w-full" />
         </div>
       }
     }
   </div>
 
-  <div class="app-modal-footer flex flex-end">
+  <div class="app-modal-footer flex justify-end">
     <md-button (click)="save(true)" class="pr-8">{{
       'properties-modal.close' | transloco
     }}</md-button>

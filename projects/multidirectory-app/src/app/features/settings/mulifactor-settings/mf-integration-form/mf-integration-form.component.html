@@ -1,4 +1,4 @@
-<div *transloco="let t; prefix: translocoSection" class="flex-col flex-gap-10 p-8 w-100">
+<div *transloco="let t; prefix: translocoSection" class="flex flex-col gap-1 p-1 w-full">
   <md-form #form [autocomplete]="false">
     <div class="flex flex-center">
       <div class="title">
@@ -10,7 +10,7 @@
     </div>
     <div class="flex flex-center"></div>
     <div class="mf-control-grid">
-      <label class="flex-gap-10" for="api-key">API Key</label>
+      <label class="gap-1" for="api-key">API Key</label>
       <md-textbox
         [(ngModel)]="apiKey"
         appMfKeyValidator
@@ -18,7 +18,7 @@
         name="api-key"
       ></md-textbox>
 
-      <label class="flex-gap-10" for="api-secret">API Secret</label>
+      <label class="gap-1" for="api-secret">API Secret</label>
       <md-textbox
         [(ngModel)]="apiSecret"
         [allowPasswordView]="false"
@@ -30,7 +30,7 @@
       ></md-textbox>
     </div>
 
-    <div class="flex flex-end pv-16 flex-gap-10">
+    <div class="flex justify-end pv-16 gap-1">
       <md-button (click)="clear()">{{ t('clear') }}</md-button>
       <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true"
         >{{ t('apply') }}

@@ -3,7 +3,7 @@
     {{ prompt.promptHeader }}
   </div>
   <div [innerHTML]="prompt.promptText"></div>
-  <div class="app-modal-footer flex justify-end flex-gap-10">
+  <div class="app-modal-footer flex justify-end gap-1">
     @for (primary of prompt.primaryButtons; track primary) {
       <md-button [primary]="true" (click)="close(primary.id)">
         {{ primary.text }}

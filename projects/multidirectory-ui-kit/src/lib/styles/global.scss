@@ -115,7 +115,7 @@ div {
   flex-flow: row nowrap;
 }
 
-.flex-column {
+.flex flex-column {
   display: flex;
   flex-flow: column nowrap;
 }
@@ -132,7 +132,7 @@ div {
   align-items: flex-end;
 }
 
-.w-100 {
+.w-full {
   width: 100%;
 }
 

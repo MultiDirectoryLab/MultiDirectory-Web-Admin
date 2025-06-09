@@ -1,5 +1,5 @@
 @if (zone) {
-  <div class="client-grid p-8">
+  <div class="client-grid p-1">
     <div class="cell-index">{{ index() }}</div>
     <div class="cell-domain">{{ zone.zone_name }}</div>
     <div class="cell-value">{{ zone.zone_type }}</div>
@@ -19,7 +19,7 @@
       </mui-button>
     </div>
     @if (expanded()) {
-      <div class="cell-content flex-col">
+      <div class="cell-content flex flex-col">
         @for (type of zone.records; track $index) {
           @for (record of type.records; track $index) {
             <app-dns-rule-list-item

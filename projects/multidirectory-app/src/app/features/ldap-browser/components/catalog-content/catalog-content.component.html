@@ -1,5 +1,5 @@
 <div class="control-pane flex align-center flex-space-between">
-  <div class="flex align-center flex-gap-10">
+  <div class="flex align-center gap-1">
     <div class="button-wrapper">
       <md-plane-button [mdDropdownContainer]="createMenu" class="search control-button">
         <div class="flex flex-space-between">
@@ -14,25 +14,25 @@
       </md-plane-button>
     </div>
     <md-button (click)="openCreateUser()">
-      <span class="flex flex-space-between flex-gap-5">
+      <span class="flex flex-space-between gap-0.5">
         <img [src]="'assets/person_add.svg'" />
         {{ 'catalog-content.create-user' | transloco }}
       </span>
     </md-button>
     <md-button (click)="openCreateGroup()">
-      <span class="flex flex-space-between flex-gap-5">
+      <span class="flex flex-space-between gap-0.5">
         <img [src]="'assets/group.svg'" style="transform: scale(1.35)" />
         {{ 'catalog-content.create-group' | transloco }}
       </span>
     </md-button>
     <!--    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">-->
-    <!--      <span class="flex flex-space-between flex-gap-5">-->
+    <!--      <span class="flex flex-space-between gap-0.5">-->
     <!--        <img [src]="'assets/group_add.svg'" />-->
     <!--        {{ 'catalog-content.create-object' | transloco }}-->
     <!--      </span>-->
     <!--    </md-button>-->
     <md-button (click)="openCreateComputer()">
-      <span class="flex flex-space-between flex-gap-5">
+      <span class="flex flex-space-between gap-0.5">
         <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px" />
         {{ 'catalog-content.create-computer' | transloco }}
       </span>
@@ -45,7 +45,7 @@
     />
   </div>
 </div>
-<div [ngStyle]="{ display: 'block' }" class="flex-col-expanded">
+<div [ngStyle]="{ display: 'block' }" class="flex flex-col-expanded">
   @switch (currentView) {
     @case (ViewMode.Table) {
       <app-table-view

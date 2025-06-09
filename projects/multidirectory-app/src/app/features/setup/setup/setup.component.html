@@ -27,7 +27,7 @@
         </md-dropdown-menu>
       </div>
     </div>
-    <div class="w-100">
+    <div class="w-full">
       <md-stepper #stepper (finish)="onSetup()" (nextStep)="onNext()">
         <app-domain-settings *mdStep [setupRequest]="setupRequest" />
         @if (setupRequest.setupDns) {
@@ -41,7 +41,7 @@
       </md-stepper>
     </div>
     <ng-container class="app-modal-footer">
-      <div class="flex flex-center flex-gap-20">
+      <div class="flex flex-center gap-2">
         @if (stepper.currentIndex > 0) {
           <md-button [primary]="false" (click)="stepper.previous()"
             >{{ 'setup.back' | transloco }}

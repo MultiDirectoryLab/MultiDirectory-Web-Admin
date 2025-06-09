@@ -4,7 +4,7 @@
   </ng-container>
 
   <md-form #loginForm [autocomplete]="false">
-    <div class="flex-col flex-space-between h-100 flex-gap-20">
+    <div class="flex flex-col flex-space-between h-100 gap-2">
       <div class="flex flex-space-between">
         <label class="form-label">{{ 'login.name' | transloco }}</label>
         <md-textbox [(ngModel)]="login" appRequired name="login"></md-textbox>

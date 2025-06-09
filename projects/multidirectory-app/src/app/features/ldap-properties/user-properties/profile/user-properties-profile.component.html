@@ -9,7 +9,7 @@
             </label>
           </div>
           <md-textbox
-            class="col-xs-8 w-100"
+            class="col-xs-8 w-full"
             name="profile-path"
             [(ngModel)]="accessor.profilePath"
           ></md-textbox>
@@ -20,7 +20,7 @@
               {{ 'user-properties-profile.logon-script' | transloco }}
             </label>
           </div>
-          <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.scriptPath"></md-textbox>
+          <md-textbox class="col-xs-8 w-full" [(ngModel)]="accessor.scriptPath"></md-textbox>
         </div>
         <div class="row align-start">
           <div class="col-xs-4">
@@ -28,7 +28,7 @@
               {{ 'user-properties-profile.login-shell' | transloco }}
             </label>
           </div>
-          <md-textbox class="col-xs-8 w-100" [(ngModel)]="accessor.loginShell"></md-textbox>
+          <md-textbox class="col-xs-8 w-full" [(ngModel)]="accessor.loginShell"></md-textbox>
         </div>
       </md-group>
     </div>
@@ -40,23 +40,23 @@
     style="margin-top: 32px"
     title="{{ 'user-properties-profile.home-catalog' | transloco }}"
   >
-    <div class="row align-center flex-gap-10">
-      <div class="flex flex-align-center col-xs-4 flex-gap-10">
+    <div class="row align-center gap-1">
+      <div class="flex flex-align-center col-xs-4 gap-1">
         <md-radiobutton [group]="radiogroup" [value]="1"> </md-radiobutton>
         <label>{{ 'user-properties-profile.local-path' | transloco }}</label>
       </div>
       <md-textbox
-        class="col-xs-8 w-100"
+        class="col-xs-8 w-full"
         [disabled]="homeDirectorySelection !== 1"
         [(ngModel)]="accessor.homeDirectory"
       ></md-textbox>
     </div>
-    <div class="row align-center w-100">
-      <div class="col-xs-4 flex flex-align-center flex-gap-10">
+    <div class="row align-center w-full">
+      <div class="col-xs-4 flex flex-align-center gap-1">
         <md-radiobutton [group]="radiogroup" [value]="2"> </md-radiobutton>
         <label>{{ 'user-properties-profile.mount' | transloco }}</label>
       </div>
-      <div class="col-xs-8 w-100 flex flex-align-center flex-gap-10">
+      <div class="col-xs-8 w-full flex flex-align-center gap-1">
         <md-dropdown
           [options]="['C:', 'Z:', 'D:']"
           [ngModel]="'C:'"
@@ -65,7 +65,7 @@
         >
         </md-dropdown>
         <label>{{ 'user-properties-profile.to' | transloco }}: </label>
-        <md-textbox class="w-100" [disabled]="homeDirectorySelection !== 2"></md-textbox>
+        <md-textbox class="w-full" [disabled]="homeDirectorySelection !== 2"></md-textbox>
       </div>
     </div>
   </md-radiogroup>

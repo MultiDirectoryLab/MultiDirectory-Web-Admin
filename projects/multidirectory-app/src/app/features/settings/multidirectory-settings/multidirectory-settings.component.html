@@ -1,11 +1,11 @@
-<div *transloco="let t; prefix: 'multidirectory-settings'" class="flex-col flex-gap-10 p-8 w-100">
+<div *transloco="let t; prefix: 'multidirectory-settings'" class="flex flex-col gap-1 p-1 w-full">
   <div class="flex flex-center">
     <div class="title">
       {{ t('header') }}
     </div>
   </div>
   <div class="mf-control-grid">
-    <label class="flex-gap-10" for="api-key">{{ t('language') }}</label>
+    <label class="gap-1" for="api-key">{{ t('language') }}</label>
     <md-dropdown
       [(ngModel)]="selectedLanguage"
       [options]="lanugages"
@@ -13,7 +13,7 @@
     ></md-dropdown>
   </div>
 
-  <div class="flex flex-end p-16">
+  <div class="flex justify-end p-16">
     <md-button (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
   </div>
 </div>
