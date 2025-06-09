@@ -1,33 +1,36 @@
-<div class="flex">
+<!-- Header -->
+<div class="grid">
   <b>{{ 'user-create.summary.header' | transloco }}</b>
 </div>
-<div class="flex w-full align-center pv-8">
-  <div class="grow-1">
-    <label for="full-name">
-      {{ 'user-create.summary.full-name-label' | transloco }}
-    </label>
-  </div>
+
+<!-- Full Name -->
+<div class="grid grid-cols-4 gap-4 items-center py-8">
+  <label for="full-name" class="col-span-1">
+    {{ 'user-create.summary.full-name-label' | transloco }}
+  </label>
   <md-textbox
-    class="grow-2"
-    name="last-name"
+    class="col-span-3 w-full"
+    name="full-name"
     [(ngModel)]="setupRequest.fullName"
     [disabled]="true"
   ></md-textbox>
 </div>
-<div class="flex w-full align-center pv-8">
-  <div class="grow-1">
-    <label for="login-name">
-      {{ 'user-create.summary.logon-name-label' | transloco }}
-    </label>
-  </div>
+
+<!-- Login Name -->
+<div class="grid grid-cols-4 gap-4 items-center py-8">
+  <label for="login-name" class="col-span-1">
+    {{ 'user-create.summary.logon-name-label' | transloco }}
+  </label>
   <md-textbox
-    class="grow-2"
+    class="col-span-3 w-full"
     [(ngModel)]="setupRequest.upnLogin"
     name="login-name"
     [disabled]="true"
   ></md-textbox>
 </div>
-<div class="flex">
+
+<!-- Additional Settings Header -->
+<div class="grid">
   <b>
     {{ 'user-create.summary.additional-settings' | transloco }}
   </b>
