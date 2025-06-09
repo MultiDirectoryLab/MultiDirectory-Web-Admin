@@ -1,5 +1,5 @@
-<div class="row align-start pv-8">
-  <div class="col-xs-7 flex flex-col align-start flex-grow-1 gap-1">
+<div class="flex w-full align-start pv-8">
+  <div class="grow-2 flex flex-col align-start flex-grow-1 gap-1">
     <label for="login">{{ 'user-properties.login-label' | transloco }}</label>
     @if (accessor) {
       <md-textbox
@@ -10,17 +10,17 @@
       ></md-textbox>
     }
   </div>
-  <div class="col-xs-5 flex flex-col align-start flex-grow-1 gap-1">
+  <div class="grow-1 flex flex-col align-start flex-grow-1 gap-1">
     <label>{{ 'user-properties.domain-label' | transloco }}</label>
     <md-dropdown [(ngModel)]="upnDomain" [options]="domains" appRequired name="upnDomain" />
   </div>
 </div>
-<!--div class="row align-start pv-8">
-  <div class="col-xs-7 flex flex-col align-start flex-grow-1 gap-1">
+<!--div class="flex w-full align-start pv-8">
+  <div class="grow-2 flex flex-col align-start flex-grow-1 gap-1">
     <label for="login">{{ "user-properties.legacy-login-label" | transloco }}</label>
     <md-textbox [disabled]="true" name="login"></md-textbox>
   </div>
-  <div class="col-xs-5 flex flex-col align-start flex-grow-1 gap-1">
+  <div class="grow-1 flex flex-col align-start flex-grow-1 gap-1">
     <label>{{ "user-properties.domain-label" | transloco }}</label>
     <md-textbox [disabled]="true" name="domain"></md-textbox>
   </div>
@@ -31,8 +31,8 @@
   </md-button>
   <!--md-button>{{ 'user-properties.login-resources' | transloco }}</md-button-->
 </div>
-<div class="row align-start pv-8">
-  <div class="col-xs-6 flex flex-col align-start flex-grow-1 gap-1">
+<div class="flex w-full align-start pv-8">
+  <div class="grow-1 flex flex-col align-start flex-grow-1 gap-1">
     <md-checkbox>{{ 'user-properties.unlock-account' | transloco }}</md-checkbox>
   </div>
 </div>
@@ -40,7 +40,7 @@
   class="align-start pv-8 mv-16"
   title="{{ 'user-properties.password-settings-title' | transloco }}"
 >
-  <div class="col-xs-12">
+  <div class="grow-3">
     <div class="flex flex-col" style="height: 90px; overflow-y: scroll">
       <!-- user must change password at next logon  -->
       <md-checkbox
@@ -86,8 +86,8 @@
     </div>
   </div>
 </md-group>
-<div class="row align-start pv-8">
-  <md-group class="col-xs-12" title="{{ 'user-properties.password-expire-title' | transloco }}">
+<div class="flex w-full align-start pv-8">
+  <md-group class="grow-3" title="{{ 'user-properties.password-expire-title' | transloco }}">
     <div class="flex flex-col">
       <md-radiogroup #accountExpirationRadiogroup [(ngModel)]="accountExpires"></md-radiogroup>
       <md-radiobutton

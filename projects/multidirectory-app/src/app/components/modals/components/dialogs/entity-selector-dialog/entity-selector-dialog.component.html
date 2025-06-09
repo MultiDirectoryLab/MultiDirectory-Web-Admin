@@ -2,30 +2,30 @@
   <div class="app-modal-header">
     {{ 'group-selector.modal-header' | transloco }}
   </div>
-  <div class="flex flex-col h-100">
+  <div class="flex flex-col h-full">
     <div class="flex">
       {{ 'group-selector.header' | transloco }}
     </div>
-    <div class="row gap-1">
+    <div class="flex w-full gap-1">
       <md-textbox
         [(ngModel)]="entityTypeDisplay"
         [disabled]="true"
-        class="col-xs-9 flex-grow-1"
+        class="grow-2 flex-grow-1"
       ></md-textbox>
-      <md-button (click)="selectEntityType()" [disabled]="!allowSelectEntityTypes" class="col-xs-3">
+      <md-button (click)="selectEntityType()" [disabled]="!allowSelectEntityTypes" class="grow-1">
         {{ 'group-selector.object-types' | transloco }}
       </md-button>
     </div>
     <div class="flex">
       {{ 'group-selector.from-place' | transloco }}
     </div>
-    <div class="row gap-1">
+    <div class="flex w-full gap-1">
       <md-textbox
         [(ngModel)]="selectedCatalogDn"
         [disabled]="true"
-        class="col-xs-9 flex-grow-1"
+        class="grow-2 flex-grow-1"
       ></md-textbox>
-      <md-plane-button (click)="selectCatalog()" [hasBorder]="true" class="col-xs-3">
+      <md-plane-button (click)="selectCatalog()" [hasBorder]="true" class="grow-1">
         {{ 'group-selector.places' | transloco }}
       </md-plane-button>
     </div>
@@ -33,7 +33,7 @@
       {{ 'group-selector.name-prompt' | transloco }}
     </div>
     <div class="flex-grow-1 row gap-1" style="height: 96px">
-      <!--md-textarea class="col-xs-9 flex-grow-1 w-full" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
+      <!--md-textarea class="grow-2 flex-grow-1 w-full" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
       <md-multiselect
         #selector
         (inputChanged)="checkNames()"
@@ -41,10 +41,10 @@
         [notFoundText]="'group-selector.not-found-text' | transloco"
         [options]="availableGroups"
         [suppressMenu]="true"
-        class="col-xs-9 flex-grow-1"
+        class="grow-2 flex-grow-1"
       >
       </md-multiselect>
-      <md-plane-button (click)="checkNames()" [hasBorder]="true" class="col-xs-3 text-nowrap">
+      <md-plane-button (click)="checkNames()" [hasBorder]="true" class="grow-1 text-nowrap">
         {{ 'group-selector.check-name' | transloco }}
       </md-plane-button>
     </div>

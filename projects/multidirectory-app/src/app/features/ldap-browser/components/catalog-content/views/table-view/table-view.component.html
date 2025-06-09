@@ -17,7 +17,7 @@
   [headerHeight]="showControlPanel ? 68 : 36"
 />
 <ng-template #iconTemplate let-row="row" let-value="value">
-  <img class="row-icon" [src]="row.icon" />
+  <img class="flex w-full-icon" [src]="row.icon" />
   {{ row.name }}
 </ng-template>
 
@@ -34,7 +34,7 @@
         </label>
       </md-plane-button>
     </div>
-    <div class="flex overflow-hidden h-100">
+    <div class="flex overflow-hidden h-full">
       <md-shift-checkbox
         class="accountEnabledToggle"
         [ngClass]="{ disabled: !accountEnabledToggleEnabled }"

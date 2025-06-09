@@ -1,4 +1,4 @@
-<div [ngStyle]="{ display: rows().length > 0 ? 'block' : 'none' }" class="h-100">
+<div [ngStyle]="{ display: rows().length > 0 ? 'block' : 'none' }" class="h-full">
   <md-datagrid
     (doubleclick)="goTo($event)"
     [columns]="columns"

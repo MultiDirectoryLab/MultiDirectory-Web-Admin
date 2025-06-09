@@ -1,4 +1,4 @@
-<div class="entity-attributes-container h-100 flex flex-col">
+<div class="entity-attributes-container h-full flex flex-col">
   <div class="flex gap-1 mv-8">
     <label for="search">{{ 'entity-attributes.header' | transloco }}</label>
     <md-textbox
@@ -10,7 +10,7 @@
       >{{ 'entity-attributes.add' | transloco }}
     </md-button>
   </div>
-  <div class="flex w-full h-100" style="min-height: 400px">
+  <div class="flex w-full h-full" style="min-height: 400px">
     <md-datagrid
       (doubleclick)="onEditClick()"
       (pageChanged)="onPageChanged($event)"

@@ -2,7 +2,7 @@
   <div class="app-modal-header">
     {{ 'logon-time-editor.modal-header' | transloco }}{{ username }}
   </div>
-  <div class="flex gap-1 h-100">
+  <div class="flex gap-1 h-full">
     <div #logonMap class="logon-map flex-grow-1">
       <div></div>
       <div class="icon-midnight">
@@ -54,16 +54,16 @@
     </div>
     <div class="logon-switch">
       <md-radiogroup #radioGroup [(ngModel)]="selectionAllowance"></md-radiogroup>
-      <div class="flex flex-center">
-        <div class="flex flex-col flex-center h-100">
+      <div class="flex justify-center">
+        <div class="flex flex-col justify-center h-full">
           <div class="logon-cell-example-allowed"></div>
         </div>
         <md-radiobutton [group]="radioGroup" [value]="1"
           >{{ 'logon-time-editor.login-allowed' | transloco }}
         </md-radiobutton>
       </div>
-      <div class="flex flex-center">
-        <div class="flex flex-col flex-center h-100">
+      <div class="flex justify-center">
+        <div class="flex flex-col justify-center h-full">
           <div class="logon-cell-example-denied"></div>
         </div>
         <md-radiobutton [group]="radioGroup" [value]="0"

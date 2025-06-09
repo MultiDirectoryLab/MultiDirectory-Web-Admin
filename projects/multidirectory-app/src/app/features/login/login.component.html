@@ -4,7 +4,7 @@
   </ng-container>
 
   <md-form #loginForm [autocomplete]="false">
-    <div class="flex flex-col flex-space-between h-100 gap-2">
+    <div class="flex flex-col flex-space-between h-full gap-2">
       <div class="flex flex-space-between">
         <label class="form-label">{{ 'login.name' | transloco }}</label>
         <md-textbox [(ngModel)]="login" appRequired name="login"></md-textbox>
@@ -25,7 +25,7 @@
   </md-form>
 
   <ng-container class="app-modal-footer">
-    <div class="flex flex-center">
+    <div class="flex justify-center">
       <md-button (click)="onLogin($event)" [disabled]="!loginValid" [primary]="true"
         >{{ 'login.login' | transloco }}
       </md-button>

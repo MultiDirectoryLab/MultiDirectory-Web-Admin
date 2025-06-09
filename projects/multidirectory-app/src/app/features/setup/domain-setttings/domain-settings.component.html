@@ -25,14 +25,14 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <div class="flex flex-center justify-center">
+        <div class="flex justify-center">
           <div class="flex flex-col flex-grow-1">
             <md-checkbox [(ngModel)]="setupRequest.setupDns">
               {{ 'setup.domain-settings.setup-dns' | transloco }}
             </md-checkbox>
           </div>
         </div>
-        <div class="flex flex-center justify-center">
+        <div class="flex justify-center">
           <div class="flex flex-col flex-grow-1">
             <md-checkbox [(ngModel)]="setupRequest.setupKdc">
               {{ 'setup.domain-settings.setup-kdc' | transloco }}
@@ -40,7 +40,7 @@
           </div>
         </div>
         @if (setupRequest.setupKdc) {
-          <div class="flex flex-center justify-center">
+          <div class="flex justify-center">
             <div class="flex flex-col flex-grow-1">
               <md-checkbox
                 [(ngModel)]="setupRequest.generateKdcPasswords"

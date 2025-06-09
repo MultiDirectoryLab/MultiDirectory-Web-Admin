@@ -1,27 +1,27 @@
 <div class="flex">
   <b>{{ 'user-create.summary.header' | transloco }}</b>
 </div>
-<div class="row align-center pv-8">
-  <div class="col-xs-3">
+<div class="flex w-full align-center pv-8">
+  <div class="grow-1">
     <label for="full-name">
       {{ 'user-create.summary.full-name-label' | transloco }}
     </label>
   </div>
   <md-textbox
-    class="col-xs-9"
+    class="grow-2"
     name="last-name"
     [(ngModel)]="setupRequest.fullName"
     [disabled]="true"
   ></md-textbox>
 </div>
-<div class="row align-center pv-8">
-  <div class="col-xs-3">
+<div class="flex w-full align-center pv-8">
+  <div class="grow-1">
     <label for="login-name">
       {{ 'user-create.summary.logon-name-label' | transloco }}
     </label>
   </div>
   <md-textbox
-    class="col-xs-9"
+    class="grow-2"
     [(ngModel)]="setupRequest.upnLogin"
     name="login-name"
     [disabled]="true"
