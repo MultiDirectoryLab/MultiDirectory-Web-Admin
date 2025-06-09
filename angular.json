@@ -40,7 +40,6 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
               "node_modules/ngx-spinner/animations/line-spin-fade.css",
               "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
@@ -98,7 +97,7 @@
               "projects/multidirectory-app/src/assets"
             ],
             "styles": [
-              "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
+              "projects/multidirectory-ui-kit/src/lib/styles/colors.scss",
               "projects/multidirectory-ui-kit/src/lib/styles/typings.scss",
               "projects/multidirectory-app/src/tailwind.css",
               "node_modules/@mflab/mui-kit/styles/styles.css",

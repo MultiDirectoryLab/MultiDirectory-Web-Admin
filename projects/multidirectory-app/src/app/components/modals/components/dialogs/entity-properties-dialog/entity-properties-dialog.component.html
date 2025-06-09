@@ -15,14 +15,14 @@
         <app-computer-properties class="block h-100" [accessor]="accessor || {}" />
       }
       @default {
-        <div class="block flex-row h-100">
+        <div class="block flex h-100">
           <app-entity-attributes [accessor]="accessor || {}" class="w-100" />
         </div>
       }
     }
   </div>
 
-  <div class="app-modal-footer flex-row flex-end">
+  <div class="app-modal-footer flex flex-end">
     <md-button (click)="save(true)" class="pr-8">{{
       'properties-modal.close' | transloco
     }}</md-button>

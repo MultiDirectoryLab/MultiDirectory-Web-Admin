@@ -1,8 +1,8 @@
-<div class="control-pane flex-row align-center flex-space-between">
-  <div class="flex-row align-center flex-gap-10">
+<div class="control-pane flex align-center flex-space-between">
+  <div class="flex align-center flex-gap-10">
     <div class="button-wrapper">
       <md-plane-button [mdDropdownContainer]="createMenu" class="search control-button">
-        <div class="flex-row flex-space-between">
+        <div class="flex flex-space-between">
           <img [src]="'assets/add_blue.svg'" class="color-change-blue-white" />
           @if (!createMenu.dropdownVisible) {
             <img class="mw-12 color-change-blue-white" [src]="'assets/arrow_drop_down_blue.svg'" />
@@ -14,35 +14,38 @@
       </md-plane-button>
     </div>
     <md-button (click)="openCreateUser()">
-      <span class="flex-row flex-space-between flex-gap-5">
+      <span class="flex flex-space-between flex-gap-5">
         <img [src]="'assets/person_add.svg'" />
         {{ 'catalog-content.create-user' | transloco }}
       </span>
     </md-button>
     <md-button (click)="openCreateGroup()">
-      <span class="flex-row flex-space-between flex-gap-5">
+      <span class="flex flex-space-between flex-gap-5">
         <img [src]="'assets/group.svg'" style="transform: scale(1.35)" />
         {{ 'catalog-content.create-group' | transloco }}
       </span>
     </md-button>
     <!--    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">-->
-    <!--      <span class="flex-row flex-space-between flex-gap-5">-->
+    <!--      <span class="flex flex-space-between flex-gap-5">-->
     <!--        <img [src]="'assets/group_add.svg'" />-->
     <!--        {{ 'catalog-content.create-object' | transloco }}-->
     <!--      </span>-->
     <!--    </md-button>-->
     <md-button (click)="openCreateComputer()">
-      <span class="flex-row flex-space-between flex-gap-5">
+      <span class="flex flex-space-between flex-gap-5">
         <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px" />
         {{ 'catalog-content.create-computer' | transloco }}
       </span>
     </md-button>
   </div>
   <div>
-    <md-textbox [(ngModel)]="searchQuery" placeholder="{{ 'catalog-content.filter' | transloco }}" />
+    <md-textbox
+      [(ngModel)]="searchQuery"
+      placeholder="{{ 'catalog-content.filter' | transloco }}"
+    />
   </div>
 </div>
-<div [ngStyle]="{ display: 'block' }" class="flex-column-expanded">
+<div [ngStyle]="{ display: 'block' }" class="flex-col-expanded">
   @switch (currentView) {
     @case (ViewMode.Table) {
       <app-table-view

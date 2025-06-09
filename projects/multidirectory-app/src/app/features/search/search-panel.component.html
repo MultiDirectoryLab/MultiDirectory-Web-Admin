@@ -1,4 +1,4 @@
-<div class="flex-column search-form">
+<div class="flex-col search-form">
   <md-form #form>
     <div class="row">
       <label class="textbox-label">{{ 'search-panel.search-label' | transloco }}</label>
@@ -8,7 +8,7 @@
       <div class="col-xs-5 col-xs-5">
         <md-dropdown [options]="searchTypes" [(ngModel)]="searchType"> </md-dropdown>
       </div>
-      <div class="flex-row col-xs-4 col-xs-4">
+      <div class="flex col-xs-4 col-xs-4">
         <label class="pr-8">{{ 'search-panel.in-label' | transloco }}</label>
         <md-dropdown [options]="searchSources" [(ngModel)]="selectedSearchSource"> </md-dropdown>
       </div>

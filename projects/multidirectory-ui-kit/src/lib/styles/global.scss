@@ -1,4 +1,5 @@
 @use './layout.scss';
+@use './colors.scss';
 
 @mixin use-typography($fontfame, $weight, $size, $lineheight) {
   font-family: $fontfame;
@@ -9,28 +10,6 @@
 
 @mixin use-inter-typography($weight, $size, $lineheight) {
   @include use-typography('Inter', $weight, $size, $lineheight);
-}
-
-:root {
-  --md-white: #fff;
-  --md-neutral-100: #f1f1f1;
-  --md-neutral-150: #d6e5f2;
-  --md-neutral-200: #dcdcdc;
-  --md-neutral-300: #c9c9c9;
-  --md-neutral-400: #a5a5a5;
-  --md-neutral-600: #787878;
-  --md-neutral-800: #4f4f4f;
-  --md-neutral-1000: #1c1c1c;
-  --md-white-blue-2: #d6e5f2;
-  --md-white-blue: #75a2c9;
-  --md-blue: #3879b4;
-  --md-dark-blue: #215684;
-  --md-dark-blue-2: #385a78;
-  --md-dark-blue-3: #4d6881;
-  --md-dark-blue-4: #476f92;
-  --md-dark-blue-5: #324960;
-  --md-red: #f26969;
-  --md-black: #202124;
 }
 
 // Base styles for form elements
@@ -73,76 +52,6 @@ textarea {
 
   &:hover:not(:disabled) {
     background-color: var(--md-dark-blue-4);
-  }
-}
-
-.dark-theme {
-  --md-white: #202124;
-  --md-neutral-100: #171819;
-  --md-neutral-150: #221819;
-  --md-neutral-200: #232323;
-  --md-neutral-300: #2c2d2e;
-  --md-neutral-600: #696a6b;
-  --md-neutral-800: #87888a;
-  --md-neutral-1000: #adaeb0;
-  --md-white-blue-2: #463f45;
-  --md-white-blue: #7d6554;
-  --md-blue: #3879b4;
-  --md-dark-blue: #215684;
-  --md-dark-blue-2: #385a78;
-  --md-dark-blue-3: #4d6881;
-  --md-dark-blue-4: #476f92;
-  --md-dark-blue-5: #324960;
-  --md-red: #177576;
-  --md-black: #d6d7d8;
-
-  input,
-  select,
-  textarea {
-    color: var(--md-black);
-    background-color: var(--md-neutral-100);
-    border: 1px solid #30363d;
-  }
-  label,
-  span,
-  p,
-  div,
-  button {
-    color: var(--md-black);
-  }
-
-  input,
-  select,
-  textarea {
-    background-color: var(--md-neutral-100);
-    border-color: var(--md-neutral-300);
-    color: var(--md-black);
-    border: 1px solid;
-    &:focus {
-      border-color: var(--md-blue);
-      box-shadow: 0 0 0 2px rgba(56, 121, 180, 0.3);
-    }
-
-    &:disabled {
-      background-color: var(--md-neutral-200);
-      color: var(--md-neutral-400);
-    }
-  }
-
-  button {
-    background-color: var(--md-blue);
-    border-color: var(--md-dark-blue-2);
-    color: white;
-
-    &:hover:not(:disabled) {
-      background-color: var(--md-dark-blue-2);
-    }
-
-    &:disabled {
-      background-color: var(--md-neutral-200);
-      border-color: var(--md-neutral-300);
-      color: var(--md-neutral-400);
-    }
   }
 }
 

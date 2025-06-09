@@ -1,9 +1,9 @@
-<div class="flex-row w-full justify-end pb-2 pr-2">
+<div class="flex w-full justify-end pb-2 pr-2">
   <mui-button color="secondary" variant="rounded" size="sm" (clicked)="onAddDnsZone()">
     {{ 'dns-settings.add-zone' | transloco }}
   </mui-button>
 </div>
-<div class="flex-column gap-y-2 p-2">
+<div class="flex-col gap-y-2 p-2">
   @for (zone of zones; track zone; let i = $index) {
     <app-dns-zone-list-item
       (addZoneClick)="addZoneClick(zone)"

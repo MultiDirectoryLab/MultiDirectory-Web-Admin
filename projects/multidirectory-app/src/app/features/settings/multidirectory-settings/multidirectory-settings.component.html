@@ -1,8 +1,5 @@
-<div
-  *transloco="let t; prefix: 'multidirectory-settings'"
-  class="flex-column flex-gap-10 p-8 w-100"
->
-  <div class="flex-row flex-center">
+<div *transloco="let t; prefix: 'multidirectory-settings'" class="flex-col flex-gap-10 p-8 w-100">
+  <div class="flex flex-center">
     <div class="title">
       {{ t('header') }}
     </div>
@@ -16,7 +13,7 @@
     ></md-dropdown>
   </div>
 
-  <div class="flex-row flex-end p-16">
+  <div class="flex flex-end p-16">
     <md-button (click)="apply()" [primary]="true">{{ t('apply') }}</md-button>
   </div>
 </div>

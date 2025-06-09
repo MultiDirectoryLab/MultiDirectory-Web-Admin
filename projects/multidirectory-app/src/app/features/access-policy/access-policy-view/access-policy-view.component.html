@@ -56,7 +56,7 @@
       }
     </div>
 
-    <div class="flex-column nowrap flex-gap-20 w-100">
+    <div class="flex-col nowrap flex-gap-20 w-100">
       <md-group class="pt-16" title="{{ 'access-policy-create.protocols' | transloco }}">
         <div class="protocol-switch-column">
           <md-shift-checkbox [(ngModel)]="accessClient.isLdap"> LDAP</md-shift-checkbox>
@@ -68,7 +68,7 @@
       @if (mfaAccess === MfaAccessEnum.Everyone || mfaAccess === MfaAccessEnum.SelectedGroups) {
         <md-group title="Bypass" class="pt-16">
           @if (!bypassAllowed) {
-            <div class="flex-row flex-gap-10">
+            <div class="flex flex-gap-10">
               <img
                 class="tooltip-icon"
                 src="assets/info-circle.svg"
@@ -96,7 +96,7 @@
     </div>
   </md-form>
   @if (showConrolButton()) {
-    <div class="flex-row justify-start flex-gap-10">
+    <div class="flex justify-start flex-gap-10">
       <md-button [disabled]="!form.valid" [primary]="true" (click)="save()"
         >{{ 'access-policy-create.approve' | transloco }}
       </md-button>

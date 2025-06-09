@@ -19,7 +19,7 @@
       </mui-button>
     </div>
     @if (expanded()) {
-      <div class="cell-content flex-column">
+      <div class="cell-content flex-col">
         @for (type of zone.records; track $index) {
           @for (record of type.records; track $index) {
             <app-dns-rule-list-item
