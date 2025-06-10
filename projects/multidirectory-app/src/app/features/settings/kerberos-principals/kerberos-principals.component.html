@@ -1,6 +1,6 @@
 @if (kerberosStatus === KerberosStatusEnum.READY) {
   <div class="flex flex-col">
-    <div class="p-2 flex flex-space-between gap-1">
+    <div class="p-2 flex justify-between gap-1">
       <div class="flex justify-end gap-1">
         <md-button (click)="exportKeytab()">{{ 'kerberos-settings.export' | transloco }}</md-button>
         <md-button (click)="addPrincipal()">{{ 'kerberos-settings.add' | transloco }}</md-button>

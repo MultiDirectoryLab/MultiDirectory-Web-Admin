@@ -1,5 +1,5 @@
 <div class="admin-settings">
-  <div class="flex flex-space-between">
+  <div class="flex justify-between">
     <div class="pv-8 accented mb-16 w-full">
       {{ 'setup.admin-settings-second.header' | transloco }}
       <hr />
@@ -7,7 +7,7 @@
   </div>
   <md-form #form>
     <div class="flex flex-col gap-2">
-      <div class="flex flex-space-between justify-center">
+      <div class="flex justify-between justify-center">
         <label class="textbox-label">UPN</label>
         <div class="flex flex-col flex-grow-1">
           <md-textbox
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="flex flex-space-between justify-center">
+      <div class="flex justify-between justify-center">
         <label class="textbox-label">
           {{ 'setup.admin-settings-second.display-name-label' | transloco }}
         </label>
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="flex flex-space-between justify-center">
+      <div class="flex justify-between justify-center">
         <label class="textbox-label">Email</label>
         <div class="flex flex-col flex-grow-1">
           <md-textbox appRequired [(ngModel)]="setupRequest.mail"></md-textbox>
