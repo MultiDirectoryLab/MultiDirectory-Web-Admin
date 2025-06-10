@@ -3,12 +3,13 @@ import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DnsRule } from '@models/dns/dns-rule';
+import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { DnsServiceResponse } from '@models/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/dns/dns-status-response';
 import { DnsAddZoneRequest } from '@models/dns/zones/dns-add-zone-response';
 import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +52,20 @@ export class DnsApiService {
   }
 
   zone(request: string): Observable<DnsZoneListResponse[]> {
-    return this.dnsHttpClient.get<DnsZoneListResponse[]>(`dns/zone`).execute();
+    return this.dnsHttpClient
+      .get<DnsZoneListResponse[]>(`dns/zone`)
+      .execute()
+      .pipe(
+        tap((x) => {
+          for (let zone of x) {
+            for (let record_type of zone.records) {
+              for (let record of record_type.records) {
+                record.record_type = record_type.record_type as DnsRuleType;
+              }
+            }
+          }
+        }),
+      );
   }
 
   addZone(request: DnsAddZoneRequest): Observable<string> {

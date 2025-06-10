@@ -110,24 +110,6 @@ export class DnsSettingsComponent implements OnInit {
       });
   }
 
-  public onAdd() {
-    this.dialogService
-      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
-        component: DnsRuleDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: { rule: new DnsRule({}) },
-        },
-      })
-      .closed.pipe(
-        take(1),
-        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
-      )
-      .subscribe(() => {
-        this.toastr.success(translate('dns-settings.success'));
-      });
-  }
-
   public handleSetupClick() {
     this.windows
       .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))

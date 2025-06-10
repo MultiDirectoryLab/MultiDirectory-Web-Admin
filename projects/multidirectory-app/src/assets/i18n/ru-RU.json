@@ -667,6 +667,12 @@
     "dns-zone-header": "Зоны DNS",
     "dns-forwarding-header": "DNS Forwarding"
   },
+  "dns-zone-details": {
+    "modal-header": "Настройки зоны",
+    "add": "Добавить запись",
+    "description": "Настройка зоны DNS",
+    "search": "Найти"
+  },
   "dns-zone-list-item": {
     "add": "Добавить"
   },

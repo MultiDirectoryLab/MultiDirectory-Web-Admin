@@ -39,7 +39,6 @@ export default class DnsZonesComponent implements OnInit {
   ngOnInit(): void {
     const name = '';
     this.dns.zone(name).subscribe((x) => {
-      console.log(x);
       this.zones = x;
     });
   }

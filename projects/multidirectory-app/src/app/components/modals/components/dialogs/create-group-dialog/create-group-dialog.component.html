@@ -1,87 +1,104 @@
 <app-dialog #dialogComponent>
+  <!-- Header -->
   <div class="app-modal-header">
     <div transloco="group-create.header"></div>
   </div>
+
+  <!-- Content -->
   <div>
-    <div class="flex align-center gap-1">
-      <div class="avatar"><img class="avatar-img" src="/assets/empty_avatar.svg" /></div>
+    <!-- Avatar row -->
+    <div class="grid grid-cols-[auto_1fr] gap-4 items-center mb-4">
+      <div class="avatar">
+        <img class="avatar-img" src="/assets/empty_avatar.svg" />
+      </div>
       <div class="place">
         <span transloco="group-create.addto"></span>: {{ dialogData.parentDn }}
       </div>
     </div>
-    <hr />
-    <md-form #groupForm>
-      <div class="flex w-full align-center pv-8">
-        <div class="grow-1">
-          <label for="repeatPassword" transloco="group-create.group-name"></label>
-        </div>
-        <md-textbox
-          [(ngModel)]="setupRequest.groupName"
-          appRequired
-          class="grow-1"
-          name="groupName"
-        ></md-textbox>
-      </div>
-      <div class="flex w-full align-center pv-8">
-        <div class="grow-1">
-          <label for="repeatPassword" transloco="group-create.description"></label>
-        </div>
-        <md-textarea
-          [(ngModel)]="setupRequest.description"
-          [expandWidth]="true"
-          class="w-full grow-1"
-          name="description"
-        ></md-textarea>
-      </div>
-      <div class="flex w-full align-center pv-8" style="display: none">
-        <div class="grow-1">
-          <label for="repeatPassword" transloco="group-create.group-name-legacy"></label>
-        </div>
-        <md-textbox
-          [(ngModel)]="setupRequest.groupNameLegacy"
-          class="grow-1"
-          name="repeatPassword"
-        ></md-textbox>
-      </div>
 
-      <div class="flex w-full align-center pv-8" style="display: none">
-        <md-radiogroup
-          #groupScope
-          [(ngModel)]="setupRequest.groupScope"
-          [drawBorder]="true"
-          [title]="'group-create.group-scope-label' | transloco"
-          class="grow-1"
-        >
-          <md-radiobutton [group]="groupScope" [value]="1" name="groupScope">
-            <span transloco="group-create.group-scope-local"></span>
-          </md-radiobutton>
-          <md-radiobutton [group]="groupScope" [value]="2" name="groupScope">
-            <span transloco="group-create.group-scope-global"></span>
-          </md-radiobutton>
-          <md-radiobutton [group]="groupScope" [value]="3" name="groupScope">
-            <span transloco="group-create.group-scope-universal"></span>
-          </md-radiobutton>
-        </md-radiogroup>
-        <md-radiogroup
-          #groupType
-          [(ngModel)]="setupRequest.groupType"
-          [drawBorder]="true"
-          [title]="'group-create.group-type-label' | transloco"
-          class="grow-1 h-full"
-          style="display: none"
-        >
-          <md-radiobutton [group]="groupType" [value]="1" name="groupType">
-            <span transloco="group-create.group-type-security"></span>
-          </md-radiobutton>
-          <md-radiobutton [group]="groupType" [value]="2" name="groupType">
-            <span transloco="group-create.group-type-distribution"></span>
-          </md-radiobutton>
-        </md-radiogroup>
+    <hr class="my-4" />
+
+    <!-- Form -->
+    <md-form #groupForm class="grid gap-y-8">
+      <!-- Group Name -->
+      <div class="flex flex-col gap-1">
+        <div class="grid grid-cols-4 gap-4 items-center">
+          <label for="groupName" transloco="group-create.group-name" class="col-span-1"></label>
+          <md-textbox
+            [(ngModel)]="setupRequest.groupName"
+            appRequired
+            name="groupName"
+            class="col-span-3 w-full"
+          ></md-textbox>
+        </div>
+
+        <!-- Description -->
+        <div class="grid grid-cols-4 gap-4 items-center">
+          <label for="description" transloco="group-create.description" class="col-span-1"></label>
+          <md-textarea
+            [(ngModel)]="setupRequest.description"
+            [expandWidth]="true"
+            name="description"
+            class="col-span-3 w-full"
+          ></md-textarea>
+        </div>
+
+        <!-- Legacy Name (hidden) -->
+        <div class="grid grid-cols-4 gap-4 items-center hidden">
+          <label
+            for="groupNameLegacy"
+            transloco="group-create.group-name-legacy"
+            class="col-span-1"
+          ></label>
+          <md-textbox
+            [(ngModel)]="setupRequest.groupNameLegacy"
+            name="groupNameLegacy"
+            class="col-span-3 w-full"
+          ></md-textbox>
+        </div>
+
+        <!-- Radio Groups (hidden) -->
+        <div class="grid grid-cols-2 gap-4 hidden">
+          <md-radiogroup
+            #groupScope
+            [(ngModel)]="setupRequest.groupScope"
+            [drawBorder]="true"
+            [title]="'group-create.group-scope-label' | transloco"
+            class="w-full"
+          >
+            <md-radiobutton [group]="groupScope" [value]="1" name="groupScope">
+              <span transloco="group-create.group-scope-local"></span>
+            </md-radiobutton>
+            <md-radiobutton [group]="groupScope" [value]="2" name="groupScope">
+              <span transloco="group-create.group-scope-global"></span>
+            </md-radiobutton>
+            <md-radiobutton [group]="groupScope" [value]="3" name="groupScope">
+              <span transloco="group-create.group-scope-universal"></span>
+            </md-radiobutton>
+          </md-radiogroup>
+
+          <md-radiogroup
+            #groupType
+            [(ngModel)]="setupRequest.groupType"
+            [drawBorder]="true"
+            [title]="'group-create.group-type-label' | transloco"
+            class="w-full"
+          >
+            <md-radiobutton [group]="groupType" [value]="1" name="groupType">
+              <span transloco="group-create.group-type-security"></span>
+            </md-radiobutton>
+            <md-radiobutton [group]="groupType" [value]="2" name="groupType">
+              <span transloco="group-create.group-type-distribution"></span>
+            </md-radiobutton>
+          </md-radiogroup>
+        </div>
       </div>
     </md-form>
   </div>
+
+  <!-- Footer -->
   <div class="app-modal-footer">
-    <div class="flex align-center justify-end gap-1">
+    <div class="grid grid-flow-col auto-cols-max justify-end gap-4">
       <md-button (click)="onClose()">
         <span transloco="group-create.cancel"></span>
       </md-button>
