@@ -71,4 +71,8 @@ export class DnsApiService {
   addZone(request: DnsAddZoneRequest): Observable<string> {
     return this.dnsHttpClient.post<string>('dns/zone', request).execute();
   }
+
+  deleteZone(zoneNames: string[]) {
+    return this.dnsHttpClient.delete<string>('dns/zone', { zone_names: zoneNames }).execute();
+  }
 }

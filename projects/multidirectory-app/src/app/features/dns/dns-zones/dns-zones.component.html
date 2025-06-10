@@ -7,10 +7,7 @@
   @for (zone of zones; track zone; let i = $index) {
     <app-dns-zone-list-item
       (addZoneClick)="addZoneClick(zone)"
-      (editRuleClick)="onEditRuleClick($event)"
-      (deleteRuleClick)="onDeleteRuleClick($event)"
-      (turnOffRuleClick)="onTurnOffRuleClick($event)"
-      (deleteZoneClick)="onDeleteZoneClick()"
+      (deleteZoneClick)="onDeleteZoneClick(zone)"
       [zone]="zone"
       [index]="i + 1"
     >

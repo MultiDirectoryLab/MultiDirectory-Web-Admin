@@ -81,13 +81,7 @@ export default class DnsZonesComponent implements OnInit {
       });
   }
 
-  onDeleteRuleClick(rule: DnsRule) {}
-
-  onTurnOffRuleClick(rule: DnsRule) {
-    console.log(rule);
-  }
-
-  onDeleteZoneClick() {
+  onDeleteZoneClick(zone: DnsZoneListResponse) {
     const prompt: ConfirmDialogDescriptor = {
       promptHeader: translate('remove-confirmation-dialog.prompt-header'),
       promptText: translate('remove-confirmation-dialog.prompt-text'),
@@ -106,6 +100,9 @@ export default class DnsZonesComponent implements OnInit {
       .closed.pipe(take(1))
       .subscribe((result) => {
         if (result === 'yes') {
+          this.dns.deleteZone([zone.zone_name]).subscribe((result) => {
+            this.zones = this.zones.filter((x) => x !== zone);
+          });
           return;
         }
         return EMPTY;
