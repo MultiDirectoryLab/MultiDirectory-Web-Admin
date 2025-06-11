@@ -5,6 +5,9 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { DialogComponent } from '../../core/dialog/dialog.component';
+import { DialogService } from '../../../services/dialog.service';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { IplistDialogData } from '../../../interfaces/ip-list-dialog.interface';
 
 export class IpAddressStatus {
   title = '';
@@ -68,26 +71,26 @@ export class IpAddressStatus {
   imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent, DialogComponent],
 })
 export class IpListDialogComponent implements OnInit {
+  private dialogData: IplistDialogData = inject(DIALOG_DATA);
+  private dialog = inject(DialogService);
+  private dialogRef = inject(DialogRef);
+
   private cdr = inject(ChangeDetectorRef);
   private toastr = inject(ToastrService);
-  private modalControl = inject<ModalInjectDirective>(ModalInjectDirective);
   private readonly _ipInput = viewChild.required<ElementRef<HTMLInputElement>>('ipInput');
-  _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('123')];
+  _ipAddresses: IpAddressStatus[] = [new IpAddressStatus('')];
 
   ngOnInit(): void {
-    if (this.modalControl.contentOptions) {
-      this._ipAddresses = this.modalControl.contentOptions.ipAddresses.map((x: IpOption) =>
-        new IpAddressStatus(x).validate(),
-      );
-    }
+    this._ipAddresses = this.dialogData.addresses.map((x) => new IpAddressStatus(x));
   }
 
   finish() {
-    this.modalControl.close(this._ipAddresses.filter((x) => x.valid).map((x) => x.address));
+    const addresses = this._ipAddresses.filter((x) => x.valid).map((x) => x.address);
+    this.dialog.close(this.dialogRef, { addresses: addresses });
   }
 
   close() {
-    this.modalControl.close(null);
+    this.dialog.close(this.dialogRef, null);
   }
 
   addEntry(input: string) {
