@@ -18,7 +18,6 @@ import moment from 'moment';
 import {
   ButtonComponent,
   CheckboxComponent,
-  DatepickerComponent,
   DropdownComponent,
   DropdownOption,
   GroupComponent,
@@ -51,7 +50,6 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
     GroupComponent,
     RadioGroupComponent,
     RadiobuttonComponent,
-    DatepickerComponent,
   ],
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
@@ -59,7 +57,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   private nodeLoader = inject(LdapEntryLoader);
   private dialogService: DialogService = inject(DialogService);
   public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
-  readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
+  //readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
   @Input() accessor!: LdapAttributes;
   UserAccountControlFlag = UserAccountControlFlag;
   domains: DropdownOption[] = [];
@@ -115,7 +113,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this._accountExpires = value;
     if (!value) {
       this.accessor['accountExpires'] = ['0'];
-      this.datePicker().clearDate();
+      //this.datePicker().clearDate();
     } else {
       this.accessor['accountExpires'] = this.accessor['$accountExpires'];
     }

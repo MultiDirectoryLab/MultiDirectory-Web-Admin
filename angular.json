@@ -193,10 +193,7 @@
     }
   },
   "cli": {
-    "analytics": false,
-    "cache": {
-      "enabled": false
-    }
+    "analytics": false
   },
   "schematics": {
     "@schematics/angular:component": {
