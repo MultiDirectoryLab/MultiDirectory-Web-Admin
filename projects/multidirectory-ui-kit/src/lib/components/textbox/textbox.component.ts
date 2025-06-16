@@ -12,7 +12,6 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { BaseComponent } from '../base-component/base.component';
 import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'md-textbox',

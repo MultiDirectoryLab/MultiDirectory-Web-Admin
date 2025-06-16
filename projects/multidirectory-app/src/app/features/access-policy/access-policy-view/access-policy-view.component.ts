@@ -18,7 +18,7 @@ import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { AccessPolicyIpListComponent } from '@features/access-policy/access-policy-ip-list/access-policy-ip-list.component';
+import { IpListDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/access-policy-ip-list/ip-list-dialog.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
@@ -29,7 +29,6 @@ import {
   DropdownOption,
   GroupComponent,
   MdFormComponent,
-  ModalInjectDirective,
   MultiselectComponent,
   ShiftCheckboxComponent,
   TextboxComponent,
@@ -37,6 +36,8 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { MultiselectModel } from './multiselect-model';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import { IplistDialogData } from '../../../components/modals/interfaces/ip-list-dialog.interface';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -52,24 +53,22 @@ import { MultiselectModel } from './multiselect-model';
     DropdownComponent,
     GroupComponent,
     ShiftCheckboxComponent,
-    AccessPolicyIpListComponent,
-    ModalInjectDirective,
     RequiredWithMessageDirective,
     IpAddressValidatorDirective,
     TranslocoPipe,
   ],
 })
 export class AccessPolicyViewComponent implements OnInit, OnDestroy {
+  private dialog = inject(DialogService);
   private api = inject(MultidirectoryApiService);
   private navigation = inject(AppNavigationService);
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
   private _unsubscribe = new Subject<void>();
-  readonly ipListEditor = viewChild.required<ModalInjectDirective>('ipListEditor');
   readonly form = viewChild.required<MdFormComponent>('form');
   readonly groupSelector = viewChild.required<MultiselectComponent>('groupSelector');
-  readonly mfaGroupSelector = viewChild.required<MultiselectComponent>('mfaGroupSelector');
+  readonly mfaGroupSelector = viewChild<MultiselectComponent>('mfaGroupSelector');
   readonly showConrolButton = input(true);
   readonly accessClientChange = output<AccessPolicy>();
   readonly accessPolicyId = input<number>();
@@ -170,19 +169,26 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   changeIpAdressAttribute() {
-    const closeRx = this.ipListEditor()!.open(
-      { zIndex: 99 },
-      { ipAddresses: this.accessClient.ipRange },
-    );
-    closeRx.pipe(take(1)).subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      this.ipAddresses = result
-        .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
-        .join(', ');
-      this.accessClient.ipRange = this.accessClient.ipRange = result;
-    });
+    this.dialog
+      .open<IplistDialogData, IplistDialogData, IpListDialogComponent>({
+        component: IpListDialogComponent,
+        dialogConfig: {
+          data: {
+            addresses: this.accessClient.ipRange,
+          },
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
+        console.log(result);
+        if (!result) {
+          return;
+        }
+        this.ipAddresses = result.addresses
+          .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
+          .join(', ');
+        this.accessClient.ipRange = result.addresses;
+      });
   }
 
   onIpChanged() {
@@ -213,7 +219,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         this.availableMfaGroups = result;
-        this.mfaGroupSelector().showMenu();
+        this.mfaGroupSelector()?.showMenu();
       });
   }
 

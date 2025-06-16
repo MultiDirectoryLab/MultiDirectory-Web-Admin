@@ -662,7 +662,29 @@
     "add": "Добавить запись",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
     "setup-dns": "Выполнить настройку",
-    "dns-unavailable": "Сервис DNS недоступен"
+    "add-zone": "Добавить зону",
+    "dns-unavailable": "Сервис DNS недоступен",
+    "dns-zone-header": "Зоны DNS",
+    "dns-forwarding-header": "DNS Forwarding"
+  },
+  "dns-zone-details": {
+    "modal-header": "Настройки зоны",
+    "add": "Добавить запись",
+    "description": "Настройка зоны DNS",
+    "search": "Найти"
+  },
+  "dns-zone-list-item": {
+    "add": "Добавить"
+  },
+  "add-zone-dialog": {
+    "modal-header": "Добавить новую зону",
+    "header": "Мастер добавления зон DNS",
+    "domain-input": "Домен",
+    "allowed-ip-input": "Разрешенные IP адреса",
+    "ttl-input": "TTL",
+    "add": "Добавить",
+    "apply": "Применить",
+    "cancel": "Отменить"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",

@@ -10,32 +10,32 @@ export class ApiAdapter<Settings extends AdapterSettings> {
     private toastr: ToastrService,
   ) {}
 
-  getBaseUrl(resource: string): URL {
-    return new URL(this._settings.baseUrl + '/' + resource);
+  getBaseUrl(resource: string): string {
+    return 'api/' + resource;
   }
   post<T>(resource: string, body: any = null): PostRequest<T> {
     const url = this.getBaseUrl(resource);
-    return new PostRequest<T>(url.href, body, this.httpClient, this.toastr);
+    return new PostRequest<T>(url, body, this.httpClient, this.toastr);
   }
 
   patch<T>(resource: string, body: any = null): PatchRequest<T> {
     const url = this.getBaseUrl(resource);
-    return new PatchRequest<T>(url.href, body, this.httpClient, this.toastr);
+    return new PatchRequest<T>(url, body, this.httpClient, this.toastr);
   }
 
   delete<T>(resource: string, body: any = null): DeleteRequest<T> {
     const url = this.getBaseUrl(resource);
-    return new DeleteRequest<T>(url.href, body, this.httpClient, this.toastr);
+    return new DeleteRequest<T>(url, body, this.httpClient, this.toastr);
   }
 
   get<T>(resource: string): GetRequest<T> {
     const url = this.getBaseUrl(resource);
-    return new GetRequest<T>(url.href, this.httpClient, this.toastr);
+    return new GetRequest<T>(url, this.httpClient, this.toastr);
   }
 
   put<T>(resource: string, body: any = null): PutRequest<T> {
     const url = this.getBaseUrl(resource);
-    return new PutRequest<T>(url.href, body, this.httpClient, this.toastr);
+    return new PutRequest<T>(url, body, this.httpClient, this.toastr);
   }
 
   postFile(resource: string, body: any = null): Observable<any> {

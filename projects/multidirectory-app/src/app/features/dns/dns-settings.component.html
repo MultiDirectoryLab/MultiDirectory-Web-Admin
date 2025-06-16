@@ -1,41 +1,26 @@
 @if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
-  <div class="p-16 dns-container">
-    <div class="flex-row flex-space-between flex-align-center">
-      <h2 class="bold">{{ 'dns-settings.zone' | transloco }} {{ dnsStatus.zone_name }}</h2>
-      <div class="flex-row flex-gap-10">
-        <md-button (click)="onAdd()">{{ 'dns-settings.add' | transloco }}</md-button>
-      </div>
+  <mui-tabs>
+    <div *muiTab="'dns-settings.dns-zone-header' | transloco">
+      <app-dns-zones></app-dns-zones>
     </div>
-    <div class="flex flex-column flex-grow-1 dns-records-container">
-      <div class="flex flex-column flex-grow-1 flex-gap-10 dns-records">
-        @for (rule of rules; track rule; let i = $index) {
-          <app-dns-rule-list-item
-            [dnsRule]="rule"
-            [index]="i + 1"
-            (deleteClick)="onDelete(i)"
-            (editClick)="onEdit(i)"
-          >
-          </app-dns-rule-list-item>
-        }
-      </div>
-    </div>
-  </div>
+    <div *muiTab="'dns-settings.dns-forwarding-header' | transloco"></div>
+  </mui-tabs>
 }
 
 @if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
   <div>
-    <div class="p-16">
+    <div class="p-2">
       <md-alert>
-        <div class="flex-row flex-gap-20">
-          <div class="flex-row justify-center flex-align-center">
+        <div class="flex gap-2">
+          <div class="flex justify-center flex-align-center">
             <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
           </div>
-          <div class="flex-column">
+          <div class="flex flex-col">
             <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
             <div class="pv-8">
-              <md-button [primary]="true" (click)="handleSetupClick()">{{
+              <mui-button (clicked)="handleSetupClick()">{{
                 'dns-settings.setup-dns' | transloco
-              }}</md-button>
+              }}</mui-button>
             </div>
           </div>
         </div>

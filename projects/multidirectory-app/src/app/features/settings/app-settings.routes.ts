@@ -36,6 +36,13 @@ export const appSettingsRoutes: Routes = [
       import('@features/dns/dns-settings.component').then((c) => c.DnsSettingsComponent),
   },
   {
+    path: 'dns/:zone',
+    loadComponent: () =>
+      import('@features/dns/dns-zone-details/dns-zone-details.component').then(
+        (c) => c.DnsZoneDetailsComponent,
+      ),
+  },
+  {
     path: 'sessions',
     loadComponent: () =>
       import('@features/settings/sessions/sessions.component').then((c) => c.SessionsComponent),

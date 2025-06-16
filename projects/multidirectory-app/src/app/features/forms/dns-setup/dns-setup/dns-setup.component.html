@@ -1,9 +1,9 @@
-<div class="flex-row align-center flex-gap-10">
+<div class="flex align-center gap-1">
   <!--div class="avatar"><img src="/assets/empty_avatar.svg" class="avatar-img" /></div-->
   <div class="place">{{ 'dns-setup.header' | transloco }}</div>
 </div>
 <hr />
-<div class="flex-column align-start justify-end flex-gap-10">
+<div class="flex flex-col align-start justify-end gap-1">
   <md-form #form>
     <div class="dns-setup-grid">
       <label for="zone_name">{{ 'dns-setup.zone_name' | transloco }}</label>
@@ -25,7 +25,7 @@
         ></md-textbox>
         <label for="tsig_key">{{ 'dns-setup.tsig_key' | transloco }}</label>
         <md-textarea
-          class="w-100 tsig-key"
+          class="w-full tsig-key"
           [(ngModel)]="dnsSetupRequest.tsig_key"
           name="tsig_key"
         ></md-textarea>

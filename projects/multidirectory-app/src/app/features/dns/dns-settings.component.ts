@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { DnsRuleListItemComponent } from '@features/dns/dns-rule-list-item/dns-rule-list-item.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { MuiButtonComponent, MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
@@ -12,21 +13,16 @@ import { DnsStatuses } from '@models/dns/dns-statuses';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
-import { AlertComponent, ButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, take } from 'rxjs';
-import { DialogService } from '../../components/modals/services/dialog.service';
+import { AlertComponent } from '../../../../../multidirectory-ui-kit/src/lib/components/alert/alert.component';
 import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
 } from '../../components/modals/interfaces/confirm-dialog.interface';
-import { DnsRuleDialogComponent } from '../../components/modals/components/dialogs/dns-rule-dialog/dns-rule-dialog.component';
-import {
-  DnsRuleDialogData,
-  DnsRuleDialogReturnData,
-} from '../../components/modals/interfaces/dns-rule-dialog.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DialogService } from '../../components/modals/services/dialog.service';
+import DnsZonesComponent from './dns-zones/dns-zones.component';
 
 @Component({
   selector: 'app-dns-settings',
@@ -34,10 +30,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrls: ['./dns-settings.component.scss'],
   imports: [
     TranslocoPipe,
-    ButtonComponent,
-    DnsRuleListItemComponent,
+    MuiTabsComponent,
+    MuiButtonComponent,
+    FontAwesomeModule,
+    MuiTabDirective,
+    DnsZonesComponent,
     AlertComponent,
-    FaIconComponent,
   ],
 })
 export class DnsSettingsComponent implements OnInit {
@@ -67,9 +65,6 @@ export class DnsSettingsComponent implements OnInit {
       .subscribe((status) => {
         this.windows.hideSpinner();
         this.dnsStatus = status;
-        if (this.dnsStatus.dns_status !== DnsStatuses.NOT_CONFIGURED) {
-          this.reloadData();
-        }
       });
   }
 
@@ -101,51 +96,6 @@ export class DnsSettingsComponent implements OnInit {
       )
       .subscribe(() => {
         this.rules = this.rules.filter((_, ind) => ind !== toDeleteIndex);
-      });
-  }
-
-  public onAdd() {
-    this.dialogService
-      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
-        component: DnsRuleDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: { rule: new DnsRule({}) },
-        },
-      })
-      .closed.pipe(
-        take(1),
-        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
-      )
-      .subscribe(() => {
-        this.toastr.success(translate('dns-settings.success'));
-        this.reloadData();
-      });
-  }
-
-  public onEdit(index: number) {
-    const rule = this.enusreHostname(this.rules[index]);
-    const oldHostname = this.rules[index].record_name;
-
-    this.dialogService
-      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
-        component: DnsRuleDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: { rule, isEdit: true },
-        },
-      })
-      .closed.pipe(
-        take(1),
-        switchMap((x) => {
-          if (!x) return EMPTY;
-          this.rules[index] = rule;
-          return this.dns.update(rule);
-        }),
-      )
-      .subscribe(() => {
-        this.rules[index].record_name = oldHostname;
-        this.toastr.success(translate('dns-settings.success'));
       });
   }
 
