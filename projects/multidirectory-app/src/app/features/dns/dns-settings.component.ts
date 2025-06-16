@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { DnsRuleListItemComponent } from '@features/dns/dns-rule-list-item/dns-rule-list-item.component';
-import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { MuiButtonComponent, MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
 import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
@@ -14,26 +15,14 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, take } from 'rxjs';
-import { DialogService } from '../../components/modals/services/dialog.service';
+import { AlertComponent } from '../../../../../multidirectory-ui-kit/src/lib/components/alert/alert.component';
 import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
 } from '../../components/modals/interfaces/confirm-dialog.interface';
-import {
-  DnsRuleDialogData,
-  DnsRuleDialogReturnData,
-} from '../../components/modals/interfaces/dns-rule-dialog.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  MuiTabsComponent,
-  MuiTabDirective,
-  MuiSelectComponent,
-  MuiButtonComponent,
-} from '@mflab/mui-kit';
+import { DialogService } from '../../components/modals/services/dialog.service';
 import DnsZonesComponent from './dns-zones/dns-zones.component';
-import { DnsRuleDialogComponent } from './dns-rule-dialog/dns-rule-dialog.component';
-import { AlertComponent } from '../../../../../multidirectory-ui-kit/src/lib/components/alert/alert.component';
 
 @Component({
   selector: 'app-dns-settings',
