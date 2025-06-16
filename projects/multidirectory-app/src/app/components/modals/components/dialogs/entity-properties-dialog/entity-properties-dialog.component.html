@@ -6,23 +6,23 @@
   <div class="app-modal-body">
     @switch (entityType) {
       @case (EntityTypes.User) {
-        <app-user-properties class="block h-100" [accessor]="accessor || {}"></app-user-properties>
+        <app-user-properties class="block h-full" [accessor]="accessor || {}"></app-user-properties>
       }
       @case (EntityTypes.Group) {
-        <app-group-properties class="block h-100" [accessor]="accessor || {}" />
+        <app-group-properties class="block h-full" [accessor]="accessor || {}" />
       }
       @case (EntityTypes.Computer) {
-        <app-computer-properties class="block h-100" [accessor]="accessor || {}" />
+        <app-computer-properties class="block h-full" [accessor]="accessor || {}" />
       }
       @default {
-        <div class="block flex-row h-100">
-          <app-entity-attributes [accessor]="accessor || {}" class="w-100" />
+        <div class="block flex h-full">
+          <app-entity-attributes [accessor]="accessor || {}" class="w-full" />
         </div>
       }
     }
   </div>
 
-  <div class="app-modal-footer flex-row flex-end">
+  <div class="app-modal-footer flex justify-end">
     <md-button (click)="save(true)" class="pr-8">{{
       'properties-modal.close' | transloco
     }}</md-button>

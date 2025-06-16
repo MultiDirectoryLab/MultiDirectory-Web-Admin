@@ -34,8 +34,6 @@ import { GroupComponent } from './components/group/group.component';
 import { MultiselectBadgeComponent } from './components/multiselect/multiselect-badge/multiselect-badge.component';
 import { MultiselectComponent } from './components/multiselect/multiselect.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
-import { DatepickerComponent } from './components/datepicker/datepicker.component';
-import { DpDatePickerModule } from 'ng2-date-picker';
 import { AlertComponent } from './components/alert/alert.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { PopupBaseComponent } from './components/popup/base/popup-base.component';
@@ -52,7 +50,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     NgxDatatableModule,
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
-    DpDatePickerModule,
     FontAwesomeModule,
     ButtonComponent,
     TextboxComponent,
@@ -83,7 +80,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MultiselectBadgeComponent,
     MultiselectComponent,
     TooltipComponent,
-    DatepickerComponent,
     AlertComponent,
     AutofocusDirective,
     PopupBaseComponent,
@@ -121,7 +117,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     GroupComponent,
     MultiselectComponent,
     TooltipComponent,
-    DatepickerComponent,
     AlertComponent,
     AutofocusDirective,
     PopupContainerDirective,

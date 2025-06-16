@@ -3,7 +3,6 @@ import { TabPaneComponent } from './tab-pane.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { TabComponent } from './tab/tab.component';
-import { PlaneButtonComponent } from '../plane-button/plane-button.component';
 
 const meta: Meta<TabPaneComponent> = {
   title: 'Components/TabPane',
@@ -11,8 +10,7 @@ const meta: Meta<TabPaneComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [NgxSpinnerModule, CommonModule],
-      declarations: [TabPaneComponent, TabComponent, PlaneButtonComponent],
+      imports: [NgxSpinnerModule, CommonModule, TabComponent, TabPaneComponent],
     }),
   ],
 };
@@ -26,8 +24,8 @@ const template: Story = {
     template: `
           <md-tab-pane>
               <div class="tab-header">
-                  <md-tab [elRef]="first">tab1</md-tab>
-                  <md-tab [elRef]="second">tab2</md-tab>
+                  <md-tab [el]="first">tab1</md-tab>
+                  <md-tab [el]="second">tab2</md-tab>
               </div>
               <div #first>
                   first

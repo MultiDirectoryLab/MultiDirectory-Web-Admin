@@ -1,11 +1,11 @@
-<div *transloco="let t; prefix: 'search-users'" class="row">
-  <div class="col-xs-1 col-xs-1">
+<div *transloco="let t; prefix: 'search-users'" class="flex w-full">
+  <div class="grow-1 grow-1">
     <label>{{ t('name') }}</label>
   </div>
-  <div class="col-xs-8 col-xs-8">
+  <div class="grow-2 grow-2">
     <md-textbox [(ngModel)]="searchQuery" class="search-input"></md-textbox>
   </div>
-  <div class="col-xs-3 col-xs-3">
+  <div class="grow-1 grow-1">
     <md-button (click)="clearSearch()">{{ t('reset') }}</md-button>
   </div>
 </div>

@@ -1,9 +1,17 @@
 import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
 import { translate } from '@jsverse/transloco';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/dns/dns-rule';
 import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { PlaneButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
+import { take, EMPTY } from 'rxjs';
+import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogReturnData,
+  ConfirmDialogData,
+} from '../../../components/modals/interfaces/confirm-dialog.interface';
+import { DialogService } from '../../../components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-dns-rule-list-item',
@@ -14,6 +22,8 @@ import { ToastrService } from 'ngx-toastr';
 export class DnsRuleListItemComponent {
   private toastr = inject(ToastrService);
   private cdr = inject(ChangeDetectorRef);
+  private dialogService = inject(DialogService);
+
   readonly index = input(0);
   readonly deleteClick = output<DnsRule>();
   readonly turnOffClick = output<DnsRule>();
@@ -34,7 +44,30 @@ export class DnsRuleListItemComponent {
       this.toastr.error(translate('dns-rule.client-does-not-exist'));
       return;
     }
-    this.deleteClick.emit(this.dnsRule);
+    const prompt: ConfirmDialogDescriptor = {
+      promptHeader: translate('remove-confirmation-dialog.prompt-header'),
+      promptText: translate('remove-confirmation-dialog.prompt-text'),
+      primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
+      secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
+    };
+
+    this.dialogService
+      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+        component: ConfirmDialogComponent,
+        dialogConfig: {
+          minHeight: '160px',
+          data: prompt,
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
+        if (result === 'yes') {
+          this.deleteClick.emit(this.dnsRule!);
+
+          return;
+        }
+        return EMPTY;
+      });
   }
 
   onTurnOffClick() {

@@ -1,4 +1,4 @@
-<div class="w-100 h-100 relative scrollable-y">
+<div class="w-full h-100 relative scrollable-y">
   <ngx-datatable
     [columnMode]="ColumnMode.force"
     [footerHeight]="hideFooter ? 0 : 36"
@@ -48,7 +48,7 @@
         let-offset="offset"
       >
         @if (!scrollbarV) {
-          <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+          <div class="flex-row justify-end align-center w-full flex-gap-10 p-4">
             <label class="pr-10">{{ pagerTitle }} </label>
             <md-dropdown
               class="page-size-select"

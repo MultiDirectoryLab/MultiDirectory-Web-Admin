@@ -1,12 +1,12 @@
 <label>
   {{ 'members.members' | transloco }}
 </label>
-<div class="flex-row w-100" style="min-height: 420px">
+<div class="flex w-full" style="min-height: 420px">
   <md-datagrid
     pagerTitle="{{ 'grid.pager-title' | transloco }}"
     fromTitle="{{ 'grid.from-title' | transloco }}"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
-    class="w-100"
+    class="w-full"
     [columns]="columns"
     [rows]="members"
     [stretchHeight]="true"
@@ -14,7 +14,7 @@
   >
   </md-datagrid>
 </div>
-<div class="flex-row button-row">
+<div class="flex button-row">
   <md-button (click)="addMember()">{{ 'member-of.add' | transloco }}</md-button>
   <md-button (click)="deleteMember()">{{ 'member-of.delete' | transloco }}</md-button>
 </div>

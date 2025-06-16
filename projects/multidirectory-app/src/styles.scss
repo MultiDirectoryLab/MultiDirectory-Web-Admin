@@ -1,6 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@use '../../../node_modules/multidirectory-ui-kit/styles/global.scss';
-@use '../../../node_modules/multidirectory-ui-kit/styles/typings.scss';
 @use '@angular/cdk/overlay-prebuilt.css';
 @use 'ngx-toastr/toastr';
 
@@ -12,14 +10,6 @@
   position: fixed;
   inset: 0;
   background-image: url('/assets/bckgrnd.png');
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-start {
-  justify-content: start;
 }
 
 .text-align-end {
@@ -121,7 +111,7 @@
   display: block;
 }
 
-.flex-column-expanded {
+.flex flex-column-expanded {
   display: flex;
   flex-flow: column nowrap;
   height: 100%;

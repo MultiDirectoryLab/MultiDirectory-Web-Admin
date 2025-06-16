@@ -1,58 +1,58 @@
 @if (accessor) {
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="streetAddress">
         {{ 'user-address.street' | transloco }}
       </label>
     </div>
     <md-textarea
-      class="col-xs-8"
+      class="grow-2"
       name="streetAddress"
       [(ngModel)]="accessor.streetAddress"
     ></md-textarea>
   </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="postalAddress">
         {{ 'user-address.postal-address' | transloco }}
       </label>
     </div>
     <md-textbox
-      class="col-xs-8"
+      class="grow-2"
       name="postalAddress"
       [(ngModel)]="accessor.postalAddress"
     ></md-textbox>
   </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="location">
         {{ 'user-address.city' | transloco }}
       </label>
     </div>
-    <md-textbox class="col-xs-8" name="location" [(ngModel)]="accessor.location"></md-textbox>
+    <md-textbox class="grow-2" name="location" [(ngModel)]="accessor.location"></md-textbox>
   </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="state">
         {{ 'user-address.area' | transloco }}
       </label>
     </div>
-    <md-textbox class="col-xs-8" name="state" [(ngModel)]="accessor.state"></md-textbox>
+    <md-textbox class="grow-2" name="state" [(ngModel)]="accessor.state"></md-textbox>
   </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="full-name">
         {{ 'user-address.postal-code' | transloco }}
       </label>
     </div>
-    <md-textbox class="col-xs-8" name="full-name" [(ngModel)]="accessor.postalCode"></md-textbox>
+    <md-textbox class="grow-2" name="full-name" [(ngModel)]="accessor.postalCode"></md-textbox>
   </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-4">
+  <div class="flex w-full align-start pv-8">
+    <div class="grow-1">
       <label for="full-name">
         {{ 'user-address.country' | transloco }}
       </label>
     </div>
-    <md-dropdown class="col-xs-8 w-100" [options]="countries" [(ngModel)]="country"></md-dropdown>
+    <md-dropdown class="grow-2 w-full" [options]="countries" [(ngModel)]="country"></md-dropdown>
   </div>
 }

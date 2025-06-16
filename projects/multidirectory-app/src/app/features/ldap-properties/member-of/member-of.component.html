@@ -1,34 +1,34 @@
-<div class="row">
+<div class="flex w-full">
   {{ 'member-of.groups' | transloco }}
 </div>
-<div class="flex-row w-100" style="min-height: 250px">
+<div class="flex w-full" style="min-height: 250px">
   <md-datagrid
     #groupList
     (doubleclick)="openGroupProperties()"
     [columns]="columns"
     [rows]="groups"
     [stretchHeight]="true"
-    class="w-100"
+    class="w-full"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
     fromTitle="{{ 'grid.from-title' | transloco }}"
     pagerTitle="{{ 'grid.pager-title' | transloco }}"
   >
   </md-datagrid>
 </div>
-<div class="flex-row button-row">
+<div class="flex button-row">
   <md-button (click)="addGroup()">{{ 'member-of.add' | transloco }}</md-button>
   <md-button (click)="deleteGroup()">{{ 'member-of.delete' | transloco }}</md-button>
 </div>
 <hr />
-<div class="flex-row flex-gap-10">
-  <div class="col-xs-4">{{ 'member-of.primary-group' | transloco }}</div>
-  <div class="col-xs-4">Administrators</div>
+<div class="flex gap-1">
+  <div class="grow-1">{{ 'member-of.primary-group' | transloco }}</div>
+  <div class="grow-1">Administrators</div>
 </div>
-<div class="flex-row primary-group-block">
-  <div class="col-xs-4">
+<div class="flex primary-group-block">
+  <div class="grow-1">
     <md-button [disabled]="true">{{ 'member-of.make-primary' | transloco }}</md-button>
   </div>
-  <div class="col-xs-4">
+  <div class="grow-1">
     {{ 'member-of.primary-note' | transloco }}
   </div>
 </div>

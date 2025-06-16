@@ -8,11 +8,7 @@ const meta: Meta<TreeviewComponent> = {
   title: 'Components/Treeview',
   component: TreeviewComponent,
   tags: ['autodocs'],
-  decorators: [
-    moduleMetadata({
-      declarations: [TreeviewComponent, TreeItemComponent],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
 };
 export default meta;
 export const Primary: StoryObj<TreeviewComponent> = {

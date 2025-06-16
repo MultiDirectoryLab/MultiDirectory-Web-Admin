@@ -8,7 +8,6 @@ const meta: Meta<TextareaComponent> = {
   decorators: [
     moduleMetadata({
       imports: [NgxSpinnerModule],
-      declarations: [TextareaComponent],
     }),
   ],
 };

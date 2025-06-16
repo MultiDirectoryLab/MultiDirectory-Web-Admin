@@ -1,7 +1,6 @@
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from '../button/button.component';
 import { SlideshiftTestComponent } from './slideshifttest.component';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -15,7 +14,6 @@ const meta: Meta<SlideshiftTestComponent> = {
     }),
     moduleMetadata({
       imports: [CommonModule, FormsModule],
-      declarations: [ButtonComponent, SlideshiftTestComponent],
     }),
   ],
 };

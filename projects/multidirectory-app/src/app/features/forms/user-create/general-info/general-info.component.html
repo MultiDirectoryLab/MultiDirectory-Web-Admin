@@ -1,88 +1,104 @@
-<md-form #form class="h-100">
-  <div class="row align-start pv-8">
-    <div class="col-xs-3">
-      <label for="first-name">{{ 'user-create.general-info.first-name-label' | transloco }}</label>
-    </div>
-    <div class="col-xs-5 flex-row align-start flex-grow-1 flex-gap-10">
+<md-form #form>
+  <div class="flex flex-col gap-4 p-2 pt-4">
+    <!-- First name & Initials -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <label for="first-name" class="col-span-1">
+        {{ 'user-create.general-info.first-name-label' | transloco }}
+      </label>
       <md-textbox
         appRequired
-        class="w-100"
+        class="col-span-1 w-full"
         name="first-name"
         (change)="onNameChange()"
         [(ngModel)]="setupRequest.firstName"
-      >
-      </md-textbox>
-    </div>
-    <div class="col-xs-2">
-      <label for="initials">{{ 'user-create.general-info.initials-label' | transloco }}</label>
-    </div>
-    <div class="col-xs-2">
-      <md-textbox name="initials" (change)="onNameChange()" [(ngModel)]="setupRequest.initials">
-      </md-textbox>
-    </div>
-  </div>
+      ></md-textbox>
 
-  <div class="row align-start pv-8">
-    <div class="col-xs-3">
-      <label for="last-name">{{ 'user-create.general-info.last-name-label' | transloco }}</label>
+      <label for="initials" class="col-span-1">
+        {{ 'user-create.general-info.initials-label' | transloco }}
+      </label>
+      <md-textbox
+        class="col-span-1 w-full"
+        name="initials"
+        (change)="onNameChange()"
+        [(ngModel)]="setupRequest.initials"
+      ></md-textbox>
     </div>
-    <md-textbox
-      class="col-xs-9"
-      name="last-name"
-      (change)="onNameChange()"
-      [(ngModel)]="setupRequest.lastName"
-    >
-    </md-textbox>
-  </div>
 
-  <div class="row align-start pv-8">
-    <div class="col-xs-3">
-      <label for="full-name">
+    <!-- Last Name -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <label for="last-name" class="col-span-1">
+        {{ 'user-create.general-info.last-name-label' | transloco }}
+      </label>
+      <md-textbox
+        class="col-span-3 w-full"
+        name="last-name"
+        (change)="onNameChange()"
+        [(ngModel)]="setupRequest.lastName"
+      ></md-textbox>
+    </div>
+
+    <!-- Full Name -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <label for="full-name" class="col-span-1">
         {{ 'user-create.general-info.full-name-label' | transloco }}
       </label>
+      <md-textbox
+        class="col-span-3 w-full"
+        name="full-name"
+        [(ngModel)]="setupRequest.fullName"
+      ></md-textbox>
     </div>
-    <md-textbox class="col-xs-9" name="full-name" [(ngModel)]="setupRequest.fullName"></md-textbox>
-  </div>
-  <div class="row align-start pv-8">
-    <div class="col-xs-3">
-      <label for="full-name">
+
+    <!-- Description -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <label for="description" class="col-span-1">
         {{ 'user-create.general-info.description' | transloco }}
       </label>
+      <md-textarea
+        class="col-span-3 w-full"
+        name="description"
+        [(ngModel)]="setupRequest.description"
+        [expandWidth]="true"
+      ></md-textarea>
     </div>
-    <md-textarea
-      class="col-xs-9"
-      name="description"
-      [(ngModel)]="setupRequest.description"
-      [expandWidth]="true"
-    ></md-textarea>
-  </div>
 
-  <div class="row align-start pv-8">
-    <div class="col-xs-3">
-      <label for="full-name">
+    <!-- Email -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <label for="email" class="col-span-1">
         {{ 'user-create.general-info.email' | transloco }}
       </label>
+      <md-textbox
+        class="col-span-3 w-full"
+        name="email"
+        [(ngModel)]="setupRequest.email"
+      ></md-textbox>
     </div>
-    <md-textbox class="col-xs-9" name="email" [(ngModel)]="setupRequest.email"></md-textbox>
-  </div>
 
-  <div class="row align-start pv-8">
-    <div class="col-xs-6 flex-column align-start flex-grow-1 flex-gap-10">
-      <label for="login">
-        {{ 'user-create.general-info.logon-name-label' | transloco }}
-      </label>
-      <md-textbox appRequired [(ngModel)]="setupRequest.upnLogin" name="login"></md-textbox>
-    </div>
-    <div class="col-xs-6 flex-column align-start flex-grow-1 flex-gap-10">
-      <label>
-        {{ 'user-create.general-info.domain-label' | transloco }}
-      </label>
-      <md-dropdown
-        appRequired
-        [options]="domains"
-        [(ngModel)]="setupRequest.upnDomain"
-        name="upnDomain"
-      ></md-dropdown>
+    <!-- Login & Domain -->
+    <div class="grid grid-cols-4 gap-4 items-start">
+      <div class="col-span-2 flex flex-col gap-1">
+        <label for="login">
+          {{ 'user-create.general-info.logon-name-label' | transloco }}
+        </label>
+        <md-textbox
+          appRequired
+          [(ngModel)]="setupRequest.upnLogin"
+          name="login"
+          class="w-full"
+        ></md-textbox>
+      </div>
+      <div class="col-span-2 flex flex-col gap-1">
+        <label>
+          {{ 'user-create.general-info.domain-label' | transloco }}
+        </label>
+        <md-dropdown
+          appRequired
+          [options]="domains"
+          [(ngModel)]="setupRequest.upnDomain"
+          name="upnDomain"
+          class="w-full"
+        ></md-dropdown>
+      </div>
     </div>
   </div>
 </md-form>

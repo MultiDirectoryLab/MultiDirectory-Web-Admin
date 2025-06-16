@@ -9,7 +9,6 @@ const meta: Meta<TooltipComponent> = {
   decorators: [
     moduleMetadata({
       imports: [CommonModule],
-      declarations: [TooltipComponent],
     }),
   ],
 };

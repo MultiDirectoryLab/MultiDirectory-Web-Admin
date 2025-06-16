@@ -7,7 +7,7 @@ const meta: Meta<RadioGroupComponent> = {
   component: RadioGroupComponent,
   decorators: [
     moduleMetadata({
-      declarations: [RadiobuttonComponent],
+      imports: [RadioGroupComponent, RadiobuttonComponent],
     }),
   ],
   tags: ['autodocs'],

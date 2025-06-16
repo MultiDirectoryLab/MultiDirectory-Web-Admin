@@ -7,7 +7,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DialogComponent } from '../../core/dialog/dialog.component';
 import { Ip6AddressValidatorDirective } from '@core/validators/ip6-address.directive';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
@@ -22,24 +21,25 @@ import {
   DnsTypeToDataType,
 } from '@models/dns/dns-rule-type';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { DialogService } from '../../../components/modals/services/dialog.service';
 import {
   DnsRuleDialogData,
   DnsRuleDialogReturnData,
-} from '../../../interfaces/dns-rule-dialog.interface';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { DialogService } from '../../../services/dialog.service';
+} from '../../../components/modals/interfaces/dns-rule-dialog.interface';
+import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
 
 @Component({
   selector: 'app-dns-rule-dialog',
   standalone: true,
   imports: [
-    DialogComponent,
     Ip6AddressValidatorDirective,
     IpAddressValidatorDirective,
     MultidirectoryUiKitModule,
     RequiredWithMessageDirective,
     TranslocoPipe,
     FormsModule,
+    DialogComponent,
   ],
   templateUrl: './dns-rule-dialog.component.html',
   styleUrl: './dns-rule-dialog.component.scss',
@@ -89,7 +89,7 @@ export class DnsRuleDialogComponent implements OnInit {
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
     });
-    this.dnsRule = this.dialogData.rule;
+    this.dnsRule = this.dialogData.rule ?? {};
     this.recordType = this.dnsRule.record_type;
   }
 

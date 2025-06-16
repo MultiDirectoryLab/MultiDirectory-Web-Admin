@@ -1,0 +1,30 @@
+<app-dialog>
+  <div class="app-modal-header">
+    {{ 'dns-zone-details.modal-header' | transloco }} {{ zone().zone_name }}
+  </div>
+
+  <div class="flex justify-between">
+    <label>{{ 'dns-zone-details.description' | transloco }}</label>
+    <mui-button (clicked)="onAdd()">{{ 'dns-zone-details.add' | transloco }}</mui-button>
+  </div>
+  <div class="flex w-full">
+    <mui-input
+      class="w-full"
+      [(ngModel)]="search"
+      placeholder="{{ 'dns-zone-details.search' | transloco }}"
+    ></mui-input>
+  </div>
+  <div class="cell-content flex flex-col gap-2 p-2">
+    @for (type of zone().records; track $index; let indexA = $index) {
+      @for (record of type.records; track $index; let indexB = $index) {
+        <app-dns-rule-list-item
+          [index]="$count * indexA + indexB"
+          [dnsRule]="record"
+          (deleteClick)="onDeleteRuleClick(record)"
+          (editClick)="onEditRuleClick(record)"
+          (turnOffClick)="onTurnOffRuleClick(record)"
+        ></app-dns-rule-list-item>
+      }
+    }
+  </div>
+</app-dialog>
