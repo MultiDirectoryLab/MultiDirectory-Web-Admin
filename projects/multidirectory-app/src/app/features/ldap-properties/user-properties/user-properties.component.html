@@ -1,4 +1,4 @@
-<md-tab-pane #tabs (tabChanged)="onTabChanged()" class="flex-column h-100">
+<md-tab-pane #tabs (tabChanged)="onTabChanged()" class="flex flex-col h-full">
   @defer {
     <div class="tab-header">
       <md-tab [el]="generals.el" [isSelected]="true">
@@ -21,7 +21,7 @@
       </md-tab>
     </div>
     <app-user-properties-general #generals="mdTab" [accessor]="accessor()" mdTab />
-    <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-100" mdTab />
+    <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-full" mdTab />
     <app-user-properties-address #address="mdTab" [accessor]="accessor()" mdTab />
     <app-user-properties-profile #profile="mdTab" [accessor]="accessor()" mdTab />
     <app-user-properties-account #account="mdTab" [accessor]="accessor()" mdTab />

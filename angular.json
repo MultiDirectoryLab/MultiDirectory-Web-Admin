@@ -10,7 +10,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular/build:ng-packagr",
           "options": {
             "project": "projects/multidirectory-ui-kit/ng-package.json"
           },
@@ -25,7 +25,7 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/multidirectory-ui-kit/src/test.ts",
             "tsConfig": "projects/multidirectory-ui-kit/tsconfig.spec.json",
@@ -40,7 +40,6 @@
             "compodoc": false,
             "port": 6006,
             "styles": [
-              "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
               "node_modules/ngx-spinner/animations/line-spin-fade.css",
               "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
@@ -84,7 +83,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": {
               "base": "dist/multidirectory-app"
@@ -98,7 +97,7 @@
               "projects/multidirectory-app/src/assets"
             ],
             "styles": [
-              "projects/multidirectory-ui-kit/src/lib/styles/global.scss",
+              "projects/multidirectory-ui-kit/src/lib/styles/colors.scss",
               "projects/multidirectory-ui-kit/src/lib/styles/typings.scss",
               "projects/multidirectory-app/src/tailwind.css",
               "node_modules/@mflab/mui-kit/styles/styles.css",
@@ -144,7 +143,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "multidirectory-app:build:production"
@@ -159,13 +158,13 @@
           }
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "multidirectory-app:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "projects/multidirectory-app/src/test.ts",
             "polyfills": "projects/multidirectory-app/src/polyfills.ts",
@@ -194,9 +193,32 @@
     }
   },
   "cli": {
-    "analytics": false,
-    "cache": {
-      "enabled": false
+    "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   }
 }

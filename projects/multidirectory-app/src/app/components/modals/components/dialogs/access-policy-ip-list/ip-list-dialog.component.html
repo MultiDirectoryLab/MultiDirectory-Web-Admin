@@ -1,7 +1,7 @@
 <app-dialog>
   <div class="app-modal-header">{{ 'access-policy-ip-list.modal-header' | transloco }}</div>
-  <div class="grid-layout w-100 h-100">
-    <div class="cell-input flex-row flex-space-between align-start">
+  <div class="grid-layout w-full h-full">
+    <div class="cell-input flex justify-between align-start">
       <label>{{ 'access-policy-ip-list.header' | transloco }} </label>
       <md-tooltip [width]="200" [iconPath]="'assets/info-circle.svg'" [left]="0">
         {{ 'access-policy-ip-list.example' | transloco }}<br />
@@ -11,8 +11,8 @@
       </md-tooltip>
     </div>
     <div class="cell-entries">
-      <!--md-textarea class="input-textarea" class="w-100 h-100" [(ngModel)]="input"></md-textarea-->
-      <div class="w-100 h-100" contentEditable="false">
+      <!--md-textarea class="input-textarea" class="w-full h-full" [(ngModel)]="input"></md-textarea-->
+      <div class="w-full h-full" contentEditable="false">
         @for (entry of _ipAddresses; track entry; let i = $index) {
           <div
             class="ip-list-entry"
@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  <div class="app-modal-footer flex-row flex-gap-10 flex-end">
+  <div class="app-modal-footer flex gap-1 justify-end">
     <md-button (click)="close()">{{ 'access-policy-ip-list.cancel' | transloco }}</md-button>
     <md-button [primary]="true" (click)="finish()">{{
       'access-policy-ip-list.approve' | transloco

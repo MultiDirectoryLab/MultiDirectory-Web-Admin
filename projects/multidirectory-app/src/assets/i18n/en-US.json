@@ -670,6 +670,12 @@
     "setup-dns": "Run setup",
     "dns-unavailable": "DNS Service is unavailable"
   },
+  "dns-zone-details": {
+    "modal-header": "Settings of zone ",
+    "add": "Add entry",
+    "description": "DNS Zone Settings",
+    "search": "Search"
+  },
   "dns-zone-list-item": {
     "add": "Add"
   },

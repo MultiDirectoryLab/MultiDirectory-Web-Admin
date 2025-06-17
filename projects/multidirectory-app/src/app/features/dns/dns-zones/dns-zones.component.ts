@@ -15,6 +15,12 @@ import {
 } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { EMPTY, switchMap, take } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogReturnData,
+  ConfirmDialogData,
+} from '../../../components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 
 @Component({
   selector: 'app-dns-zones',
@@ -33,7 +39,6 @@ export default class DnsZonesComponent implements OnInit {
   ngOnInit(): void {
     const name = '';
     this.dns.zone(name).subscribe((x) => {
-      console.log(x);
       this.zones = x;
     });
   }
@@ -76,15 +81,32 @@ export default class DnsZonesComponent implements OnInit {
       });
   }
 
-  onDeleteRuleClick(rule: DnsRule) {}
+  onDeleteZoneClick(zone: DnsZoneListResponse) {
+    const prompt: ConfirmDialogDescriptor = {
+      promptHeader: translate('remove-confirmation-dialog.prompt-header'),
+      promptText: translate('remove-confirmation-dialog.prompt-text'),
+      primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
+      secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
+    };
 
-  onTurnOffRuleClick(rule: DnsRule) {
-    console.log(rule);
-  }
-
-  onDeleteZoneClick() {
-    alert('test');
-    console.log('det');
+    this.dialogService
+      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+        component: ConfirmDialogComponent,
+        dialogConfig: {
+          minHeight: '160px',
+          data: prompt,
+        },
+      })
+      .closed.pipe(take(1))
+      .subscribe((result) => {
+        if (result === 'yes') {
+          this.dns.deleteZone([zone.zone_name]).subscribe((result) => {
+            this.zones = this.zones.filter((x) => x !== zone);
+          });
+          return;
+        }
+        return EMPTY;
+      });
   }
 
   onAddDnsZone() {
@@ -95,12 +117,17 @@ export default class DnsZonesComponent implements OnInit {
           data: {},
         },
       })
-      .closed.pipe()
-      .subscribe((result: any) => {
+      .closed.pipe(
+        switchMap((result) => {
+          return this.dns.zone('');
+        }),
+      )
+      .subscribe((result: DnsZoneListResponse[]) => {
         if (!result) {
           return;
         }
         console.log(result);
+        this.zones = result;
       });
   }
 }

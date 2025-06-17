@@ -1,0 +1,111 @@
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
+import { DnsApiService } from '@services/dns-api.service';
+import { combineLatest, EMPTY, filter, lastValueFrom, map, switchMap, take, tap } from 'rxjs';
+import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
+import { translate, TranslocoModule } from '@jsverse/transloco';
+import { DnsRule } from '@models/dns/dns-rule';
+import { ToastrService } from 'ngx-toastr';
+import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
+import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { DnsZoneDetailsDialogData } from './dns-zone-details-dialog-data';
+import { MuiButtonComponent, MuiInputComponent } from '@mflab/mui-kit';
+import { DialogService } from '../../../components/modals/services/dialog.service';
+import {
+  DnsRuleDialogReturnData,
+  DnsRuleDialogData,
+} from '../../../components/modals/interfaces/dns-rule-dialog.interface';
+import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
+import { TextboxComponent } from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-dns-zone-details',
+  templateUrl: './dns-zone-details.component.html',
+  styleUrls: ['./dns-zone-details.component.scss'],
+  imports: [
+    DnsRuleListItemComponent,
+    DialogComponent,
+    MuiButtonComponent,
+    FormsModule,
+    TranslocoModule,
+    MuiInputComponent,
+  ],
+})
+export class DnsZoneDetailsComponent implements AfterViewInit {
+  private readonly dialogData: DnsZoneDetailsDialogData = inject(DIALOG_DATA);
+  private readonly dialog = inject(DialogService);
+  private readonly dns = inject(DnsApiService);
+  private readonly toastr = inject(ToastrService);
+
+  readonly deleteRuleClick = output<DnsRule>();
+  readonly turnOffRuleClick = output<DnsRule>();
+  readonly editRuleClick = output<DnsRule>();
+  readonly search = signal('');
+  readonly zoneName = signal('');
+  readonly zone = toSignal(
+    combineLatest([toObservable(this.zoneName), toObservable(this.search)]).pipe(
+      switchMap((request) => this.dns.zone(request[0])),
+      map((zones) => zones.filter((x) => x.zone_name == this.zoneName())?.[0] ?? {}),
+      tap((zones) =>
+        zones.records.filter((x) => {
+          x.records = x.records.filter((y) => y.record_name.includes(this.search()));
+          return x;
+        }),
+      ),
+    ),
+    { initialValue: new DnsZoneListResponse({}) },
+  );
+
+  ngAfterViewInit(): void {
+    console.log(this.dialogData.zoneName);
+    this.zoneName.set(this.dialogData.zoneName);
+  }
+
+  onTurnOffRuleClick(record: DnsRule) {
+    if (!this.zone) {
+      this.toastr.error(translate('dns-rule.client-does-not-exist'));
+      return;
+    }
+    this.turnOffRuleClick.emit(record);
+  }
+
+  onEditRuleClick(record: DnsRule) {
+    this.editRuleClick.emit(record);
+  }
+
+  onDeleteRuleClick(record: DnsRule) {
+    this.dns.delete(record).subscribe((response) => {
+      this.zoneName.set(this.dialogData.zoneName);
+    });
+  }
+
+  onAdd() {
+    this.dialog
+      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+        component: DnsRuleDialogComponent,
+        dialogConfig: {
+          minHeight: '512px',
+          data: { rule: new DnsRule({}) },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
+      )
+      .subscribe(() => {
+        this.toastr.success(translate('dns-settings.success'));
+      });
+  }
+}

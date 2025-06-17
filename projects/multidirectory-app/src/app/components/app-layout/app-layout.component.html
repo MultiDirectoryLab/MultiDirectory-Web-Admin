@@ -1,4 +1,4 @@
-<div class="bg-white-neutral app-layout flex-row">
+<div class="bg-white-neutral app-layout flex">
   <div
     [ngClass]="{
       'left-pane-visible': showLeftPane,
@@ -7,7 +7,7 @@
   >
     <app-sidebar />
   </div>
-  <div class="right-pane w-100 h-100">
+  <div class="right-pane w-full h-full grow-1">
     <app-header />
     <div class="right-pane-content">
       <router-outlet></router-outlet>

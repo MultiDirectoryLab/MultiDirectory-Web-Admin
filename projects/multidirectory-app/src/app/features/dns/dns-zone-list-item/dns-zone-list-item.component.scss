@@ -1,7 +1,7 @@
 .client-grid {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 32px 32px 1fr 1fr 1fr 64px 32px;
+  grid-template-columns: 32px 32px 1fr 1fr 1fr 64px;
   border: 1px solid var(--md-neutral-400);
   border-radius: 8px;
   background-color: var(--md-white);
@@ -66,6 +66,7 @@
     flex-flow: row nowrap;
     justify-content: flex-end;
     align-items: center;
+    gap: 0.5rem;
   }
 
   .cell-switches {
@@ -79,9 +80,9 @@
 
   .cell-content {
     display: flex;
-    grid-column: 1 / 6;
+    grid-column: 1 / 7;
     grid-row: 4;
-    padding: 1rem;
+    gap: 1rem;
   }
 }
 

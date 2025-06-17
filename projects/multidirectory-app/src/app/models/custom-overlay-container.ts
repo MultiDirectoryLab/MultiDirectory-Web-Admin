@@ -1,6 +1,5 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class CustomOverlayContainer extends OverlayContainer {

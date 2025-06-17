@@ -2,8 +2,8 @@
   <div class="app-modal-header">
     {{ 'property-editor.header' | transloco }} {{ editRequest.propertyName }}
   </div>
-  <div class="flex-column flex-gap-10 flex-grow-1">
-    <div class="flex-row flex-space-between">
+  <div class="flex flex-col gap-1 flex-grow-1">
+    <div class="flex justify-between">
       <div>{{ 'property-editor.attribute' | transloco }}: {{ editRequest.propertyName }}</div>
       <div>
         <md-dropdown
@@ -34,9 +34,9 @@
     </div>
   </div>
 
-  <div class="app-modal-footer flex-row flex-space-between">
+  <div class="app-modal-footer flex justify-between">
     <div></div>
-    <div class="flex-row flex-gap-10">
+    <div class="flex gap-1">
       <md-button (click)="close()">{{ 'property-editor.cancel' | transloco }}</md-button>
       <md-button (click)="finish()" [primary]="true"
         >{{ 'property-editor.apply' | transloco }}

@@ -9,13 +9,13 @@
 
 @if (dnsStatus.dns_status === dnsStatuses.NOT_CONFIGURED) {
   <div>
-    <div class="p-16">
+    <div class="p-2">
       <md-alert>
-        <div class="flex-row flex-gap-20">
-          <div class="flex-row justify-center flex-align-center">
+        <div class="flex gap-2">
+          <div class="flex justify-center flex-align-center">
             <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
           </div>
-          <div class="flex-column">
+          <div class="flex flex-col">
             <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
             <div class="pv-8">
               <mui-button (clicked)="handleSetupClick()">{{

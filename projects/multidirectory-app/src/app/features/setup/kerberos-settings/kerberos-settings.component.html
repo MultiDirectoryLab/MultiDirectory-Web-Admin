@@ -1,7 +1,7 @@
 @if (!setupRequest.generateKdcPasswords) {
   <div>
-    <div class="flex-row flex-space-between">
-      <div class="pv-8 accented w-100">
+    <div class="flex justify-between">
+      <div class="pv-8 accented w-full">
         {{ 'setup.kerberos-settings.header' | transloco }}
         <hr />
       </div>
@@ -11,7 +11,7 @@
         <label class="textbox-label">{{
           'setup.kerberos-settings.krbadmin-password-label' | transloco
         }}</label>
-        <div class="flex-column flex-grow-1">
+        <div class="flex flex-col flex-grow-1">
           <md-textbox
             appRequired
             [password]="true"
@@ -36,7 +36,7 @@
         <label class="textbox-label">{{
           'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco
         }}</label>
-        <div class="flex-column flex-grow-1">
+        <div class="flex flex-col flex-grow-1">
           <md-textbox
             appRequired
             [appPasswordMatch]="krbPasswordInput"
@@ -49,7 +49,7 @@
         <label class="textbox-label">{{
           'setup.kerberos-settings.stash-password-label' | transloco
         }}</label>
-        <div class="flex-column flex-grow-1">
+        <div class="flex flex-col flex-grow-1">
           <md-textbox
             appRequired
             [password]="true"
@@ -72,7 +72,7 @@
         <label class="textbox-label">{{
           'setup.kerberos-settings.stash-password-repeat-label' | transloco
         }}</label>
-        <div class="flex-column flex-grow-1">
+        <div class="flex flex-col flex-grow-1">
           <md-textbox
             appRequired
             [appPasswordMatch]="stashPasswordInput"
@@ -83,7 +83,7 @@
           ></md-textbox>
         </div>
       </div>
-      <div class="flex-row pt-16 justify-center">
+      <div class="flex pt-16 justify-center">
         <label class="textbox-label">
           <md-button (click)="downloadPasswords()">{{
             'setup.kerberos-settings.download-passwords' | transloco

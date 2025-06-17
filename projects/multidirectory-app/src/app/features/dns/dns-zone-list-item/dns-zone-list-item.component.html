@@ -1,5 +1,5 @@
 @if (zone) {
-  <div class="client-grid p-8">
+  <div class="client-grid p-1">
     <div class="cell-index">{{ index() }}</div>
     <div class="cell-domain">{{ zone.zone_name }}</div>
     <div class="cell-value">{{ zone.zone_type }}</div>
@@ -11,26 +11,13 @@
           'dns-zone-list-item.add' | transloco
         }}</mui-button>
       }
-      <mui-button class="control-button" (clicked)="toggleExpand()">
+      <mui-button class="control-button" (clicked)="toggleExpand(zone)">
         <fa-icon [icon]="expanded() ? faCaretUp : faCaretDown"></fa-icon>
       </mui-button>
       <mui-button class="control-button" (clicked)="onDeleteZoneClick(zone)">
         <img class="control-button-logo" [src]="'assets/trash.svg'" />
       </mui-button>
     </div>
-    @if (expanded()) {
-      <div class="cell-content flex-column">
-        @for (type of zone.records; track $index) {
-          @for (record of type.records; track $index) {
-            <app-dns-rule-list-item
-              [dnsRule]="record"
-              (deleteClick)="onDeleteRuleClick(record)"
-              (editClick)="onEditRuleClick(record)"
-              (turnOffClick)="onTurnOffRuleClick(record)"
-            ></app-dns-rule-list-item>
-          }
-        }
-      </div>
-    }
+    @if (expanded()) {}
   </div>
 }

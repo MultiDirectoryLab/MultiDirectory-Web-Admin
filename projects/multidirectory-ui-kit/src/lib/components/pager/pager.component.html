@@ -1,5 +1,5 @@
 <div class="pager-container">
-  <div class="flex-row justify-end align-center w-100 flex-gap-10 p-4">
+  <div class="flex-row justify-end align-center w-full flex-gap-10 p-4">
     <label class="pr-10">{{ pagerTitle }}</label>
     <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="size"></md-dropdown>
     <div>
@@ -20,7 +20,7 @@
     [size]="pageSize"
     [count]="rowCount"
     [ngStyle]="{
-      display: !(rowCount / pageSize > 1) ? 'none' : 'flex'
+      display: !(rowCount / pageSize > 1) ? 'none' : 'flex',
     }"
     (change)="onPageChanged($event)"
   >
