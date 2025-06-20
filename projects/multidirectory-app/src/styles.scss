@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/cdk/overlay-prebuilt.css';
 @use 'ngx-toastr/toastr';
+@use './projects/multidirectory-ui-kit/src//lib/styles/global.scss';
 
 .fullscreen {
   width: 100%;

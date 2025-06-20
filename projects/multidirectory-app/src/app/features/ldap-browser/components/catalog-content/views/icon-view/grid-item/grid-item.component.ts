@@ -1,7 +1,7 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import { Component, input, output, viewChild } from '@angular/core';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { ContextmenuType } from 'ngx-datatable-gimefork';
 
@@ -13,7 +13,7 @@ import { ContextmenuType } from 'ngx-datatable-gimefork';
 })
 export class GridItemComponent {
   readonly big = input(false);
-  readonly item = input.required<LdapEntryNode>();
+  readonly item = input.required<NavigationNode>();
   readonly clickOnItem = output<MouseEvent>();
   readonly doubleClickOnItem = output<Event>();
   readonly rightClick = output<ContextMenuEvent>();

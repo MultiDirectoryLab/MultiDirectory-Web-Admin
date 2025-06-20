@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
 import { TextboxComponent } from 'multidirectory-ui-kit';
 

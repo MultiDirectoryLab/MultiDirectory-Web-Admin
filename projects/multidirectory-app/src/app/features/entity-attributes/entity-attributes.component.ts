@@ -14,11 +14,15 @@ import {
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
-import { SchemaEntry } from '@models/entity-attribute/schema-entry';
-import { LdapPropertiesService } from '@services/ldap-properties.service';
-import { ButtonComponent, DatagridComponent, Page, TextboxComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  DatagridComponent,
+  DropdownComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
@@ -30,6 +34,10 @@ import {
 } from '../../components/modals/interfaces/property-edit-dialog.interface';
 import { ContextMenuService } from '../../components/modals/services/context-menu.service';
 import { DialogService } from '../../components/modals/services/dialog.service';
+import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
+import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -41,6 +49,9 @@ import { DialogService } from '../../components/modals/services/dialog.service';
     FormsModule,
     ButtonComponent,
     DatagridComponent,
+    CheckboxComponent,
+    DropdownMenuComponent,
+    DropdownContainerDirective,
     NgClass,
   ],
 })
@@ -57,8 +68,8 @@ export class EntityAttributesComponent implements OnInit {
   rows: { name: string; val: string }[] = [];
   searchQuery = '';
   filter = signal(new AttributeFilter());
-  page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns: TableColumn[] = [];
+  page = 0;
 
   private _accessor: LdapAttributes = {};
 
@@ -76,7 +87,6 @@ export class EntityAttributesComponent implements OnInit {
   constructor() {
     effect(() => {
       this.filter();
-
       this.onFilterChange();
     });
   }
@@ -150,14 +160,12 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onFilterChange() {
-    this.page.pageNumber = 1;
+    this.page = 1;
     this.displayAttributes();
   }
 
-  onPageChanged(event: Page) {
+  onPageChanged(event: number) {
     this.page = event;
-    this.page.size = this.rows.length;
-    this.page.totalElements = this.rows.length;
     this.cdr.detectChanges();
   }
 

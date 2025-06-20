@@ -1,4 +1,4 @@
-import { SearchRequest } from '@models/entry/search-request';
+import { SearchRequest } from '@models/api/entry/search-request';
 
 export const SearchQueries = {
   RootDse: {
@@ -24,7 +24,7 @@ export const SearchQueries = {
     ],
   },
 
-  getChild(baseObject: string): SearchRequest {
+  getChildren(baseObject: string): SearchRequest {
     return new SearchRequest({
       base_object: baseObject,
       scope: 1,
@@ -37,12 +37,12 @@ export const SearchQueries = {
     });
   },
 
-  getContent(baseObject: string, query = ''): SearchRequest {
+  getContent(baseObject: string, query: string = '', offset = 0, limit = 0): SearchRequest {
     const req = new SearchRequest({
       base_object: baseObject,
       scope: 1,
       deref_aliases: 0,
-      size_limit: 0,
+      size_limit: limit,
       time_limit: 0,
       types_only: false,
       filter: query ? `(&(objectClass=*)(cn=*${query}*))` : '(objectClass=*)',
@@ -53,6 +53,7 @@ export const SearchQueries = {
         'objectClass',
         'userAccountControl',
       ],
+      page_number: Math.floor(offset / Math.max(limit, 1) + 1),
     });
     return req;
   },

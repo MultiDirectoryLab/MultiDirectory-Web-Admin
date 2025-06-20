@@ -14,19 +14,19 @@ import { DialogService } from '../../../services/dialog.service';
 import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { catchError, Subject } from 'rxjs';
 import {
   CreateUserDialogData,
   CreateUserDialogReturnData,
 } from '../../../interfaces/user-create-dialog.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
 import { UserCreatePasswordSettingsComponent } from '@features/forms/user-create/password-settings/password-settings.component';
 import { UserCreateSummaryComponent } from '@features/forms/user-create/summary/summary.component';
-import { CreateEntryResponse } from '@models/entry/create-response';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { CreateEntryResponse } from '@models/api/entry/create-response';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 
 @Component({
   selector: 'app-user-create-dialog',
@@ -88,7 +88,7 @@ export class CreateUserDialogComponent implements OnInit {
         new CreateEntryRequest({
           entry: `cn=${this.setupRequest.upnLogin},` + this.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: [
                 'user',
@@ -99,39 +99,39 @@ export class CreateUserDialogComponent implements OnInit {
                 'shadowAccount',
               ],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'mail',
               vals: [this.setupRequest.email],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.setupRequest.description],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sAMAccountName',
               vals: [this.setupRequest.upnLogin],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'userAccountControl',
               vals: [this.setupRequest.uacBitSet.toString(10)],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'userPrincipalName',
               vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'displayName',
               vals: [this.setupRequest.fullName],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'givenName',
               vals: [this.setupRequest.firstName],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'initials',
               vals: [this.setupRequest.initials],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'surname',
               vals: [this.setupRequest.lastName],
             }),

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup.component';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 
 @Component({

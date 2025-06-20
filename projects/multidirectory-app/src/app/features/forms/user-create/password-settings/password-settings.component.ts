@@ -14,12 +14,12 @@ import { PasswordValidatorDirective } from '@core/validators/password-validator.
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
 import { CheckboxComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { PasswordSuggestContextMenuComponent } from '../../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 
 @Component({
   selector: 'app-user-create-password-settings',

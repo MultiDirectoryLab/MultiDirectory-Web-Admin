@@ -58,7 +58,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
         this.loginValid = result;
         this.cdr.detectChanges();
       });
-    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { ComponentType } from '@angular/cdk/overlay';
 import { DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { Observable } from 'rxjs';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export interface ContextMenuConfig<R, D, C> {
   component: ComponentType<C>;
@@ -11,7 +11,7 @@ export interface ContextMenuConfig<R, D, C> {
 }
 
 export interface ContextMenuData {
-  entity: LdapEntryNode[];
+  entity: NavigationNode[];
 }
 
 export type ContextMenuReturnData<R = undefined> = Observable<R | undefined> | null;

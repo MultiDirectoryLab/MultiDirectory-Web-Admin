@@ -3,7 +3,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import {
   AutofocusDirective,

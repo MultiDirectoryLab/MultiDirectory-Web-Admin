@@ -1,8 +1,8 @@
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export interface MoveEntityDialogData {
-  toMove: LdapEntryNode[];
+  toMove: NavigationNode[];
 }
 
 export type MoveEntityDialogReturnData = ModifyDnRequest;

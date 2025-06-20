@@ -11,8 +11,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatuses } from '@models/dns/dns-statuses';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import {
   CheckboxComponent,
   MdFormComponent,

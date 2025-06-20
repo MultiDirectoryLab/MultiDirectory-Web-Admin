@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, Input, OnDestroy, viewChild } from '@angular/core';
 import { DnsSetupComponent } from '@features/forms/dns-setup/dns-setup/dns-setup.component';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { Subject, takeUntil } from 'rxjs';
 

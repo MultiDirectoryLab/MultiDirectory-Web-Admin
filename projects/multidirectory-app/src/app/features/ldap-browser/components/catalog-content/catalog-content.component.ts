@@ -17,21 +17,19 @@ import {
   PlaneButtonComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { ContentViewService } from '@services/content-view.service';
-import { take, tap } from 'rxjs';
+import { delay, take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
-import { BaseViewComponent, RightClickEvent } from './views/base-view.component';
 import { ActivatedRoute } from '@angular/router';
-import { DialogService } from '../../../../components/modals/services/dialog.service';
-import { CreateUserDialogComponent } from '../../../../components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { CreateUserDialogComponent } from '@components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
 import {
   CreateUserDialogData,
   CreateUserDialogReturnData,
-} from '../../../../components/modals/interfaces/user-create-dialog.interface';
-import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
-import { ContextMenuComponent } from '../../../../components/modals/components/core/context-menu/context-menu.component';
-import { ContextMenuData } from '../../../../components/modals/interfaces/context-menu-dialog.interface';
+} from '@components/modals/interfaces/user-create-dialog.interface';
+import { ContextMenuService } from '@components/modals/services/context-menu.service';
+import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
+import { ContextMenuData } from '@components/modals/interfaces/context-menu-dialog.interface';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
 import { TableViewComponent } from './views/table-view/table-view.component';
@@ -39,30 +37,31 @@ import { IconViewComponent } from './views/icon-view/icon-view.component';
 import {
   CreateGroupDialogData,
   CreateGroupDialogReturnData,
-} from '../../../../components/modals/interfaces/create-group-dialog.interface';
-import { CreateGroupDialogComponent } from '../../../../components/modals/components/dialogs/create-group-dialog/create-group-dialog.component';
+} from '@components/modals/interfaces/create-group-dialog.interface';
+import { CreateGroupDialogComponent } from '@components/modals/components/dialogs/create-group-dialog/create-group-dialog.component';
 import {
   CreateComputerDialogData,
   CreateComputerDialogReturnData,
-} from '../../../../components/modals/interfaces/create-computer-dialog.interface';
-import { CreateComputerDialogComponent } from '../../../../components/modals/components/dialogs/create-computer-dialog/create-computer-dialog.component';
-import { CreateRuleDialogComponent } from '../../../../components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
+} from '@components/modals/interfaces/create-computer-dialog.interface';
+import { CreateComputerDialogComponent } from '@components/modals/components/dialogs/create-computer-dialog/create-computer-dialog.component';
+import { CreateRuleDialogComponent } from '@components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
 import {
   CreateRuleDialogData,
   CreateRuleDialogReturnData,
-} from '../../../../components/modals/interfaces/create-rule-dialog.interface';
+} from '@components/modals/interfaces/create-rule-dialog.interface';
 import {
   CreateCatalogDialogData,
   CreateCatalogDialogReturnData,
-} from '../../../../components/modals/interfaces/create-catalog-dialog.interface';
-import { CreateCatalogDialogComponent } from '../../../../components/modals/components/dialogs/create-catalog-dialog/create-catalog-dialog.component';
+} from '@components/modals/interfaces/create-catalog-dialog.interface';
+import { CreateCatalogDialogComponent } from '@components/modals/components/dialogs/create-catalog-dialog/create-catalog-dialog.component';
 import {
   CreateOrganizationUnitDialogData,
   CreateOrganizationUnitDialogReturnData,
-} from '../../../../components/modals/interfaces/create-organization-unit-dialog.interface';
-import { CreateOrganizationUnitDialogComponent } from '../../../../components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
+} from '@components/modals/interfaces/create-organization-unit-dialog.interface';
+import { CreateOrganizationUnitDialogComponent } from '@components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AppNavigationService } from '@services/app-navigation.service';
 
 @Component({
   selector: 'app-catalog-content',
@@ -83,20 +82,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class CatalogContentComponent implements OnInit, OnDestroy {
   readonly properties = viewChild<ModalInjectDirective>('properties');
-  readonly view = viewChild(BaseViewComponent);
 
   public ViewMode = ViewMode;
   public searchQuery = '';
 
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
-  private navigation: AppNavigationService = inject(AppNavigationService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private contentView: ContentViewService = inject(ContentViewService);
-  public currentView = this.contentView.contentView;
   private hotkeysService: HotkeysService = inject(HotkeysService);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private destroyRef$ = inject(DestroyRef);
+  private navigation = inject(AppNavigationService);
+
+  public currentView = this.contentView.contentView;
 
   public ngOnInit(): void {
     let createUserDialogRef: DialogRef<
@@ -119,6 +117,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
             });
           }
           return false;
+          1;
         },
         undefined,
         translate('hotkeys.create-user'),
@@ -189,12 +188,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    this.navigation.navigationRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
-      this.searchQuery = '';
-      this.view()?.updateContent();
-      this.cdr.detectChanges();
-    });
-
     this.contentView.contentViewRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.currentView = x;
       this.cdr.detectChanges();
@@ -206,7 +199,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
-    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     const dialogRef = this.dialogService.open<
       CreateGroupDialogReturnData,
@@ -222,7 +215,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.pipe(take(1)).subscribe(() => {
-      this.view()?.updateContent();
+      this.navigation.reload();
     });
 
     return dialogRef;
@@ -232,7 +225,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     CreateOrganizationUnitDialogReturnData,
     CreateOrganizationUnitDialogComponent
   > {
-    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     const dialogRef = this.dialogService.open<
       CreateOrganizationUnitDialogReturnData,
@@ -248,14 +241,14 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.pipe(take(1)).subscribe(() => {
-      this.view()?.updateContent();
+      this.navigation.reload();
     });
 
     return dialogRef;
   }
 
   public openCreateRule() {
-    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     this.dialogService
       .open<CreateRuleDialogReturnData, CreateRuleDialogData, CreateRuleDialogComponent>({
@@ -268,12 +261,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe(take(1))
       .subscribe(() => {
-        this.view()?.updateContent();
+        this.navigation.reload();
       });
   }
 
   public openCreateComputer() {
-    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     this.dialogService
       .open<
@@ -290,12 +283,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe()
       .subscribe(() => {
-        this.view()?.updateContent();
+        this.navigation.reload();
       });
   }
 
   public openCreateCatalog() {
-    const parentDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     this.dialogService
       .open<CreateCatalogDialogReturnData, CreateCatalogDialogData, CreateCatalogDialogComponent>({
@@ -306,14 +299,16 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
           data: { parentDn },
         },
       })
-      .closed.pipe()
+      .closed.pipe(delay(1000))
       .subscribe(() => {
-        this.view()?.updateContent();
+        {
+          this.navigation.reload();
+        }
       });
   }
 
   public openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
-    const dn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+    const dn = this.navigation.snapshot.queryParams['distinguishedName'];
 
     const dialogRef = this.dialogService.open<
       CreateUserDialogReturnData,
@@ -329,13 +324,13 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.closed.subscribe(() => {
-      this.view()?.updateContent();
+      this.navigation.reload();
     });
 
     return dialogRef;
   }
 
-  public showContextMenu({ selected, pointerEvent: { x, y } }: RightClickEvent) {
+  public showContextMenu({ selected, pointerEvent: { x, y } }: any) {
     const data: ContextMenuData = {
       entity: selected,
     };
@@ -359,6 +354,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
         }),
         // switchMap((result) => (!result ? of(null) : result)),
       )
-      .subscribe(() => this.view()?.updateContent());
+      .subscribe(() => {});
   }
 }

@@ -7,7 +7,7 @@ import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passw
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { SetupRequest } from '@models/setup/setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { SetupService } from '@services/setup.service';

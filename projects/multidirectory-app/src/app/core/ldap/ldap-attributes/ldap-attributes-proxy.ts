@@ -1,13 +1,13 @@
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { ChangeDescription } from '../ldap-change';
-import { LdapEntryNode } from '../ldap-entity';
 import { LdapAttributes } from './ldap-attributes';
 
 export class LdapAttributesProxyHandler {
   _original: LdapAttributes;
-  _entity: LdapEntryNode;
+  _entity: NavigationNode;
   _changes: ChangeDescription[] = [];
 
-  constructor(entity: LdapEntryNode, attributes: LdapAttributes) {
+  constructor(entity: NavigationNode, attributes: LdapAttributes) {
     this._original = JSON.parse(JSON.stringify(attributes));
     this._entity = entity;
   }

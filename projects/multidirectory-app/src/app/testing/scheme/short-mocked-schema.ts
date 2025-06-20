@@ -1,4 +1,4 @@
-import { SearchResponse } from '@models/entry/search-response';
+import { SearchResponse } from '@models/api/entry/search-response';
 
 export const ShortMockedSchema: SearchResponse = {
   resultCode: 0,

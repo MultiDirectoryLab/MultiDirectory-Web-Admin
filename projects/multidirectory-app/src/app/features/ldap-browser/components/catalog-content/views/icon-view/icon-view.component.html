@@ -1,38 +1,26 @@
 <div class="icon-grid-container">
   <div
+    class="icon-grid"
+    [ngClass]="{ 'big-icon': big }"
+    (contextmenu)="showGridContextMenu($event)"
     #grid
     (click)="clickOutside()"
-    (contextmenu)="showGridContextMenu($event)"
     (focus)="onGetFocus()"
-    [ngClass]="{ 'big-icon': big() }"
-    class="icon-grid"
     tabindex="0"
   >
     @for (item of items; track item) {
       <div class="grid-item" cdkDrag cdkDragBoundary=".icon-grid" (cdkDragEnded)="onDrop($event)">
-        <app-grid-item
-          [big]="big()"
-          (clickOnItem)="setSelected([item])"
-          (rightClick)="handleRightClick($event)"
-          [item]="item"
-        ></app-grid-item>
+        <app-grid-item (clickOnItem)="setSelected([item])" [item]="item"></app-grid-item>
       </div>
     }
   </div>
-  <md-pager
-    #pager
-    [name]="'iconView'"
-    [page]="page"
-    fromTitle="{{ 'icon-view.fromTitle' | transloco }}"
-    pagerTitle="{{ 'icon-view.pagerTitle' | transloco }}"
-  ></md-pager>
 </div>
 
 <md-dropdown-menu #gridMenu>
-  <div (click)="gridMenu.close(); resetItems()" class="dropdown-item">
+  <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
     <md-checkbox [(ngModel)]="alignItems">{{ 'icon-view.align-grid' | transloco }}</md-checkbox>
   </div>
-  <div (click)="gridMenu.close(); resetItems()" class="dropdown-item">
+  <div class="dropdown-item" (click)="gridMenu.close(); resetItems()">
     {{ 'icon-view.reset' | transloco }}
   </div>
 </md-dropdown-menu>

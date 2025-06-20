@@ -14,12 +14,12 @@ import { PasswordValidatorDirective } from '@core/validators/password-validator.
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { SetupRequest } from '@models/setup/setup-request';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { AutofocusDirective, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { PasswordSuggestContextMenuComponent } from '../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { ContextMenuService } from '../../../components/modals/services/context-menu.service';
+import { SetupRequest } from '@models/api/setup/setup-request';
 
 @Component({
   selector: 'app-admin-settings',

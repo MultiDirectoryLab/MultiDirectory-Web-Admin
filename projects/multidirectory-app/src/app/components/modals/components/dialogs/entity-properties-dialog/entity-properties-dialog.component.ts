@@ -22,7 +22,6 @@ import {
 } from '../../../interfaces/entity-properties-dialog.interface';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
@@ -30,6 +29,7 @@ import {
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { SearchQueries } from '@core/ldap/search';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 
 @Component({
   selector: 'app-entity-properties-dialog',
@@ -53,7 +53,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
   public EntityTypes = LdapEntryType;
-  public entityType: LdapEntryType = this.dialogData.entity.type;
+  public entityType: LdapEntryType = LdapEntryType.Computer; // this.dialogData.entity.type;
   public accessor: LdapAttributes = new LdapAttributes([]);
 
   private dialogService: DialogService = inject(DialogService);

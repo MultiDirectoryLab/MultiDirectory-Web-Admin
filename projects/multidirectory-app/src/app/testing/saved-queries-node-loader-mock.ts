@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader';
-import { NavigationNode } from '@core/navigation/navigation-node';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export function getSavedQueriesLoaderMock() {
   // Create jasmine spy object

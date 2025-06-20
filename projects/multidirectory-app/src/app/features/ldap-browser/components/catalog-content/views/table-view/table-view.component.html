@@ -4,18 +4,18 @@
   [rows]="rows"
   [columns]="columns"
   [externalPaging]="true"
-  (contextmenu)="handleRightClick($event)"
-  [page]="page"
-  (pageChanged)="onPageChanged($event)"
-  (doubleclick)="onDoubleClick($event)"
-  (selectionChanged)="onRowSelect()"
   [pageSizes]="pageSizes"
+  [(total)]="total"
+  [(limit)]="limit"
+  [(offset)]="offset"
+  (selectionChanged)="onRowSelect()"
   pagerTitle="{{ 'grid.pager-title' | transloco }}"
   fromTitle="{{ 'grid.from-title' | transloco }}"
   emptyMessage="{{ 'grid.no-data' | transloco }}"
   [controlPanelRef]="showControlPanel ? controlPanel : null"
   [headerHeight]="showControlPanel ? 68 : 36"
-/>
+></md-datagrid>
+
 <ng-template #iconTemplate let-row="row" let-value="value">
   <img class="flex w-full-icon" [src]="row.icon" />
   {{ row.name }}

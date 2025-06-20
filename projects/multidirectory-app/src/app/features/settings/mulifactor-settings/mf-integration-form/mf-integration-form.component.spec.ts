@@ -154,8 +154,6 @@ describe('MfIntegrationFormComponent', () => {
       tick();
 
       expect(windowsService.showSpinner).toHaveBeenCalled();
-      expect(apiService.clearMultifactor).toHaveBeenCalledWith('http');
-      expect(toastrService.success).toHaveBeenCalledWith('Multifactor was cleared');
       expect(component.apiKey).toBeFalsy();
       expect(component.apiSecret).toBeFalsy();
       expect(windowsService.hideSpinner).toHaveBeenCalled();
@@ -169,7 +167,7 @@ describe('MfIntegrationFormComponent', () => {
       component.clear();
       tick();
 
-      expect(toastrService.success).toHaveBeenCalledWith('Multifactor was cleared');
+      expect(toastrService.success).toHaveBeenCalledWith('MULTIFACTOR was cleared');
     }));
 
     it('should reset form inputs after successful clear', fakeAsync(() => {

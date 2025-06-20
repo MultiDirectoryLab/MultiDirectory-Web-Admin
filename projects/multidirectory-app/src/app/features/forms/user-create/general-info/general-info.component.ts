@@ -9,10 +9,9 @@ import {
   viewChildren,
 } from '@angular/core';
 import { AbstractControl, FormsModule } from '@angular/forms';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { UserCreateRequest } from '@models/user-create/user-create.request';
+import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 import { UserCreateService } from '@services/user-create.service';
 import {
   DropdownComponent,
@@ -38,8 +37,6 @@ import { Subject, take, takeUntil } from 'rxjs';
   ],
 })
 export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy {
-  private ldapLoader = inject(LdapEntryLoader);
-  private cdr = inject(ChangeDetectorRef);
   setup = inject(UserCreateService);
   readonly form = viewChild.required<MdFormComponent>('form');
   readonly controls = viewChildren(AbstractControl);
@@ -66,20 +63,19 @@ export class UserCreateGeneralInfoComponent implements AfterViewInit, OnDestroy 
     form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.setup.stepValid(this.form().valid);
     });
-    this.ldapLoader
-      .get()
-      .pipe(take(1))
-      .subscribe((domains) => {
-        this.domains = domains.map(
-          (x) =>
-            new DropdownOption({
-              title: x.name,
-              value: x.name,
-            }),
-        );
-        this.setupRequest.upnDomain = this.domains?.[0]?.value;
-        this.cdr.detectChanges();
-      });
+    // this.ldapLoader
+    //   .get()
+    //   .pipe(take(1))
+    //   .subscribe((domains) => {
+    //     this.domains = domains.map(
+    //       (x) =>
+    //         new DropdownOption({
+    //           title: x.name,
+    //           value: x.name,
+    //         }),
+    //     );
+    //     this.setupRequest.upnDomain = this.domains?.[0]?.value;
+    //   });
   }
 
   ngOnDestroy(): void {

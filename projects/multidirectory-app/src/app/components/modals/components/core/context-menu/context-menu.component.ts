@@ -10,11 +10,9 @@ import {
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { concat, EMPTY, of, switchMap, take } from 'rxjs';
-import { LdapEntryType } from '@core/ldap/ldap-entity-type';
 import { ContextMenuService } from '../../../services/context-menu.service';
 import { ContextMenuData } from '../../../interfaces/context-menu-dialog.interface';
 import { BulkService } from '@services/bulk.service';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
@@ -30,7 +28,6 @@ import {
 } from '../../../interfaces/change-password-dialog.interface';
 import { ChangePasswordDialogComponent } from '../../dialogs/change-password-dialog/change-password-dialog.component';
 import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
-import { UpdateEntryResponse } from '@models/entry/update-response';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
@@ -49,8 +46,11 @@ import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialo
 import { DialogService } from '../../../services/dialog.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
-import { DeleteEntryRequest } from '@models/entry/delete-request';
 import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-context-menu',
@@ -69,7 +69,7 @@ export class ContextMenuComponent implements OnInit {
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
-  private bulk: BulkService<LdapEntryNode> = inject(BulkService<LdapEntryNode>);
+  private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(
     CompleteUpdateEntiresStrategies,
@@ -201,7 +201,7 @@ export class ContextMenuComponent implements OnInit {
                     // TODO: Будет deleteMany
                     this.api.delete(
                       new DeleteEntryRequest({
-                        entry: x.entry?.object_name,
+                        entry: x.id,
                       }),
                     ),
                   ),
@@ -213,7 +213,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   public isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
-    return this.entries.every((x) => types.includes(x.type));
+    return this.entries.every((x) => types.includes(LdapEntryType.Computer));
   }
 
   private setAccountEnabled() {

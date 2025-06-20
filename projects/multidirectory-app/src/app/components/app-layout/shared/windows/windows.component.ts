@@ -2,7 +2,7 @@ import { AfterViewInit, Component, DestroyRef, inject, viewChild } from '@angula
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DnsSetupDialogComponent } from '@features/forms/dns-setup/dns-setup-dialog.component';
 import { SetupKerberosDialogComponent } from '@features/forms/setup-kerberos/setup-kerberos.component';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';

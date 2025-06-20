@@ -70,7 +70,7 @@ export class AttributeListDialogComponent implements OnInit {
   }
 
   public addAttribute() {
-    this.treeview?.addRoot(
+    this.tree?.push(
       new AttributeListEntry({
         name: this.newAttribute,
         id: this.newAttribute,
