@@ -4,12 +4,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { MuiButtonComponent, MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
-import { DnsSetupRequest } from '@models/dns/dns-setup-request';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
-import { DnsStatuses } from '@models/dns/dns-statuses';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
@@ -23,6 +17,12 @@ import {
 } from '../../components/modals/interfaces/confirm-dialog.interface';
 import { DialogService } from '../../components/modals/services/dialog.service';
 import DnsZonesComponent from './dns-zones/dns-zones.component';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRuleType } from '@models/api/dns/dns-rule-type';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
 
 @Component({
   selector: 'app-dns-settings',

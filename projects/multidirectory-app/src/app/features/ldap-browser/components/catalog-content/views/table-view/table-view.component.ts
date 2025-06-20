@@ -73,6 +73,7 @@ import {
   of,
   concat,
 } from 'rxjs';
+import { L } from 'node_modules/@angular/cdk/a11y-module.d-DBHGyKoh';
 
 @Component({
   selector: 'app-table-view',
@@ -273,10 +274,9 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   onDoubleClick(event: any) {
-    const entry = event?.row?.entry;
-
+    const entry = event?.row;
     if (entry && entry.expandable) {
-      this.appNavigation.navigate(entry.route, entry.routeData);
+      this.appNavigation.navigate(['ldap'], { distinguishedName: entry.dn });
     } else if (entry && !entry.expandable) {
       this.dialogService
         .open<

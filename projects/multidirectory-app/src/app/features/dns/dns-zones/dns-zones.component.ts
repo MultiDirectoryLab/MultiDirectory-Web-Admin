@@ -6,8 +6,6 @@ import { DnsZoneListItemComponent } from '../dns-zone-list-item/dns-zone-list-it
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { AddZoneDialogComponent } from '../add-zone-dialog/add-zone-dialog.component';
-import { DnsRule } from '@models/dns/dns-rule';
-import { rule } from 'postcss';
 import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
 import {
   DnsRuleDialogData,
@@ -20,7 +18,8 @@ import {
   ConfirmDialogReturnData,
   ConfirmDialogData,
 } from '../../../components/modals/interfaces/confirm-dialog.interface';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 @Component({
   selector: 'app-dns-zones',

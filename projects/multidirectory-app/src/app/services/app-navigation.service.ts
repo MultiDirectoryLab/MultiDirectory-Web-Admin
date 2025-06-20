@@ -1,4 +1,3 @@
-import { L } from '@angular/cdk/a11y-module.d-9e4162d8';
 import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRoute,
@@ -7,9 +6,8 @@ import {
   Params,
   Router,
 } from '@angular/router';
-import { NavigationNode } from '@models/core/navigation/navigation-node';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, startWith, take, takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, startWith } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

@@ -13,8 +13,6 @@ import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-ki
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { DialogService } from '../../../services/dialog.service';
 import {
   AvailableDnsRecordTypes,
   DnsRuleClass,
@@ -29,6 +27,7 @@ import {
   DnsRuleDialogReturnData,
 } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 @Component({
   selector: 'app-dns-rule-dialog',

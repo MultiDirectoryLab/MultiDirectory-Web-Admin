@@ -1,4 +1,4 @@
-import { DnsRule } from '../dns-rule';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 export class DnsZoneRecordWithType {
   record_type = '';
