@@ -84,4 +84,11 @@ export class LdapTreeviewService {
     }
     node.selected = selected;
   }
+
+  invalidate(distinguisedNames: string[]) {
+    distinguisedNames.forEach((dn) => {
+      this._nodes.delete(dn);
+      this.ldap.invalidate(dn);
+    });
+  }
 }

@@ -1,4 +1,5 @@
 export class LdapBrowserEntry {
+  id: string = '';
   dn: string = '';
   icon: string = '';
   name: string = '';

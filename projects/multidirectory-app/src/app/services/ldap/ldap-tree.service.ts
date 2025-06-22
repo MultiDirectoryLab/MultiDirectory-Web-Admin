@@ -73,4 +73,8 @@ export class LdapTreeService {
   getEntries(): Map<string, LdapEntry> {
     return this._ldapMap;
   }
+
+  invalidate(dn: string) {
+    this._ldapMap.delete(dn);
+  }
 }

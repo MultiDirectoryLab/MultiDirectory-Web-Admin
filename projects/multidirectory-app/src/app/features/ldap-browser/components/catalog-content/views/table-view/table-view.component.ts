@@ -74,6 +74,7 @@ import {
   concat,
 } from 'rxjs';
 import { L } from 'node_modules/@angular/cdk/a11y-module.d-DBHGyKoh';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-table-view',
@@ -92,7 +93,8 @@ import { L } from 'node_modules/@angular/cdk/a11y-module.d-DBHGyKoh';
 })
 export class TableViewComponent implements AfterViewInit, OnDestroy {
   private dialogService = inject(DialogService);
-  private appNavigation = inject(AppNavigationService);
+  private navigation = inject(AppNavigationService);
+  private ldapTreeview = inject(LdapTreeviewService);
   private bulkService = inject<BulkService<NavigationNode>>(BulkService);
   private cdr = inject(ChangeDetectorRef);
   private api = inject(MultidirectoryApiService);
@@ -198,8 +200,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  constructor() {}
-
   ngAfterViewInit(): void {
     this.columns = [
       {
@@ -230,7 +230,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     ];
 
     combineLatest([
-      this.appNavigation.navigationEnd,
+      this.navigation.navigationEnd,
       this._searchQueryRx,
       this._offsetRx,
       this._limitRx,
@@ -238,7 +238,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe),
         switchMap(([navigationEnd, searchQuery, offset, limit]) => {
-          this.parentDn = this.appNavigation.snapshot.queryParams['distinguishedName'];
+          this.parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
           return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
         }),
       )
@@ -276,7 +276,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   onDoubleClick(event: any) {
     const entry = event?.row;
     if (entry && entry.expandable) {
-      this.appNavigation.navigate(['ldap'], { distinguishedName: entry.dn });
+      this.navigation.navigate(['ldap'], { distinguishedName: entry.dn });
     } else if (entry && !entry.expandable) {
       this.dialogService
         .open<
@@ -294,7 +294,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         })
         .closed.pipe(take(1))
         .subscribe(() => {
-          //this.updateContentInner(this.route.snapshot.queryParams['distinguishedName']);
+          this.navigation.reload();
         });
     }
     this.cdr.detectChanges();
@@ -310,14 +310,14 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   onDelete(event: any) {
     event.preventDefault();
     event.stopPropagation();
-
+    const toDeleteDNs = this.grid().selected.map((x) => x.id);
     this.dialogService
       .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
         component: ConfirmDeleteDialogComponent,
         dialogConfig: {
           width: '580px',
           data: {
-            toDeleteDNs: this.grid().selected.map((x) => x.entry.id),
+            toDeleteDNs: toDeleteDNs,
           },
         },
       })
@@ -330,7 +330,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
             ...this.grid().selected.map((x) =>
               this.api.delete(
                 new DeleteEntryRequest({
-                  entry: (x.entry as any).id,
+                  entry: x.id,
                 }),
               ),
             ),
@@ -338,7 +338,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         }),
       )
       .subscribe(() => {
-        //this.appNavigation.reload();
+        this.ldapTreeview.invalidate(toDeleteDNs);
+        this.navigation.reload();
       });
   }
 
@@ -413,7 +414,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
 
   handleGoToParent() {
     const dn = LdapNamesHelper.getDnParent(this._parentDn);
-    this.appNavigation.navigate(['ldap'], { distinguishedName: dn });
+    this.navigation.navigate(['ldap'], { distinguishedName: dn });
   }
 
   handleRightClick($event: ContextMenuEvent) {}
