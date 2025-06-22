@@ -37,6 +37,7 @@ export class LdapTreeviewService {
       route: ['ldap'],
       routeData: { distinguishedName: entry.dn },
       icon: EntityInfoResolver.resolveIcon(entry.type),
+      type: entry.type,
     });
 
     this._nodes.set(entry.dn, newNode);

@@ -36,7 +36,6 @@ import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { DIALOG_CONFIG_DEFAULT } from './components/modals/constants/dialog.constants';
 import { TranslocoHttpLoader } from './transloco-loader';
-import DontPreserveRouteReuseStrategy from '@core/navigation/dont-preserve.route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -112,9 +111,5 @@ export const appConfig: ApplicationConfig = {
     },
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    {
-      provide: RouteReuseStrategy,
-      useClass: DontPreserveRouteReuseStrategy,
-    },
   ],
 };

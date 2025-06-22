@@ -64,6 +64,8 @@ export class EntityPropertiesDialogComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
+    alert(this.dialogData.entity.type);
+    console.log(this.dialogData.entity);
     this.api
       .search(SearchQueries.getProperites(this.dialogData.entity.id))
       .pipe(take(1))

@@ -38,7 +38,6 @@ export class AppNavigationService {
 
     this.router.navigate(route, {
       queryParams: queryParams,
-      onSameUrlNavigation: 'reload',
     });
   }
 
