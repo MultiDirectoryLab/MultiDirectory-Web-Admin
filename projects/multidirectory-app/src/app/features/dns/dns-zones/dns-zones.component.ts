@@ -99,7 +99,7 @@ export default class DnsZonesComponent implements OnInit {
       .closed.pipe(take(1))
       .subscribe((result) => {
         if (result === 'yes') {
-          this.dns.deleteZone([zone.zone_name]).subscribe((result) => {
+          this.dns.deleteZone([zone.name]).subscribe((result) => {
             this.zones = this.zones.filter((x) => x !== zone);
           });
           return;

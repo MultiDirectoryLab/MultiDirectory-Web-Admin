@@ -45,6 +45,7 @@ export class LdapBrowserService {
             icon: EntityInfoResolver.resolveIcon(x.type),
             name: LdapNamesHelper.getDnName(x.dn).split('=')[1],
             expandable: EntityInfoResolver.isExpandable(x.objectClasses),
+            type: x.type,
           }),
       );
 

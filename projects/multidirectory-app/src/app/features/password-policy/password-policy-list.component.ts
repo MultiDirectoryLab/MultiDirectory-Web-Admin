@@ -47,7 +47,7 @@ export class PasswordPolicyListComponent implements OnInit {
   }
 
   onEditClick(toEdit: PasswordPolicy) {
-    this.router.navigate(['password-policy', toEdit.id]);
+    this.router.navigate(['settings/password-policy', toEdit.id]);
   }
 
   onAddClick() {

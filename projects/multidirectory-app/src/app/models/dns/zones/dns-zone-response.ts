@@ -9,8 +9,8 @@ export class DnsZoneRecordWithType {
 }
 
 export class DnsZoneListResponse {
-  zone_name = '';
-  zone_type = '';
+  name = '';
+  type = '';
   records: DnsZoneRecordWithType[] = [];
 
   constructor(obj: Partial<DnsZoneListResponse>) {

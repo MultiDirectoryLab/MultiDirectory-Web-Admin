@@ -1,9 +1,11 @@
+import { LdapEntryType } from '../ldap/ldap-entry-type';
+
 export class LdapBrowserEntry {
   id: string = '';
   dn: string = '';
   icon: string = '';
   name: string = '';
-  type: string = '';
+  type: LdapEntryType = LdapEntryType.None;
   description: string = '';
   expandable: boolean = false;
 

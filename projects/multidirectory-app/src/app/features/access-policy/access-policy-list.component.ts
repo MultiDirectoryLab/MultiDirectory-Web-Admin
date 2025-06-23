@@ -101,7 +101,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     if (!toEdit.id) {
       return;
     }
-    this.router.navigate(['access-policy', toEdit.id]);
+    this.router.navigate(['settings/access-policy', toEdit.id]);
   }
 
   onAddClick() {

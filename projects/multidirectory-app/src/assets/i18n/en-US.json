@@ -482,7 +482,9 @@
     "dns-settings": "DNS Settings",
     "sessions": "Sessions",
     "dns-zone-header": "DNS Zones",
-    "dns-forwarding-header": "DNS Forwarding"
+    "dns-forwarding-header": "DNS Forwarding",
+    "access-policy": "Access Policy",
+    "password-policy": "Password Policy"
   },
   "settings": {
     "account-settings": "Account Settings",

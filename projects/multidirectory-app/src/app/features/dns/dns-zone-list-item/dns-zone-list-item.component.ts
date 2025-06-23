@@ -57,7 +57,7 @@ export class DnsZoneListItemComponent {
     this.dialog
       .open<any, DnsZoneDetailsDialogData, DnsZoneDetailsComponent>({
         component: DnsZoneDetailsComponent,
-        dialogConfig: { data: { zoneName: record.zone_name } },
+        dialogConfig: { data: { zoneName: record.name } },
       })
       .closed.pipe(take(1))
       .subscribe((x) => {

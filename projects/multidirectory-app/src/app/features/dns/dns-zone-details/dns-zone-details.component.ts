@@ -55,7 +55,7 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   readonly zone = toSignal(
     combineLatest([toObservable(this.zoneName), toObservable(this.search)]).pipe(
       switchMap((request) => this.dns.zone(request[0])),
-      map((zones) => zones.filter((x) => x.zone_name == this.zoneName())?.[0] ?? {}),
+      map((zones) => zones.filter((x) => x.name == this.zoneName())?.[0] ?? {}),
       tap((zones) =>
         zones.records.filter((x) => {
           x.records = x.records.filter((y) => y?.name?.includes(this.search()));
