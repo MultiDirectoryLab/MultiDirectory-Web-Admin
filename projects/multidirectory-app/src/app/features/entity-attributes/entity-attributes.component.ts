@@ -21,6 +21,7 @@ import {
   DropdownComponent,
   DropdownContainerDirective,
   DropdownMenuComponent,
+  DropdownOption,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
@@ -38,6 +39,7 @@ import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
+import { T } from 'node_modules/@angular/cdk/portal-directives.d-DbeNrI5D';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -69,7 +71,17 @@ export class EntityAttributesComponent implements OnInit {
   searchQuery = '';
   filter = signal(new AttributeFilter());
   propColumns: TableColumn[] = [];
-  page = 0;
+
+  offset = 0;
+  total = 0;
+  pageSizes: DropdownOption[] = [
+    { title: '15', value: 15 },
+    { title: '20', value: 20 },
+    { title: '30', value: 30 },
+    { title: '50', value: 50 },
+    { title: '100', value: 100 },
+  ];
+  limit = this.pageSizes[0].value;
 
   private _accessor: LdapAttributes = {};
 
@@ -160,12 +172,11 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onFilterChange() {
-    this.page = 1;
     this.displayAttributes();
   }
 
   onPageChanged(event: number) {
-    this.page = event;
+    this.offset = event;
     this.cdr.detectChanges();
   }
 
@@ -219,7 +230,9 @@ export class EntityAttributesComponent implements OnInit {
       });
 
     this.rows = this.filterData(Array.from(this.rows));
-    this.onPageChanged(this.page);
+
+    this.offset = 0;
+    this.total = this.rows.length;
     this.cdr.detectChanges();
   }
 

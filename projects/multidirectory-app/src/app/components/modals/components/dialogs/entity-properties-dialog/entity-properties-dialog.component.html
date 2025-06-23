@@ -6,17 +6,17 @@
   <div class="app-modal-body">
     @switch (entityType) {
       @case (EntityTypes.User) {
-        <app-user-properties class="block h-full" [accessor]="accessor || {}"></app-user-properties>
+        <app-user-properties class="block h-full" [accessor]="accessor"></app-user-properties>
       }
       @case (EntityTypes.Group) {
-        <app-group-properties class="block h-full" [accessor]="accessor || {}" />
+        <app-group-properties class="block h-full" [accessor]="accessor" />
       }
       @case (EntityTypes.Computer) {
-        <app-computer-properties class="block h-full" [accessor]="accessor || {}" />
+        <app-computer-properties class="block h-full" [accessor]="accessor" />
       }
       @default {
         <div class="block flex h-full">
-          <app-entity-attributes [accessor]="accessor || {}" class="w-full" />
+          <app-entity-attributes [accessor]="accessor" class="w-full" />
         </div>
       }
     }

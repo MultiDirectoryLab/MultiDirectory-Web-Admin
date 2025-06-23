@@ -53,7 +53,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
   public EntityTypes = LdapEntryType;
-  public entityType: LdapEntryType = LdapEntryType.Computer; // this.dialogData.entity.type;
+  public entityType: LdapEntryType = this.dialogData.entity.type;
   public accessor: LdapAttributes = new LdapAttributes([]);
 
   private dialogService: DialogService = inject(DialogService);
@@ -64,8 +64,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
-    alert(this.dialogData.entity.type);
-    console.log(this.dialogData.entity);
+    console.log(this.dialogData.entity.type);
     this.api
       .search(SearchQueries.getProperites(this.dialogData.entity.id))
       .pipe(take(1))
