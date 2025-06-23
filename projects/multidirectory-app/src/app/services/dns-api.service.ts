@@ -58,9 +58,9 @@ export class DnsApiService {
       .pipe(
         tap((x) => {
           for (let zone of x) {
-            for (let record_type of zone.records) {
-              for (let record of record_type.records) {
-                record.record_type = record_type.record_type as DnsRuleType;
+            for (let type of zone.records) {
+              for (let record of type.records) {
+                record.type = type.type as DnsRuleType;
               }
             }
           }

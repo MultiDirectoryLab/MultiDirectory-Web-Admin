@@ -7,7 +7,7 @@
       <div class="form-grid">
         <label>{{ 'dns-rule-dialog.name' | transloco }}</label>
         <md-textbox
-          [(ngModel)]="dnsRule.record_name"
+          [(ngModel)]="dnsRule.name"
           [disabled]="sameAsZoneName || !!dialogData.isEdit"
           appRequired
         ></md-textbox>
@@ -19,24 +19,16 @@
         <div>
           @switch (recordDataType) {
             @case (DnsRuleClass.IP6.valueOf()) {
-              <md-textbox
-                appRequired
-                appValidIp6Address
-                [(ngModel)]="dnsRule.record_value"
-              ></md-textbox>
+              <md-textbox appRequired appValidIp6Address [(ngModel)]="dnsRule.value"></md-textbox>
             }
             @case (DnsRuleClass.IP4.valueOf()) {
-              <md-textbox
-                appRequired
-                validIpAddress
-                [(ngModel)]="dnsRule.record_value"
-              ></md-textbox>
+              <md-textbox appRequired validIpAddress [(ngModel)]="dnsRule.value"></md-textbox>
             }
             @case (DnsRuleClass.SRV.valueOf()) {
-              <md-textbox appRequired [(ngModel)]="dnsRule.record_value"></md-textbox>
+              <md-textbox appRequired [(ngModel)]="dnsRule.value"></md-textbox>
             }
             @default {
-              <md-textbox appRequired [(ngModel)]="dnsRule.record_value"></md-textbox>
+              <md-textbox appRequired [(ngModel)]="dnsRule.value"></md-textbox>
             }
           }
         </div>

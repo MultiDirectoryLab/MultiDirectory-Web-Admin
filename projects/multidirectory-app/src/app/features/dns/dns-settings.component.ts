@@ -131,7 +131,7 @@ export class DnsSettingsComponent implements OnInit {
         this.rules = rules.flatMap((x) =>
           x.records.map((y) => {
             const rule = new DnsRule(y);
-            rule.record_type = x.record_type as DnsRuleType;
+            rule.type = x.type as DnsRuleType;
             rule.ttl = y.ttl;
             return rule;
           }),
@@ -142,7 +142,7 @@ export class DnsSettingsComponent implements OnInit {
 
   private enusreHostname(rule: DnsRule): DnsRule {
     const result = new DnsRule(rule);
-    result.record_name = result.record_name.replace('.' + this.dnsStatus.zone_name, '');
+    result.name = result.name.replace('.' + this.dnsStatus.zone_name, '');
     return result;
   }
 }

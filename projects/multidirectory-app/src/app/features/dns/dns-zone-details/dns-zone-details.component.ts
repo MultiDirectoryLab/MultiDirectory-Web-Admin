@@ -58,7 +58,7 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
       map((zones) => zones.filter((x) => x.zone_name == this.zoneName())?.[0] ?? {}),
       tap((zones) =>
         zones.records.filter((x) => {
-          x.records = x.records.filter((y) => y.record_name.includes(this.search()));
+          x.records = x.records.filter((y) => y?.name?.includes(this.search()));
           return x;
         }),
       ),

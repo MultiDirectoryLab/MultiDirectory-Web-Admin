@@ -1,9 +1,9 @@
 @if (dnsRule) {
   <div class="client-grid p-1">
     <div class="cell-index">{{ index() }}</div>
-    <div class="cell-domain">{{ dnsRule.record_name }}</div>
-    <div class="cell-value">{{ dnsRule.record_value }}</div>
-    <div class="cell-type">{{ getType(dnsRule.record_type) }}</div>
+    <div class="cell-domain">{{ dnsRule.name }}</div>
+    <div class="cell-value">{{ dnsRule.value }}</div>
+    <div class="cell-type">{{ getType(dnsRule.type) }}</div>
     <div class="cell-ttl"></div>
     <div class="cell-control-buttons">
       <md-plane-button class="control-button" (click)="onEditClick()">

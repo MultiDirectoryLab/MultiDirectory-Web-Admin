@@ -59,17 +59,17 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.record_name = '@';
+      this.dnsRule.name = '@';
     }
     this.cdr.detectChanges();
   }
 
   get recordType() {
-    return this.dnsRule.record_type;
+    return this.dnsRule.type;
   }
 
   set recordType(type: DnsRuleType) {
-    this.dnsRule.record_type = type;
+    this.dnsRule.type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
@@ -84,7 +84,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
     this.dnsRule = this.modalInejctor.contentOptions?.dnsRule ?? new DnsRule({});
     this.editMode = this.modalInejctor.contentOptions?.editMode ?? false;
 
-    this.recordType = this.dnsRule.record_type;
+    this.recordType = this.dnsRule.type;
   }
 
   ngOnDestroy(): void {

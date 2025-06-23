@@ -69,17 +69,17 @@ export class DnsRuleDialogComponent implements OnInit {
   public set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.record_name = '@';
+      this.dnsRule.name = '@';
     }
     this.cdr.detectChanges();
   }
 
   public get recordType() {
-    return this.dnsRule.record_type;
+    return this.dnsRule.type;
   }
 
   public set recordType(type: DnsRuleType) {
-    this.dnsRule.record_type = type;
+    this.dnsRule.type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
@@ -90,7 +90,7 @@ export class DnsRuleDialogComponent implements OnInit {
       this.formValid = x;
     });
     this.dnsRule = this.dialogData.rule ?? {};
-    this.recordType = this.dnsRule.record_type;
+    this.recordType = this.dnsRule.type;
   }
 
   onFinish(event: MouseEvent) {

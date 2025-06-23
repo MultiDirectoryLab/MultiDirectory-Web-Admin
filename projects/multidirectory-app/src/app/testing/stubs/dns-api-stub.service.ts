@@ -17,8 +17,8 @@ export class DnsApiStubService extends DnsApiService {
   override post(rule: DnsRule): Observable<DnsRule> {
     return of(
       new DnsRule({
-        record_name: '',
-        record_value: '',
+        name: '',
+        value: '',
         ttl: 0,
       }),
     );
@@ -27,8 +27,8 @@ export class DnsApiStubService extends DnsApiService {
   override update(rule: DnsRule): Observable<DnsRule> {
     return of(
       new DnsRule({
-        record_name: '',
-        record_value: '',
+        name: '',
+        value: '',
         ttl: 0,
       }),
     );
