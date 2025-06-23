@@ -11,7 +11,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
+  PipeTransform,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
@@ -73,8 +73,8 @@ import {
   of,
   concat,
 } from 'rxjs';
-import { L } from 'node_modules/@angular/cdk/a11y-module.d-DBHGyKoh';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
 
 @Component({
   selector: 'app-table-view',
@@ -224,7 +224,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
           return valueB.name > valueA.name ? -1 : 1;
         },
       },
-      { name: translate('table-view.type-column'), prop: 'type', flexGrow: 1 },
+      {
+        name: translate('table-view.type-column'),
+        prop: 'type',
+        flexGrow: 1,
+        pipe: new LdapEntryTypePipe(),
+      },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
       { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];

@@ -3,6 +3,7 @@ import { LdapEntry } from '@models/core/ldap/ldap-entry';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from './user-account-control-flags';
+import { PipeTransform } from '@angular/core';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([
@@ -77,5 +78,11 @@ export class EntityInfoResolver {
     return enabled
       ? translate('entity-info-resolver.enabled')
       : translate('entity-info-resolver.disabled');
+  }
+}
+
+export class LdapEntryTypePipe implements PipeTransform {
+  transform(value: LdapEntryType, ...args: any[]) {
+    return EntityInfoResolver.resolveTypeName(value);
   }
 }
