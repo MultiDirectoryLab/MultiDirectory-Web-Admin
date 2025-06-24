@@ -9,13 +9,11 @@ import {
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
 import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { DnsApiService } from '@services/dns-api.service';
 import { combineLatest, EMPTY, filter, lastValueFrom, map, switchMap, take, tap } from 'rxjs';
 import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
-import { DnsRule } from '@models/dns/dns-rule';
 import { ToastrService } from 'ngx-toastr';
 import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
@@ -27,8 +25,8 @@ import {
   DnsRuleDialogData,
 } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
-import { TextboxComponent } from 'multidirectory-ui-kit';
 import { FormsModule } from '@angular/forms';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 @Component({
   selector: 'app-dns-zone-details',
@@ -57,10 +55,10 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   readonly zone = toSignal(
     combineLatest([toObservable(this.zoneName), toObservable(this.search)]).pipe(
       switchMap((request) => this.dns.zone(request[0])),
-      map((zones) => zones.filter((x) => x.zone_name == this.zoneName())?.[0] ?? {}),
+      map((zones) => zones.filter((x) => x.name == this.zoneName())?.[0] ?? {}),
       tap((zones) =>
         zones.records.filter((x) => {
-          x.records = x.records.filter((y) => y.record_name.includes(this.search()));
+          x.records = x.records.filter((y) => y?.name?.includes(this.search()));
           return x;
         }),
       ),

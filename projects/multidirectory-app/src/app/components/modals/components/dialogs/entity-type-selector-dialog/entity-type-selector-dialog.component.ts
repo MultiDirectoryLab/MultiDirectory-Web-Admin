@@ -19,9 +19,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntityTypeSelectorDialogComponent implements OnInit {
-  public tree = ENTITY_TYPES.map(
-    (x) => new Treenode({ id: x.id, name: x.name, loadChildren: undefined }),
-  );
+  public tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name }));
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<

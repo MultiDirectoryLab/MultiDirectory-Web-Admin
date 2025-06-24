@@ -480,7 +480,9 @@
     "about": "О программе",
     "kdc-principals": "Принципалы Kerberos",
     "dns-settings": "Настройки DNS",
-    "sessions": "Сессии"
+    "sessions": "Сессии",
+    "access-policy": "Политики доступа",
+    "password-policy": "Парольные политики"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",

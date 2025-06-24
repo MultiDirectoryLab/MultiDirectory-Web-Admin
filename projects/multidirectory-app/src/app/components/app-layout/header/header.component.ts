@@ -4,7 +4,6 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
 import { SearchPanelComponent } from '@features/search/search-panel.component';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ContentViewService } from '@services/content-view.service';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
@@ -27,6 +26,7 @@ import {
   EntityPropertiesDialogReturnData,
 } from '../../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../../modals/services/dialog.service';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 
 @Component({
   selector: 'app-header',

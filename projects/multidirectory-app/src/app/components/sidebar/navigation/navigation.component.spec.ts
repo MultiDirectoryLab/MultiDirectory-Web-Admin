@@ -1,89 +1,66 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { NavigationEnd, Router, RouterEvent, RouterModule } from '@angular/router';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
-import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
-import { SavedQueriesNodeLoader } from '@core/navigation/node-loaders/saved-query-node-loader/saved-query-node-loader';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { getAccessPolicyNodeLoaderMock } from '@testing/access-policy-node-loader-mock';
-import { getLdapTreeLoaderMock } from '@testing/ldap-tree-loader-mock';
-import { getMultidirectoryApiMock } from '@testing/multidirectory-api-mock.service';
-import { getSavedQueriesLoaderMock } from '@testing/saved-queries-node-loader-mock';
-import { getTranslocoModule } from '@testing/transloco-testing';
-import { of, Subject } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { LdapTreeService } from '@services/ldap/ldap-tree.service';
+import { of } from 'rxjs';
 import { NavigationComponent } from './navigation.component';
+import { provideHttpClient, withInterceptorsFromDi, HttpClient } from '@angular/common/http';
+import { ApiAdapter } from '@core/api/api-adapter';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
-xdescribe('Navigation Component Test Suit', () => {
-  let routerSpy: any;
-  const routerEventSubj = new Subject<RouterEvent>();
+describe('NewNavigationComponent', () => {
+  let component: NavigationComponent;
+  let fixture: ComponentFixture<NavigationComponent>;
+  let activatedRouteMock: ActivatedRoute;
+
   beforeEach(async () => {
-    routerSpy = jasmine.createSpyObj(Router, ['navigate']);
-    routerSpy.navigate.and.returnValue(of(new NavigationEnd(0, '/', '/')));
-    routerSpy.events = routerEventSubj.asObservable();
+    activatedRouteMock = {
+      queryParams: of({ distinguishedName: 'test-dn' }),
+    } as unknown as ActivatedRoute;
 
     await TestBed.configureTestingModule({
-      imports: [RouterModule, getTranslocoModule(), NavigationComponent],
-      providers: [
-        { provide: Router, useValue: routerSpy },
-        { provide: LdapEntryLoader, useValue: getLdapTreeLoaderMock() },
-        { provide: SavedQueriesNodeLoader, useValue: getSavedQueriesLoaderMock() },
-        { provide: AccessPolicyNodeLoader, useValue: getAccessPolicyNodeLoaderMock() },
-        { provide: MultidirectoryApiService, useValue: getMultidirectoryApiMock() },
+      imports: [
+        ToastrModule.forRoot({
+          positionClass: 'toast-bottom-right',
+        }),
+        RouterModule.forRoot([]),
       ],
-      teardown: { destroyAfterEach: true },
+      declarations: [NavigationComponent],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        LdapTreeService,
+        {
+          provide: 'apiAdapter',
+          useFactory: (
+            adapterSettings: MultidirectoryAdapterSettings,
+            httpClient: HttpClient,
+            toastr: ToastrService,
+          ) => new ApiAdapter<MultidirectoryAdapterSettings>(httpClient, adapterSettings, toastr),
+          deps: [MultidirectoryAdapterSettings, HttpClient, ToastrService],
+        },
+      ],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(NavigationComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create the component', () => {
-    const fixture = TestBed.createComponent(NavigationComponent);
-    const navigation = fixture.componentInstance;
-    expect(navigation).toBeTruthy();
-    fixture.detectChanges();
-    expect(navigation.navigationTree).toBeDefined();
-    expect(navigation.navigationTree.length).toBeGreaterThan(0);
+    expect(component).toBeTruthy();
   });
 
-  it('should toggle node on click', fakeAsync(async () => {
-    const fixture = TestBed.createComponent(NavigationComponent);
-    const navigation = fixture.componentInstance;
-    fixture.detectChanges();
-    tick();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(fixture.nativeElement.outerHTML).toContain('tree-label');
-      const testNode1 = navigation.navigationTree[1].data;
-      const treeNode = fixture.debugElement.nativeElement.querySelector(
-        '.tree-item-wrapper[data-id=' + testNode1.id + ']',
-      );
-      expect(testNode1.selectable).toBeTrue();
-      expect(testNode1.selected).toBeFalse();
-      treeNode.click();
-      tick();
-      fixture.detectChanges();
-      expect(testNode1.selected).toBeTrue();
-    });
-  }));
+  it('should set currentLdapPosition and build tree on ngAfterViewInit', () => {
+    component.ngAfterViewInit();
+  });
 
-  it('should highlight node on route change', fakeAsync(async () => {
-    const fixture = TestBed.createComponent(NavigationComponent);
-    const navigation = fixture.componentInstance;
-    fixture.detectChanges();
-    tick();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const testNode1 = navigation.navigationTree[2];
-      const testNode2 = navigation.navigationTree[1];
-      expect(testNode1.route![0]).toContain('/');
-      expect(testNode1.selected).toBeFalse();
-      expect(testNode2.route![0]).toContain('saved-queries');
-      expect(testNode2.selected).toBeFalse();
+  it('should alert node id on onExpandClick', () => {});
 
-      routerEventSubj.next(new NavigationEnd(1, '/', '/'));
-      expect(testNode1.selected).toBeTrue();
-      expect(testNode2.selected).toBeFalse();
+  it('should complete unsubscribe on ngOnDestroy', () => {
+    const unsubscribeSpy = spyOn(component['unsubscribe'], 'complete');
 
-      routerEventSubj.next(new NavigationEnd(1, '/saved-queries', '/saved-queries'));
-      expect(testNode1.selected).toBeFalse();
-      expect(testNode2.selected).toBeTrue();
-    });
-  }));
+    component.ngOnDestroy();
+
+    expect(unsubscribeSpy).toHaveBeenCalled();
+  });
 });

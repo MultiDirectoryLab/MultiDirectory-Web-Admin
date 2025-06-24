@@ -39,14 +39,14 @@ describe('EntityAttributesComponent', () => {
     propertiesService = TestBed.inject(LdapPropertiesService);
   });
 
-  const partialAttributes = [
+  const LdapAttributes = [
     { type: 'distingushedName', vals: ['firstValue', 'secondValue'] },
     { type: 'cn', vals: ['test'] },
     { type: 'fullname', vals: [] },
   ];
 
   function getAccessor(): LdapAttributes {
-    const attributes = new LdapAttributes(partialAttributes);
+    const attributes = new LdapAttributes(LdapAttributes);
     const node = LdapNodeMock;
     const accessor = attributeService.getTrackableAttributes(node, attributes);
     return accessor;

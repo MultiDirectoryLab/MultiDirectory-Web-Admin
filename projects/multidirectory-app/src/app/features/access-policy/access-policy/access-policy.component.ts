@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { Constants } from '@core/constants';
 import { translate } from '@jsverse/transloco';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
 import { PlaneButtonComponent, ShiftCheckboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, take } from 'rxjs';
-import { DialogService } from '../../../components/modals/services/dialog.service';
-import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,
   ConfirmDialogReturnData,
-} from '../../../components/modals/interfaces/confirm-dialog.interface';
+} from '@components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DialogService } from '@components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-acccess-policy',

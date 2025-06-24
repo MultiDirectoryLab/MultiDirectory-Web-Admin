@@ -1,7 +1,7 @@
-import { DnsRule } from '../dns-rule';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 export class DnsZoneRecordWithType {
-  record_type = '';
+  type = '';
   records: DnsRule[] = [];
   constructor(obj: Partial<DnsZoneRecordWithType>) {
     Object.assign(this, obj);
@@ -9,8 +9,8 @@ export class DnsZoneRecordWithType {
 }
 
 export class DnsZoneListResponse {
-  zone_name = '';
-  zone_type = '';
+  name = '';
+  type = '';
   records: DnsZoneRecordWithType[] = [];
 
   constructor(obj: Partial<DnsZoneListResponse>) {

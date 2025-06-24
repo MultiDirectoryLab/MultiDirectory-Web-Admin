@@ -1,8 +1,5 @@
 import { ChangeDetectorRef, Component, inject, Input, input, output } from '@angular/core';
 import { translate } from '@jsverse/transloco';
-import { ConfirmDialogDescriptor } from '@models/confirm-dialog/confirm-dialog-descriptor';
-import { DnsRule } from '@models/dns/dns-rule';
-import { DnsRuleType } from '@models/dns/dns-rule-type';
 import { PlaneButtonComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { take, EMPTY } from 'rxjs';
@@ -12,6 +9,9 @@ import {
   ConfirmDialogData,
 } from '../../../components/modals/interfaces/confirm-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
+import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
+import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 
 @Component({
   selector: 'app-dns-rule-list-item',

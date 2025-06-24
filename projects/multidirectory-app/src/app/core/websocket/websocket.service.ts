@@ -1,15 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { WebsocketState } from '@models/core/websocket/web-socket-state';
 import { Observable, Subject, tap } from 'rxjs';
 import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
-
-export enum WebsocketState {
-  INITIAL = 'INITIAL',
-  CONNECTED = 'CONNECTED',
-  CLOSED = 'CLOSED',
-  ERROR = 'ERROR',
-  NEVER_EXISTED = 'NEVER_EXISTED',
-}
 
 export class WebsocketTokenHandle {
   state = WebsocketState.NEVER_EXISTED;

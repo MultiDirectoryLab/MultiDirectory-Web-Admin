@@ -14,25 +14,26 @@
       </md-plane-button>
     </div>
     <md-button (click)="openCreateUser()">
-      <span class="flex justify-between gap-0.5">
+      <span class="flex justify-between gap-4">
         <img [src]="'assets/person_add.svg'" />
         {{ 'catalog-content.create-user' | transloco }}
       </span>
     </md-button>
     <md-button (click)="openCreateGroup()">
-      <span class="flex justify-between gap-0.5">
+      <span class="flex justify-between gap-4">
         <img [src]="'assets/group.svg'" style="transform: scale(1.35)" />
         {{ 'catalog-content.create-group' | transloco }}
       </span>
     </md-button>
+
     <!--    <md-button [disabled]="true" class="hidden" (click)="createObjectModal.open()">-->
-    <!--      <span class="flex justify-between gap-0.5">-->
+    <!--      <span class="flex justify-between gap-4">-->
     <!--        <img [src]="'assets/group_add.svg'" />-->
     <!--        {{ 'catalog-content.create-object' | transloco }}-->
     <!--      </span>-->
     <!--    </md-button>-->
     <md-button (click)="openCreateComputer()">
-      <span class="flex justify-between gap-0.5">
+      <span class="flex justify-between gap-4">
         <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px" />
         {{ 'catalog-content.create-computer' | transloco }}
       </span>

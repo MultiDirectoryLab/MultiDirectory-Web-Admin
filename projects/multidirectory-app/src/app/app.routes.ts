@@ -24,18 +24,6 @@ export const appRoutes: Routes = [
         outlet: 'sidebar',
       },
       {
-        path: 'access-policy',
-        loadChildren: () =>
-          import('@features/access-policy/access-policy.routes').then((r) => r.accessPolicyRoutes),
-      },
-      {
-        path: 'password-policy',
-        loadChildren: () =>
-          import('@features/password-policy/password-policy.routes').then(
-            (r) => r.passwordPolicyRoutes,
-          ),
-      },
-      {
         path: 'ldap',
         loadChildren: () =>
           import('@features/ldap-browser/ldap-browser.routes').then((r) => r.ldapBrowserRoutes),

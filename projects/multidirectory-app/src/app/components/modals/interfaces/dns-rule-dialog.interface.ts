@@ -1,4 +1,4 @@
-import { DnsRule } from '@models/dns/dns-rule';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 export type DnsRuleDialogReturnData = DnsRule | null;
 

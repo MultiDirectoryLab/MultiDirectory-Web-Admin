@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapAttributesProxyHandler } from '@core/ldap/ldap-attributes/ldap-attributes-proxy';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { ChangeDescription } from '@core/ldap/ldap-change';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/entry/update-request';
+import { LdapChange, LdapOperation, UpdateEntryRequest } from '@models/api/entry/update-request';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class AttributeService {
         (keyValue) =>
           new ChangeDescription({
             operation: LdapOperation.Add,
-            attribute: new PartialAttribute({
+            attribute: new LdapAttribute({
               type: keyValue[0],
               vals: keyValue[1],
             }),
@@ -41,7 +41,7 @@ export class AttributeService {
         (keyValue) =>
           new ChangeDescription({
             operation: LdapOperation.Replace,
-            attribute: new PartialAttribute({
+            attribute: new LdapAttribute({
               type: keyValue[0],
               vals: keyValue[1],
             }),
@@ -56,7 +56,7 @@ export class AttributeService {
         (keyValue) =>
           new ChangeDescription({
             operation: LdapOperation.Delete,
-            attribute: new PartialAttribute({
+            attribute: new LdapAttribute({
               type: keyValue[0],
               vals: keyValue[1],
             }),
@@ -65,7 +65,7 @@ export class AttributeService {
     return toAdd.concat(toReplace).concat(toDelete);
   }
 
-  getTrackableAttributes(node: LdapEntryNode, attributes: LdapAttributes): LdapAttributes {
+  getTrackableAttributes(node: NavigationNode, attributes: LdapAttributes): LdapAttributes {
     const handler = new LdapAttributesProxyHandler(node, attributes);
     return new Proxy(attributes, handler);
   }

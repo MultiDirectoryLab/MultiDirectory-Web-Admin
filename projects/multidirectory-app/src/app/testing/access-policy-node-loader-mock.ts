@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { AccessPolicyNodeLoader } from '@core/navigation/node-loaders/policy-loaders/access-policy-node-loader/access-policy-node-loader';
-import { NavigationNode } from '@core/navigation/navigation-node';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export function getAccessPolicyNodeLoaderMock() {
   // Create jasmine spy object

@@ -1,6 +1,6 @@
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export interface SearchResult {
   name: string;
-  entry: LdapEntryNode;
+  entry: NavigationNode;
 }

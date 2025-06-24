@@ -16,8 +16,8 @@ import { CreateRuleDialogData } from '../../../interfaces/create-rule-dialog.int
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../services/dialog.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
 
 @Component({
   selector: 'app-create-rule-dialog',
@@ -63,23 +63,23 @@ export class CreateRuleDialogComponent implements OnInit {
         new CreateEntryRequest({
           entry: `cn=${this.ruleName},` + this.dialogData.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['top', 'sudoRole'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.description],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoUser',
               vals: ['!ALL'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoHost',
               vals: ['!ALL'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'sudoCommand',
               vals: ['!ALL'],
             }),

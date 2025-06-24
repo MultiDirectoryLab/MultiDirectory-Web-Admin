@@ -18,7 +18,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withRouterConfig } from '@angular/router';
+import { provideRouter, RouteReuseStrategy, withRouterConfig } from '@angular/router';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';

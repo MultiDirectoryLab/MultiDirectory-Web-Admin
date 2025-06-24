@@ -14,11 +14,16 @@ import {
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
-import { EditPropertyRequest } from '@models/entity-attribute/edit-property-request';
-import { SchemaEntry } from '@models/entity-attribute/schema-entry';
-import { LdapPropertiesService } from '@services/ldap-properties.service';
-import { ButtonComponent, DatagridComponent, Page, TextboxComponent } from 'multidirectory-ui-kit';
+import {
+  ButtonComponent,
+  CheckboxComponent,
+  DatagridComponent,
+  DropdownComponent,
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  DropdownOption,
+  TextboxComponent,
+} from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
@@ -30,6 +35,11 @@ import {
 } from '../../components/modals/interfaces/property-edit-dialog.interface';
 import { ContextMenuService } from '../../components/modals/services/context-menu.service';
 import { DialogService } from '../../components/modals/services/dialog.service';
+import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
+import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
+import { T } from 'node_modules/@angular/cdk/portal-directives.d-DbeNrI5D';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -41,6 +51,9 @@ import { DialogService } from '../../components/modals/services/dialog.service';
     FormsModule,
     ButtonComponent,
     DatagridComponent,
+    CheckboxComponent,
+    DropdownMenuComponent,
+    DropdownContainerDirective,
     NgClass,
   ],
 })
@@ -57,8 +70,18 @@ export class EntityAttributesComponent implements OnInit {
   rows: { name: string; val: string }[] = [];
   searchQuery = '';
   filter = signal(new AttributeFilter());
-  page = new Page({ pageNumber: 1, size: 200, totalElements: 4000 });
   propColumns: TableColumn[] = [];
+
+  offset = 0;
+  total = 0;
+  pageSizes: DropdownOption[] = [
+    { title: '15', value: 15 },
+    { title: '20', value: 20 },
+    { title: '30', value: 30 },
+    { title: '50', value: 50 },
+    { title: '100', value: 100 },
+  ];
+  limit = this.pageSizes[0].value;
 
   private _accessor: LdapAttributes = {};
 
@@ -76,7 +99,6 @@ export class EntityAttributesComponent implements OnInit {
   constructor() {
     effect(() => {
       this.filter();
-
       this.onFilterChange();
     });
   }
@@ -150,14 +172,11 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   onFilterChange() {
-    this.page.pageNumber = 1;
     this.displayAttributes();
   }
 
-  onPageChanged(event: Page) {
-    this.page = event;
-    this.page.size = this.rows.length;
-    this.page.totalElements = this.rows.length;
+  onPageChanged(event: number) {
+    this.offset = event;
     this.cdr.detectChanges();
   }
 
@@ -211,7 +230,9 @@ export class EntityAttributesComponent implements OnInit {
       });
 
     this.rows = this.filterData(Array.from(this.rows));
-    this.onPageChanged(this.page);
+
+    this.offset = 0;
+    this.total = this.rows.length;
     this.cdr.detectChanges();
   }
 

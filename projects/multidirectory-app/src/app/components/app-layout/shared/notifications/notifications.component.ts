@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { AlertComponent } from 'multidirectory-ui-kit';

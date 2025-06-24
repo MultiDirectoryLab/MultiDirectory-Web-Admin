@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { filter, startWith, Subject } from 'rxjs';
 
 @Component({
@@ -11,20 +12,15 @@ import { filter, startWith, Subject } from 'rxjs';
   imports: [TranslocoDirective, RouterLink, NgClass],
 })
 export class AppSettingsNavigationComponent implements OnDestroy {
-  private router = inject(Router);
+  private navigation = inject(AppNavigationService);
 
   url = '';
   _unsubscribe = new Subject<void>();
 
   constructor() {
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        startWith({}),
-      )
-      .subscribe(() => {
-        this.url = this.router.url;
-      });
+    this.navigation.navigationEnd.subscribe(() => {
+      this.url = this.navigation.url;
+    });
   }
 
   ngOnDestroy(): void {

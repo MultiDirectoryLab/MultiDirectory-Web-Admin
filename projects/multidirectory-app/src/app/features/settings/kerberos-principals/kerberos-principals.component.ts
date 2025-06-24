@@ -1,13 +1,9 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchQueries } from '@core/ldap/search';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { SearchResult } from '@features/search/models/search-result';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { SearchEntry } from '@models/entry/search-response';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -17,7 +13,6 @@ import {
   DatagridComponent,
   DropdownMenuComponent,
   DropdownOption,
-  Page,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
@@ -29,6 +24,8 @@ import {
   AddPrincipalDialogReturnData,
 } from '../../../components/modals/interfaces/add-principal-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
+import { SearchEntry } from '@models/api/entry/search-entry';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 
 @Component({
   selector: 'app-kerberos-principals',
@@ -48,9 +45,7 @@ import { DialogService } from '../../../components/modals/services/dialog.servic
 export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   private api = inject(MultidirectoryApiService);
   private app = inject(AppSettingsService);
-  private ldapLoader = inject(LdapEntryLoader);
   private windows = inject(AppWindowsService);
-  private cdr = inject(ChangeDetectorRef);
   private toastr = inject(ToastrService);
   private _kadminPrefixes = ['K/', 'krbtgt/', 'kadmin/', 'kiprop/'];
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
@@ -67,7 +62,8 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  page = new Page();
+  page = 1;
+
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
 
@@ -102,38 +98,10 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     return !isKerberosPrincipal && !isUserPrincipal;
   }
 
-  updateContent() {
-    this.ldapLoader
-      .get()
-      .pipe(
-        switchMap((x) =>
-          this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
-        ),
-        catchError((err) => {
-          return throwError(() => err);
-        }),
-      )
-      .subscribe((res) => {
-        this.columns = [
-          { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
-        ];
-        this.principals = res.search_result
-          .map((x) => {
-            x.object_name = x.object_name.replace('krbprincipalname=', '');
-            return x;
-          })
-          .filter((x) => this.filterPrincipals(x))
-          .map(
-            (node) =>
-              ({
-                name:
-                  node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
-                  node.object_name,
-              }) as SearchResult,
-          );
-        this.cdr.detectChanges();
-      });
-  }
+  updateContent() {}
+
+  onPageChanged($event: number) {}
+  onDoubleClick($event: InputEvent) {}
 
   exportKeytab() {
     const grid = this.grid();

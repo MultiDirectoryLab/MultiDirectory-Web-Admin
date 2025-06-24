@@ -18,8 +18,8 @@ import { DialogService } from '../../../services/dialog.service';
 import { DialogRef } from '@angular/cdk/dialog';
 import { catchError, EMPTY } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AddPrincipalRequest } from '@models/kerberos/add-principal-request';
 import { AddPrincipalDialogReturnData } from '../../../interfaces/add-principal-dialog.interface';
+import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request';
 
 @Component({
   selector: 'app-add-principal-dialog',

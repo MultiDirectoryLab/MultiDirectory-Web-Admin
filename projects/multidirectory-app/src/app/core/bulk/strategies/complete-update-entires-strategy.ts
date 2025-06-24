@@ -4,7 +4,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { combineLatest, Observable } from 'rxjs';
-import { UpdateEntryResponse } from '@models/entry/update-response';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
 
 @Injectable({
   providedIn: 'root',

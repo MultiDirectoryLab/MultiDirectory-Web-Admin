@@ -1,15 +1,10 @@
-import { DnPart } from './distinguished-name';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 export class LdapNamesHelper {
-  static getDnParts(dn: string): DnPart[] {
-    const rawDnParts = dn.split(',').map((x) => x.trim().split('='));
-    const dnParts = rawDnParts.map((element) => {
-      return { type: element[0], value: element[1] };
-    });
-    return dnParts;
-  }
-
   static getDnParent(dn: string): string {
+    if (!dn || dn.startsWith('dc=')) {
+      return '';
+    }
     const rawDnParts = dn.split(',').map((x) => x.trim().split('='));
     const dnParts = rawDnParts.map((element) => {
       return { type: element[0], value: element[1] };
@@ -19,6 +14,9 @@ export class LdapNamesHelper {
   }
 
   static getDnName(dn: string): string {
+    if (!dn) {
+      return '';
+    }
     const rawDnParts = dn.split(',').map((x) => x.trim().split('='));
     const dnParts = rawDnParts.map((element) => {
       return { type: element[0], value: element[1] };
@@ -27,13 +25,20 @@ export class LdapNamesHelper {
     return dnParts.map((x) => `${x.type}=${x.value}`).join(',');
   }
 
-  static dnContain(left: DnPart[], right: DnPart[]) {
-    const leftParts = left.map((x) => x.value);
-    const rightParts = right.map((x) => x.value);
-    return rightParts.every((x) => leftParts.includes(x));
+  static isDnChild(parentDn: string, childDn: string): boolean {
+    if (parentDn == '' && childDn == '') {
+      return true;
+    }
+    const childIncluded = childDn?.endsWith(parentDn) ?? false;
+    const parentExcluded = childDn?.replace(parentDn, '') ?? '';
+    return childIncluded && parentExcluded.split('=').length == 2;
   }
 
-  static dnEqual(left: DnPart[], right: DnPart[]) {
-    return left.map((x) => x.value).join('.') == right.map((x) => x.value).join('.');
+  static isDomainController(dn: string): boolean {
+    const rawDnParts = dn.split(',').map((x) => x.trim().split('='));
+    const dnParts = rawDnParts.map((element) => {
+      return { type: element[0], value: element[1] };
+    });
+    return dnParts.every((x) => x.type == 'dc');
   }
 }

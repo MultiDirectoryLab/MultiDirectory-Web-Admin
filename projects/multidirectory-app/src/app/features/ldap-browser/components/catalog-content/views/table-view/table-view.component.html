@@ -4,31 +4,32 @@
   [rows]="rows"
   [columns]="columns"
   [externalPaging]="true"
-  (contextmenu)="handleRightClick($event)"
-  [page]="page"
-  (pageChanged)="onPageChanged($event)"
-  (doubleclick)="onDoubleClick($event)"
-  (selectionChanged)="onRowSelect()"
   [pageSizes]="pageSizes"
+  [(total)]="total"
+  [(limit)]="limit"
+  [(offset)]="offset"
+  (selectionChanged)="onRowSelect()"
+  (doubleclick)="onDoubleClick($event)"
   pagerTitle="{{ 'grid.pager-title' | transloco }}"
   fromTitle="{{ 'grid.from-title' | transloco }}"
   emptyMessage="{{ 'grid.no-data' | transloco }}"
   [controlPanelRef]="showControlPanel ? controlPanel : null"
   [headerHeight]="showControlPanel ? 68 : 36"
-/>
+></md-datagrid>
+
 <ng-template #iconTemplate let-row="row" let-value="value">
   <img class="flex w-full-icon" [src]="row.icon" />
   {{ row.name }}
 </ng-template>
 
 <ng-template #controlPanel>
-  <div class="flex justify-between gap-0.5 pl-8 overflow-hidden control-row">
-    <div class="flex gap-0.5">
+  <div class="flex justify-between gap-4 pl-8 overflow-hidden control-row">
+    <div class="flex gap-4">
       <md-checkbox [(ngModel)]="checkAllCheckbox">
         {{ 'table-view.select-all' | transloco }}
       </md-checkbox>
       <md-plane-button class="go-to-parent" (click)="handleGoToParent()">
-        <label class="flex gap-0.5" style="padding-top: 3px">
+        <label class="flex gap-4" style="padding-top: 3px">
           <img class="mw-12" [src]="'assets/folder-up.svg'" />
           <div>{{ 'table-view.go-to-parent' | transloco }}</div>
         </label>

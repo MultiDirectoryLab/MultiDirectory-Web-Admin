@@ -12,7 +12,6 @@ import { MultidirectoryUiKitModule, MultiselectComponent } from 'multidirectory-
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { LdapEntryLoader } from '@core/navigation/node-loaders/ldap-entry-loader/ldap-entry-loader';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
@@ -64,7 +63,6 @@ export class EntitySelectorDialogComponent implements OnInit {
   private destroyRef: DestroyRef = inject(DestroyRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private ldapLoader: LdapEntryLoader = inject(LdapEntryLoader);
 
   public ngOnInit(): void {
     if (this.settings.selectedEntityTypes && this.settings.selectedEntityTypes.length > 0) {
@@ -73,14 +71,7 @@ export class EntitySelectorDialogComponent implements OnInit {
 
     this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
     this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
-
-    this.ldapLoader
-      .get()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((x) => {
-        this.selectedCatalogDn = x[0].id ?? '';
-        this.cdr.detectChanges();
-      });
+    this.selectedCatalogDn = this.settings.selectedPlaceDn;
   }
 
   /** METHODS**/
@@ -118,7 +109,6 @@ export class EntitySelectorDialogComponent implements OnInit {
         component: CatalogSelectorDialogComponent,
         dialogConfig: {
           minHeight: '360px',
-          data: [],
         },
       })
       .closed.pipe(take(1))
@@ -145,9 +135,7 @@ export class EntitySelectorDialogComponent implements OnInit {
         map((res) => ({
           ...res,
           search_result: res.search_result.filter((entity) =>
-            this.settings.entityToMove.every(
-              (e) => !entity.object_name.includes(e.entry?.object_name as string),
-            ),
+            this.settings.entityToMove.every((e) => !entity.object_name.includes(e.id)),
           ),
         })),
         catchError((err) => throwError(() => err)),
@@ -172,8 +160,6 @@ export class EntitySelectorDialogComponent implements OnInit {
   }
 
   public finish(): void {
-    console.log('this.selector', this.selector);
-    console.log('this.selector?.selectedData', this.selector?.selectedData);
     this.dialogService.close(this.dialogRef, this.selector?.selectedData);
   }
 }

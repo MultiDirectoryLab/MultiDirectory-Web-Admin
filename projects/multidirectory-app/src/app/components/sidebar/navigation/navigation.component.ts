@@ -1,12 +1,10 @@
-import { Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { NavigationNode } from '@core/navigation/navigation-node';
-import { AppNavigationService, NavigationEventWrapper } from '@services/app-navigation.service';
-import { RightClickEvent, TreeSearchHelper, TreeviewComponent } from 'multidirectory-ui-kit';
-import { of, Subject, switchMap, takeUntil } from 'rxjs';
-import { ContextMenuComponent } from '../../modals/components/core/context-menu/context-menu.component';
-import { ContextMenuService } from '../../modals/services/context-menu.service';
+import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { ContextMenuService } from '@services/contextmenu.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { RightClickEvent, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
+import { from, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -14,75 +12,35 @@ import { ContextMenuService } from '../../modals/services/context-menu.service';
   templateUrl: './navigation.component.html',
   imports: [TreeviewComponent],
 })
-export class NavigationComponent implements OnInit, OnDestroy {
-  private contextMenuService: ContextMenuService = inject(ContextMenuService);
-  private navigation = inject(AppNavigationService);
-  private route = inject(ActivatedRoute);
+export class NavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
-  readonly treeView = viewChild.required<TreeviewComponent>('treeView');
-  public navigationTree: NavigationNode[] = [];
+  private currentLdapPosition: string = '';
 
-  ngOnInit(): void {
-    this.navigation.navigationRx
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(([navigationTree, navigationEvent]) => {
-        this.navigationTree = navigationTree;
-        this.handleRouteChange(navigationTree, navigationEvent);
+  private navigation = inject(AppNavigationService);
+  private ldap = inject(LdapTreeviewService);
+  private contextMenu = inject(ContextMenuService);
+
+  ldapTree: NavigationNode[] = [];
+
+  ngAfterViewInit(): void {
+    this.navigation.navigationEnd
+      .pipe(
+        takeUntil(this.unsubscribe),
+        tap((x) => {
+          const distinguishedName = this.navigation.snapshot.queryParams['distinguishedName'];
+          this.currentLdapPosition = distinguishedName;
+        }),
+        switchMap((x) => {
+          return from(this.ldap.load(this.currentLdapPosition));
+        }),
+        tap((x) => {
+          this.ldap.setPathExpanded(this.currentLdapPosition);
+          this.ldap.setSelected(this.currentLdapPosition);
+        }),
+      )
+      .subscribe((x) => {
+        this.ldapTree = x;
       });
-  }
-
-  handleRouteChange(navigationTree: NavigationNode[], event: NavigationEventWrapper) {
-    let url = event.event.url;
-    const rootDse = navigationTree[2] as LdapEntryNode;
-
-    if (url.startsWith('/')) {
-      url = url.substring(1);
-    }
-    // Поиск узла для выбора в дереве
-    let node: NavigationNode | undefined;
-    // Что у нас есть в node, по чему мы можем идентифицировать узел?
-    if (url == '') {
-      this.treeView().select(null);
-      return;
-    }
-
-    if (url == 'ldap') {
-      this.navigation.navigate(rootDse);
-      return;
-    }
-
-    if (url.startsWith('ldap?')) {
-      const dn = this.route.snapshot.queryParams['distinguishedName'];
-      this.navigation.goTo(dn, [rootDse]).then((node) => {
-        if (!node) {
-          return;
-        }
-        const reloadSelection = event.navigation?.extras?.state?.['reloadSelection'] ?? false;
-        if (!node.selected || reloadSelection) {
-          this.treeView().select(node);
-        }
-      });
-      return;
-    }
-    TreeSearchHelper.traverseTree<NavigationNode>(this.navigationTree, (n: NavigationNode) => {
-      n.selected = false;
-      if (!n.route) {
-        return;
-      }
-      // Что такое nodeUrl?
-      let nodeUrl = n.route.join('/');
-      if (nodeUrl.startsWith('/')) {
-        nodeUrl = nodeUrl.substring(1);
-      }
-
-      // Мы ищем узел в LDAP каталоге по query и это плохо
-      if (nodeUrl == url) {
-        node = n;
-      }
-    });
-    if (node) {
-      this.treeView().select(node);
-    }
   }
 
   ngOnDestroy(): void {
@@ -90,26 +48,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  handleNodeSelection(node: NavigationNode) {
-    this.navigation.navigate(node);
+  handleNodeSelection(node: Treenode) {
+    if (node instanceof NavigationNode) {
+      this.navigation.navigate(node.route, node.routeData);
+    }
   }
 
-  handleNodeRightClick({ node, event: { x, y } }: RightClickEvent) {
-    if (node instanceof LdapEntryNode) {
-      this.treeView().focus(node);
+  handleNodeExpantion(node: Treenode) {
+    if (node instanceof NavigationNode) {
+    }
+  }
 
-      this.contextMenuService
-        .open({
-          component: ContextMenuComponent,
-          x,
-          y,
-          contextMenuConfig: {
-            hasBackdrop: false,
-            data: { entity: [node] },
-          },
-        })
-        .closed.pipe(switchMap((result) => (!result ? of(null) : of(result))))
-        .subscribe();
+  handleNodeRightClick(event: RightClickEvent) {
+    if (event.node instanceof NavigationNode) {
+      this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
     }
   }
 }

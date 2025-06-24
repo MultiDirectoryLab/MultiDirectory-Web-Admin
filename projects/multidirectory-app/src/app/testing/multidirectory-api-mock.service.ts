@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { LoginResponse } from '@models/login/login-response';
-import { SearchRequest } from '@models/entry/search-request';
+import { LoginResponse } from '@models/api/login/login-response';
+import { SearchRequest } from '@models/api/entry/search-request';
 import { MockedSchema, MockedTree } from './scheme/mocked-schema';
 
 export function getMultidirectoryApiMock() {
@@ -24,7 +24,22 @@ export function getMultidirectoryApiMock() {
     if (request.base_object.includes('CN=Schema')) {
       return of(MockedSchema);
     }
-
+    if (request.base_object == '' && request.scope == 0) {
+      const result = Object.assign({}, MockedTree);
+      const foundEntries = [result.search_result[0]];
+      result.search_result = foundEntries;
+      return of(result);
+    }
+    if (request.scope == 1) {
+      const result = Object.assign({}, MockedTree);
+      const foundEntries = result.search_result.filter(
+        (x) =>
+          x.object_name.endsWith(request.base_object) &&
+          x.object_name.length > request.base_object.length,
+      );
+      result.search_result = foundEntries;
+      return of(result);
+    }
     return of(MockedTree);
   });
 
@@ -34,13 +49,13 @@ export function getMultidirectoryApiMock() {
 /**
  * .returnValue(
     of([
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-1',
       }),
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-2',
       }),
-      new LdapEntryNode({
+      new NavigationNode({
         id: 'search-result-3',
       }),
     ]),

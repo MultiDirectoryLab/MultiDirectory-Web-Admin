@@ -16,8 +16,8 @@ import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
 
 @Component({
   selector: 'app-create-organization-unit-dialog',
@@ -63,11 +63,11 @@ export class CreateOrganizationUnitDialogComponent implements OnInit {
         new CreateEntryRequest({
           entry: `ou=${this.ouName},` + this.dialogData.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['top', 'container', 'organizationalUnit'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.description],
             }),

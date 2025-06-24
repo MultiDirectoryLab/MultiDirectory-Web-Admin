@@ -13,8 +13,6 @@ import { RequiredWithMessageDirective } from '@core/validators/required-with-mes
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { take } from 'rxjs';
-import { CreateEntryRequest } from '@models/entry/create-request';
-import { PartialAttribute } from '@core/ldap/ldap-attributes/ldap-partial-attribute';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -26,6 +24,8 @@ import {
   EntitySelectorDialogReturnData,
   EntitySelectorSettings,
 } from '../../../interfaces/entity-selector-dialog.interface';
+import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
+import { CreateEntryRequest } from '@models/api/entry/create-request';
 
 @Component({
   selector: 'app-create-computer-dialog',
@@ -74,11 +74,11 @@ export class CreateComputerDialogComponent implements OnInit {
         new CreateEntryRequest({
           entry: `cn=${this.computerName},` + this.dialogData.parentDn,
           attributes: [
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'objectClass',
               vals: ['top', 'computer'],
             }),
-            new PartialAttribute({
+            new LdapAttribute({
               type: 'description',
               vals: [this.description],
             }),
@@ -97,7 +97,6 @@ export class CreateComputerDialogComponent implements OnInit {
   public showAccountSelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-
     this.dialogService
       .open<
         EntitySelectorDialogReturnData,
@@ -107,7 +106,10 @@ export class CreateComputerDialogComponent implements OnInit {
         component: EntitySelectorDialogComponent,
         dialogConfig: {
           minHeight: '360px',
-          data: new EntitySelectorSettings({ selectedEntities: [] }),
+          data: new EntitySelectorSettings({
+            selectedEntities: [],
+            selectedPlaceDn: this.dialogData.parentDn,
+          }),
         },
       })
       .closed.pipe(take(1))

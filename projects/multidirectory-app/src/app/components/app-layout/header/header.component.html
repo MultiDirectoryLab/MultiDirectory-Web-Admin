@@ -7,12 +7,12 @@
       @if (navigationalPanelInvisible) {
         <md-plane-button [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
           @if (!user?.jpegPhoto) {
-            <img [src]="'assets/avatar_placeholder.svg'" style="width: 24px; height: 24px" />
+            <img [src]="'assets/avatar_placeholder.svg'" style="min-width: 24px; height: 24px" />
           }
           @if (!!user?.jpegPhoto) {
             <img
               [src]="'data:image/jpg;base64,' + user?.jpegPhoto"
-              style="width: 24px; height: 24px"
+              style="min-width: 24px; height: 24px"
             />
           }
         </md-plane-button>

@@ -4,13 +4,13 @@ import { IpAddressValidatorDirective } from '@core/validators/ip-address.directi
 import { Ip6AddressValidatorDirective } from '@core/validators/ip6-address.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { DnsRule } from '@models/dns/dns-rule';
+import { DnsRule } from '@models/api/dns/dns-rule';
 import {
   AvailableDnsRecordTypes,
   DnsRuleClass,
   DnsRuleType,
   DnsTypeToDataType,
-} from '@models/dns/dns-rule-type';
+} from '@models/api/dns/dns-rule-type';
 import {
   ButtonComponent,
   CheckboxComponent,
@@ -59,17 +59,17 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.record_name = '@';
+      this.dnsRule.name = '@';
     }
     this.cdr.detectChanges();
   }
 
   get recordType() {
-    return this.dnsRule.record_type;
+    return this.dnsRule.type;
   }
 
   set recordType(type: DnsRuleType) {
-    this.dnsRule.record_type = type;
+    this.dnsRule.type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
@@ -84,7 +84,7 @@ export class DnsRulesDialogComponent implements OnInit, OnDestroy {
     this.dnsRule = this.modalInejctor.contentOptions?.dnsRule ?? new DnsRule({});
     this.editMode = this.modalInejctor.contentOptions?.editMode ?? false;
 
-    this.recordType = this.dnsRule.record_type;
+    this.recordType = this.dnsRule.type;
   }
 
   ngOnDestroy(): void {

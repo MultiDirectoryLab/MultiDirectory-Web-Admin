@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SessionComponent } from '@features/settings/sessions/session/session.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { UserSession } from '@models/sessions/user-session';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -14,6 +13,7 @@ import {
   ConfirmDialogReturnData,
 } from '../../../components/modals/interfaces/confirm-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
+import { UserSession } from '@models/api/sessions/user-session';
 
 @Component({
   selector: 'app-sessions',
@@ -61,7 +61,6 @@ export class SessionsComponent implements OnInit {
       )
       .subscribe(() => {
         this.toastr.success(translate('sessions.success'));
-        this.navigation.reload();
       });
   }
 
@@ -89,7 +88,6 @@ export class SessionsComponent implements OnInit {
       )
       .subscribe(() => {
         this.toastr.success(translate('sessions.success'));
-        this.navigation.reload();
       });
   }
 }

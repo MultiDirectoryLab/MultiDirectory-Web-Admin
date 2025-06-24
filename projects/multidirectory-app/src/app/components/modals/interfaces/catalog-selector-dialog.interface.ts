@@ -1,5 +1,7 @@
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
-export interface CatalogSelectorDialogData {}
+export interface CatalogSelectorDialogData {
+  ldapTree: NavigationNode[];
+}
 
-export type CatalogSelectorDialogReturnData = LdapEntryNode[];
+export type CatalogSelectorDialogReturnData = NavigationNode[];

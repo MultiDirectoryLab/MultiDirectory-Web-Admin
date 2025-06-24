@@ -13,13 +13,12 @@ import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-ki
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { DnsRule } from '@models/dns/dns-rule';
 import {
   AvailableDnsRecordTypes,
   DnsRuleClass,
   DnsRuleType,
   DnsTypeToDataType,
-} from '@models/dns/dns-rule-type';
+} from '@models/api/dns/dns-rule-type';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../components/modals/services/dialog.service';
@@ -28,6 +27,7 @@ import {
   DnsRuleDialogReturnData,
 } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
+import { DnsRule } from '@models/api/dns/dns-rule';
 
 @Component({
   selector: 'app-dns-rule-dialog',
@@ -69,17 +69,17 @@ export class DnsRuleDialogComponent implements OnInit {
   public set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.record_name = '@';
+      this.dnsRule.name = '@';
     }
     this.cdr.detectChanges();
   }
 
   public get recordType() {
-    return this.dnsRule.record_type;
+    return this.dnsRule.type;
   }
 
   public set recordType(type: DnsRuleType) {
-    this.dnsRule.record_type = type;
+    this.dnsRule.type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
@@ -90,7 +90,7 @@ export class DnsRuleDialogComponent implements OnInit {
       this.formValid = x;
     });
     this.dnsRule = this.dialogData.rule ?? {};
-    this.recordType = this.dnsRule.record_type;
+    this.recordType = this.dnsRule.type;
   }
 
   onFinish(event: MouseEvent) {

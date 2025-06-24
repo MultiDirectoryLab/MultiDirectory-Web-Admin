@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, iif, of, tap } from 'rxjs';
-import { WhoamiResponse } from '@models/whoami/whoami-response';
 import { MultidirectoryApiService } from './multidirectory-api.service';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
 import { TranslocoService } from '@jsverse/transloco';
-import { KerberosStatuses } from '@models/kerberos/kerberos-status';
-import { DnsStatusResponse } from '@models/dns/dns-status-response';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class AppSettingsService {
     this._darkModeRx.next(state);
   }
 
-  userEntry?: LdapEntryNode;
+  userEntry?: NavigationNode;
   private _user: WhoamiResponse = new WhoamiResponse({});
   get user(): WhoamiResponse {
     return this._user;

@@ -9,9 +9,6 @@ import {
   MoveEntityDialogData,
   MoveEntityDialogReturnData,
 } from '../../../interfaces/move-entity-dialog.interface';
-import { LdapEntryNode } from '@core/ldap/ldap-entity';
-import { ModifyDnRequest } from '@models/modify-dn/modify-dn';
-import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { EntitySelectorDialogComponent } from '../entity-selector-dialog/entity-selector-dialog.component';
 import {
   EntitySelectorDialogData,
@@ -19,6 +16,9 @@ import {
 } from '../../../interfaces/entity-selector-dialog.interface';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { take } from 'rxjs';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 
 @Component({
   selector: 'app-move-entity-dialog',
@@ -36,7 +36,7 @@ export class MoveEntityDialogComponent {
     inject(DialogRef);
   private dialogData: MoveEntityDialogData = inject(DIALOG_DATA);
 
-  public toMove: LdapEntryNode[] = this.dialogData.toMove;
+  public toMove: NavigationNode[] = this.dialogData.toMove;
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public change() {

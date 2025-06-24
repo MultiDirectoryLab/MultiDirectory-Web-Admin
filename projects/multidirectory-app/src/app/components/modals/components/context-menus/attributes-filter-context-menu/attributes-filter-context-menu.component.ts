@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { AttributeFilter } from '@models/entity-attribute/attribute-filter';
+import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { CheckboxComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 
