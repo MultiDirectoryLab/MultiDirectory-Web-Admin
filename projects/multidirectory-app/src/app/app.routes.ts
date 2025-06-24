@@ -56,6 +56,14 @@ export const appRoutes: Routes = [
       import('@features/settings/app-settings.routes').then((r) => r.appSettingsRoutes),
   },
   {
+    path: 'schema',
+    loadComponent: () =>
+      import('./components/app-layout/app-layout.component').then((c) => c.AppLayoutComponent),
+    canActivate: [authRouteGuardCanActivateFn],
+    loadChildren: () =>
+      import('@features/schema-browser/schema-browser.routes').then((r) => r.schemaBrowserRoutes),
+  },
+  {
     path: 'enable-backend',
     loadComponent: () =>
       import('./components/errors/display-error/display-error.component').then(
