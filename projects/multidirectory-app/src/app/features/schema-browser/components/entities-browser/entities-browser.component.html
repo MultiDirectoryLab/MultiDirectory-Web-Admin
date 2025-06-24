@@ -1,3 +1,9 @@
 <p>entities-browser works!</p>
 
-{{ entites() | json }}
+<md-datagrid
+  [rows]="entites()"
+  [columns]="columns()"
+  [total]="entites().length"
+  [limit]="entites().length"
+  [offset]="0"
+/>
