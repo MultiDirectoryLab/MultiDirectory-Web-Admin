@@ -34,6 +34,11 @@ import { SwapPolicyResponse } from '@models/api/policy/policy-swap-response';
 import { SetupRequest } from '@models/api/setup/setup-request';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
+import { SchemaEntitiesResponse } from '@models/api/schema/entities/schema-entities-response';
+import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
+import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
+import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
 
 @Injectable({
   providedIn: 'root',
@@ -265,5 +270,35 @@ export class MultidirectoryApiService {
 
   deleteUserSessions(upn: string): Observable<string> {
     return this.httpClient.delete<string>('sessions/' + upn).execute();
+  }
+
+  getSchemaEntities(pageNumber: number, pageSize: number): Observable<SchemaEntitiesResponse> {
+    return this.httpClient
+      .get<SchemaEntitiesResponse>(
+        `schema/entity_types?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
+  }
+
+  getSchemaObjectClasses(
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<SchemaObjectClassResponse> {
+    return this.httpClient
+      .get<SchemaObjectClassResponse>(
+        `schema/object_classes?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
+  }
+
+  getSchemaAttributes(
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<SchemaAttributeTypesResponse> {
+    return this.httpClient
+      .get<SchemaAttributeTypesResponse>(
+        `schema/attribute_types?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
   }
 }
