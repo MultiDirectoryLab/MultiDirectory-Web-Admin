@@ -3,7 +3,13 @@
 
   <div class="app-modal-body h-full">
     <div>{{ 'catalog-selector.header' | transloco }}</div>
-    <md-treeview #ldapTree [tree]="ldapRoots" class="treeview"> </md-treeview>
+    <md-treeview
+      #ldapTree
+      [tree]="ldapRoots"
+      (nodeExpandClick)="onExpandClick($event)"
+      class="treeview"
+    >
+    </md-treeview>
   </div>
 
   <div class="app-modal-footer flex justify-end gap-1">

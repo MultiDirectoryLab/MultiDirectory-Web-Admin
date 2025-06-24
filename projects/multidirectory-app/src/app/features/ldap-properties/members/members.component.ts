@@ -1,11 +1,11 @@
-import { Component, inject, Input, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Member } from '@core/groups/member';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
-import { take } from 'rxjs';
+import { from, take } from 'rxjs';
 import { EntitySelectorDialogComponent } from '../../../components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
 import {
   EntitySelectorDialogData,
@@ -13,6 +13,7 @@ import {
   EntitySelectorSettings,
 } from '../../../components/modals/interfaces/entity-selector-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-members',
@@ -21,6 +22,8 @@ import { DialogService } from '../../../components/modals/services/dialog.servic
   imports: [DatagridComponent, TranslocoPipe, ButtonComponent],
 })
 export class MembersComponent {
+  private cdr = inject(ChangeDetectorRef);
+  private ldapTreeview = inject(LdapTreeviewService);
   private dialogService: DialogService = inject(DialogService);
   members: Member[] = [];
   readonly memberList = viewChild<DatagridComponent>('groupList');
@@ -46,31 +49,36 @@ export class MembersComponent {
 
   addMember() {
     const types = ['group', 'user'];
-
-    this.dialogService
-      .open<
-        EntitySelectorDialogReturnData,
-        EntitySelectorDialogData,
-        EntitySelectorDialogComponent
-      >({
-        component: EntitySelectorDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: new EntitySelectorSettings({
-            selectedEntities: [],
-            selectedEntityTypes: ENTITY_TYPES.filter((x) => types.includes(x.entity)) ?? [],
-            allowSelectEntityTypes: false,
-          }),
-        },
-      })
-      .closed.pipe(take(1))
-      .subscribe((res) => {
-        if (res && !!this.accessor) {
-          res = res.filter((x) => !this.accessor!.member?.includes(x.id)) ?? res;
-          this.accessor.member =
-            this.accessor?.member?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
-          this.members = this.accessor?.member?.map((x) => this.createMemberFromDn(x)) ?? [];
-        }
+    from(this.ldapTreeview.load(''))
+      .pipe(take(1))
+      .subscribe((ldapTree) => {
+        this.dialogService
+          .open<
+            EntitySelectorDialogReturnData,
+            EntitySelectorDialogData,
+            EntitySelectorDialogComponent
+          >({
+            component: EntitySelectorDialogComponent,
+            dialogConfig: {
+              minHeight: '360px',
+              data: new EntitySelectorSettings({
+                selectedEntities: [],
+                selectedEntityTypes: ENTITY_TYPES.filter((x) => types.includes(x.entity)) ?? [],
+                allowSelectEntityTypes: false,
+                selectedPlaceDn: ldapTree[0].id,
+              }),
+            },
+          })
+          .closed.pipe(take(1))
+          .subscribe((res) => {
+            if (res && !!this.accessor) {
+              res = res.filter((x) => !this.accessor!.member?.includes(x.id)) ?? res;
+              this.accessor.member =
+                this.accessor?.member?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
+              this.members = this.accessor?.member?.map((x) => this.createMemberFromDn(x)) ?? [];
+              this.cdr.detectChanges();
+            }
+          });
       });
   }
 

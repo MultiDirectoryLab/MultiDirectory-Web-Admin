@@ -2,52 +2,54 @@
   <div class="app-modal-header">
     {{ 'group-selector.modal-header' | transloco }}
   </div>
-  <div class="flex flex-col h-full">
-    <div class="flex">
+  <div class="grid grid-rows-6 grid-cols-6 gap-1">
+    <div class="row-1 col-span-6 h-8">
       {{ 'group-selector.header' | transloco }}
     </div>
-    <div class="flex w-full gap-1">
-      <md-textbox
-        [(ngModel)]="entityTypeDisplay"
-        [disabled]="true"
-        class="grow-2 flex-grow-1"
-      ></md-textbox>
-      <md-button (click)="selectEntityType()" [disabled]="!allowSelectEntityTypes" class="grow-1">
-        {{ 'group-selector.object-types' | transloco }}
-      </md-button>
-    </div>
-    <div class="flex">
+
+    <md-textbox
+      [(ngModel)]="entityTypeDisplay"
+      [disabled]="true"
+      class="row-2 col-1 col-span-4"
+    ></md-textbox>
+    <md-button
+      (click)="selectEntityType()"
+      [disabled]="!allowSelectEntityTypes"
+      class="row-2 col-4 col-span-3"
+    >
+      {{ 'group-selector.object-types' | transloco }}
+    </md-button>
+
+    <div class="row-3 col-1 col-span-6">
       {{ 'group-selector.from-place' | transloco }}
     </div>
-    <div class="flex w-full gap-1">
-      <md-textbox
-        [(ngModel)]="selectedCatalogDn"
-        [disabled]="true"
-        class="grow-2 flex-grow-1"
-      ></md-textbox>
-      <md-plane-button (click)="selectCatalog()" [hasBorder]="true" class="grow-1">
-        {{ 'group-selector.places' | transloco }}
-      </md-plane-button>
-    </div>
-    <div class="flex">
+
+    <md-textbox
+      [(ngModel)]="selectedCatalogDn"
+      [disabled]="true"
+      class="row-4 col-1 col-span-4"
+    ></md-textbox>
+    <md-plane-button (click)="selectCatalog()" [hasBorder]="true" class="row-4 col-4 col-span-3">
+      {{ 'group-selector.places' | transloco }}
+    </md-plane-button>
+
+    <div class="row-5 col-span-6">
       {{ 'group-selector.name-prompt' | transloco }}
     </div>
-    <div class="flex-grow-1 row gap-1" style="height: 96px">
-      <!--md-textarea class="grow-2 flex-grow-1 w-full" [expandWidth]="true" [expandHeight]="true" [(ngModel)]="name"></md-textarea-->
-      <md-multiselect
-        #selector
-        (inputChanged)="checkNames()"
-        [(ngModel)]="name"
-        [notFoundText]="'group-selector.not-found-text' | transloco"
-        [options]="availableGroups"
-        [suppressMenu]="true"
-        class="grow-2 flex-grow-1"
-      >
-      </md-multiselect>
-      <md-plane-button (click)="checkNames()" [hasBorder]="true" class="grow-1 text-nowrap">
-        {{ 'group-selector.check-name' | transloco }}
-      </md-plane-button>
-    </div>
+
+    <md-multiselect
+      #selector
+      (inputChanged)="checkNames()"
+      [(ngModel)]="name"
+      [notFoundText]="'group-selector.not-found-text' | transloco"
+      [options]="availableGroups"
+      [suppressMenu]="true"
+      class="row-6 col-1 col-span-4"
+    >
+    </md-multiselect>
+    <md-plane-button (click)="checkNames()" [hasBorder]="true" class="row-6 col-4 col-span-3">
+      {{ 'group-selector.check-name' | transloco }}
+    </md-plane-button>
   </div>
   <div class="app-modal-footer">
     <div class="flex justify-between">

@@ -18,9 +18,8 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { ContentViewService } from '@services/content-view.service';
-import { delay, take, tap } from 'rxjs';
+import { delay, from, take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
-import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { CreateUserDialogComponent } from '@components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
 import {
@@ -62,6 +61,18 @@ import { CreateOrganizationUnitDialogComponent } from '@components/modals/compon
 import { DialogRef } from '@angular/cdk/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { EntitySelectorDialogComponent } from '@components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
+import {
+  EntitySelectorDialogReturnData,
+  EntitySelectorDialogData,
+  EntitySelectorSettings,
+} from '@components/modals/interfaces/entity-selector-dialog.interface';
+import { CatalogSelectorDialogComponent } from '@components/modals/components/dialogs/catalog-selector-dialog/catalog-selector-dialog.component';
+import {
+  CatalogSelectorDialogReturnData,
+  CatalogSelectorDialogData,
+} from '@components/modals/interfaces/catalog-selector-dialog.interface';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-catalog-content',
@@ -93,6 +104,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   private hotkeysService: HotkeysService = inject(HotkeysService);
   private destroyRef$ = inject(DestroyRef);
   private navigation = inject(AppNavigationService);
+  private ldapTreeviewService = inject(LdapTreeviewService);
 
   public currentView = this.contentView.contentView;
 

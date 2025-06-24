@@ -71,6 +71,7 @@ export class EntitySelectorDialogComponent implements OnInit {
 
     this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
     this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
+    this.selectedCatalogDn = this.settings.selectedPlaceDn;
   }
 
   /** METHODS**/
@@ -108,7 +109,6 @@ export class EntitySelectorDialogComponent implements OnInit {
         component: CatalogSelectorDialogComponent,
         dialogConfig: {
           minHeight: '360px',
-          data: [],
         },
       })
       .closed.pipe(take(1))
@@ -160,8 +160,6 @@ export class EntitySelectorDialogComponent implements OnInit {
   }
 
   public finish(): void {
-    console.log('this.selector', this.selector);
-    console.log('this.selector?.selectedData', this.selector?.selectedData);
     this.dialogService.close(this.dialogRef, this.selector?.selectedData);
   }
 }

@@ -97,7 +97,6 @@ export class CreateComputerDialogComponent implements OnInit {
   public showAccountSelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
-
     this.dialogService
       .open<
         EntitySelectorDialogReturnData,
@@ -107,7 +106,10 @@ export class CreateComputerDialogComponent implements OnInit {
         component: EntitySelectorDialogComponent,
         dialogConfig: {
           minHeight: '360px',
-          data: new EntitySelectorSettings({ selectedEntities: [] }),
+          data: new EntitySelectorSettings({
+            selectedEntities: [],
+            selectedPlaceDn: this.dialogData.parentDn,
+          }),
         },
       })
       .closed.pipe(take(1))
