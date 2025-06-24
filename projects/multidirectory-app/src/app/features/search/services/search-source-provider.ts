@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, from, map, of } from 'rxjs';
 import { SearchType } from '../models/search-type';
 import { SearchSource } from '../models/search-source';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Injectable()
 export class SearchSourceProvider {
+  private ldapTreeview = inject(LdapTreeviewService);
   getSearchSources(type: SearchType): Observable<SearchSource[]> {
     if (type == SearchType.Ldap) {
       return this.getLdapSources();
@@ -28,6 +30,6 @@ export class SearchSourceProvider {
             data: x,
           }),
       );
-    return of([]); //this.ldap.get().pipe(map(mapNode));
+    return from(this.ldapTreeview.load('')).pipe(map(mapNode));
   }
 }

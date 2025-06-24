@@ -6,14 +6,17 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 import {
   ButtonComponent,
   DropdownComponent,
+  DropdownOption,
   MdFormComponent,
   SpinnerComponent,
 } from 'multidirectory-ui-kit';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { SearchSource } from './models/search-source';
 import { SearchResultComponent } from './search-forms/search-result/search-result.component';
 import { SearchUsersComponent } from './search-forms/search-users/search-users.component';
 import { SearchSourceProvider } from './services/search-source-provider';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { SearchQueries } from '@core/ldap/search';
 
 @Component({
   selector: 'app-search-panel',
@@ -33,13 +36,14 @@ import { SearchSourceProvider } from './services/search-source-provider';
 })
 export class SearchPanelComponent implements AfterViewInit {
   private searchSourceProvider = inject(SearchSourceProvider);
+  private api = inject(MultidirectoryApiService);
   private cdr = inject(ChangeDetectorRef);
   SearchType = SearchType;
   searchType = SearchType.Ldap;
   searchTypes = [{ title: translate('search-panel.user-search-type'), value: SearchType.Ldap }];
 
   selectedSearchSource?: string;
-  searchSources: string[] = [];
+  searchSources: DropdownOption[] = [];
   searchResults: SearchResult[] = [];
 
   @ViewChild('searchUserForm') searchUserForm!: SearchUsersComponent;
@@ -47,13 +51,20 @@ export class SearchPanelComponent implements AfterViewInit {
   @ViewChild('spinner', { static: true }) spinner!: SpinnerComponent;
 
   ngAfterViewInit(): void {
-    const mapToDropdown = (x: SearchSource[]) => x.map((y) => y.title);
+    const mapToDropdown = (x: SearchSource[]) =>
+      x.map(
+        (y) =>
+          new DropdownOption({
+            title: y.title,
+            value: y.data.id,
+          }),
+      );
     this.searchSourceProvider
       .getSearchSources(SearchType.Ldap)
       .pipe(map(mapToDropdown))
       .subscribe((x) => {
         this.searchSources = x;
-        this.selectedSearchSource = x[0];
+        this.selectedSearchSource = x[0].value;
         this.cdr.detectChanges();
       });
   }
@@ -63,11 +74,25 @@ export class SearchPanelComponent implements AfterViewInit {
     if (!query || query.length < 2) {
       return;
     }
-    const source = this.searchSources.find((x) => x == this.selectedSearchSource);
-    if (!source) {
-      return;
-    }
     this.spinner.show();
+    this.api
+      .search(SearchQueries.findByName(query, this.selectedSearchSource ?? ''))
+      .pipe(
+        catchError((err) => {
+          this.spinner.hide();
+          return throwError(() => err);
+        }),
+      )
+      .subscribe((res) => {
+        this.searchResults = res.search_result.map(
+          (node) =>
+            ({
+              name: node.object_name,
+            }) as SearchResult,
+        );
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      });
   }
 
   clear() {
