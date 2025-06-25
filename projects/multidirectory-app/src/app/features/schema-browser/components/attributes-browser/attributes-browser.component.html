@@ -1,2 +1,16 @@
 <p>attributes-browser works!</p>
-{{ attributeTypes() | json }}
+<div class="flex flex-row gap-2">
+  <md-button (click)="openAttirbuteDetailsDialog($event)">{{
+    'schema-attribute-browser.add' | transloco
+  }}</md-button>
+</div>
+<div>
+  <md-datagrid
+    [rows]="attributeTypes()"
+    [columns]="columns()"
+    [total]="attributeTypes().length"
+    [limit]="attributeTypes().length"
+    (doubleclick)="openAttirbuteDetailsDialog($event)"
+    [offset]="0"
+  />
+</div>

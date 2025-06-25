@@ -1,3 +1,5 @@
+import { SchemaEntityObjectClass } from './schema-entity-object-class';
+
 export class SchemaEntity {
   name: string = '';
   is_system: boolean = true;

@@ -1,0 +1,25 @@
+<app-dialog>
+  <p>attribute-details-dialog works!</p>
+  <div class="flex-col gap-2">
+    {{ form.value | json }}
+    <form class="grid grid-cols-2" [formGroup]="form">
+      <label for="oid">oid</label>
+      <md-textbox formControlName="oid" name="oid"></md-textbox>
+
+      <label for="name">name</label>
+      <md-textbox formControlName="name" name="name"></md-textbox>
+
+      <label for="single_value">single_value</label>
+      <md-shift-checkbox formControlName="single_value" name="single_value"></md-shift-checkbox>
+
+      <label for="no_user_modification">no_user_modification</label>
+      <md-shift-checkbox
+        formControlName="no_user_modification"
+        name="no_user_modification"
+      ></md-shift-checkbox>
+
+      <label for="syntax">syntax</label>
+      <md-textbox formControlName="syntax" name="syntax"></md-textbox>
+    </form>
+  </div>
+</app-dialog>
