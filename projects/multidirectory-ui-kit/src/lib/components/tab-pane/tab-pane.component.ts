@@ -45,7 +45,7 @@ export class TabPaneComponent implements AfterViewInit, OnDestroy {
         }
       }
     });
-    tab.isSelected = true;
+    setTimeout(() => (tab.isSelected = true));
     if (tab.el) {
       this.renderer.setStyle(tab.el, 'display', 'block');
     }

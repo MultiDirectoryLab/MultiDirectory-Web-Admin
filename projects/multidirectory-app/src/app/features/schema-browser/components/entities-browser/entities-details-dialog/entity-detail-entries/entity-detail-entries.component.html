@@ -1,0 +1,13 @@
+<div style="min-height: 420px">
+  <md-datagrid
+    [rows]="entries()"
+    [columns]="columns()"
+    [total]="entries().length"
+    [limit]="entries().length"
+    [offset]="0"
+  />
+</div>
+<div class="flex flex-row gap-2 justify-start">
+  <md-button>{{ 'entity-details-entries.add' | transloco }}</md-button>
+  <md-button>{{ 'entity-details-entries.delete' | transloco }}</md-button>
+</div>

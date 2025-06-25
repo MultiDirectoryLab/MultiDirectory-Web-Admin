@@ -1,0 +1,17 @@
+<app-dialog>
+  <div class="app-modal-header">entities-details-dialog works!</div>
+  <md-tab-pane>
+    <div class="tab-header">
+      <md-tab [el]="entriesRef">{{ 'entities-details-dialog.entries' | transloco }}</md-tab>
+      <md-tab [el]="objectClassesRef">{{
+        'entities-details-dialog.object-classes' | transloco
+      }}</md-tab>
+    </div>
+    <div #entriesRef>
+      <app-entity-detail-entries [entity]="entity" />
+    </div>
+    <div #objectClassesRef>
+      <app-entity-detail-object-classes [entity]="entity" />
+    </div>
+  </md-tab-pane>
+</app-dialog>
