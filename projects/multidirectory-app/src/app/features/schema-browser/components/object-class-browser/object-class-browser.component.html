@@ -1,2 +1,16 @@
-<p>object-class-browser works!</p>
-{{ objectClasses() | json }}
+<div class="flex flex-row gap-2 px-2 py-2">
+  <md-button (click)="openCreateObjectClassDialog()">{{
+    'object-class-browser.add' | transloco
+  }}</md-button>
+</div>
+<div class="px-2 py-2">
+  <md-datagrid
+    [rows]="objectClasses()"
+    [columns]="columns()"
+    [externalPaging]="true"
+    [(total)]="total"
+    [(limit)]="limit"
+    [(offset)]="offset"
+    (doubleclick)="openObjectClassPropertiesDialog($event)"
+  />
+</div>

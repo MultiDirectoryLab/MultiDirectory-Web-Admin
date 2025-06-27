@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntityDetailEntriesComponent } from './entity-detail-entries.component';
+import { SchemaEntityDetailEntriesComponent } from './schema-entity-detail-entries.component';
 
 describe('EntityDetailEntriesComponent', () => {
-  let component: EntityDetailEntriesComponent;
-  let fixture: ComponentFixture<EntityDetailEntriesComponent>;
+  let component: SchemaEntityDetailEntriesComponent;
+  let fixture: ComponentFixture<SchemaEntityDetailEntriesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EntityDetailEntriesComponent],
+      imports: [SchemaEntityDetailEntriesComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EntityDetailEntriesComponent);
+    fixture = TestBed.createComponent(SchemaEntityDetailEntriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

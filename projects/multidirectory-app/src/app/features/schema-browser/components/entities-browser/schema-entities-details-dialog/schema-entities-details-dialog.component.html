@@ -1,0 +1,16 @@
+<app-dialog>
+  <md-tab-pane>
+    <div class="tab-header">
+      <md-tab [el]="entriesRef">{{ 'schema-entities-details-dialog.entries' | transloco }}</md-tab>
+      <md-tab [el]="objectClassesRef">{{
+        'schema-entities-details-dialog.object-classes' | transloco
+      }}</md-tab>
+    </div>
+    <div #entriesRef>
+      <app-schema-entity-detail-entries [entity]="entity" />
+    </div>
+    <div #objectClassesRef>
+      <app-schema-entity-detail-object-classes [entity]="entity" />
+    </div>
+  </md-tab-pane>
+</app-dialog>

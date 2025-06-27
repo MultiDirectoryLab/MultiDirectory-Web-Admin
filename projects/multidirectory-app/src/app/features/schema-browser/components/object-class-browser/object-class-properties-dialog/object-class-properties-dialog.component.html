@@ -1,0 +1,20 @@
+<app-dialog>
+  <md-tab-pane class="h-36">
+    <div class="tab-header flex flex-grow-1">
+      <md-tab [el]="general.el">{{ 'object-class-properties-dialog.general' | transloco }}</md-tab>
+      <md-tab [el]="attribute.el">{{
+        'object-class-properties-dialog.attributes' | transloco
+      }}</md-tab>
+      <md-tab [el]="entires.el">{{ 'object-class-properties-dialog.entries' | transloco }}</md-tab>
+    </div>
+    <div mdTab #general="mdTab">
+      <app-object-class-general />
+    </div>
+    <div mdTab #attribute="mdTab">
+      <app-object-class-attribute-summary />
+    </div>
+    <div mdTab #entires="mdTab">
+      <app-object-class-entries />
+    </div>
+  </md-tab-pane>
+</app-dialog>

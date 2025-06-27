@@ -163,15 +163,15 @@ export const SearchQueries = {
     return Object.entries(nameToIndexMap).find((entry) => entry[0] == formattedName)?.[1] || ''; // Returns -1 if name not found
   },
 
-  getSchemaEntityEntries(entityName: string) {
+  getSchemaEntityEntries(baseDn: string, entityName: string, offset: number, limit: number) {
     return new SearchRequest({
-      base_object: 'dc=localhost,dc=dev',
+      base_object: baseDn,
       scope: 2,
-      size_limit: 1000,
+      size_limit: limit,
       time_limit: 1000,
       filter: `(|(entityTypeName=${this.mapEntityTypeName(entityName)}))`,
       attributes: ['displayName', 'distinguishedName', 'name', 'cn', 'entityTypeName'],
-      page_number: 1,
+      page_number: Math.floor(offset / limit) + 1,
     });
   },
 };

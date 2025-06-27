@@ -1,0 +1,15 @@
+<app-dialog>
+  <md-stepper #stepper>
+    <ng-template mdStep>
+      <app-object-class-general />
+    </ng-template>
+    <ng-template mdStep>
+      <app-object-class-attribute-summary />
+    </ng-template>
+  </md-stepper>
+  <div>
+    <md-button (click)="stepper.next()">{{
+      'object-class-create-dialog.next' | transloco
+    }}</md-button>
+  </div>
+</app-dialog>

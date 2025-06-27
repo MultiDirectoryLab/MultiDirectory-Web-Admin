@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntitiesDetailsDialogComponent } from './entities-details-dialog.component';
+import { EntitiesDetailsDialogComponent } from './schema-entities-details-dialog.component';
 
 describe('EntitiesDetailsDialogComponent', () => {
   let component: EntitiesDetailsDialogComponent;

@@ -1,8 +1,10 @@
 <app-dialog>
-  <p>attribute-details-dialog works!</p>
+  <div class="app-modal-header">{{ 'attribute-details-dialog.modal-header' | transloco }}</div>
+  <div class="pb-4">
+    {{ 'attribute-details-dialog.header' | transloco }}
+  </div>
   <div class="flex-col gap-2">
-    {{ form.value | json }}
-    <form class="grid grid-cols-2" [formGroup]="form">
+    <form class="grid grid-cols-2 gap-4" [formGroup]="form" (submit)="onSumbit($event)">
       <label for="oid">oid</label>
       <md-textbox formControlName="oid" name="oid"></md-textbox>
 
@@ -20,6 +22,12 @@
 
       <label for="syntax">syntax</label>
       <md-textbox formControlName="syntax" name="syntax"></md-textbox>
+      <div class="flex flex-row gap-4">
+        <md-button>{{ 'attribute-details-dialog.cancel' | transloco }}</md-button>
+        <md-button [primary]="true" [submit]="true">{{
+          'attribute-details-dialog.submit' | transloco
+        }}</md-button>
+      </div>
     </form>
   </div>
 </app-dialog>

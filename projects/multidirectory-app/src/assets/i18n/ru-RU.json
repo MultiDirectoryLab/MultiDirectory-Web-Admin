@@ -721,5 +721,57 @@
     "close-session-confirmation-description": "Вы действительно хотите завершить сессию?",
     "close-confirmation-yes": "Да, завершить",
     "close-confirmation-no": "Отменить"
+  },
+  "schema-navigation": {
+    "entity": "Сущности",
+    "object-classes": "Классы объектов",
+    "attributes": "Атрибуты"
+  },
+  "object-class-browser": {
+    "add": "Добавить",
+    "name-column": "Имя"
+  },
+  "object-class-create-dialog": {
+    "next": "Далее"
+  },
+  "object-class-attribute-summary": {
+    "must-attribute-description": "Сущность ДОЛЖНА иметь",
+    "may-attribute-description": "Сущность МОЖЕТ иметь",
+    "add": "Добавить",
+    "remove": "Удалить"
+  },
+  "object-class-attribute-editor": {
+    "attribute": "Атрибут",
+    "add": "Добавить",
+    "cancel": "Отменить"
+  },
+  "schema-entities-browser": {
+    "column-name": "Имя",
+    "column-type": "Тип"
+  },
+  "schema-entities-details-dialog": {
+    "entries": "Вхождения",
+    "object-classes": "Классы объектов"
+  },
+  "schema-entity-details-entries": {
+    "add": "Добавить запись",
+    "delete": "Удалить"
+  },
+  "schema-entity-details-object-classes": {
+    "add": "Добавить запись",
+    "delete": "Удалить",
+    "column-name": "Имя",
+    "header": "Объектные классы для данной сущности"
+  },
+  "schema-attributes-browser": {
+    "add": "Добавить",
+    "column-name": "Имя",
+    "column-type": "Тип"
+  },
+  "attribute-details-dialog": {
+    "submit": "Принять",
+    "cancel": "Отмена",
+    "header": "Настройка",
+    "modal-header": "Задайте настройки атрибута"
   }
 }

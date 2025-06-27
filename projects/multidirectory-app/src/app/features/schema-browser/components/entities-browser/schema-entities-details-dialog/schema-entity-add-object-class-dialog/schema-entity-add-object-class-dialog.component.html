@@ -1,0 +1,7 @@
+<app-dialog>
+  <p>schema-entity-add-object-class-dialog works!</p>
+  <form [formGroup]="form" (submit)="onSubmit($event)">
+    <md-textbox formControlName="objectClassName"></md-textbox>
+    <md-button [submit]="true">submit</md-button>
+  </form>
+</app-dialog>

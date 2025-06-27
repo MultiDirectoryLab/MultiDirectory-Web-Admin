@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntitiesBrowserComponent } from './entities-browser.component';
+import { SchemaEntitiesBrowserComponent } from './schema-entities-browser.component';
 
 describe('EntitiesBrowserComponent', () => {
-  let component: EntitiesBrowserComponent;
-  let fixture: ComponentFixture<EntitiesBrowserComponent>;
+  let component: SchemaEntitiesBrowserComponent;
+  let fixture: ComponentFixture<SchemaEntitiesBrowserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EntitiesBrowserComponent],
+      imports: [SchemaEntitiesBrowserComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EntitiesBrowserComponent);
+    fixture = TestBed.createComponent(SchemaEntitiesBrowserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

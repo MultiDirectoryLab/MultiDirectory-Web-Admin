@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { EntitiesBrowserComponent } from './components/entities-browser/entities-browser.component';
+import { SchemaEntitiesBrowserComponent } from './components/entities-browser/schema-entities-browser.component';
 import { ObjectClassBrowserComponent } from './components/object-class-browser/object-class-browser.component';
 import { AttributesBrowserComponent } from './components/attributes-browser/attributes-browser.component';
 
@@ -21,7 +21,7 @@ export const schemaBrowserRoutes: Routes = [
   },
   {
     path: 'entities',
-    component: EntitiesBrowserComponent,
+    component: SchemaEntitiesBrowserComponent,
   },
   {
     path: 'object-classes',

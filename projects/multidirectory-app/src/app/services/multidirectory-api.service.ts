@@ -301,4 +301,24 @@ export class MultidirectoryApiService {
       )
       .execute();
   }
+
+  createSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {
+    return this.httpClient.post<string>('schema/attribute_type', attibute).execute();
+  }
+
+  updateSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {
+    return this.httpClient
+      .patch<string>(`schema/attribute_type/${attibute.name}`, attibute)
+      .execute();
+  }
+
+  getSchemaAttribute(attributeName: string): Observable<SchemaAttributeType> {
+    return this.httpClient
+      .get<SchemaAttributeType>(`schema/attribute_type/${attributeName}`)
+      .execute();
+  }
+
+  updateSchemaEntity(entity: SchemaEntity) {
+    return this.httpClient.patch<string>(`schema/entity_type/${entity.name}`, entity).execute();
+  }
 }

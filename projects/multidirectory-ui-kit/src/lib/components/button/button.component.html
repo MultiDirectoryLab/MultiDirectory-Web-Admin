@@ -5,7 +5,7 @@
     'md-button-primary': primary,
     stretch: stretch,
   }"
-  type="button"
+  type="{{ submit ? 'submit' : 'button' }}"
   [disabled]="disabled"
 >
   <ng-content></ng-content>

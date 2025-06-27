@@ -1,0 +1,9 @@
+<md-datagrid
+  [rows]="entites()"
+  [columns]="columns()"
+  [externalPaging]="true"
+  [(total)]="total"
+  [(limit)]="limit"
+  [(offset)]="offset"
+  (doubleclick)="showEntityDialog($event)"
+/>

@@ -1,0 +1,24 @@
+<div class="flex flex-col gap-2">
+  <div>
+    <p>{{ 'schema-entity-details-object-classes.header' | transloco }}</p>
+  </div>
+  <div>
+    <md-datagrid
+      #grid
+      [rows]="objectClasses()"
+      [pageSizes]="pageSizes"
+      [columns]="columns()"
+      [total]="objectClasses().length"
+      [limit]="pageSize"
+      [offset]="0"
+    />
+  </div>
+  <div class="flex flex-row gap-2 justify-start">
+    <md-button [disabled]="entity().is_system" (click)="addObjectClass()">{{
+      'schema-entity-details-object-classes.add' | transloco
+    }}</md-button>
+    <md-button [disabled]="entity().is_system" (click)="deleteObjectClass()">{{
+      'schema-entity-details-object-classes.delete' | transloco
+    }}</md-button>
+  </div>
+</div>
