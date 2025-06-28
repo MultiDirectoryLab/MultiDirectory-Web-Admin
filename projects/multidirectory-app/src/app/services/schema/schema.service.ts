@@ -6,6 +6,7 @@ import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { S } from 'node_modules/@angular/cdk/scrolling-module.d-C_w4tIrZ';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -34,11 +35,23 @@ export class SchemaService {
     return this.api.updateSchemaAttribute(attibute);
   }
 
-  getAttribute(attributeName: string) {
+  getAttribute(attributeName: string): Observable<SchemaAttributeType> {
     return this.api.getSchemaAttribute(attributeName);
   }
 
-  updateEntity(entity: SchemaEntity) {
+  updateEntity(entity: SchemaEntity): Observable<string> {
     return this.api.updateSchemaEntity(entity);
+  }
+
+  createObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.api.createObjectClass(objectClass);
+  }
+
+  updateObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.api.updateObjectClass(objectClass);
+  }
+
+  getObjectClass(objectClassName: string): Observable<SchemaObjectClass> {
+    return this.api.getSchemaObjectClass(objectClassName);
   }
 }

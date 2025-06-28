@@ -16,10 +16,13 @@ import {
   ObjectClassPropertiesDialogReturnData,
 } from './object-class-properites-dialog.interface';
 import { ObjectClassPropertiesDialogComponent } from './object-class-properties-dialog/object-class-properties-dialog.component';
+import { EMPTY, of, switchMap, take } from 'rxjs';
+import { m } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-object-class-browser',
-  imports: [CommonModule, MultidirectoryUiKitModule, TranslocoModule],
+  imports: [CommonModule, MultidirectoryUiKitModule, TranslocoModule, FormsModule],
   templateUrl: './object-class-browser.component.html',
   styleUrl: './object-class-browser.component.scss',
 })
@@ -31,7 +34,7 @@ export class ObjectClassBrowserComponent implements OnInit {
   columns = signal<TableColumn[]>([
     { name: translate('object-class-browser.name-column'), prop: 'name' },
   ]);
-
+  attributeName = 'testAttrX';
   total = 0;
 
   private _limit = 15;
@@ -71,28 +74,74 @@ export class ObjectClassBrowserComponent implements OnInit {
   }
 
   openCreateObjectClassDialog() {
-    this.dialog.open<
-      ObjectClassCreateDialogReturnData,
-      ObjectClassCreateDialogData,
-      ObjectClassCreateDialogComponent
-    >({
-      component: ObjectClassCreateDialogComponent,
-      dialogConfig: {
-        data: {},
-      },
-    });
+    this.dialog
+      .open<
+        ObjectClassCreateDialogReturnData,
+        ObjectClassCreateDialogData,
+        ObjectClassCreateDialogComponent
+      >({
+        component: ObjectClassCreateDialogComponent,
+        dialogConfig: {
+          data: {
+            objectClass: new SchemaObjectClass({
+              name: 'testAttrX',
+              oid: '1.2.3.4.5',
+              is_system: false,
+              syntax: '11.2.3.4.5',
+            }),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((result) => {
+          if (!result) {
+            return EMPTY;
+          }
+          return this.schema.createObjectClass(result);
+        }),
+      )
+      .subscribe((result) => {
+        console.log(result);
+      });
   }
 
-  openObjectClassPropertiesDialog($event: InputEvent) {
-    this.dialog.open<
+  onPropertiesClick(event: InputEvent) {
+    const objectClass = (event as any).row as SchemaObjectClass;
+    this.openObjectClassProperties(objectClass.name);
+  }
+
+  openObjectClassPropertiesDialog(objectClass: SchemaObjectClass) {
+    return this.dialog.open<
       ObjectClassPropertiesDialogReturnData,
       ObjectClassPropertiesDialogData,
       ObjectClassPropertiesDialogComponent
     >({
       component: ObjectClassPropertiesDialogComponent,
       dialogConfig: {
-        data: {},
+        data: { objectClass: objectClass },
+        minHeight: '512px',
       },
     });
+  }
+
+  openObjectClassProperties(objectClassName: string) {
+    this.schema
+      .getObjectClass(objectClassName)
+      .pipe(
+        switchMap((objectClass) => {
+          return this.openObjectClassPropertiesDialog(objectClass).closed;
+        }),
+        switchMap((result) => {
+          console.log(result);
+          if (!!result) {
+            return this.schema.updateObjectClass(result);
+          }
+          return of(result);
+        }),
+      )
+      .subscribe((result) => {
+        console.log(result);
+      });
   }
 }

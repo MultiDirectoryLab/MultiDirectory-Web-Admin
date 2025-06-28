@@ -1,7 +1,6 @@
 <app-dialog>
-  <p>schema-entity-add-object-class-dialog works!</p>
   <form [formGroup]="form" (submit)="onSubmit($event)">
     <md-textbox formControlName="objectClassName"></md-textbox>
-    <md-button [submit]="true">submit</md-button>
+    <md-button [submit]="true">{{ 'schema-entity-add-object-class-dialog' | transloco }}</md-button>
   </form>
 </app-dialog>

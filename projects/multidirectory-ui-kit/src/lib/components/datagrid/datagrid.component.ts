@@ -179,8 +179,7 @@ export class DatagridComponent {
       this.limit = pageInfo.limit;
       this.limitChange.emit(pageInfo.limit);
     }
-
-    if (this.total != pageInfo.total) {
+    if (this.total != pageInfo.total && pageInfo.total) {
       this.total = pageInfo.total;
       this.totalChange.emit(pageInfo.total);
     }

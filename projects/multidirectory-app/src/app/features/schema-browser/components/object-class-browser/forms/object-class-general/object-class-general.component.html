@@ -1,21 +1,17 @@
 <div class="flex-col gap-2">
-  <form class="grid grid-cols-2" [formGroup]="form">
-    <label for="oid">oid</label>
-    <md-textbox formControlName="oid" name="oid"></md-textbox>
+  <md-form>
+    <div class="grid grid-cols-2 gap-2">
+      <label for="oid">oid</label>
+      <md-textbox [(ngModel)]="objectClass.oid" name="oid"></md-textbox>
 
-    <label for="name">name</label>
-    <md-textbox formControlName="name" name="name"></md-textbox>
+      <label for="name">name</label>
+      <md-textbox [(ngModel)]="objectClass.name" name="name"></md-textbox>
 
-    <label for="single_value">single_value</label>
-    <md-shift-checkbox formControlName="single_value" name="single_value"></md-shift-checkbox>
+      <label for="no_user_modification">kind</label>
+      <md-dropdown [(ngModel)]="objectClass.kind" name="kind" [options]="kindOptions"></md-dropdown>
 
-    <label for="no_user_modification">no_user_modification</label>
-    <md-shift-checkbox
-      formControlName="no_user_modification"
-      name="no_user_modification"
-    ></md-shift-checkbox>
-
-    <label for="syntax">syntax</label>
-    <md-textbox formControlName="syntax" name="syntax"></md-textbox>
-  </form>
+      <label for="syntax">is_system</label>
+      <md-shift-checkbox [(ngModel)]="objectClass.is_system" name="is_system"></md-shift-checkbox>
+    </div>
+  </md-form>
 </div>

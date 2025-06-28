@@ -745,6 +745,13 @@
     "add": "Добавить",
     "cancel": "Отменить"
   },
+  "object-class-properties-dialog": {
+    "general": "Общее",
+    "attributes": "Атрибуты",
+    "entries": "Вхождения",
+    "cancel": "Отмена",
+    "apply": "Применить"
+  },
   "schema-entities-browser": {
     "column-name": "Имя",
     "column-type": "Тип"

@@ -39,6 +39,7 @@ import { SchemaEntitiesResponse } from '@models/api/schema/entities/schema-entit
 import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
+import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 
 @Injectable({
   providedIn: 'root',
@@ -320,5 +321,21 @@ export class MultidirectoryApiService {
 
   updateSchemaEntity(entity: SchemaEntity) {
     return this.httpClient.patch<string>(`schema/entity_type/${entity.name}`, entity).execute();
+  }
+
+  createObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.httpClient.post<string>(`schema/object_class`, objectClass).execute();
+  }
+
+  updateObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.httpClient
+      .patch<string>(`schema/object_class/${objectClass.name}`, objectClass)
+      .execute();
+  }
+
+  getSchemaObjectClass(objectClassName: string): Observable<SchemaObjectClass> {
+    return this.httpClient
+      .get<SchemaObjectClass>(`schema/object_class/${objectClassName}`)
+      .execute();
   }
 }
