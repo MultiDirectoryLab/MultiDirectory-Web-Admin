@@ -12,6 +12,7 @@ import {
   AttributeDetailsDialogReturnData,
 } from './attribute-details-dialog.interface';
 import { EMPTY, of, switchMap, take } from 'rxjs';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-attributes-browser',
@@ -22,6 +23,8 @@ import { EMPTY, of, switchMap, take } from 'rxjs';
 export class AttributesBrowserComponent implements OnInit {
   private schema = inject(SchemaService);
   private dialog = inject(DialogService);
+  private settings = inject(AppSettingsService);
+
   attributeTypes = signal<SchemaAttributeType[]>([]);
 
   total = 0;
@@ -52,6 +55,7 @@ export class AttributesBrowserComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.settings.headerTitle = translate('schema-attributes-browser.header');
     this.loadData();
   }
 

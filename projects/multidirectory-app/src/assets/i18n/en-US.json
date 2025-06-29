@@ -390,7 +390,8 @@
     "logout": "Sign Out",
     "change-password": "Change Password",
     "container-path-copied": "DN was copied to clipboard",
-    "container-path-copy-error": "An error has occured during DN copying: "
+    "container-path-copy-error": "An error has occured during DN copying: ",
+    "schema": "Scheme Settings"
   },
   "home": {
     "account-settings": "Account Settings",

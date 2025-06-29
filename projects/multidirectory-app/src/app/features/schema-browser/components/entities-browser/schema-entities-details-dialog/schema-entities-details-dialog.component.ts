@@ -25,7 +25,4 @@ export class EntitiesDetailsDialogComponent {
   private dialogData: SchemaEntityDetailsDialogData =
     inject<SchemaEntityDetailsDialogData>(DIALOG_DATA);
   entity: SchemaEntity = this.dialogData.entity;
-
-  apply() {}
-  cancel() {}
 }

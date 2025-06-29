@@ -13,12 +13,23 @@
       [offset]="0"
     />
   </div>
-  <div class="flex flex-row gap-2 justify-start">
-    <md-button [disabled]="entity().is_system" (click)="addObjectClass()">{{
-      'schema-entity-details-object-classes.add' | transloco
-    }}</md-button>
-    <md-button [disabled]="entity().is_system" (click)="deleteObjectClass()">{{
-      'schema-entity-details-object-classes.delete' | transloco
-    }}</md-button>
+  <div class="flex flex-row gap-2 justify-between">
+    <div class="flex flex-row gap-2 justify-start">
+      <md-button [disabled]="entity().is_system" (click)="addObjectClass()">{{
+        'schema-entity-details-object-classes.add' | transloco
+      }}</md-button>
+      <md-button [disabled]="entity().is_system" (click)="deleteObjectClass()">{{
+        'schema-entity-details-object-classes.delete' | transloco
+      }}</md-button>
+    </div>
+
+    <div class="app-modal-footer flex justify-end gap-2">
+      <md-button [disabled]="!isChanged" (click)="cancel()">{{
+        'schema-entities-details-dialog.cancel' | transloco
+      }}</md-button>
+      <md-button [primary]="true" [disabled]="!isChanged" (click)="apply()">{{
+        'schema-entities-details-dialog.apply' | transloco
+      }}</md-button>
+    </div>
   </div>
 </div>

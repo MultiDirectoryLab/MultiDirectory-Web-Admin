@@ -19,6 +19,7 @@ import { ObjectClassPropertiesDialogComponent } from './object-class-properties-
 import { EMPTY, of, switchMap, take } from 'rxjs';
 import { m } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
 import { FormsModule } from '@angular/forms';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-object-class-browser',
@@ -29,6 +30,7 @@ import { FormsModule } from '@angular/forms';
 export class ObjectClassBrowserComponent implements OnInit {
   private schema = inject(SchemaService);
   private dialog = inject(DialogService);
+  private settings = inject(AppSettingsService);
 
   objectClasses = signal<SchemaObjectClass[]>([]);
   columns = signal<TableColumn[]>([
@@ -63,6 +65,7 @@ export class ObjectClassBrowserComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.settings.headerTitle = translate('object-class-browser.header');
     this.loadData();
   }
 

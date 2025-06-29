@@ -12,6 +12,7 @@ import {
 } from './schema-entities-details-dialog/schema-entities-details-dialog.interface';
 import { EntitiesDetailsDialogComponent } from './schema-entities-details-dialog/schema-entities-details-dialog.component';
 import { DropdownOption } from 'multidirectory-ui-kit';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   imports: [CommonModule, MultidirectoryUiKitModule],
@@ -21,6 +22,7 @@ import { DropdownOption } from 'multidirectory-ui-kit';
 export class SchemaEntitiesBrowserComponent implements OnInit {
   private schema = inject(SchemaService);
   private dialog = inject(DialogService);
+  private settings = inject(AppSettingsService);
 
   entites = signal<SchemaEntity[]>([]);
   columns = signal<TableColumn[]>([
@@ -56,6 +58,7 @@ export class SchemaEntitiesBrowserComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.settings.headerTitle = translate('schema-entities-browser.header');
     this.loadData();
   }
 

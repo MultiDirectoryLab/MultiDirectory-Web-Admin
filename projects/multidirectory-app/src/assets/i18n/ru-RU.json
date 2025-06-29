@@ -390,7 +390,8 @@
     "logout": "Выход из системы",
     "change-password": "Изменить пароль",
     "container-path-copied": "DN скопирован в буфер обмена",
-    "container-path-copy-error": "При копированнии произошла ошибка: "
+    "container-path-copy-error": "При копированнии произошла ошибка: ",
+    "schema": "Настройки схемы"
   },
   "home": {
     "account-settings": "Настройки аккаунта",
@@ -728,6 +729,7 @@
     "attributes": "Атрибуты"
   },
   "object-class-browser": {
+    "header": "Схема классов объектов",
     "add": "Добавить",
     "name-column": "Имя"
   },
@@ -753,12 +755,16 @@
     "apply": "Применить"
   },
   "schema-entities-browser": {
+    "header": "Схема сущностей",
     "column-name": "Имя",
     "column-type": "Тип"
   },
   "schema-entities-details-dialog": {
+    "modal-header": "Настройки сущности",
     "entries": "Вхождения",
-    "object-classes": "Классы объектов"
+    "object-classes": "Классы объектов",
+    "apply": "Применить",
+    "cancel": "Отменить"
   },
   "schema-entity-details-entries": {
     "add": "Добавить запись",
@@ -771,9 +777,11 @@
     "header": "Объектные классы для данной сущности"
   },
   "schema-attributes-browser": {
+    "header": "Схема атрибутов",
     "add": "Добавить",
     "column-name": "Имя",
-    "column-type": "Тип"
+    "column-type": "Тип",
+    "open": "Открыть"
   },
   "attribute-details-dialog": {
     "submit": "Принять",

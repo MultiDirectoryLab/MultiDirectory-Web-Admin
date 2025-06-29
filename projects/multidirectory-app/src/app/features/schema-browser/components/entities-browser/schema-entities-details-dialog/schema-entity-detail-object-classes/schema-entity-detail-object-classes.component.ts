@@ -29,6 +29,7 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
     { name: translate('schema-entity-details-object-classes.column-name'), prop: 'name' },
   ]);
 
+  objectClassNameInitial: string[] = [];
   objectClassNames = signal<string[]>([]);
   objectClasses = computed<SchemaEntityObjectClass[]>(() => {
     return this.objectClassNames().map((x) => new SchemaEntityObjectClass({ name: x }));
@@ -36,8 +37,9 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
 
   pageSizes: DropdownOption[] = [new DropdownOption({ title: '100', value: 100 })];
   pageSize = 100;
-
+  isChanged = false;
   ngOnInit(): void {
+    this.objectClassNameInitial = this.entity().object_class_names;
     this.objectClassNames.set(this.entity().object_class_names);
   }
 
@@ -46,14 +48,7 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
     this.objectClassNames.set(
       this.objectClassNames().filter((x) => !selectedObjectClasses.includes(x)),
     );
-    this.schema
-      .updateEntity(
-        new SchemaEntity({
-          ...this.entity(),
-          object_class_names: this.objectClassNames(),
-        }),
-      )
-      .subscribe();
+    this.isChanged = true;
   }
 
   addObjectClass() {
@@ -64,21 +59,28 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
           data: '',
         },
       })
-      .closed.pipe(
-        take(1),
-        switchMap((objectClassName) => {
-          if (objectClassName) {
-            this.objectClassNames.set(this.objectClassNames().concat([objectClassName]));
-          }
-          console.log(this.objectClassNames());
-          return this.schema.updateEntity(
-            new SchemaEntity({
-              ...this.entity(),
-              object_class_names: this.objectClassNames(),
-            }),
-          );
+      .closed.pipe(take(1))
+      .subscribe((objectClassName) => {
+        if (objectClassName) {
+          this.objectClassNames.set(this.objectClassNames().concat([objectClassName]));
+          this.isChanged = true;
+        }
+      });
+  }
+
+  apply() {
+    this.schema
+      .updateEntity(
+        new SchemaEntity({
+          ...this.entity(),
+          object_class_names: this.objectClassNames(),
         }),
       )
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        this.isChanged = false;
+      });
+  }
+  cancel() {
+    this.objectClassNames.set(this.objectClassNameInitial);
   }
 }

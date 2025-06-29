@@ -14,10 +14,8 @@ export const schemaBrowserRoutes: Routes = [
   },
   {
     path: '',
-    loadComponent: () =>
-      import('@features/schema-browser/components/schema-browser.component').then(
-        (c) => c.SchemaBrowserComponent,
-      ),
+    redirectTo: 'entities',
+    pathMatch: 'prefix',
   },
   {
     path: 'entities',
@@ -35,8 +33,8 @@ export const schemaBrowserRoutes: Routes = [
     path: '',
     loadComponent: () =>
       import(
-        '@features/ldap-browser/components/ldap-browser-header/ldap-browser-header.component'
-      ).then((c) => c.LdapBrowserHeaderComponent),
+        '@features/schema-browser/components/schema-navigation/schema-browser-header/schema-browser-header.component'
+      ).then((c) => c.SchemaBrowserHeaderComponent),
     outlet: 'header',
   },
 ];
