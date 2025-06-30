@@ -36,7 +36,7 @@ export class ObjectClassBrowserComponent implements OnInit {
   columns = signal<TableColumn[]>([
     { name: translate('object-class-browser.name-column'), prop: 'name' },
   ]);
-  attributeName = 'testAttrX';
+  attributeName = '';
   total = 0;
 
   private _limit = 15;
@@ -87,10 +87,10 @@ export class ObjectClassBrowserComponent implements OnInit {
         dialogConfig: {
           data: {
             objectClass: new SchemaObjectClass({
-              name: 'testAttrX',
+              name: '',
               oid: '1.2.3.4.5',
               is_system: false,
-              syntax: '11.2.3.4.5',
+              syntax: '1.2.3.4.5',
             }),
           },
         },
