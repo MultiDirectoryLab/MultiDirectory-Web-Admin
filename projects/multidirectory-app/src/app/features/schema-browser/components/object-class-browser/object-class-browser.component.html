@@ -1,0 +1,23 @@
+<div class="flex flex-row gap-2 px-2 py-2">
+  <md-button (click)="openCreateObjectClassDialog()">{{
+    'object-class-browser.add' | transloco
+  }}</md-button>
+
+  <div class="flex flex-row gap-2">
+    <md-textbox [(ngModel)]="attributeName"></md-textbox>
+    <md-button (click)="openObjectClassProperties(attributeName)">{{
+      'schema-attributes-browser.open' | transloco
+    }}</md-button>
+  </div>
+</div>
+<div class="px-2 py-2">
+  <md-datagrid
+    [rows]="objectClasses()"
+    [columns]="columns()"
+    [externalPaging]="true"
+    [(total)]="total"
+    [(limit)]="limit"
+    [(offset)]="offset"
+    (doubleclick)="onPropertiesClick($event)"
+  />
+</div>

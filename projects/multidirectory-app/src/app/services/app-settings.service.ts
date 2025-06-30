@@ -6,6 +6,7 @@ import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { S } from 'node_modules/@angular/cdk/scrolling-module.d-C_w4tIrZ';
 
 @Injectable({
   providedIn: 'root',
@@ -116,6 +117,17 @@ export class AppSettingsService {
   }
 
   validatePasswords = true;
+
+  private _headerTitle = new BehaviorSubject<string>('');
+  get headerTitleRx(): Observable<string> {
+    return this._headerTitle.asObservable();
+  }
+  set headerTitle(value: string) {
+    this._headerTitle.next(value);
+  }
+  get headerTitle(): string {
+    return this._headerTitle.value;
+  }
 
   logout() {
     this.user = new WhoamiResponse({});

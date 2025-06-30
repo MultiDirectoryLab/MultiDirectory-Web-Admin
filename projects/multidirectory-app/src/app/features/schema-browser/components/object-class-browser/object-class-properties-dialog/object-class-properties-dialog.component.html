@@ -1,0 +1,33 @@
+<app-dialog>
+  <md-tab-pane>
+    <div class="tab-header flex flex-grow-1">
+      <md-tab [el]="general.el">{{ 'object-class-properties-dialog.general' | transloco }}</md-tab>
+      <md-tab [el]="attribute.el">{{
+        'object-class-properties-dialog.attributes' | transloco
+      }}</md-tab>
+      <md-tab [el]="entires.el">{{ 'object-class-properties-dialog.entries' | transloco }}</md-tab>
+    </div>
+    <div mdTab #general="mdTab">
+      <app-object-class-general [objectClass]="objectClass" />
+    </div>
+    <div mdTab #attribute="mdTab">
+      <app-object-class-attribute-summary [objectClass]="objectClass" />
+    </div>
+    <div mdTab #entires="mdTab">
+      <app-object-class-entries />
+    </div>
+  </md-tab-pane>
+  <div>
+    {{ objectClass | json }}
+  </div>
+  <div class="app-modal-footer">
+    <div class="w-full flex flex-row gap-2 justify-end">
+      <md-button (click)="onCancelClick()">{{
+        'object-class-properties-dialog.cancel' | transloco
+      }}</md-button>
+      <md-button (click)="onApplyClick()">{{
+        'object-class-properties-dialog.apply' | transloco
+      }}</md-button>
+    </div>
+  </div>
+</app-dialog>

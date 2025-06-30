@@ -23,6 +23,7 @@ import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsStatuses } from '@models/api/dns/dns-statuses';
+import { DnsForwardZonesComponent } from './dns-forward-zones/dns-forward-zones.component';
 
 @Component({
   selector: 'app-dns-settings',
@@ -36,6 +37,7 @@ import { DnsStatuses } from '@models/api/dns/dns-statuses';
     MuiTabDirective,
     DnsZonesComponent,
     AlertComponent,
+    DnsForwardZonesComponent,
   ],
 })
 export class DnsSettingsComponent implements OnInit {

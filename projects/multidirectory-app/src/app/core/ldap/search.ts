@@ -52,6 +52,7 @@ export const SearchQueries = {
         'name',
         'objectClass',
         'userAccountControl',
+        'entityTypeName',
       ],
       page_number: Math.floor(offset / Math.max(limit, 1) + 1),
     });
@@ -139,6 +140,38 @@ export const SearchQueries = {
       filter: query ? `(&(objectClass=krbprincipal)(cn=*${query}*))` : '(objectClass=krbprincipal)',
       attributes: ['cn'],
       page_number: 1,
+    });
+  },
+
+  mapEntityTypeName(entityName: string) {
+    const nameToIndexMap = {
+      Domain: 1,
+      Computer: 2,
+      Container: 3,
+      Catalog: 4,
+      'Organizational Unit': 5,
+      Group: 6,
+      User: 7,
+      'KRB Container': 8,
+      'KRB Principal': 9,
+      'KRB Realm Container': 10,
+    };
+
+    // Convert input to title case for case-insensitive matching
+    const formattedName = entityName.toLowerCase().replace(/\b\w/g, (l: string) => l.toUpperCase());
+
+    return Object.entries(nameToIndexMap).find((entry) => entry[0] == formattedName)?.[1] || ''; // Returns -1 if name not found
+  },
+
+  getSchemaEntityEntries(baseDn: string, entityName: string, offset: number, limit: number) {
+    return new SearchRequest({
+      base_object: baseDn,
+      scope: 2,
+      size_limit: limit,
+      time_limit: 1000,
+      filter: `(|(entityTypeName=${this.mapEntityTypeName(entityName)}))`,
+      attributes: ['displayName', 'distinguishedName', 'name', 'cn', 'entityTypeName'],
+      page_number: Math.floor(offset / limit) + 1,
     });
   },
 };

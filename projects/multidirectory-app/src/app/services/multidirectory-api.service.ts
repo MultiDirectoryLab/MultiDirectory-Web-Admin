@@ -34,6 +34,12 @@ import { SwapPolicyResponse } from '@models/api/policy/policy-swap-response';
 import { SetupRequest } from '@models/api/setup/setup-request';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
+import { SchemaEntitiesResponse } from '@models/api/schema/entities/schema-entities-response';
+import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
+import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
+import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
+import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 
 @Injectable({
   providedIn: 'root',
@@ -265,5 +271,71 @@ export class MultidirectoryApiService {
 
   deleteUserSessions(upn: string): Observable<string> {
     return this.httpClient.delete<string>('sessions/' + upn).execute();
+  }
+
+  getSchemaEntities(pageNumber: number, pageSize: number): Observable<SchemaEntitiesResponse> {
+    return this.httpClient
+      .get<SchemaEntitiesResponse>(
+        `schema/entity_types?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
+  }
+
+  getSchemaObjectClasses(
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<SchemaObjectClassResponse> {
+    return this.httpClient
+      .get<SchemaObjectClassResponse>(
+        `schema/object_classes?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
+  }
+
+  getSchemaAttributes(
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<SchemaAttributeTypesResponse> {
+    return this.httpClient
+      .get<SchemaAttributeTypesResponse>(
+        `schema/attribute_types?page_number=${pageNumber}&page_size=${pageSize}`,
+      )
+      .execute();
+  }
+
+  createSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {
+    return this.httpClient.post<string>('schema/attribute_type', attibute).execute();
+  }
+
+  updateSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {
+    return this.httpClient
+      .patch<string>(`schema/attribute_type/${attibute.name}`, attibute)
+      .execute();
+  }
+
+  getSchemaAttribute(attributeName: string): Observable<SchemaAttributeType> {
+    return this.httpClient
+      .get<SchemaAttributeType>(`schema/attribute_type/${attributeName}`)
+      .execute();
+  }
+
+  updateSchemaEntity(entity: SchemaEntity) {
+    return this.httpClient.patch<string>(`schema/entity_type/${entity.name}`, entity).execute();
+  }
+
+  createObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.httpClient.post<string>(`schema/object_class`, objectClass).execute();
+  }
+
+  updateObjectClass(objectClass: SchemaObjectClass): Observable<string> {
+    return this.httpClient
+      .patch<string>(`schema/object_class/${objectClass.name}`, objectClass)
+      .execute();
+  }
+
+  getSchemaObjectClass(objectClassName: string): Observable<SchemaObjectClass> {
+    return this.httpClient
+      .get<SchemaObjectClass>(`schema/object_class/${objectClassName}`)
+      .execute();
   }
 }

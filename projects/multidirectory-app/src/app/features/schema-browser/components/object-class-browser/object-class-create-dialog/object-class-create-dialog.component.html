@@ -1,0 +1,21 @@
+<app-dialog>
+  <md-stepper #stepper>
+    <ng-template mdStep>
+      <app-object-class-general [objectClass]="objectClass" />
+    </ng-template>
+    <ng-template mdStep>
+      <app-object-class-attribute-summary [objectClass]="objectClass" />
+    </ng-template>
+  </md-stepper>
+  <div>
+    @if (stepper.currentIndex == 0) {
+      <md-button (click)="stepper.next()">{{
+        'object-class-create-dialog.next' | transloco
+      }}</md-button>
+    }
+    @if (stepper.currentIndex > 0) {
+      <md-button (click)="finish()">{{ 'object-class-create-dialog.done' | transloco }}</md-button>
+    }
+  </div>
+  {{ objectClass | json }}
+</app-dialog>

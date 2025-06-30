@@ -1,0 +1,23 @@
+<div class="flex flex-row gap-2 px-2 py-2 justify-between">
+  <md-button (click)="createAttirbuteDialog($event)">{{
+    'schema-attributes-browser.add' | transloco
+  }}</md-button>
+
+  <div class="flex flex-row gap-2">
+    <md-textbox #openInput></md-textbox>
+    <md-button (click)="openAttribute(openInput.value)">{{
+      'schema-attributes-browser.open' | transloco
+    }}</md-button>
+  </div>
+</div>
+<div class="px-2 py-2">
+  <md-datagrid
+    [rows]="attributeTypes()"
+    [columns]="columns()"
+    [(total)]="total"
+    [(limit)]="limit"
+    [(offset)]="offset"
+    (doubleclick)="openAttirbuteDetailsDialog($event)"
+    [externalPaging]="true"
+  />
+</div>

@@ -24,6 +24,7 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   @Input() disabled = false;
   @Input() primary = false;
   @Input() stretch = false;
+  @Input() submit = false;
   @Output() click = new EventEmitter();
 
   constructor() {
@@ -33,6 +34,9 @@ export class ButtonComponent extends BaseControlComponent implements OnInit, OnD
   unlistenClick = () => {};
 
   ngOnInit(): void {
+    if (this.submit) {
+      return;
+    }
     this.unlistenClick = this.el.nativeElement.addEventListener(
       'click',
       this.handleClickEvent.bind(this),

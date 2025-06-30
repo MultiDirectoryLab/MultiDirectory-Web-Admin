@@ -1,0 +1,45 @@
+<div class="flex flex-col gap-2">
+  <label>{{ 'object-class-attribute-summary.must-attribute-description' | transloco }}</label>
+  <div class="h-32">
+    <div class="flex flex-col gap-2">
+      <md-datagrid
+        [pageSizes]="mustPageSizes"
+        [columns]="mustColumns"
+        [rows]="objectClassMustRows"
+        [(offset)]="mustOffset"
+        [limit]="mustLimit"
+        [(total)]="mustTotal"
+        [(total)]="mustTotal"
+      />
+    </div>
+    <div class="flex flex-row gap-2">
+      <md-button (click)="openObjectClassMustAttributeEditor()">{{
+        'object-class-attribute-summary.add' | transloco
+      }}</md-button>
+      <md-button (click)="removeMustAttribute()">{{
+        'object-class-attribute-summary.remove' | transloco
+      }}</md-button>
+    </div>
+  </div>
+  <label>{{ 'object-class-attribute-summary.may-attribute-description' | transloco }}</label>
+  <div>
+    <div class="flex flex-col gap-2">
+      <md-datagrid
+        [pageSizes]="mayPageSizes"
+        [columns]="mayColumns"
+        [rows]="objectClassMayRows"
+        [(offset)]="mayOffset"
+        [(limit)]="mayLimit"
+        [(total)]="mayTotal"
+      />
+    </div>
+    <div class="flex flex-row gap-2">
+      <md-button (click)="openObjectClassMayAttributeEditor()">{{
+        'object-class-attribute-summary.add' | transloco
+      }}</md-button>
+      <md-button (click)="removeMayAttribute()">{{
+        'object-class-attribute-summary.remove' | transloco
+      }}</md-button>
+    </div>
+  </div>
+</div>

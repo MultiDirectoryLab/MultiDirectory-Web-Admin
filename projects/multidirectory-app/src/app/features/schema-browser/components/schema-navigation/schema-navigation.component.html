@@ -1,0 +1,26 @@
+<div class="flex flex-col nav">
+  <div
+    [ngClass]="{ selected: url().endsWith('schema/entities') || url().endsWith('schema') }"
+    class="nav-item"
+    routerLink="/schema/entities"
+    routerLinkActive="router-link-active"
+  >
+    {{ 'schema-navigation.entity' | transloco }}
+  </div>
+  <div
+    [ngClass]="{ selected: url().endsWith('schema/object-classes') }"
+    class="nav-item"
+    routerLink="/schema/object-classes"
+    routerLinkActive="router-link-active"
+  >
+    {{ 'schema-navigation.object-classes' | transloco }}
+  </div>
+  <div
+    [ngClass]="{ selected: url().endsWith('schema/attributes') }"
+    class="nav-item"
+    routerLink="/schema/attributes"
+    routerLinkActive="router-link-active"
+  >
+    {{ 'schema-navigation.attributes' | transloco }}
+  </div>
+</div>

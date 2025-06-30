@@ -390,7 +390,8 @@
     "logout": "Выход из системы",
     "change-password": "Изменить пароль",
     "container-path-copied": "DN скопирован в буфер обмена",
-    "container-path-copy-error": "При копированнии произошла ошибка: "
+    "container-path-copy-error": "При копированнии произошла ошибка: ",
+    "schema": "Настройки схемы"
   },
   "home": {
     "account-settings": "Настройки аккаунта",
@@ -667,7 +668,11 @@
     "add-zone": "Добавить зону",
     "dns-unavailable": "Сервис DNS недоступен",
     "dns-zone-header": "Зоны DNS",
-    "dns-forwarding-header": "DNS Forwarding"
+    "dns-forwarding-header": "DNS Forwarding",
+    "redirection-zones-tab": "DNS Forwarding",
+    "delete": "Удалить",
+    "enable": "Включить",
+    "disable": "Выключить"
   },
   "dns-zone-details": {
     "modal-header": "Настройки зоны",
@@ -721,5 +726,84 @@
     "close-session-confirmation-description": "Вы действительно хотите завершить сессию?",
     "close-confirmation-yes": "Да, завершить",
     "close-confirmation-no": "Отменить"
+  },
+  "schema-navigation": {
+    "entity": "Сущности",
+    "object-classes": "Классы объектов",
+    "attributes": "Атрибуты"
+  },
+  "object-class-browser": {
+    "header": "Схема классов объектов",
+    "add": "Добавить",
+    "name-column": "Имя"
+  },
+  "object-class-create-dialog": {
+    "next": "Далее"
+  },
+  "object-class-attribute-summary": {
+    "must-attribute-description": "Сущность ДОЛЖНА иметь",
+    "may-attribute-description": "Сущность МОЖЕТ иметь",
+    "add": "Добавить",
+    "remove": "Удалить"
+  },
+  "object-class-attribute-editor": {
+    "attribute": "Атрибут",
+    "add": "Добавить",
+    "cancel": "Отменить"
+  },
+  "object-class-properties-dialog": {
+    "general": "Общее",
+    "attributes": "Атрибуты",
+    "entries": "Вхождения",
+    "cancel": "Отмена",
+    "apply": "Применить"
+  },
+  "schema-entities-browser": {
+    "header": "Схема сущностей",
+    "column-name": "Имя",
+    "column-type": "Тип"
+  },
+  "schema-entities-details-dialog": {
+    "modal-header": "Настройки сущности",
+    "entries": "Вхождения",
+    "object-classes": "Классы объектов",
+    "apply": "Применить",
+    "cancel": "Отменить"
+  },
+  "schema-entity-details-entries": {
+    "add": "Добавить запись",
+    "delete": "Удалить"
+  },
+  "schema-entity-details-object-classes": {
+    "add": "Добавить запись",
+    "delete": "Удалить",
+    "column-name": "Имя",
+    "header": "Объектные классы для данной сущности"
+  },
+  "schema-attributes-browser": {
+    "header": "Схема атрибутов",
+    "add": "Добавить",
+    "column-name": "Имя",
+    "column-type": "Тип",
+    "open": "Открыть"
+  },
+  "attribute-details-dialog": {
+    "submit": "Принять",
+    "cancel": "Отмена",
+    "header": "Настройка",
+    "modal-header": "Задайте настройки атрибута"
+  },
+  "add-forward-zone-dialog": {
+    "modal-header": "Добавление зоны перенаправления",
+    "zone-name": "Имя зоны",
+    "add": "Добавить",
+    "up": "Вверх",
+    "down": "Вниз",
+    "cancel": "Отменить",
+    "apply": "Применить"
+  },
+  "dns-forward-zones": {
+    "delete-successful": "Успешно удалено",
+    "should-select-zones": "Необходимо выбрать зоны"
   }
 }

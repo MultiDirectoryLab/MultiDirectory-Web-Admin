@@ -1,3 +1,5 @@
+import { DialogRef } from '@angular/cdk/dialog';
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -7,7 +9,46 @@ import {
   OnInit,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
+import { CreateCatalogDialogComponent } from '@components/modals/components/dialogs/create-catalog-dialog/create-catalog-dialog.component';
+import { CreateComputerDialogComponent } from '@components/modals/components/dialogs/create-computer-dialog/create-computer-dialog.component';
+import { CreateGroupDialogComponent } from '@components/modals/components/dialogs/create-group-dialog/create-group-dialog.component';
+import { CreateOrganizationUnitDialogComponent } from '@components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
+import { CreateRuleDialogComponent } from '@components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
+import { CreateUserDialogComponent } from '@components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
+import { ContextMenuData } from '@components/modals/interfaces/context-menu-dialog.interface';
+import {
+  CreateCatalogDialogData,
+  CreateCatalogDialogReturnData,
+} from '@components/modals/interfaces/create-catalog-dialog.interface';
+import {
+  CreateComputerDialogData,
+  CreateComputerDialogReturnData,
+} from '@components/modals/interfaces/create-computer-dialog.interface';
+import {
+  CreateGroupDialogData,
+  CreateGroupDialogReturnData,
+} from '@components/modals/interfaces/create-group-dialog.interface';
+import {
+  CreateOrganizationUnitDialogData,
+  CreateOrganizationUnitDialogReturnData,
+} from '@components/modals/interfaces/create-organization-unit-dialog.interface';
+import {
+  CreateRuleDialogData,
+  CreateRuleDialogReturnData,
+} from '@components/modals/interfaces/create-rule-dialog.interface';
+import {
+  CreateUserDialogData,
+  CreateUserDialogReturnData,
+} from '@components/modals/interfaces/user-create-dialog.interface';
+import { ContextMenuService } from '@components/modals/services/context-menu.service';
+import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
+import { ContentViewService } from '@services/content-view.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import {
   ButtonComponent,
@@ -17,68 +58,18 @@ import {
   PlaneButtonComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { ContentViewService } from '@services/content-view.service';
-import { delay, from, take, tap } from 'rxjs';
+import { delay, take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
-import { DialogService } from '@components/modals/services/dialog.service';
-import { CreateUserDialogComponent } from '@components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
-import {
-  CreateUserDialogData,
-  CreateUserDialogReturnData,
-} from '@components/modals/interfaces/user-create-dialog.interface';
-import { ContextMenuService } from '@components/modals/services/context-menu.service';
-import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
-import { ContextMenuData } from '@components/modals/interfaces/context-menu-dialog.interface';
-import { FormsModule } from '@angular/forms';
-import { NgStyle } from '@angular/common';
-import { TableViewComponent } from './views/table-view/table-view.component';
 import { IconViewComponent } from './views/icon-view/icon-view.component';
-import {
-  CreateGroupDialogData,
-  CreateGroupDialogReturnData,
-} from '@components/modals/interfaces/create-group-dialog.interface';
-import { CreateGroupDialogComponent } from '@components/modals/components/dialogs/create-group-dialog/create-group-dialog.component';
-import {
-  CreateComputerDialogData,
-  CreateComputerDialogReturnData,
-} from '@components/modals/interfaces/create-computer-dialog.interface';
-import { CreateComputerDialogComponent } from '@components/modals/components/dialogs/create-computer-dialog/create-computer-dialog.component';
-import { CreateRuleDialogComponent } from '@components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
-import {
-  CreateRuleDialogData,
-  CreateRuleDialogReturnData,
-} from '@components/modals/interfaces/create-rule-dialog.interface';
-import {
-  CreateCatalogDialogData,
-  CreateCatalogDialogReturnData,
-} from '@components/modals/interfaces/create-catalog-dialog.interface';
-import { CreateCatalogDialogComponent } from '@components/modals/components/dialogs/create-catalog-dialog/create-catalog-dialog.component';
-import {
-  CreateOrganizationUnitDialogData,
-  CreateOrganizationUnitDialogReturnData,
-} from '@components/modals/interfaces/create-organization-unit-dialog.interface';
-import { CreateOrganizationUnitDialogComponent } from '@components/modals/components/dialogs/create-organization-unit-dialog/create-organization-unit-dialog.component';
-import { DialogRef } from '@angular/cdk/dialog';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AppNavigationService } from '@services/app-navigation.service';
-import { EntitySelectorDialogComponent } from '@components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
-import {
-  EntitySelectorDialogReturnData,
-  EntitySelectorDialogData,
-  EntitySelectorSettings,
-} from '@components/modals/interfaces/entity-selector-dialog.interface';
-import { CatalogSelectorDialogComponent } from '@components/modals/components/dialogs/catalog-selector-dialog/catalog-selector-dialog.component';
-import {
-  CatalogSelectorDialogReturnData,
-  CatalogSelectorDialogData,
-} from '@components/modals/interfaces/catalog-selector-dialog.interface';
-import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { TableViewComponent } from './views/table-view/table-view.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-catalog-content',
   templateUrl: './catalog-content.component.html',
   styleUrls: ['./catalog-content.component.scss'],
   imports: [
+    RouterModule,
     PlaneButtonComponent,
     DropdownContainerDirective,
     ButtonComponent,
