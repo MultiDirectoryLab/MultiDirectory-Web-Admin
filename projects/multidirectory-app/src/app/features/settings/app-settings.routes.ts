@@ -72,4 +72,11 @@ export const appSettingsRoutes: Routes = [
         (r) => r.passwordPolicyRoutes,
       ),
   },
+  {
+    path: 'syslog',
+    loadComponent: () =>
+      import('@features/settings/syslog-settings/syslog-settings.component').then(
+        (r) => r.SyslogSettingsComponent,
+      ),
+  },
 ];

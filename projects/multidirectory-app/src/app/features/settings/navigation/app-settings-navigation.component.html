@@ -57,4 +57,12 @@
   >
     {{ t('sessions') }}
   </div>
+
+  <div
+    [ngClass]="{ selected: url.endsWith('syslog') }"
+    class="nav-item"
+    routerLink="/settings/syslog"
+  >
+    {{ t('syslog') }}
+  </div>
 </div>
