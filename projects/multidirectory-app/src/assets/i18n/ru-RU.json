@@ -483,7 +483,8 @@
     "dns-settings": "Настройки DNS",
     "sessions": "Сессии",
     "access-policy": "Политики доступа",
-    "password-policy": "Парольные политики"
+    "password-policy": "Парольные политики",
+    "syslog": "Журналирование"
   },
   "settings": {
     "account-settings": "Настройки аккаунта",
@@ -805,5 +806,16 @@
   "dns-forward-zones": {
     "delete-successful": "Успешно удалено",
     "should-select-zones": "Необходимо выбрать зоны"
+  },
+  "syslog-settings": {
+    "events-header": "События",
+    "connections-header": "Настройка отправки событий"
+  },
+  "syslog-event-settings": {
+    "id-column": "ID",
+    "name-column": "Имя",
+    "description-column": "Описание",
+    "level-column": "Уровень",
+    "toggle-column": "Активное состояние"
   }
 }

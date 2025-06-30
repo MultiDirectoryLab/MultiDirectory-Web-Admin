@@ -485,7 +485,8 @@
     "dns-zone-header": "DNS Zones",
     "dns-forwarding-header": "DNS Forwarding",
     "access-policy": "Access Policy",
-    "password-policy": "Password Policy"
+    "password-policy": "Password Policy",
+    "syslog": "Journaling"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -725,5 +726,95 @@
     "close-session-confirmation-description": "Are you sure want to close the session?",
     "close-confirmation-yes": "Yes",
     "close-confirmation-no": "Cancel"
+  },
+  "schema-navigation": {
+    "entity": "Entities",
+    "object-classes": "Object classes",
+    "attributes": "Attributes"
+  },
+  "object-class-browser": {
+    "header": "Object class schema",
+    "add": "Add",
+    "name-column": "Name"
+  },
+  "object-class-create-dialog": {
+    "next": "Next"
+  },
+  "object-class-attribute-summary": {
+    "must-attribute-description": "Entity MUST have",
+    "may-attribute-description": "Entity MAY have",
+    "add": "Add",
+    "remove": "Remove"
+  },
+  "object-class-attribute-editor": {
+    "attribute": "Attribute",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "object-class-properties-dialog": {
+    "general": "General",
+    "attributes": "Attributes",
+    "entries": "Entries",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "schema-entities-browser": {
+    "header": "Entity schema",
+    "column-name": "Name",
+    "column-type": "Type"
+  },
+  "schema-entities-details-dialog": {
+    "modal-header": "Entity settings",
+    "entries": "Entries",
+    "object-classes": "Object classes",
+    "apply": "Apply",
+    "cancel": "Cancel"
+  },
+  "schema-entity-details-entries": {
+    "add": "Add entry",
+    "delete": "Delete"
+  },
+  "schema-entity-details-object-classes": {
+    "add": "Add entry",
+    "delete": "Delete",
+    "column-name": "Name",
+    "header": "Object classes for this entity"
+  },
+  "schema-attributes-browser": {
+    "header": "Attribute schema",
+    "add": "Add",
+    "column-name": "Name",
+    "column-type": "Type",
+    "open": "Open"
+  },
+  "attribute-details-dialog": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "header": "Settings",
+    "modal-header": "Set attribute settings"
+  },
+  "add-forward-zone-dialog": {
+    "modal-header": "Add forward zone",
+    "zone-name": "Zone name",
+    "add": "Add",
+    "up": "Up",
+    "down": "Down",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "dns-forward-zones": {
+    "delete-successful": "Successfully deleted",
+    "should-select-zones": "Zones must be selected"
+  },
+  "syslog-settings": {
+    "events-header": "Events",
+    "connections-header": "Event sending settings"
+  },
+  "syslog-event-settings": {
+    "id-column": "ID",
+    "name-column": "Name",
+    "description-column": "Description",
+    "level-column": "Level",
+    "toggle-column": "Active state"
   }
 }
