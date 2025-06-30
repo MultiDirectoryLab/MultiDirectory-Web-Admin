@@ -668,7 +668,11 @@
     "add-zone": "Добавить зону",
     "dns-unavailable": "Сервис DNS недоступен",
     "dns-zone-header": "Зоны DNS",
-    "dns-forwarding-header": "DNS Forwarding"
+    "dns-forwarding-header": "DNS Forwarding",
+    "redirection-zones-tab": "DNS Forwarding",
+    "delete": "Удалить",
+    "enable": "Включить",
+    "disable": "Выключить"
   },
   "dns-zone-details": {
     "modal-header": "Настройки зоны",
@@ -788,5 +792,18 @@
     "cancel": "Отмена",
     "header": "Настройка",
     "modal-header": "Задайте настройки атрибута"
+  },
+  "add-forward-zone-dialog": {
+    "modal-header": "Добавление зоны перенаправления",
+    "zone-name": "Имя зоны",
+    "add": "Добавить",
+    "up": "Вверх",
+    "down": "Вниз",
+    "cancel": "Отменить",
+    "apply": "Применить"
+  },
+  "dns-forward-zones": {
+    "delete-successful": "Успешно удалено",
+    "should-select-zones": "Необходимо выбрать зоны"
   }
 }

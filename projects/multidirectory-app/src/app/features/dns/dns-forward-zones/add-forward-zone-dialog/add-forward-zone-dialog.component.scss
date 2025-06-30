@@ -1,0 +1,15 @@
+.control-button {
+  min-width: 32px;
+}
+
+.control-button:hover {
+  background-color: var(--md-white);
+
+  & img {
+    filter: invert(37%) sepia(85%) saturate(416%) hue-rotate(166deg) brightness(98%) contrast(86%);
+  }
+}
+.control-button-logo {
+  height: 20px;
+  width: 20px;
+}

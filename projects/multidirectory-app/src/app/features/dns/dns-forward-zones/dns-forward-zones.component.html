@@ -1,28 +1,35 @@
-<div class="flex-row flex-space-between flex-align-center">
-  <h2 class="bold">{{ 'dns-settings.redirection-zones-tab' | transloco }}</h2>
+<div class="flex-row flex-space-between flex-align-center px-2 py-2">
   <div class="flex-row flex-gap-10">
     <md-button (click)="onAddRedirectionZone()">{{ 'dns-settings.add' | transloco }}</md-button>
 
-    <md-button (click)="onDeleteRedirectionZone()">{{
-      'dns-settings.delete' | transloco
-    }}</md-button>
+    <md-button
+      (click)="onDeleteRedirectionZone()"
+      [disabled]="selectedRedirectionZones().length <= 0"
+      >{{ 'dns-settings.delete' | transloco }}</md-button
+    >
 
-    <md-button (click)="onEnableRedirectionZone()">{{
+    <!--md-button (click)="onEnableRedirectionZone()">{{
       'dns-settings.enable' | transloco
     }}</md-button>
 
     <md-button (click)="onDisableRedirectionZone()">{{
       'dns-settings.disable' | transloco
-    }}</md-button>
+    }}</md-button-->
   </div>
 </div>
-<div class="flex flex-column flex-grow-1 dns-redirection-zones-container">
+<div class="flex flex-column flex-grow-1 dns-redirection-zones-container px-2 py-2">
   <md-datagrid
     name="redirection-zones-grid"
-    [rows]="redirectionZonesRows"
+    [rows]="redirectionZonesRows()"
     [columns]="redirectionZonesColumns"
-    [page]="redirectionZonesPage"
+    [externalPaging]="true"
+    [(limit)]="limit"
+    [(offset)]="offset"
+    [(total)]="total"
     (selectionChanged)="onRedirectionZonesSelectionChanged($event)"
+    (doubleclick)="onEditRedirectionZone($event)"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
   ></md-datagrid>
+
+  {{ redirectionZonesRows | json }}
 </div>

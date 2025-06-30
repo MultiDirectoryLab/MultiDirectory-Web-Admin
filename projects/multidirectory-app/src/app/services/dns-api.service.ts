@@ -2,6 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { DnsForwardZonesComponent } from '@features/dns/dns-forward-zones/dns-forward-zones.component';
+import {
+  DnsCheckForwardZoneRequest,
+  DnsCheckForwardZoneResponse,
+} from '@models/api/dns/dns-check-forward-zone';
+import { DnsForwardZone } from '@models/api/dns/dns-forward-zone';
 import { DnsRule } from '@models/api/dns/dns-rule';
 import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 import { DnsServiceResponse } from '@models/api/dns/dns-service-response';
@@ -71,8 +77,18 @@ export class DnsApiService {
   addZone(request: DnsAddZoneRequest): Observable<string> {
     return this.dnsHttpClient.post<string>('dns/zone', request).execute();
   }
-
+  updateZone(request: DnsAddZoneRequest): any {
+    return this.dnsHttpClient.patch<string>('dns/zone', request).execute();
+  }
   deleteZone(zoneNames: string[]) {
     return this.dnsHttpClient.delete<string>('dns/zone', { zone_names: zoneNames }).execute();
+  }
+  getForwardZones(): Observable<DnsForwardZone[]> {
+    return this.dnsHttpClient.get<DnsForwardZone[]>('dns/zone/forward').execute();
+  }
+  checkForwardZone(request: DnsCheckForwardZoneRequest): Observable<DnsCheckForwardZoneResponse[]> {
+    return this.dnsHttpClient
+      .post<DnsCheckForwardZoneResponse[]>('dns/forward_check', request)
+      .execute();
   }
 }
