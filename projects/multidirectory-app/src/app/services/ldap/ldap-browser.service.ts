@@ -27,7 +27,7 @@ export class LdapBrowserService {
       .map((x) => {
         const objectClass = LdapSearchResultHelper.getLdapAttributes(
           x.partial_attributes,
-          'objectClass',
+          'objectclass',
         );
         return new LdapEntry({
           dn: x.object_name,
