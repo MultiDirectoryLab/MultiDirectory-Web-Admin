@@ -4,6 +4,7 @@ import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from './user-account-control-flags';
 import { PipeTransform } from '@angular/core';
+import { LdapBrowserEntry } from '@models/core/ldap-browser/ldap-browser-entry';
 
 export class EntityInfoResolver {
   private static IconMap = new Map<LdapEntryType, string>([
@@ -84,5 +85,20 @@ export class EntityInfoResolver {
 export class LdapEntryTypePipe implements PipeTransform {
   transform(value: LdapEntryType, ...args: any[]) {
     return EntityInfoResolver.resolveTypeName(value);
+  }
+}
+
+export class LdapEntryStatusPipe implements PipeTransform {
+  transform(value: LdapBrowserEntry, ...args: any[]) {
+    const uacAttirbute = value?.attributes?.find((x) => x.type == 'userAccountControl');
+    if (!uacAttirbute?.vals?.[0]) {
+      return '';
+    }
+    const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
+
+    const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
+    return enabled
+      ? translate('entity-info-resolver.enabled')
+      : translate('entity-info-resolver.disabled');
   }
 }

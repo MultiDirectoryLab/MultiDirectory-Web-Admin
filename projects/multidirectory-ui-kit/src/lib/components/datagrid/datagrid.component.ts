@@ -132,11 +132,15 @@ export class DatagridComponent {
     }
   }
 
+  onSelect(event: any) {
+    this.selectionChanged.emit(this.selected);
+  }
+
   onActivate(event: any) {
     if (event.type === 'dblclick') {
+      event.event.preventDefault();
+      event.event.stopPropagation();
       this.doubleclick.emit(event);
-    } else if (event.type === 'click') {
-      this.selectionChanged.emit(this.selected);
     }
     this.cdr.detectChanges();
   }

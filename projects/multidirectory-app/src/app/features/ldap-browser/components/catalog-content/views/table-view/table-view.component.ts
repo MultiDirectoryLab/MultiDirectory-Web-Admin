@@ -74,7 +74,9 @@ import {
   concat,
 } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
-import { LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
+import { LdapEntryStatusPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
+import BitSet from 'bitset';
+import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
 @Component({
   selector: 'app-table-view',
@@ -231,7 +233,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         pipe: new LdapEntryTypePipe(),
       },
       { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
-      { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
+      { name: translate('table-view.status-column'), flexGrow: 3, pipe: new LdapEntryStatusPipe() },
     ];
 
     combineLatest([
@@ -266,7 +268,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   getSelected(): NavigationNode[] {
-    return this.grid().selected.map((x) => x.entry);
+    return this.grid().selected;
   }
 
   setSelected(selected: NavigationNode[]) {
@@ -350,16 +352,26 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
 
   toggleSelected(enabled: boolean) {
     const toChange = this.bulkService
-      .create(this.grid().selected.map((x) => x.entry))
+      .create(this.grid().selected.map((x) => x))
       .mutate<LdapAttributes>(this.getAccessorStrategy)
       .filter(new FilterControllableStrategy());
 
     const changed =
       '<ul>' +
       this.grid()
-        .selected.map((x) => `<li>${x.entry.id}</li>`)
+        .selected.map((x) => `<li>${x.name}</li>`)
         .join('') +
       '</ul>';
+    this.grid().selected.forEach((x: LdapBrowserEntry) => {
+      const uacBitSetProperty = x.attributes.find((x) => x.type == 'userAccountControl');
+      if (!uacBitSetProperty) {
+        return;
+      }
+      const uacBitSet = BitSet.fromHexString(Number(uacBitSetProperty?.vals).toString(16));
+      uacBitSet.set(Math.log2(UserAccountControlFlag.ACCOUNTDISABLE), enabled ? 0 : 1);
+      uacBitSetProperty.vals = [uacBitSet.toString(10)];
+      this.cdr.detectChanges();
+    });
 
     toChange
       .mutate<LdapAttributes>(new ToggleAccountDisableStrategy(enabled))
@@ -400,7 +412,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   setAccountEnabledToggle() {
-    const selected = this.grid().selected.map((x) => x.entry);
+    const selected = this.grid().selected;
     this.bulkService
       .create(selected)
       .mutate<LdapAttributes>(this.getAccessorStrategy)

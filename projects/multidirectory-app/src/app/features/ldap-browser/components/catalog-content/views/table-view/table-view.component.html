@@ -29,7 +29,7 @@
         {{ 'table-view.select-all' | transloco }}
       </md-checkbox>
       <md-plane-button class="go-to-parent" (click)="handleGoToParent()">
-        <label class="flex gap-4" style="padding-top: 3px">
+        <label class="flex gap-1" style="padding-top: 3px">
           <img class="mw-12" [src]="'assets/folder-up.svg'" />
           <div>{{ 'table-view.go-to-parent' | transloco }}</div>
         </label>
@@ -40,7 +40,7 @@
         class="accountEnabledToggle"
         [ngClass]="{ disabled: !accountEnabledToggleEnabled }"
         [(ngModel)]="accountEnabledToggle"
-        (click)="accountEnabledToggleClick()"
+        (click)="toggleSelected(accountEnabledToggle)"
         [disabled]="!accountEnabledToggleEnabled"
       >
         {{ 'table-view.enabled' | transloco }}

@@ -46,6 +46,7 @@ export class LdapBrowserService {
             name: LdapNamesHelper.getDnName(x.dn).split('=')[1],
             expandable: EntityInfoResolver.isExpandable(x.objectClasses),
             type: x.type,
+            attributes: x.attributes,
           }),
       );
 

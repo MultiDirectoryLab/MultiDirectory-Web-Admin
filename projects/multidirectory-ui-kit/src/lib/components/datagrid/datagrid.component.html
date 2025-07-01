@@ -9,6 +9,7 @@
     [columns]="columns"
     [selected]="selected"
     [selectionType]="SelectionType.multi"
+    (select)="onSelect($event)"
     (activate)="onActivate($event)"
     [externalPaging]="externalPaging"
     [externalSorting]="externalSorting"
