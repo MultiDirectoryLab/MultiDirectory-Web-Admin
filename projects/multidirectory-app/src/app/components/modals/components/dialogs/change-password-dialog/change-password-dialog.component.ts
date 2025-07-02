@@ -47,7 +47,6 @@ export class ChangePasswordDialogComponent {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
   public unsubscribe = new Subject<boolean>();
-  public formValid = false;
   public repeatPassword = '';
 
   private dialogService: DialogService = inject(DialogService);
@@ -89,7 +88,6 @@ export class ChangePasswordDialogComponent {
   public checkModel() {
     this.form.validate();
     this.password.set(this.passwordInput().value);
-
     if (this.passwordInput().valid) {
       this.closeSuggest();
     }

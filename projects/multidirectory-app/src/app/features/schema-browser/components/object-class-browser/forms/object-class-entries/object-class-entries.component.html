@@ -1,1 +1,18 @@
-<p>object-class-entries works!</p>
+<div class="py-4">
+  <md-datagrid
+    #grid
+    [rows]="entries()"
+    [columns]="columns()"
+    [externalPaging]="true"
+    [(total)]="total"
+    [(limit)]="limit"
+    [(offset)]="offset"
+    [offset]="0"
+  />
+</div>
+<div class="flex flex-row gap-2 justify-end py-2">
+  <!--md-button>{{ 'schema-entity-details-entries.add' | transloco }}</md-button-->
+  <md-button (click)="deleteEntry()">{{
+    'schema-entity-details-entries.delete' | transloco
+  }}</md-button>
+</div>

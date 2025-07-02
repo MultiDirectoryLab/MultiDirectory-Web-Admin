@@ -32,6 +32,15 @@ export class ObjectClassBrowserComponent implements OnInit {
   private dialog = inject(DialogService);
   private settings = inject(AppSettingsService);
 
+  private _query: string = '';
+  get query(): string {
+    return this._query;
+  }
+  set query(query: string) {
+    this._query = query;
+    this._offset = 0;
+    this.loadData();
+  }
   objectClasses = signal<SchemaObjectClass[]>([]);
   columns = signal<TableColumn[]>([
     { name: translate('object-class-browser.name-column'), prop: 'name' },
@@ -70,7 +79,7 @@ export class ObjectClassBrowserComponent implements OnInit {
   }
 
   loadData() {
-    this.schema.getObjectClasses(this.offset, this.limit).subscribe((result) => {
+    this.schema.getObjectClasses(this.offset, this.limit, this.query).subscribe((result) => {
       this.total = result.metadata.total_count;
       this.objectClasses.set(result.items);
     });
@@ -88,9 +97,9 @@ export class ObjectClassBrowserComponent implements OnInit {
           data: {
             objectClass: new SchemaObjectClass({
               name: '',
-              oid: '1.2.3.4.5',
+              oid: '',
               is_system: false,
-              syntax: '1.2.3.4.5',
+              syntax: '',
             }),
           },
         },
@@ -104,9 +113,7 @@ export class ObjectClassBrowserComponent implements OnInit {
           return this.schema.createObjectClass(result);
         }),
       )
-      .subscribe((result) => {
-        console.log(result);
-      });
+      .subscribe((result) => {});
   }
 
   onPropertiesClick(event: InputEvent) {
@@ -123,7 +130,7 @@ export class ObjectClassBrowserComponent implements OnInit {
       component: ObjectClassPropertiesDialogComponent,
       dialogConfig: {
         data: { objectClass: objectClass },
-        minHeight: '512px',
+        width: '612px',
       },
     });
   }
@@ -136,15 +143,12 @@ export class ObjectClassBrowserComponent implements OnInit {
           return this.openObjectClassPropertiesDialog(objectClass).closed;
         }),
         switchMap((result) => {
-          console.log(result);
           if (!!result) {
             return this.schema.updateObjectClass(result);
           }
           return of(result);
         }),
       )
-      .subscribe((result) => {
-        console.log(result);
-      });
+      .subscribe((result) => {});
   }
 }

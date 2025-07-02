@@ -176,7 +176,6 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       })
       .closed.pipe(take(1))
       .subscribe((result) => {
-        console.log(result);
         if (!result) {
           return;
         }

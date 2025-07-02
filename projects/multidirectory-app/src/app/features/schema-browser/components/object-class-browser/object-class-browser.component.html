@@ -1,13 +1,10 @@
-<div class="flex flex-row gap-2 px-2 py-2">
+<div class="flex flex-row gap-2 px-2 py-2 justify-between">
   <md-button (click)="openCreateObjectClassDialog()">{{
     'object-class-browser.add' | transloco
   }}</md-button>
 
   <div class="flex flex-row gap-2">
-    <md-textbox [(ngModel)]="attributeName"></md-textbox>
-    <md-button (click)="openObjectClassProperties(attributeName)">{{
-      'schema-attributes-browser.open' | transloco
-    }}</md-button>
+    <md-textbox [(ngModel)]="query"></md-textbox>
   </div>
 </div>
 <div class="px-2 py-2">

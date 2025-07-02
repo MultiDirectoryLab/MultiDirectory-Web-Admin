@@ -8,6 +8,14 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { ObjectClassCreateDialogData } from '../object-class-create-dialog.interface';
 
 @Component({
   selector: 'app-object-class-create-dialog',
@@ -16,6 +24,7 @@ import { CommonModule } from '@angular/common';
     MultidirectoryUiKitModule,
     ObjectClassCreateGeneralComponent,
     ObjectClassAttributeSummaryComponent,
+    ReactiveFormsModule,
     TranslocoModule,
     CommonModule,
   ],
@@ -23,13 +32,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './object-class-create-dialog.component.scss',
 })
 export class ObjectClassCreateDialogComponent {
-  private readonly dialogData = inject(DIALOG_DATA);
+  private readonly dialogData = inject<ObjectClassCreateDialogData>(DIALOG_DATA);
   private readonly dialog = inject(DialogService);
   private readonly dialogRef = inject(DialogRef);
 
-  objectClass = this.dialogData.objectClass;
+  objectClass: SchemaObjectClass = this.dialogData.objectClass ?? new SchemaObjectClass({});
 
   finish() {
     this.dialog.close(this.dialogRef, this.objectClass);
+  }
+
+  cancel() {
+    this.dialog.close(this.dialogRef);
   }
 }

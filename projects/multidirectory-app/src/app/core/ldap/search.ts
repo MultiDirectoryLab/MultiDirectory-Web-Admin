@@ -169,8 +169,27 @@ export const SearchQueries = {
       scope: 2,
       size_limit: limit,
       time_limit: 1000,
-      filter: `(|(entityTypeName=${this.mapEntityTypeName(entityName)}))`,
+      filter: `(|(entityTypeName=${entityName}))`,
       attributes: ['displayName', 'distinguishedName', 'name', 'cn', 'entityTypeName'],
+      page_number: Math.floor(offset / limit) + 1,
+    });
+  },
+
+  getSchemaObjectClassEntries(baseDn: string, objectClass: string, offset: number, limit: number) {
+    return new SearchRequest({
+      base_object: baseDn,
+      scope: 2,
+      size_limit: limit,
+      time_limit: 1000,
+      filter: `(|(objectClass=${objectClass}))`,
+      attributes: [
+        'displayName',
+        'distinguishedName',
+        'objectClass',
+        'name',
+        'cn',
+        'entityTypeName',
+      ],
       page_number: Math.floor(offset / limit) + 1,
     });
   },

@@ -780,6 +780,11 @@
     "column-name": "Name",
     "header": "Object classes for this entity"
   },
+  "schema-entity-add-object-class-dialog": {
+    "header": "Enter attribute name",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
   "schema-attributes-browser": {
     "header": "Attribute schema",
     "add": "Add",

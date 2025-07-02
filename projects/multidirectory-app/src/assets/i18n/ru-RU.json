@@ -739,11 +739,15 @@
     "name-column": "Имя"
   },
   "object-class-create-dialog": {
-    "next": "Далее"
+    "next": "Далее",
+    "done": "Готово",
+    "cancel": "Отмена"
   },
   "object-class-attribute-summary": {
     "must-attribute-description": "Сущность ДОЛЖНА иметь",
     "may-attribute-description": "Сущность МОЖЕТ иметь",
+    "column-must": "Атрибут",
+    "column-may": "Атрибут",
     "add": "Добавить",
     "remove": "Удалить"
   },
@@ -753,6 +757,7 @@
     "cancel": "Отменить"
   },
   "object-class-properties-dialog": {
+    "header": "Настройка класса объекта",
     "general": "Общее",
     "attributes": "Атрибуты",
     "entries": "Вхождения",
@@ -780,6 +785,11 @@
     "delete": "Удалить",
     "column-name": "Имя",
     "header": "Объектные классы для данной сущности"
+  },
+  "schema-entity-add-object-class-dialog": {
+    "header": "Введите название аттрибута",
+    "add": "Добавить",
+    "cancel": "Отменить"
   },
   "schema-attributes-browser": {
     "header": "Схема атрибутов",

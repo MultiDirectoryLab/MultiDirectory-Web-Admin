@@ -13,10 +13,11 @@ import {
 } from './attribute-details-dialog.interface';
 import { EMPTY, of, switchMap, take } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-attributes-browser',
-  imports: [CommonModule, TranslocoModule, MultidirectoryUiKitModule],
+  imports: [CommonModule, TranslocoModule, MultidirectoryUiKitModule, FormsModule],
   templateUrl: './attributes-browser.component.html',
   styleUrl: './attributes-browser.component.scss',
 })
@@ -26,6 +27,15 @@ export class AttributesBrowserComponent implements OnInit {
   private settings = inject(AppSettingsService);
 
   attributeTypes = signal<SchemaAttributeType[]>([]);
+
+  private _query = '';
+  get query(): string {
+    return this._query;
+  }
+  set query(query: string) {
+    this._query = query;
+    this.loadData();
+  }
 
   total = 0;
 
@@ -60,7 +70,7 @@ export class AttributesBrowserComponent implements OnInit {
   }
 
   loadData() {
-    this.schema.getAttributes(this.offset, this.limit).subscribe((result) => {
+    this.schema.getAttributes(this.offset, this.limit, this.query).subscribe((result) => {
       this.total = result.metadata.total_count;
       this.attributeTypes.set(result.items);
     });
@@ -107,14 +117,12 @@ export class AttributesBrowserComponent implements OnInit {
           if (!attribute) {
             return EMPTY;
           }
-          console.log(attribute);
           return this.showAttributeDialog(attribute, true);
         }),
         switchMap((result) => {
           if (!result) {
             return EMPTY;
           }
-          console.log(result);
           return this.schema.updateAttribute(result);
         }),
       )

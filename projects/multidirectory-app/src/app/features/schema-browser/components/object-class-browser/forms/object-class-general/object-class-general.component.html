@@ -1,17 +1,19 @@
-<div class="flex-col gap-2">
-  <md-form>
+<div class="flex-col gap-2 py-4">
+  <form #form="ngForm">
     <div class="grid grid-cols-2 gap-2">
       <label for="oid">oid</label>
-      <md-textbox [(ngModel)]="objectClass.oid" name="oid"></md-textbox>
+      <md-textbox [(ngModel)]="objectClass().oid" required name="oid"></md-textbox>
 
       <label for="name">name</label>
-      <md-textbox [(ngModel)]="objectClass.name" name="name"></md-textbox>
+      <md-textbox [(ngModel)]="objectClass().name" required name="name"></md-textbox>
 
       <label for="no_user_modification">kind</label>
-      <md-dropdown [(ngModel)]="objectClass.kind" name="kind" [options]="kindOptions"></md-dropdown>
-
-      <label for="syntax">is_system</label>
-      <md-shift-checkbox [(ngModel)]="objectClass.is_system" name="is_system"></md-shift-checkbox>
+      <md-dropdown
+        [(ngModel)]="objectClass().kind"
+        required
+        name="kind"
+        [options]="kindOptions"
+      ></md-dropdown>
     </div>
-  </md-form>
+  </form>
 </div>

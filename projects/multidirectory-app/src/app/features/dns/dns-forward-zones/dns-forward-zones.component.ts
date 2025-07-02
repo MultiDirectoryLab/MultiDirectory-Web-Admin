@@ -123,7 +123,6 @@ export class DnsForwardZonesComponent implements OnInit {
       return;
     }
 
-    console.log(selectedRows);
     this.dnsApi.deleteZone(selectedRows.map((x) => x.name)).subscribe((x) => {
       this.toastr.success(translate('dns-forward-zones.delete-successful'));
       this.loadData();

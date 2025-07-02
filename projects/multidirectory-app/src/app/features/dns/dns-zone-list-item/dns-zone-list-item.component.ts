@@ -60,8 +60,6 @@ export class DnsZoneListItemComponent {
         dialogConfig: { data: { zoneName: record.name } },
       })
       .closed.pipe(take(1))
-      .subscribe((x) => {
-        console.log(x);
-      });
+      .subscribe((x) => {});
   }
 }

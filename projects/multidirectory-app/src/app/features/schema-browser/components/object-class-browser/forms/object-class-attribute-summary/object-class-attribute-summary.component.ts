@@ -1,34 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, input, viewChild } from '@angular/core';
+import { Component, inject, input, Input, OnInit, output, viewChild } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '@components/modals/services/dialog.service';
+import { SchemaEntityAddObjectClassDialogComponent } from '@features/schema-browser/components/entities-browser/schema-entities-details-dialog/schema-entity-add-object-class-dialog/schema-entity-add-object-class-dialog.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import {
   DatagridComponent,
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import {
-  ObjectClassAttributeEditorDialogData,
-  ObjectClassAttributeEditorDialogReturnData,
-} from '../object-class-attribute-editor/object-class-attribute-editor.interface';
-import { ObjectClassAttributeEditorComponent } from '../object-class-attribute-editor/object-class-attribute-editor.component';
-import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { SchemaEntityAddObjectClassDialogComponent } from '@features/schema-browser/components/entities-browser/schema-entities-details-dialog/schema-entity-add-object-class-dialog/schema-entity-add-object-class-dialog.component';
-import { SchemaEntityAddObjectClassDialogReturnData } from '@features/schema-browser/components/entities-browser/schema-entities-details-dialog/schema-entity-add-object-class-dialog/schema-entity-add-object-class-dialog.interface';
 
 @Component({
   selector: 'app-object-class-attribute-summary',
-  imports: [TranslocoModule, MultidirectoryUiKitModule, CommonModule],
+  imports: [TranslocoModule, MultidirectoryUiKitModule, ReactiveFormsModule, CommonModule],
   templateUrl: './object-class-attribute-summary.component.html',
   styleUrl: './object-class-attribute-summary.component.scss',
 })
-export class ObjectClassAttributeSummaryComponent {
+export class ObjectClassAttributeSummaryComponent implements OnInit {
   private dialog = inject(DialogService);
   private mustGrid = viewChild.required<DatagridComponent>('mustGrid');
   private mayGrid = viewChild.required<DatagridComponent>('mayGrid');
-
   private _objectClass = new SchemaObjectClass({});
+  formValid = output<boolean>();
+
   @Input() set objectClass(objectClass: SchemaObjectClass) {
     this._objectClass = objectClass;
     this.objectClassMustRows = objectClass.attribute_type_names_must.map((x) => {
@@ -61,6 +57,10 @@ export class ObjectClassAttributeSummaryComponent {
   mayLimit = 15;
   objectClassMustRows: { name: string }[] = [];
   objectClassMayRows: { name: string }[] = [];
+
+  ngOnInit(): void {
+    this.formValid.emit(true);
+  }
 
   openObjectClassMayAttributeEditor() {
     this.dialog

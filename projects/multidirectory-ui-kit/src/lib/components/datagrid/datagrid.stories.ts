@@ -26,9 +26,7 @@ export const NonPaging: Story = {
     }),
     scrollbarV: true,
   },
-  play: async ({ canvasElement }) => {
-    console.log('play');
-  },
+  play: async ({ canvasElement }) => {},
   argTypes: { pageChange: { action: 'clicked' } },
   render: () => ({
     props: {
@@ -36,9 +34,7 @@ export const NonPaging: Story = {
       rows: Array.from(Array.from(Array(25).keys())).map((x) => {
         return { name: x };
       }),
-      pageChanged: () => {
-        console.log('page');
-      },
+      pageChanged: () => {},
       page: new Page({ totalElements: 25, size: 5, pageNumber: 0 }),
     },
     template: `

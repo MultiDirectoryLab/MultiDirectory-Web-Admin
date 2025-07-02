@@ -10,7 +10,6 @@ export class EnsureBearerInterceptor implements HttpInterceptor {
   private router = inject(Router);
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(req.url);
     if (req.url.endsWith('auth/token/refresh')) {
       const user = !!this.app.user.display_name;
       if (!user) {
