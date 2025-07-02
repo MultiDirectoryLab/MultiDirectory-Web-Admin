@@ -3,6 +3,10 @@ import { LdapAttribute } from './ldap-attributes/ldap-attribute';
 
 export class LdapSearchResultHelper {
   static getLdapAttributes(partial_attributes: LdapAttribute[], attributeName: string): string[] {
-    return partial_attributes.find((x) => x.type == attributeName)?.vals ?? [];
+    return (
+      partial_attributes.find(
+        (x) => x.type.toLocaleLowerCase() == attributeName.toLocaleLowerCase(),
+      )?.vals ?? []
+    );
   }
 }

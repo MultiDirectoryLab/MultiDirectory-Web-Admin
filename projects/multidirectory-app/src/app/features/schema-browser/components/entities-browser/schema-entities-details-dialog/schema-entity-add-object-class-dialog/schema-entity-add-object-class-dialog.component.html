@@ -1,6 +1,16 @@
 <app-dialog>
+  <div class="app-modal-header">
+    {{ 'schema-entity-add-object-class-dialog.header' | transloco }}
+  </div>
   <form [formGroup]="form" (submit)="onSubmit($event)">
     <md-textbox formControlName="objectClassName"></md-textbox>
-    <md-button [submit]="true">{{ 'schema-entity-add-object-class-dialog' | transloco }}</md-button>
+    <div class="flex flex-row justify-end py-2 gap-2">
+      <md-button (click)="onCancel($event)">{{
+        'schema-entity-add-object-class-dialog.cancel' | transloco
+      }}</md-button>
+      <md-button [disabled]="form.invalid" [submit]="true" [primary]="true">{{
+        'schema-entity-add-object-class-dialog.add' | transloco
+      }}</md-button>
+    </div>
   </form>
 </app-dialog>

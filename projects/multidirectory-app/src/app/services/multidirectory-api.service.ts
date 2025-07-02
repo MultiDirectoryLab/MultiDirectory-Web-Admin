@@ -40,6 +40,7 @@ import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/sch
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
+import { q } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
 
 @Injectable({
   providedIn: 'root',
@@ -273,34 +274,40 @@ export class MultidirectoryApiService {
     return this.httpClient.delete<string>('sessions/' + upn).execute();
   }
 
-  getSchemaEntities(pageNumber: number, pageSize: number): Observable<SchemaEntitiesResponse> {
-    return this.httpClient
-      .get<SchemaEntitiesResponse>(
-        `schema/entity_types?page_number=${pageNumber}&page_size=${pageSize}`,
-      )
-      .execute();
+  getSchemaEntities(
+    pageNumber: number,
+    pageSize: number,
+    query: string,
+  ): Observable<SchemaEntitiesResponse> {
+    let url = `schema/entity_types?page_number=${pageNumber}&page_size=${pageSize}`;
+    if (!!query) {
+      url = url + `&query=${query}`;
+    }
+    return this.httpClient.get<SchemaEntitiesResponse>(url).execute();
   }
 
   getSchemaObjectClasses(
     pageNumber: number,
     pageSize: number,
+    query: string,
   ): Observable<SchemaObjectClassResponse> {
-    return this.httpClient
-      .get<SchemaObjectClassResponse>(
-        `schema/object_classes?page_number=${pageNumber}&page_size=${pageSize}`,
-      )
-      .execute();
+    let url = `schema/object_classes?page_number=${pageNumber}&page_size=${pageSize}`;
+    if (!!query) {
+      url = url + `&query=${query}`;
+    }
+    return this.httpClient.get<SchemaObjectClassResponse>(url).execute();
   }
 
   getSchemaAttributes(
     pageNumber: number,
     pageSize: number,
+    query: string,
   ): Observable<SchemaAttributeTypesResponse> {
-    return this.httpClient
-      .get<SchemaAttributeTypesResponse>(
-        `schema/attribute_types?page_number=${pageNumber}&page_size=${pageSize}`,
-      )
-      .execute();
+    let url = `schema/attribute_types?page_number=${pageNumber}&page_size=${pageSize}`;
+    if (!!query) {
+      url = url + `&query=${query}`;
+    }
+    return this.httpClient.get<SchemaAttributeTypesResponse>(url).execute();
   }
 
   createSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {

@@ -12,7 +12,7 @@ export class GetAccessorStrategy extends BulkPerformStrategy<NavigationNode> {
   private attributeService = inject(AttributeService);
 
   override mutate<LdapAttributes>(entry: NavigationNode): LdapAttributes {
-    const attributes = [] as LdapAttribute[]; //entry.entry?.partial_attributes ?? [];
+    const attributes = entry?.attributes ?? [];
     const accessor = this.attributeService.getTrackableAttributes(
       entry,
       new LdapAttributes(attributes),

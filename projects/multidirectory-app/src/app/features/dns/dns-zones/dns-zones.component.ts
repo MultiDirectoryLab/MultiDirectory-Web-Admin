@@ -55,7 +55,6 @@ export default class DnsZonesComponent implements OnInit {
         if (!result) {
           return;
         }
-        console.log(result);
       });
   }
 
@@ -125,7 +124,6 @@ export default class DnsZonesComponent implements OnInit {
         if (!result) {
           return;
         }
-        console.log(result);
         this.zones = result;
       });
   }

@@ -1,4 +1,6 @@
 <app-dialog>
+  <div class="app-modal-header">{{ 'object-class-properties-dialog.header' | transloco }}</div>
+
   <md-stepper #stepper>
     <ng-template mdStep>
       <app-object-class-general [objectClass]="objectClass" />
@@ -7,14 +9,18 @@
       <app-object-class-attribute-summary [objectClass]="objectClass" />
     </ng-template>
   </md-stepper>
-  <div>
+  <div class="flex flex-row justify-end gap-2">
+    <md-button (click)="cancel()">{{ 'object-class-create-dialog.cancel' | transloco }}</md-button>
+
     @if (stepper.currentIndex == 0) {
-      <md-button (click)="stepper.next()">{{
+      <md-button (click)="stepper.next()" [primary]="true">{{
         'object-class-create-dialog.next' | transloco
       }}</md-button>
     }
     @if (stepper.currentIndex > 0) {
-      <md-button (click)="finish()">{{ 'object-class-create-dialog.done' | transloco }}</md-button>
+      <md-button (click)="finish()" [primary]="true">{{
+        'object-class-create-dialog.done' | transloco
+      }}</md-button>
     }
   </div>
 </app-dialog>

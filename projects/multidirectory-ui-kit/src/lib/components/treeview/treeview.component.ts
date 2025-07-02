@@ -100,7 +100,6 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   }
 
   nodeById(index: number, node: Treenode) {
-    console.log(node);
     return node.id;
   }
 }

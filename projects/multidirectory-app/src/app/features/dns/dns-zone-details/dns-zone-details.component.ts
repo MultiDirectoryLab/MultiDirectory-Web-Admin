@@ -67,7 +67,6 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   );
 
   ngAfterViewInit(): void {
-    console.log(this.dialogData.zoneName);
     this.zoneName.set(this.dialogData.zoneName);
   }
 

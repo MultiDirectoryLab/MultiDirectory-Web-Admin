@@ -15,16 +15,24 @@ import { map, Observable, of } from 'rxjs';
 export class SchemaService {
   private api = inject(MultidirectoryApiService);
 
-  getEntities(offset: number, pageSize: number): Observable<SchemaEntitiesResponse> {
-    return this.api.getSchemaEntities(Math.floor(offset / pageSize) + 1, pageSize);
+  getEntities(offset: number, pageSize: number, query: string): Observable<SchemaEntitiesResponse> {
+    return this.api.getSchemaEntities(Math.floor(offset / pageSize) + 1, pageSize, query);
   }
 
-  getObjectClasses(offset: number, pageSize: number): Observable<SchemaObjectClassResponse> {
-    return this.api.getSchemaObjectClasses(Math.floor(offset / pageSize) + 1, pageSize);
+  getObjectClasses(
+    offset: number,
+    pageSize: number,
+    query: string,
+  ): Observable<SchemaObjectClassResponse> {
+    return this.api.getSchemaObjectClasses(Math.floor(offset / pageSize) + 1, pageSize, query);
   }
 
-  getAttributes(offset: number, pageSize: number): Observable<SchemaAttributeTypesResponse> {
-    return this.api.getSchemaAttributes(Math.floor(offset / pageSize) + 1, pageSize);
+  getAttributes(
+    offset: number,
+    pageSize: number,
+    query: string,
+  ): Observable<SchemaAttributeTypesResponse> {
+    return this.api.getSchemaAttributes(Math.floor(offset / pageSize) + 1, pageSize, query);
   }
 
   createAttribute(attribute: SchemaAttributeType) {

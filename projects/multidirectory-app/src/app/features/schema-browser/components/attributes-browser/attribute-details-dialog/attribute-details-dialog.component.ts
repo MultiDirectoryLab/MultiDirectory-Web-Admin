@@ -6,7 +6,7 @@ import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-a
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AttributeDetailsDialogData } from '../attribute-details-dialog.interface';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '@components/modals/services/dialog.service';
 
 @Component({
@@ -31,10 +31,10 @@ export class AttributeDetailsDialogComponent implements OnInit {
     return (
       this.attributeInput() ??
       new SchemaAttributeType({
-        oid: '1.2.840.113556.1.4.21',
-        name: 'testAttribute',
+        oid: '',
+        name: '',
         single_value: false,
-        syntax: '1.3.6.1.4.1.1466.115.121.1.27',
+        syntax: '',
         no_user_modification: false,
         is_system: false,
       })
@@ -42,11 +42,11 @@ export class AttributeDetailsDialogComponent implements OnInit {
   });
 
   form = new FormGroup({
-    oid: new FormControl(this.attribute().oid),
-    name: new FormControl(this.attribute().name),
+    oid: new FormControl(this.attribute().oid, [Validators.required]),
+    name: new FormControl(this.attribute().name, [Validators.required]),
     single_value: new FormControl(this.attribute().single_value),
     no_user_modification: new FormControl(this.attribute().no_user_modification),
-    syntax: new FormControl(this.attribute().syntax),
+    syntax: new FormControl(this.attribute().syntax, [Validators.required]),
   });
 
   ngOnInit(): void {

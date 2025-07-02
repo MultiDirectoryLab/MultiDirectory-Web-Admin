@@ -13,9 +13,10 @@ import {
 import { EntitiesDetailsDialogComponent } from './schema-entities-details-dialog/schema-entities-details-dialog.component';
 import { DropdownOption } from 'multidirectory-ui-kit';
 import { AppSettingsService } from '@services/app-settings.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [CommonModule, MultidirectoryUiKitModule],
+  imports: [CommonModule, MultidirectoryUiKitModule, FormsModule],
   templateUrl: './schema-entities-browser.component.html',
   styleUrl: './schema-entities-browser.component.scss',
 })
@@ -24,6 +25,15 @@ export class SchemaEntitiesBrowserComponent implements OnInit {
   private dialog = inject(DialogService);
   private settings = inject(AppSettingsService);
 
+  private _query = '';
+  get query(): string {
+    return this._query;
+  }
+  set query(query: string) {
+    this._offset = 0;
+    this._query = query;
+    this.loadData();
+  }
   entites = signal<SchemaEntity[]>([]);
   columns = signal<TableColumn[]>([
     { name: translate('schema-entities-browser.column-name'), prop: 'name' },
@@ -63,7 +73,7 @@ export class SchemaEntitiesBrowserComponent implements OnInit {
   }
 
   loadData() {
-    this.schema.getEntities(this.offset, this.limit).subscribe((result) => {
+    this.schema.getEntities(this.offset, this.limit, this.query).subscribe((result) => {
       this.total = result.metadata.total_count;
       this.entites.set(result.items);
     });

@@ -9,6 +9,7 @@ import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-obje
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-object-class-properties',
@@ -16,6 +17,7 @@ import { CommonModule } from '@angular/common';
     DialogComponent,
     MultidirectoryUiKitModule,
     TranslocoModule,
+    ReactiveFormsModule,
     CommonModule,
     ObjectClassCreateGeneralComponent,
     ObjectClassAttributeSummaryComponent,
@@ -24,15 +26,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './object-class-properties-dialog.component.html',
   styleUrl: './object-class-properties-dialog.component.scss',
 })
-export class ObjectClassPropertiesDialogComponent implements OnInit {
+export class ObjectClassPropertiesDialogComponent {
   private readonly dialog = inject(DialogService);
   private readonly dialogRef = inject(DialogRef);
   private readonly dialogData = inject(DIALOG_DATA);
-  objectClass: SchemaObjectClass = this.dialogData.objectClass;
+  formValid: boolean = false;
 
-  ngOnInit(): void {
-    console.log(this.objectClass);
-  }
+  objectClass: SchemaObjectClass = this.dialogData.objectClass;
 
   onApplyClick() {
     this.dialog.close(this.dialogRef, this.objectClass);

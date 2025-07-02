@@ -27,7 +27,7 @@ export class LdapBrowserService {
       .map((x) => {
         const objectClass = LdapSearchResultHelper.getLdapAttributes(
           x.partial_attributes,
-          'objectClass',
+          'objectclass',
         );
         return new LdapEntry({
           dn: x.object_name,
@@ -46,6 +46,7 @@ export class LdapBrowserService {
             name: LdapNamesHelper.getDnName(x.dn).split('=')[1],
             expandable: EntityInfoResolver.isExpandable(x.objectClasses),
             type: x.type,
+            attributes: x.attributes,
           }),
       );
 
