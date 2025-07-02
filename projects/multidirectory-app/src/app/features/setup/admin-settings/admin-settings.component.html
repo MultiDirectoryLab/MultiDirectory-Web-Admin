@@ -6,49 +6,50 @@
     </div>
   </div>
   <md-form #form>
-    <div class="flex flex-col gap-2">
-      <div class="flex gap-1 justify-between justify-center">
+    <div class="flex flex-col gap-4">
+      <div class="flex gap-1 justify-between">
         <label class="textbox-label">{{
           'setup.admin-settings.admin-login-label' | transloco
         }}</label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox appRequired appAutofocus [(ngModel)]="setupRequest.username"></md-textbox>
-        </div>
+        <md-textbox
+          class="flex-grow-1"
+          appRequired
+          appAutofocus
+          [(ngModel)]="setupRequest.username"
+        ></md-textbox>
       </div>
 
-      <div class="flex gap-1 justify-between justify-center">
+      <div class="flex gap-1 justify-between">
         <label class="textbox-label">{{
           'setup.admin-settings.admin-password-label' | transloco
         }}</label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox
-            appRequired
-            [password]="true"
-            [appPasswordMatch]="repeatPassword"
-            appPasswordShouldBeValid
-            [(ngModel)]="setupRequest.password"
-            (keyup)="checkModel()"
-            #passwordInput="ngModel"
-            (focus)="openSuggest($event)"
-            (blur)="closeSuggest()"
-          ></md-textbox>
-        </div>
+        <md-textbox
+          class="flex-grow-1"
+          appRequired
+          [password]="true"
+          [appPasswordMatch]="repeatPassword"
+          appPasswordShouldBeValid
+          [(ngModel)]="setupRequest.password"
+          (keyup)="checkModel()"
+          #passwordInput="ngModel"
+          (focus)="openSuggest($event)"
+          (blur)="closeSuggest()"
+        ></md-textbox>
       </div>
 
-      <div class="flex gap-1 justify-between justify-center">
+      <div class="flex gap-1 justify-between">
         <label class="textbox-label">{{
           'setup.admin-settings.admin-password-repeat-label' | transloco
         }}</label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox
-            appRequired
-            [appPasswordMatch]="passwordInput"
-            [password]="true"
-            (keyup)="checkModel()"
-            [(ngModel)]="setupRequest.repeatPassword"
-            #repeatPassword="ngModel"
-          ></md-textbox>
-        </div>
+        <md-textbox
+          class="flex-grow-1"
+          appRequired
+          [appPasswordMatch]="passwordInput"
+          [password]="true"
+          (keyup)="checkModel()"
+          [(ngModel)]="setupRequest.repeatPassword"
+          #repeatPassword="ngModel"
+        ></md-textbox>
       </div>
     </div>
   </md-form>

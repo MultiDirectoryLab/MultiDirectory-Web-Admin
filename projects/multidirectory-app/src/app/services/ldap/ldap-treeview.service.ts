@@ -4,6 +4,7 @@ import { LdapEntry } from '@models/core/ldap/ldap-entry';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class LdapTreeviewService {
       LdapNamesHelper.isDnChild(node.dn, x),
     );
     return children
-      .filter((x) => entries.has(x))
+      .filter((x) => entries.has(x) && LdapNamesHelper.isExpandable(entries.get(x)!.objectClasses))
       .map((x) => this.createNode(entries.get(x)!, entries));
   }
 
@@ -31,7 +32,9 @@ export class LdapTreeviewService {
     newNode = new NavigationNode({
       ...newNode,
       id: entry.dn,
-      name: LdapNamesHelper.getDnName(entry.dn).split('=')[1],
+      name: LdapNamesHelper.isDomainController(entry.dn)
+        ? (entry.getAttibute('dnsHostName')?.[0] ?? '')
+        : LdapNamesHelper.getDnName(entry.dn).split('=')[1],
       children: this.buildNextLevel(entry, entries),
       expandable: true,
       route: ['ldap'],
@@ -91,5 +94,9 @@ export class LdapTreeviewService {
       this._nodes.delete(dn);
       this.ldap.invalidate(dn);
     });
+  }
+
+  isExpandable(parentDn: string): boolean {
+    return this._nodes.get(parentDn)?.expandable ?? false;
   }
 }

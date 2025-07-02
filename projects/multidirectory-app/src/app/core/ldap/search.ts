@@ -19,6 +19,7 @@ export const SearchQueries = {
       'supportedControl',
       'supportedFeatures',
       'vendorName',
+      'name',
       'vendorVersion',
       'objectClass',
     ],
@@ -32,7 +33,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: '(|(objectClass=builtinDomain)(objectClass=container))',
+      filter: '(|(objectClass=*))',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
   },
