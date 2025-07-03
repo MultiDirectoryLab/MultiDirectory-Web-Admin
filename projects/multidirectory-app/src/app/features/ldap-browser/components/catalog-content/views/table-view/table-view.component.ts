@@ -74,7 +74,11 @@ import {
   concat,
 } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
-import { LdapEntryStatusPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
+import {
+  LdapEntryDescriptionPipe,
+  LdapEntryStatusPipe,
+  LdapEntryTypePipe,
+} from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
@@ -232,7 +236,11 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         flexGrow: 1,
         pipe: new LdapEntryTypePipe(),
       },
-      { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
+      {
+        name: translate('table-view.description-column'),
+        flexGrow: 3,
+        pipe: new LdapEntryDescriptionPipe(),
+      },
       { name: translate('table-view.status-column'), flexGrow: 3, pipe: new LdapEntryStatusPipe() },
     ];
 

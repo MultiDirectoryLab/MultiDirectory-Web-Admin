@@ -105,6 +105,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.load();
+
     this.api
       .getMultifactor()
       .pipe(take(1))
@@ -127,10 +128,13 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     this.api.getAccessPolicy().subscribe({
       next: (policies) => {
         this.windows.hideSpinner();
-        this.accessClient =
-          policies.find(
-            (x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
-          ) ?? new AccessPolicy();
+        if (this.activatedRoute.snapshot.params.id) {
+          this.accessClient =
+            policies.find(
+              (x) =>
+                x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
+            ) ?? new AccessPolicy();
+        }
         this.ipAddresses = this.accessClient.ipRange
           .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
           .join(', ');

@@ -6,14 +6,12 @@
         >{{ 'move-entity.move' | transloco }} {{ toMove[0].id }}</label
       >
     </div>
-    <div class="flex w-full">
+    <div class="flex w-full gap-4">
       <label class="grow-1">{{ 'move-entity.into-the-container' | transloco }}</label>
       <div class="grow-1">
         <md-textbox [(ngModel)]="targetDn" [disabled]="true"></md-textbox>
       </div>
-      <div class="grow-1">
-        <md-button (click)="change()">{{ 'move-entity.change' | transloco }}</md-button>
-      </div>
+      <md-button (click)="change()">{{ 'move-entity.change' | transloco }}</md-button>
     </div>
   </div>
   <div class="app-modal-footer flex justify-end gap-1">

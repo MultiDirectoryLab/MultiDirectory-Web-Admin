@@ -88,6 +88,13 @@ export class LdapEntryTypePipe implements PipeTransform {
   }
 }
 
+export class LdapEntryDescriptionPipe implements PipeTransform {
+  transform(value: LdapBrowserEntry, ...args: any[]) {
+    const descriptionAttirbute = value?.attributes?.find((x) => x.type == 'description');
+    return descriptionAttirbute?.vals?.[0] ?? '';
+  }
+}
+
 export class LdapEntryStatusPipe implements PipeTransform {
   transform(value: LdapBrowserEntry, ...args: any[]) {
     const uacAttirbute = value?.attributes?.find((x) => x.type == 'userAccountControl');

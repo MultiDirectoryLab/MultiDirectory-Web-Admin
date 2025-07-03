@@ -182,7 +182,9 @@ export class ContextMenuComponent implements OnInit {
           },
         })
         .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
-        .subscribe((x) => {}),
+        .subscribe((x) => {
+          this.navigation.reload();
+        }),
     );
   }
 

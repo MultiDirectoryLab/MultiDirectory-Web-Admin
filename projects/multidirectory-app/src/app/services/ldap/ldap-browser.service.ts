@@ -39,7 +39,6 @@ export class LdapBrowserService {
       .map(
         (x) =>
           new LdapBrowserEntry({
-            description: EntityInfoResolver.getNodeDescription(x),
             dn: x.dn,
             id: x.dn,
             icon: EntityInfoResolver.resolveIcon(x.type),
