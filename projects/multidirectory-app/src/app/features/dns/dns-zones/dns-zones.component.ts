@@ -20,12 +20,13 @@ import {
 } from '../../../components/modals/interfaces/confirm-dialog.interface';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/api/dns/dns-rule';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dns-zones',
   templateUrl: './dns-zones.component.html',
   styleUrls: ['./dns-zones.component.scss'],
-  imports: [MuiButtonComponent, TranslocoModule, DnsZoneListItemComponent],
+  imports: [MultidirectoryUiKitModule, TranslocoModule, DnsZoneListItemComponent],
 })
 export default class DnsZonesComponent implements OnInit {
   private dns = inject(DnsApiService);

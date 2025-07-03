@@ -24,6 +24,7 @@ import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import { DnsForwardZonesComponent } from './dns-forward-zones/dns-forward-zones.component';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dns-settings',
@@ -32,11 +33,10 @@ import { DnsForwardZonesComponent } from './dns-forward-zones/dns-forward-zones.
   imports: [
     TranslocoPipe,
     MuiTabsComponent,
-    MuiButtonComponent,
+    MultidirectoryUiKitModule,
     FontAwesomeModule,
     MuiTabDirective,
     DnsZonesComponent,
-    AlertComponent,
     DnsForwardZonesComponent,
   ],
 })

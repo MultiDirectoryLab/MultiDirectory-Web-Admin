@@ -27,6 +27,7 @@ import {
 import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { DnsRule } from '@models/api/dns/dns-rule';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dns-zone-details',
@@ -35,7 +36,7 @@ import { DnsRule } from '@models/api/dns/dns-rule';
   imports: [
     DnsRuleListItemComponent,
     DialogComponent,
-    MuiButtonComponent,
+    MultidirectoryUiKitModule,
     FormsModule,
     TranslocoModule,
     MuiInputComponent,

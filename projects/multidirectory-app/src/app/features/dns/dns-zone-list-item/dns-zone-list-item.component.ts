@@ -11,12 +11,13 @@ import { DnsZoneDetailsComponent } from '../dns-zone-details/dns-zone-details.co
 import { DnsZoneDetailsDialogData } from '../dns-zone-details/dns-zone-details-dialog-data';
 import { take } from 'rxjs';
 import { DnsRule } from '@models/api/dns/dns-rule';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dns-zone-list-item',
   templateUrl: './dns-zone-list-item.component.html',
   styleUrls: ['./dns-zone-list-item.component.scss'],
-  imports: [MuiButtonComponent, TranslocoModule, FaIconComponent],
+  imports: [MultidirectoryUiKitModule, TranslocoModule, FaIconComponent],
 })
 export class DnsZoneListItemComponent {
   private toastr = inject(ToastrService);

@@ -1,7 +1,7 @@
 <div class="flex w-full justify-end pb-2 pr-2">
-  <mui-button color="secondary" variant="rounded" size="sm" (clicked)="onAddDnsZone()">
+  <md-button (click)="onAddDnsZone()">
     {{ 'dns-settings.add-zone' | transloco }}
-  </mui-button>
+  </md-button>
 </div>
 <div class="flex flex-col gap-y-2 p-2">
   @for (zone of zones; track zone; let i = $index) {
