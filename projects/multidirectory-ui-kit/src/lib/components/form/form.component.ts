@@ -104,6 +104,10 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  onSubmit(event: SubmitEvent) {
+    this.validate();
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();

@@ -23,7 +23,9 @@
       <label for="syntax">syntax</label>
       <md-textbox formControlName="syntax" name="syntax"></md-textbox>
       <div class="flex flex-row gap-4">
-        <md-button>{{ 'attribute-details-dialog.cancel' | transloco }}</md-button>
+        <md-button (click)="cancel()">{{
+          'attribute-details-dialog.cancel' | transloco
+        }}</md-button>
         <md-button [primary]="true" [disabled]="form.invalid" [submit]="true">{{
           'attribute-details-dialog.submit' | transloco
         }}</md-button>

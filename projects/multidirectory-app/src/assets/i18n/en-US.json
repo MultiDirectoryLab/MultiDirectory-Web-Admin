@@ -737,6 +737,11 @@
     "add": "Add",
     "name-column": "Name"
   },
+  "object-class-entries": {
+    "header": "Entries of the Object Class",
+    "add": "Add",
+    "name-column": "Name"
+  },
   "object-class-create-dialog": {
     "next": "Next"
   },
@@ -781,7 +786,12 @@
     "header": "Object classes for this entity"
   },
   "schema-entity-add-object-class-dialog": {
-    "header": "Enter attribute name",
+    "header": "Enter attribute name (Enter to search):",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "add-attribute-dialog": {
+    "header": "Enter attribute name (Enter to search):",
     "add": "Add",
     "cancel": "Cancel"
   },

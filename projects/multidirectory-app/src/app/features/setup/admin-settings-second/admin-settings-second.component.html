@@ -6,32 +6,31 @@
     </div>
   </div>
   <md-form #form>
-    <div class="flex flex-col gap-2">
-      <div class="flex justify-between justify-center">
+    <div class="flex flex-col gap-4">
+      <div class="flex justify-between">
         <label class="textbox-label">UPN</label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox
-            appRequired
-            appAutofocus
-            [(ngModel)]="setupRequest.user_principal_name"
-          ></md-textbox>
-        </div>
+        <md-textbox
+          appRequired
+          appAutofocus
+          class="flex-grow-1"
+          [(ngModel)]="setupRequest.user_principal_name"
+        ></md-textbox>
       </div>
 
-      <div class="flex justify-between justify-center">
+      <div class="flex justify-between">
         <label class="textbox-label">
           {{ 'setup.admin-settings-second.display-name-label' | transloco }}
         </label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox appRequired [(ngModel)]="setupRequest.display_name"></md-textbox>
-        </div>
+        <md-textbox
+          class="flex-grow-1"
+          appRequired
+          [(ngModel)]="setupRequest.display_name"
+        ></md-textbox>
       </div>
 
-      <div class="flex justify-between justify-center">
+      <div class="flex justify-between">
         <label class="textbox-label">Email</label>
-        <div class="flex flex-col flex-grow-1">
-          <md-textbox appRequired [(ngModel)]="setupRequest.mail"></md-textbox>
-        </div>
+        <md-textbox class="flex-grow-1" appRequired [(ngModel)]="setupRequest.mail"></md-textbox>
       </div>
     </div>
   </md-form>

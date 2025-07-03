@@ -63,7 +63,7 @@
     "from-place": "Из этого места:",
     "places": "Места...",
     "name-prompt": "Чтобы найти объект, введите имя:",
-    "not-found-text": "Объкеты не найдены",
+    "not-found-text": "Объекты не найдены",
     "check-name": "Проверить имя...",
     "additional-parameters": "Дополнительные параметры",
     "cancel": "Отменить",
@@ -738,6 +738,11 @@
     "add": "Добавить",
     "name-column": "Имя"
   },
+  "object-class-entries": {
+    "header": "Схема классов объектов",
+    "add": "Добавить",
+    "name-column": "Имя"
+  },
   "object-class-create-dialog": {
     "next": "Далее",
     "done": "Готово",
@@ -787,7 +792,12 @@
     "header": "Объектные классы для данной сущности"
   },
   "schema-entity-add-object-class-dialog": {
-    "header": "Введите название аттрибута",
+    "header": "Введите название класса объекта (Enter для поиска):",
+    "add": "Добавить",
+    "cancel": "Отменить"
+  },
+  "add-attribute-dialog": {
+    "header": "Введите название атрибута (Enter для поиска)",
     "add": "Добавить",
     "cancel": "Отменить"
   },

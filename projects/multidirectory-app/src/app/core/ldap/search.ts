@@ -19,6 +19,7 @@ export const SearchQueries = {
       'supportedControl',
       'supportedFeatures',
       'vendorName',
+      'name',
       'vendorVersion',
       'objectClass',
     ],

@@ -12,7 +12,7 @@ import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-ki
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { take } from 'rxjs';
+import { map, Observable, switchMap, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -26,6 +26,7 @@ import {
 } from '../../../interfaces/entity-selector-dialog.interface';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { SchemaService } from '@services/schema/schema.service';
 
 @Component({
   selector: 'app-create-computer-dialog',
@@ -57,6 +58,7 @@ export class CreateComputerDialogComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private schema = inject(SchemaService);
 
   public ngOnInit(): void {
     this.formValid = this.form.valid;
@@ -65,24 +67,35 @@ export class CreateComputerDialogComponent implements OnInit {
     });
   }
 
+  getObjectClasses(): Observable<string[]> {
+    return this.schema.getSchemaEntity('Computer').pipe(
+      map((result) => {
+        return result.object_class_names;
+      }),
+    );
+  }
+
   public onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-
-    this.api
-      .create(
-        new CreateEntryRequest({
-          entry: `cn=${this.computerName},` + this.dialogData.parentDn,
-          attributes: [
-            new LdapAttribute({
-              type: 'objectClass',
-              vals: ['top', 'computer'],
+    this.getObjectClasses()
+      .pipe(
+        switchMap((objectClasses) => {
+          return this.api.create(
+            new CreateEntryRequest({
+              entry: `cn=${this.computerName},` + this.dialogData.parentDn,
+              attributes: [
+                new LdapAttribute({
+                  type: 'objectClass',
+                  vals: ['top', 'computer'],
+                }),
+                new LdapAttribute({
+                  type: 'description',
+                  vals: [this.description],
+                }),
+              ],
             }),
-            new LdapAttribute({
-              type: 'description',
-              vals: [this.description],
-            }),
-          ],
+          );
         }),
       )
       .subscribe((x) => {

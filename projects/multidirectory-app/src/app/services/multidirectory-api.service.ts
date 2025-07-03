@@ -274,6 +274,11 @@ export class MultidirectoryApiService {
     return this.httpClient.delete<string>('sessions/' + upn).execute();
   }
 
+  getSchemaEntity(name: string): Observable<SchemaEntity> {
+    let url = `schema/entity_type/${name}`;
+    return this.httpClient.get<SchemaEntity>(url).execute();
+  }
+
   getSchemaEntities(
     pageNumber: number,
     pageSize: number,

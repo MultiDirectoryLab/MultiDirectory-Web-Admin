@@ -1,6 +1,8 @@
-import { NavigationNode } from '@models/core/navigation/navigation-node';
-
 export class LdapNamesHelper {
+  static isExpandable(objectClasses: string[]) {
+    return objectClasses.findIndex((val) => ['container', 'builtinDomains'].includes(val)) > -1;
+  }
+
   static getDnParent(dn: string): string {
     if (!dn || dn.startsWith('dc=')) {
       return '';

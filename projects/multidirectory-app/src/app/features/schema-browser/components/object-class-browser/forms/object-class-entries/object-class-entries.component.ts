@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, signal, viewChild } from '@angular/core';
 import { SearchQueries } from '@core/ldap/search';
-import { TranslocoModule } from '@jsverse/transloco';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
@@ -29,7 +29,9 @@ export class ObjectClassEntriesComponent {
 
   objectClass = input<SchemaObjectClass>();
   entries = signal<SchemaEntry[]>([]);
-  columns = signal<TableColumn[]>([{ name: 'name' }]);
+  columns = signal<TableColumn[]>([
+    { name: translate('object-class-entries.name-column'), prop: 'name' },
+  ]);
 
   total = 0;
 
