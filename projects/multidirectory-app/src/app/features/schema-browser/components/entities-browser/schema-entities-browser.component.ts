@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
 import { SchemaService } from '@services/schema/schema.service';
-import { MultidirectoryUiKitModule } from '../../../../../../../multidirectory-ui-kit/src/lib/multidirectory-ui-kit.module';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { translate } from '@jsverse/transloco';
 import { DialogService } from '@components/modals/services/dialog.service';
@@ -11,7 +10,7 @@ import {
   SchemaEntityDetailsDialogReturnData,
 } from './schema-entities-details-dialog/schema-entities-details-dialog.interface';
 import { EntitiesDetailsDialogComponent } from './schema-entities-details-dialog/schema-entities-details-dialog.component';
-import { DropdownOption } from 'multidirectory-ui-kit';
+import { DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { AppSettingsService } from '@services/app-settings.service';
 import { FormsModule } from '@angular/forms';
 import { switchMap, take } from 'rxjs';

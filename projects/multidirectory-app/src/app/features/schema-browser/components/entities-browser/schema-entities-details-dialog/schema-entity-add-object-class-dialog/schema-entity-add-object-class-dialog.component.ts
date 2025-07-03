@@ -32,7 +32,7 @@ export class SchemaEntityAddObjectClassDialogComponent {
   availableClassNames: MultiselectModel[] = [];
 
   checkClassNames($event: string) {
-    this.schema.getObjectClasses(0, 6, $event).subscribe((result) => {
+    this.schema.getObjectClasses(0, 100, $event).subscribe((result) => {
       this.availableClassNames = result.items.map(
         (x) =>
           new MultiselectModel({
