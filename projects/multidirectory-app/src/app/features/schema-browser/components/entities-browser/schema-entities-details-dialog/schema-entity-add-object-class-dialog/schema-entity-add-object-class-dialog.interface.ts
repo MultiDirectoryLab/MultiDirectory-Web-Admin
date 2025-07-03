@@ -1,1 +1,1 @@
-export type SchemaEntityAddObjectClassDialogReturnData = string;
+export type SchemaEntityAddObjectClassDialogReturnData = string[];

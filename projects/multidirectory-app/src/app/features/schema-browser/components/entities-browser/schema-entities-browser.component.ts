@@ -14,6 +14,7 @@ import { EntitiesDetailsDialogComponent } from './schema-entities-details-dialog
 import { DropdownOption } from 'multidirectory-ui-kit';
 import { AppSettingsService } from '@services/app-settings.service';
 import { FormsModule } from '@angular/forms';
+import { switchMap, take } from 'rxjs';
 
 @Component({
   imports: [CommonModule, MultidirectoryUiKitModule, FormsModule],
@@ -81,15 +82,23 @@ export class SchemaEntitiesBrowserComponent implements OnInit {
 
   showEntityDialog(event: InputEvent) {
     const entity = (event as never as { row: SchemaEntity }).row;
-    this.dialog.open<
-      SchemaEntityDetailsDialogReturnData,
-      SchemaEntityDetailsDialogData,
-      EntitiesDetailsDialogComponent
-    >({
-      component: EntitiesDetailsDialogComponent,
-      dialogConfig: {
-        data: { entity: entity },
-      },
-    });
+    this.schema
+      .getSchemaEntity(entity.name)
+      .pipe(
+        switchMap((result) => {
+          return this.dialog.open<
+            SchemaEntityDetailsDialogReturnData,
+            SchemaEntityDetailsDialogData,
+            EntitiesDetailsDialogComponent
+          >({
+            component: EntitiesDetailsDialogComponent,
+            dialogConfig: {
+              data: { entity: result },
+            },
+          }).closed;
+        }),
+      )
+      .pipe(take(1))
+      .subscribe();
   }
 }

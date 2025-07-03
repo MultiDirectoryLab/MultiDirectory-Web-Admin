@@ -1,0 +1,1 @@
+export type AddAttributeDialogReturnData = string[];

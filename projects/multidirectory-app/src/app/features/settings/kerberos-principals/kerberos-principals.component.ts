@@ -17,7 +17,7 @@ import {
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
+import { catchError, EMPTY, from, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { AddPrincipalDialogComponent } from '../../../components/modals/components/dialogs/add-principal-dialog/add-principal-dialog.component';
 import {
   AddPrincipalDialogData,
@@ -26,6 +26,8 @@ import {
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { SearchEntry } from '@models/api/entry/search-entry';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { SearchQueries } from '@core/ldap/search';
 
 @Component({
   selector: 'app-kerberos-principals',
@@ -51,6 +53,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   private _userPrincipalRegex = new RegExp('^[^/]+@.*$');
   private _unsubscribe = new Subject<void>();
   private dialogService = inject(DialogService);
+  private ldapTreeview = inject(LdapTreeviewService);
   readonly grid = viewChild.required<DatagridComponent>('grid');
   faCircleExclamation = faCircleExclamation;
   principals: SearchResult[] = [];
@@ -62,7 +65,25 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  page = 1;
+  total = 0;
+
+  private _limit = 15;
+  get limit(): number {
+    return this._limit;
+  }
+  set limit(limit: number) {
+    this._limit = limit;
+    this.updateContent();
+  }
+
+  private _offset = 0;
+  get offset(): number {
+    return this._offset;
+  }
+  set offset(offset: number) {
+    this._offset = offset;
+    this.updateContent();
+  }
 
   KerberosStatusEnum = KerberosStatuses;
   kerberosStatus = KerberosStatuses.NOT_CONFIGURED;
@@ -98,7 +119,38 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     return !isKerberosPrincipal && !isUserPrincipal;
   }
 
-  updateContent() {}
+  updateContent() {
+    from(this.ldapTreeview.load(''))
+      .pipe(
+        take(1),
+        switchMap((x) =>
+          this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
+        ),
+        catchError((err) => {
+          return throwError(() => err);
+        }),
+      )
+      .subscribe((res) => {
+        this.columns = [
+          { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
+        ];
+        this.principals = res.search_result
+          .map((x) => {
+            x.object_name = x.object_name.replace('krbprincipalname=', '');
+            return x;
+          })
+          .filter((x) => this.filterPrincipals(x))
+          .map(
+            (node) =>
+              ({
+                name:
+                  node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
+                  node.object_name,
+              }) as SearchResult,
+          );
+        this.total = this.principals.length;
+      });
+  }
 
   onPageChanged($event: number) {}
   onDoubleClick($event: InputEvent) {}

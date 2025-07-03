@@ -2,14 +2,25 @@
   <form #form="ngForm">
     <div class="grid grid-cols-2 gap-2">
       <label for="oid">oid</label>
-      <md-textbox [(ngModel)]="objectClass().oid" required name="oid"></md-textbox>
+      <md-textbox
+        [disabled]="objectClass().is_system"
+        [(ngModel)]="objectClass().oid"
+        required
+        name="oid"
+      ></md-textbox>
 
       <label for="name">name</label>
-      <md-textbox [(ngModel)]="objectClass().name" required name="name"></md-textbox>
+      <md-textbox
+        [disabled]="objectClass().is_system"
+        [(ngModel)]="objectClass().name"
+        required
+        name="name"
+      ></md-textbox>
 
       <label for="no_user_modification">kind</label>
       <md-dropdown
         [(ngModel)]="objectClass().kind"
+        [disabled]="objectClass().is_system"
         required
         name="kind"
         [options]="kindOptions"

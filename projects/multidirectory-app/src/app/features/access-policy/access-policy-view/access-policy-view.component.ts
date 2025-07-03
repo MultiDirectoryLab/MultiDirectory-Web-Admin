@@ -35,9 +35,9 @@ import {
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { MultiselectModel } from './multiselect-model';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { IplistDialogData } from '../../../components/modals/interfaces/ip-list-dialog.interface';
+import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 
 @Component({
   selector: 'app-access-policy-view',

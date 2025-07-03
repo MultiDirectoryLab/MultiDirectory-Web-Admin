@@ -105,8 +105,6 @@ export class MdFormComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmit(event: SubmitEvent) {
-    event.preventDefault();
-    event.stopPropagation();
     this.validate();
   }
 

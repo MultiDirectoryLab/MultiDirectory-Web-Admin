@@ -8,7 +8,7 @@
   #menuContainer
 >
   <div class="multiselect-badges">
-    @for (d of selectedData; track d) {
+    @for (d of selectedData; track d.id) {
       <md-multiselect-badge (badgeClose)="onBadgeClose(d)">{{
         d.badge_title ?? d.title
       }}</md-multiselect-badge>
@@ -18,7 +18,7 @@
 </div>
 
 <md-dropdown-menu tabindex="-1" #menu>
-  @for (el of options; track el) {
+  @for (el of options; track el.id) {
     <div
       class="dropdown-item"
       tabindex="0"

@@ -53,16 +53,16 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
 
   addObjectClass() {
     this.dialog
-      .open<string, string, SchemaEntityAddObjectClassDialogComponent>({
+      .open<string[], string[], SchemaEntityAddObjectClassDialogComponent>({
         component: SchemaEntityAddObjectClassDialogComponent,
         dialogConfig: {
-          data: '',
+          data: [''],
         },
       })
       .closed.pipe(take(1))
-      .subscribe((objectClassName) => {
-        if (objectClassName) {
-          this.objectClassNames.set(this.objectClassNames().concat([objectClassName]));
+      .subscribe((objectClassNames) => {
+        if (objectClassNames) {
+          this.objectClassNames.set(this.objectClassNames().concat(objectClassNames));
           this.isChanged = true;
         }
       });

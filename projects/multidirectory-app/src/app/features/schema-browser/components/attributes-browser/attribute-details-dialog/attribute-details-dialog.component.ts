@@ -54,6 +54,13 @@ export class AttributeDetailsDialogComponent implements OnInit {
       this.form.controls.oid.disable();
       this.form.controls.name.disable();
     }
+    if (this.attribute().is_system) {
+      this.form.controls.oid.disable();
+      this.form.controls.name.disable();
+      this.form.controls.single_value.disable();
+      this.form.controls.no_user_modification.disable();
+      this.form.controls.syntax.disable();
+    }
   }
 
   onSumbit(event: SubmitEvent) {
@@ -68,5 +75,9 @@ export class AttributeDetailsDialogComponent implements OnInit {
         is_system: false,
       }),
     );
+  }
+
+  cancel() {
+    this.dialog.close(this.dialogRef);
   }
 }

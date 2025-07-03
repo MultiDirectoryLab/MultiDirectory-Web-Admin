@@ -33,7 +33,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: '(|(objectClass=*))',
+      filter: '(|(objectClass=builtinDomain)(objectClass=container))',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
   },

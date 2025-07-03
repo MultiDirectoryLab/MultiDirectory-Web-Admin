@@ -20,7 +20,6 @@ import {
 } from '../../../interfaces/entity-selector-dialog.interface';
 import { EntityType } from '@core/entities/entities-type';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { MultiselectModel } from '@features/access-policy/access-policy-view/multiselect-model';
 import { catchError, map, Subject, take, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchQueries } from '@core/ldap/search';
@@ -34,6 +33,7 @@ import {
   CatalogSelectorDialogReturnData,
 } from '../../../interfaces/catalog-selector-dialog.interface';
 import { CatalogSelectorDialogComponent } from '../catalog-selector-dialog/catalog-selector-dialog.component';
+import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 
 @Component({
   selector: 'app-entity-selector-dialog',
@@ -144,7 +144,6 @@ export class EntitySelectorDialogComponent implements OnInit {
         this.availableGroups = res.search_result.map((x) => {
           return new MultiselectModel({
             id: x.object_name,
-            key: 'group',
             selected: false,
             title: x.object_name,
             badge_title: x.object_name,

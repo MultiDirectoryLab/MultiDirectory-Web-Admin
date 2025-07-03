@@ -33,6 +33,7 @@ export class AttributesBrowserComponent implements OnInit {
     return this._query;
   }
   set query(query: string) {
+    this._offset = 0;
     this._query = query;
     this.loadData();
   }
@@ -83,8 +84,12 @@ export class AttributesBrowserComponent implements OnInit {
 
   openAttirbuteDetailsDialog(event: InputEvent | null) {
     const attribute = (event as never as { row: SchemaAttributeType })?.row ?? null;
-    this.showAttributeDialog(attribute, true)
+    this.schema
+      .getAttribute(attribute.name)
       .pipe(
+        switchMap((result) => {
+          return this.showAttributeDialog(result, true);
+        }),
         switchMap((result) => {
           if (result) {
             return this.schema.updateAttribute(result);
