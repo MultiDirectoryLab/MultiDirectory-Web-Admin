@@ -12,10 +12,12 @@ import { SchemaService } from '@services/schema/schema.service';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { SchemaEntityAddObjectClassDialogComponent } from '../schema-entity-add-object-class-dialog/schema-entity-add-object-class-dialog.component';
 import { switchMap, take } from 'rxjs';
+import { SCHEMA_RESTRICTIONS } from './schema-restrictions';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-schema-entity-detail-object-classes',
-  imports: [MultidirectoryUiKitModule, TranslocoModule],
+  imports: [MultidirectoryUiKitModule, TranslocoModule, CommonModule],
   templateUrl: './schema-entity-detail-object-classes.component.html',
   styleUrl: './schema-entity-detail-object-classes.component.scss',
 })
@@ -24,7 +26,6 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
   private readonly dialog = inject(DialogService);
   readonly entity = input<SchemaEntity>(new SchemaEntity({}));
   readonly grid = viewChild.required<DatagridComponent>('grid');
-
   columns = signal<TableColumn[]>([
     { name: translate('schema-entity-details-object-classes.column-name'), prop: 'name' },
   ]);
@@ -38,9 +39,14 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
   pageSizes: DropdownOption[] = [new DropdownOption({ title: '100', value: 100 })];
   pageSize = 100;
   isChanged = false;
+  restrictions: string[] = [];
+
   ngOnInit(): void {
     this.objectClassNameInitial = this.entity().object_class_names;
     this.objectClassNames.set(this.entity().object_class_names);
+    this.restrictions = (SCHEMA_RESTRICTIONS.get(this.entity().name.toLocaleLowerCase()) ?? []).map(
+      (r) => r.toLocaleLowerCase(),
+    );
   }
 
   deleteObjectClass() {
@@ -82,5 +88,9 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
   }
   cancel() {
     this.objectClassNames.set(this.objectClassNameInitial);
+  }
+  cantDeleteObjectClasses(): boolean {
+    const classes = this.grid().selected.map((x) => x.name.toLocaleLowerCase());
+    return classes.every((x) => this.restrictions.find((y) => y == x));
   }
 }

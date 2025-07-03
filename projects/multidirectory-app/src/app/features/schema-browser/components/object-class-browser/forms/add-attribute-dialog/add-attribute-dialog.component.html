@@ -6,6 +6,7 @@
     <md-multiselect
       #selector
       (inputChanged)="checkAttributes($event)"
+      [maxMenuHeight]="412"
       [(ngModel)]="attributes"
       [notFoundText]="'group-selector.not-found-text' | transloco"
       [options]="availableAttributes"

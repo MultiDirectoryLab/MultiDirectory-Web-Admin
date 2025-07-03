@@ -26,7 +26,7 @@ export class AddAttributeDialogComponent {
   availableAttributes: MultiselectModel[] = [];
 
   checkAttributes($event: string) {
-    this.schema.getAttributes(0, 6, $event).subscribe((result) => {
+    this.schema.getAttributes(0, 100, $event).subscribe((result) => {
       this.availableAttributes = result.items.map(
         (x) =>
           new MultiselectModel({
@@ -42,7 +42,6 @@ export class AddAttributeDialogComponent {
     event.preventDefault();
     event.stopPropagation();
     const selected = this.selector().selectedData.map((x) => x.title);
-    console.log(selected);
     this.dialog.close(this.dialogRef, selected);
   }
 

@@ -9,7 +9,6 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, take } from 'rxjs';
-import { AlertComponent } from '../../../../../multidirectory-ui-kit/src/lib/components/alert/alert.component';
 import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import {
   ConfirmDialogData,

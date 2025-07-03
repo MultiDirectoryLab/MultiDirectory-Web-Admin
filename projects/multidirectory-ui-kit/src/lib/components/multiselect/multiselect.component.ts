@@ -36,6 +36,7 @@ export class MultiselectComponent extends BaseComponent {
   protected override cdr = inject(ChangeDetectorRef);
   @Input() suppressMenu = false;
   @Input() notFoundText = 'Опции не найдены';
+  @Input() maxMenuHeight?: number;
   @Output() inputChanged = new EventEmitter<string>();
   @ViewChild('inputContainer') inputContainer!: ElementRef<HTMLElement>;
   @ViewChild('menuContainer', { read: DropdownContainerDirective })
@@ -104,7 +105,11 @@ export class MultiselectComponent extends BaseComponent {
     if (!!this.menuContainer?.isVisible()) {
       return;
     }
-    this.menuContainer?.toggleMenu(false, this.inputContainer?.nativeElement.offsetWidth);
+    this.menuContainer?.toggleMenu(
+      false,
+      this.inputContainer?.nativeElement.offsetWidth,
+      this.maxMenuHeight,
+    );
   }
 
   onElementSelect(select: MultiselectModel) {
