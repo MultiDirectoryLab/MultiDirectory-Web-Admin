@@ -15,10 +15,11 @@ import {
   EntitySelectorDialogReturnData,
 } from '../../../interfaces/entity-selector-dialog.interface';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { take } from 'rxjs';
+import { from, switchMap, take } from 'rxjs';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-move-entity-dialog',
@@ -35,30 +36,34 @@ export class MoveEntityDialogComponent {
   private dialogRef: DialogRef<MoveEntityDialogReturnData, MoveEntityDialogComponent> =
     inject(DialogRef);
   private dialogData: MoveEntityDialogData = inject(DIALOG_DATA);
-
+  private treeView = inject(LdapTreeviewService);
   public toMove: NavigationNode[] = this.dialogData.toMove;
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   public change() {
-    this.dialogService
-      .open<
-        EntitySelectorDialogReturnData,
-        EntitySelectorDialogData,
-        EntitySelectorDialogComponent
-      >({
-        component: EntitySelectorDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: {
-            selectedEntities: [],
-            selectedEntityTypes: ENTITY_TYPES.filter((x) => x.id == 'catalogs') ?? [],
-            allowSelectEntityTypes: false,
-            entityToMove: this.toMove,
-            selectedPlaceDn: '',
-          },
-        },
-      })
-      .closed.pipe(take(1))
+    from(this.treeView.load(''))
+      .pipe(
+        switchMap((tree) => {
+          return this.dialogService.open<
+            EntitySelectorDialogReturnData,
+            EntitySelectorDialogData,
+            EntitySelectorDialogComponent
+          >({
+            component: EntitySelectorDialogComponent,
+            dialogConfig: {
+              minHeight: '360px',
+              data: {
+                selectedEntities: [],
+                selectedEntityTypes: ENTITY_TYPES.filter((x) => x.id == 'catalogs') ?? [],
+                allowSelectEntityTypes: false,
+                entityToMove: this.toMove,
+                selectedPlaceDn: tree[0].id ?? '',
+              },
+            },
+          }).closed;
+        }),
+        take(1),
+      )
       .subscribe((x) => {
         if (x) {
           this.targetDn = x[0].id;

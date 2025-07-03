@@ -8,7 +8,7 @@
     </div>
   </div>
   <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="policy-list">
-    @for (client of clients; track client; let i = $index) {
+    @for (client of clients; track client.id; let i = $index) {
       <div cdkDrag cdkDragBoundary=".policy-list" class="access-policy-wrapper">
         <app-acccess-policy
           [accessClient]="client"

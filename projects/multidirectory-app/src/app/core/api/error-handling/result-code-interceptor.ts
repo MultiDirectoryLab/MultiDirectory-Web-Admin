@@ -25,6 +25,7 @@ export class ResultCodeInterceptor implements HttpInterceptor {
         if (resp.type !== HttpEventType.Response || !resp?.body?.resultCode) {
           return resp;
         }
+        console.log(resp);
 
         if (resp.body.errorMessage) {
           throw new HttpErrorResponse({

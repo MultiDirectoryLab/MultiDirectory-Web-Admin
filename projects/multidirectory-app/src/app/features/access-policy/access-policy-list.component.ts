@@ -2,6 +2,7 @@ import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
+import { IpRange } from '@core/access-policy/access-policy-ip-address';
 import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
 import { AccessPolicyComponent } from '@features/access-policy/access-policy/access-policy.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -9,7 +10,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, of, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-access-policy-list',
@@ -69,7 +70,12 @@ export class AccessPolicySettingsComponent implements OnInit {
     }
     this.api
       .deleteAccessPolicy(client.id)
-      .pipe(switchMap(() => this.api.getAccessPolicy()))
+      .pipe(
+        catchError((error) => {
+          return of(true);
+        }),
+        switchMap(() => this.api.getAccessPolicy()),
+      )
       .subscribe((clients) => {
         this.clients = clients;
       });
@@ -106,7 +112,16 @@ export class AccessPolicySettingsComponent implements OnInit {
 
   onAddClick() {
     this.accessClientCreateModal()
-      ?.open({ minHeight: 435 }, { accessPolicy: new AccessPolicy() })
+      ?.open(
+        { minHeight: 435 },
+        {
+          accessPolicy: new AccessPolicy({
+            name: 'test',
+            ipRange: ['127.0.0.2'],
+            enabled: false,
+          }),
+        },
+      )
       .pipe(
         take(1),
         switchMap((client) => {

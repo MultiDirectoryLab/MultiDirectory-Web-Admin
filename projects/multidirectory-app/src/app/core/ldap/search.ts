@@ -54,6 +54,7 @@ export const SearchQueries = {
         'objectClass',
         'userAccountControl',
         'entityTypeName',
+        'description',
       ],
       page_number: Math.floor(offset / Math.max(limit, 1) + 1),
     });
