@@ -6,6 +6,7 @@ import { FormControl, FormGroup, NgForm, ReactiveFormsModule } from '@angular/fo
 import { DnsApiService } from '@services/dns-api.service';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../components/modals/services/dialog.service';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-add-zone-dialog',
@@ -16,7 +17,7 @@ import { DialogService } from '../../../components/modals/services/dialog.servic
     DialogComponent,
     TranslocoModule,
     MuiInputComponent,
-    MuiButtonComponent,
+    MultidirectoryUiKitModule,
   ],
 })
 export class AddZoneDialogComponent {
