@@ -60,6 +60,8 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
 
   handleNodeRightClick({ node, event: { x, y } }: RightClickEvent) {
     if (node instanceof NavigationNode) {
+      this.ldap.setSelected(node.id);
+
       this.contextMenu
         .open({
           component: ContextMenuComponent,

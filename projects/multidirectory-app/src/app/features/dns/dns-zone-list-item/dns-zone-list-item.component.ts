@@ -27,7 +27,6 @@ export class DnsZoneListItemComponent {
   readonly index = input(0);
   readonly deleteRuleClick = output<DnsRule>();
   readonly turnOffRuleClick = output<DnsRule>();
-  readonly editRuleClick = output<DnsRule>();
   readonly addZoneClick = output<any>();
   readonly deleteZoneClick = output<DnsZoneListResponse>();
 

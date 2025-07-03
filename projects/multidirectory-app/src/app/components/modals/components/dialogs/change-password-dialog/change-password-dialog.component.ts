@@ -53,6 +53,7 @@ export class ChangePasswordDialogComponent {
   private dialogRef: DialogRef<ChangePasswordDialogReturnData, ChangePasswordDialogComponent> =
     inject(DialogRef);
   private dialogData: ChangePasswordDialogData = inject(DIALOG_DATA);
+  private dialog = viewChild.required<DialogComponent>('dialog');
   public changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
   public un = this.dialogData.un;
   private toastr: ToastrService = inject(ToastrService);
@@ -67,20 +68,21 @@ export class ChangePasswordDialogComponent {
   }
 
   public finish() {
+    this.dialog().showSpinner();
     this.api
       .changePassword(this.changeRequest)
       .pipe(
         catchError(() => {
           this.toastr.error(translate('change-password.unable-change-password'));
           this.dialogService.close(this.dialogRef);
-
+          this.dialog().hideSpinner();
           return EMPTY;
         }),
       )
       .subscribe((x) => {
         // this.modalControl.modal?.hideSpinner();
         this.toastr.success(translate('change-password.password-successfully-changed'));
-
+        this.dialog().hideSpinner();
         this.dialogService.close(this.dialogRef, x);
       });
   }

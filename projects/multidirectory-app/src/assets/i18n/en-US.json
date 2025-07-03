@@ -672,7 +672,17 @@
     "add-zone": "Add Zone",
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
-    "dns-unavailable": "DNS Service is unavailable"
+    "dns-zone-header": "DNS Zones",
+    "dns-forwarding-header": "DNS Forwarding",
+    "redirection-zones-tab": "DNS Forwarding",
+    "delete": "Delete",
+    "enable": "Enable",
+    "disable": "Disable",
+    "dns-unavailable": "DNS Service is unavailable",
+    "dnssec": "DNSSEC",
+    "auto": "Auto",
+    "yes": "Yes",
+    "no": "No"
   },
   "dns-zone-details": {
     "modal-header": "Settings of zone ",

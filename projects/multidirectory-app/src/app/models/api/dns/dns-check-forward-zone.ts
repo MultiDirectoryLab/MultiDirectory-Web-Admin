@@ -15,3 +15,12 @@ export class DnsCheckForwardZoneResponse {
     Object.assign(this, obj);
   }
 }
+
+export class DnsServerOption {
+  name: string = '';
+  value: string = '';
+
+  constructor(obj: Partial<DnsServerOption>) {
+    Object.assign(this, obj);
+  }
+}

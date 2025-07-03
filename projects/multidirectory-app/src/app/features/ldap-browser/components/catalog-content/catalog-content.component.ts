@@ -333,9 +333,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  public showContextMenu({ selected, pointerEvent: { x, y } }: any) {
+  public showContextMenu({ node, event: { x, y } }: any) {
     const data: ContextMenuData = {
-      entity: selected,
+      entity: [node],
     };
 
     this.contextMenuService
@@ -352,9 +352,6 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe(
         take(1),
-        tap((data) => {
-          console.log('data', data);
-        }),
         // switchMap((result) => (!result ? of(null) : result)),
       )
       .subscribe(() => {});

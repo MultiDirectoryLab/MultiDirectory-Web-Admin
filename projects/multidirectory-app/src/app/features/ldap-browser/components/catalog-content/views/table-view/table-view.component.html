@@ -10,6 +10,7 @@
   [(offset)]="offset"
   (selectionChanged)="onRowSelect()"
   (doubleclick)="onDoubleClick($event)"
+  (contextmenu)="onContextMenu($event)"
   pagerTitle="{{ 'grid.pager-title' | transloco }}"
   fromTitle="{{ 'grid.from-title' | transloco }}"
   emptyMessage="{{ 'grid.no-data' | transloco }}"

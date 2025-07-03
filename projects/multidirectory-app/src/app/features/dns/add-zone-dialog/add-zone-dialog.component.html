@@ -6,14 +6,14 @@
         <label>{{ 'add-zone-dialog.header' | transloco }}</label>
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input
+        <md-textbox
           formControlName="zone_name"
           [placeholder]="t('add-zone-dialog.domain-input')"
           class="grow"
         />
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input
+        <md-textbox
           formControlName="ttl"
           type="number"
           [placeholder]="t('add-zone-dialog.ttl-input')"
@@ -21,12 +21,20 @@
         />
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input [placeholder]="t('add-zone-dialog.allowed-ip-input')" class="grow" />
-        <!--mui-button>{{ 'add-zone-dialog.add' | transloco }}</mui-button-->
+        <md-textbox
+          formControlName="ipString"
+          (ngModelChange)="onIpAddressChange()"
+          [placeholder]="t('add-zone-dialog.allowed-ip-input')"
+          class="grow"
+        />
+        <md-button (click)="openIpAddressDialog()">{{
+          'add-zone-dialog.add' | transloco
+        }}</md-button>
       </div>
     </div>
     <div class="flex justify-end pt-1">
       <md-button [submit]="true">{{ 'add-zone-dialog.add' | transloco }}</md-button>
     </div>
   </form>
+  {{ form.value | json }}
 </app-dialog>
