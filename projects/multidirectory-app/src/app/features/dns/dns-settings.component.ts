@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faL } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { MuiButtonComponent, MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
 import { AppSettingsService } from '@services/app-settings.service';
@@ -24,7 +24,8 @@ import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsStatuses } from '@models/api/dns/dns-statuses';
 import { DnsForwardZonesComponent } from './dns-forward-zones/dns-forward-zones.component';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dns-settings',
@@ -35,12 +36,20 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     MuiTabsComponent,
     MultidirectoryUiKitModule,
     FontAwesomeModule,
+    FormsModule,
     MuiTabDirective,
     DnsZonesComponent,
     DnsForwardZonesComponent,
   ],
 })
 export class DnsSettingsComponent implements OnInit {
+  onDnsSecChange(event: any) {
+    this._dnsSec = event;
+    this.dns
+      .setServerOptions([{ name: 'dnssec-validation', value: this._dnsSec }])
+      .pipe(take(1))
+      .subscribe();
+  }
   public dnsStatuses = DnsStatuses;
   public dnsStatus = new DnsStatusResponse({});
   public rules: DnsRule[] = [];
@@ -53,6 +62,20 @@ export class DnsSettingsComponent implements OnInit {
   private toastr: ToastrService = inject(ToastrService);
   private app: AppSettingsService = inject(AppSettingsService);
   private destroyRef$: DestroyRef = inject(DestroyRef);
+
+  dnsSecOptions = [
+    new DropdownOption({ title: translate('dns-settings.yes'), value: 'yes' }),
+    new DropdownOption({ title: translate('dns-settings.no'), value: 'no' }),
+    new DropdownOption({ title: translate('dns-settings.auto'), value: 'auto' }),
+  ];
+
+  private _dnsSec = 'auto';
+  get dnsSec(): string {
+    return this._dnsSec;
+  }
+  set dnsSec(value: string) {
+    this._dnsSec = value;
+  }
 
   public ngOnInit(): void {
     this.windows.showSpinner();
@@ -67,6 +90,14 @@ export class DnsSettingsComponent implements OnInit {
       .subscribe((status) => {
         this.windows.hideSpinner();
         this.dnsStatus = status;
+      });
+
+    this.dns
+      .getServerOptions()
+      .pipe(take(1))
+      .subscribe((options) => {
+        const dnsSecOption = options.find((x) => x.name == 'dnssec-validation');
+        this.dnsSec = dnsSecOption?.value ?? 'auto';
       });
   }
 
@@ -115,30 +146,6 @@ export class DnsSettingsComponent implements OnInit {
       )
       .subscribe(() => {
         window.location.reload();
-      });
-  }
-
-  private reloadData() {
-    this.windows.showSpinner();
-    this.dnsService
-      .get()
-      .pipe(
-        take(1),
-        catchError((err) => {
-          this.windows.hideSpinner();
-          throw err;
-        }),
-      )
-      .subscribe((rules) => {
-        this.rules = rules.flatMap((x) =>
-          x.records.map((y) => {
-            const rule = new DnsRule(y);
-            rule.type = x.type as DnsRuleType;
-            rule.ttl = y.ttl;
-            return rule;
-          }),
-        );
-        this.windows.hideSpinner();
       });
   }
 

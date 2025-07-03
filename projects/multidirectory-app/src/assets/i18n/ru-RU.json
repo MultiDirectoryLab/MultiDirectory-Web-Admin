@@ -673,7 +673,11 @@
     "redirection-zones-tab": "DNS Forwarding",
     "delete": "Удалить",
     "enable": "Включить",
-    "disable": "Выключить"
+    "disable": "Выключить",
+    "dnssec": "DNSSEC",
+    "auto": "Авто",
+    "yes": "Да",
+    "no": "Нет"
   },
   "dns-zone-details": {
     "modal-header": "Настройки зоны",

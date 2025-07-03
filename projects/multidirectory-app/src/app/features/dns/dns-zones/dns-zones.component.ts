@@ -21,6 +21,10 @@ import {
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/api/dns/dns-rule';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import {
+  AddZoneDialogData,
+  AddZoneDialogReturnData,
+} from '../add-zone-dialog/add-zone-dialog.interface';
 
 @Component({
   selector: 'app-dns-zones',
@@ -110,7 +114,7 @@ export default class DnsZonesComponent implements OnInit {
 
   onAddDnsZone() {
     this.dialogService
-      .open<AddZoneDialogComponent, object, object>({
+      .open<AddZoneDialogReturnData, AddZoneDialogData, AddZoneDialogComponent>({
         component: AddZoneDialogComponent,
         dialogConfig: {
           data: {},

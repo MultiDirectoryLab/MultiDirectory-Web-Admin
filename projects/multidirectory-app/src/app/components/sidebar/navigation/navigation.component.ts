@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
+import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
+import { ContextMenuService } from '@components/modals/services/context-menu.service';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
-import { ContextMenuService } from '@services/contextmenu.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { RightClickEvent, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
-import { from, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { from, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -15,7 +16,7 @@ import { from, Subject, switchMap, takeUntil, tap } from 'rxjs';
 export class NavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   private currentLdapPosition: string = '';
-
+  private treeView = viewChild.required<TreeviewComponent>('treeView');
   private navigation = inject(AppNavigationService);
   private ldap = inject(LdapTreeviewService);
   private contextMenu = inject(ContextMenuService);
@@ -57,14 +58,22 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  handleNodeExpantion(node: Treenode) {
+  handleNodeRightClick({ node, event: { x, y } }: RightClickEvent) {
     if (node instanceof NavigationNode) {
-    }
-  }
+      this.ldap.setSelected(node.id);
 
-  handleNodeRightClick(event: RightClickEvent) {
-    if (event.node instanceof NavigationNode) {
-      this.contextMenu.showContextMenuOnNode(event.event.x, event.event.y, [event.node]);
+      this.contextMenu
+        .open({
+          component: ContextMenuComponent,
+          x,
+          y,
+          contextMenuConfig: {
+            hasBackdrop: false,
+            data: { entity: [node] },
+          },
+        })
+        .closed.pipe(switchMap((result) => (!result ? of(null) : of(result))))
+        .subscribe();
     }
   }
 }

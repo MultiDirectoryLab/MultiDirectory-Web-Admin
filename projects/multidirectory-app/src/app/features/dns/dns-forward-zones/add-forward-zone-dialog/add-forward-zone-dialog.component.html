@@ -6,7 +6,7 @@
       <md-textbox [(ngModel)]="zone.name" name="zoneName" required></md-textbox>
     </div>
 
-    <div class="grid grid-cols-4 grid-rows-4 h-full w-full">
+    <div class="grid grid-cols-2 grid-rows-4 h-full w-full">
       <div
         class="col-1 row-1 col-span-3 row-span-3 flex flex-col gap-2 overflow-y-auto max-h-64 px-2"
       >
@@ -48,23 +48,6 @@
         }
       </div>
 
-      <div class="col-4 row-1 row-span-3 gap-2 flex flex-col gap-2 px-2">
-        <md-button
-          [stretch]="true"
-          [disabled]="selectedForwaderIndex == undefined || selectedForwaderIndex === 0"
-          (click)="moveUp()"
-          >{{ 'add-forward-zone-dialog.up' | transloco }}</md-button
-        >
-        <md-button
-          [stretch]="true"
-          [disabled]="
-            selectedForwaderIndex == undefined ||
-            selectedForwaderIndex === zone.forwarders.length - 1
-          "
-          (click)="moveDown()"
-          >{{ 'add-forward-zone-dialog.down' | transloco }}</md-button
-        >
-      </div>
       <div class="row-4 col-1 col-span-4 whitespace-nowrap flex flex-row gap-2 py-2">
         <md-button (click)="addForwarder()">{{
           'add-forward-zone-dialog.add' | transloco

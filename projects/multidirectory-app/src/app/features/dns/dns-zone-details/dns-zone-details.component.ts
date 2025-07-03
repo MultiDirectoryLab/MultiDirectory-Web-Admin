@@ -39,7 +39,6 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     MultidirectoryUiKitModule,
     FormsModule,
     TranslocoModule,
-    MuiInputComponent,
   ],
 })
 export class DnsZoneDetailsComponent implements AfterViewInit {
@@ -50,7 +49,6 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
 
   readonly deleteRuleClick = output<DnsRule>();
   readonly turnOffRuleClick = output<DnsRule>();
-  readonly editRuleClick = output<DnsRule>();
   readonly search = signal('');
   readonly zoneName = signal('');
   readonly zone = toSignal(
@@ -80,7 +78,21 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   }
 
   onEditRuleClick(record: DnsRule) {
-    this.editRuleClick.emit(record);
+    this.dialog
+      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+        component: DnsRuleDialogComponent,
+        dialogConfig: {
+          minHeight: '512px',
+          data: { rule: record },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => (x ? this.dns.update(x) : EMPTY)),
+      )
+      .subscribe(() => {
+        this.toastr.success(translate('dns-settings.success'));
+      });
   }
 
   onDeleteRuleClick(record: DnsRule) {

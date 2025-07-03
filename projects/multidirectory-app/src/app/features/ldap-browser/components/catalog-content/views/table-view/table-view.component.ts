@@ -434,5 +434,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this.navigation.navigate(['ldap'], { distinguishedName: dn });
   }
 
-  handleRightClick($event: ContextMenuEvent) {}
+  onContextMenu($event: ContextMenuEvent) {
+    this.setSelected([$event.content]);
+    this.rightClick.emit({ event: $event.event, node: $event.content });
+  }
 }
