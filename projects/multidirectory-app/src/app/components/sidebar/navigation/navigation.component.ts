@@ -34,6 +34,9 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
           return from(this.ldap.load(this.currentLdapPosition));
         }),
         tap((x) => {
+          if (!this.currentLdapPosition) {
+            this.navigation.navigate(['ldap'], { distinguishedName: x[0].id });
+          }
           this.ldap.setPathExpanded(this.currentLdapPosition);
           this.ldap.setSelected(this.currentLdapPosition);
         }),

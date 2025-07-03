@@ -14,7 +14,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Subject } from 'rxjs';
+import { catchError, map, Subject, switchMap } from 'rxjs';
 import {
   CreateUserDialogData,
   CreateUserDialogReturnData,
@@ -27,6 +27,7 @@ import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { CreateEntryResponse } from '@models/api/entry/create-response';
 import { UserCreateRequest } from '@models/api/user-create/user-create.request';
+import { SchemaService } from '@services/schema/schema.service';
 
 @Component({
   selector: 'app-user-create-dialog',
@@ -46,7 +47,7 @@ import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 export class CreateUserDialogComponent implements OnInit {
   @ViewChild('createUserStepper', { static: true }) public stepper!: StepperComponent;
   @ViewChild('dialogComponent', { static: true }) public dialogComponent!: DialogComponent;
-
+  private schema = inject(SchemaService);
   public setupRequest = new UserCreateRequest();
   public unsubscribe = new Subject<void>();
   public formValid = false;
@@ -62,9 +63,26 @@ export class CreateUserDialogComponent implements OnInit {
   private destroyRef$: DestroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
+    this.getObjectClasses();
     this.setup.onStepValid.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
     });
+  }
+
+  objectClasses: string[] = [
+    'user',
+    'top',
+    'person',
+    'organizationalPerson',
+    'posixAccount',
+    'shadowAccount',
+  ];
+  getObjectClasses() {
+    return this.schema.getSchemaEntity('User').pipe(
+      map((result) => {
+        return result.object_class_names;
+      }),
+    );
   }
 
   close(data?: CreateEntryResponse) {
@@ -82,64 +100,58 @@ export class CreateUserDialogComponent implements OnInit {
 
   finish() {
     this.dialogComponent.showSpinner();
-
-    this.api
-      .create(
-        new CreateEntryRequest({
-          entry: `cn=${this.setupRequest.upnLogin},` + this.parentDn,
-          attributes: [
-            new LdapAttribute({
-              type: 'objectClass',
-              vals: [
-                'user',
-                'top',
-                'person',
-                'organizationalPerson',
-                'posixAccount',
-                'shadowAccount',
-              ],
-            }),
-            new LdapAttribute({
-              type: 'mail',
-              vals: [this.setupRequest.email],
-            }),
-            new LdapAttribute({
-              type: 'description',
-              vals: [this.setupRequest.description],
-            }),
-            new LdapAttribute({
-              type: 'sAMAccountName',
-              vals: [this.setupRequest.upnLogin],
-            }),
-            new LdapAttribute({
-              type: 'userAccountControl',
-              vals: [this.setupRequest.uacBitSet.toString(10)],
-            }),
-            new LdapAttribute({
-              type: 'userPrincipalName',
-              vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
-            }),
-            new LdapAttribute({
-              type: 'displayName',
-              vals: [this.setupRequest.fullName],
-            }),
-            new LdapAttribute({
-              type: 'givenName',
-              vals: [this.setupRequest.firstName],
-            }),
-            new LdapAttribute({
-              type: 'initials',
-              vals: [this.setupRequest.initials],
-            }),
-            new LdapAttribute({
-              type: 'surname',
-              vals: [this.setupRequest.lastName],
-            }),
-          ],
-          password: this.setupRequest.password,
-        }),
-      )
+    this.getObjectClasses()
       .pipe(
+        switchMap((objectClasses) => {
+          return this.api.create(
+            new CreateEntryRequest({
+              entry: `cn=${this.setupRequest.upnLogin},` + this.parentDn,
+              attributes: [
+                new LdapAttribute({
+                  type: 'objectClass',
+                  vals: objectClasses,
+                }),
+                new LdapAttribute({
+                  type: 'mail',
+                  vals: [this.setupRequest.email],
+                }),
+                new LdapAttribute({
+                  type: 'description',
+                  vals: [this.setupRequest.description],
+                }),
+                new LdapAttribute({
+                  type: 'sAMAccountName',
+                  vals: [this.setupRequest.upnLogin],
+                }),
+                new LdapAttribute({
+                  type: 'userAccountControl',
+                  vals: [this.setupRequest.uacBitSet.toString(10)],
+                }),
+                new LdapAttribute({
+                  type: 'userPrincipalName',
+                  vals: [this.setupRequest.upnLogin + '@' + this.setupRequest.upnDomain],
+                }),
+                new LdapAttribute({
+                  type: 'displayName',
+                  vals: [this.setupRequest.fullName],
+                }),
+                new LdapAttribute({
+                  type: 'givenName',
+                  vals: [this.setupRequest.firstName],
+                }),
+                new LdapAttribute({
+                  type: 'initials',
+                  vals: [this.setupRequest.initials],
+                }),
+                new LdapAttribute({
+                  type: 'surname',
+                  vals: [this.setupRequest.lastName],
+                }),
+              ],
+              password: this.setupRequest.password,
+            }),
+          );
+        }),
         catchError((err) => {
           this.dialogComponent.hideSpinner();
           throw err;

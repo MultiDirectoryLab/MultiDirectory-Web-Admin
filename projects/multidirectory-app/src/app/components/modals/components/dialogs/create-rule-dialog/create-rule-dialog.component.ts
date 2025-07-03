@@ -18,6 +18,7 @@ import { DialogService } from '../../../services/dialog.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { SchemaService } from '@services/schema/schema.service';
 
 @Component({
   selector: 'app-create-rule-dialog',
@@ -42,6 +43,7 @@ export class CreateRuleDialogComponent implements OnInit {
   public description = '';
   public ruleName = '';
 
+  private schema = inject(SchemaService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
@@ -54,6 +56,8 @@ export class CreateRuleDialogComponent implements OnInit {
     });
   }
 
+  objectClasses: string[] = ['top', 'sudoRole'];
+
   public onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
@@ -65,7 +69,7 @@ export class CreateRuleDialogComponent implements OnInit {
           attributes: [
             new LdapAttribute({
               type: 'objectClass',
-              vals: ['top', 'sudoRole'],
+              vals: this.objectClasses,
             }),
             new LdapAttribute({
               type: 'description',
