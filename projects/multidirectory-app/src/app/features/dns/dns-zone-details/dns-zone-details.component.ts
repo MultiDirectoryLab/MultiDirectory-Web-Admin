@@ -39,7 +39,6 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
     MultidirectoryUiKitModule,
     FormsModule,
     TranslocoModule,
-    MuiInputComponent,
   ],
 })
 export class DnsZoneDetailsComponent implements AfterViewInit {
