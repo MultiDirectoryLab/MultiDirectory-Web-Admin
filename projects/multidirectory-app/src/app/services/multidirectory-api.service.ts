@@ -331,6 +331,12 @@ export class MultidirectoryApiService {
       .execute();
   }
 
+  deleteSchemaAttributes(attributeNames: string[]): Observable<string> {
+    return this.httpClient
+      .post<string>(`schema/attribute_types/delete`, { attribute_types_names: attributeNames })
+      .execute();
+  }
+
   updateSchemaEntity(entity: SchemaEntity) {
     return this.httpClient.patch<string>(`schema/entity_type/${entity.name}`, entity).execute();
   }
@@ -348,6 +354,12 @@ export class MultidirectoryApiService {
   getSchemaObjectClass(objectClassName: string): Observable<SchemaObjectClass> {
     return this.httpClient
       .get<SchemaObjectClass>(`schema/object_class/${objectClassName}`)
+      .execute();
+  }
+
+  deleteSchemaObjectClass(objectClassNames: string[]): Observable<string> {
+    return this.httpClient
+      .post<string>('schema/object_class/delete', { object_classes_names: objectClassNames })
       .execute();
   }
 }

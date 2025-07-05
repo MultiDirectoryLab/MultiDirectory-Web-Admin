@@ -3,7 +3,7 @@
 
   <md-stepper #stepper>
     <ng-template mdStep>
-      <app-object-class-general [objectClass]="objectClass" />
+      <app-object-class-general [objectClass]="objectClass" (stepValid)="setStepValid($event)" />
     </ng-template>
     <ng-template mdStep>
       <app-object-class-attribute-summary [objectClass]="objectClass" />
@@ -13,7 +13,7 @@
     <md-button (click)="cancel()">{{ 'object-class-create-dialog.cancel' | transloco }}</md-button>
 
     @if (stepper.currentIndex == 0) {
-      <md-button (click)="stepper.next()" [primary]="true">{{
+      <md-button (click)="stepper.next()" [primary]="true" [disabled]="!stepValid">{{
         'object-class-create-dialog.next' | transloco
       }}</md-button>
     }

@@ -1,14 +1,19 @@
 <div class="flex flex-row gap-2 px-2 py-2 justify-between">
-  <md-button (click)="openCreateObjectClassDialog()">{{
-    'object-class-browser.add' | transloco
-  }}</md-button>
-
+  <div class="flex flex-row gap-2">
+    <md-button (click)="openCreateObjectClassDialog()">{{
+      'object-class-browser.add' | transloco
+    }}</md-button>
+    <md-button (click)="deleteObjecClasses()">{{
+      'object-class-browser.delete' | transloco
+    }}</md-button>
+  </div>
   <div class="flex flex-row gap-2">
     <md-textbox [(ngModel)]="query"></md-textbox>
   </div>
 </div>
 <div class="px-2 py-2">
   <md-datagrid
+    #grid
     [rows]="objectClasses()"
     [columns]="columns()"
     [externalPaging]="true"

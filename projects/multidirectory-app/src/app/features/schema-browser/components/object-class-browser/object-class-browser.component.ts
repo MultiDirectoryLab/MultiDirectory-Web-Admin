@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { SchemaService } from '@services/schema/schema.service';
-import { DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import {
+  DatagridComponent,
+  DropdownOption,
+  MultidirectoryUiKitModule,
+} from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   ObjectClassCreateDialogData,
@@ -16,10 +20,18 @@ import {
   ObjectClassPropertiesDialogReturnData,
 } from './object-class-properites-dialog.interface';
 import { ObjectClassPropertiesDialogComponent } from './object-class-properties-dialog/object-class-properties-dialog.component';
-import { EMPTY, of, switchMap, take } from 'rxjs';
+import { concat, EMPTY, of, switchMap, take } from 'rxjs';
 import { m } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
 import { FormsModule } from '@angular/forms';
 import { AppSettingsService } from '@services/app-settings.service';
+import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import {
+  ConfirmDeleteDialogReturnData,
+  ConfirmDeleteDialogData,
+} from '@components/modals/interfaces/confirm-delete-dialog.interface';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-object-class-browser',
@@ -31,6 +43,9 @@ export class ObjectClassBrowserComponent implements OnInit {
   private schema = inject(SchemaService);
   private dialog = inject(DialogService);
   private settings = inject(AppSettingsService);
+  private grid = viewChild.required<DatagridComponent>('grid');
+  private api = inject(MultidirectoryApiService);
+  private toastr = inject(ToastrService);
 
   private _query: string = '';
   get query(): string {
@@ -113,7 +128,9 @@ export class ObjectClassBrowserComponent implements OnInit {
           return this.schema.createObjectClass(result);
         }),
       )
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        this.loadData();
+      });
   }
 
   onPropertiesClick(event: InputEvent) {
@@ -149,6 +166,36 @@ export class ObjectClassBrowserComponent implements OnInit {
           return of(result);
         }),
       )
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        this.loadData();
+      });
+  }
+
+  deleteObjecClasses() {
+    if (!this.grid().selected?.length) {
+      return;
+    }
+    if (this.grid().selected.some((x) => x.is_system)) {
+      this.toastr.error(translate('object-class-browser.unable-delete-system'));
+      return;
+    }
+    const toDelete = this.grid().selected.map((x) => x.name);
+    this.toastr.info(translate('object-class-browser.delete-warning'));
+    this.dialog
+      .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
+        component: ConfirmDeleteDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          data: { toDeleteDNs: toDelete },
+        },
+      })
+      .closed.pipe(
+        switchMap((isConfirmed) => {
+          return isConfirmed ? this.api.deleteSchemaObjectClass(toDelete) : of(null);
+        }),
+      )
+      .subscribe((result) => {
+        this.loadData();
+      });
   }
 }

@@ -5,7 +5,7 @@
   <md-form (submit)="onSubmit($event)" #form>
     <md-multiselect
       #selector
-      (inputChanged)="checkClassNames($event)"
+      (ngModelChange)="checkClassNames($event)"
       [(ngModel)]="objectClassNames"
       [maxMenuHeight]="412"
       [notFoundText]="'group-selector.not-found-text' | transloco"

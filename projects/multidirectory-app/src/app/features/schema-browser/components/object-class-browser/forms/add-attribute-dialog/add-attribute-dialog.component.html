@@ -5,7 +5,7 @@
   <md-form (submit)="onSubmit($event)" #form>
     <md-multiselect
       #selector
-      (inputChanged)="checkAttributes($event)"
+      (ngModelChange)="checkAttributes($event)"
       [maxMenuHeight]="412"
       [(ngModel)]="attributes"
       [notFoundText]="'group-selector.not-found-text' | transloco"

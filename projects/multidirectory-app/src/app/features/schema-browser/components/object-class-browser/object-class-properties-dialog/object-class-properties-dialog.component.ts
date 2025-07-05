@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input, OnInit, signal } from '@angular/core';
 import { DialogComponent } from '../../../../../components/modals/components/core/dialog/dialog.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -30,8 +30,9 @@ export class ObjectClassPropertiesDialogComponent {
   private readonly dialog = inject(DialogService);
   private readonly dialogRef = inject(DialogRef);
   private readonly dialogData = inject(DIALOG_DATA);
+  private readonly cdr = inject(ChangeDetectorRef);
   formValid: boolean = false;
-
+  stepValid = false;
   objectClass: SchemaObjectClass = this.dialogData.objectClass;
 
   onApplyClick() {
@@ -39,5 +40,9 @@ export class ObjectClassPropertiesDialogComponent {
   }
   onCancelClick() {
     this.dialog.close(this.dialogRef, null);
+  }
+  setStepValid(x: boolean) {
+    this.stepValid = x;
+    this.cdr.detectChanges();
   }
 }

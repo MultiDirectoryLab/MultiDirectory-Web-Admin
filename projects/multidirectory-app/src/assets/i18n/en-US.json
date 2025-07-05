@@ -745,7 +745,10 @@
   "object-class-browser": {
     "header": "Object class schema",
     "add": "Add",
-    "name-column": "Name"
+    "name-column": "Name",
+    "delete": "Delete",
+    "unable-delete-system": "Unable to delete the system object classes",
+    "delete-warning": "Please note that before deleting an object class, you must unlink it from the entity type it is a part of."
   },
   "object-class-entries": {
     "header": "Entries of the Object Class",
@@ -805,12 +808,15 @@
     "add": "Add",
     "cancel": "Cancel"
   },
-  "schema-attributes-browser": {
+  "attributes-browser": {
     "header": "Attribute schema",
     "add": "Add",
     "column-name": "Name",
     "column-type": "Type",
-    "open": "Open"
+    "open": "Open",
+    "delete": "Delete",
+    "unable-delete-system": "Unable to delete the system attribute",
+    "delete-warning": "Please note that before deleting an attribute, you must unlink it from the object classes it is a part of."
   },
   "attribute-details-dialog": {
     "submit": "Submit",
