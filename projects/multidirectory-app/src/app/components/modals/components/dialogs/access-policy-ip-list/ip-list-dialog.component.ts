@@ -138,15 +138,14 @@ export class IpListDialogComponent implements OnInit {
       event.stopPropagation();
       this._ipAddresses[index].update(element.innerText);
       this._ipInput().nativeElement.focus();
-      this.cdr.detectChanges();
     }
 
     if (event.key == 'Backspace' && element.innerText.length == 0) {
       event.preventDefault();
       event.stopPropagation();
       this._ipAddresses.splice(index, 1);
-      this.cdr.detectChanges();
     }
+    this.cdr.detectChanges();
   }
 
   onEditBlur(event: Event, index: number, element: HTMLDivElement) {

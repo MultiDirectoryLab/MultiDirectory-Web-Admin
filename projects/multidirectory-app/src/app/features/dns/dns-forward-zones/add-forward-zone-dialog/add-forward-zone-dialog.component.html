@@ -21,8 +21,15 @@
             >
               <div class="flex flex-row w-full gap-2 px-2" (click)="submitForwarder(form, $index)">
                 <md-textbox [(ngModel)]="zone.forwarders[$index]" name="ip"></md-textbox>
-                <div class="decoration-dotted underline cursor-pointer">
-                  {{ forwarderResponse.has($index) ? forwarderResponse.get($index)?.FQDN : 'FQDN' }}
+                <div
+                  class="decoration-dotted underline cursor-pointer"
+                  [attr.data-tooltip]="tooltip"
+                >
+                  {{
+                    forwarderResponse.has($index)
+                      ? (forwarderResponse.get($index)?.FQDN ?? 'FQDN')
+                      : 'FQDN'
+                  }}
                 </div>
               </div>
               <div class="px-2">

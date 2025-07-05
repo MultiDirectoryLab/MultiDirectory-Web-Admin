@@ -41,8 +41,7 @@ export default class DnsZonesComponent implements OnInit {
   listDnsZones(name: string = '') {}
 
   ngOnInit(): void {
-    const name = '';
-    this.dns.zone(name).subscribe((x) => {
+    this.dns.zone().subscribe((x) => {
       this.zones = x;
     });
   }
@@ -122,7 +121,7 @@ export default class DnsZonesComponent implements OnInit {
       })
       .closed.pipe(
         switchMap((result) => {
-          return this.dns.zone('');
+          return this.dns.zone();
         }),
       )
       .subscribe((result: DnsZoneListResponse[]) => {

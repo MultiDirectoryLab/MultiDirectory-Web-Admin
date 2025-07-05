@@ -10,6 +10,7 @@ export class DnsZoneParam {
 export class DnsAddZoneRequest {
   zone_name: string = '';
   zone_type: string = '';
+  ttl = 3600;
   params: DnsZoneParam[] = [];
   constructor(obj: Partial<DnsAddZoneRequest>) {
     Object.assign(this, obj);

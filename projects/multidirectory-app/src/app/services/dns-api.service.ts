@@ -58,7 +58,7 @@ export class DnsApiService {
       .pipe(map((x) => !!x));
   }
 
-  zone(request: string): Observable<DnsZoneListResponse[]> {
+  zone(): Observable<DnsZoneListResponse[]> {
     return this.dnsHttpClient
       .get<DnsZoneListResponse[]>(`dns/zone`)
       .execute()
