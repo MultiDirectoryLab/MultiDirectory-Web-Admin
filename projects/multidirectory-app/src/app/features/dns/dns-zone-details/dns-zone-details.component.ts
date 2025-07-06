@@ -11,7 +11,18 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { DnsApiService } from '@services/dns-api.service';
-import { combineLatest, EMPTY, filter, lastValueFrom, map, switchMap, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  filter,
+  lastValueFrom,
+  map,
+  pipe,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
@@ -51,8 +62,14 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   readonly turnOffRuleClick = output<DnsRule>();
   readonly search = signal('');
   readonly zoneName = signal('');
+  readonly reloadRx = new BehaviorSubject(false);
+
   readonly zone = toSignal(
-    combineLatest([toObservable(this.zoneName), toObservable(this.search)]).pipe(
+    combineLatest([
+      toObservable(this.zoneName),
+      toObservable(this.search),
+      this.reloadRx.asObservable(),
+    ]).pipe(
       switchMap(() => this.dns.zone()),
       map((zones) => zones.filter((x) => x.name == this.zoneName())?.[0] ?? {}),
       tap((zones) =>
@@ -91,6 +108,7 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
         switchMap((x) => (x ? this.dns.update(x) : EMPTY)),
       )
       .subscribe(() => {
+        this.reloadRx.next(true);
         this.toastr.success(translate('dns-settings.success'));
       });
   }
@@ -107,14 +125,20 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
         component: DnsRuleDialogComponent,
         dialogConfig: {
           minHeight: '512px',
-          data: { rule: new DnsRule({}) },
+          data: { rule: new DnsRule({ zone_name: this.zoneName() }) },
         },
       })
       .closed.pipe(
         take(1),
+        tap((x) => {
+          if (!!x && !x.name.endsWith(x.zone_name)) {
+            x.name += '.' + x.zone_name;
+          }
+        }),
         switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
       )
       .subscribe(() => {
+        this.reloadRx.next(true);
         this.toastr.success(translate('dns-settings.success'));
       });
   }

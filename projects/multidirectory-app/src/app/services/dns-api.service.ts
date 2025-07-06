@@ -68,6 +68,7 @@ export class DnsApiService {
             for (let type of zone.records) {
               for (let record of type.records) {
                 record.type = type.type as DnsRuleType;
+                record.zone_name = zone.name;
               }
             }
           }
