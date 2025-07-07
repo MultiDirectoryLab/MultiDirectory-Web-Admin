@@ -45,8 +45,6 @@ export class AttributeDetailsDialogComponent implements OnInit {
     oid: new FormControl(this.attribute().oid, [Validators.required]),
     name: new FormControl(this.attribute().name, [Validators.required]),
     single_value: new FormControl(this.attribute().single_value),
-    no_user_modification: new FormControl(this.attribute().no_user_modification),
-    syntax: new FormControl(this.attribute().syntax, [Validators.required]),
   });
 
   ngOnInit(): void {
@@ -58,8 +56,6 @@ export class AttributeDetailsDialogComponent implements OnInit {
       this.form.controls.oid.disable();
       this.form.controls.name.disable();
       this.form.controls.single_value.disable();
-      this.form.controls.no_user_modification.disable();
-      this.form.controls.syntax.disable();
     }
   }
 
@@ -69,9 +65,9 @@ export class AttributeDetailsDialogComponent implements OnInit {
       new SchemaAttributeType({
         oid: this.form.value.oid ?? this.attribute().oid ?? '',
         name: this.form.value.name ?? this.attribute().name ?? '',
-        no_user_modification: this.form.value.no_user_modification ?? false,
+        no_user_modification: false,
         single_value: this.form.value.single_value ?? false,
-        syntax: this.form.value.syntax ?? '',
+        syntax: '',
         is_system: false,
       }),
     );
