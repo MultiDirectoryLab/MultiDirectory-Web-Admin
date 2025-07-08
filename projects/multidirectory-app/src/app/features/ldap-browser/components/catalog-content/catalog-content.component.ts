@@ -63,6 +63,7 @@ import { ViewMode } from './view-modes';
 import { IconViewComponent } from './views/icon-view/icon-view.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
 import { RouterModule } from '@angular/router';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Component({
   selector: 'app-catalog-content',
@@ -202,7 +203,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
-    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
       CreateGroupDialogReturnData,
@@ -228,7 +229,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     CreateOrganizationUnitDialogReturnData,
     CreateOrganizationUnitDialogComponent
   > {
-    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
       CreateOrganizationUnitDialogReturnData,
@@ -251,7 +252,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateRule() {
-    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.getContainer();
 
     this.dialogService
       .open<CreateRuleDialogReturnData, CreateRuleDialogData, CreateRuleDialogComponent>({
@@ -269,7 +270,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateComputer() {
-    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
+    const parentDn = this.navigation.getContainer();
 
     this.dialogService
       .open<
@@ -291,8 +292,10 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateCatalog() {
-    const parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
-
+    let parentDn = this.navigation.getContainer();
+    if (!this.ldapTreeviewService.isExpandable(parentDn)) {
+      parentDn = LdapNamesHelper.getDnParent(parentDn);
+    }
     this.dialogService
       .open<CreateCatalogDialogReturnData, CreateCatalogDialogData, CreateCatalogDialogComponent>({
         component: CreateCatalogDialogComponent,
@@ -311,7 +314,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   }
 
   public openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
-    const dn = this.navigation.snapshot.queryParams['distinguishedName'];
+    const dn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
       CreateUserDialogReturnData,

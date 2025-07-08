@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
 import { ContextMenuService } from '@components/modals/services/context-menu.service';
+import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
@@ -16,7 +18,6 @@ import { from, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 export class NavigationComponent implements AfterViewInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   private currentLdapPosition: string = '';
-  private treeView = viewChild.required<TreeviewComponent>('treeView');
   private navigation = inject(AppNavigationService);
   private ldap = inject(LdapTreeviewService);
   private contextMenu = inject(ContextMenuService);
@@ -28,8 +29,7 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe),
         tap((x) => {
-          const distinguishedName = this.navigation.snapshot.queryParams['distinguishedName'];
-          this.currentLdapPosition = distinguishedName;
+          this.currentLdapPosition = this.navigation.getContainer();
         }),
         switchMap((x) => {
           return from(this.ldap.load(this.currentLdapPosition));

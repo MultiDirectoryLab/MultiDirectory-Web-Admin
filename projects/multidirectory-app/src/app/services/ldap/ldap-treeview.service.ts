@@ -19,7 +19,9 @@ export class LdapTreeviewService {
       LdapNamesHelper.isDnChild(node.dn, x),
     );
     return children
-      .filter((x) => entries.has(x) && LdapNamesHelper.isExpandable(entries.get(x)!.objectClasses))
+      .filter(
+        (x) => entries.has(x) && EntityInfoResolver.isExpandable(entries.get(x)!.objectClasses),
+      )
       .map((x) => this.createNode(entries.get(x)!, entries));
   }
 

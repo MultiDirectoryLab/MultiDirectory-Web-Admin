@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AppNavigationService } from '@services/app-navigation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -16,6 +17,7 @@ export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   private cdr = inject(ChangeDetectorRef);
+  private navigation = inject(AppNavigationService);
 
   selectedCatalogDn = '';
   containerName = '';
@@ -24,7 +26,7 @@ export class LdapBrowserHeaderComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.activatedRoute.queryParams.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.selectedCatalogDn = this.activatedRoute.snapshot.queryParams['distinguishedName'];
+      this.selectedCatalogDn = this.navigation.getContainer();
       this.containerName = this.selectedCatalogDn;
       this.cdr.detectChanges();
     });
