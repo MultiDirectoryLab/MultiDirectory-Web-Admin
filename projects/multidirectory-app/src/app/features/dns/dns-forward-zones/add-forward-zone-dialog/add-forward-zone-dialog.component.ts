@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DialogComponent } from '../../../../components/modals/components/core/dialog/dialog.component';
-import { TranslocoModule } from '@jsverse/transloco';
-import { MultidirectoryUiKitModule } from '../../../../../../../multidirectory-ui-kit/src/lib/multidirectory-ui-kit.module';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AddForwardZoneDialogData } from './add-forward-zone-dialog.interface';
@@ -15,6 +14,7 @@ import {
 } from '@models/api/dns/dns-check-forward-zone';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck, faClose, faCross, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   imports: [
@@ -38,7 +38,7 @@ export class AddForwardZoneDialogComponent implements OnInit {
   zone = this.dialogData;
   selectedForwaderIndex?: number;
   forwarderResponse = new Map<number, DnsCheckForwardZoneResponse>();
-
+  tooltip = translate('add-forward-zone-dialog.tooltip');
   ngOnInit(): void {
     const checkRequest = new DnsCheckForwardZoneRequest({ dns_server_ips: this.zone.forwarders });
     this.dns.checkForwardZone(checkRequest).subscribe((response) => {

@@ -63,7 +63,7 @@
     "from-place": "Из этого места:",
     "places": "Места...",
     "name-prompt": "Чтобы найти объект, введите имя:",
-    "not-found-text": "Объкеты не найдены",
+    "not-found-text": "Объекты не найдены",
     "check-name": "Проверить имя...",
     "additional-parameters": "Дополнительные параметры",
     "cancel": "Отменить",
@@ -673,7 +673,11 @@
     "redirection-zones-tab": "DNS Forwarding",
     "delete": "Удалить",
     "enable": "Включить",
-    "disable": "Выключить"
+    "disable": "Выключить",
+    "dnssec": "DNSSEC",
+    "auto": "Авто",
+    "yes": "Да",
+    "no": "Нет"
   },
   "dns-zone-details": {
     "modal-header": "Настройки зоны",
@@ -736,6 +740,14 @@
   "object-class-browser": {
     "header": "Схема классов объектов",
     "add": "Добавить",
+    "name-column": "Имя",
+    "delete": "Удалить",
+    "unable-delete-system": "Невозможно удалить системные объектные классы",
+    "delete-warning": "Обратите внимание, что перед удалением объектного класса требуется отвязать его от сущностей, в которые он входит"
+  },
+  "object-class-entries": {
+    "header": "Схема классов объектов",
+    "add": "Добавить",
     "name-column": "Имя"
   },
   "object-class-create-dialog": {
@@ -787,16 +799,23 @@
     "header": "Объектные классы для данной сущности"
   },
   "schema-entity-add-object-class-dialog": {
-    "header": "Введите название аттрибута",
+    "header": "Введите название класса объекта (Enter для поиска):",
     "add": "Добавить",
     "cancel": "Отменить"
   },
-  "schema-attributes-browser": {
+  "add-attribute-dialog": {
+    "header": "Введите название атрибута (Enter для поиска)",
+    "add": "Добавить",
+    "cancel": "Отменить"
+  },
+  "attributes-browser": {
     "header": "Схема атрибутов",
     "add": "Добавить",
     "column-name": "Имя",
     "column-type": "Тип",
-    "open": "Открыть"
+    "delete": "Удалить",
+    "unable-delete-system": "Невозможно удалить системные атрибуты",
+    "delete-warning": "Обратите внимание, что перед удалением атрибута требуется отвязать его от классов объектов, в которые он входит"
   },
   "attribute-details-dialog": {
     "submit": "Принять",
@@ -811,7 +830,8 @@
     "up": "Вверх",
     "down": "Вниз",
     "cancel": "Отменить",
-    "apply": "Применить"
+    "apply": "Применить",
+    "tooltip": "Нажмите, чтобы проверить доступность"
   },
   "dns-forward-zones": {
     "delete-successful": "Успешно удалено",

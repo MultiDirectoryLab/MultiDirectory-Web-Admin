@@ -7,7 +7,9 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, startWith } from 'rxjs/operators';
+import { filter, startWith, tap } from 'rxjs/operators';
+import { LdapTreeviewService } from './ldap/ldap-treeview.service';
+import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +17,7 @@ import { filter, startWith } from 'rxjs/operators';
 export class AppNavigationService {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private treeview = inject(LdapTreeviewService);
 
   get navigationEnd(): Observable<NavigationEnd> {
     return this.router.events.pipe(
@@ -43,5 +46,23 @@ export class AppNavigationService {
 
   reload() {
     this.router.navigateByUrl(this.router.url);
+  }
+
+  getContainer(): string {
+    let parentDn = this.snapshot.queryParams['distinguishedName'];
+    if (!this.treeview.isExpandable(parentDn)) {
+      parentDn = LdapNamesHelper.getDnParent(parentDn);
+    }
+    return parentDn;
+  }
+
+  getDistinguishedName(): string {
+    let parentDn = this.snapshot.queryParams['distinguishedName'];
+    return parentDn;
+  }
+
+  isSelectEntry(): boolean {
+    const isSelectEntry = this.snapshot.queryParams['select'] ?? false;
+    return !!isSelectEntry && isSelectEntry !== '0';
   }
 }

@@ -19,6 +19,10 @@ export class SchemaService {
     return this.api.getSchemaEntities(Math.floor(offset / pageSize) + 1, pageSize, query);
   }
 
+  getSchemaEntity(entityName: string) {
+    return this.api.getSchemaEntity(entityName);
+  }
+
   getObjectClasses(
     offset: number,
     pageSize: number,

@@ -15,12 +15,14 @@
   </div>
   <div class="flex flex-row gap-2 justify-between">
     <div class="flex flex-row gap-2 justify-start">
-      <md-button [disabled]="entity().is_system" (click)="addObjectClass()">{{
+      <md-button (click)="addObjectClass()">{{
         'schema-entity-details-object-classes.add' | transloco
       }}</md-button>
-      <md-button [disabled]="entity().is_system" (click)="deleteObjectClass()">{{
-        'schema-entity-details-object-classes.delete' | transloco
-      }}</md-button>
+      <md-button
+        [disabled]="cantDeleteObjectClasses() || grid.selected.length == 0"
+        (click)="deleteObjectClass()"
+        >{{ 'schema-entity-details-object-classes.delete' | transloco }}</md-button
+      >
     </div>
 
     <div class="app-modal-footer flex justify-end gap-2">

@@ -55,7 +55,10 @@
               (ngModelChange)="onPageChange({ offset: 0, limit: $event, total: total })"
             ></md-dropdown>
             <div>
-              {{ offset + 1 }}-{{ offset + limit > total ? total : offset + limit }} {{ fromTitle }}
+              {{ total == 0 ? 0 : offset + 1 }}-{{
+                offset + limit > total ? total : offset + limit
+              }}
+              {{ fromTitle }}
               {{ total }}
             </div>
           </div>

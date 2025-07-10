@@ -26,13 +26,18 @@ export class DropdownContainerDirective implements OnInit {
     this.toggleMenu();
   }
 
-  toggleMenu(focus = true, minWidth: number | undefined = undefined) {
+  toggleMenu(
+    focus = true,
+    minWidth: number | undefined = undefined,
+    maxHeight: number | undefined = undefined,
+  ) {
     var rectObject = this.el.nativeElement.getBoundingClientRect();
     this.mdDropdownContainer.setPosition(
       rectObject.x + this.mdDropdownXOffset,
       rectObject.y + rectObject.height + this.mdDropdownYOffset,
     );
     this.mdDropdownContainer.setMinWidth(minWidth);
+    this.mdDropdownContainer.setMaxHeight(maxHeight);
     this.mdDropdownContainer.toggle(this.el, focus);
   }
 

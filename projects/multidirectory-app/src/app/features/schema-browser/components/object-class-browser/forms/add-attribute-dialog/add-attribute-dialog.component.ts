@@ -1,13 +1,7 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, inject, viewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -16,24 +10,24 @@ import { MultidirectoryUiKitModule, MultiselectComponent } from 'multidirectory-
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 
 @Component({
-  selector: 'app-schema-entity-add-object-class-dialog',
+  selector: 'app-add-attribute-dialog',
   imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoModule, CommonModule, FormsModule],
-  templateUrl: './schema-entity-add-object-class-dialog.component.html',
-  styleUrl: './schema-entity-add-object-class-dialog.component.scss',
+  templateUrl: './add-attribute-dialog.component.html',
+  styleUrl: './add-attribute-dialog.component.scss',
 })
-export class SchemaEntityAddObjectClassDialogComponent {
+export class AddAttributeDialogComponent {
   private schema = inject(SchemaService);
 
   dialogData = inject(DIALOG_DATA);
   dialog = inject(DialogService);
   dialogRef = inject(DialogRef);
   selector = viewChild.required<MultiselectComponent>('selector');
-  objectClassNames: MultiselectModel[] = [];
-  availableClassNames: MultiselectModel[] = [];
+  attributes: MultiselectModel[] = [];
+  availableAttributes: MultiselectModel[] = [];
 
-  checkClassNames($event: string) {
-    this.schema.getObjectClasses(0, 100, $event).subscribe((result) => {
-      this.availableClassNames = result.items.map(
+  checkAttributes($event: string) {
+    this.schema.getAttributes(0, 100, $event).subscribe((result) => {
+      this.availableAttributes = result.items.map(
         (x) =>
           new MultiselectModel({
             id: x.oid,

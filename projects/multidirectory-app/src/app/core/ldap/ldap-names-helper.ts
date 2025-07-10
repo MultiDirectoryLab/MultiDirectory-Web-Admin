@@ -1,5 +1,3 @@
-import { NavigationNode } from '@models/core/navigation/navigation-node';
-
 export class LdapNamesHelper {
   static getDnParent(dn: string): string {
     if (!dn || dn.startsWith('dc=')) {

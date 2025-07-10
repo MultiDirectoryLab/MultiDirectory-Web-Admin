@@ -3,18 +3,17 @@
     {{ 'dns-zone-details.modal-header' | transloco }} {{ zone().name }}
   </div>
 
-  <div class="flex justify-between">
-    <label>{{ 'dns-zone-details.description' | transloco }}</label>
-    <mui-button (clicked)="onAdd()">{{ 'dns-zone-details.add' | transloco }}</mui-button>
+  <div class="flex justify-between pb-4">
+    <md-button (click)="onAdd()">{{ 'dns-zone-details.add' | transloco }}</md-button>
   </div>
   <div class="flex w-full">
-    <mui-input
+    <md-textbox
       class="w-full"
       [(ngModel)]="search"
       placeholder="{{ 'dns-zone-details.search' | transloco }}"
-    ></mui-input>
+    ></md-textbox>
   </div>
-  <div class="cell-content flex flex-col gap-2 p-2">
+  <div class="cell-content flex flex-col gap-4 py-2">
     @for (type of zone().records; track $index; let indexA = $index) {
       @for (record of type.records; track $index; let indexB = $index) {
         <app-dns-rule-list-item

@@ -3,7 +3,7 @@ export class SchemaAttributeType {
   name: string = '';
   syntax: string = '';
   single_value: boolean = true;
-  no_user_modification = true;
+  no_user_modification = false;
   is_system = true;
 
   constructor(obj: Partial<SchemaAttributeType>) {

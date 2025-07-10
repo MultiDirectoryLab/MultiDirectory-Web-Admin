@@ -72,9 +72,16 @@ import {
   take,
   of,
   concat,
+  tap,
+  mergeMap,
+  EMPTY,
 } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
-import { LdapEntryStatusPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
+import {
+  LdapEntryDescriptionPipe,
+  LdapEntryStatusPipe,
+  LdapEntryTypePipe,
+} from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 
@@ -232,27 +239,61 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         flexGrow: 1,
         pipe: new LdapEntryTypePipe(),
       },
-      { name: translate('table-view.description-column'), prop: 'description', flexGrow: 3 },
+      {
+        name: translate('table-view.description-column'),
+        flexGrow: 3,
+        pipe: new LdapEntryDescriptionPipe(),
+      },
       { name: translate('table-view.status-column'), flexGrow: 3, pipe: new LdapEntryStatusPipe() },
     ];
 
-    combineLatest([
-      this.navigation.navigationEnd,
-      this._searchQueryRx,
-      this._offsetRx,
-      this._limitRx,
-    ])
+    this._offsetRx
       .pipe(
         takeUntil(this.unsubscribe),
-        switchMap(([navigationEnd, searchQuery, offset, limit]) => {
-          this.parentDn = this.navigation.snapshot.queryParams['distinguishedName'];
-          return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
+        switchMap((result) => {
+          return this.ldapContent.loadContent(
+            this.parentDn,
+            this._searchQuery,
+            this.offset,
+            this.limit,
+          );
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
         this.rows = rows;
         this.showControlPanel = !!rows.length;
         this.total = totalEntires;
+        if (this.navigation.isSelectEntry()) {
+          this.selectRows([this.navigation.getDistinguishedName()]);
+        }
+      });
+
+    combineLatest([this.navigation.navigationEnd, this._searchQueryRx, this._limitRx])
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap(([navigationEnd, searchQuery, limit]) => {
+          this.parentDn = this.navigation.getContainer();
+          this._offset = 0;
+          return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
+        }),
+        mergeMap((result) => {
+          if (!this.navigation.isSelectEntry()) {
+            return of(result);
+          }
+          const targetDn = this.navigation.getDistinguishedName();
+          if (result[0].findIndex((x) => x.dn == targetDn) > -1) {
+            return of(result);
+          }
+          this.offset += this.limit;
+          return EMPTY;
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntires]) => {
+        this.rows = rows;
+        this.total = totalEntires;
+        if (this.navigation.isSelectEntry()) {
+          this.selectRows([this.navigation.getDistinguishedName()]);
+        }
       });
   }
 
@@ -261,6 +302,14 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       this.unsubscribe.next();
       this.unsubscribe.complete();
     }
+  }
+
+  selectRows(toSelectDNs: string[] = []) {
+    this.rows.forEach((row) => {
+      if (toSelectDNs.includes(row.dn)) {
+        this.grid().select(row);
+      }
+    });
   }
 
   onPageChanged(pageNumber: number) {
@@ -434,5 +483,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this.navigation.navigate(['ldap'], { distinguishedName: dn });
   }
 
-  handleRightClick($event: ContextMenuEvent) {}
+  onContextMenu($event: ContextMenuEvent) {
+    this.setSelected([$event.content]);
+    this.rightClick.emit({ event: $event.event, node: $event.content });
+  }
 }

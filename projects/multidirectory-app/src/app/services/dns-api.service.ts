@@ -6,6 +6,7 @@ import { DnsForwardZonesComponent } from '@features/dns/dns-forward-zones/dns-fo
 import {
   DnsCheckForwardZoneRequest,
   DnsCheckForwardZoneResponse,
+  DnsServerOption,
 } from '@models/api/dns/dns-check-forward-zone';
 import { DnsForwardZone } from '@models/api/dns/dns-forward-zone';
 import { DnsRule } from '@models/api/dns/dns-rule';
@@ -30,20 +31,20 @@ export class DnsApiService {
 
   post(rule: DnsRule): Observable<DnsRule> {
     return this.httpClient
-      .post<string>('dns/record', rule)
+      .post<string>('dns/record', DnsRule.toRequest(rule))
       .execute()
       .pipe(map(() => rule));
   }
 
   update(rule: DnsRule): Observable<DnsRule> {
     return this.httpClient
-      .patch<string>('dns/record', rule)
+      .patch<string>('dns/record', DnsRule.toRequest(rule))
       .execute()
       .pipe(map(() => rule));
   }
 
   delete(rule: DnsRule): Observable<string> {
-    return this.httpClient.delete<string>('dns/record', rule).execute();
+    return this.httpClient.delete<string>('dns/record', DnsRule.toRequest(rule)).execute();
   }
 
   status(): Observable<DnsStatusResponse> {
@@ -57,7 +58,7 @@ export class DnsApiService {
       .pipe(map((x) => !!x));
   }
 
-  zone(request: string): Observable<DnsZoneListResponse[]> {
+  zone(): Observable<DnsZoneListResponse[]> {
     return this.dnsHttpClient
       .get<DnsZoneListResponse[]>(`dns/zone`)
       .execute()
@@ -67,6 +68,7 @@ export class DnsApiService {
             for (let type of zone.records) {
               for (let record of type.records) {
                 record.type = type.type as DnsRuleType;
+                record.zone_name = zone.name;
               }
             }
           }
@@ -90,5 +92,11 @@ export class DnsApiService {
     return this.dnsHttpClient
       .post<DnsCheckForwardZoneResponse[]>('dns/forward_check', request)
       .execute();
+  }
+  getServerOptions(): Observable<DnsServerOption[]> {
+    return this.dnsHttpClient.get<DnsServerOption[]>('dns/server/options').execute();
+  }
+  setServerOptions(request: DnsServerOption[]): Observable<boolean> {
+    return this.dnsHttpClient.patch<boolean>('dns/server/options', request).execute();
   }
 }

@@ -1,4 +1,12 @@
 @if (dnsStatus.dns_status !== dnsStatuses.NOT_CONFIGURED) {
+  <div class="flex flex-row justify-end p-4 gap-4">
+    <label>{{ 'dns-settings.dnssec' | transloco }}:</label>
+    <md-dropdown
+      [options]="dnsSecOptions"
+      [ngModel]="dnsSec"
+      (ngModelChange)="onDnsSecChange($event)"
+    ></md-dropdown>
+  </div>
   <mui-tabs>
     <div *muiTab="'dns-settings.dns-zone-header' | transloco">
       <app-dns-zones></app-dns-zones>
@@ -20,9 +28,9 @@
           <div class="flex flex-col">
             <h3>{{ 'dns-settings.setup-dns-description' | transloco }}</h3>
             <div class="pv-8">
-              <mui-button (clicked)="handleSetupClick()">{{
+              <md-button (click)="handleSetupClick()">{{
                 'dns-settings.setup-dns' | transloco
-              }}</mui-button>
+              }}</md-button>
             </div>
           </div>
         </div>

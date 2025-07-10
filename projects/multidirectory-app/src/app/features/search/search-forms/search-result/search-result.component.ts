@@ -32,7 +32,7 @@ export class SearchResultComponent {
 
   goTo(event: any) {
     if (event?.row?.name) {
-      this.navigation.navigate(['ldap'], { distinguishedName: event.row.name });
+      this.navigation.navigate(['ldap'], { distinguishedName: event.row.name, select: 1 });
     }
     this.cdr.detectChanges();
   }

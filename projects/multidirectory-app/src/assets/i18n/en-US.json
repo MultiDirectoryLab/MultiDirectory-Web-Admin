@@ -672,7 +672,17 @@
     "add-zone": "Add Zone",
     "setup-dns-description": "Setup required for DNS management",
     "setup-dns": "Run setup",
-    "dns-unavailable": "DNS Service is unavailable"
+    "dns-zone-header": "DNS Zones",
+    "dns-forwarding-header": "DNS Forwarding",
+    "redirection-zones-tab": "DNS Forwarding",
+    "delete": "Delete",
+    "enable": "Enable",
+    "disable": "Disable",
+    "dns-unavailable": "DNS Service is unavailable",
+    "dnssec": "DNSSEC",
+    "auto": "Auto",
+    "yes": "Yes",
+    "no": "No"
   },
   "dns-zone-details": {
     "modal-header": "Settings of zone ",
@@ -735,6 +745,14 @@
   "object-class-browser": {
     "header": "Object class schema",
     "add": "Add",
+    "name-column": "Name",
+    "delete": "Delete",
+    "unable-delete-system": "Unable to delete the system object classes",
+    "delete-warning": "Please note that before deleting an object class, you must unlink it from the entity type it is a part of."
+  },
+  "object-class-entries": {
+    "header": "Entries of the Object Class",
+    "add": "Add",
     "name-column": "Name"
   },
   "object-class-create-dialog": {
@@ -781,16 +799,24 @@
     "header": "Object classes for this entity"
   },
   "schema-entity-add-object-class-dialog": {
-    "header": "Enter attribute name",
+    "header": "Enter attribute name (Enter to search):",
     "add": "Add",
     "cancel": "Cancel"
   },
-  "schema-attributes-browser": {
+  "add-attribute-dialog": {
+    "header": "Enter attribute name (Enter to search):",
+    "add": "Add",
+    "cancel": "Cancel"
+  },
+  "attributes-browser": {
     "header": "Attribute schema",
     "add": "Add",
     "column-name": "Name",
     "column-type": "Type",
-    "open": "Open"
+    "open": "Open",
+    "delete": "Delete",
+    "unable-delete-system": "Unable to delete the system attribute",
+    "delete-warning": "Please note that before deleting an attribute, you must unlink it from the object classes it is a part of."
   },
   "attribute-details-dialog": {
     "submit": "Submit",
@@ -805,7 +831,8 @@
     "up": "Up",
     "down": "Down",
     "cancel": "Cancel",
-    "apply": "Apply"
+    "apply": "Apply",
+    "tooltip": "Click to check the availabilty"
   },
   "dns-forward-zones": {
     "delete-successful": "Successfully deleted",

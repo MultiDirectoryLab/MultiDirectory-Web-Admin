@@ -20,12 +20,17 @@ import {
 } from '../../../components/modals/interfaces/confirm-dialog.interface';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/api/dns/dns-rule';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import {
+  AddZoneDialogData,
+  AddZoneDialogReturnData,
+} from '../add-zone-dialog/add-zone-dialog.interface';
 
 @Component({
   selector: 'app-dns-zones',
   templateUrl: './dns-zones.component.html',
   styleUrls: ['./dns-zones.component.scss'],
-  imports: [MuiButtonComponent, TranslocoModule, DnsZoneListItemComponent],
+  imports: [MultidirectoryUiKitModule, TranslocoModule, DnsZoneListItemComponent],
 })
 export default class DnsZonesComponent implements OnInit {
   private dns = inject(DnsApiService);
@@ -36,8 +41,7 @@ export default class DnsZonesComponent implements OnInit {
   listDnsZones(name: string = '') {}
 
   ngOnInit(): void {
-    const name = '';
-    this.dns.zone(name).subscribe((x) => {
+    this.dns.zone().subscribe((x) => {
       this.zones = x;
     });
   }
@@ -109,7 +113,7 @@ export default class DnsZonesComponent implements OnInit {
 
   onAddDnsZone() {
     this.dialogService
-      .open<AddZoneDialogComponent, object, object>({
+      .open<AddZoneDialogReturnData, AddZoneDialogData, AddZoneDialogComponent>({
         component: AddZoneDialogComponent,
         dialogConfig: {
           data: {},
@@ -117,7 +121,7 @@ export default class DnsZonesComponent implements OnInit {
       })
       .closed.pipe(
         switchMap((result) => {
-          return this.dns.zone('');
+          return this.dns.zone();
         }),
       )
       .subscribe((result: DnsZoneListResponse[]) => {

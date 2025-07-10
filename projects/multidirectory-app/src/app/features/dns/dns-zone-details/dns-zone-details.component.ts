@@ -11,7 +11,18 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
 import { DnsApiService } from '@services/dns-api.service';
-import { combineLatest, EMPTY, filter, lastValueFrom, map, switchMap, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  filter,
+  lastValueFrom,
+  map,
+  pipe,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { DnsRuleListItemComponent } from '../dns-rule-list-item/dns-rule-list-item.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
@@ -27,6 +38,7 @@ import {
 import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { DnsRule } from '@models/api/dns/dns-rule';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-dns-zone-details',
@@ -35,10 +47,9 @@ import { DnsRule } from '@models/api/dns/dns-rule';
   imports: [
     DnsRuleListItemComponent,
     DialogComponent,
-    MuiButtonComponent,
+    MultidirectoryUiKitModule,
     FormsModule,
     TranslocoModule,
-    MuiInputComponent,
   ],
 })
 export class DnsZoneDetailsComponent implements AfterViewInit {
@@ -49,12 +60,17 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
 
   readonly deleteRuleClick = output<DnsRule>();
   readonly turnOffRuleClick = output<DnsRule>();
-  readonly editRuleClick = output<DnsRule>();
   readonly search = signal('');
   readonly zoneName = signal('');
+  readonly reloadRx = new BehaviorSubject(false);
+
   readonly zone = toSignal(
-    combineLatest([toObservable(this.zoneName), toObservable(this.search)]).pipe(
-      switchMap((request) => this.dns.zone(request[0])),
+    combineLatest([
+      toObservable(this.zoneName),
+      toObservable(this.search),
+      this.reloadRx.asObservable(),
+    ]).pipe(
+      switchMap(() => this.dns.zone()),
       map((zones) => zones.filter((x) => x.name == this.zoneName())?.[0] ?? {}),
       tap((zones) =>
         zones.records.filter((x) => {
@@ -79,7 +95,22 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
   }
 
   onEditRuleClick(record: DnsRule) {
-    this.editRuleClick.emit(record);
+    this.dialog
+      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+        component: DnsRuleDialogComponent,
+        dialogConfig: {
+          minHeight: '512px',
+          data: { rule: record },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((x) => (x ? this.dns.update(x) : EMPTY)),
+      )
+      .subscribe(() => {
+        this.reloadRx.next(true);
+        this.toastr.success(translate('dns-settings.success'));
+      });
   }
 
   onDeleteRuleClick(record: DnsRule) {
@@ -94,14 +125,20 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
         component: DnsRuleDialogComponent,
         dialogConfig: {
           minHeight: '512px',
-          data: { rule: new DnsRule({}) },
+          data: { rule: new DnsRule({ zone_name: this.zoneName() }) },
         },
       })
       .closed.pipe(
         take(1),
+        tap((x) => {
+          if (!!x && !x.name.endsWith(x.zone_name)) {
+            x.name += '.' + x.zone_name;
+          }
+        }),
         switchMap((x) => (x ? this.dns.post(x) : EMPTY)),
       )
       .subscribe(() => {
+        this.reloadRx.next(true);
         this.toastr.success(translate('dns-settings.success'));
       });
   }

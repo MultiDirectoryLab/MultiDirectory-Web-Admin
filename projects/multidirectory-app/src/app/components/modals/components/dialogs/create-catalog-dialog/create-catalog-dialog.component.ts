@@ -18,6 +18,8 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
+import { map, Observable, switchMap } from 'rxjs';
+import { SchemaService } from '@services/schema/schema.service';
 
 @Component({
   selector: 'app-create-catalog-dialog',
@@ -46,6 +48,7 @@ export class CreateCatalogDialogComponent implements OnInit {
   private dialogRef: DialogRef = inject(DialogRef);
   private destroyRef$: DestroyRef = inject(DestroyRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private schema = inject(SchemaService);
 
   public ngOnInit() {
     this.formValid = this.form.valid;
@@ -54,24 +57,35 @@ export class CreateCatalogDialogComponent implements OnInit {
     });
   }
 
+  getObjectClasses(): Observable<string[]> {
+    return this.schema.getSchemaEntity('Catalog').pipe(
+      map((result) => {
+        return result.object_class_names;
+      }),
+    );
+  }
+
   public onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-
-    this.api
-      .create(
-        new CreateEntryRequest({
-          entry: `cn=${this.catalogName},` + this.dialogData.parentDn,
-          attributes: [
-            new LdapAttribute({
-              type: 'objectClass',
-              vals: ['top', 'container', 'catalog'],
+    this.getObjectClasses()
+      .pipe(
+        switchMap((objectClasses) => {
+          return this.api.create(
+            new CreateEntryRequest({
+              entry: `cn=${this.catalogName},` + this.dialogData.parentDn,
+              attributes: [
+                new LdapAttribute({
+                  type: 'objectClass',
+                  vals: ['top', 'container', 'catalog'],
+                }),
+                new LdapAttribute({
+                  type: 'description',
+                  vals: [this.description],
+                }),
+              ],
             }),
-            new LdapAttribute({
-              type: 'description',
-              vals: [this.description],
-            }),
-          ],
+          );
         }),
       )
       .subscribe((x) => {

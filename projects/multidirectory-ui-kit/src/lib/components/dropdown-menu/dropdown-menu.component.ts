@@ -30,6 +30,8 @@ export class DropdownMenuComponent {
   _left: number = 0;
   _width?: number;
   _minWidth?: number;
+  _maxHeight?: number;
+
   @ViewChild('menu') menu!: ElementRef;
   caller?: ElementRef;
   dropdownVisible = false;
@@ -50,6 +52,11 @@ export class DropdownMenuComponent {
 
   setMinWidth(minWidth?: number) {
     this._minWidth = minWidth;
+    this.cdr.detectChanges();
+  }
+
+  setMaxHeight(maxHeight?: number) {
+    this._maxHeight = maxHeight;
     this.cdr.detectChanges();
   }
 
@@ -78,6 +85,9 @@ export class DropdownMenuComponent {
     }
     if (this._minWidth) {
       this.renderer.setStyle(this.menu.nativeElement, 'min-width', `${this._minWidth}px`);
+    }
+    if (this._maxHeight) {
+      this.renderer.setStyle(this.menu.nativeElement, 'max-height', `${this._maxHeight}px`);
     }
     this.checkOverflow();
     this.cdr.detectChanges();

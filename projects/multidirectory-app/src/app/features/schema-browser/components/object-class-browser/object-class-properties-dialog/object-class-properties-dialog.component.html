@@ -9,7 +9,7 @@
       <md-tab [el]="entires.el">{{ 'object-class-properties-dialog.entries' | transloco }}</md-tab>
     </div>
     <div mdTab #general="mdTab">
-      <app-object-class-general [objectClass]="objectClass" />
+      <app-object-class-general [objectClass]="objectClass" (stepValid)="setStepValid($event)" />
     </div>
     <div mdTab #attribute="mdTab">
       <app-object-class-attribute-summary [objectClass]="objectClass" />
@@ -23,7 +23,7 @@
       <md-button (click)="onCancelClick()">{{
         'object-class-properties-dialog.cancel' | transloco
       }}</md-button>
-      <md-button (click)="onApplyClick()">{{
+      <md-button (click)="onApplyClick()" [disabled]="!stepValid">{{
         'object-class-properties-dialog.apply' | transloco
       }}</md-button>
     </div>

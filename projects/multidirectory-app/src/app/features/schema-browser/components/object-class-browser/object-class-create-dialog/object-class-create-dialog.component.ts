@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input, OnInit, signal } from '@angular/core';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ObjectClassCreateGeneralComponent } from '../forms/object-class-general/object-class-general.component';
@@ -35,7 +35,8 @@ export class ObjectClassCreateDialogComponent {
   private readonly dialogData = inject<ObjectClassCreateDialogData>(DIALOG_DATA);
   private readonly dialog = inject(DialogService);
   private readonly dialogRef = inject(DialogRef);
-
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  stepValid = false;
   objectClass: SchemaObjectClass = this.dialogData.objectClass ?? new SchemaObjectClass({});
 
   finish() {
@@ -44,5 +45,9 @@ export class ObjectClassCreateDialogComponent {
 
   cancel() {
     this.dialog.close(this.dialogRef);
+  }
+  setStepValid(x: boolean) {
+    this.stepValid = x;
+    this.cdr.detectChanges();
   }
 }

@@ -4,7 +4,7 @@ import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-ki
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
+import { catchError, EMPTY, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { GroupCreateRequest } from '@models/api/group-create/group-create.request';
+import { SchemaService } from '@services/schema/schema.service';
 
 @Component({
   selector: 'app-create-group-dialog',
@@ -42,11 +43,20 @@ export class CreateGroupDialogComponent implements OnInit {
     inject(DialogRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private toastr: ToastrService = inject(ToastrService);
+  private schema = inject(SchemaService);
 
   @ViewChild('groupForm', { static: true }) private _form!: MdFormComponent;
   @ViewChild('dialogComponent', { static: true }) private dialogComponent!: DialogComponent;
 
   private _unsubscribe = new Subject<boolean>();
+
+  getObjectClasses(): Observable<string[]> {
+    return this.schema.getSchemaEntity('Group').pipe(
+      map((result) => {
+        return result.object_class_names;
+      }),
+    );
+  }
 
   /**LIFECYCLE HOOKS  **/
   public ngOnInit(): void {
@@ -70,23 +80,25 @@ export class CreateGroupDialogComponent implements OnInit {
       return;
     }
     this.dialogComponent?.showSpinner();
-    this.api
-      .create(
-        new CreateEntryRequest({
-          entry: `cn=${this.setupRequest.groupName},` + this.dialogData.parentDn,
-          attributes: [
-            new LdapAttribute({
-              type: 'objectClass',
-              vals: ['group', 'top', 'posixGroup'],
-            }),
-            new LdapAttribute({
-              type: 'description',
-              vals: [this.setupRequest.description],
-            }),
-          ],
-        }),
-      )
+    this.getObjectClasses()
       .pipe(
+        switchMap((objectClasses) => {
+          return this.api.create(
+            new CreateEntryRequest({
+              entry: `cn=${this.setupRequest.groupName},` + this.dialogData.parentDn,
+              attributes: [
+                new LdapAttribute({
+                  type: 'objectClass',
+                  vals: objectClasses,
+                }),
+                new LdapAttribute({
+                  type: 'description',
+                  vals: [this.setupRequest.description],
+                }),
+              ],
+            }),
+          );
+        }),
         catchError(() => {
           this.dialogComponent?.hideSpinner();
           this.toastr.error(translate('group-create.unable-create-group'));

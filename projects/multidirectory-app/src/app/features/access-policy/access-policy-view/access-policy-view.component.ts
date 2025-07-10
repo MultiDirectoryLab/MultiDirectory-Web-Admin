@@ -34,10 +34,11 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { MultiselectModel } from './multiselect-model';
+import { from, map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { IplistDialogData } from '../../../components/modals/interfaces/ip-list-dialog.interface';
+import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -65,6 +66,8 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);
+  private ldapTreeview = inject(LdapTreeviewService);
+
   private _unsubscribe = new Subject<void>();
   readonly form = viewChild.required<MdFormComponent>('form');
   readonly groupSelector = viewChild.required<MultiselectComponent>('groupSelector');
@@ -101,6 +104,8 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.load();
+
     this.api
       .getMultifactor()
       .pipe(take(1))
@@ -123,10 +128,13 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     this.api.getAccessPolicy().subscribe({
       next: (policies) => {
         this.windows.hideSpinner();
-        this.accessClient =
-          policies.find(
-            (x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
-          ) ?? new AccessPolicy();
+        if (this.activatedRoute.snapshot.params.id) {
+          this.accessClient =
+            policies.find(
+              (x) =>
+                x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
+            ) ?? new AccessPolicy();
+        }
         this.ipAddresses = this.accessClient.ipRange
           .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
           .join(', ');
@@ -233,24 +241,22 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       this.toastr.error(translate('errors.empty-filter'));
       return of([]);
     }
-    return of([]);
-    // const root = this.ldapTreeLoader.get();
-    // return root.pipe(
-    //   take(1),
-    //   switchMap((root) =>
-    //     this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
-    //   ),
-    //   map((result) => {
-    //     return result.search_result.map((x) => {
-    //       const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
-    //       return new MultiselectModel({
-    //         id: x.object_name,
-    //         selected: false,
-    //         title: name?.[1],
-    //         badge_title: name?.[1] ?? x.object_name,
-    //       });
-    //     });
-    //   }),
-    // );
+    return from(this.ldapTreeview.load('')).pipe(
+      take(1),
+      switchMap((root) =>
+        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
+      ),
+      map((result) => {
+        return result.search_result.map((x) => {
+          const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
+          return new MultiselectModel({
+            id: x.object_name,
+            selected: false,
+            title: name?.[1],
+            badge_title: name?.[1] ?? x.object_name,
+          });
+        });
+      }),
+    );
   }
 }

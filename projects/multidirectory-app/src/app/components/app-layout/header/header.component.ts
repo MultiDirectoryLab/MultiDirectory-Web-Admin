@@ -155,7 +155,7 @@ export class HeaderComponent {
     );
     this.hotkeysService.add(
       new Hotkey(
-        ['ctrl+f', 'meta+f'],
+        ['ctrl+shift+f', 'meta+shift+f'],
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();

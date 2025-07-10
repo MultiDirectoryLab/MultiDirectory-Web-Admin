@@ -11,6 +11,7 @@ import {
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import { AddAttributeDialogComponent } from '../add-attribute-dialog/add-attribute-dialog.component';
 
 @Component({
   selector: 'app-object-class-attribute-summary',
@@ -27,14 +28,7 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
 
   @Input() set objectClass(objectClass: SchemaObjectClass) {
     this._objectClass = objectClass;
-    this.objectClassMustRows = objectClass.attribute_type_names_must.map((x) => {
-      return { name: x };
-    });
-    this.objectClassMayRows = objectClass.attribute_type_names_may.map((x) => {
-      return { name: x };
-    });
-    this.mustTotal = this.objectClassMustRows.length;
-    this.mayTotal = this.objectClassMayRows.length;
+    this.updateData();
   }
   get objectClass() {
     return this._objectClass;
@@ -62,46 +56,63 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
     this.formValid.emit(true);
   }
 
+  updateData() {
+    this.objectClassMustRows = this.objectClass.attribute_type_names_must.map((x) => {
+      return { name: x };
+    });
+    this.objectClassMayRows = this.objectClass.attribute_type_names_may.map((x) => {
+      return { name: x };
+    });
+    this.mustTotal = this.objectClassMustRows.length;
+    this.mayTotal = this.objectClassMayRows.length;
+  }
+
   openObjectClassMayAttributeEditor() {
     this.dialog
-      .open<string, string, SchemaEntityAddObjectClassDialogComponent>({
-        component: SchemaEntityAddObjectClassDialogComponent,
+      .open<string[], string[], AddAttributeDialogComponent>({
+        component: AddAttributeDialogComponent,
         dialogConfig: {
-          data: '',
+          data: [''],
         },
       })
       .closed.subscribe((result) => {
         if (result) {
-          this.objectClass.attribute_type_names_may.push(result);
-          this.objectClass = this.objectClass;
+          this.objectClass.attribute_type_names_may =
+            this.objectClass.attribute_type_names_may.concat(result);
+          this.updateData();
         }
       });
   }
 
   openObjectClassMustAttributeEditor() {
     this.dialog
-      .open<string, string, SchemaEntityAddObjectClassDialogComponent>({
-        component: SchemaEntityAddObjectClassDialogComponent,
+      .open<string[], string[], AddAttributeDialogComponent>({
+        component: AddAttributeDialogComponent,
         dialogConfig: {
-          data: '',
+          data: [''],
         },
       })
       .closed.subscribe((result) => {
         if (result) {
-          this.objectClass.attribute_type_names_must.push(result);
-          this.objectClass = this.objectClass;
+          this.objectClass.attribute_type_names_must =
+            this.objectClass.attribute_type_names_must.concat(result);
+          this.updateData();
         }
       });
   }
 
   removeMayAttribute() {
-    const selected = this.mayGrid().selected;
-    this.objectClass.attribute_type_names_may.filter((x) => !selected.includes(x));
-    this.objectClass = this.objectClass;
+    const selected = this.mayGrid().selected.map((x) => x.name);
+    this.objectClass.attribute_type_names_may = this.objectClass.attribute_type_names_may.filter(
+      (x) => !selected.includes(x),
+    );
+    this.updateData();
   }
   removeMustAttribute() {
-    const selected = this.mustGrid().selected;
-    this.objectClass.attribute_type_names_must.filter((x) => !selected.includes(x));
-    this.objectClass = this.objectClass;
+    const selected = this.mustGrid().selected.map((x) => x.name);
+    this.objectClass.attribute_type_names_must = this.objectClass.attribute_type_names_must.filter(
+      (x) => !selected.includes(x),
+    );
+    this.updateData();
   }
 }

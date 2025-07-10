@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaService } from '@services/schema/schema.service';
-import { DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import {
+  DatagridComponent,
+  DropdownOption,
+  MultidirectoryUiKitModule,
+} from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { AttributeDetailsDialogComponent } from './attribute-details-dialog/attribute-details-dialog.component';
 import {
@@ -14,6 +18,13 @@ import {
 import { EMPTY, of, switchMap, take } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import {
+  ConfirmDeleteDialogReturnData,
+  ConfirmDeleteDialogData,
+} from '@components/modals/interfaces/confirm-delete-dialog.interface';
 
 @Component({
   selector: 'app-attributes-browser',
@@ -25,7 +36,9 @@ export class AttributesBrowserComponent implements OnInit {
   private schema = inject(SchemaService);
   private dialog = inject(DialogService);
   private settings = inject(AppSettingsService);
-
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private grid = viewChild.required<DatagridComponent>('grid');
   attributeTypes = signal<SchemaAttributeType[]>([]);
 
   private _query = '';
@@ -33,6 +46,7 @@ export class AttributesBrowserComponent implements OnInit {
     return this._query;
   }
   set query(query: string) {
+    this._offset = 0;
     this._query = query;
     this.loadData();
   }
@@ -65,7 +79,7 @@ export class AttributesBrowserComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.settings.headerTitle = translate('schema-attributes-browser.header');
+    this.settings.headerTitle = translate('attributes-browser.header');
     this.loadData();
   }
 
@@ -77,14 +91,18 @@ export class AttributesBrowserComponent implements OnInit {
   }
 
   columns = signal<TableColumn[]>([
-    { name: translate('schema-attributes-browser.column-name'), prop: 'name' },
-    { name: translate('schema-attributes-browser.column-type'), prop: 'type' },
+    { name: translate('attributes-browser.column-name'), prop: 'name' },
+    { name: translate('attributes-browser.column-type'), prop: 'type' },
   ]);
 
   openAttirbuteDetailsDialog(event: InputEvent | null) {
     const attribute = (event as never as { row: SchemaAttributeType })?.row ?? null;
-    this.showAttributeDialog(attribute, true)
+    this.schema
+      .getAttribute(attribute.name)
       .pipe(
+        switchMap((result) => {
+          return this.showAttributeDialog(result, true);
+        }),
         switchMap((result) => {
           if (result) {
             return this.schema.updateAttribute(result);
@@ -106,7 +124,9 @@ export class AttributesBrowserComponent implements OnInit {
           return of(result);
         }),
       )
-      .subscribe();
+      .subscribe((result) => {
+        this.loadData();
+      });
   }
 
   openAttribute(attributeName: string) {
@@ -145,5 +165,33 @@ export class AttributesBrowserComponent implements OnInit {
         },
       })
       .closed.pipe(take(1));
+  }
+
+  deleteAttributes() {
+    if (!this.grid().selected?.length) {
+      return;
+    }
+    if (this.grid().selected.some((x) => x.is_system)) {
+      this.toastr.error(translate('attributes-browser.unable-delete-system'));
+      return;
+    }
+    const toDelete = this.grid().selected.map((x) => x.name);
+    this.toastr.info(translate('attributes-browser.delete-warning'));
+    this.dialog
+      .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
+        component: ConfirmDeleteDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          data: { toDeleteDNs: toDelete },
+        },
+      })
+      .closed.pipe(
+        switchMap((isConfirmed) => {
+          return isConfirmed ? this.api.deleteSchemaAttributes(toDelete) : of(null);
+        }),
+      )
+      .subscribe((result) => {
+        this.loadData();
+      });
   }
 }

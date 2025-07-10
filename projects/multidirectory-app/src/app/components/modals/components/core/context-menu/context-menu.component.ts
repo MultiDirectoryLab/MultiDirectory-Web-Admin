@@ -51,6 +51,9 @@ import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { AppNavigationService } from '@services/app-navigation.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -69,6 +72,8 @@ export class ContextMenuComponent implements OnInit {
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private ldapTreeview = inject(LdapTreeviewService);
+  private navigation = inject(AppNavigationService);
   private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(
@@ -80,7 +85,6 @@ export class ContextMenuComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setAccountEnabled();
-
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.handleOverflow();
     });
@@ -177,11 +181,15 @@ export class ContextMenuComponent implements OnInit {
             data: { toMove: this.entries },
           },
         })
-        .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY))),
+        .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
+        .subscribe((x) => {
+          this.navigation.reload();
+        }),
     );
   }
 
   public openConfirmDeleteDialog() {
+    const toDeleteDNs = this.entries.map((x) => x.id);
     this.contextMenuService.close(
       this.dialogService
         .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>(
@@ -189,7 +197,7 @@ export class ContextMenuComponent implements OnInit {
             component: ConfirmDeleteDialogComponent,
             dialogConfig: {
               width: '580px',
-              data: { toDeleteDNs: this.entries.map((x) => x.id) },
+              data: { toDeleteDNs: toDeleteDNs },
             },
           },
         )
@@ -208,12 +216,20 @@ export class ContextMenuComponent implements OnInit {
                 )
               : of(null);
           }),
-        ),
+        )
+        .subscribe((result) => {
+          this.ldapTreeview.invalidate(toDeleteDNs);
+          this.navigation.reload();
+        }),
     );
   }
 
   public isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
-    return this.entries.every((x) => types.includes(LdapEntryType.Computer));
+    const objectClasses = this.entries.map(
+      (x) => x.attributes.find((y) => y.type.toLocaleLowerCase() == 'objectclass')?.vals ?? [],
+    );
+    const nodeTypes = objectClasses.map((x) => EntityInfoResolver.getNodeType(x));
+    return nodeTypes.every((x) => types.includes(x));
   }
 
   private setAccountEnabled() {

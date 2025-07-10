@@ -1,25 +1,25 @@
 <app-dialog>
   <div class="app-modal-header">
-    {{ 'schema-entity-add-object-class-dialog.header' | transloco }}
+    {{ 'add-attribute-dialog.header' | transloco }}
   </div>
   <md-form (submit)="onSubmit($event)" #form>
     <md-multiselect
       #selector
-      (ngModelChange)="checkClassNames($event)"
-      [(ngModel)]="objectClassNames"
+      (ngModelChange)="checkAttributes($event)"
       [maxMenuHeight]="412"
+      [(ngModel)]="attributes"
       [notFoundText]="'group-selector.not-found-text' | transloco"
-      [options]="availableClassNames"
+      [options]="availableAttributes"
       class="row-6 col-1 col-span-4"
     >
     </md-multiselect>
 
     <div class="flex flex-row justify-end py-2 gap-2">
       <md-button (click)="onCancel($event)">{{
-        'schema-entity-add-object-class-dialog.cancel' | transloco
+        'add-attribute-dialog.cancel' | transloco
       }}</md-button>
       <md-button [submit]="true" [primary]="true">{{
-        'schema-entity-add-object-class-dialog.add' | transloco
+        'add-attribute-dialog.add' | transloco
       }}</md-button>
     </div>
   </md-form>

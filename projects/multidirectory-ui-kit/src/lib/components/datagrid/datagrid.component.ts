@@ -51,7 +51,7 @@ export class DatagridComponent {
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
 
-  private _limit = 0;
+  private _limit = 15;
   @Input() get limit() {
     return this._limit;
   }
@@ -69,7 +69,7 @@ export class DatagridComponent {
   }
   @Output() offsetChange = new EventEmitter<number>();
 
-  private _total = 0;
+  private _total = 1;
   @Input() set total(total: number) {
     this._total = total;
   }
@@ -156,6 +156,7 @@ export class DatagridComponent {
     contextMenuEvent.event.stopPropagation();
     contextMenuEvent.event.preventDefault();
     this.contextmenu.emit(contextMenuEvent);
+    console.log(contextMenuEvent);
     this.cdr.detectChanges();
   }
 

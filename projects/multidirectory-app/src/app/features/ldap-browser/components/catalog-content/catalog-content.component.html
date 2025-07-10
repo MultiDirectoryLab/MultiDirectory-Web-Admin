@@ -1,5 +1,5 @@
 <div class="control-pane flex align-center justify-between">
-  <div class="flex align-center gap-1">
+  <div class="flex align-center gap-4 align-center">
     <div class="button-wrapper">
       <md-plane-button [mdDropdownContainer]="createMenu" class="search control-button">
         <div class="flex justify-between">
@@ -14,13 +14,13 @@
       </md-plane-button>
     </div>
     <md-button (click)="openCreateUser()">
-      <span class="flex justify-between gap-4">
+      <span class="flex justify-between gap-4 align-center">
         <img [src]="'assets/person_add.svg'" />
         {{ 'catalog-content.create-user' | transloco }}
       </span>
     </md-button>
     <md-button (click)="openCreateGroup()">
-      <span class="flex justify-between gap-4">
+      <span class="flex justify-between gap-4 align-center">
         <img [src]="'assets/group.svg'" style="transform: scale(1.35)" />
         {{ 'catalog-content.create-group' | transloco }}
       </span>
@@ -33,7 +33,7 @@
     <!--      </span>-->
     <!--    </md-button>-->
     <md-button (click)="openCreateComputer()">
-      <span class="flex justify-between gap-4">
+      <span class="flex justify-between gap-4 align-center">
         <img [src]="'assets/computer.svg'" style="margin-top: -4px; height: 18px" />
         {{ 'catalog-content.create-computer' | transloco }}
       </span>
@@ -97,7 +97,7 @@
   <div (click)="createMenu.close(); openCreateUser()" class="dropdown-item">
     {{ 'catalog-content.user' | transloco }}
   </div>
-  <div (click)="createMenu.close(); openCreateRule()" class="dropdown-item">
+  <div (click)="createMenu.close(); openCreateRule()" class="dropdown-item disabled hidden">
     {{ 'catalog-content.rule' | transloco }}
   </div>
   <div class="dropdown-item disabled hidden">msDS-ShadowPrincipalContainer</div>

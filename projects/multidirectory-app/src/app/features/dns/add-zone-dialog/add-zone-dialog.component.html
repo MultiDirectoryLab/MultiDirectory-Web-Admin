@@ -1,32 +1,38 @@
 <app-dialog *transloco="let t">
   <div class="app-modal-header">{{ 'add-zone-dialog.modal-header' | transloco }}</div>
-  <form [formGroup]="form" class="form" (submit)="onSumbit($event)">
+  <md-form class="form" (submit)="onSumbit($event)">
     <div class="flex flex-col gap-y-1">
       <div>
         <label>{{ 'add-zone-dialog.header' | transloco }}</label>
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input
-          formControlName="zone_name"
+        <md-textbox
+          [(ngModel)]="dnsZone.zone_name"
           [placeholder]="t('add-zone-dialog.domain-input')"
           class="grow"
         />
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input
-          formControlName="ttl"
+        <md-textbox
+          [(ngModel)]="dnsZone.ttl"
           type="number"
           [placeholder]="t('add-zone-dialog.ttl-input')"
           class="grow"
         />
       </div>
       <div class="flex gap-x-1 justify-between">
-        <mui-input [placeholder]="t('add-zone-dialog.allowed-ip-input')" class="grow" />
-        <!--mui-button>{{ 'add-zone-dialog.add' | transloco }}</mui-button-->
+        <md-textbox
+          [(ngModel)]="ipString"
+          [placeholder]="t('add-zone-dialog.allowed-ip-input')"
+          class="grow"
+        />
+        <md-button (click)="openIpAddressDialog()">{{
+          'add-zone-dialog.add' | transloco
+        }}</md-button>
       </div>
     </div>
     <div class="flex justify-end pt-1">
-      <mui-button type="submit">{{ 'add-zone-dialog.add' | transloco }}</mui-button>
+      <md-button [submit]="true">{{ 'add-zone-dialog.add' | transloco }}</md-button>
     </div>
-  </form>
+  </md-form>
 </app-dialog>

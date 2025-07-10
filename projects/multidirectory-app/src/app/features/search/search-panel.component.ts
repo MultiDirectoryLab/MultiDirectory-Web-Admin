@@ -98,4 +98,9 @@ export class SearchPanelComponent implements AfterViewInit {
   clear() {
     this.searchResults = [];
   }
+  onSubmit($event: SubmitEvent) {
+    $event.stopPropagation();
+    $event.preventDefault();
+    this.search();
+  }
 }
