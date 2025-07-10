@@ -251,6 +251,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
         this.rows = rows;
+        this.showControlPanel = !!rows.length;
         this.total = totalEntires;
       });
   }
@@ -308,7 +309,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   onRowSelect() {
-    this.showControlPanel = this.grid().selected.length > 0;
     this.cdr.detectChanges();
     this._checkAllCheckbox = false;
     this.setAccountEnabledToggle();

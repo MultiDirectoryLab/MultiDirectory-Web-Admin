@@ -137,7 +137,7 @@ export class DatagridComponent {
   }
 
   onActivate(event: any) {
-    if (event.type === 'dblclick') {
+    if (event.type === 'dblclick' && !(event.event.ctrlKey || event.event.metaKey)) {
       event.event.preventDefault();
       event.event.stopPropagation();
       this.doubleclick.emit(event);
