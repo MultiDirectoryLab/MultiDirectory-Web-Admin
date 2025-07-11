@@ -98,7 +98,6 @@ export class EntityAttributesComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.filter();
       this.onFilterChange();
     });
   }
