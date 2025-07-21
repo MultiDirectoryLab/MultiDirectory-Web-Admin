@@ -30,7 +30,5 @@ export class SlideshiftTestComponent {
     this.showSlideshift = false;
   }
 
-  gotcha() {
-    alert('test');
-  }
+  gotcha() {}
 }

@@ -19,7 +19,7 @@
 ></md-datagrid>
 
 <ng-template #iconTemplate let-row="row" let-value="value">
-  <img class="flex w-full-icon" [src]="row.icon" />
+  <img class="flex justify-start mt-[-4px]" [src]="row.icon" />
   {{ row.name }}
 </ng-template>
 
@@ -51,8 +51,10 @@
         (click)="onDelete($event)"
         [disabled]="grid.selected.length === 0"
       >
-        <fa-icon [icon]="faTrashAlt"></fa-icon>
-        {{ 'table-view.delete' | transloco }}
+        <span class="px-2">
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+          {{ 'table-view.delete' | transloco }}
+        </span>
       </md-plane-button>
     </div>
   </div>

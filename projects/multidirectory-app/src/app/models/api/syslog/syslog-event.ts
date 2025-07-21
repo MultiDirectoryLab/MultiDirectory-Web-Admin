@@ -5,7 +5,7 @@ export class SyslogEvent {
   name: string = '';
   description = '';
   level: SyslogLevel = 'info';
-  enabled = false;
+  is_enabled = false;
 
   constructor(obj: Partial<SyslogEvent>) {
     Object.assign(this, obj);

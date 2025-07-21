@@ -1,7 +1,10 @@
-<div class="control-pane flex align-center justify-between">
-  <div class="flex align-center gap-4 align-center">
+<div class="control-pane flex flex-wrap align-center justify-between">
+  <div class="flex align-center flex-wrap gap-2">
     <div class="button-wrapper">
-      <md-plane-button [mdDropdownContainer]="createMenu" class="search control-button">
+      <md-plane-button
+        [mdDropdownContainer]="createMenu"
+        class="search control-button min-w-[16px]"
+      >
         <div class="flex justify-between">
           <img [src]="'assets/add_blue.svg'" class="color-change-blue-white" />
           @if (!createMenu.dropdownVisible) {

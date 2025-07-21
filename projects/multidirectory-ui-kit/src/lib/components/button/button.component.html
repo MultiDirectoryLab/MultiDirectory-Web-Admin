@@ -1,12 +1,14 @@
-<button
-  tabindex="0"
-  class="md-button"
-  [ngClass]="{
-    'md-button-primary': primary,
-    stretch: stretch,
-  }"
-  type="{{ submit ? 'submit' : 'button' }}"
-  [disabled]="disabled"
->
-  <ng-content></ng-content>
-</button>
+<div class="button-container">
+  <button
+    tabindex="0"
+    class="md-button"
+    [ngClass]="{
+      'md-button-primary': primary,
+      stretch: stretch,
+    }"
+    type="{{ submit ? 'submit' : 'button' }}"
+    [disabled]="disabled"
+  >
+    <ng-content></ng-content>
+  </button>
+</div>

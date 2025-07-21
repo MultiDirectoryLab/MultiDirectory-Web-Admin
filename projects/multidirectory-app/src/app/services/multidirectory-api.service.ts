@@ -41,6 +41,7 @@ import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-a
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { q } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
+import { SyslogEvent } from '@models/api/syslog/syslog-event';
 
 @Injectable({
   providedIn: 'root',
@@ -361,5 +362,9 @@ export class MultidirectoryApiService {
     return this.httpClient
       .post<string>('schema/object_class/delete', { object_classes_names: objectClassNames })
       .execute();
+  }
+
+  getAuditPolicies(): Observable<SyslogEvent[]> {
+    return this.httpClient.get<SyslogEvent[]>('audit/policies').execute();
   }
 }

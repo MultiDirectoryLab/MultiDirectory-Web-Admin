@@ -3,7 +3,7 @@
     <div class="header">
       <router-outlet name="header"></router-outlet>
     </div>
-    <div class="control-panel">
+    <div class="control-panel flex-wrap">
       @if (navigationalPanelInvisible) {
         <md-plane-button [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
           @if (!user?.jpegPhoto) {
@@ -51,8 +51,8 @@
         <label>Ctrl-D</label>
       </md-shift-checkbox>
     </div>
-    <div class="dropdown-item">
-      <md-radiobutton [group]="radioGroup" [value]="ViewMode.SmallIcons" name="viewmode">
+    <!--div class="dropdown-item">
+      <md-radiobutton [disabled]="true" [group]="radioGroup" [value]="ViewMode.SmallIcons" name="viewmode">
         <label>{{ t('header.small-icons') }}</label>
         <label>F1</label>
       </md-radiobutton>
@@ -62,7 +62,7 @@
         <label>{{ t('header.big-icons') }}</label>
         <label>F2</label>
       </md-radiobutton>
-    </div>
+    </div-->
     <div class="dropdown-item">
       <md-radiobutton [group]="radioGroup" [value]="ViewMode.Table" name="viewmode">
         <label>{{ t('header.list') }}</label>

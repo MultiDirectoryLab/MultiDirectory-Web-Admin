@@ -8,7 +8,7 @@
     tabindex="0"
     [columns]="columns"
     [selected]="selected"
-    [selectionType]="SelectionType.multi"
+    [selectionType]="SelectionType.checkbox"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
     [externalPaging]="externalPaging"
@@ -47,14 +47,14 @@
       >
         @if (!scrollbarV) {
           <div class="flex-row justify-end align-center w-full flex-gap-10 p-4">
-            <label class="pr-10">{{ pagerTitle }} </label>
+            <label class="pr-10 text-nowrap">{{ pagerTitle }} </label>
             <md-dropdown
-              class="page-size-select"
+              class="page-size-select min-w-[48px]"
               [options]="pageSizes"
               [ngModel]="limit"
               (ngModelChange)="onPageChange({ offset: 0, limit: $event, total: total })"
             ></md-dropdown>
-            <div>
+            <div class="text-nowrap">
               {{ total == 0 ? 0 : offset + 1 }}-{{
                 offset + limit > total ? total : offset + limit
               }}

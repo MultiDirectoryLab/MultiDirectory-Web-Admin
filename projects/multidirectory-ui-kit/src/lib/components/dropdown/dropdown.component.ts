@@ -35,13 +35,15 @@ export class DropdownComponent extends BaseComponent {
   }
 
   override writeValue(value: any): void {
-    if (value !== this.innerValue && this.options) {
+    if (value !== this.innerValue && this.options.length > 0) {
       const index = this.options.findIndex((x) =>
         typeof x == 'string' ? x == value : x.value == value,
       );
       const innerValue = this.options[index];
       this.innerValue = typeof innerValue == 'string' ? innerValue : innerValue?.value;
       this.cdr.detectChanges();
+    } else {
+      this.innerValue = value;
     }
   }
 }

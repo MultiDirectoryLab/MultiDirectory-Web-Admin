@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -37,6 +38,7 @@ import { from, Subject, take, takeUntil } from 'rxjs';
     TextareaComponent,
     DropdownComponent,
     MdFormComponent,
+    CommonModule,
   ],
 })
 export class UserCreateGeneralInfoComponent implements OnInit, AfterViewInit, OnDestroy {

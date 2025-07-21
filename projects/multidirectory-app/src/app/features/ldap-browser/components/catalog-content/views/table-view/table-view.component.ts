@@ -357,7 +357,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   onRowSelect() {
-    this.showControlPanel = this.grid().selected.length > 0;
     this.cdr.detectChanges();
     this._checkAllCheckbox = false;
     this.setAccountEnabledToggle();

@@ -1,4 +1,4 @@
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -35,7 +35,14 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
     './../../styles/ngx-datatable/icons.css',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgxDatatableModule, NgStyle, NgTemplateOutlet, DropdownComponent, FormsModule],
+  imports: [
+    NgxDatatableModule,
+    NgStyle,
+    NgTemplateOutlet,
+    DropdownComponent,
+    FormsModule,
+    CommonModule,
+  ],
 })
 export class DatagridComponent {
   private cdr = inject(ChangeDetectorRef);
@@ -137,10 +144,13 @@ export class DatagridComponent {
   }
 
   onActivate(event: any) {
-    if (event.type === 'dblclick') {
+    const onCheckboxClick = event.column?.checkboxable && event.event.target.localName == 'input';
+    if (event.type === 'dblclick' && !onCheckboxClick) {
       event.event.preventDefault();
       event.event.stopPropagation();
       this.doubleclick.emit(event);
+    } else if (event.type === 'click' && !onCheckboxClick) {
+      this.select(event.row);
     }
     this.cdr.detectChanges();
   }

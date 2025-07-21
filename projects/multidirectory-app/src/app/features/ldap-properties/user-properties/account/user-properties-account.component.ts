@@ -24,7 +24,7 @@ import {
   RadioGroupComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { take } from 'rxjs';
+import { from, take } from 'rxjs';
 import { LogonTimeEditorDialogComponent } from '../../../../components/modals/components/dialogs/logon-time-editor-dialog/logon-time-editor-dialog.component';
 import { EntityPropertiesDialogData } from '../../../../components/modals/interfaces/entity-properties-dialog.interface';
 import {
@@ -32,6 +32,7 @@ import {
   LogonTimeEditorDialogReturnData,
 } from '../../../../components/modals/interfaces/logon-time-editor-dialog.interface';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
 @Component({
   selector: 'app-user-properties-account',
@@ -53,6 +54,7 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
 })
 export class UserPropertiesAccountComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
+  private ldapTreeviewService = inject(LdapTreeviewService);
   private dialogService: DialogService = inject(DialogService);
   public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
   //readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
@@ -139,19 +141,19 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
     this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
 
-    // this.nodeLoader
-    //   .get()
-    //   .pipe(take(1))
-    //   .subscribe((domains) => {
-    //     this.domains = domains.map(
-    //       (x) =>
-    //         new DropdownOption({
-    //           title: x.name,
-    //           value: x.id,
-    //         }),
-    //     );
-    //     this.upnDomain = this.domains?.[0]?.value;
-    //   });
+    from(this.ldapTreeviewService.load(''))
+      .pipe(take(1))
+      .subscribe((ldapTree) => {
+        this.domains = ldapTree.map(
+          (x) =>
+            new DropdownOption({
+              title: x.name,
+              value: x.name,
+            }),
+        );
+        this.upnDomain = this.domains?.[0]?.value;
+        this.cdr.detectChanges();
+      });
   }
 
   // @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
