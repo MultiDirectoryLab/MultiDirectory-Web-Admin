@@ -21,7 +21,6 @@ import {
 } from './object-class-properites-dialog.interface';
 import { ObjectClassPropertiesDialogComponent } from './object-class-properties-dialog/object-class-properties-dialog.component';
 import { concat, EMPTY, of, switchMap, take } from 'rxjs';
-import { m } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
 import { FormsModule } from '@angular/forms';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';

@@ -40,7 +40,6 @@ import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/sch
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
-import { q } from 'node_modules/@angular/cdk/overlay-module.d-C2CxnwqT';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 
 @Injectable({

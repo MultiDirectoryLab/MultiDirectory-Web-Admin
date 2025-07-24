@@ -6,7 +6,6 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AddForwardZoneDialogData } from './add-forward-zone-dialog.interface';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
-import { P } from 'node_modules/@angular/cdk/portal-directives.d-DbeNrI5D';
 import { DnsApiService } from '@services/dns-api.service';
 import {
   DnsCheckForwardZoneRequest,

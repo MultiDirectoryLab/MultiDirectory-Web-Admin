@@ -39,7 +39,6 @@ import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
-import { T } from 'node_modules/@angular/cdk/portal-directives.d-DbeNrI5D';
 
 @Component({
   selector: 'app-entity-attributes',
