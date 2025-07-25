@@ -467,7 +467,7 @@
     "min-password-age": "Минимальный срок давности пароля (в днях)",
     "min-password-length": "Минимальная длина пароля",
     "enforce-password-history": "Не допускать повторений N предыдущих паролей",
-    "password-complexity-requirements": "Пароль должен удовлевтворять требованиями сложности",
+    "password-complexity-requirements": "Пароль должен удовлевтворять требованиям сложности",
     "approve": "Применить",
     "properties": "Свойства"
   },
