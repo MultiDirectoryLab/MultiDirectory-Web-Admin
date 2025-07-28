@@ -68,7 +68,6 @@ export class SyslogEventSettingsComponent implements OnInit {
   }
 
   onRowEdit() {
-    console.log(this.grid().selected);
     this.dialog
       .open<SyslogEventEditReturnData, SyslogEventEditDialogData, SyslogEventEditComponent>({
         component: SyslogEventEditComponent,
