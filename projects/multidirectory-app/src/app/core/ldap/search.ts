@@ -33,7 +33,8 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter: '(|(objectClass=builtinDomain)(objectClass=container))',
+      filter:
+        '(|(objectClass=builtinDomain)(objectClass=container)(objectClass=krbContainer)(objectClass=krbrealmcontainer))',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
   },

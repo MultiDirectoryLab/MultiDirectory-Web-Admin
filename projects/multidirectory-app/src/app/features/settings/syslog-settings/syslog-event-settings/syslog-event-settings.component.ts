@@ -1,12 +1,22 @@
 import { Component, DestroyRef, inject, OnInit, TemplateRef, viewChild } from '@angular/core';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { SyslogService } from '@services/syslog.service';
-import { take } from 'rxjs';
-import { DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { of, switchMap, take } from 'rxjs';
+import {
+  DatagridComponent,
+  DropdownOption,
+  MultidirectoryUiKitModule,
+} from 'multidirectory-ui-kit';
 import { TableColumn } from 'ngx-datatable-gimefork';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {
+  SyslogEventEditDialogData,
+  SyslogEventEditReturnData,
+} from './syslog-event-edit/syslog-event-edit.interface';
+import { SyslogEventEditComponent } from './syslog-event-edit/syslog-event-edit.component';
+import { DialogService } from '@components/modals/services/dialog.service';
 
 @Component({
   selector: 'app-syslog-event-settings',
@@ -17,6 +27,8 @@ import { FormsModule } from '@angular/forms';
 export class SyslogEventSettingsComponent implements OnInit {
   syslog = inject(SyslogService);
   destroyRef = inject(DestroyRef);
+  dialog = inject(DialogService);
+  grid = viewChild.required<DatagridComponent>('grid');
   selectLevelTemplate = viewChild.required<TemplateRef<any>>('selectLevelColumnTemplate');
   toggleColumnTemplate = viewChild.required<TemplateRef<any>>('toggleColumnTemplate');
 
@@ -27,13 +39,12 @@ export class SyslogEventSettingsComponent implements OnInit {
   limit = this.pageSizes[0].value;
   offset = 0;
   total = 0;
-  levelOptions = ['info', 'warning', 'error', 'verbose', 'debug'];
+  levelOptions = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
 
   ngOnInit(): void {
     this.syslogEventsColumns = [
       { name: translate('syslog-event-settings.id-column'), prop: 'id' },
       { name: translate('syslog-event-settings.name-column'), prop: 'name' },
-      { name: translate('syslog-event-settings.description-column'), prop: 'description' },
       {
         name: translate('syslog-event-settings.level-column'),
         cellTemplate: this.selectLevelTemplate(),
@@ -47,8 +58,42 @@ export class SyslogEventSettingsComponent implements OnInit {
       .getEvents()
       .pipe(take(1))
       .subscribe((events) => {
-        this.syslogEvents = events;
+        this.syslogEvents = events.map((x) => new SyslogEvent(x));
         this.total = events.length;
+      });
+  }
+
+  onRowChange(event: SyslogEvent) {
+    this.syslog.updateEvent(event).subscribe();
+  }
+
+  onRowEdit() {
+    this.dialog
+      .open<SyslogEventEditReturnData, SyslogEventEditDialogData, SyslogEventEditComponent>({
+        component: SyslogEventEditComponent,
+        dialogConfig: {
+          data: {
+            event: new SyslogEvent(this.grid().selected[0]),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((result) => {
+          if (!result) {
+            return of(result);
+          }
+          return this.syslog.updateEvent(result);
+        }),
+      )
+      .subscribe(() => {
+        this.syslog
+          .getEvents()
+          .pipe(take(1))
+          .subscribe((events) => {
+            this.syslogEvents = events.map((x) => new SyslogEvent(x));
+            this.total = events.length;
+          });
       });
   }
 }

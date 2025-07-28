@@ -7,14 +7,21 @@
     [(limit)]="limit"
     [(offset)]="offset"
     [(total)]="total"
+    (doubleclick)="onRowEdit()"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
+    #grid
   >
     <ng-template #toggleColumnTemplate let-row="row">
-      <md-checkbox [(ngModel)]="row.enabled"></md-checkbox>
+      <md-checkbox [(ngModel)]="row.is_enabled" (ngModelChange)="onRowChange(row)"></md-checkbox>
     </ng-template>
 
     <ng-template #selectLevelColumnTemplate let-row="row">
-      <md-dropdown [(ngModel)]="row.level" [options]="levelOptions"> </md-dropdown>
+      <md-dropdown
+        [ngModel]="row.severity"
+        [options]="levelOptions"
+        (ngModelChange)="onRowChange(row)"
+      >
+      </md-dropdown>
     </ng-template>
   </md-datagrid>
 </div>

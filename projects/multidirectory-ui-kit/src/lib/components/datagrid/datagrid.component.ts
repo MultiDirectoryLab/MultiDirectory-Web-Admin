@@ -166,7 +166,6 @@ export class DatagridComponent {
     contextMenuEvent.event.stopPropagation();
     contextMenuEvent.event.preventDefault();
     this.contextmenu.emit(contextMenuEvent);
-    console.log(contextMenuEvent);
     this.cdr.detectChanges();
   }
 

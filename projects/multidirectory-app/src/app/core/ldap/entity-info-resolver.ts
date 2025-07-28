@@ -17,6 +17,7 @@ export class EntityInfoResolver {
     [LdapEntryType.OU, 'assets/folder.svg'],
     [LdapEntryType.Computer, 'assets/computer.svg'],
     [LdapEntryType.Rule, 'assets/rule.svg'],
+    [LdapEntryType.KrbPrincipal, 'assets/rule.svg'],
   ]);
 
   private static TypeNameMap = new Map<LdapEntryType, () => string>([
@@ -29,6 +30,7 @@ export class EntityInfoResolver {
     [LdapEntryType.OU, () => translate('entity-info-resolver.organizational-unit')],
     [LdapEntryType.Computer, () => translate('entity-info-resolver.computer')],
     [LdapEntryType.Rule, () => translate('entity-info-resolver.rule')],
+    [LdapEntryType.KrbPrincipal, () => translate('entity-info-resolver.rule')],
   ]);
 
   private static TypeMap = new Map<string, LdapEntryType>([
@@ -37,6 +39,7 @@ export class EntityInfoResolver {
     ['organizationalUnit', LdapEntryType.OU],
     ['computer', LdapEntryType.Computer],
     ['sudoRole', LdapEntryType.Rule],
+    ['krbprincipal', LdapEntryType.KrbPrincipal],
   ]);
 
   static resolveIcon(type: LdapEntryType): string {

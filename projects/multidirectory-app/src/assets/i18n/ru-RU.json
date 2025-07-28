@@ -847,5 +847,28 @@
     "description-column": "Описание",
     "level-column": "Уровень",
     "toggle-column": "Активное состояние"
+  },
+  "syslog-connections-settings": {
+    "no-data-available": "Соединений не найдено",
+    "add": "Добавить"
+  },
+  "syslog-connection-edit": {
+    "modal-header": "Редактирование соединения",
+    "approve": "Применить",
+    "cancel": "Отменить",
+    "name-label": "Наименование подключения",
+    "server-type-label": "Тип сервера",
+    "ip-fqdn-label": "IP/FQDN",
+    "port-label": "Порт",
+    "protocol-label": "Протокол"
+  },
+  "syslog-event-edit": {
+    "modal-header": "Редактирование события",
+    "approve": "Применить",
+    "cancel": "Отменить",
+    "id": "ID события",
+    "severity": "Критичность",
+    "description": "Наименование",
+    "is_enabled": "Событие Включено"
   }
 }

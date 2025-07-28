@@ -848,5 +848,25 @@
     "description-column": "Description",
     "level-column": "Level",
     "toggle-column": "Active state"
+  },
+  "syslog-connections-settings": {
+    "no-data-available": "No connections found",
+    "add": "Add"
+  },
+  "syslog-connection-edit": {
+    "name-label": "Connection Name",
+    "server-type-label": "Server Type",
+    "ip-fqdn-label": "IP/FQDN",
+    "port-label": "Port",
+    "protocol-label": "Protocol"
+  },
+  "syslog-event-edit": {
+    "modal-header": "Event Edition",
+    "approve": "Apply",
+    "cancel": "Cancel",
+    "id": "Event ID",
+    "severity": "Severity",
+    "description": "Name",
+    "is_enabled": "Is Enabled"
   }
 }
