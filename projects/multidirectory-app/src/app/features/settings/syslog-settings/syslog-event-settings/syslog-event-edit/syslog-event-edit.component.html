@@ -24,13 +24,13 @@
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="ipFqdn">{{ 'syslog-event-edit.severity' | transloco }}</label>
-        <md-dropdown
+        <label for="severity">{{ 'syslog-event-edit.severity' | transloco }}</label>
+        <md-textbox
           appRequired
           name="severity"
           [disabled]="true"
           [(ngModel)]="event.severity"
-        ></md-dropdown>
+        ></md-textbox>
       </div>
 
       <div class="flex flex-col gap-1">

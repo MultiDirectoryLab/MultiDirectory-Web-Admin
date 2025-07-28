@@ -16,12 +16,7 @@
     </ng-template>
 
     <ng-template #selectLevelColumnTemplate let-row="row">
-      <md-dropdown
-        [ngModel]="row.severity"
-        [options]="levelOptions"
-        (ngModelChange)="onRowChange(row)"
-      >
-      </md-dropdown>
+      {{ row.severity }}
     </ng-template>
   </md-datagrid>
 </div>

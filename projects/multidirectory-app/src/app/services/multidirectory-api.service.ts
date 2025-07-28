@@ -367,8 +367,8 @@ export class MultidirectoryApiService {
   getAuditPolicies(): Observable<SyslogEvent[]> {
     return this.httpClient.get<SyslogEvent[]>('audit/policies').execute();
   }
-  updateAuditEvent(event: SyslogEvent) {
-    return this.httpClient.put<SyslogEvent[]>('audit/policy', event).execute();
+  updateAuditEvent(id: string, event: SyslogEvent) {
+    return this.httpClient.put<SyslogEvent[]>(`audit/policy/${id}`, event).execute();
   }
   getAuditDestinations(): Observable<SyslogConnection[]> {
     return this.httpClient.get<SyslogConnection[]>('audit/destinations').execute();
