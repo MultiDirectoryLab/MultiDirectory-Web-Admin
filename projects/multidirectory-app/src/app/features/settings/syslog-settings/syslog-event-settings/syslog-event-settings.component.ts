@@ -58,13 +58,17 @@ export class SyslogEventSettingsComponent implements OnInit {
       .getEvents()
       .pipe(take(1))
       .subscribe((events) => {
-        this.syslogEvents = events.map((x) => new SyslogEvent(x));
+        this.syslogEvents = events
+          .sort((a, b) => {
+            return Number(a.id) > Number(b.id) ? 1 : -1;
+          })
+          .map((x) => new SyslogEvent(x));
         this.total = events.length;
       });
   }
 
   onRowChange(event: SyslogEvent) {
-    this.syslog.updateEvent(event).subscribe();
+    this.syslog.updateEvent(event.id, event).subscribe();
   }
 
   onRowEdit() {
@@ -83,7 +87,7 @@ export class SyslogEventSettingsComponent implements OnInit {
           if (!result) {
             return of(result);
           }
-          return this.syslog.updateEvent(result);
+          return this.syslog.updateEvent(this.grid().selected[0].id, result);
         }),
       )
       .subscribe(() => {
@@ -91,7 +95,11 @@ export class SyslogEventSettingsComponent implements OnInit {
           .getEvents()
           .pipe(take(1))
           .subscribe((events) => {
-            this.syslogEvents = events.map((x) => new SyslogEvent(x));
+            this.syslogEvents = events
+              .sort((a, b) => {
+                return Number(a.id) > Number(b.id) ? 1 : -1;
+              })
+              .map((x) => new SyslogEvent(x));
             this.total = events.length;
           });
       });

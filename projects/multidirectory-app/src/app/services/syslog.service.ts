@@ -12,8 +12,8 @@ export class SyslogService {
     return this.api.getAuditPolicies();
   }
 
-  updateEvent(event: SyslogEvent) {
-    return this.api.updateAuditEvent(event);
+  updateEvent(id: string, event: SyslogEvent) {
+    return this.api.updateAuditEvent(id, event);
   }
 
   getConnections(): Observable<SyslogConnection[]> {
