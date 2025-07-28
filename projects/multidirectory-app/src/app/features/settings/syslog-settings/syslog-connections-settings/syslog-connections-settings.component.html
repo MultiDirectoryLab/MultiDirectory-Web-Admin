@@ -1,18 +1,28 @@
 <div class="flex flex-col gap-2 py-2 px-2">
+  <div class="flex flex-row gap-2 justify-end">
+    <md-button [primary]="true" (click)="onAddClick()">{{
+      'syslog-connections-settings.add' | transloco
+    }}</md-button>
+  </div>
   @for (connection of connections; track $index) {
     <div class="grid grid-cols-4 grid-rows-2 p-1 border border-solid rounded-xl px-4 py-4">
       <div class="col-1 row-1 max-w-1/10 row-span-2 flex align-center justify-start text-6xl">
-        <label>{{ $index }}</label>
+        <h3>{{ $index + 1 }}</h3>
       </div>
       <div class="col-2 row-1 flex align-center justify-start">{{ connection.name }}</div>
       <div class="col-2 row-2 flex align-center justify-start">
         {{ connection.host }}:{{ connection.port }}
       </div>
       <div class="col-3 row-1 row-span-2 flex align-center justify-center">
-        {{ connection.type }}
+        {{ connection.service_type }}
       </div>
       <div class="col-4 row-1 row-span-2 flex flex-row align-center justify-center">
-        <md-plane-button class="control-button" (click)="onEditClick()">
+        <md-shift-checkbox
+          [(ngModel)]="connection.is_enabled"
+          (ngModelChange)="onToggleEnabled(connection)"
+        />
+
+        <md-plane-button class="control-button" (click)="onEditClick(connection)">
           <img
             class="control-button-logo"
             width="24"
@@ -32,5 +42,7 @@
         </md-plane-button>
       </div>
     </div>
+  } @empty {
+    {{ 'syslog-connections-settings.no-data-available' | transloco }}
   }
 </div>

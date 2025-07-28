@@ -12,7 +12,20 @@ export class SyslogService {
     return this.api.getAuditPolicies();
   }
 
+  updateEvent(event: SyslogEvent) {
+    return this.api.updateAuditEvent(event);
+  }
+
   getConnections(): Observable<SyslogConnection[]> {
-    return of([]);
+    return this.api.getAuditDestinations();
+  }
+  updateConnection(connection: SyslogConnection): Observable<string> {
+    return this.api.updateAuditDestination(connection);
+  }
+  createConnections(connection: SyslogConnection): Observable<string> {
+    return this.api.createAuditDestination(connection);
+  }
+  deleteConnection(connectionId: number): Observable<string> {
+    return this.api.deleteAuditDestination(connectionId);
   }
 }

@@ -1,10 +1,19 @@
-export type SyslogLevel = 'info' | 'warning' | 'error' | 'verbose' | 'debug';
+import { DropdownOption } from 'multidirectory-ui-kit';
+
+export type SyslogLevel =
+  | 'EMERGENCY'
+  | 'ALERT'
+  | 'CRITICAL'
+  | 'ERROR'
+  | 'WARNING'
+  | 'NOTICE'
+  | 'INFO'
+  | 'DEBUG';
 
 export class SyslogEvent {
   id: string = '';
   name: string = '';
-  description = '';
-  level: SyslogLevel = 'info';
+  severity: string = '';
   is_enabled = false;
 
   constructor(obj: Partial<SyslogEvent>) {

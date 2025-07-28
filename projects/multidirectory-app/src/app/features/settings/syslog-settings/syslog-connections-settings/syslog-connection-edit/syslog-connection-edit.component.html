@@ -1,0 +1,73 @@
+<app-dialog>
+  <div class="app-modal-header">{{ 'syslog-connection-edit.modal-header' | transloco }}</div>
+  <md-form #form>
+    <div class="flex flex-col gap-4 py-2 w-full">
+      <!-- Connection Name -->
+      <div class="flex flex-col gap-1">
+        <label for="connectionName">{{ 'syslog-connection-edit.name-label' | transloco }}</label>
+        <md-textbox
+          class="tall-textbox"
+          appRequired
+          name="connectionName"
+          [(ngModel)]="connection.name"
+          id="connectionName"
+        ></md-textbox>
+      </div>
+
+      <!-- Server Type -->
+      <div class="flex flex-col gap-1">
+        <label for="serverType">{{ 'syslog-connection-edit.server-type-label' | transloco }}</label>
+        <md-dropdown
+          [(ngModel)]="connection.service_type"
+          [options]="serverTypes"
+          appRequired
+          name="serverType"
+          id="serverType"
+        ></md-dropdown>
+      </div>
+
+      <!-- IP/FQDN -->
+      <div class="flex flex-col gap-1">
+        <label for="ipFqdn">{{ 'syslog-connection-edit.ip-fqdn-label' | transloco }}</label>
+        <md-textbox
+          class="tall-textbox"
+          appRequired
+          name="ipFqdn"
+          [(ngModel)]="connection.host"
+          id="ipFqdn"
+        ></md-textbox>
+      </div>
+
+      <!-- Port -->
+      <div class="flex flex-col gap-1">
+        <label for="port">{{ 'syslog-connection-edit.port-label' | transloco }}</label>
+        <md-textbox
+          type="number"
+          appRequired
+          name="port"
+          [(ngModel)]="connection.port"
+          id="port"
+        ></md-textbox>
+      </div>
+
+      <!-- Protocol -->
+      <div class="flex flex-col gap-1">
+        <label for="protocol">{{ 'syslog-connection-edit.protocol-label' | transloco }}</label>
+        <md-dropdown
+          [(ngModel)]="connection.protocol"
+          [options]="protocols"
+          appRequired
+          name="protocol"
+          id="protocol"
+        ></md-dropdown>
+      </div>
+    </div>
+  </md-form>
+
+  <div class="app-modal-footer flex gap-1 justify-end">
+    <md-button (click)="close()">{{ 'syslog-connection-edit.cancel' | transloco }}</md-button>
+    <md-button [primary]="true" [disabled]="!form.valid" (click)="finish()">{{
+      'syslog-connection-edit.approve' | transloco
+    }}</md-button>
+  </div>
+</app-dialog>

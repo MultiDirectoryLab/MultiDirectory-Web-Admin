@@ -1,0 +1,49 @@
+<app-dialog>
+  <div class="app-modal-header">{{ 'syslog-event-edit.modal-header' | transloco }}</div>
+  <md-form #form>
+    <div class="flex flex-col gap-4 py-2 w-full">
+      <div class="flex flex-col gap-1">
+        <label for="eventName">{{ 'syslog-event-edit.id' | transloco }}</label>
+        <md-number
+          class="tall-textbox"
+          appRequired
+          name="eventName"
+          [(ngModel)]="event.id"
+          id="eventName"
+        ></md-number>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="description">{{ 'syslog-event-edit.description' | transloco }}</label>
+        <md-textbox
+          [(ngModel)]="event.name"
+          appRequired
+          name="description"
+          id="description"
+        ></md-textbox>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="ipFqdn">{{ 'syslog-event-edit.severity' | transloco }}</label>
+        <md-dropdown
+          appRequired
+          name="severity"
+          [disabled]="true"
+          [(ngModel)]="event.severity"
+        ></md-dropdown>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="port">{{ 'syslog-event-edit.is_enabled' | transloco }}</label>
+        <md-shift-checkbox appRequired [(ngModel)]="event.is_enabled" />
+      </div>
+    </div>
+  </md-form>
+
+  <div class="app-modal-footer flex gap-1 justify-end">
+    <md-button (click)="close()">{{ 'syslog-event-edit.cancel' | transloco }}</md-button>
+    <md-button [primary]="true" [disabled]="!form.valid" (click)="finish()">{{
+      'syslog-event-edit.approve' | transloco
+    }}</md-button>
+  </div>
+</app-dialog>

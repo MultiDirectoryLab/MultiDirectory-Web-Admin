@@ -8,4 +8,5 @@ export enum LdapEntryType {
   OU = 6,
   Computer = 7,
   Rule = 8,
+  KrbPrincipal = 8,
 }

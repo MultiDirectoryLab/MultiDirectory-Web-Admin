@@ -7,16 +7,21 @@ import {
   ConfirmDialogData,
 } from '@components/modals/interfaces/confirm-dialog.interface';
 import { DialogService } from '@components/modals/services/dialog.service';
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { SyslogConnection } from '@models/api/syslog/syslog-connection';
 import { SyslogService } from '@services/syslog.service';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { take, switchMap, EMPTY, of } from 'rxjs';
+import {
+  SyslogConnectionEditDialogData,
+  SyslogConnectionEditReturnData,
+} from './syslog-connection-edit/syslog-connection-edit.interface';
+import { SyslogConnectionEditComponent } from './syslog-connection-edit/syslog-connection-edit.component';
 
 @Component({
   selector: 'app-syslog-connections-settings',
-  imports: [MultidirectoryUiKitModule, CommonModule, FormsModule],
+  imports: [MultidirectoryUiKitModule, CommonModule, FormsModule, TranslocoModule],
   templateUrl: './syslog-connections-settings.component.html',
   styleUrl: './syslog-connections-settings.component.scss',
 })
@@ -53,14 +58,82 @@ export class SyslogConnectionsSettingsComponent implements OnInit {
           if (x === 'cancel' || !x) {
             return EMPTY;
           }
-          return of(true);
+          return this.syslog.deleteConnection(this.connections[toDeleteIndex].id);
         }),
       )
       .subscribe(() => {
         this.connections = this.connections.filter((_, ind) => ind !== toDeleteIndex);
       });
   }
-  onEditClick() {
-    throw new Error('Method not implemented.');
+  onEditClick(connection: SyslogConnection) {
+    this.dialog
+      .open<
+        SyslogConnectionEditReturnData,
+        SyslogConnectionEditDialogData,
+        SyslogConnectionEditComponent
+      >({
+        component: SyslogConnectionEditComponent,
+        dialogConfig: {
+          data: {
+            connection: new SyslogConnection(connection),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((result) => {
+          if (!result) {
+            return of(result);
+          }
+          return this.syslog.updateConnection(result);
+        }),
+      )
+      .subscribe((result) => {
+        this.syslog.getConnections().subscribe((connections) => {
+          this.connections = connections;
+        });
+      });
+  }
+  onAddClick() {
+    this.dialog
+      .open<
+        SyslogConnectionEditReturnData,
+        SyslogConnectionEditDialogData,
+        SyslogConnectionEditComponent
+      >({
+        component: SyslogConnectionEditComponent,
+        dialogConfig: {
+          data: {
+            connection: new SyslogConnection({}),
+          },
+        },
+      })
+      .closed.pipe(
+        take(1),
+        switchMap((result) => {
+          if (!result) {
+            return of(result);
+          }
+          return this.syslog.createConnections(result);
+        }),
+      )
+      .subscribe((result) => {
+        this.syslog.getConnections().subscribe((connections) => {
+          this.connections = connections;
+        });
+      });
+  }
+
+  onToggleEnabled(connection: SyslogConnection) {
+    this.syslog
+      .updateConnection(connection)
+      .pipe(
+        switchMap((result) => {
+          return this.syslog.getConnections();
+        }),
+      )
+      .subscribe((connections) => {
+        this.connections = connections;
+      });
   }
 }

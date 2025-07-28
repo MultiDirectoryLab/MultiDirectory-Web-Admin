@@ -41,6 +41,7 @@ import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-a
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
+import { SyslogConnection } from '../models/api/syslog/syslog-connection';
 
 @Injectable({
   providedIn: 'root',
@@ -365,5 +366,20 @@ export class MultidirectoryApiService {
 
   getAuditPolicies(): Observable<SyslogEvent[]> {
     return this.httpClient.get<SyslogEvent[]>('audit/policies').execute();
+  }
+  updateAuditEvent(event: SyslogEvent) {
+    return this.httpClient.put<SyslogEvent[]>('audit/policy', event).execute();
+  }
+  getAuditDestinations(): Observable<SyslogConnection[]> {
+    return this.httpClient.get<SyslogConnection[]>('audit/destinations').execute();
+  }
+  createAuditDestination(data: SyslogConnection): Observable<string> {
+    return this.httpClient.post<string>('audit/destination', data).execute();
+  }
+  updateAuditDestination(data: SyslogConnection): Observable<string> {
+    return this.httpClient.put<string>(`audit/destination/${data.id}`, data).execute();
+  }
+  deleteAuditDestination(connectionId: number): Observable<string> {
+    return this.httpClient.delete<string>(`audit/destination/${connectionId}`).execute();
   }
 }
