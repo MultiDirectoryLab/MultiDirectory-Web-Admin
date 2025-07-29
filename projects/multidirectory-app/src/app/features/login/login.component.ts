@@ -72,9 +72,9 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.loginService
       .login(this.login, this.password)
       .pipe(
-        catchError(() => {
+        catchError((err) => {
           this.dialogComponent().hideSpinner();
-          return EMPTY;
+          throw err;
         }),
       )
       .subscribe(() => {
