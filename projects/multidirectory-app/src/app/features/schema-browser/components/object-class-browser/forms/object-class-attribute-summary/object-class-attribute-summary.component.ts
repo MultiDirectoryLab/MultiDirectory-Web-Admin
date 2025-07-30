@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, Input, OnInit, output, viewChild } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, Input, OnInit, output, viewChild } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '@components/modals/services/dialog.service';
-import { SchemaEntityAddObjectClassDialogComponent } from '@features/schema-browser/components/entities-browser/schema-entities-details-dialog/schema-entity-add-object-class-dialog/schema-entity-add-object-class-dialog.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import {
@@ -28,7 +27,8 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
 
   @Input() set objectClass(objectClass: SchemaObjectClass) {
     this._objectClass = objectClass;
-    this.updateData();
+    this.updateMustRows();
+    this.updateMayRows();
   }
   get objectClass() {
     return this._objectClass;
@@ -56,14 +56,19 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
     this.formValid.emit(true);
   }
 
-  updateData() {
+  updateMustRows() {
     this.objectClassMustRows = this.objectClass.attribute_type_names_must.map((x) => {
       return { name: x };
     });
+
+    this.mustTotal = this.objectClassMustRows.length;
+  }
+
+  updateMayRows() {
     this.objectClassMayRows = this.objectClass.attribute_type_names_may.map((x) => {
       return { name: x };
     });
-    this.mustTotal = this.objectClassMustRows.length;
+
     this.mayTotal = this.objectClassMayRows.length;
   }
 
@@ -79,7 +84,7 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
         if (result) {
           this.objectClass.attribute_type_names_may =
             this.objectClass.attribute_type_names_may.concat(result);
-          this.updateData();
+          this.updateMayRows();
         }
       });
   }
@@ -96,7 +101,7 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
         if (result) {
           this.objectClass.attribute_type_names_must =
             this.objectClass.attribute_type_names_must.concat(result);
-          this.updateData();
+          this.updateMustRows();
         }
       });
   }
@@ -106,13 +111,14 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
     this.objectClass.attribute_type_names_may = this.objectClass.attribute_type_names_may.filter(
       (x) => !selected.includes(x),
     );
-    this.updateData();
+    this.updateMayRows();
   }
+
   removeMustAttribute() {
     const selected = this.mustGrid().selected.map((x) => x.name);
     this.objectClass.attribute_type_names_must = this.objectClass.attribute_type_names_must.filter(
       (x) => !selected.includes(x),
     );
-    this.updateData();
+    this.updateMustRows();
   }
 }
