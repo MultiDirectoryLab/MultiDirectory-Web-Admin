@@ -18,7 +18,7 @@
         <md-button (click)="cancel()">{{
           'attribute-details-dialog.cancel' | transloco
         }}</md-button>
-        <md-button [primary]="true" [disabled]="form.invalid" [submit]="true">{{
+        <md-button [primary]="true" [disabled]="attribute().is_system || form.invalid" [submit]="true">{{
           'attribute-details-dialog.submit' | transloco
         }}</md-button>
       </div>
