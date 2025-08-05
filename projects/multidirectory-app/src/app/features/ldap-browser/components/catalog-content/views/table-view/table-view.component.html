@@ -39,10 +39,10 @@
     <div class="flex overflow-hidden h-full">
       <md-shift-checkbox
         class="accountEnabledToggle"
-        [ngClass]="{ disabled: !accountEnabledToggleEnabled }"
-        [(ngModel)]="accountEnabledToggle"
-        (click)="toggleSelected(accountEnabledToggle)"
-        [disabled]="!accountEnabledToggleEnabled"
+        [ngClass]="{ disabled: !accountToggleEnabled }"
+        [(ngModel)]="accountEnabled"
+        (click)="toggleSelected(accountEnabled)"
+        [disabled]="!accountToggleEnabled"
       >
         {{ 'table-view.enabled' | transloco }}
       </md-shift-checkbox>

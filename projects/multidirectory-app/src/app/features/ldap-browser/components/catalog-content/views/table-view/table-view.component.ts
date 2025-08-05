@@ -130,7 +130,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  accountEnabledToggleEnabled = false;
+  accountToggleEnabled = false;
 
   private _searchQuery = '';
   private _searchQueryRx = new BehaviorSubject(this._searchQuery);
@@ -155,10 +155,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this.grid().toggleSelectedAll(value);
   }
 
-  private _accountEnabledToggle = false;
-
-  get accountEnabledToggle(): boolean {
-    return this._accountEnabledToggle;
+  private _accountEnabled = false;
+  get accountEnabled(): boolean {
+    return this._accountEnabled;
+  }
+  set accountEnabled(enabled: boolean) {
+    this._accountEnabled = enabled;
   }
 
   private _parentDn = '';
@@ -169,9 +171,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this._parentDn = dn;
   }
 
-  set accountEnabledToggle(enabled: boolean) {
-    this._accountEnabledToggle = enabled;
-  }
   private _limit = this.pageSizes[0].value;
   private _limitRx = new BehaviorSubject(this._limit);
   get limit() {
@@ -452,11 +451,13 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
           }).closed;
         }),
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.setAccountEnabledToggle();
+      });
   }
 
   accountEnabledToggleClick() {
-    this.toggleSelected(this._accountEnabledToggle);
+    this.toggleSelected(this._accountEnabled);
   }
 
   setAccountEnabledToggle() {
@@ -469,11 +470,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         if (result == null) {
-          this.accountEnabledToggle = result;
-          this.accountEnabledToggleEnabled = false;
+          this.accountEnabled = false;
+          this.accountToggleEnabled = false;
+          return;
         }
-        this.accountEnabledToggle = result;
-        this.accountEnabledToggleEnabled = true;
+        this.accountEnabled = result;
+        this.accountToggleEnabled = true;
       });
   }
 

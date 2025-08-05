@@ -41,7 +41,8 @@
             "port": 6006,
             "styles": [
               "node_modules/ngx-spinner/animations/line-spin-fade.css",
-              "node_modules/@angular/cdk/overlay-prebuilt.css"
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "projects/multidirectory-app/src/tailwind.css"
             ],
             "assets": [
               "projects/multidirectory-ui-kit/src/lib/../assets/search.svg",
