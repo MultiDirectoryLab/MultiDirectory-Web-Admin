@@ -287,7 +287,9 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
-        this.rows = rows;
+        this.rows.splice(0, this.rows.length);
+        this.rows.push(...rows);
+
         this.total = totalEntires;
         if (this.navigation.isSelectEntry()) {
           this.selectRows([this.navigation.getDistinguishedName()]);
