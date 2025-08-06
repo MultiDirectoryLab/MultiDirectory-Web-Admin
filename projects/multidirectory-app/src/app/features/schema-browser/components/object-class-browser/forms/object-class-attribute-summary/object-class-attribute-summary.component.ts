@@ -57,18 +57,23 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
   }
 
   updateMustRows() {
-    this.objectClassMustRows = this.objectClass.attribute_type_names_must.map((x) => {
-      return { name: x };
-    });
+    this.objectClassMustRows.splice(0, this.objectClassMustRows.length);
+    this.objectClassMustRows.push(
+      ...this.objectClass.attribute_type_names_must.map((x) => {
+        return { name: x };
+      }),
+    );
 
     this.mustTotal = this.objectClassMustRows.length;
   }
 
   updateMayRows() {
-    this.objectClassMayRows = this.objectClass.attribute_type_names_may.map((x) => {
-      return { name: x };
-    });
-
+    this.objectClassMayRows.splice(0, this.objectClassMayRows.length);
+    this.objectClassMayRows.push(
+      ...this.objectClass.attribute_type_names_may.map((x) => {
+        return { name: x };
+      }),
+    );
     this.mayTotal = this.objectClassMayRows.length;
   }
 
