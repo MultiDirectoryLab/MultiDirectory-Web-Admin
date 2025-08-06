@@ -2,8 +2,8 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import { Component, input, output, viewChild } from '@angular/core';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
-import { ContextMenuEvent } from 'multidirectory-ui-kit';
 import { ContextmenuType } from 'ngx-datatable-gimefork';
+import { ContextMenuEvent } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-grid-item',

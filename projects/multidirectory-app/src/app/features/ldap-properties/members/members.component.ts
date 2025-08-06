@@ -32,17 +32,13 @@ export class MembersComponent {
     { name: translate('members.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
 
-  private _accessor: LdapAttributes | null = null;
+  private _accessor: LdapAttributes = new LdapAttributes([]);
 
-  get accessor(): LdapAttributes | null {
+  get accessor(): LdapAttributes {
     return this._accessor;
   }
 
-  @Input() set accessor(accessor: LdapAttributes | null) {
-    if (!accessor) {
-      this._accessor = null;
-      return;
-    }
+  @Input() set accessor(accessor: LdapAttributes) {
     this._accessor = accessor;
     this.members = this._accessor.member?.map((x) => this.createMemberFromDn(x)) ?? [];
   }
@@ -83,14 +79,12 @@ export class MembersComponent {
   }
 
   deleteMember() {
-    if ((this.memberList()?.selected?.length ?? 0) > 0 && this.accessor) {
-      this.members = this.members.filter(
-        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
-      );
-      this.accessor.member = this.accessor?.memberOf?.filter(
-        (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
-      );
-    }
+    this.members = this.members.filter(
+      (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+    );
+    this.accessor.member = this.accessor?.member?.filter(
+      (x) => (this.memberList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+    );
   }
 
   private createMemberFromDn(dn: string) {

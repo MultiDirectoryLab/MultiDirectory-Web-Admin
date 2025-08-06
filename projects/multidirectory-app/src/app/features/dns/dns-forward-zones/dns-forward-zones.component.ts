@@ -2,7 +2,6 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RedirectZonesRow } from '@features/dns/interfaces/redirect-zones.interface';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, DatagridComponent, DropdownOption } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { CommonModule } from '@angular/common';
@@ -15,6 +14,7 @@ import {
 import { AddForwardZoneDialogComponent } from './add-forward-zone-dialog/add-forward-zone-dialog.component';
 import { DnsAddZoneRequest } from '@models/dns/zones/dns-add-zone-response';
 import { EMPTY, switchMap, take } from 'rxjs';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-dns-forward-zones',

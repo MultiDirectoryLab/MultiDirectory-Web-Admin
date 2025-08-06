@@ -15,7 +15,6 @@ import {
   DropdownOption,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, from, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { AddPrincipalDialogComponent } from '../../../components/modals/components/dialogs/add-principal-dialog/add-principal-dialog.component';
@@ -28,6 +27,7 @@ import { SearchEntry } from '@models/api/entry/search-entry';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { SearchQueries } from '@core/ldap/search';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-kerberos-principals',

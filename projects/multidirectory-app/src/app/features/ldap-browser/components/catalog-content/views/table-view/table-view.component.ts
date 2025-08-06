@@ -45,7 +45,6 @@ import {
   RightClickEvent,
   ShiftCheckboxComponent,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
@@ -84,6 +83,7 @@ import {
 } from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-table-view',
@@ -112,7 +112,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   private ldapContent = inject(LdapBrowserService);
 
   readonly grid = viewChild.required<DatagridComponent>('grid');
-  readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
+  readonly iconColumn = viewChild.required<TemplateRef<any>>('iconTemplate');
 
   @Output() rightClick = new EventEmitter<RightClickEvent>();
   columns: TableColumn[] = [];
@@ -130,7 +130,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     { title: '50', value: 50 },
     { title: '100', value: 100 },
   ];
-  accountEnabledToggleEnabled = false;
+  accountToggleEnabled = false;
 
   private _searchQuery = '';
   private _searchQueryRx = new BehaviorSubject(this._searchQuery);
@@ -155,10 +155,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this.grid().toggleSelectedAll(value);
   }
 
-  private _accountEnabledToggle = false;
-
-  get accountEnabledToggle(): boolean {
-    return this._accountEnabledToggle;
+  private _accountEnabled = false;
+  get accountEnabled(): boolean {
+    return this._accountEnabled;
+  }
+  set accountEnabled(enabled: boolean) {
+    this._accountEnabled = enabled;
   }
 
   private _parentDn = '';
@@ -169,9 +171,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     this._parentDn = dn;
   }
 
-  set accountEnabledToggle(enabled: boolean) {
-    this._accountEnabledToggle = enabled;
-  }
   private _limit = this.pageSizes[0].value;
   private _limitRx = new BehaviorSubject(this._limit);
   get limit() {
@@ -288,7 +287,9 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
-        this.rows = rows;
+        this.rows.splice(0, this.rows.length);
+        this.rows.push(...rows);
+
         this.total = totalEntires;
         if (this.navigation.isSelectEntry()) {
           this.selectRows([this.navigation.getDistinguishedName()]);
@@ -452,11 +453,13 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
           }).closed;
         }),
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.setAccountEnabledToggle();
+      });
   }
 
   accountEnabledToggleClick() {
-    this.toggleSelected(this._accountEnabledToggle);
+    this.toggleSelected(this._accountEnabled);
   }
 
   setAccountEnabledToggle() {
@@ -469,11 +472,12 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe((result) => {
         if (result == null) {
-          this.accountEnabledToggle = result;
-          this.accountEnabledToggleEnabled = false;
+          this.accountEnabled = false;
+          this.accountToggleEnabled = false;
+          return;
         }
-        this.accountEnabledToggle = result;
-        this.accountEnabledToggleEnabled = true;
+        this.accountEnabled = result;
+        this.accountToggleEnabled = true;
       });
   }
 

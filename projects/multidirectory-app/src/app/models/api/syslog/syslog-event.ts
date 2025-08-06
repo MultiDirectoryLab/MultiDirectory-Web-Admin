@@ -1,5 +1,3 @@
-import { DropdownOption } from 'multidirectory-ui-kit';
-
 export type SyslogLevel =
   | 'EMERGENCY'
   | 'ALERT'

@@ -32,17 +32,13 @@ export class MemberOfComponent {
     { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
 
-  private _accessor: LdapAttributes | null = null;
+  private _accessor: LdapAttributes = new LdapAttributes([]);
 
-  public get accessor(): LdapAttributes | null {
+  public get accessor(): LdapAttributes {
     return this._accessor;
   }
 
-  @Input() set accessor(accessor: LdapAttributes | null) {
-    if (!accessor) {
-      this._accessor = null;
-      return;
-    }
+  @Input() set accessor(accessor: LdapAttributes) {
     this._accessor = accessor;
     this.groups = this._accessor.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
   }
@@ -83,14 +79,12 @@ export class MemberOfComponent {
   }
 
   public deleteGroup() {
-    if ((this.groupList()?.selected?.length ?? 0) > 0 && this.accessor) {
-      this.groups = this.groups.filter(
-        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
-      );
-      this.accessor.memberOf = this.accessor?.memberOf?.filter(
-        (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
-      );
-    }
+    this.groups = this.groups.filter(
+      (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
+    );
+    this.accessor.memberOf = this.accessor.memberOf.filter(
+      (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
+    );
   }
 
   public openGroupProperties() {

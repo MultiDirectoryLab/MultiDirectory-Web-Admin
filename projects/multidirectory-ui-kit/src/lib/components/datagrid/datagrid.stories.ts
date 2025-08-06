@@ -1,6 +1,5 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { DatagridComponent } from './datagrid.component';
-import { NgxDatatableModule } from 'ngx-datatable-gimefork';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Page } from './page';

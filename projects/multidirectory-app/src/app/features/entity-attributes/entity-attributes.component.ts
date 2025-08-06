@@ -24,7 +24,6 @@ import {
   DropdownOption,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AttributesFilterContextMenuComponent } from '../../components/modals/components/context-menus/attributes-filter-context-menu/attributes-filter-context-menu.component';
@@ -39,6 +38,7 @@ import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
 import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-entity-attributes',

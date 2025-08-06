@@ -7,12 +7,12 @@ import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   DatagridComponent,
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { from, switchMap, take, zip } from 'rxjs';
 
 @Component({

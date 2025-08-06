@@ -9,7 +9,6 @@ import {
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { AttributeDetailsDialogComponent } from './attribute-details-dialog/attribute-details-dialog.component';
 import {
   AttributeDetailsDialogData,
@@ -25,6 +24,7 @@ import {
   ConfirmDeleteDialogReturnData,
   ConfirmDeleteDialogData,
 } from '@components/modals/interfaces/confirm-delete-dialog.interface';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-attributes-browser',

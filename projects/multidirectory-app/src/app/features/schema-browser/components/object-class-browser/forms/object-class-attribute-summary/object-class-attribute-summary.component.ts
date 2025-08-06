@@ -9,8 +9,8 @@ import {
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { AddAttributeDialogComponent } from '../add-attribute-dialog/add-attribute-dialog.component';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-object-class-attribute-summary',

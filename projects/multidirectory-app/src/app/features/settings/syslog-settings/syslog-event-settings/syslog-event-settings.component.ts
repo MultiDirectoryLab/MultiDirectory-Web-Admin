@@ -7,7 +7,6 @@ import {
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +16,7 @@ import {
 } from './syslog-event-edit/syslog-event-edit.interface';
 import { SyslogEventEditComponent } from './syslog-event-edit/syslog-event-edit.component';
 import { DialogService } from '@components/modals/services/dialog.service';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-syslog-event-settings',
