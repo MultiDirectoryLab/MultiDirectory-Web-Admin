@@ -8,12 +8,12 @@ import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   DatagridComponent,
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { from, switchMap, zip, take } from 'rxjs';
 
 @Component({

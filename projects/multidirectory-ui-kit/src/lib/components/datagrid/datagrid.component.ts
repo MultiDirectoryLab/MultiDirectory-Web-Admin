@@ -18,9 +18,14 @@ import {
   ColumnMode,
   ContextmenuType,
   DatatableComponent,
-  NgxDatatableModule,
+  PageEvent,
   SelectionType,
   TableColumn,
+  DataTablePagerComponent,
+  DataTableFooterTemplateDirective,
+  DatatableFooterDirective,
+  SelectEvent,
+  DataTableControlPanelDirective,
 } from 'ngx-datatable-gimefork';
 import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.component';
 
@@ -36,9 +41,13 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgxDatatableModule,
     NgStyle,
     NgTemplateOutlet,
+    DatatableComponent,
+    DataTablePagerComponent,
+    DatatableFooterDirective,
+    DataTableFooterTemplateDirective,
+    DataTableControlPanelDirective,
     DropdownComponent,
     FormsModule,
     CommonModule,
@@ -139,8 +148,9 @@ export class DatagridComponent {
     }
   }
 
-  onSelect(event: any) {
-    this.selectionChanged.emit(this.selected);
+  onSelect(selectEvent: SelectEvent<any>) {
+    this.selected.splice(0, this.selected.length);
+    this.selected.push(...selectEvent.selected);
   }
 
   onActivate(event: any) {
@@ -149,8 +159,8 @@ export class DatagridComponent {
       event.event.preventDefault();
       event.event.stopPropagation();
       this.doubleclick.emit(event);
-    } else if (event.type === 'click' && !onCheckboxClick) {
-      this.select(event.row);
+    } else if (event.type === 'click' && onCheckboxClick) {
+      this.selected.push(event.row);
     }
     this.cdr.detectChanges();
   }
@@ -181,21 +191,21 @@ export class DatagridComponent {
     this.grid.onWindowResize();
   }
 
-  onPageChange(pageInfo: { offset: number; limit: number; total: number }) {
+  onPageChange(pageInfo: PageEvent) {
     this.selected = [];
-    const newOffset = pageInfo.offset * pageInfo.limit;
+    const newOffset = pageInfo.offset * pageInfo.pageSize;
     if (this.offset != newOffset) {
       this.offset = newOffset;
       this.offsetChange.emit(newOffset);
     }
 
-    if (this.limit != pageInfo.limit) {
-      this.limit = pageInfo.limit;
+    if (this.limit != pageInfo.pageSize) {
+      this.limit = pageInfo.pageSize;
       this.limitChange.emit(pageInfo.limit);
     }
-    if (this.total != pageInfo.total && pageInfo.total) {
-      this.total = pageInfo.total;
-      this.totalChange.emit(pageInfo.total);
+    if (this.total != pageInfo.count && pageInfo.count) {
+      this.total = pageInfo.count;
+      this.totalChange.emit(pageInfo.count);
     }
   }
 

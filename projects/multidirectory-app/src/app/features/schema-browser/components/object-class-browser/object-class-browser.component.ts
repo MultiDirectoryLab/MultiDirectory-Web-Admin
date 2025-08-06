@@ -9,7 +9,6 @@ import {
   DropdownOption,
   MultidirectoryUiKitModule,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import {
   ObjectClassCreateDialogData,
   ObjectClassCreateDialogReturnData,
@@ -31,6 +30,7 @@ import {
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-object-class-browser',

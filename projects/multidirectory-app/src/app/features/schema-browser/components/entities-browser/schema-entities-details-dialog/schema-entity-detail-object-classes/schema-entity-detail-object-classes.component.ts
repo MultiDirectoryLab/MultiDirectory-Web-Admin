@@ -1,6 +1,5 @@
 import { Component, computed, inject, input, OnInit, signal, viewChild } from '@angular/core';
 import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { SchemaEntityObjectClass } from '@models/api/schema/entities/schema-entity-object-class';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import {
@@ -14,6 +13,7 @@ import { SchemaEntityAddObjectClassDialogComponent } from '../schema-entity-add-
 import { switchMap, take } from 'rxjs';
 import { SCHEMA_RESTRICTIONS } from './schema-restrictions';
 import { CommonModule } from '@angular/common';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-schema-entity-detail-object-classes',

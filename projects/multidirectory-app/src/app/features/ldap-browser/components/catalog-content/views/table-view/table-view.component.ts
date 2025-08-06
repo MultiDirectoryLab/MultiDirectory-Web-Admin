@@ -45,7 +45,6 @@ import {
   RightClickEvent,
   ShiftCheckboxComponent,
 } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
@@ -84,6 +83,7 @@ import {
 } from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
+import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-table-view',
@@ -112,7 +112,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   private ldapContent = inject(LdapBrowserService);
 
   readonly grid = viewChild.required<DatagridComponent>('grid');
-  readonly iconColumn = viewChild.required<TemplateRef<HTMLElement>>('iconTemplate');
+  readonly iconColumn = viewChild.required<TemplateRef<any>>('iconTemplate');
 
   @Output() rightClick = new EventEmitter<RightClickEvent>();
   columns: TableColumn[] = [];
