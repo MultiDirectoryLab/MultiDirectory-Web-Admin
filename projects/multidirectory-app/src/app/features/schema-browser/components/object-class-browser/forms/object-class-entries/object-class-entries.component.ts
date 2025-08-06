@@ -50,6 +50,7 @@ export class ObjectClassEntriesComponent {
   }
   set offset(offset: number) {
     this._offset = offset;
+    alert(this._offset);
     this.loadData();
   }
   pageSizes: DropdownOption[] = [

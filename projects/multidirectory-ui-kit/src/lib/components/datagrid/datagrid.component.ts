@@ -66,7 +66,7 @@ export class DatagridComponent {
   @Input() fromTitle = 'из';
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
-
+  @Input() trackByProp = '';
   private _limit = 15;
   @Input() get limit() {
     return this._limit;
@@ -82,6 +82,9 @@ export class DatagridComponent {
   }
   get offset() {
     return this._offset;
+  }
+  get pageOffset() {
+    return this._offset / this.limit;
   }
   @Output() offsetChange = new EventEmitter<number>();
 
@@ -192,16 +195,16 @@ export class DatagridComponent {
   }
 
   onPageChange(pageInfo: PageEvent) {
+    console.log(pageInfo);
     this.selected = [];
-    const newOffset = pageInfo.offset * pageInfo.pageSize;
-    if (this.offset != newOffset) {
-      this.offset = newOffset;
-      this.offsetChange.emit(newOffset);
+    if (this.offset != pageInfo.offset) {
+      this.offset = pageInfo.offset * pageInfo.pageSize;
+      this.offsetChange.emit(pageInfo.offset * pageInfo.pageSize);
     }
 
     if (this.limit != pageInfo.pageSize) {
       this.limit = pageInfo.pageSize;
-      this.limitChange.emit(pageInfo.limit);
+      this.limitChange.emit(pageInfo.pageSize);
     }
     if (this.total != pageInfo.count && pageInfo.count) {
       this.total = pageInfo.count;

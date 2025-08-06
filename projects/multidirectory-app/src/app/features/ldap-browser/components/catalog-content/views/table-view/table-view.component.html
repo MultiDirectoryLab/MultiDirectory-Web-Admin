@@ -10,6 +10,7 @@
   [(offset)]="offset"
   [controlPanelRef]="controlPanel"
   (selectionChanged)="onRowSelect()"
+  trackByProp="id"
   (doubleclick)="onDoubleClick($event)"
   (contextmenu)="onContextMenu($event)"
   pagerTitle="{{ 'grid.pager-title' | transloco }}"
