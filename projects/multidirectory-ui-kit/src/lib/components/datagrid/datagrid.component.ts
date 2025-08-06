@@ -66,7 +66,6 @@ export class DatagridComponent {
   @Input() fromTitle = 'из';
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
-  @Input() trackByProp = '';
   private _limit = 15;
   @Input() get limit() {
     return this._limit;
@@ -195,7 +194,6 @@ export class DatagridComponent {
   }
 
   onPageChange(pageInfo: PageEvent) {
-    console.log(pageInfo);
     this.selected = [];
     if (this.offset != pageInfo.offset) {
       this.offset = pageInfo.offset * pageInfo.pageSize;
