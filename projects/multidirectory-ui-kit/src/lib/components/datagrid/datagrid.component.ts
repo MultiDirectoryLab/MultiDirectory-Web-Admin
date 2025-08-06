@@ -153,6 +153,7 @@ export class DatagridComponent {
   onSelect(selectEvent: SelectEvent<any>) {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selectEvent.selected);
+    this.selectionChanged.emit(this.selected);
   }
 
   onActivate(event: any) {
