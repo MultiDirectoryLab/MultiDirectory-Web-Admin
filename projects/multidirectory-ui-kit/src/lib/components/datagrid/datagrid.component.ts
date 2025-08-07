@@ -66,12 +66,20 @@ export class DatagridComponent {
   @Input() fromTitle = 'из';
   @Input() emptyMessage = 'Нет данных для отображения...';
   @Input() externalPaging = false;
-  private _limit = 15;
-  @Input() get limit() {
+
+  pageSizes: DropdownOption[] = [
+    { title: '20', value: 20 },
+    { title: '50', value: 50 },
+    { title: '100', value: 100 },
+  ];
+
+  private _limit = this.pageSizes[0].value;
+  get limit() {
     return this._limit;
   }
-  set limit(value: number) {
+  @Input() set limit(value: number) {
     this._limit = value;
+    this.limitChange.emit(value);
   }
   @Output() limitChange = new EventEmitter<number>();
 
@@ -126,12 +134,6 @@ export class DatagridComponent {
   }
 
   SelectionType = SelectionType;
-  @Input() pageSizes: DropdownOption[] = [
-    { title: '5', value: 5 },
-    { title: '10', value: 10 },
-    { title: '15', value: 15 },
-    { title: '20', value: 20 },
-  ];
 
   select(row: any) {
     if (!row) {

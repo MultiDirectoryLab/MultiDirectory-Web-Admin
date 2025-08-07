@@ -36,8 +36,7 @@ export class SchemaEntityDetailObjectClassesComponent implements OnInit {
     return this.objectClassNames().map((x) => new SchemaEntityObjectClass({ name: x }));
   });
 
-  pageSizes: DropdownOption[] = [new DropdownOption({ title: '100', value: 100 })];
-  pageSize = 100;
+  pageSize = 20;
   isChanged = false;
   restrictions: string[] = [];
 

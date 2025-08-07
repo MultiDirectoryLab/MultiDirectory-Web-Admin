@@ -263,14 +263,14 @@
    * Footer Styles
    */
   .datatable-footer {
-    display: block;
+    display: flex;
     width: 100%;
     overflow: auto;
-
+    justify-content: flex-end;
     .datatable-footer-inner {
       display: flex;
       align-items: center;
-      width: 100%;
+      width: max-content;
     }
 
     .selected-count {

@@ -34,10 +34,9 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
     return this._objectClass;
   }
 
-  mustPageSizes = [new DropdownOption({ title: '15', value: 15 })];
   mustOffset = 0;
   mustTotal = 0;
-  mustLimit = 15;
+  mustLimit = 20;
   mustColumns: TableColumn[] = [
     { prop: 'name', name: translate('object-class-attribute-summary.column-must') },
   ];
@@ -45,10 +44,9 @@ export class ObjectClassAttributeSummaryComponent implements OnInit {
     { prop: 'name', name: translate('object-class-attribute-summary.column-may') },
   ];
 
-  mayPageSizes = [new DropdownOption({ title: '15', value: 15 })];
   mayOffset = 0;
   mayTotal = 0;
-  mayLimit = 15;
+  mayLimit = 20;
   objectClassMustRows: { name: string }[] = [];
   objectClassMayRows: { name: string }[] = [];
 

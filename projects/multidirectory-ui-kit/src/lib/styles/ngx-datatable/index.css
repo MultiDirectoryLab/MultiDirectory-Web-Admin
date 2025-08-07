@@ -209,14 +209,15 @@
   display: flex;
 }
 .ngx-datatable .datatable-footer {
-  display: block;
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
   overflow: auto;
 }
 .ngx-datatable .datatable-footer .datatable-footer-inner {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: max-content;
 }
 .ngx-datatable .datatable-footer .selected-count .page-count {
   flex: 1 1 40%;

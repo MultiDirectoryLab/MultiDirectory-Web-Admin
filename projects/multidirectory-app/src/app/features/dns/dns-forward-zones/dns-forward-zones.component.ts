@@ -34,8 +34,7 @@ export class DnsForwardZonesComponent implements OnInit {
   ];
   public redirectionZonesRows = signal<DnsForwardZone[]>([]);
 
-  pageSizes = [new DropdownOption({ title: '15', value: 15 })];
-  limit = this.pageSizes[0].value;
+  limit = 20;
   offset = 0;
   total = 0;
 

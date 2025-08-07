@@ -35,8 +35,7 @@ export class SyslogEventSettingsComponent implements OnInit {
   syslogEvents: SyslogEvent[] = [];
   syslogEventsColumns: TableColumn[] = [];
 
-  pageSizes = [new DropdownOption({ title: '45', value: 45 })];
-  limit = this.pageSizes[0].value;
+  limit = 20;
   offset = 0;
   total = 0;
   levelOptions = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];

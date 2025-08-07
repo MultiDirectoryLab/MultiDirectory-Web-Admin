@@ -15,7 +15,6 @@
           #mustGrid
           class="h-full"
           [stretchHeight]="true"
-          [pageSizes]="mustPageSizes"
           [columns]="mustColumns"
           [rows]="objectClassMustRows"
           [(offset)]="mustOffset"
@@ -38,11 +37,9 @@
         <md-datagrid
           class="h-full"
           #mayGrid
-          [pageSizes]="mayPageSizes"
           [columns]="mayColumns"
           [rows]="objectClassMayRows"
           [(offset)]="mayOffset"
-          [(limit)]="mayLimit"
           [(total)]="mayTotal"
         />
         <div class="flex flex-row gap-2 py-2 justify-end">
