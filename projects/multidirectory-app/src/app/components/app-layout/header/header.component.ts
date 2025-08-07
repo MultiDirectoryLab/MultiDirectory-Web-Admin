@@ -103,58 +103,6 @@ export class HeaderComponent {
     );
     this.hotkeysService.add(
       new Hotkey(
-        'f1',
-        (event: KeyboardEvent): boolean => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.contentView = ViewMode.SmallIcons;
-          return false; // Prevent bubbling
-        },
-        undefined,
-        translate('hotkeys.toggle-small-icon-view'),
-      ),
-    );
-    this.hotkeysService.add(
-      new Hotkey(
-        'f2',
-        (event: KeyboardEvent): boolean => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.contentView = ViewMode.BigIcons;
-          return false; // Prevent bubbling
-        },
-        undefined,
-        translate('hotkeys.toggle-big-icon-view'),
-      ),
-    );
-    this.hotkeysService.add(
-      new Hotkey(
-        'f3',
-        (event: KeyboardEvent): boolean => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.contentView = ViewMode.Table;
-          return false; // Prevent bubbling
-        },
-        undefined,
-        translate('hotkeys.toggle-list-view'),
-      ),
-    );
-    this.hotkeysService.add(
-      new Hotkey(
-        'f4',
-        (event: KeyboardEvent): boolean => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.contentView = ViewMode.Details;
-          return false; // Prevent bubbling
-        },
-        undefined,
-        translate('hotkeys.toggle-detail-view'),
-      ),
-    );
-    this.hotkeysService.add(
-      new Hotkey(
         ['ctrl+shift+f', 'meta+shift+f'],
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
