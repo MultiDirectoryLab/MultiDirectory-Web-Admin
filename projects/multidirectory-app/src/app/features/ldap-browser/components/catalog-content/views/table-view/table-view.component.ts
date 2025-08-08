@@ -146,6 +146,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   set checkAllCheckbox(value: boolean) {
     this._checkAllCheckbox = value;
     this.grid().toggleSelectedAll(value);
+    this.setAccountEnabledToggle();
   }
 
   private _accountEnabled = false;
@@ -280,6 +281,8 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
+        this.setSelected([]);
+        this.setAccountEnabledToggle();
         this.rows.splice(0, this.rows.length);
         this.rows.push(...rows);
 
@@ -315,11 +318,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   }
 
   setSelected(selected: NavigationNode[]) {
-    if (!this.rows || this.rows.length == 0 || !selected) {
-      return;
-    }
     this.grid().selected = this.rows.filter((x) => selected.findIndex((y) => y.id == x.dn) > -1);
-    //this.navigation.setSelection(selected);
     this.cdr.detectChanges();
   }
 
@@ -447,7 +446,9 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         }),
       )
       .subscribe(() => {
+        this.navigation.reload();
         this.setAccountEnabledToggle();
+        this.cdr.detectChanges();
       });
   }
 

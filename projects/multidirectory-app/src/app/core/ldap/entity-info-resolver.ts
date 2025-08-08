@@ -105,7 +105,6 @@ export class LdapEntryStatusPipe implements PipeTransform {
       return '';
     }
     const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
-
     const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
     return enabled
       ? translate('entity-info-resolver.enabled')
