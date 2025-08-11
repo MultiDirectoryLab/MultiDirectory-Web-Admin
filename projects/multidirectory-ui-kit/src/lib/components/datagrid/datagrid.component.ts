@@ -39,7 +39,6 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
     './../../styles/ngx-datatable/dark.scss',
     './../../styles/ngx-datatable/icons.css',
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgStyle,
     NgTemplateOutlet,
