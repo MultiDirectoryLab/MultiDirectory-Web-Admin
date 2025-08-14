@@ -35,13 +35,13 @@ import { SchemaService } from '@services/schema/schema.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateRuleDialogComponent implements OnInit {
-  public dialogData: CreateRuleDialogData = inject(DIALOG_DATA);
+  dialogData: CreateRuleDialogData = inject(DIALOG_DATA);
 
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
-  public formValid = false;
-  public description = '';
-  public ruleName = '';
+  formValid = false;
+  description = '';
+  ruleName = '';
 
   private schema = inject(SchemaService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
@@ -49,7 +49,7 @@ export class CreateRuleDialogComponent implements OnInit {
   private dialogRef: DialogRef = inject(DialogRef);
   private destroyRef$: DestroyRef = inject(DestroyRef);
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
@@ -58,7 +58,7 @@ export class CreateRuleDialogComponent implements OnInit {
 
   objectClasses: string[] = ['top', 'sudoRole'];
 
-  public onFinish(event: MouseEvent) {
+  onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -95,7 +95,7 @@ export class CreateRuleDialogComponent implements OnInit {
       });
   }
 
-  public onClose() {
+  onClose() {
     this.dialogService.close(this.dialogRef, null);
   }
 }

@@ -21,14 +21,14 @@ export class ConfirmDialogComponent {
   private dialogRef: DialogRef<ConfirmDialogReturnData, ConfirmDialogComponent> = inject(DialogRef);
   private dialogData: ConfirmDialogData = inject(DIALOG_DATA);
 
-  public prompt: ConfirmDialogData = this.dialogData ?? {
+  prompt: ConfirmDialogData = this.dialogData ?? {
     promptHeader: 'Требуется подверждение',
     promptText: 'Применить изменения',
     primaryButtons: [{ id: 'Да', text: 'Да' }],
     secondaryButtons: [{ id: 'Нет', text: 'Нет' }],
   };
 
-  public close(id: ConfirmDialogReturnData = 'cancel') {
+  close(id: ConfirmDialogReturnData = 'cancel') {
     this.dialogService.close(this.dialogRef, id);
   }
 }

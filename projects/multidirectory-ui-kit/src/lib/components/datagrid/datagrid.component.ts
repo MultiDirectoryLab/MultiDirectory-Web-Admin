@@ -59,7 +59,6 @@ export class DatagridComponent {
 
   @ViewChild('datagrid') grid!: DatatableComponent;
 
-  init = false;
   @Input() name = '';
   @Input() pagerTitle = 'Размер страницы:';
   @Input() fromTitle = 'из';
@@ -105,7 +104,6 @@ export class DatagridComponent {
 
   @Input() rows: any[] = [];
 
-  @Input() stretchHeight = false;
   @Input() scrollbarV = false;
   @Input() hideFooter = false;
   @Input() headerHeight = 32;

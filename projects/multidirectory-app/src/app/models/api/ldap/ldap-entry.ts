@@ -1,5 +1,5 @@
 export class LdapEntry {
-  constructor(public dn: string = '') {}
+  constructor(dn: string = '') {}
 
   static buildFromSearchResponse() {}
 }

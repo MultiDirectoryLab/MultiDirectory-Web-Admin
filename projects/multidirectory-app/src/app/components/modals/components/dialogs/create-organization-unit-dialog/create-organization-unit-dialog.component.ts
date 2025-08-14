@@ -36,13 +36,13 @@ import { catchError, map, Observable, switchMap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateOrganizationUnitDialogComponent implements OnInit {
-  public dialogData: CreateOrganizationUnitDialogData = inject(DIALOG_DATA);
+  dialogData: CreateOrganizationUnitDialogData = inject(DIALOG_DATA);
 
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
-  public formValid = false;
-  public description = '';
-  public ouName = '';
+  formValid = false;
+  description = '';
+  ouName = '';
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
@@ -50,7 +50,7 @@ export class CreateOrganizationUnitDialogComponent implements OnInit {
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private schema = inject(SchemaService);
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
@@ -65,7 +65,7 @@ export class CreateOrganizationUnitDialogComponent implements OnInit {
     );
   }
 
-  public onFinish(event: MouseEvent) {
+  onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.getObjectClasses()
@@ -93,7 +93,7 @@ export class CreateOrganizationUnitDialogComponent implements OnInit {
       });
   }
 
-  public onClose() {
+  onClose() {
     this.dialogService.close(this.dialogRef, null);
   }
 }

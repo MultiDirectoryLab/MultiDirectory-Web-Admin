@@ -12,9 +12,9 @@ import { take } from 'rxjs';
 export class PasswordSuggestContextMenuComponent implements OnInit {
   private dropdown = viewChild.required<ElementRef<HTMLDivElement>>('dropdown');
   private ngZone = inject(NgZone);
-  public dialogData = inject<{ password: Signal<string> }>(DIALOG_DATA);
+  dialogData = inject<{ password: Signal<string> }>(DIALOG_DATA);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.handleOverflow();
     });

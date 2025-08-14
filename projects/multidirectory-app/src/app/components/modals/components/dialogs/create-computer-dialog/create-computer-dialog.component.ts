@@ -43,16 +43,16 @@ import { SchemaService } from '@services/schema/schema.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateComputerDialogComponent implements OnInit {
-  public dialogData: CreateComputerDialogData = inject(DIALOG_DATA);
+  dialogData: CreateComputerDialogData = inject(DIALOG_DATA);
 
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
-  public formValid = false;
-  public description = '';
-  public computerName = '';
-  public legacyComputerName = '';
-  public ownerDn = model('');
-  public isLegacyAccount = false;
+  formValid = false;
+  description = '';
+  computerName = '';
+  legacyComputerName = '';
+  ownerDn = model('');
+  isLegacyAccount = false;
 
   private destroyRef$: DestroyRef = inject(DestroyRef);
   private dialogService: DialogService = inject(DialogService);
@@ -60,7 +60,7 @@ export class CreateComputerDialogComponent implements OnInit {
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private schema = inject(SchemaService);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
@@ -75,7 +75,7 @@ export class CreateComputerDialogComponent implements OnInit {
     );
   }
 
-  public onFinish(event: MouseEvent) {
+  onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.getObjectClasses()
@@ -103,11 +103,11 @@ export class CreateComputerDialogComponent implements OnInit {
       });
   }
 
-  public onClose() {
+  onClose() {
     this.dialogService.close(this.dialogRef, null);
   }
 
-  public showAccountSelector(event: Event) {
+  showAccountSelector(event: Event) {
     event.stopPropagation();
     event.preventDefault();
     this.dialogService

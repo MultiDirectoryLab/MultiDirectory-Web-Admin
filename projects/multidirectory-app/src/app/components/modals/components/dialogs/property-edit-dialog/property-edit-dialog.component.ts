@@ -32,8 +32,8 @@ import { DialogComponent } from '../../core/dialog/dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertyEditDialogComponent {
-  public LdapPropertyType = EntityAttributeType;
-  public propertyTypes = Object.values(EntityAttributeType)
+  LdapPropertyType = EntityAttributeType;
+  propertyTypes = Object.values(EntityAttributeType)
     .filter((x) => Number.isNaN(Number(x)))
     .map(
       (x) =>
@@ -46,13 +46,13 @@ export class PropertyEditDialogComponent {
   private dialogRef: DialogRef<PropertyEditDialogReturnData, PropertyEditDialogComponent> =
     inject(DialogRef);
   private dialogData: PropertyEditDialogData = inject(DIALOG_DATA);
-  public editRequest: PropertyEditDialogData = { ...this.dialogData };
+  editRequest: PropertyEditDialogData = { ...this.dialogData };
 
-  public close(): void {
+  close(): void {
     this.dialogService.close(this.dialogRef, null);
   }
 
-  public finish(): void {
+  finish(): void {
     this.dialogService.close(this.dialogRef, this.editRequest);
   }
 }

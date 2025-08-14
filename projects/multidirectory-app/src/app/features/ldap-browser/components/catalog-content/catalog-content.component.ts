@@ -86,8 +86,8 @@ import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 export class CatalogContentComponent implements OnInit, OnDestroy {
   readonly properties = viewChild<ModalInjectDirective>('properties');
 
-  public ViewMode = ViewMode;
-  public searchQuery = '';
+  ViewMode = ViewMode;
+  searchQuery = '';
 
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
@@ -98,9 +98,9 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   private navigation = inject(AppNavigationService);
   private ldapTreeviewService = inject(LdapTreeviewService);
 
-  public currentView = this.contentView.contentView;
+  currentView = this.contentView.contentView;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     let createUserDialogRef: DialogRef<
       CreateUserDialogReturnData,
       CreateUserDialogComponent
@@ -198,11 +198,11 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.hotkeysService.reset();
   }
 
-  public openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
+  openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
     const parentDn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
@@ -225,7 +225,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  public openCreateOu(): DialogRef<
+  openCreateOu(): DialogRef<
     CreateOrganizationUnitDialogReturnData,
     CreateOrganizationUnitDialogComponent
   > {
@@ -251,7 +251,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  public openCreateRule() {
+  openCreateRule() {
     const parentDn = this.navigation.getContainer();
 
     this.dialogService
@@ -269,7 +269,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openCreateComputer() {
+  openCreateComputer() {
     const parentDn = this.navigation.getContainer();
 
     this.dialogService
@@ -291,7 +291,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openCreateCatalog() {
+  openCreateCatalog() {
     let parentDn = this.navigation.getContainer();
     if (!this.ldapTreeviewService.isExpandable(parentDn)) {
       parentDn = LdapNamesHelper.getDnParent(parentDn);
@@ -313,7 +313,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       });
   }
 
-  public openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
+  openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
     const dn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
@@ -336,7 +336,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  public showContextMenu({ node, event: { x, y } }: any) {
+  showContextMenu({ node, event: { x, y } }: any) {
     const data: ContextMenuData = {
       entity: [node],
     };

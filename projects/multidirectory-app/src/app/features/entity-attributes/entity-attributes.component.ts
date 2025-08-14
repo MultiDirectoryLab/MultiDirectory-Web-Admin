@@ -238,7 +238,7 @@ export class EntityAttributesComponent implements OnInit {
       );
   }
 
-  public openFilterContext(e: Event) {
+  openFilterContext(e: Event) {
     const target = e.target as HTMLElement;
     const rect = target.getBoundingClientRect();
 

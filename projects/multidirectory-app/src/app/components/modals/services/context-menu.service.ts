@@ -27,7 +27,7 @@ export class ContextMenuService {
    * @param contextMenuConfig Опции, содержащие данные и конфигурацию контекстного меню.
    * @returns Ссылка на созданный компонент.
    */
-  public open<R = ContextMenuReturnData, D = ContextMenuData, C = ContextMenuComponent>({
+  open<R = ContextMenuReturnData, D = ContextMenuData, C = ContextMenuComponent>({
     x,
     y,
     component,
@@ -61,7 +61,7 @@ export class ContextMenuService {
     return contextMenuRef;
   }
 
-  public close<R = ContextMenuReturnData>(result: R): void {
+  close<R = ContextMenuReturnData>(result: R): void {
     if (this.contextMenuRef) {
       this.clickOutsideSubscription?.unsubscribe();
       this.contextMenuRef.close(result);

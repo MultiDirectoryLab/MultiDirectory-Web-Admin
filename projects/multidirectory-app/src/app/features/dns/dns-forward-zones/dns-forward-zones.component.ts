@@ -27,12 +27,12 @@ export class DnsForwardZonesComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private dnsApi: DnsApiService = inject(DnsApiService);
 
-  public redirectionZonesColumns: TableColumn[] = [
+  redirectionZonesColumns: TableColumn[] = [
     { name: 'Имя зоны', prop: 'name', flexGrow: 1 },
     { name: 'Состояние', prop: 'type', flexGrow: 1 },
     { name: 'Перенаправление зон', prop: 'redirection', flexGrow: 1 },
   ];
-  public redirectionZonesRows = signal<DnsForwardZone[]>([]);
+  redirectionZonesRows = signal<DnsForwardZone[]>([]);
 
   limit = 20;
   offset = 0;
@@ -52,7 +52,7 @@ export class DnsForwardZonesComponent implements OnInit {
 
   selectedRedirectionZones = signal<DnsForwardZone[]>([]);
 
-  public onAddRedirectionZone() {
+  onAddRedirectionZone() {
     this.dialogService
       .open<
         AddForwardZoneDialogReturnData,
@@ -106,15 +106,15 @@ export class DnsForwardZonesComponent implements OnInit {
       });
   }
 
-  public onEnableRedirectionZone() {
+  onEnableRedirectionZone() {
     this.toastr.info('Enable redirection zone functionality will be implemented in the future');
   }
 
-  public onDisableRedirectionZone() {
+  onDisableRedirectionZone() {
     this.toastr.info('Disable redirection zone functionality will be implemented in the future');
   }
 
-  public onDeleteRedirectionZone() {
+  onDeleteRedirectionZone() {
     const selectedRows = this.selectedRedirectionZones();
 
     if (!selectedRows.length) {
@@ -128,7 +128,7 @@ export class DnsForwardZonesComponent implements OnInit {
     });
   }
 
-  public onRedirectionZonesSelectionChanged(rows: DnsForwardZone[]) {
+  onRedirectionZonesSelectionChanged(rows: DnsForwardZone[]) {
     this.selectedRedirectionZones.set(rows);
   }
 }

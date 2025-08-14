@@ -40,8 +40,8 @@ export class AddPrincipalDialogComponent implements OnInit {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
-  public formValid = false;
-  public principalName = '';
+  formValid = false;
+  principalName = '';
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<AddPrincipalDialogReturnData, AddPrincipalDialogComponent> =
@@ -50,14 +50,14 @@ export class AddPrincipalDialogComponent implements OnInit {
   private toastr: ToastrService = inject(ToastrService);
   private destroyRef$: DestroyRef = inject(DestroyRef);
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;
     });
   }
 
-  public onFinish(event: MouseEvent) {
+  onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
 
@@ -80,7 +80,7 @@ export class AddPrincipalDialogComponent implements OnInit {
       });
   }
 
-  public onClose() {
+  onClose() {
     this.dialogService.close(this.dialogRef, null);
   }
 }

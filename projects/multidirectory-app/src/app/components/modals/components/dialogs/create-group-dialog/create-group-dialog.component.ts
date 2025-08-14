@@ -34,9 +34,9 @@ import { SchemaService } from '@services/schema/schema.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateGroupDialogComponent implements OnInit {
-  public dialogData: CreateGroupDialogData = inject(DIALOG_DATA);
-  public setupRequest = new GroupCreateRequest();
-  public formValid = false;
+  dialogData: CreateGroupDialogData = inject(DIALOG_DATA);
+  setupRequest = new GroupCreateRequest();
+  formValid = false;
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> =
@@ -59,18 +59,18 @@ export class CreateGroupDialogComponent implements OnInit {
   }
 
   /**LIFECYCLE HOOKS  **/
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this._form?.onValidChanges.pipe(takeUntil(this._unsubscribe)).subscribe((x) => {
       this.formValid = x;
     });
   }
 
-  public onClose() {
+  onClose() {
     this.setupRequest = new GroupCreateRequest();
     this.dialogService.close(this.dialogRef);
   }
 
-  public onFinish(event: MouseEvent) {
+  onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
 

@@ -26,15 +26,15 @@ export class MemberOfComponent {
   private ldapTreeview: LdapTreeviewService = inject(LdapTreeviewService);
   private cdr = inject(ChangeDetectorRef);
   readonly groupList = viewChild<DatagridComponent>('groupList');
-  public groups: Group[] = [];
-  public columns = [
+  groups: Group[] = [];
+  columns = [
     { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
     { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
 
   private _accessor: LdapAttributes = new LdapAttributes([]);
 
-  public get accessor(): LdapAttributes {
+  get accessor(): LdapAttributes {
     return this._accessor;
   }
 
@@ -43,7 +43,7 @@ export class MemberOfComponent {
     this.groups = this._accessor.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
   }
 
-  public addGroup() {
+  addGroup() {
     const types = ['group', 'user'];
     from(this.ldapTreeview.load(''))
       .pipe(take(1))
@@ -78,7 +78,7 @@ export class MemberOfComponent {
       });
   }
 
-  public deleteGroup() {
+  deleteGroup() {
     this.groups = this.groups.filter(
       (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
     );
@@ -87,7 +87,7 @@ export class MemberOfComponent {
     );
   }
 
-  public openGroupProperties() {
+  openGroupProperties() {
     const groupList = this.groupList();
     if (!groupList?.selected?.[0]) {
       return;

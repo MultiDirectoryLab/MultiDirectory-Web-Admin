@@ -43,7 +43,6 @@ export class MultidirectoryApiServiceStub extends MultidirectoryApiService {
         dn: 'mock-dn',
         mail: 'mock-email@example.com',
         user_principal_name: '123',
-        sam_accout_name: '123',
       }),
     );
   }

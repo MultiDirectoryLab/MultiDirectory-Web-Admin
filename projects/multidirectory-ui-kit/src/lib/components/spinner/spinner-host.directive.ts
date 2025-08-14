@@ -21,8 +21,8 @@ export class SpinnerHostDirective implements OnInit {
   @Input() spinnerName = '';
   @Input() spinnerText = '';
 
-  public spinner?: SpinnerComponent;
-  public spinnerRef?: ComponentRef<SpinnerComponent>;
+  spinner?: SpinnerComponent;
+  spinnerRef?: ComponentRef<SpinnerComponent>;
 
   ngOnInit(): void {
     this.spinnerRef = this.viewContainerRef.createComponent(SpinnerComponent);

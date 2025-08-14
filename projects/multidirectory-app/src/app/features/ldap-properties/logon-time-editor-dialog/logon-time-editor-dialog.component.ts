@@ -8,16 +8,16 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DialogComponent } from '../../core/dialog/dialog.component';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import BitSet from 'bitset';
 import { fromEvent, take } from 'rxjs';
-import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { LogonTimeEditorDialogData } from '../../../interfaces/logon-time-editor-dialog.interface';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
+import { LogonTimeEditorDialogData } from '@components/modals/interfaces/logon-time-editor-dialog.interface';
+import { DialogService } from '@components/modals/services/dialog.service';
 
 export class LogonMapDay {
   id: number | null = null;
@@ -41,7 +41,14 @@ export class LogonDayState {
 @Component({
   selector: 'app-logon-time-editor-dialog',
   standalone: true,
-  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, NgClass, FormsModule],
+  imports: [
+    DialogComponent,
+    MultidirectoryUiKitModule,
+    TranslocoPipe,
+    NgClass,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './logon-time-editor-dialog.component.html',
   styleUrl: './logon-time-editor-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
