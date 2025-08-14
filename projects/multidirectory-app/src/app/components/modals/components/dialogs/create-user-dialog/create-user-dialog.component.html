@@ -11,10 +11,10 @@
     <hr />
     <md-stepper #createUserStepper (finish)="finish()">
       <ng-template mdStep>
-        <app-user-create-password-settings [setupRequest]="setupRequest" />
+        <app-user-create-general-info [setupRequest]="setupRequest" />
       </ng-template>
       <ng-template mdStep>
-        <app-user-create-general-info [setupRequest]="setupRequest" />
+        <app-user-create-password-settings [setupRequest]="setupRequest" />
       </ng-template>
       <ng-template mdStep>
         <app-user-create-summary [setupRequest]="setupRequest" />
