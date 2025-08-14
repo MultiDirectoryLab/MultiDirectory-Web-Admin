@@ -1,10 +1,11 @@
+import { Constants } from '@core/constants';
 import { DnsRuleType } from './dns-rule-type';
 
 export class DnsRule {
   name = '';
   type: DnsRuleType = DnsRuleType.A;
   value = '';
-  ttl = 3600;
+  ttl = Constants.DnsTTL;
   zone_name = '';
 
   static toRequest(obj: DnsRule): any {
