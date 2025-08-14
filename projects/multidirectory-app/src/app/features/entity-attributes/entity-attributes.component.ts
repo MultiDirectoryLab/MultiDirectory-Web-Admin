@@ -39,6 +39,7 @@ import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-
 import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
 import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import moment from 'moment';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -189,6 +190,15 @@ export class EntityAttributesComponent implements OnInit {
     }
   }
 
+  private isValidDate(str: string): boolean {
+    const date = moment(str, moment.ISO_8601, true); // Strict parsing with ISO 8601
+    return date.isValid();
+  }
+
+  private getLocalDate(value: string): string {
+    return moment(value).local().format();
+  }
+
   private displayAttributes() {
     this.rows = [];
     const accessorEntires = Object.keys(this.accessor);
@@ -214,7 +224,7 @@ export class EntityAttributesComponent implements OnInit {
           this.accessor[element.name].forEach((value) => {
             this.rows.push({
               name: element.name,
-              val: value,
+              val: this.isValidDate(value) ? this.getLocalDate(value) : value,
             });
           });
         }
