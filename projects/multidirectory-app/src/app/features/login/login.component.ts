@@ -74,7 +74,6 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
       .pipe(
         catchError((err) => {
           this.dialogComponent().hideSpinner();
-          return EMPTY;
           throw err;
         }),
       )
