@@ -190,7 +190,7 @@ export class EntityAttributesComponent implements OnInit {
     }
   }
 
-  private isValidDate(str: string) {
+  private isValidDate(str: string): boolean {
     const date = moment(str, moment.ISO_8601, true); // Strict parsing with ISO 8601
     return date.isValid();
   }
