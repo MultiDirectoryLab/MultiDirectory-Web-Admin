@@ -4,17 +4,17 @@
   </div>
 
   <div>
-    <div class="flex align-center gap-1">
+    <div class="flex align-center gap-4 pb-4">
       <div class="avatar"><img class="avatar-img" src="assets/empty_avatar.svg" /></div>
       <div class="place">{{ 'user-create.add-to' | transloco }} {{ parentDn }}</div>
     </div>
     <hr />
     <md-stepper #createUserStepper (finish)="finish()">
       <ng-template mdStep>
-        <app-user-create-general-info [setupRequest]="setupRequest" />
+        <app-user-create-password-settings [setupRequest]="setupRequest" />
       </ng-template>
       <ng-template mdStep>
-        <app-user-create-password-settings [setupRequest]="setupRequest" />
+        <app-user-create-general-info [setupRequest]="setupRequest" />
       </ng-template>
       <ng-template mdStep>
         <app-user-create-summary [setupRequest]="setupRequest" />
