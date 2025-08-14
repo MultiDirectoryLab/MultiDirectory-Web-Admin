@@ -45,12 +45,12 @@ import { SchemaService } from '@services/schema/schema.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserDialogComponent implements OnInit {
-  @ViewChild('createUserStepper', { static: true }) public stepper!: StepperComponent;
-  @ViewChild('dialogComponent', { static: true }) public dialogComponent!: DialogComponent;
+  @ViewChild('createUserStepper', { static: true }) stepper!: StepperComponent;
+  @ViewChild('dialogComponent', { static: true }) dialogComponent!: DialogComponent;
   private schema = inject(SchemaService);
-  public setupRequest = new UserCreateRequest();
-  public unsubscribe = new Subject<void>();
-  public formValid = false;
+  setupRequest = new UserCreateRequest();
+  unsubscribe = new Subject<void>();
+  formValid = false;
 
   private dialogRef: DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> =
     inject(DialogRef);
@@ -59,10 +59,10 @@ export class CreateUserDialogComponent implements OnInit {
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private toastr: ToastrService = inject(ToastrService);
   private dialogData: CreateUserDialogData = inject(DIALOG_DATA);
-  public parentDn = this.dialogData.dn;
+  parentDn = this.dialogData.dn;
   private destroyRef$: DestroyRef = inject(DestroyRef);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getObjectClasses();
     this.setup.onStepValid.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;

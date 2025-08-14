@@ -32,17 +32,17 @@ import { SpinnerHostDirective } from 'multidirectory-ui-kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogComponent implements OnInit, OnDestroy {
-  public componentConfig =
+  componentConfig =
     inject(DIALOG_COMPONENT_WRAPPER_CONFIG, { optional: true }) ||
     DIALOG_COMPONENT_WRAPPER_DEFAULT_CONFIG;
 
   @ViewChild('modalHeader', { static: true }) modalHeader!: ElementRef<HTMLDivElement>;
   @ViewChild('controlBar', { static: true }) controlBar!: ElementRef<HTMLDivElement>;
   @ViewChild(SpinnerHostDirective, { static: true }) spinnerHost!: SpinnerHostDirective;
-  public dragging$ = new Subject<boolean>();
-  public maximized$ = new BehaviorSubject<boolean>(false);
-  public __ID = IdProvider.getUniqueId('dialog');
-  public spinnerText = '';
+  dragging$ = new Subject<boolean>();
+  maximized$ = new BehaviorSubject<boolean>(false);
+  __ID = IdProvider.getUniqueId('dialog');
+  spinnerText = '';
 
   private dragDrop = inject(DragDrop);
   private dialogRef = inject(DialogRef, { optional: true });
@@ -78,7 +78,7 @@ export class DialogComponent implements OnInit, OnDestroy {
     this.dialogService.bringToFront(this.dialogRef);
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (this.componentConfig.draggable && this.dialogRef) {
       this.dragRef = this.createDragRef(this.dialogRef);
       this.initSubscriptions();
@@ -86,12 +86,12 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.dragging$.complete();
     this.maximized$.complete();
   }
 
-  public toggleMaximize(): void {
+  toggleMaximize(): void {
     if (this.dialogRef && this.dialogRefConfig) {
       const isMaximized = this.maximized$.getValue();
 
@@ -117,25 +117,25 @@ export class DialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  public close(): void {
+  close(): void {
     if (!this.dialogRef) return;
 
     this.dialogService.close(this.dialogRef);
   }
 
-  public showSpinner(): void {
+  showSpinner(): void {
     if (!this.spinnerHost) return;
 
     this.spinnerHost.show();
   }
 
-  public hideSpinner(): void {
+  hideSpinner(): void {
     if (!this.spinnerHost) return;
 
     this.spinnerHost.hide();
   }
 
-  public modalHeaderMouseDown(): void {
+  modalHeaderMouseDown(): void {
     this.dragStart();
   }
 

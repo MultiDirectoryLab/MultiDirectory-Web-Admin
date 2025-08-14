@@ -23,13 +23,13 @@ export class ConfirmDeleteDialogComponent {
     inject(DialogRef);
   private dialogData: ConfirmDeleteDialogData = inject(DIALOG_DATA);
 
-  public toDeleteDNs: string[] = this.dialogData.toDeleteDNs;
+  toDeleteDNs: string[] = this.dialogData.toDeleteDNs;
 
-  public deleteSelectedEntry() {
+  deleteSelectedEntry() {
     this.dialogService.close(this.dialogRef, true);
   }
 
-  public close() {
+  close() {
     this.dialogService.close(this.dialogRef, false);
   }
 }

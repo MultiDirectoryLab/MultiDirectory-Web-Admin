@@ -30,17 +30,17 @@ import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoveEntityDialogComponent {
-  public targetDn = '';
+  targetDn = '';
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<MoveEntityDialogReturnData, MoveEntityDialogComponent> =
     inject(DialogRef);
   private dialogData: MoveEntityDialogData = inject(DIALOG_DATA);
   private treeView = inject(LdapTreeviewService);
-  public toMove: NavigationNode[] = this.dialogData.toMove;
+  toMove: NavigationNode[] = this.dialogData.toMove;
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  public change() {
+  change() {
     from(this.treeView.load(''))
       .pipe(
         switchMap((tree) => {
@@ -72,7 +72,7 @@ export class MoveEntityDialogComponent {
       });
   }
 
-  public move() {
+  move() {
     const request = new ModifyDnRequest();
     const fromDn = this.toMove[0].id;
 
@@ -84,7 +84,7 @@ export class MoveEntityDialogComponent {
     this.dialogService.close(this.dialogRef, request);
   }
 
-  public cancel(): void {
+  cancel(): void {
     this.dialogService.close(this.dialogRef);
   }
 }

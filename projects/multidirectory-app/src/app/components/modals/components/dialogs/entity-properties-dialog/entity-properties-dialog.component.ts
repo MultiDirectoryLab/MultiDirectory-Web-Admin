@@ -48,13 +48,13 @@ import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntityPropertiesDialogComponent implements OnInit {
-  public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
+  dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
 
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
-  public EntityTypes = LdapEntryType;
-  public entityType: LdapEntryType = this.dialogData.entity.type;
-  public accessor: LdapAttributes = new LdapAttributes([]);
+  EntityTypes = LdapEntryType;
+  entityType: LdapEntryType = this.dialogData.entity.type;
+  accessor: LdapAttributes = new LdapAttributes([]);
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<EntityPropertiesDialogReturnData, EntityPropertiesDialogComponent> =
@@ -63,7 +63,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.api
       .search(SearchQueries.getProperites(this.dialogData.entity.id))
       .pipe(take(1))
@@ -79,11 +79,11 @@ export class EntityPropertiesDialogComponent implements OnInit {
       });
   }
 
-  public close(): void {
+  close(): void {
     this.dialogService.close(this.dialogRef);
   }
 
-  public save(needConfirmation = false) {
+  save(needConfirmation = false) {
     this.dialogComponent.showSpinner();
     const updateRequest = this.attributeService.createAttributeUpdateRequest(this.accessor);
 

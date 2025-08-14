@@ -46,16 +46,16 @@ import { ChangePasswordRequest } from '@models/api/user/change-password-request'
 export class ChangePasswordDialogComponent {
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
-  public unsubscribe = new Subject<boolean>();
-  public repeatPassword = '';
+  unsubscribe = new Subject<boolean>();
+  repeatPassword = '';
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<ChangePasswordDialogReturnData, ChangePasswordDialogComponent> =
     inject(DialogRef);
   private dialogData: ChangePasswordDialogData = inject(DIALOG_DATA);
   private dialog = viewChild.required<DialogComponent>('dialog');
-  public changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
-  public un = this.dialogData.un;
+  changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
+  un = this.dialogData.un;
   private toastr: ToastrService = inject(ToastrService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private contextMenuService = inject(ContextMenuService);
@@ -63,11 +63,11 @@ export class ChangePasswordDialogComponent {
   private passwordInput = viewChild.required<NgModel>('passwordInput');
   private password = signal('');
 
-  public close() {
+  close() {
     this.dialogService.close(this.dialogRef);
   }
 
-  public finish() {
+  finish() {
     this.dialog().showSpinner();
     this.api
       .changePassword(this.changeRequest)
@@ -87,7 +87,7 @@ export class ChangePasswordDialogComponent {
       });
   }
 
-  public checkModel() {
+  checkModel() {
     this.form.validate();
     this.password.set(this.passwordInput().value);
     if (this.passwordInput().valid) {
@@ -95,7 +95,7 @@ export class ChangePasswordDialogComponent {
     }
   }
 
-  public openSuggest(event: FocusEvent): void {
+  openSuggest(event: FocusEvent): void {
     const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
     const targetRect = target.getBoundingClientRect();
 
@@ -110,7 +110,7 @@ export class ChangePasswordDialogComponent {
     });
   }
 
-  public closeSuggest(): void {
+  closeSuggest(): void {
     if (this.suggestDialogRef) {
       this.suggestDialogRef.close();
     }

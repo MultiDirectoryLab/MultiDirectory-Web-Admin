@@ -46,14 +46,14 @@ import { DnsRule } from '@models/api/dns/dns-rule';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DnsRuleDialogComponent implements OnInit {
-  public dialogData: DnsRuleDialogData = inject(DIALOG_DATA);
+  dialogData: DnsRuleDialogData = inject(DIALOG_DATA);
 
   @ViewChild('form', { static: true }) form!: MdFormComponent;
-  public formValid = false;
-  public dnsRule: DnsRule = new DnsRule({});
-  public DnsRuleTypes = AvailableDnsRecordTypes;
-  public DnsRuleClass = DnsRuleClass;
-  public recordDataType = -1;
+  formValid = false;
+  dnsRule: DnsRule = new DnsRule({});
+  DnsRuleTypes = AvailableDnsRecordTypes;
+  DnsRuleClass = DnsRuleClass;
+  recordDataType = -1;
 
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private destroyRef$: DestroyRef = inject(DestroyRef);
@@ -62,11 +62,11 @@ export class DnsRuleDialogComponent implements OnInit {
 
   private _sameAsZoneName = false;
 
-  public get sameAsZoneName(): boolean {
+  get sameAsZoneName(): boolean {
     return this._sameAsZoneName;
   }
 
-  public set sameAsZoneName(val: boolean) {
+  set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
       this.dnsRule.name = '@';
@@ -74,17 +74,17 @@ export class DnsRuleDialogComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  public get recordType() {
+  get recordType() {
     return this.dnsRule.type;
   }
 
-  public set recordType(type: DnsRuleType) {
+  set recordType(type: DnsRuleType) {
     this.dnsRule.type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.formValid = this.form.valid;
     this.form.onValidChanges.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((x) => {
       this.formValid = x;

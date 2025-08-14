@@ -58,9 +58,9 @@ export class HeaderComponent {
   readonly accountSettingsClicked = output<void>();
   readonly logoutClick = output<void>();
   readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
-  public navigationalPanelInvisible = false;
-  public darkMode = false;
-  public ViewMode = ViewMode;
+  navigationalPanelInvisible = false;
+  darkMode = false;
+  ViewMode = ViewMode;
 
   get contentView(): ViewMode {
     return this.contentViewService.contentView;

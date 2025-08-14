@@ -32,7 +32,7 @@ export class TooltipComponent implements OnDestroy {
     this.setOutsideClickHandler();
   }
 
-  public handleClickOuside(e: Event) {
+  handleClickOuside(e: Event) {
     if (this.elRef?.nativeElement.contains(e.target)) {
       e.stopPropagation();
     }

@@ -34,20 +34,20 @@ export class AttributeListEntry extends Treenode {
 })
 export class AttributeListDialogComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
-  public newAttribute = '';
-  public type = '';
-  public tree: AttributeListEntry[] = [];
-  public toDelete: AttributeListEntry[] = [];
+  newAttribute = '';
+  type = '';
+  tree: AttributeListEntry[] = [];
+  toDelete: AttributeListEntry[] = [];
 
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
   private dialogData: AttributeListDialogData = inject(DIALOG_DATA);
 
-  public title = this.dialogData.title || '';
-  public values: string[] = this.dialogData.values || [];
+  title = this.dialogData.title || '';
+  values: string[] = this.dialogData.values || [];
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.tree = this.values.map(
       (x) =>
         new AttributeListEntry({
@@ -60,16 +60,16 @@ export class AttributeListDialogComponent implements OnInit {
     );
   }
 
-  public apply() {
+  apply() {
     const result = this.treeview?.tree.map((x) => x.name ?? '') ?? [];
     this.dialogService.close(this.dialogRef, result);
   }
 
-  public close() {
+  close() {
     this.dialogService.close(this.dialogRef, null);
   }
 
-  public addAttribute() {
+  addAttribute() {
     this.tree?.push(
       new AttributeListEntry({
         name: this.newAttribute,
@@ -81,7 +81,7 @@ export class AttributeListDialogComponent implements OnInit {
     );
   }
 
-  public deleteAttribute() {
+  deleteAttribute() {
     this.toDelete = this.toDelete.concat(
       (this.tree.filter(
         (x) => x.selected && !(x as AttributeListEntry).new,

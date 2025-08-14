@@ -129,7 +129,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     }
   }
 
-  public openSuggest(event: FocusEvent): void {
+  openSuggest(event: FocusEvent): void {
     const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
     const targetRect = target.getBoundingClientRect();
 
@@ -144,7 +144,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     });
   }
 
-  public closeSuggest(): void {
+  closeSuggest(): void {
     if (this.suggestDialogRef) {
       this.suggestDialogRef.close();
     }

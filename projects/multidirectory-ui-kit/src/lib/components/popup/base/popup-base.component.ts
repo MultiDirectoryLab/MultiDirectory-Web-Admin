@@ -54,7 +54,7 @@ export class PopupBaseComponent {
     this.cdr.detectChanges();
   }
 
-  public handleClickOuside(e: Event) {
+  handleClickOuside(e: Event) {
     if (this.caller?.nativeElement.contains(e.target)) {
       e.stopPropagation();
     }

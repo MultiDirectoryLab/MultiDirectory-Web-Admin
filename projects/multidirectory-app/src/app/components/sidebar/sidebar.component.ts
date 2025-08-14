@@ -28,11 +28,11 @@ export class SidebarComponent {
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
 
-  public get user(): WhoamiResponse {
+  get user(): WhoamiResponse {
     return this.app.user;
   }
 
-  public logout() {
+  logout() {
     this.app
       .logout()
       .pipe(take(1))
@@ -41,7 +41,7 @@ export class SidebarComponent {
       });
   }
 
-  public openAccountSettings() {
+  openAccountSettings() {
     if (!this.app.userEntry) {
       return;
     }
@@ -60,7 +60,7 @@ export class SidebarComponent {
     });
   }
 
-  public openChangePassword() {
+  openChangePassword() {
     if (!this.app.userEntry) {
       return;
     }
@@ -81,7 +81,7 @@ export class SidebarComponent {
     });
   }
 
-  public handleLogoClick() {
+  handleLogoClick() {
     this.router.navigate(['/ldap']);
   }
 }

@@ -21,7 +21,7 @@ export class DialogService {
    * @param componentConfig Опции, содержащие данные и конфигурацию компонента обертки диалога.
    * @returns Ссылка на диалоговое окно.
    */
-  public open<R, D, C>({
+  open<R, D, C>({
     component,
     dialogConfig,
     componentConfig,
@@ -52,13 +52,13 @@ export class DialogService {
     return dialogRef;
   }
 
-  public close<R, C>(dialogRef: DialogRef<R, C>, data?: R): void {
+  close<R, C>(dialogRef: DialogRef<R, C>, data?: R): void {
     dialogRef.close(data);
 
     this.openedDialogs = this.openedDialogs.filter((ref) => ref.id !== dialogRef.id);
   }
 
-  public bringToFront(dialogRef: DialogRef | null): void {
+  bringToFront(dialogRef: DialogRef | null): void {
     if (!dialogRef) return;
 
     this.openedDialogs = this.openedDialogs.filter((ref) => ref.id !== dialogRef.id);

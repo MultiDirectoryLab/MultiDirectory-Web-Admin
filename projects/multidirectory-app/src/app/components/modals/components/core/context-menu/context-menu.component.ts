@@ -65,8 +65,8 @@ import { AppNavigationService } from '@services/app-navigation.service';
 })
 export class ContextMenuComponent implements OnInit {
   @ViewChild('dropdown', { static: true }) dropdown!: ElementRef<HTMLDivElement>;
-  public LdapEntryType = LdapEntryType;
-  public accountEnabled = false;
+  LdapEntryType = LdapEntryType;
+  accountEnabled = false;
 
   private ngZone: NgZone = inject(NgZone);
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
@@ -81,16 +81,16 @@ export class ContextMenuComponent implements OnInit {
   );
   private contextMenuData: ContextMenuData = inject(DIALOG_DATA);
   /** OTHER **/
-  public entries = this.contextMenuData.entity;
+  entries = this.contextMenuData.entity;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.setAccountEnabled();
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.handleOverflow();
     });
   }
 
-  public openMoreDialog() {
+  openMoreDialog() {
     this.contextMenuService.close(
       this.dialogService
         .open<
@@ -110,7 +110,7 @@ export class ContextMenuComponent implements OnInit {
     );
   }
 
-  public openChangePasswordDialog() {
+  openChangePasswordDialog() {
     const { id: identity, name: un } = this.entries[0];
 
     this.contextMenuService.close(
@@ -129,7 +129,7 @@ export class ContextMenuComponent implements OnInit {
     );
   }
 
-  public toggleAccount(enabled: boolean) {
+  toggleAccount(enabled: boolean) {
     this.contextMenuService.close(
       this.bulk
         .create(this.entries)
@@ -171,7 +171,7 @@ export class ContextMenuComponent implements OnInit {
     );
   }
 
-  public openMoveDialog() {
+  openMoveDialog() {
     this.contextMenuService.close(
       this.dialogService
         .open<MoveEntityDialogReturnData, MoveEntityDialogData, MoveEntityDialogComponent>({
@@ -188,7 +188,7 @@ export class ContextMenuComponent implements OnInit {
     );
   }
 
-  public openConfirmDeleteDialog() {
+  openConfirmDeleteDialog() {
     const toDeleteDNs = this.entries.map((x) => x.id);
     this.contextMenuService.close(
       this.dialogService
@@ -224,7 +224,7 @@ export class ContextMenuComponent implements OnInit {
     );
   }
 
-  public isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
+  isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
     const objectClasses = this.entries.map(
       (x) => x.attributes.find((y) => y.type.toLocaleLowerCase() == 'objectclass')?.vals ?? [],
     );

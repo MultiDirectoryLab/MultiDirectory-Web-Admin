@@ -25,7 +25,6 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { from, take } from 'rxjs';
-import { LogonTimeEditorDialogComponent } from '../../../../components/modals/components/dialogs/logon-time-editor-dialog/logon-time-editor-dialog.component';
 import { EntityPropertiesDialogData } from '../../../../components/modals/interfaces/entity-properties-dialog.interface';
 import {
   LogonTimeEditorDialogData,
@@ -33,6 +32,7 @@ import {
 } from '../../../../components/modals/interfaces/logon-time-editor-dialog.interface';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { LogonTimeEditorDialogComponent } from '@features/ldap-properties/logon-time-editor-dialog/logon-time-editor-dialog.component';
 
 @Component({
   selector: 'app-user-properties-account',
@@ -56,7 +56,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   private cdr = inject(ChangeDetectorRef);
   private ldapTreeviewService = inject(LdapTreeviewService);
   private dialogService: DialogService = inject(DialogService);
-  public dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
+  dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
   //readonly datePicker = viewChild.required<DatepickerComponent>('datePicker');
   @Input() accessor!: LdapAttributes;
   UserAccountControlFlag = UserAccountControlFlag;

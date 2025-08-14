@@ -47,24 +47,24 @@ export class EntitySelectorDialogComponent implements OnInit {
   /** DIRECTIVES **/
   @ViewChild('selector', { static: false }) selector?: MultiselectComponent;
 
-  public selectedCatalogDn = '';
-  public name = '';
-  public availableGroups: MultiselectModel[] = [];
-  public result = new Subject<MultiselectModel[]>();
-  public entityTypes: EntityType[] = ENTITY_TYPES;
-  public entityTypeDisplay = '';
-  public allowSelectEntityTypes = true;
+  selectedCatalogDn = '';
+  name = '';
+  availableGroups: MultiselectModel[] = [];
+  result = new Subject<MultiselectModel[]>();
+  entityTypes: EntityType[] = ENTITY_TYPES;
+  entityTypeDisplay = '';
+  allowSelectEntityTypes = true;
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<EntitySelectorDialogReturnData, EntitySelectorDialogComponent> =
     inject(DialogRef);
   private dialogData: EntitySelectorDialogData = inject(DIALOG_DATA);
-  public settings = this.dialogData;
+  settings = this.dialogData;
   private destroyRef: DestroyRef = inject(DestroyRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (this.settings.selectedEntityTypes && this.settings.selectedEntityTypes.length > 0) {
       this.entityTypes = this.settings.selectedEntityTypes;
     }
@@ -154,11 +154,11 @@ export class EntitySelectorDialogComponent implements OnInit {
       });
   }
 
-  public close(): void {
+  close(): void {
     this.dialogService.close(this.dialogRef);
   }
 
-  public finish(): void {
+  finish(): void {
     this.dialogService.close(this.dialogRef, this.selector?.selectedData);
   }
 }

@@ -49,10 +49,10 @@ export class DnsSettingsComponent implements OnInit {
       .pipe(take(1))
       .subscribe();
   }
-  public dnsStatuses = DnsStatuses;
-  public dnsStatus = new DnsStatusResponse({});
-  public rules: DnsRule[] = [];
-  public faCircleExclamation = faCircleExclamation;
+  dnsStatuses = DnsStatuses;
+  dnsStatus = new DnsStatusResponse({});
+  rules: DnsRule[] = [];
+  faCircleExclamation = faCircleExclamation;
 
   private dialogService: DialogService = inject(DialogService);
   private dnsService: DnsApiService = inject(DnsApiService);
@@ -76,7 +76,7 @@ export class DnsSettingsComponent implements OnInit {
     this._dnsSec = value;
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.windows.showSpinner();
     this.app.dnsStatusRx
       .pipe(
@@ -100,7 +100,7 @@ export class DnsSettingsComponent implements OnInit {
       });
   }
 
-  public onDelete(toDeleteIndex: number) {
+  onDelete(toDeleteIndex: number) {
     const prompt: ConfirmDialogDescriptor = {
       promptHeader: translate('remove-confirmation-dialog.prompt-header'),
       promptText: translate('remove-confirmation-dialog.prompt-text'),
@@ -131,7 +131,7 @@ export class DnsSettingsComponent implements OnInit {
       });
   }
 
-  public handleSetupClick() {
+  handleSetupClick() {
     this.windows
       .openDnsSetupDialog(new DnsSetupRequest(this.dnsStatus as any))
       .pipe(

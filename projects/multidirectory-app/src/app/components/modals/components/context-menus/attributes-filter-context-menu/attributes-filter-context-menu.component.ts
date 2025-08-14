@@ -23,18 +23,18 @@ import { take } from 'rxjs';
 })
 export class AttributesFilterContextMenuComponent implements OnInit {
   private dropdown = viewChild.required<ElementRef<HTMLDivElement>>('dropdown');
-  public dialogData = inject<{ filter: WritableSignal<AttributeFilter> }>(DIALOG_DATA);
+  dialogData = inject<{ filter: WritableSignal<AttributeFilter> }>(DIALOG_DATA);
   private ngZone = inject(NgZone);
-  public showWithValuesOnly = model(this.dialogData.filter().showWithValuesOnly);
-  public showWritableOnly = model(this.dialogData.filter().showWritableOnly);
+  showWithValuesOnly = model(this.dialogData.filter().showWithValuesOnly);
+  showWritableOnly = model(this.dialogData.filter().showWritableOnly);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {
       this.handleOverflow();
     });
   }
 
-  public onFilterChange(): void {
+  onFilterChange(): void {
     this.dialogData.filter.update((filter) => ({
       ...filter,
       showWritableOnly: this.showWritableOnly(),
