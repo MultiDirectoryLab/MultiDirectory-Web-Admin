@@ -4,4 +4,6 @@ export class Constants {
 
   static RegexGetNameFromDn = /^\w{0,2}\=([^,]+).*$/gm;
   static RegexGetPathFormDn = /^\w{0,2}\=[^,]+,(.*)$/gm;
+
+  static DnsTTL = 604800;
 }

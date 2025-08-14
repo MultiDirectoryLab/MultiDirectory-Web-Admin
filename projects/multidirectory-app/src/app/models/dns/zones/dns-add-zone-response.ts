@@ -1,3 +1,5 @@
+import { Constants } from '@core/constants';
+
 export class DnsZoneParam {
   name: string = '';
   value: string | string[] = '';
@@ -10,7 +12,7 @@ export class DnsZoneParam {
 export class DnsAddZoneRequest {
   zone_name: string = '';
   zone_type: string = '';
-  ttl = 3600;
+  ttl = Constants.DnsTTL;
   params: DnsZoneParam[] = [];
   constructor(obj: Partial<DnsAddZoneRequest>) {
     Object.assign(this, obj);
