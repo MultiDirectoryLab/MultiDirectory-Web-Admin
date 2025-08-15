@@ -48,7 +48,7 @@
       <md-button (click)="onEditClick()">{{ 'entity-attributes.edit' | transloco }}</md-button>
       <md-button (click)="onDeleteClick()">{{ 'entity-attributes.delete' | transloco }}</md-button>
     </div>
-    <md-button [mdDropdownContainer]="filterMenu" class="">{{
+    <md-button [mdDropdownContainer]="filterMenu" [calculatePosition]="true" class="">{{
       'entity-attributes.filter' | transloco
     }}</md-button>
   </div>

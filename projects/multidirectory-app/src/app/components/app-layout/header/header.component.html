@@ -5,7 +5,12 @@
     </div>
     <div class="control-panel flex-wrap">
       @if (navigationalPanelInvisible) {
-        <md-plane-button [mdDropdownContainer]="loginMenu" class="search control-button" #searchBtn>
+        <md-plane-button
+          [mdDropdownContainer]="loginMenu"
+          [calculatePosition]="true"
+          class="search control-button"
+          #searchBtn
+        >
           @if (!user?.jpegPhoto) {
             <img [src]="'assets/avatar_placeholder.svg'" style="min-width: 24px; height: 24px" />
           }
@@ -20,10 +25,19 @@
       <!--md-plane-button class="search control-button" (click)="toggleNotificationPanel()">
       <img [src]="'assets/notifications.svg'" />
     </md-plane-button-->
-      <md-plane-button #searchBtn [mdDropdownContainer]="searchMenu" class="search control-button">
+      <md-plane-button
+        #searchBtn
+        [mdDropdownContainer]="searchMenu"
+        [calculatePosition]="true"
+        class="search control-button"
+      >
         <img [src]="'assets/search.svg'" />
       </md-plane-button>
-      <md-plane-button [mdDropdownContainer]="helpMenu" class="settings control-button">
+      <md-plane-button
+        [mdDropdownContainer]="helpMenu"
+        [calculatePosition]="true"
+        class="settings control-button"
+      >
         <img [src]="'assets/settings.svg'" />
       </md-plane-button>
       <md-plane-button (click)="showHelp()" class="settings control-button">

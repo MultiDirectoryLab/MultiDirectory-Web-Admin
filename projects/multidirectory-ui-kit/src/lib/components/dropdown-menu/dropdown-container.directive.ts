@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, inject, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input, Input, OnInit } from '@angular/core';
 import { DropdownMenuComponent } from './dropdown-menu.component';
 
 @Directive({
@@ -11,6 +11,7 @@ export class DropdownContainerDirective implements OnInit {
   @Input() openMenuOnClick = true;
   @Input() mdDropdownXOffset = 0;
   @Input() mdDropdownYOffset = 0;
+  calculatePosition = input<boolean>(false);
 
   ngOnInit() {
     if (this.mdDropdownContainer) {
@@ -31,14 +32,16 @@ export class DropdownContainerDirective implements OnInit {
     minWidth: number | undefined = undefined,
     maxHeight: number | undefined = undefined,
   ) {
-    var rectObject = this.el.nativeElement.getBoundingClientRect();
+    const rectObject = this.el.nativeElement.getBoundingClientRect();
+
     this.mdDropdownContainer.setPosition(
       rectObject.x + this.mdDropdownXOffset,
       rectObject.y + rectObject.height + this.mdDropdownYOffset,
     );
+
     this.mdDropdownContainer.setMinWidth(minWidth);
     this.mdDropdownContainer.setMaxHeight(maxHeight);
-    this.mdDropdownContainer.toggle(this.el, focus);
+    this.mdDropdownContainer.toggle(this.el, focus, this.calculatePosition());
   }
 
   isVisible(): boolean {
