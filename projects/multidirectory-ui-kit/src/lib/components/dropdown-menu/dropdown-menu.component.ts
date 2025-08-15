@@ -41,8 +41,6 @@ export class DropdownMenuComponent {
   setPosition(left: number, top: number) {
     this._top = top;
     this._left = left;
-
-    this.cdr.detectChanges();
   }
 
   setWidth(width?: number) {
@@ -75,11 +73,13 @@ export class DropdownMenuComponent {
     this.close();
   }
 
-  open() {
+  open(calculatePosition = false) {
     this.dropdownVisible = true;
     this.cdr.detectChanges();
-    this.renderer.setStyle(this.menu.nativeElement, 'left', `${this._left}px`);
-    this.renderer.setStyle(this.menu.nativeElement, 'top', `${this._top}px`);
+    if (calculatePosition) {
+      this.renderer.setStyle(this.menu.nativeElement, 'left', `${this._left}px`);
+      this.renderer.setStyle(this.menu.nativeElement, 'top', `${this._top}px`);
+    }
     if (this._width) {
       this.renderer.setStyle(this.menu.nativeElement, 'width', `${this._width}px`);
     }
@@ -110,13 +110,13 @@ export class DropdownMenuComponent {
     this.cdr.detectChanges();
   }
 
-  toggle(el?: ElementRef, focus = true) {
+  toggle(el?: ElementRef, focus = true, calculatePosition = false) {
     this.caller = el;
     if (this.dropdownVisible) {
       this.close();
       return;
     }
-    this.open();
+    this.open(calculatePosition);
     if (focus) {
       this.focus();
     }

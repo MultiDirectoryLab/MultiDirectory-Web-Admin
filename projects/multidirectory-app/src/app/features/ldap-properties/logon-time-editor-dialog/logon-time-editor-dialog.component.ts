@@ -55,8 +55,8 @@ export class LogonDayState {
 })
 export class LogonTimeEditorDialogComponent implements OnInit {
   @ViewChild('logonMap', { static: true }) logonMap!: ElementRef<HTMLDivElement>;
-  public username = '';
-  public daysOfWeek: LogonMapDay[] = [
+  username = '';
+  daysOfWeek: LogonMapDay[] = [
     { id: null, title: translate('logon-time-editor.every') },
     { id: 0, title: translate('logon-time-editor.monday') },
     { id: 1, title: translate('logon-time-editor.tuesday') },
@@ -66,16 +66,16 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     { id: 5, title: translate('logon-time-editor.saturday') },
     { id: 6, title: translate('logon-time-editor.sunday') },
   ];
-  public hours = Array.from(Array(24).keys());
-  public bitValues = new BitSet().setRange(0, 24 * 7, 1);
-  public selectDayStarted = -1;
-  public selectHourStarted = -1;
-  public selectDayCurrent = -1;
-  public selectHourCurrent = -1;
-  public selectionInProgress = false;
-  public currentSelectionStatus: boolean | null = null;
-  public selectedDaysState: LogonDayState[] = [];
-  public fromDescription: string[] = [
+  hours = Array.from(Array(24).keys());
+  bitValues = new BitSet().setRange(0, 24 * 7, 1);
+  selectDayStarted = -1;
+  selectHourStarted = -1;
+  selectDayCurrent = -1;
+  selectHourCurrent = -1;
+  selectionInProgress = false;
+  currentSelectionStatus: boolean | null = null;
+  selectedDaysState: LogonDayState[] = [];
+  fromDescription: string[] = [
     translate('logon-time-editor.from-monday'),
     translate('logon-time-editor.from-tuesday'),
     translate('logon-time-editor.from-wednesday'),
@@ -116,13 +116,13 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (this.dialogData.logonHours) {
       this.bitValues = BitSet.fromBinaryString(this.dialogData.logonHours);
     }
   }
 
-  public getDayBit(dayId: number | null, hour: number): number {
+  getDayBit(dayId: number | null, hour: number): number {
     if (dayId == null) {
       return 0;
     }
@@ -130,7 +130,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     return this.bitValues.get(index);
   }
 
-  public setDayBit(dayId: number | null, hour: number, value: number | null = null) {
+  setDayBit(dayId: number | null, hour: number, value: number | null = null) {
     if (dayId == null) {
       return;
     }
@@ -143,7 +143,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  public onDaySelect($event: MouseEvent, day: LogonMapDay) {
+  onDaySelect($event: MouseEvent, day: LogonMapDay) {
     $event.preventDefault();
     $event.stopPropagation();
     if (day.id == null) {
@@ -157,7 +157,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.finishSelection();
   }
 
-  public onDaySelectAll($event: MouseEvent) {
+  onDaySelectAll($event: MouseEvent) {
     $event.preventDefault();
     $event.stopPropagation();
     this.selectDayStarted = 0;
@@ -167,7 +167,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.finishSelection();
   }
 
-  public onHoursSelect($event: MouseEvent, hours: number) {
+  onHoursSelect($event: MouseEvent, hours: number) {
     this.selectDayStarted = 0;
     this.selectDayCurrent = this.daysOfWeek[7].id ?? -1;
     this.selectHourStarted = hours;
@@ -175,7 +175,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.finishSelection();
   }
 
-  public onSelectStarted($event: MouseEvent, day: LogonMapDay, hour: number) {
+  onSelectStarted($event: MouseEvent, day: LogonMapDay, hour: number) {
     this.selectDayStarted = day.id ?? -1;
     this.selectHourStarted = hour;
     this.selectHourCurrent = -1;
@@ -188,7 +188,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
       });
   }
 
-  public finishSelection() {
+  finishSelection() {
     this.selectionInProgress = false;
     this.cdr.detectChanges();
     const selectedElements = this.logonMap.nativeElement.querySelectorAll('.logon-selected');
@@ -207,7 +207,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  public onSelectMouseEnter($event: Event, day: LogonMapDay, hour: number) {
+  onSelectMouseEnter($event: Event, day: LogonMapDay, hour: number) {
     if (this.selectionInProgress) {
       this.selectDayCurrent = day.id ?? -1;
       this.selectHourCurrent = hour;
@@ -215,7 +215,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     }
   }
 
-  public isInsideSelection(day: LogonMapDay, hour: number) {
+  isInsideSelection(day: LogonMapDay, hour: number) {
     if (
       day.id == null ||
       day.id < 0 ||
@@ -235,13 +235,13 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     );
   }
 
-  public selectSingle(day: LogonMapDay, hour: number) {
+  selectSingle(day: LogonMapDay, hour: number) {
     this.selectDayCurrent = this.selectDayStarted = day.id ?? -1;
     this.selectHourCurrent = this.selectHourStarted = hour;
     this.finishSelection();
   }
 
-  public isSelectionRowStart(day: LogonMapDay, hour: number) {
+  isSelectionRowStart(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
     }
@@ -252,7 +252,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     );
   }
 
-  public isSelectionColumnStart(day: LogonMapDay, hour: number) {
+  isSelectionColumnStart(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
     }
@@ -264,7 +264,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     );
   }
 
-  public isSelectionColumnEnd(day: LogonMapDay, hour: number) {
+  isSelectionColumnEnd(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
     }
@@ -276,7 +276,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     );
   }
 
-  public isSelectionRowEnd(day: LogonMapDay, hour: number) {
+  isSelectionRowEnd(day: LogonMapDay, hour: number) {
     if (!day.id || day.id < 0 || hour < 0) {
       return false;
     }
@@ -287,7 +287,7 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     );
   }
 
-  public getSelectionDescription() {
+  getSelectionDescription() {
     if (
       this.selectDayCurrent < 0 ||
       this.selectDayStarted < 0 ||
@@ -301,11 +301,11 @@ export class LogonTimeEditorDialogComponent implements OnInit {
     return `${from} ${to}, ${translate('logon-time-editor.starts-from')} ${Math.min(this.selectHourStarted, this.selectHourCurrent)}:00 ${translate('logon-time-editor.finish-to')} ${Math.max(this.selectHourStarted, this.selectHourCurrent) + 1}:00`;
   }
 
-  public close() {
+  close() {
     this.dialogService.close(this.dialogRef, null);
   }
 
-  public finish() {
+  finish() {
     this.dialogService.close(this.dialogRef, this.bitValues.toString(2));
   }
 }

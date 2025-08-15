@@ -12,7 +12,11 @@
         <img class="logo-img" src="/assets/logo_login_transparent.svg" />
       </div>
       <div>
-        <md-plane-button [mdDropdownContainer]="languageMenu" class="btn">
+        <md-plane-button
+          [mdDropdownContainer]="languageMenu"
+          [calculatePosition]="true"
+          class="btn"
+        >
           <fa-icon [icon]="faLanguage" class="white"></fa-icon>
         </md-plane-button>
         <md-dropdown-menu #languageMenu>

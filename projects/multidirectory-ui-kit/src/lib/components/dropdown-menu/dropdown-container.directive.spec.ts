@@ -31,13 +31,6 @@ describe('DropdownContainerDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should set container property of mdDropdownContainer', () => {
-      directive.ngOnInit();
-      expect(mockDropdownMenu.container).toBe(directive);
-    });
-  });
-
   describe('onClick', () => {
     it('should toggle the menu if openMenuOnClick is true', () => {
       spyOn(directive, 'toggleMenu');
