@@ -104,14 +104,14 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   get userUnableToChangePassword(): boolean {
     return (
-      (Number(this.setupRequest.uacBitSet?.toString(10)) &
+      (Number(this.setupRequest.uacBitSet.toString(10)) &
         UserAccountControlFlag.PASSWD_CANT_CHANGE) >
       0
     );
   }
 
   set userUnableToChangePassword(shouldChange: boolean) {
-    this.setupRequest.uacBitSet?.set(
+    this.setupRequest.uacBitSet.set(
       Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE),
       Number(shouldChange),
     );
