@@ -111,11 +111,10 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   }
 
   set userUnableToChangePassword(shouldChange: boolean) {
-    if (shouldChange) {
-      this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE), 1);
-      return;
-    }
-    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE), 0);
+    this.setupRequest.uacBitSet?.set(
+      Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE),
+      Number(shouldChange),
+    );
   }
 
   ngAfterViewInit(): void {
