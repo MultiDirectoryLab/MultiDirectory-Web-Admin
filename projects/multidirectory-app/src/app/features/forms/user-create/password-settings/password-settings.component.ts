@@ -102,6 +102,21 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
     this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
   }
 
+  get userUnableToChangePassword(): boolean {
+    return (
+      (Number(this.setupRequest.uacBitSet.toString(10)) &
+        UserAccountControlFlag.PASSWD_CANT_CHANGE) >
+      0
+    );
+  }
+
+  set userUnableToChangePassword(shouldChange: boolean) {
+    this.setupRequest.uacBitSet.set(
+      Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE),
+      Number(shouldChange),
+    );
+  }
+
   ngAfterViewInit(): void {
     const form = this.form();
     this.setup.stepValid(form.valid);
