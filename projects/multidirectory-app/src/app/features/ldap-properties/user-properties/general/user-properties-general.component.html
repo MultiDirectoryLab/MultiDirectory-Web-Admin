@@ -75,14 +75,12 @@
     <label for="phone" class="col-span-1">
       {{ 'user-properties-generals.phone' | transloco }}
     </label>
-    <md-textbox name="phone" class="col-span-2" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
-    <div class="col-span-3">
-      <md-button
-        (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
-      >
-        {{ 'user-properties-generals.other' | transloco }}
-      </md-button>
-    </div>
+    <md-textbox name="phone" class="col-span-4" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
+    <md-button
+      (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
+    >
+      {{ 'user-properties-generals.other' | transloco }}
+    </md-button>
   </div>
 
   <!-- Email -->
@@ -96,13 +94,11 @@
     <label for="homepage" class="col-span-1">
       {{ 'user-properties-generals.webpage' | transloco }}
     </label>
-    <md-textbox name="homepage" class="col-span-2" [(ngModel)]="accessor.webpage"></md-textbox>
-    <div class="col-span-3">
-      <md-button
-        (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
-      >
-        {{ 'user-properties-generals.other' | transloco }}
-      </md-button>
-    </div>
+    <md-textbox class="col-span-4" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
+    <md-button
+      (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
+    >
+      {{ 'user-properties-generals.other' | transloco }}
+    </md-button>
   </div>
 }

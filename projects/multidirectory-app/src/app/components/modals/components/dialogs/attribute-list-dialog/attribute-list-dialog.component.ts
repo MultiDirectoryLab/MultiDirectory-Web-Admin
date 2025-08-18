@@ -9,7 +9,16 @@ import {
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { MultidirectoryUiKitModule, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AttributeListDialogData } from '../../../interfaces/attribute-list-dialog.interface';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../services/dialog.service';
@@ -27,14 +36,13 @@ export class AttributeListEntry extends Treenode {
 @Component({
   selector: 'app-attribute-list-dialog',
   standalone: true,
-  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, FormsModule],
+  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, ReactiveFormsModule],
   templateUrl: './attribute-list-dialog.component.html',
   styleUrl: './attribute-list-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributeListDialogComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
-  newAttribute = '';
   type = '';
   tree: AttributeListEntry[] = [];
   toDelete: AttributeListEntry[] = [];
@@ -43,6 +51,11 @@ export class AttributeListDialogComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
   private dialogData: AttributeListDialogData = inject(DIALOG_DATA);
+  private fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    newAttribute: new FormControl('', [Validators.required, this.shouldBeUnique()]),
+  });
 
   title = this.dialogData.title || '';
   values: string[] = this.dialogData.values || [];
@@ -60,6 +73,15 @@ export class AttributeListDialogComponent implements OnInit {
     );
   }
 
+  shouldBeUnique(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (this.tree.map((x) => x.name).includes(control.value)) {
+        return { notUnique: true };
+      }
+      return null;
+    };
+  }
+
   apply() {
     const result = this.treeview?.tree.map((x) => x.name ?? '') ?? [];
     this.dialogService.close(this.dialogRef, result);
@@ -70,15 +92,17 @@ export class AttributeListDialogComponent implements OnInit {
   }
 
   addAttribute() {
-    this.tree?.push(
+    this.tree = this.tree.concat([
       new AttributeListEntry({
-        name: this.newAttribute,
-        id: this.newAttribute,
+        name: this.form.value.newAttribute!,
+        id: this.form.value.newAttribute!,
         selectable: true,
         type: this.type,
         new: true,
       }),
-    );
+    ]);
+    this.form.controls.newAttribute.setValue('');
+    this.cdr.detectChanges();
   }
 
   deleteAttribute() {
