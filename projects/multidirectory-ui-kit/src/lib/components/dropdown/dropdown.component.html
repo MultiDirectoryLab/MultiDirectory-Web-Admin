@@ -3,6 +3,9 @@
     <span class="button-content">
       {{ selectedOption ? selectedOption.title : placeholder() }}
     </span>
+    @if (allowEmpty()) {
+      <span (click)="clearSelected()">x</span>
+    }
   </button>
 </div>
 

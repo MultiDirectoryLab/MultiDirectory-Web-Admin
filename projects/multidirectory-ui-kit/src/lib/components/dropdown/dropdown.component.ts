@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   Input,
@@ -17,6 +18,7 @@ import { BaseComponent } from '../base-component/base.component';
 import { CommonModule } from '@angular/common';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export class DropdownOption {
   title: string = '';
@@ -46,10 +48,12 @@ export class DropdownComponent extends BaseComponent {
   private overlay = inject(Overlay);
   private overlayRef?: OverlayRef;
   private vcr = inject(ViewContainerRef);
+  private destroyRef = inject(DestroyRef);
 
   selectedOption?: DropdownOption;
   options = input<DropdownOption[]>([]);
   allowSearch = input(false);
+  allowEmpty = input(false);
   placeholder = input('Пожалуйста, выберите значение');
   searchTerm = '';
 
@@ -85,7 +89,10 @@ export class DropdownComponent extends BaseComponent {
     const portal = new TemplatePortal(this.dropdownTemplate(), this.vcr);
     this.overlayRef.attach(portal);
 
-    this.overlayRef.outsidePointerEvents().subscribe(() => this.closeDropdown());
+    this.overlayRef
+      .outsidePointerEvents()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.closeDropdown());
   }
 
   override writeValue(value: DropdownOption): void {
@@ -124,5 +131,10 @@ export class DropdownComponent extends BaseComponent {
   getTitle(value: string) {
     const option = this.options().find((x) => x.value == value);
     return option?.title;
+  }
+
+  clearSelected() {
+    this.value = undefined;
+    this.selectedOption = undefined;
   }
 }

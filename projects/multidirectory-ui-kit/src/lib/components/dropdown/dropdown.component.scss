@@ -21,6 +21,7 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  gap: 4px;
   &:hover:not(:disabled) {
     border-color: #888;
   }
