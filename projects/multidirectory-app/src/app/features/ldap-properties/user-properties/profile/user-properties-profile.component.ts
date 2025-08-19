@@ -4,6 +4,7 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   DropdownComponent,
+  DropdownOption,
   GroupComponent,
   RadiobuttonComponent,
   RadioGroupComponent,
@@ -27,4 +28,5 @@ import {
 export class UserPropertiesProfileComponent {
   @Input() accessor: LdapAttributes | null = null;
   homeDirectorySelection = 1;
+  mountDrives = ['C:', 'Z:', 'D:'].map((x) => new DropdownOption({ value: x, title: x }));
 }

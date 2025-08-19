@@ -1,4 +1,7 @@
 @use '../../styles/global.scss';
+:host {
+  transform: unset;
+}
 
 .ngx-datatable {
   border: 1px solid var(--md-neutral-300);
@@ -97,14 +100,6 @@
   .empty-row {
     padding-left: 0.5rem;
   }
-}
-
-::ng-deep .page-size-select {
-  height: 24px;
-}
-
-::ng-deep .select-input {
-  height: 24px;
 }
 
 .relative {
