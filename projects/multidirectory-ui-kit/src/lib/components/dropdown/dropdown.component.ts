@@ -98,7 +98,7 @@ export class DropdownComponent extends BaseComponent {
   override writeValue(value: DropdownOption): void {
     this.selectedOption = this.options().find((x) => {
       if (typeof x === 'string') {
-        return x == value;
+        return x === value;
       }
       return (<DropdownOption>x)?.value == <DropdownOption>value;
     });
