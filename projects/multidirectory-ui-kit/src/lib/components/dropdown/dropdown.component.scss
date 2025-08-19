@@ -1,17 +1,9 @@
-/* searchable-select.component.scss */
-
-::ng-deep .cdk-overlay-connected-position-bounding-box {
-  width: auto !important;
-  height: auto !important;
-}
-/* Container */
 .searchable-select {
   position: relative;
   display: inline-block;
   width: 100%;
 }
 
-/* Trigger button */
 .select-trigger {
   padding: 2px 4px;
   font-size: 14px;
@@ -54,12 +46,10 @@
   transition: transform 0.2s ease;
 }
 
-/* Rotate caret when dropdown is open */
 .select-trigger.open::after {
   transform: rotate(180deg);
 }
 
-/* Dropdown panel */
 .dropdown {
   display: flex;
   flex-direction: column;
@@ -74,7 +64,6 @@
   z-index: 1000;
 }
 
-/* Search input */
 .search-input {
   padding: 0.5rem 0.75rem;
   font-size: 14px;
@@ -87,7 +76,6 @@
   }
 }
 
-/* Options list */
 .options {
   list-style: none;
   margin: 0;

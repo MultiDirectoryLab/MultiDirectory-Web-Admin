@@ -81,15 +81,11 @@ export class DropdownComponent extends BaseComponent {
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
       panelClass: 'searchable-select-panel',
-      width: undefined, // 👈 important: don’t force it
-      minWidth: undefined,
-      maxWidth: undefined,
     });
-
     const portal = new TemplatePortal(this.dropdownTemplate(), this.vcr);
     this.overlayRef.attach(portal);
 
-    this.overlayRef.backdropClick().subscribe(() => this.closeDropdown());
+    this.overlayRef.outsidePointerEvents().subscribe(() => this.closeDropdown());
   }
 
   override writeValue(value: DropdownOption): void {
@@ -106,6 +102,7 @@ export class DropdownComponent extends BaseComponent {
   }
 
   closeDropdown() {
+    this.overlayRef?.detach();
     this.overlayRef?.dispose();
     this.overlayRef = undefined;
     this.searchTerm = '';
