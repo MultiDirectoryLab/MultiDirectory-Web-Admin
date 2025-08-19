@@ -1,4 +1,7 @@
 @use '../../styles/global.scss';
+:host {
+  transform: unset;
+}
 
 .ngx-datatable {
   border: 1px solid var(--md-neutral-300);

@@ -16,7 +16,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoModule } from '@jsverse/transloco';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
-import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { DropdownOption, MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
   selector: 'app-object-class-general',
@@ -35,7 +35,9 @@ export class ObjectClassCreateGeneralComponent implements OnInit {
   form = viewChild.required<MdFormComponent>('form');
   @Output() stepValid = new EventEmitter<boolean>();
   objectClass = input(new SchemaObjectClass({}));
-  kindOptions = ['AUXILARY', 'STRUCTURAL', 'ABSTRACT'];
+  kindOptions = ['AUXILARY', 'STRUCTURAL', 'ABSTRACT'].map(
+    (x) => new DropdownOption({ value: x, title: x }),
+  );
 
   ngOnInit(): void {
     this.stepValid.emit(false);

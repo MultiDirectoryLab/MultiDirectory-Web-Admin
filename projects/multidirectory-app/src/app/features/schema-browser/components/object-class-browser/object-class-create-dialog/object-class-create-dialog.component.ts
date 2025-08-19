@@ -8,13 +8,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ObjectClassCreateDialogData } from '../object-class-create-dialog.interface';
 
 @Component({

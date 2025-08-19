@@ -1,14 +1,23 @@
-<select
-  [id]="__ID"
-  class="select-input"
-  name="{{ __ID }}"
-  [(ngModel)]="value"
-  (blur)="onBlur()"
-  [disabled]="disabled"
->
-  @for (option of options; track option; let i = $index) {
-    <option [ngValue]="getValue(option, i)">
-      {{ getTitle(option) }}
-    </option>
-  }
-</select>
+<div class="searchable-select" #trigger>
+  <button type="button" class="select-trigger" (click)="openDropdown()" [disabled]="disabled">
+    <span class="button-content">
+      {{ selectedOption ? selectedOption.title : placeholder() }}
+    </span>
+  </button>
+</div>
+
+<ng-template #dropdownTemplate>
+  <div class="dropdown">
+    @if (allowSearch()) {
+      <input type="text" class="search-input" placeholder="Search…" [(ngModel)]="searchTerm" />
+    }
+
+    <ul class="options">
+      @for (option of filteredOptions(); track option) {
+        <li (click)="selectOption(option)">
+          {{ option.title }}
+        </li>
+      }
+    </ul>
+  </div>
+</ng-template>
