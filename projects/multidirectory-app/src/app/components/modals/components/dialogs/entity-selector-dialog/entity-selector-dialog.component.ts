@@ -72,6 +72,7 @@ export class EntitySelectorDialogComponent implements OnInit {
     this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
     this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
     this.selectedCatalogDn = this.settings.selectedPlaceDn;
+    this.cdr.markForCheck();
   }
 
   /** METHODS**/
@@ -114,7 +115,6 @@ export class EntitySelectorDialogComponent implements OnInit {
       .closed.pipe(take(1))
       .subscribe((result) => {
         if (!result?.length) {
-          this.selectedCatalogDn = '';
           return;
         }
         this.selectedCatalogDn = result[0].id;
