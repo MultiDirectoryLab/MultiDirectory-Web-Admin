@@ -3,13 +3,22 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  input,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { MultidirectoryUiKitModule, Treenode, TreeviewComponent } from 'multidirectory-ui-kit';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { FormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AttributeListDialogData } from '../../../interfaces/attribute-list-dialog.interface';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../services/dialog.service';
@@ -27,14 +36,13 @@ export class AttributeListEntry extends Treenode {
 @Component({
   selector: 'app-attribute-list-dialog',
   standalone: true,
-  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, FormsModule],
+  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, ReactiveFormsModule],
   templateUrl: './attribute-list-dialog.component.html',
   styleUrl: './attribute-list-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributeListDialogComponent implements OnInit {
   @ViewChild('treeview', { static: true }) treeview: TreeviewComponent | null = null;
-  newAttribute = '';
   type = '';
   tree: AttributeListEntry[] = [];
   toDelete: AttributeListEntry[] = [];
@@ -43,6 +51,25 @@ export class AttributeListDialogComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef = inject(DialogRef);
   private dialogData: AttributeListDialogData = inject(DIALOG_DATA);
+  private fb = inject(FormBuilder);
+  valueValidator: ValidatorFn = this.dialogData.valueValidator ?? (() => null);
+
+  form = this.fb.group({
+    newAttribute: new FormControl('', [
+      Validators.required,
+      this.valueValidator,
+      this.shouldBeUnique(),
+    ]),
+  });
+
+  shouldBeUnique(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (this.tree.map((x) => x.name).includes(control.value)) {
+        return { notUnique: true };
+      }
+      return null;
+    };
+  }
 
   title = this.dialogData.title || '';
   values: string[] = this.dialogData.values || [];
@@ -70,15 +97,18 @@ export class AttributeListDialogComponent implements OnInit {
   }
 
   addAttribute() {
-    this.tree?.push(
+    this.tree = this.tree.concat([
       new AttributeListEntry({
-        name: this.newAttribute,
-        id: this.newAttribute,
+        name: this.form.value.newAttribute!,
+        id: this.form.value.newAttribute!,
         selectable: true,
         type: this.type,
         new: true,
       }),
-    );
+    ]);
+    this.form.controls.newAttribute.setValue('');
+    this.form.reset();
+    this.cdr.detectChanges();
   }
 
   deleteAttribute() {

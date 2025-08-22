@@ -2,27 +2,51 @@
   <div class="app-modal-header">
     {{ title }}
   </div>
-  <div class="grid">
-    <div class="flex flex-col flex-grow-1">
-      <div class="flex w-full flex">
-        <label class="grow-1" for="newAttribute">{{ 'attributes-list.value' | transloco }}</label>
-        <div class="grow-2">
-          <md-textbox [(ngModel)]="newAttribute" name="newAttribute"></md-textbox>
+  <form #attributeForm [formGroup]="form" (submit)="addAttribute()">
+    <div class="grid justify-items-end grid-rows-2 grid-cols-2">
+      <div class="w-full mb-4">
+        <div class="flex w-full gap-2 justify-between">
+          <label for="newAttribute">{{ 'attributes-list.value' | transloco }}</label>
+          <md-textbox
+            class="grow-1 w-full"
+            formControlName="newAttribute"
+            name="newAttribute"
+          ></md-textbox>
         </div>
+        @if (form.dirty && !form.valid) {
+          <div class="flex text-sm text-red-600">
+            @if (form.controls.newAttribute.hasError('required')) {
+              <small>{{ 'attributes-list.required' | transloco }}</small>
+            }
+            @if (form.controls.newAttribute.hasError('shouldBePhone')) {
+              <small>{{ 'attributes-list.should-be-valid-phone' | transloco }}</small>
+            }
+            @if (form.controls.newAttribute.hasError('shouldBeWebpage')) {
+              <small>{{ 'attributes-list.should-be-valid-webpage' | transloco }}</small>
+            }
+            @if (form.controls.newAttribute.hasError('notUnique')) {
+              <small>{{ 'attributes-list.should-be-unqiue' | transloco }}</small>
+            }
+          </div>
+        }
+      </div>
+      <md-button [disabled]="!form.valid" [submit]="true">{{
+        'attributes-list.add' | transloco
+      }}</md-button>
+      <md-treeview
+        #treeview
+        [tree]="tree"
+        class="border-solid-1 h-full w-full"
+        style="min-height: 200px"
+      ></md-treeview>
+      <div class="flex flex-col justify-between align-end">
+        <md-button (click)="deleteAttribute()">{{
+          'attributes-list.delete' | transloco
+        }}</md-button>
+        <md-button (click)="apply()" [primary]="true"
+          >{{ 'attributes-list.apply' | transloco }}
+        </md-button>
       </div>
     </div>
-    <md-button (click)="addAttribute()">{{ 'attributes-list.add' | transloco }}</md-button>
-    <md-treeview
-      #treeview
-      [tree]="tree"
-      class="border-solid-1 h-full w-full"
-      style="min-height: 200px"
-    ></md-treeview>
-    <div class="flex flex-col justify-between">
-      <md-button (click)="deleteAttribute()">{{ 'attributes-list.delete' | transloco }}</md-button>
-      <md-button (click)="apply()" [primary]="true"
-        >{{ 'attributes-list.apply' | transloco }}
-      </md-button>
-    </div>
-  </div>
+  </form>
 </app-dialog>
