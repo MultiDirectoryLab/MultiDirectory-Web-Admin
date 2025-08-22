@@ -53,16 +53,24 @@ export class AttributeListDialogComponent implements OnInit {
   private dialogRef: DialogRef = inject(DialogRef);
   private dialogData: AttributeListDialogData = inject(DIALOG_DATA);
   private fb = inject(FormBuilder);
-  private validattion = inject(ValidationService);
   valueValidator: ValidatorFn = this.dialogData.valueValidator ?? (() => null);
 
   form = this.fb.group({
     newAttribute: new FormControl('', [
       Validators.required,
       this.valueValidator,
-      this.validattion.shouldBeUnique(this.tree),
+      this.shouldBeUnique(),
     ]),
   });
+
+  shouldBeUnique(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (this.tree.map((x) => x.name).includes(control.value)) {
+        return { notUnique: true };
+      }
+      return null;
+    };
+  }
 
   title = this.dialogData.title || '';
   values: string[] = this.dialogData.values || [];

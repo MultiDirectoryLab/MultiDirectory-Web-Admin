@@ -21,13 +21,4 @@ export class ValidationService {
       return urlRegex.test(control.value) ? null : { shouldBeWebpage: true };
     };
   }
-
-  shouldBeUnique(tree: AttributeListEntry[]): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (tree.map((x) => x.name).includes(control.value)) {
-        return { notUnique: true };
-      }
-      return null;
-    };
-  }
 }
