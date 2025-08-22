@@ -94,7 +94,13 @@
     <label for="homepage" class="col-span-1">
       {{ 'user-properties-generals.webpage' | transloco }}
     </label>
-    <md-textbox class="col-span-4" name="homepage" [(ngModel)]="accessor.webpage"></md-textbox>
+    <md-textbox
+      appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+      domainErrorMessage="{{ 'setup.domain-settings.domain-format-error' | transloco }}"
+      class="col-span-4"
+      name="homepage"
+      [(ngModel)]="accessor.webpage"
+    ></md-textbox>
     <md-button
       (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
     >

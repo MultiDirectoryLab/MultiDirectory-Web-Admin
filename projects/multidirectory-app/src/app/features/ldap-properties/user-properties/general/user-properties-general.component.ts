@@ -12,6 +12,8 @@ import {
   AttributeListDialogReturnData,
 } from '../../../../components/modals/interfaces/attribute-list-dialog.interface';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
+import { ValidationService } from '@services/validator.service';
+import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
 
 @Component({
   selector: 'app-user-properties-general',
@@ -24,34 +26,14 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
     RequiredWithMessageDirective,
     TranslocoPipe,
     ButtonComponent,
+    DomainFormatValidatorDirective,
   ],
 })
 export class UserPropertiesGeneralComponent {
   private dialogService: DialogService = inject(DialogService);
   @Input() accessor: LdapAttributes | null = null;
   toastr = inject(ToastrService);
-
-  shouldBePhone(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
-
-      const phoneRegex = /^\+?[0-9]{7,15}$/;
-      return phoneRegex.test(control.value) ? null : { shouldBePhone: true };
-    };
-  }
-
-  shouldBeWebpage(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
-
-      try {
-        new URL(control.value);
-        return null;
-      } catch {
-        return { shouldBeWebpage: true };
-      }
-    };
-  }
+  validation = inject(ValidationService);
 
   changeOtherAttributeList(title: string, field: string) {
     if (!this.accessor) {
@@ -70,7 +52,10 @@ export class UserPropertiesGeneralComponent {
             title: translate(title),
             field: field,
             values: this.accessor[field],
-            valueValidator: field == 'otherWebpage' ? this.shouldBeWebpage() : this.shouldBePhone(),
+            valueValidator:
+              field == 'otherWebpage'
+                ? this.validation.shouldBeWebpage()
+                : this.validation.shouldBePhone(),
           },
         },
       })
