@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { AvatarUploadComponent } from '@features/ldap-properties/avatar-upload/avatar-upload.component';
@@ -31,6 +31,28 @@ export class UserPropertiesGeneralComponent {
   @Input() accessor: LdapAttributes | null = null;
   toastr = inject(ToastrService);
 
+  shouldBePhone(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      const phoneRegex = /^\+?[0-9]{7,15}$/;
+      return phoneRegex.test(control.value) ? null : { shouldBePhone: true };
+    };
+  }
+
+  shouldBeWebpage(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      try {
+        new URL(control.value);
+        return null;
+      } catch {
+        return { shouldBeWebpage: true };
+      }
+    };
+  }
+
   changeOtherAttributeList(title: string, field: string) {
     if (!this.accessor) {
       return;
@@ -48,6 +70,7 @@ export class UserPropertiesGeneralComponent {
             title: translate(title),
             field: field,
             values: this.accessor[field],
+            valueValidator: field == 'otherWebpage' ? this.shouldBeWebpage() : this.shouldBePhone(),
           },
         },
       })

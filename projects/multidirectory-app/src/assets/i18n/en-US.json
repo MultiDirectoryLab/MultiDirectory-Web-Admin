@@ -240,7 +240,11 @@
     "value": "Value",
     "add": "Add",
     "apply": "Apply",
-    "delete": "Delete"
+    "delete": "Delete",
+    "required": "This value is requried",
+    "should-be-valid-phone": "This value should be a valid phone",
+    "should-be-valid-webpage": "This value should be a valid URL",
+    "should-be-unqiue": "This value should be unqiue"
   },
   "entity-attributes": {
     "name": "Name",

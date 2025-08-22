@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  input,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +14,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
@@ -22,6 +22,7 @@ import {
 import { AttributeListDialogData } from '../../../interfaces/attribute-list-dialog.interface';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../services/dialog.service';
+import { CommonModule } from '@angular/common';
 
 export class AttributeListEntry extends Treenode {
   type = '';
@@ -36,7 +37,13 @@ export class AttributeListEntry extends Treenode {
 @Component({
   selector: 'app-attribute-list-dialog',
   standalone: true,
-  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, ReactiveFormsModule],
+  imports: [
+    DialogComponent,
+    MultidirectoryUiKitModule,
+    TranslocoPipe,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
   templateUrl: './attribute-list-dialog.component.html',
   styleUrl: './attribute-list-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,8 +60,14 @@ export class AttributeListDialogComponent implements OnInit {
   private dialogData: AttributeListDialogData = inject(DIALOG_DATA);
   private fb = inject(FormBuilder);
 
+  valueValidator: ValidatorFn = this.dialogData.valueValidator ?? (() => null);
+
   form = this.fb.group({
-    newAttribute: new FormControl('', [Validators.required, this.shouldBeUnique()]),
+    newAttribute: new FormControl('', [
+      Validators.required,
+      this.valueValidator,
+      this.shouldBeUnique(),
+    ]),
   });
 
   title = this.dialogData.title || '';
