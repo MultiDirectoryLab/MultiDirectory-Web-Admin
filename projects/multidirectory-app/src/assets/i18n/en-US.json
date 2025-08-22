@@ -646,7 +646,11 @@
     "password-complexity-violation": "Password complexity violation",
     "password-cannot-end-with-digits-violation": "Password cannot end with 6 digits",
     "mf-key-format-error": "MF Key should be 32 charecters long and start with \"rs_\"",
-    "mf-secret-format-error": "MF Secret should be 32 charecters long"
+    "mf-secret-format-error": "MF Secret should be 32 charecters long",
+    "value-is-forbidden": "This value is forbidden",
+    "value-too-small": "Value is too small",
+    "value-too-big": "Value is too big",
+    "value-nan": "Value is not a number"
   },
   "dns-rule-dialog": {
     "modal-header": "New object - DNS Record",

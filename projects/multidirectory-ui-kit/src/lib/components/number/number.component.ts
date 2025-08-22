@@ -1,6 +1,7 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BaseComponent } from '../base-component/base.component';
+import { ErrorLabelComponent } from '../base-component/error-label/error-label.component';
 
 @Component({
   selector: 'md-number',
@@ -13,7 +14,7 @@ import { BaseComponent } from '../base-component/base.component';
       multi: true,
     },
   ],
-  imports: [FormsModule],
+  imports: [FormsModule, ErrorLabelComponent],
 })
 export class NumberComponent extends BaseComponent {
   @Input() label = '';

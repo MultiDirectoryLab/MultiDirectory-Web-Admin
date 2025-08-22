@@ -41,6 +41,18 @@ export class ErrorLabelComponent extends BaseControlComponent {
     if (!!this.ngControl?.errors?.['PasswordValidator']) {
       return this.ngControl?.errors?.['PasswordValidator'];
     }
+    if (!!this.ngControl?.errors?.['PasswordValidator']) {
+      return this.ngControl?.errors?.['PasswordValidator'];
+    }
+    if (!!this.ngControl?.errors?.['ValueIsForbidden']) {
+      return this.ngControl?.errors?.['ValueIsForbidden'];
+    }
+    if (!!this.ngControl?.errors?.['MinValue']) {
+      return this.ngControl?.errors?.['MinValue'];
+    }
+    if (!!this.ngControl?.errors?.['MaxValue']) {
+      return this.ngControl?.errors?.['MaxValue'];
+    }
     return undefined;
   }
 }

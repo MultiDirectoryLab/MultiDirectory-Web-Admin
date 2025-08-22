@@ -11,8 +11,11 @@ import {
   CheckboxComponent,
   GroupComponent,
   MdFormComponent,
+  NumberComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
+import { MaxValueValidatorDirective } from '@core/validators/max-value.directive';
+import { MinValueValidatorDirective } from '@core/validators/min-value.directive';
 
 @Component({
   selector: 'app-password-policy',
@@ -27,6 +30,9 @@ import {
     GroupComponent,
     CheckboxComponent,
     ButtonComponent,
+    NumberComponent,
+    MinValueValidatorDirective,
+    MaxValueValidatorDirective,
   ],
 })
 export class PasswordPolicyComponent implements OnInit {
