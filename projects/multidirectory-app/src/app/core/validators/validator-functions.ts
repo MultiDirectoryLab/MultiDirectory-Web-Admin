@@ -1,12 +1,7 @@
-import { Injectable } from '@angular/core';
 import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { AttributeListEntry } from '@components/modals/components/dialogs/attribute-list-dialog/attribute-list-dialog.component';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ValidationService {
-  shouldBePhone(): ValidatorFn {
+export class ValidationFunctions {
+  static shouldBePhone(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) return null;
       const phoneRegex = /^\+?[0-9]{7,15}$/;
@@ -14,7 +9,7 @@ export class ValidationService {
     };
   }
 
-  shouldBeWebpage(): ValidatorFn {
+  static shouldBeWebpage(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) return null;
       const urlRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;

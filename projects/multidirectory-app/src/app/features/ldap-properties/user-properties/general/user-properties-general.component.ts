@@ -12,7 +12,7 @@ import {
   AttributeListDialogReturnData,
 } from '../../../../components/modals/interfaces/attribute-list-dialog.interface';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
-import { ValidationService } from '@services/validator.service';
+import { ValidationFunctions } from '@core/validators/validator-functions';
 import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
 
 @Component({
@@ -33,7 +33,6 @@ export class UserPropertiesGeneralComponent {
   private dialogService: DialogService = inject(DialogService);
   @Input() accessor: LdapAttributes | null = null;
   toastr = inject(ToastrService);
-  validation = inject(ValidationService);
 
   changeOtherAttributeList(title: string, field: string) {
     if (!this.accessor) {
@@ -54,8 +53,8 @@ export class UserPropertiesGeneralComponent {
             values: this.accessor[field],
             valueValidator:
               field == 'otherWebpage'
-                ? this.validation.shouldBeWebpage()
-                : this.validation.shouldBePhone(),
+                ? ValidationFunctions.shouldBeWebpage()
+                : ValidationFunctions.shouldBePhone(),
           },
         },
       })

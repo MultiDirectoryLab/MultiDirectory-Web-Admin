@@ -22,7 +22,6 @@ import {
 import { AttributeListDialogData } from '../../../interfaces/attribute-list-dialog.interface';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../services/dialog.service';
-import { ValidationService } from '@services/validator.service';
 
 export class AttributeListEntry extends Treenode {
   type = '';
