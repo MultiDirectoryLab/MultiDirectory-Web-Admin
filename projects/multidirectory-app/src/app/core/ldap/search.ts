@@ -47,7 +47,7 @@ export const SearchQueries = {
       size_limit: limit,
       time_limit: 0,
       types_only: false,
-      filter: query ? `(&(objectClass=*)(cn=*${query}*))` : '(objectClass=*)',
+      filter: query ? `(&(objectClass=*)(name=*${query}*))` : '(objectClass=*)',
       attributes: [
         'defaultNamingContext',
         'sAMAccountName',
