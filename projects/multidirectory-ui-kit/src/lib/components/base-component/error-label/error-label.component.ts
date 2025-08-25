@@ -14,44 +14,48 @@ export class ErrorLabelComponent extends BaseControlComponent {
   }
 
   getFirstError(): string | undefined {
-    if (!!this.ngControl?.errors?.['required']) {
-      return this.ngControl?.errors?.['required'];
+    const errors = this.ngControl?.errors;
+    if (!errors) {
+      return undefined;
     }
-    if (!!this.ngControl?.errors?.['pattern']) {
-      return this.ngControl?.errors?.['pattern'];
+    if (errors['required']) {
+      return errors['required'];
     }
-    if (!!this.ngControl?.errors?.['PasswordsDoNotMatch']) {
-      return this.ngControl?.errors?.['PasswordsDoNotMatch'];
+    if (!!errors['pattern']) {
+      return errors['pattern'];
     }
-    if (!!this.ngControl?.errors?.['DomainFormat']) {
-      return this.ngControl?.errors?.['DomainFormat'];
+    if (!!errors['PasswordsDoNotMatch']) {
+      return errors['PasswordsDoNotMatch'];
     }
-    if (!!this.ngControl?.errors?.['DnsSrvFormat']) {
-      return this.ngControl?.errors?.['DnsSrvFormat'];
+    if (!!errors['DomainFormat']) {
+      return errors['DomainFormat'];
     }
-    if (!!this.ngControl?.errors?.['IpAddress']) {
-      return this.ngControl?.errors?.['IpAddress'];
+    if (!!errors['DnsSrvFormat']) {
+      return errors['DnsSrvFormat'];
     }
-    if (!!this.ngControl?.errors?.['MfKeyFormat']) {
-      return this.ngControl?.errors?.['MfKeyFormat'];
+    if (!!errors['IpAddress']) {
+      return errors['IpAddress'];
     }
-    if (!!this.ngControl?.errors?.['PasswordsShouldNotMatch']) {
-      return this.ngControl?.errors?.['PasswordsShouldNotMatch'];
+    if (!!errors['MfKeyFormat']) {
+      return errors['MfKeyFormat'];
     }
-    if (!!this.ngControl?.errors?.['PasswordValidator']) {
-      return this.ngControl?.errors?.['PasswordValidator'];
+    if (!!errors['PasswordsShouldNotMatch']) {
+      return errors['PasswordsShouldNotMatch'];
     }
-    if (!!this.ngControl?.errors?.['PasswordValidator']) {
-      return this.ngControl?.errors?.['PasswordValidator'];
+    if (!!errors['PasswordValidator']) {
+      return errors['PasswordValidator'];
     }
-    if (!!this.ngControl?.errors?.['ValueIsForbidden']) {
-      return this.ngControl?.errors?.['ValueIsForbidden'];
+    if (!!errors['PasswordValidator']) {
+      return errors['PasswordValidator'];
     }
-    if (!!this.ngControl?.errors?.['MinValue']) {
-      return this.ngControl?.errors?.['MinValue'];
+    if (!!errors['ValueIsForbidden']) {
+      return errors['ValueIsForbidden'];
     }
-    if (!!this.ngControl?.errors?.['MaxValue']) {
-      return this.ngControl?.errors?.['MaxValue'];
+    if (!!errors['MinValue']) {
+      return errors['MinValue'];
+    }
+    if (!!errors['MaxValue']) {
+      return errors['MaxValue'];
     }
     return undefined;
   }
