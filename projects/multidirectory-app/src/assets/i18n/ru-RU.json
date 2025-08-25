@@ -641,7 +641,11 @@
     "password-complexity-violation": "Не соблюдено требование к сложности пароля",
     "password-cannot-end-with-digits-violation": "Пароль не может оканчиваться шестью цифрами подряд",
     "mf-key-format-error": "Ключ MULTIFACTOR должен иметь длину 32 символа и начинаться с \"rs_\"",
-    "mf-secret-format-error": "Секрет MULTIFACTOR должен иметь длину 32 символа"
+    "mf-secret-format-error": "Секрет MULTIFACTOR должен иметь длину 32 символа",
+    "value-is-forbidden": "Это значение запрещено",
+    "value-too-small": "Значение слишком маленькое",
+    "value-too-big": "Значение слишком большое",
+    "value-nan": "Значение не является числом"
   },
   "dns-rule-dialog": {
     "modal-header": "Новый объект - Запись DNS",

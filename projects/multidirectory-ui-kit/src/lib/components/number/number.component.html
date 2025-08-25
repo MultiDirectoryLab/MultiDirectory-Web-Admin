@@ -2,3 +2,6 @@
   <label>{{ label }}</label>
 }
 <input step="{{ step }}" type="number" [(ngModel)]="value" />
+@if (controlAccessor && (controlAccessor.dirty || controlAccessor.touched)) {
+  <md-error-label [ngControl]="controlAccessor"></md-error-label>
+}
