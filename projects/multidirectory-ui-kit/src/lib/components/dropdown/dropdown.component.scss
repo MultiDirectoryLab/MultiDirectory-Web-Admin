@@ -33,6 +33,9 @@
 }
 .button-content {
   flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px;
 }
 
 .select-trigger::after {

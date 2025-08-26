@@ -307,3 +307,7 @@ dp-calendar-nav {
 .subbold-label {
   @include use-inter-typography(500, 14px, 25.2px);
 }
+
+.cdk-overlay-connected-position-bounding-box {
+  z-index: 2000;
+}
