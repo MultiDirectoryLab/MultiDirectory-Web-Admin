@@ -395,7 +395,8 @@
     "change-password": "Change Password",
     "container-path-copied": "DN was copied to clipboard",
     "container-path-copy-error": "An error has occured during DN copying: ",
-    "schema": "Scheme Settings"
+    "schema": "Scheme Settings",
+    "policies": "Multidirectory Policies"
   },
   "home": {
     "account-settings": "Account Settings",
@@ -876,5 +877,9 @@
     "severity": "Severity",
     "description": "Name",
     "is_enabled": "Is Enabled"
+  },
+  "policies-navigation": {
+    "password-policies": "Password Policies",
+    "access-policies": "Access Policies"
   }
 }

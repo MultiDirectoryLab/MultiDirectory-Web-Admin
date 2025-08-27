@@ -15,22 +15,6 @@
   </div>
 
   <div
-    [ngClass]="{ selected: url.endsWith('password-policy') }"
-    class="nav-item"
-    routerLink="/settings/password-policy"
-  >
-    {{ t('password-policy') }}
-  </div>
-
-  <div
-    [ngClass]="{ selected: url.endsWith('access-policy') }"
-    class="nav-item"
-    routerLink="/settings/access-policy"
-  >
-    {{ t('access-policy') }}
-  </div>
-
-  <div
     [ngClass]="{ selected: url.endsWith('about') }"
     class="nav-item"
     routerLink="/settings/about"

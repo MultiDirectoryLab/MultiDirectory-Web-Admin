@@ -1,0 +1,17 @@
+<div *transloco="let t; prefix: 'policies-navigation'" class="nav">
+  <div
+    [ngClass]="{ selected: url.endsWith('password-policies') }"
+    class="nav-item"
+    routerLink="/policies/password-policies"
+  >
+    {{ t('password-policies') }}
+  </div>
+
+  <div
+    [ngClass]="{ selected: url.endsWith('access-policies') }"
+    class="nav-item"
+    routerLink="/policies/access-policies"
+  >
+    {{ t('access-policies') }}
+  </div>
+</div>

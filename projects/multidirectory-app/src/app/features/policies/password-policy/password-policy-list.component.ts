@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
-import { PasswordPolicyCreateComponent } from '@features/password-policy/password-policy-create/password-policy-create.component';
-import { PasswordPolicyListItemComponent } from '@features/password-policy/password-policy-list-item/password-policy-list-item.component';
+import { PasswordPolicyCreateComponent } from '@features/policies/password-policy/password-policy-create/password-policy-create.component';
+import { PasswordPolicyListItemComponent } from '@features/policies/password-policy/password-policy-list-item/password-policy-list-item.component';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
@@ -47,7 +47,7 @@ export class PasswordPolicyListComponent implements OnInit {
   }
 
   onEditClick(toEdit: PasswordPolicy) {
-    this.router.navigate(['settings/password-policy', toEdit.id]);
+    this.router.navigate(['policies/password-policies', toEdit.id]);
   }
 
   onAddClick() {

@@ -3,8 +3,8 @@ import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angula
 import { Router } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { IpRange } from '@core/access-policy/access-policy-ip-address';
-import { AccessPolicyViewModalComponent } from '@features/access-policy/access-policy-view-modal/access-policy-view-modal.component';
-import { AccessPolicyComponent } from '@features/access-policy/access-policy/access-policy.component';
+import { AccessPolicyViewModalComponent } from '@features/policies/access-policy/access-policy-view-modal/access-policy-view-modal.component';
+import { AccessPolicyComponent } from '@features/policies/access-policy/access-policy/access-policy.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
@@ -107,7 +107,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     if (!toEdit.id) {
       return;
     }
-    this.router.navigate(['settings/access-policy', toEdit.id]);
+    this.router.navigate(['policies/access-policies', toEdit.id]);
   }
 
   onAddClick() {

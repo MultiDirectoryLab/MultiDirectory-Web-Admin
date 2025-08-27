@@ -56,6 +56,14 @@ export const appRoutes: Routes = [
       import('@features/settings/app-settings.routes').then((r) => r.appSettingsRoutes),
   },
   {
+    path: 'policies',
+    loadComponent: () =>
+      import('./components/app-layout/app-layout.component').then((c) => c.AppLayoutComponent),
+    canActivate: [authRouteGuardCanActivateFn],
+    loadChildren: () =>
+      import('@features/policies/policies.routes').then((r) => r.appPoliciesRoutes),
+  },
+  {
     path: 'schema',
     loadComponent: () =>
       import('./components/app-layout/app-layout.component').then((c) => c.AppLayoutComponent),

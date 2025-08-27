@@ -395,7 +395,8 @@
     "change-password": "Изменить пароль",
     "container-path-copied": "DN скопирован в буфер обмена",
     "container-path-copy-error": "При копированнии произошла ошибка: ",
-    "schema": "Настройки схемы"
+    "schema": "Настройки схемы",
+    "policies": "Политики Multidirectory"
   },
   "home": {
     "account-settings": "Настройки аккаунта",
@@ -878,5 +879,9 @@
     "severity": "Критичность",
     "description": "Наименование",
     "is_enabled": "Событие Включено"
+  },
+  "policies-navigation": {
+    "password-policies": "Парольные политики",
+    "access-policies": "Политики доступа"
   }
 }
