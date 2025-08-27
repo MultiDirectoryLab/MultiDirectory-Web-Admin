@@ -61,18 +61,6 @@ export const appSettingsRoutes: Routes = [
     outlet: 'footer',
   },
   {
-    path: 'access-policy',
-    loadChildren: () =>
-      import('@features/access-policy/access-policy.routes').then((r) => r.accessPolicyRoutes),
-  },
-  {
-    path: 'password-policy',
-    loadChildren: () =>
-      import('@features/password-policy/password-policy.routes').then(
-        (r) => r.passwordPolicyRoutes,
-      ),
-  },
-  {
     path: 'syslog',
     loadComponent: () =>
       import('@features/settings/syslog-settings/syslog-settings.component').then(

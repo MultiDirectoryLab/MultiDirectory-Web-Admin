@@ -20,7 +20,6 @@ import { IpAddressValidatorDirective } from '@core/validators/ip-address.directi
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { IpListDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/access-policy-ip-list/ip-list-dialog.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import {
@@ -35,8 +34,8 @@ import {
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { from, map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
-import { DialogService } from '../../../components/modals/services/dialog.service';
-import { IplistDialogData } from '../../../components/modals/interfaces/ip-list-dialog.interface';
+import { DialogService } from '../../../../components/modals/services/dialog.service';
+import { IplistDialogData } from '../../../../components/modals/interfaces/ip-list-dialog.interface';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 
@@ -62,7 +61,6 @@ import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   private dialog = inject(DialogService);
   private api = inject(MultidirectoryApiService);
-  private navigation = inject(AppNavigationService);
   private activatedRoute = inject(ActivatedRoute);
   private toastr = inject(ToastrService);
   private windows = inject(AppWindowsService);

@@ -6,20 +6,20 @@ export const passwordPolicyRoutes: Routes = [
     outlet: 'header',
     loadComponent: () =>
       import(
-        '@features/password-policy/password-policy-header/password-policy-header.component'
+        '@features/policies/password-policy/password-policy-header/password-policy-header.component'
       ).then((c) => c.PasswordPolicyHeaderComponent),
   },
   {
     path: '',
     loadComponent: () =>
-      import('@features/password-policy/password-policy-list.component').then(
+      import('@features/policies/password-policy/password-policy-list.component').then(
         (c) => c.PasswordPolicyListComponent,
       ),
   },
   {
     path: ':id',
     loadComponent: () =>
-      import('@features/password-policy/password-policy/password-policy.component').then(
+      import('@features/policies/password-policy/password-policy/password-policy.component').then(
         (c) => c.PasswordPolicyComponent,
       ),
   },
