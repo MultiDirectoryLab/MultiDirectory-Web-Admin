@@ -1,8 +1,5 @@
-<div
-  class="checkbox-container flex-row align-center pointer h-100"
-  [ngClass]="{ disabled: disabled }"
->
-  <label class="switch" for="checkbox" (click)="onToggle($event)">
+<div class="checkbox-container flex-row align-center h-100" [ngClass]="{ disabled: disabled }">
+  <label class="switch" (click)="onToggle($event)" id="{{ __ID }}">
     <input
       [disabled]="disabled"
       [(ngModel)]="value"
@@ -10,7 +7,6 @@
       #checkbox
       id="{{ __ID }}"
       type="checkbox"
-      id="checkbox"
     />
     <div class="slider round"></div>
   </label>
