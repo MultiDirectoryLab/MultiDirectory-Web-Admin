@@ -1,5 +1,5 @@
 <div class="checkbox-container flex-row align-center h-100" [ngClass]="{ disabled: disabled }">
-  <label class="switch" (click)="onToggle($event)">
+  <label class="switch" (click)="onToggle($event)" for="{{ __ID }}">
     <input
       [disabled]="disabled"
       [(ngModel)]="value"
