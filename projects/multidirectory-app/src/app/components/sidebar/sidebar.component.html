@@ -1,5 +1,20 @@
-<ng-container *transloco="let t; prefix: 'home'">
+<ng-container *transloco="let t">
   <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
+
+  <md-shift-checkbox (ngModelChange)="onChange($event)" [ngModel]="navigationalPanelInvisible">
+    <label>{{ t('header.hide-left-panel') }}</label>
+    <label>Ctrl-H</label>
+  </md-shift-checkbox>
+  <div class="bookmark"></div>
+  <md-tooltip
+    [activateAction]="'mouseenter'"
+    [iconPath]="'assets/info-circle.svg'"
+    [left]="0"
+    [width]="550"
+  >
+    <label>{{ t('header.hide-left-panel') }}</label>
+    <label>Ctrl-H</label>
+  </md-tooltip>
   <div class="sidebar">
     <div class="treeview">
       <router-outlet name="sidebar"></router-outlet>

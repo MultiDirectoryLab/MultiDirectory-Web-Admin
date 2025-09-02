@@ -2,7 +2,12 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
-import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
+import {
+  DropdownContainerDirective,
+  DropdownMenuComponent,
+  ShiftCheckboxComponent,
+  TooltipComponent,
+} from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 import { ChangePasswordDialogComponent } from '../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 import { EntityPropertiesDialogComponent } from '../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
@@ -16,17 +21,27 @@ import {
 } from '../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  imports: [TranslocoDirective, RouterOutlet, DropdownContainerDirective, DropdownMenuComponent],
+  imports: [
+    TranslocoDirective,
+    RouterOutlet,
+    DropdownContainerDirective,
+    DropdownMenuComponent,
+    ShiftCheckboxComponent,
+    FormsModule,
+    TooltipComponent,
+  ],
 })
 export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
+  navigationalPanelInvisible = false;
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -39,6 +54,12 @@ export class SidebarComponent {
       .subscribe(() => {
         this.router.navigate(['login']);
       });
+  }
+
+  onChange(value: boolean) {
+    this.navigationalPanelInvisible = value;
+    this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
+    window.dispatchEvent(new Event('resize'));
   }
 
   openAccountSettings() {

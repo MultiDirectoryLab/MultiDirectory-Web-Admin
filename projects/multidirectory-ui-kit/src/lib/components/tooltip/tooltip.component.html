@@ -1,22 +1,37 @@
-<div class="tooltip-icon-wrapper" (click)="toogleTooltip($event)">
-  <img class="tooltip-icon" [ngSrc]="iconPath" width="24" height="24" />
-  <div
-    class="tooltip"
-    [ngClass]="{
-      'tooltip-visible': tooltipVisible,
-    }"
-    [ngStyle]="{
-      minWidth: width + 'px',
-      maxWidth: width + 'px',
-    }"
-  >
+@switch (activateAction) {
+  @case ('click') {
+    <div class="tooltip-icon-wrapper" (click)="toogleTooltip($event)">
+      <div *ngTemplateOutlet="contentTemplate"></div>
+    </div>
+  }
+  @case ('mouseenter') {
+    <div class="tooltip-icon-wrapper" (mouseover)="toogleTooltip($event)">
+      <div *ngTemplateOutlet="contentTemplate"></div>
+    </div>
+  }
+}
+
+<ng-template #contentTemplate>
+  <div>
+    <img class="tooltip-icon" [ngSrc]="iconPath" width="24" height="24" />
     <div
-      class="relative"
+      class="tooltip"
+      [ngClass]="{
+        'tooltip-visible': tooltipVisible,
+      }"
       [ngStyle]="{
-        left: left + 'px',
+        minWidth: width + 'px',
+        maxWidth: width + 'px',
       }"
     >
-      <ng-content></ng-content>
+      <div
+        class="relative"
+        [ngStyle]="{
+          left: left + 'px',
+        }"
+      >
+        <ng-content></ng-content>
+      </div>
     </div>
   </div>
-</div>
+</ng-template>
