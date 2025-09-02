@@ -10,8 +10,8 @@
   text-align: left;
   border: 1px solid #ccc;
   border-radius: 6px;
-  background: #fff;
-  color: #333;
+  background: var(--md-white);
+  color: var(--md-black);
   cursor: pointer;
   transition:
     border-color 0.2s,
@@ -61,7 +61,8 @@
   margin-top: 0.25rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  background: #fff;
+  background: var(--md-white);
+  color: var(--md-black);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   max-height: 300px; /* prevent overflow */
   overflow: hidden;
