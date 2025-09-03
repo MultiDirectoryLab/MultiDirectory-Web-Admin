@@ -1,56 +1,63 @@
 <ng-container *transloco="let t">
-  <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
-
-  <md-shift-checkbox (ngModelChange)="onChange($event)" [ngModel]="navigationalPanelInvisible">
-    <label>{{ t('header.hide-left-panel') }}</label>
-    <label>Ctrl-H</label>
-  </md-shift-checkbox>
-  <div class="bookmark"></div>
-  <md-tooltip
-    [activateAction]="'mouseenter'"
-    [iconPath]="'assets/info-circle.svg'"
-    [left]="0"
-    [width]="550"
+  @if (navigationalPanelVisible | async) {
+    <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
+  }
+  <div
+    class="sidebar-bookmark"
+    [ngClass]="!(navigationalPanelVisible | async) ? 'active' : 'inactive'"
+    (click)="toggleSidebar()"
   >
-    <label>{{ t('header.hide-left-panel') }}</label>
-    <label>Ctrl-H</label>
-  </md-tooltip>
-  <div class="sidebar">
-    <div class="treeview">
-      <router-outlet name="sidebar"></router-outlet>
-    </div>
-    <div class="flex footer">
-      <div class="avatar flex flex-col justify-center min-w-12">
-        @if (!user.jpegPhoto) {
-          <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
-        }
-        @if (!!user.jpegPhoto) {
-          <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
-        }
-      </div>
-      <div class="user-info flex flex flex-col">
-        <label>{{ user.display_name }}</label>
-        <label class="max-w-[150px] overflow-hidden text-ellipsis">{{
-          user.mail.length > 0 ? user.mail : user.user_principal_name
-        }}</label>
-      </div>
-      <div
-        [mdDropdownContainer]="loginMenu"
-        [mdDropdownXOffset]="20"
-        [calculatePosition]="true"
-        class="flex items-center justify-center px-2 hover:bg-(--md-white-blue-2) hover:cursor-pointer min-w-[32px]"
-      >
-        <img class="w-1.5" src="/assets/more_vert.svg" />
-      </div>
-      <md-dropdown-menu #loginMenu>
-        <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
-          {{ t('account-settings') }}
-        </div>
-        <div (click)="loginMenu.close(); openChangePassword()" class="dropdown-item">
-          {{ t('change-password') }}
-        </div>
-        <div (click)="logout()" class="dropdown-item">{{ t('logout') }}</div>
-      </md-dropdown-menu>
-    </div>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      class="sidebar-bookmark__icon"
+      width="12"
+      height="12"
+    >
+      <path
+        d="m9 2 1.3 1.3L3.7 10l6.6 6.7L9 18l-8-8 8-8zm8.5 0L19 3.3 12.2 10l6.7 6.7-1.4 1.3-8-8 8-8z"
+      />
+    </svg>
   </div>
+
+  @if (navigationalPanelVisible | async) {
+    <div class="sidebar">
+      <div class="treeview">
+        <router-outlet name="sidebar"></router-outlet>
+      </div>
+      <div class="flex footer">
+        <div class="avatar flex flex-col justify-center min-w-12">
+          @if (!user.jpegPhoto) {
+            <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
+          }
+          @if (!!user.jpegPhoto) {
+            <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
+          }
+        </div>
+        <div class="user-info flex flex flex-col">
+          <label>{{ user.display_name }}</label>
+          <label class="max-w-[150px] overflow-hidden text-ellipsis">{{
+            user.mail.length > 0 ? user.mail : user.user_principal_name
+          }}</label>
+        </div>
+        <div
+          [mdDropdownContainer]="loginMenu"
+          [mdDropdownXOffset]="20"
+          [calculatePosition]="true"
+          class="flex items-center justify-center px-2 hover:bg-(--md-white-blue-2) hover:cursor-pointer min-w-[32px]"
+        >
+          <img class="w-1.5" src="/assets/more_vert.svg" />
+        </div>
+        <md-dropdown-menu #loginMenu>
+          <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
+            {{ t('account-settings') }}
+          </div>
+          <div (click)="loginMenu.close(); openChangePassword()" class="dropdown-item">
+            {{ t('change-password') }}
+          </div>
+          <div (click)="logout()" class="dropdown-item">{{ t('logout') }}</div>
+        </md-dropdown-menu>
+      </div>
+    </div>
+  }
 </ng-container>

@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent, ModalInjectDirective, TooltipComponent } from 'multidirectory-ui-kit';
+import { ButtonComponent, TooltipComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { DialogService } from '../../../services/dialog.service';
@@ -68,7 +68,7 @@ export class IpAddressStatus {
   selector: 'app-ip-list-dialog-component',
   templateUrl: './ip-list-dialog.component.html',
   styleUrls: ['./ip-list-dialog.component.scss'],
-  imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent, DialogComponent],
+  imports: [TranslocoPipe, NgClass, ButtonComponent, DialogComponent],
 })
 export class IpListDialogComponent implements OnInit {
   private dialogData: IplistDialogData = inject(DIALOG_DATA);

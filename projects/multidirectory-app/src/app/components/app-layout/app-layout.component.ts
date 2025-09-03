@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
@@ -8,7 +8,17 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeyModule, HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  of,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
@@ -34,6 +44,7 @@ import { DnsApiService } from '@services/dns-api.service';
     HotkeyModule,
     TranslocoPipe,
     WindowsComponent,
+    AsyncPipe,
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
@@ -44,14 +55,11 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private unsubscribe = new Subject<void>();
   readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
-  showLeftPane = true;
+  showLeftPane: boolean | undefined;
   showNotifications = false;
+  navigationalPanelVisible: BehaviorSubject<boolean> = this.app.navigationalPanelVisibleRx;
 
   ngOnInit() {
-    this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
-      this.showLeftPane = x;
-    });
-
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
       this.showNotifications = x;
     });

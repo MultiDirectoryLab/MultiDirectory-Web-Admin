@@ -7,16 +7,20 @@
 }
 
 .left-pane {
-  transform: translateX(-100%);
-  position: absolute;
   transition:
     transform 0.2s ease,
-    position 0s ease 0.2s;
-  &.left-pane-visible {
-    display: block;
-    position: relative;
-    z-index: 8;
-    transform: translateX(0);
+    position 0s ease 0.2s,
+    width 0.2s ease;
+  display: block;
+  position: relative;
+  z-index: 8;
+  transform: translateX(0);
+  width: auto;
+
+  &.left-pane-hidden {
+    transform: translateX(calc(-100% + 24px));
+    width: 25px;
+    overflow: hidden;
   }
 }
 

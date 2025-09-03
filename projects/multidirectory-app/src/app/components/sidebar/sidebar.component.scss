@@ -64,5 +64,32 @@
   user-select: none;
 }
 
-.bookmark {
+.sidebar-bookmark {
+  display: block;
+  position: absolute;
+  background: var(--md-blue);
+  color: var(--md-white);
+  cursor: pointer;
+
+  height: 50px;
+  width: 25px;
+  right: 0.5rem;
+  z-index: 1000;
+
+  &__icon {
+    fill: var(--md-white);
+    position: relative;
+    text-align: center;
+    top: 1.17rem;
+    left: 0.3rem;
+  }
+
+  &.active {
+    height: 100vh;
+    right: 0;
+    left: 0;
+    .sidebar-bookmark__icon {
+      transform: scale(-1, -1);
+    }
+  }
 }

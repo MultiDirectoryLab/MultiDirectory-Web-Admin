@@ -13,8 +13,15 @@ import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 export class AppSettingsService {
   private api = inject(MultidirectoryApiService);
   private translocoService = inject(TranslocoService);
+  private startValueNavigationalPanel: boolean = !(
+    localStorage.getItem('isSidebarPanelVisible') == 'false'
+  );
+  // indefined || true => true
+  // false => false
 
-  navigationalPanelVisibleRx = new BehaviorSubject<boolean>(true);
+  navigationalPanelVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    this.startValueNavigationalPanel,
+  );
   setNavigationalPanelVisiblity(state: boolean) {
     this.navigationalPanelVisibleRx.next(state);
   }

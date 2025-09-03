@@ -1,14 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
-import {
-  DropdownContainerDirective,
-  DropdownMenuComponent,
-  ShiftCheckboxComponent,
-  TooltipComponent,
-} from 'multidirectory-ui-kit';
-import { take } from 'rxjs';
+import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
+import { BehaviorSubject, take } from 'rxjs';
 import { ChangePasswordDialogComponent } from '../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 import { EntityPropertiesDialogComponent } from '../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import {
@@ -22,6 +17,7 @@ import {
 import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { FormsModule } from '@angular/forms';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,16 +28,24 @@ import { FormsModule } from '@angular/forms';
     RouterOutlet,
     DropdownContainerDirective,
     DropdownMenuComponent,
-    ShiftCheckboxComponent,
     FormsModule,
-    TooltipComponent,
+    NgClass,
+    NgIf,
+    AsyncPipe,
   ],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
-  navigationalPanelInvisible = false;
+  navigationalPanelVisible: BehaviorSubject<boolean> = this.app.navigationalPanelVisibleRx;
+
+  ngOnInit() {
+    // this.navigationalPanelVisible = this.app.navigationalPanelVisibleRx;
+    // this.app.navigationalPanelVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
+    //   this.navigationalPanelVisible = x;
+    // });
+  }
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -56,9 +60,16 @@ export class SidebarComponent {
       });
   }
 
-  onChange(value: boolean) {
-    this.navigationalPanelInvisible = value;
-    this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
+  // onChange(value: boolean) {
+  //   this.navigationalPanelVisible = value;
+  //   this.app.setNavigationalPanelVisiblity(!this.navigationalPanelVisible);
+  //   window.dispatchEvent(new Event('resize'));
+  // }
+
+  toggleSidebar() {
+    const currentValue = this.navigationalPanelVisible.getValue();
+    this.navigationalPanelVisible.next(!currentValue);
+    localStorage.setItem('isSidebarPanelVisible', String(!currentValue));
     window.dispatchEvent(new Event('resize'));
   }
 

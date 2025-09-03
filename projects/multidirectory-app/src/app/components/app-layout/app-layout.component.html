@@ -1,7 +1,7 @@
 <div class="bg-white-neutral app-layout flex">
   <div
     [ngClass]="{
-      'left-pane-visible': showLeftPane,
+      'left-pane-hidden': !(navigationalPanelVisible | async),
     }"
     class="left-pane"
   >

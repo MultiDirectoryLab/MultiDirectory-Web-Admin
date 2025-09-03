@@ -54,12 +54,6 @@
   <md-dropdown-menu #helpMenu>
     <div class="dropdown-item hidden disabled">{{ t('header.add-remove-columns') }}</div>
     <div class="dropdown-item">
-      <md-shift-checkbox (ngModelChange)="onChange($event)" [ngModel]="navigationalPanelInvisible">
-        <label>{{ t('header.hide-left-panel') }}</label>
-        <label>Ctrl-H</label>
-      </md-shift-checkbox>
-    </div>
-    <div class="dropdown-item">
       <md-shift-checkbox (ngModelChange)="onDarkMode($event)" [ngModel]="darkMode">
         <label>{{ t('header.dark-mode') }}</label>
         <label>Ctrl-D</label>
