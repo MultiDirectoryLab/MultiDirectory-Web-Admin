@@ -16,8 +16,6 @@ export class AppSettingsService {
   private startValueNavigationalPanel: boolean = !(
     localStorage.getItem('isSidebarPanelVisible') == 'false'
   );
-  // indefined || true => true
-  // false => false
 
   navigationalPanelVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     this.startValueNavigationalPanel,

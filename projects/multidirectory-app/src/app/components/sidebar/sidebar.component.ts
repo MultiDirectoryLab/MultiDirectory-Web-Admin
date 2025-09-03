@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
@@ -17,7 +17,7 @@ import {
 import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,7 +30,6 @@ import { AsyncPipe, NgClass, NgIf } from '@angular/common';
     DropdownMenuComponent,
     FormsModule,
     NgClass,
-    NgIf,
     AsyncPipe,
   ],
 })
