@@ -1,4 +1,4 @@
-import { NgClass, NgOptimizedImage, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { Component, ElementRef, inject, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
   selector: 'md-tooltip',
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.scss'],
-  imports: [NgClass, NgStyle, NgOptimizedImage, NgTemplateOutlet],
+  imports: [NgClass, NgStyle, NgOptimizedImage],
 })
 export class TooltipComponent implements OnDestroy {
   private elRef = inject(ElementRef);
@@ -15,7 +15,6 @@ export class TooltipComponent implements OnDestroy {
   @Input() delay = 200;
   @Input() width = 140;
   @Input() left = 150;
-  @Input() activateAction: string = 'click';
   tooltipVisible = false;
   unsubscribe = new Subject<boolean>();
 
