@@ -55,7 +55,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private unsubscribe = new Subject<void>();
   readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
-  showLeftPane: boolean | undefined;
   showNotifications = false;
   navigationalPanelVisible: BehaviorSubject<boolean> = this.app.navigationalPanelVisibleRx;
 
