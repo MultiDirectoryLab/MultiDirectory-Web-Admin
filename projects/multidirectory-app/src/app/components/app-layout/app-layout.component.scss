@@ -18,6 +18,7 @@
   width: auto;
 
   &.left-pane-hidden {
+    // hide panel and show only bookmark
     transform: translateX(calc(-100% + 24px));
     width: 25px;
     overflow: hidden;
