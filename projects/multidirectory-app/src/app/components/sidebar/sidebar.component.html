@@ -29,15 +29,14 @@
         <div class="avatar flex flex-col justify-center min-w-12">
           @if (!user.jpegPhoto) {
             <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
-          }
-          @if (!!user.jpegPhoto) {
+          } @else {
             <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
           }
         </div>
         <div class="user-info flex flex flex-col">
           <label>{{ user.display_name }}</label>
           <label class="max-w-[150px] overflow-hidden text-ellipsis">{{
-            user.mail.length > 0 ? user.mail : user.user_principal_name
+            user.mail || user.user_principal_name
           }}</label>
         </div>
         <div
