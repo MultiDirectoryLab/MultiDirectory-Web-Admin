@@ -360,10 +360,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     const toDeleteDNs = this.grid().selected.map((x) => x.id);
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     this.dialogService
       .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
         component: ConfirmDeleteDialogComponent,
