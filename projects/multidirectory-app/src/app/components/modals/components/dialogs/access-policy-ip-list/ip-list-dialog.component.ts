@@ -68,7 +68,7 @@ export class IpAddressStatus {
   selector: 'app-ip-list-dialog-component',
   templateUrl: './ip-list-dialog.component.html',
   styleUrls: ['./ip-list-dialog.component.scss'],
-  imports: [TranslocoPipe, NgClass, ButtonComponent, DialogComponent],
+  imports: [TranslocoPipe, TooltipComponent, NgClass, ButtonComponent, DialogComponent],
 })
 export class IpListDialogComponent implements OnInit {
   private dialogData: IplistDialogData = inject(DIALOG_DATA);
