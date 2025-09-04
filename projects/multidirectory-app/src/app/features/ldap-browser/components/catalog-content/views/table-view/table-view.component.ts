@@ -1,17 +1,15 @@
 import { NgClass } from '@angular/common';
 import {
-  Component,
-  forwardRef,
   AfterViewInit,
-  OnDestroy,
-  inject,
   ChangeDetectorRef,
-  viewChild,
-  TemplateRef,
-  Input,
-  Output,
+  Component,
   EventEmitter,
-  PipeTransform,
+  inject,
+  Input,
+  OnDestroy,
+  Output,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
@@ -23,12 +21,12 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import {
-  faToggleOff,
-  faTrashAlt,
   faCrosshairs,
   faLevelUpAlt,
+  faToggleOff,
+  faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { TranslocoPipe, translate } from '@jsverse/transloco';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { LdapBrowserEntry } from '@models/core/ldap-browser/ldap-browser-entry';
@@ -40,7 +38,6 @@ import {
   CheckboxComponent,
   ContextMenuEvent,
   DatagridComponent,
-  DropdownOption,
   PlaneButtonComponent,
   RightClickEvent,
   ShiftCheckboxComponent,
@@ -49,31 +46,29 @@ import { ConfirmDeleteDialogComponent } from '@components/modals/components/dial
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import {
-  ConfirmDeleteDialogReturnData,
   ConfirmDeleteDialogData,
+  ConfirmDeleteDialogReturnData,
 } from '@components/modals/interfaces/confirm-delete-dialog.interface';
 import {
-  ConfirmDialogReturnData,
   ConfirmDialogData,
+  ConfirmDialogReturnData,
 } from '@components/modals/interfaces/confirm-dialog.interface';
 import {
-  EntityPropertiesDialogReturnData,
   EntityPropertiesDialogData,
+  EntityPropertiesDialogReturnData,
 } from '@components/modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import {
   BehaviorSubject,
-  Subject,
-  takeUntil,
   combineLatest,
+  EMPTY,
+  mergeMap,
+  of,
+  Subject,
   switchMap,
   take,
-  of,
-  concat,
-  tap,
-  mergeMap,
-  EMPTY,
+  takeUntil,
 } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import {
@@ -84,7 +79,6 @@ import {
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { TableColumn } from 'ngx-datatable-gimefork';
-import { DeleteManyEntryRequest } from '@models/api/entry/deleteMany-request';
 
 @Component({
   selector: 'app-table-view',
