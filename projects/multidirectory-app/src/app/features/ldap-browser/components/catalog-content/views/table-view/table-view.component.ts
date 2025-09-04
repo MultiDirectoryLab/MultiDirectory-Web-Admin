@@ -275,13 +275,13 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
           return EMPTY;
         }),
       )
-      .subscribe(([rows, totalPages, totalEntires]) => {
+      .subscribe(([rows, totalPages, totalEntries]) => {
         this.setSelected([]);
         this.setAccountEnabledToggle();
         this.rows.splice(0, this.rows.length);
         this.rows.push(...rows);
 
-        this.total = totalEntires;
+        this.total = totalEntries;
         if (this.navigation.isSelectEntry()) {
           this.selectRows([this.navigation.getDistinguishedName()]);
         }
