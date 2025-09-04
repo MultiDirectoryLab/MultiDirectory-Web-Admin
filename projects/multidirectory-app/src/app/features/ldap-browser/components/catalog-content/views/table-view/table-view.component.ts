@@ -84,6 +84,7 @@ import {
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import { DeleteManyEntryRequest } from '@models/api/entry/deleteMany-request';
 
 @Component({
   selector: 'app-table-view',
@@ -359,6 +360,10 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     const toDeleteDNs = this.grid().selected.map((x) => x.id);
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     this.dialogService
       .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
         component: ConfirmDeleteDialogComponent,
@@ -373,16 +378,16 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         take(1),
         switchMap((confirmed) => {
           if (!confirmed) return of(confirmed);
+          const selectedIds: { entry: string }[] = this.grid().selected?.map((el) => ({
+            entry: !!el.id ? el.id : '',
+          }));
 
-          return concat(
-            ...this.grid().selected.map((x) =>
-              this.api.delete(
-                new DeleteEntryRequest({
-                  entry: x.id,
-                }),
-              ),
-            ),
-          );
+          const isListOfManyItems = selectedIds.length > 1;
+          if (isListOfManyItems) {
+            return this.api.deleteMany(selectedIds);
+          }
+
+          return this.api.delete(new DeleteEntryRequest(selectedIds[0]));
         }),
       )
       .subscribe(() => {
