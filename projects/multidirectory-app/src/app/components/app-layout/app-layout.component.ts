@@ -56,7 +56,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
   showNotifications = false;
-  multidirectorySidebarVisible: BehaviorSubject<boolean> = this.app.multidirectorySidebarVisibleRx;
+  multidirectorySidebarVisible: boolean = this.app.sidebarVisibility;
 
   ngOnInit() {
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

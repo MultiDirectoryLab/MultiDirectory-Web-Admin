@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, iif, of, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, iif, Observable, of, Subject, tap } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
@@ -26,7 +26,12 @@ export class AppSettingsService {
   getStartSidebarVisibility(): boolean {
     return !(localStorage.getItem('multidirectory_sidebar_visible') == 'false');
   }
-  setSidebarVisibility(flag: boolean): void {
+
+  get sidebarVisibility(): boolean {
+    return this.multidirectorySidebarVisibleRx.getValue();
+  }
+
+  set sidebarVisibility(flag: boolean) {
     this.multidirectorySidebarVisibleRx.next(flag);
     localStorage.setItem('multidirectory_sidebar_visible', String(flag));
   }

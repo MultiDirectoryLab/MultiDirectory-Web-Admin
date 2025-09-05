@@ -56,7 +56,7 @@ export class SidebarComponent {
   }
 
   toggleSidebar() {
-    this.app.setSidebarVisibility(!this.multidirectorySidebarVisible);
+    this.app.sidebarVisibility = !this.multidirectorySidebarVisible;
   }
 
   openAccountSettings() {
