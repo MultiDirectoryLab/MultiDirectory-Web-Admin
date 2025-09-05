@@ -44,6 +44,7 @@ import { DnsApiService } from '@services/dns-api.service';
     HotkeyModule,
     TranslocoPipe,
     WindowsComponent,
+    AsyncPipe,
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
@@ -55,7 +56,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
   showNotifications = false;
-  multidirectorySidebarVisible: boolean = this.app.sidebarVisibility;
+  $multidirectorySidebarVisible = this.app.$sidebarVisibility;
 
   ngOnInit() {
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {

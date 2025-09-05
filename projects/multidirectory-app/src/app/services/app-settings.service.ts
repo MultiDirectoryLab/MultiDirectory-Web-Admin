@@ -27,6 +27,10 @@ export class AppSettingsService {
     return !(localStorage.getItem('multidirectory_sidebar_visible') == 'false');
   }
 
+  get $sidebarVisibility(): Observable<boolean> {
+    return this.multidirectorySidebarVisibleRx.asObservable();
+  }
+
   get sidebarVisibility(): boolean {
     return this.multidirectorySidebarVisibleRx.getValue();
   }

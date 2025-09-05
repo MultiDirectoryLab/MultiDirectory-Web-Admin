@@ -19,7 +19,7 @@ import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faChevronLeft, faClose } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,13 +33,14 @@ import { faChevronLeft, faClose } from '@fortawesome/free-solid-svg-icons';
     FormsModule,
     NgClass,
     FaIconComponent,
+    AsyncPipe,
   ],
 })
 export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
-  multidirectorySidebarVisible: boolean = this.app.sidebarVisibility;
+  $sidebarVisibility = this.app.$sidebarVisibility;
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -55,7 +56,7 @@ export class SidebarComponent {
   }
 
   toggleSidebar() {
-    this.app.sidebarVisibility = !this.multidirectorySidebarVisible;
+    this.app.sidebarVisibility = !this.app.sidebarVisibility;
   }
 
   openAccountSettings() {
