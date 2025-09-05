@@ -4,7 +4,7 @@
   }
   <div
     class="sidebar-bookmark"
-    [ngClass]="!(multidirectorySidebarVisible | async) ? 'active' : 'inactive'"
+    [ngClass]="!multidirectorySidebarVisible ? 'active' : 'inactive'"
     (click)="toggleSidebar()"
   >
     <!--    <svg-->

@@ -13,22 +13,24 @@ import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 export class AppSettingsService {
   private api = inject(MultidirectoryApiService);
   private translocoService = inject(TranslocoService);
-  private startValueNavigationalPanel: boolean = !(
-    localStorage.getItem('multidirectory_sidebar_visible') == 'false'
-  );
-
-  multidirectorySidebarVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    this.startValueNavigationalPanel,
-  );
-  setNavigationalPanelVisiblity(state: boolean) {
-    this.multidirectorySidebarVisibleRx.next(state);
-  }
-
   private _darkMode: boolean = localStorage.getItem('dark-mode') == 'true';
   private _darkModeRx = new BehaviorSubject<boolean>(this._darkMode);
   get darkModeRx() {
     return this._darkModeRx.asObservable();
   }
+  private startValueNavigationalPanel: boolean = this.getStartSidebarVisibility();
+  multidirectorySidebarVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    this.startValueNavigationalPanel,
+  );
+
+  getStartSidebarVisibility(): boolean {
+    return !(localStorage.getItem('multidirectory_sidebar_visible') == 'false');
+  }
+  setSidebarVisibility(flag: boolean): void {
+    this.multidirectorySidebarVisibleRx.next(flag);
+    localStorage.setItem('multidirectory_sidebar_visible', String(flag));
+  }
+
   setDarkMode(state: boolean) {
     localStorage.setItem('dark-mode', state ? 'true' : 'false');
     this._darkModeRx.next(state);

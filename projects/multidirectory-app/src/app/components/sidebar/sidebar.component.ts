@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
-import { BehaviorSubject, take } from 'rxjs';
+import { take } from 'rxjs';
 import { ChangePasswordDialogComponent } from '../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 import { EntityPropertiesDialogComponent } from '../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import {
@@ -18,6 +18,8 @@ import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faChevronLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -31,13 +33,14 @@ import { AsyncPipe, NgClass } from '@angular/common';
     FormsModule,
     NgClass,
     AsyncPipe,
+    FaIconComponent,
   ],
 })
 export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
-  multidirectorySidebarVisible: BehaviorSubject<boolean> = this.app.multidirectorySidebarVisibleRx;
+  multidirectorySidebarVisible: boolean = this.app.multidirectorySidebarVisibleRx.getValue();
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -53,10 +56,7 @@ export class SidebarComponent {
   }
 
   toggleSidebar() {
-    const currentValue = this.multidirectorySidebarVisible.getValue();
-    this.multidirectorySidebarVisible.next(!currentValue);
-    localStorage.setItem('multidirectory_sidebar_visible', String(!currentValue));
-    window.dispatchEvent(new Event('resize'));
+    this.app.setSidebarVisibility(!this.multidirectorySidebarVisible);
   }
 
   openAccountSettings() {
@@ -102,4 +102,6 @@ export class SidebarComponent {
   handleLogoClick() {
     this.router.navigate(['/ldap']);
   }
+
+  protected readonly faChevronLeft = faChevronLeft;
 }
