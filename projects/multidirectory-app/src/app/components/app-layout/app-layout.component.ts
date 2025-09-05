@@ -44,7 +44,6 @@ import { DnsApiService } from '@services/dns-api.service';
     HotkeyModule,
     TranslocoPipe,
     WindowsComponent,
-    AsyncPipe,
   ],
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {

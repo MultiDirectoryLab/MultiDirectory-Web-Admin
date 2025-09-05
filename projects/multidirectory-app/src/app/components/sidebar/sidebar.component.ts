@@ -32,7 +32,6 @@ import { faChevronLeft, faClose } from '@fortawesome/free-solid-svg-icons';
     DropdownMenuComponent,
     FormsModule,
     NgClass,
-    AsyncPipe,
     FaIconComponent,
   ],
 })
@@ -40,7 +39,7 @@ export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
-  multidirectorySidebarVisible: boolean = this.app.multidirectorySidebarVisibleRx.getValue();
+  multidirectorySidebarVisible: boolean = this.app.sidebarVisibility;
 
   get user(): WhoamiResponse {
     return this.app.user;
