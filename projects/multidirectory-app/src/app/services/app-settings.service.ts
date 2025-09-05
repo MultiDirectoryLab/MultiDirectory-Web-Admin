@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, iif, of, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, iif, Observable, of, Subject, tap } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
@@ -13,17 +13,33 @@ import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 export class AppSettingsService {
   private api = inject(MultidirectoryApiService);
   private translocoService = inject(TranslocoService);
-
-  navigationalPanelVisibleRx = new BehaviorSubject<boolean>(true);
-  setNavigationalPanelVisiblity(state: boolean) {
-    this.navigationalPanelVisibleRx.next(state);
-  }
-
   private _darkMode: boolean = localStorage.getItem('dark-mode') == 'true';
   private _darkModeRx = new BehaviorSubject<boolean>(this._darkMode);
   get darkModeRx() {
     return this._darkModeRx.asObservable();
   }
+  private startValueNavigationalPanel: boolean = this.getStartSidebarVisibility();
+  multidirectorySidebarVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    this.startValueNavigationalPanel,
+  );
+
+  getStartSidebarVisibility(): boolean {
+    return !(localStorage.getItem('multidirectory_sidebar_visible') == 'false');
+  }
+
+  get $sidebarVisibility(): Observable<boolean> {
+    return this.multidirectorySidebarVisibleRx.asObservable();
+  }
+
+  get sidebarVisibility(): boolean {
+    return this.multidirectorySidebarVisibleRx.getValue();
+  }
+
+  set sidebarVisibility(flag: boolean) {
+    this.multidirectorySidebarVisibleRx.next(flag);
+    localStorage.setItem('multidirectory_sidebar_visible', String(flag));
+  }
+
   setDarkMode(state: boolean) {
     localStorage.setItem('dark-mode', state ? 'true' : 'false');
     this._darkModeRx.next(state);

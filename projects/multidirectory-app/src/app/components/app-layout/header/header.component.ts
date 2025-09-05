@@ -58,7 +58,6 @@ export class HeaderComponent {
   readonly accountSettingsClicked = output<void>();
   readonly logoutClick = output<void>();
   readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
-  navigationalPanelInvisible = false;
   darkMode = false;
   ViewMode = ViewMode;
 
@@ -75,19 +74,6 @@ export class HeaderComponent {
   }
 
   constructor() {
-    this.hotkeysService.add(
-      new Hotkey(
-        ['ctrl+h', 'meta+h'],
-        (event: KeyboardEvent): boolean => {
-          event.preventDefault();
-          event.stopPropagation();
-          this.onChange(!this.navigationalPanelInvisible);
-          return false; // Prevent bubbling
-        },
-        undefined,
-        translate('hotkeys.toggle-navbar'),
-      ),
-    );
     this.hotkeysService.add(
       new Hotkey(
         'esc',
@@ -130,12 +116,6 @@ export class HeaderComponent {
     );
 
     this.darkMode = localStorage.getItem('dark-mode') == 'true';
-  }
-
-  onChange(value: boolean) {
-    this.navigationalPanelInvisible = value;
-    this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
-    window.dispatchEvent(new Event('resize'));
   }
 
   onDarkMode(value: boolean) {

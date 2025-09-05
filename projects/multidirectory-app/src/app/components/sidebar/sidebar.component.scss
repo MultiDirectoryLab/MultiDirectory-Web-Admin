@@ -63,3 +63,34 @@
   flex-flow: column nowrap;
   user-select: none;
 }
+
+.sidebar-bookmark {
+  display: block;
+  position: absolute;
+  color: var(--md-white);
+  cursor: pointer;
+  background-color: var(--md-bright);
+  height: 50px;
+  width: 25px;
+  right: 0.5rem;
+  z-index: 1000;
+
+  &__icon {
+    color: var(--md-light);
+    position: relative;
+    top: 0.8rem;
+    left: 0.3rem;
+    display: block;
+    width: 9px;
+  }
+
+  &.active {
+    height: 100vh;
+    right: 0;
+    left: 0;
+    background: var(--md-bright);
+    .sidebar-bookmark__icon {
+      transform: scale(-1, -1);
+    }
+  }
+}

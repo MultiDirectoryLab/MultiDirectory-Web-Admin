@@ -1,7 +1,7 @@
 <div class="bg-white-neutral app-layout flex">
   <div
     [ngClass]="{
-      'left-pane-visible': showLeftPane,
+      'left-pane-hidden': !($multidirectorySidebarVisible | async),
     }"
     class="left-pane"
   >
