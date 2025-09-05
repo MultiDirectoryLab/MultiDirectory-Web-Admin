@@ -37,7 +37,7 @@ export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
-  navigationalPanelVisible: BehaviorSubject<boolean> = this.app.navigationalPanelVisibleRx;
+  multidirectorySidebarVisible: BehaviorSubject<boolean> = this.app.multidirectorySidebarVisibleRx;
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -53,9 +53,9 @@ export class SidebarComponent {
   }
 
   toggleSidebar() {
-    const currentValue = this.navigationalPanelVisible.getValue();
-    this.navigationalPanelVisible.next(!currentValue);
-    localStorage.setItem('isSidebarPanelVisible', String(!currentValue));
+    const currentValue = this.multidirectorySidebarVisible.getValue();
+    this.multidirectorySidebarVisible.next(!currentValue);
+    localStorage.setItem('multidirectory_sidebar_visible', String(!currentValue));
     window.dispatchEvent(new Event('resize'));
   }
 

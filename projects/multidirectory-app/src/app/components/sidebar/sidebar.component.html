@@ -1,10 +1,10 @@
 <ng-container *transloco="let t">
-  @if (navigationalPanelVisible | async) {
+  @if (multidirectorySidebarVisible | async) {
     <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
   }
   <div
     class="sidebar-bookmark"
-    [ngClass]="!(navigationalPanelVisible | async) ? 'active' : 'inactive'"
+    [ngClass]="!(multidirectorySidebarVisible | async) ? 'active' : 'inactive'"
     (click)="toggleSidebar()"
   >
     <svg
@@ -20,7 +20,7 @@
     </svg>
   </div>
 
-  @if (navigationalPanelVisible | async) {
+  @if (multidirectorySidebarVisible | async) {
     <div class="sidebar">
       <div class="treeview">
         <router-outlet name="sidebar"></router-outlet>

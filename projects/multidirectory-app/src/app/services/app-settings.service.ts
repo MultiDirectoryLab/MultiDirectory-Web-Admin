@@ -14,14 +14,14 @@ export class AppSettingsService {
   private api = inject(MultidirectoryApiService);
   private translocoService = inject(TranslocoService);
   private startValueNavigationalPanel: boolean = !(
-    localStorage.getItem('isSidebarPanelVisible') == 'false'
+    localStorage.getItem('multidirectory_sidebar_visible') == 'false'
   );
 
-  navigationalPanelVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+  multidirectorySidebarVisibleRx: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     this.startValueNavigationalPanel,
   );
   setNavigationalPanelVisiblity(state: boolean) {
-    this.navigationalPanelVisibleRx.next(state);
+    this.multidirectorySidebarVisibleRx.next(state);
   }
 
   private _darkMode: boolean = localStorage.getItem('dark-mode') == 'true';
