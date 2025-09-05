@@ -69,18 +69,19 @@
   position: absolute;
   color: var(--md-white);
   cursor: pointer;
-
+  background-color: var(--md-bright);
   height: 50px;
   width: 25px;
   right: 0.5rem;
   z-index: 1000;
 
   &__icon {
-    fill: var(--md-neutral-1000);
+    color: var(--md-light);
     position: relative;
-    text-align: center;
-    top: 1.17rem;
+    top: 0.8rem;
     left: 0.3rem;
+    display: block;
+    width: 9px;
   }
 
   &.active {
