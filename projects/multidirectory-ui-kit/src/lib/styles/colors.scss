@@ -18,6 +18,8 @@
   --md-dark-blue-5: #324960;
   --md-red: #f26969;
   --md-black: #202124;
+  --md-bright: --md-blue;
+  --md-light: --md-white;
 }
 
 .dark-theme {
@@ -39,6 +41,8 @@
   --md-dark-blue-5: #324960;
   --md-red: #177576;
   --md-black: #d6d7d8;
+  --md-bright: #581b75;
+  --md-light: -md-black;
 
   input,
   select,

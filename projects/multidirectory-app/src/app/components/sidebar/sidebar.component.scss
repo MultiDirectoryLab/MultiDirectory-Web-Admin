@@ -67,7 +67,6 @@
 .sidebar-bookmark {
   display: block;
   position: absolute;
-  background: var(--md-blue);
   color: var(--md-white);
   cursor: pointer;
 
@@ -77,7 +76,7 @@
   z-index: 1000;
 
   &__icon {
-    fill: var(--md-white);
+    fill: var(--md-neutral-1000);
     position: relative;
     text-align: center;
     top: 1.17rem;
@@ -88,6 +87,7 @@
     height: 100vh;
     right: 0;
     left: 0;
+    background: var(--md-bright);
     .sidebar-bookmark__icon {
       transform: scale(-1, -1);
     }
