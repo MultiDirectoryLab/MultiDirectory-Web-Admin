@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,7 +41,22 @@ export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
+  private hotkeysService = inject(HotkeysService);
   $sidebarVisibility = this.app.$sidebarVisibility;
+  constructor() {
+    this.hotkeysService.add(
+      new Hotkey(
+        ['ctrl+h', 'meta+h'],
+        (event: KeyboardEvent): boolean => {
+          event.preventDefault();
+          event.stopPropagation();
+          return false; // Prevent bubbling
+        },
+        undefined,
+        translate('hotkeys.toggle-navbar'),
+      ),
+    );
+  }
 
   get user(): WhoamiResponse {
     return this.app.user;
