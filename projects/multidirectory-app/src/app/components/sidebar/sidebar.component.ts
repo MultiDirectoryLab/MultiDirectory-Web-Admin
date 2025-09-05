@@ -16,17 +16,31 @@ import {
 } from '../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  imports: [TranslocoDirective, RouterOutlet, DropdownContainerDirective, DropdownMenuComponent],
+  imports: [
+    TranslocoDirective,
+    RouterOutlet,
+    DropdownContainerDirective,
+    DropdownMenuComponent,
+    FormsModule,
+    NgClass,
+    FaIconComponent,
+    AsyncPipe,
+  ],
 })
 export class SidebarComponent {
   private dialogService: DialogService = inject(DialogService);
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
+  $sidebarVisibility = this.app.$sidebarVisibility;
 
   get user(): WhoamiResponse {
     return this.app.user;
@@ -39,6 +53,10 @@ export class SidebarComponent {
       .subscribe(() => {
         this.router.navigate(['login']);
       });
+  }
+
+  toggleSidebar() {
+    this.app.sidebarVisibility = !this.app.sidebarVisibility;
   }
 
   openAccountSettings() {
@@ -84,4 +102,6 @@ export class SidebarComponent {
   handleLogoClick() {
     this.router.navigate(['/ldap']);
   }
+
+  protected readonly faChevronLeft = faChevronLeft;
 }

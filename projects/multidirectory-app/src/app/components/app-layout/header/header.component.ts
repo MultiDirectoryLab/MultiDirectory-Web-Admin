@@ -134,7 +134,7 @@ export class HeaderComponent {
 
   onChange(value: boolean) {
     this.navigationalPanelInvisible = value;
-    this.app.setNavigationalPanelVisiblity(!this.navigationalPanelInvisible);
+    this.app.sidebarVisibility = !this.navigationalPanelInvisible;
     window.dispatchEvent(new Event('resize'));
   }
 

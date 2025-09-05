@@ -1,41 +1,53 @@
-<ng-container *transloco="let t; prefix: 'home'">
-  <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
-  <div class="sidebar">
-    <div class="treeview">
-      <router-outlet name="sidebar"></router-outlet>
-    </div>
-    <div class="flex footer">
-      <div class="avatar flex flex-col justify-center min-w-12">
-        @if (!user.jpegPhoto) {
-          <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
-        }
-        @if (!!user.jpegPhoto) {
-          <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
-        }
-      </div>
-      <div class="user-info flex flex flex-col">
-        <label>{{ user.display_name }}</label>
-        <label class="max-w-[150px] overflow-hidden text-ellipsis">{{
-          user.mail.length > 0 ? user.mail : user.user_principal_name
-        }}</label>
-      </div>
-      <div
-        [mdDropdownContainer]="loginMenu"
-        [mdDropdownXOffset]="20"
-        [calculatePosition]="true"
-        class="flex items-center justify-center px-2 hover:bg-(--md-white-blue-2) hover:cursor-pointer min-w-[32px]"
-      >
-        <img class="w-1.5" src="/assets/more_vert.svg" />
-      </div>
-      <md-dropdown-menu #loginMenu>
-        <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
-          {{ t('account-settings') }}
-        </div>
-        <div (click)="loginMenu.close(); openChangePassword()" class="dropdown-item">
-          {{ t('change-password') }}
-        </div>
-        <div (click)="logout()" class="dropdown-item">{{ t('logout') }}</div>
-      </md-dropdown-menu>
-    </div>
+<ng-container *transloco="let t">
+  @if ($sidebarVisibility | async) {
+    <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
+  }
+  <ng-template> </ng-template>
+  <div
+    class="sidebar-bookmark"
+    [ngClass]="!($sidebarVisibility | async) ? 'active' : 'inactive'"
+    (click)="toggleSidebar()"
+  >
+    <fa-icon class="sidebar-bookmark__icon" [icon]="faChevronLeft"></fa-icon>
   </div>
+
+  @if ($sidebarVisibility | async) {
+    <div class="sidebar">
+      <div class="treeview">
+        <router-outlet name="sidebar"></router-outlet>
+      </div>
+      <div class="flex footer">
+        <div class="avatar flex flex-col justify-center min-w-12">
+          @if (!user.jpegPhoto) {
+            <img src="/assets/avatar_placeholder.svg" class="avatar-img avatar-img-placeholder" />
+          } @else {
+            <img [src]="'data:image/jpg;base64,' + user.jpegPhoto" class="avatar-img" />
+          }
+        </div>
+        <div class="user-info flex flex flex-col">
+          <label>{{ user.display_name }}</label>
+          <label class="max-w-[150px] overflow-hidden text-ellipsis">{{
+            user.mail || user.user_principal_name
+          }}</label>
+        </div>
+        <div
+          [mdDropdownContainer]="loginMenu"
+          [mdDropdownXOffset]="20"
+          [calculatePosition]="true"
+          class="flex items-center justify-center px-2 hover:bg-(--md-white-blue-2) hover:cursor-pointer min-w-[32px]"
+        >
+          <img class="w-1.5" src="/assets/more_vert.svg" />
+        </div>
+        <md-dropdown-menu #loginMenu>
+          <div (click)="loginMenu.close(); openAccountSettings()" class="dropdown-item">
+            {{ t('account-settings') }}
+          </div>
+          <div (click)="loginMenu.close(); openChangePassword()" class="dropdown-item">
+            {{ t('change-password') }}
+          </div>
+          <div (click)="logout()" class="dropdown-item">{{ t('logout') }}</div>
+        </md-dropdown-menu>
+      </div>
+    </div>
+  }
 </ng-container>
