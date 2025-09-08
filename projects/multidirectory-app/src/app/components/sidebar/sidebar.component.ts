@@ -50,6 +50,7 @@ export class SidebarComponent {
         (event: KeyboardEvent): boolean => {
           event.preventDefault();
           event.stopPropagation();
+          this.toggleSidebar();
           return false; // Prevent bubbling
         },
         undefined,

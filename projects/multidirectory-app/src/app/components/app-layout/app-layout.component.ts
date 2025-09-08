@@ -8,17 +8,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeyModule, HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import {
-  BehaviorSubject,
-  catchError,
-  EMPTY,
-  of,
-  Subject,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { catchError, EMPTY, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
@@ -56,7 +46,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject<void>();
   readonly helpcheatSheet = viewChild.required<HotkeysCheatsheetComponent>('helpcheatSheet');
   showNotifications = false;
-  $multidirectorySidebarVisible = this.app.$sidebarVisibility;
+  $sidebarVisibility = this.app.$sidebarVisibility;
 
   ngOnInit() {
     this.app.notificationVisibleRx.pipe(takeUntil(this.unsubscribe)).subscribe((x) => {
