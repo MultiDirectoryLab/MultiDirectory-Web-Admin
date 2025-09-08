@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "watch: kit": "ng build multidirectory-ui-kit --watch",
+    "watch: kit": "ng build multidirectory-ui-kit --watch && npm link ./dist/multidirectory-ui-kit",
     "test": "ng test",
     "storybook": "ng run multidirectory-ui-kit:storybook",
     "build-storybook": "ng run multidirectory-ui-kit:build-storybook",
