@@ -1,17 +1,17 @@
 <ng-container *transloco="let t">
-  @if ($sidebarVisibility | async) {
+  @if ($sidebarVisibility) {
     <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
   }
   <ng-template> </ng-template>
   <div
     class="sidebar-bookmark"
-    [ngClass]="!($sidebarVisibility | async) ? 'active' : 'inactive'"
+    [ngClass]="!$sidebarVisibility ? 'active' : 'inactive'"
     (click)="toggleSidebar()"
   >
     <fa-icon class="sidebar-bookmark__icon" [icon]="faChevronLeft"></fa-icon>
   </div>
 
-  @if ($sidebarVisibility | async) {
+  @if ($sidebarVisibility) {
     <div class="sidebar">
       <div class="treeview">
         <router-outlet name="sidebar"></router-outlet>

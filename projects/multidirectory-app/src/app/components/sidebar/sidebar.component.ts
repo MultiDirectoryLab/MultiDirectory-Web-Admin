@@ -17,7 +17,7 @@ import {
 import { DialogService } from '../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { FormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
@@ -34,7 +34,6 @@ import { Hotkey, HotkeysService } from 'angular2-hotkeys';
     FormsModule,
     NgClass,
     FaIconComponent,
-    AsyncPipe,
   ],
 })
 export class SidebarComponent {
@@ -42,7 +41,7 @@ export class SidebarComponent {
   private app: AppSettingsService = inject(AppSettingsService);
   private router: Router = inject(Router);
   private hotkeysService = inject(HotkeysService);
-  $sidebarVisibility = this.app.$sidebarVisibility;
+  $sidebarVisibility = this.app.multidirectorySidebarVisibleRx.value;
   constructor() {
     this.hotkeysService.add(
       new Hotkey(
