@@ -368,16 +368,16 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
         take(1),
         switchMap((confirmed) => {
           if (!confirmed) return of(confirmed);
-          const selectedIds: { entry: string }[] = this.grid().selected?.map((el) => ({
-            entry: !!el.id ? el.id : '',
+          const selectedItems: { entry: string }[] = this.grid().selected?.map((el) => ({
+            entry: el.id,
           }));
 
-          const isListOfManyItems = selectedIds.length > 1;
-          if (isListOfManyItems) {
-            return this.api.deleteMany(selectedIds);
+          const manyItemsSelected = selectedItems.length > 1;
+          if (manyItemsSelected) {
+            return this.api.deleteMany({ selectedItems: selectedItems });
           }
 
-          return this.api.delete(new DeleteEntryRequest(selectedIds[0]));
+          return this.api.delete(new DeleteEntryRequest(selectedItems[0]));
         }),
       )
       .subscribe(() => {
