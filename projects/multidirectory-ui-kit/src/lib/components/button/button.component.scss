@@ -51,10 +51,3 @@
     color: var(--md-black);
   }
 }
-
-::ng-deep .dark-theme .md-button {
-  &:disabled {
-    background-color: var(--md-neutral-600);
-    border-color: var(--md-neutral-600);
-  }
-}
