@@ -24,8 +24,8 @@
     &.md-button-primary {
       pointer-events: none;
       color: var(--md-neutral-400);
-      background-color: var(--md-neutral-200);
-      border-color: var(--md-neutral-200);
+      background-color: var(--md-buttom-background-color--disabled);
+      border-color: var(--md-buttom-background-color--disabled);
     }
   }
 
@@ -35,8 +35,8 @@
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: var(--md-white-blue);
-      border-color: var(--md-white-blue);
+      background-color: var(--md-dark-blue);
+      border-color: var(--md-dark-blue);
     }
   }
 
@@ -56,12 +56,5 @@
   &:disabled {
     background-color: var(--md-neutral-600);
     border-color: var(--md-neutral-600);
-    color: var(--md-neutral-400);
-  }
-
-  &.md-button-primary {
-    &:hover:not(:disabled) {
-      background-color: var(--md-dark-blue);
-    }
   }
 }

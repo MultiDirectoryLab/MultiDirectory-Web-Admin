@@ -20,6 +20,9 @@
   --md-black: #202124;
   --md-bright: var(--md-blue);
   --md-light: var(--md-white);
+
+  //buttons
+  --md-buttom-background-color--disabled: var(--md-neutral-200);
 }
 
 .dark-theme {
@@ -43,6 +46,9 @@
   --md-black: #d6d7d8;
   --md-bright: #581b75;
   --md-light: var(--md-neutral-1000);
+
+  //buttons
+  --md-buttom-color--disabled: var(--md-neutral-600);
 
   input,
   select,
