@@ -35,7 +35,7 @@
     "bitset": "^5.2.3",
     "dayjs": "^1.11.13",
     "moment": "^2.30.1",
-    "multidirectory-ui-kit": "dist/multidirectory-ui-kit",
+    "multidirectory-ui-kit": "./dist/multidirectory-ui-kit",
     "ngx-datatable-gimefork": "22.0.0-alpha.7",
     "ngx-spinner": "^19.0.0",
     "ngx-toastr": "^19.0.0",
