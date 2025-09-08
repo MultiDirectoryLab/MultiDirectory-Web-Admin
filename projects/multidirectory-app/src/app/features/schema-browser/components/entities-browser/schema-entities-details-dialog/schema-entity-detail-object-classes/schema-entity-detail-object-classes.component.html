@@ -18,6 +18,7 @@
         'schema-entity-details-object-classes.add' | transloco
       }}</md-button>
       <md-button
+        [primary]="true"
         [disabled]="cantDeleteObjectClasses() || grid.selected.length == 0"
         (click)="deleteObjectClass()"
         >{{ 'schema-entity-details-object-classes.delete' | transloco }}</md-button

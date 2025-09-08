@@ -5,44 +5,38 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-transform: uppercase;
-  border-radius: 3px;
-  color: var(--md-neutral-800);
-  line-height: 17px;
   letter-spacing: -0.03em;
-  border: 1px solid var(--md-white);
   text-align: center;
   max-width: 100%;
   cursor: pointer;
-  &:not(.md-button-primary) {
-    box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--md-neutral-400);
-    color: var(--md-neutral-600);
-    background: var(--md-white);
-    line-height: 16px;
+  box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--md-neutral-400);
+  color: var(--md-neutral-600);
+  background: var(--md-white);
+  line-height: 16px;
 
-    &:hover:not(:disabled) {
-      background: #f1f1f1;
-      background-color: var(--md-neutral-100);
-    }
+  &:hover:not(:disabled) {
+    background-color: var(--md-neutral-100);
+  }
 
-    &:disabled {
+  &:disabled {
+    &,
+    &.md-button-primary {
+      pointer-events: none;
       color: var(--md-neutral-400);
       background-color: var(--md-neutral-200);
+      border-color: var(--md-neutral-200);
     }
   }
 
   &.md-button-primary {
     background-color: var(--md-blue);
+    border-color: var(--md-blue);
     color: white;
 
     &:hover:not(:disabled) {
-      background-color: var(--md-neutral-150);
-      color: var(--md-neutral-800);
-    }
-
-    &:disabled {
-      background-color: var(--md-neutral-200);
-      color: var(--md-neutral-800);
+      background-color: var(--md-white-blue);
+      border-color: var(--md-white-blue);
     }
   }
 
@@ -55,5 +49,19 @@
 ::ng-deep :host .dark-theme {
   &.md-button {
     color: var(--md-black);
+  }
+}
+
+::ng-deep .dark-theme .md-button {
+  &:disabled {
+    background-color: var(--md-neutral-600);
+    border-color: var(--md-neutral-600);
+    color: var(--md-neutral-400);
+  }
+
+  &.md-button-primary {
+    &:hover:not(:disabled) {
+      background-color: var(--md-dark-blue);
+    }
   }
 }
