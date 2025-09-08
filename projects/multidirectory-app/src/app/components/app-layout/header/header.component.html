@@ -4,22 +4,24 @@
       <router-outlet name="header"></router-outlet>
     </div>
     <div class="control-panel flex-wrap">
-      <md-plane-button
-        [mdDropdownContainer]="loginMenu"
-        [calculatePosition]="true"
-        class="search control-button"
-        #searchBtn
-      >
-        @if (!user?.jpegPhoto) {
-          <img [src]="'assets/avatar_placeholder.svg'" style="min-width: 24px; height: 24px" />
-        }
-        @if (!!user?.jpegPhoto) {
-          <img
-            [src]="'data:image/jpg;base64,' + user?.jpegPhoto"
-            style="min-width: 24px; height: 24px"
-          />
-        }
-      </md-plane-button>
+      @if (!($sidebarVisibility | async)) {
+        <md-plane-button
+          [mdDropdownContainer]="loginMenu"
+          [calculatePosition]="true"
+          class="search control-button"
+          #searchBtn
+        >
+          @if (!user?.jpegPhoto) {
+            <img [src]="'assets/avatar_placeholder.svg'" style="min-width: 24px; height: 24px" />
+          }
+          @if (user?.jpegPhoto) {
+            <img
+              [src]="'data:image/jpg;base64,' + user?.jpegPhoto"
+              style="min-width: 24px; height: 24px"
+            />
+          }
+        </md-plane-button>
+      }
       <!--md-plane-button class="search control-button" (click)="toggleNotificationPanel()">
       <img [src]="'assets/notifications.svg'" />
     </md-plane-button-->

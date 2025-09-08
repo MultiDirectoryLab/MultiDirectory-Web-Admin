@@ -27,6 +27,7 @@ import {
 } from '../../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../../modals/services/dialog.service';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -45,6 +46,7 @@ import { WhoamiResponse } from '@models/api/whoami/whoami-response';
     RouterLink,
     FormsModule,
     TranslocoDirective,
+    AsyncPipe,
   ],
 })
 export class HeaderComponent {
@@ -58,6 +60,7 @@ export class HeaderComponent {
   readonly accountSettingsClicked = output<void>();
   readonly logoutClick = output<void>();
   readonly searchBtn = viewChild('searchBtn', { read: ElementRef });
+  $sidebarVisibility = this.app.$sidebarVisibility;
   darkMode = false;
   ViewMode = ViewMode;
 
