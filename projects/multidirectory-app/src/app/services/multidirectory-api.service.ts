@@ -42,6 +42,7 @@ import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { SyslogConnection } from '../models/api/syslog/syslog-connection';
+import { DeleteManyEntryRequest } from '@models/api/entry/delete-many-request';
 
 @Injectable({
   providedIn: 'root',
@@ -96,6 +97,11 @@ export class MultidirectoryApiService {
   }
   delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request).execute();
+  }
+  deleteMany(request: DeleteManyEntryRequest): Observable<DeleteEntryResponse> {
+    return this.httpClient
+      .post<DeleteEntryResponse>('entry/delete_many', request.selectedItems)
+      .execute();
   }
 
   getAccessPolicy(): Observable<AccessPolicy[]> {
