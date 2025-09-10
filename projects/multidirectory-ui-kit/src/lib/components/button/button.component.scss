@@ -11,22 +11,12 @@
   cursor: pointer;
   box-shadow: none; // 0px 0px 3px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--md-neutral-400);
-  color: var(--md-neutral-600);
+  color: var(--md-neutral-400);
   background: var(--md-white);
   line-height: 16px;
 
   &:hover:not(:disabled) {
     background-color: var(--md-neutral-100);
-  }
-
-  &:disabled {
-    &,
-    &.md-button-primary {
-      pointer-events: none;
-      color: var(--md-neutral-400);
-      background-color: var(--md-buttom-background-color--disabled);
-      border-color: var(--md-buttom-background-color--disabled);
-    }
   }
 
   &.md-button-primary {
@@ -43,6 +33,16 @@
   &.stretch {
     width: 100%;
     padding: 4px 0;
+  }
+
+  &:disabled {
+    &,
+    &.md-button-primary {
+      pointer-events: none;
+      color: var(--md-neutral-400);
+      background-color: var(--md-button-background-color--disabled);
+      border-color: var(--md-button-background-color--disabled);
+    }
   }
 }
 

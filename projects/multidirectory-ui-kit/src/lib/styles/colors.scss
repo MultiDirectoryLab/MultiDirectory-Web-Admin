@@ -23,6 +23,9 @@
 
   //buttons
   --md-button-background-color--disabled: var(--md-neutral-200);
+
+  //fields
+  --md-textaria-color--disabled: #4a4949;
 }
 
 .dark-theme {
@@ -50,13 +53,9 @@
   //buttons
   --md-button-background-color--disabled: var(--md-neutral-600);
 
-  input,
-  select,
-  textarea {
-    color: var(--md-black);
-    background-color: var(--md-neutral-100);
-    border: 1px solid #30363d;
-  }
+  //fields
+  --md-textarea-color--disabled: #4c4d4d;
+
   label,
   span,
   p,
@@ -72,6 +71,7 @@
     border-color: var(--md-neutral-300);
     color: var(--md-black);
     border: 1px solid;
+
     &:focus {
       border-color: var(--md-blue);
       box-shadow: 0 0 0 2px rgba(56, 121, 180, 0.3);
@@ -79,7 +79,8 @@
 
     &:disabled {
       background-color: var(--md-neutral-200);
-      color: var(--md-neutral-400);
+      color: var(--md-textarea-color--disabled);
+      border-color: var(--md-black);
     }
   }
 
