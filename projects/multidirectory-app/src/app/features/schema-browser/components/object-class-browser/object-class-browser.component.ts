@@ -27,7 +27,6 @@ import {
   ConfirmDeleteDialogReturnData,
   ConfirmDeleteDialogData,
 } from '@components/modals/interfaces/confirm-delete-dialog.interface';
-import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { TableColumn } from 'ngx-datatable-gimefork';

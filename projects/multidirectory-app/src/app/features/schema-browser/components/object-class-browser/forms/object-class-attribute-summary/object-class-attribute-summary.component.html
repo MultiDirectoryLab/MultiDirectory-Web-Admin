@@ -26,9 +26,12 @@
             (click)="openObjectClassMustAttributeEditor()"
             >{{ 'object-class-attribute-summary.add' | transloco }}</md-button
           >
-          <md-button [disabled]="objectClass.is_system" (click)="removeMustAttribute()">{{
-            'object-class-attribute-summary.remove' | transloco
-          }}</md-button>
+          <md-button
+            [disabled]="objectClass.is_system"
+            (click)="removeMustAttribute()"
+            [primary]="true"
+            >{{ 'object-class-attribute-summary.remove' | transloco }}</md-button
+          >
         </div>
       </div>
 
@@ -45,7 +48,7 @@
           <md-button (click)="openObjectClassMayAttributeEditor()">{{
             'object-class-attribute-summary.add' | transloco
           }}</md-button>
-          <md-button (click)="removeMayAttribute()">{{
+          <md-button (click)="removeMayAttribute()" [primary]="true">{{
             'object-class-attribute-summary.remove' | transloco
           }}</md-button>
         </div>
