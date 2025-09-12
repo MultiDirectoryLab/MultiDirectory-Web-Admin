@@ -641,6 +641,7 @@
     "password-minimal-length-violation": "Не соблюдено требование к минимальной длине пароля",
     "password-complexity-violation": "Не соблюдено требование к сложности пароля",
     "password-cannot-end-with-digits-violation": "Пароль не может оканчиваться шестью цифрами подряд",
+    "max-length-exceeded": "Не больше {{maxLength}} символов",
     "mf-key-format-error": "Ключ MULTIFACTOR должен иметь длину 32 символа и начинаться с \"rs_\"",
     "mf-secret-format-error": "Секрет MULTIFACTOR должен иметь длину 32 символа",
     "value-is-forbidden": "Это значение запрещено",

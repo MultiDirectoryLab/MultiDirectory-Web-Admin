@@ -38,6 +38,7 @@ import { DialogService } from '../../../../components/modals/services/dialog.ser
 import { IplistDialogData } from '../../../../components/modals/interfaces/ip-list-dialog.interface';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { MaxLengthValidatorDirective } from '@core/validators/max-length.directive';
 
 @Component({
   selector: 'app-access-policy-view',
@@ -56,6 +57,7 @@ import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
     RequiredWithMessageDirective,
     IpAddressValidatorDirective,
     TranslocoPipe,
+    MaxLengthValidatorDirective,
   ],
 })
 export class AccessPolicyViewComponent implements OnInit, OnDestroy {
