@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -80,6 +81,7 @@ export class ContextMenuComponent implements OnInit {
     CompleteUpdateEntiresStrategies,
   );
   private contextMenuData: ContextMenuData = inject(DIALOG_DATA);
+  private cdr = inject(ChangeDetectorRef);
   /** OTHER **/
   entries = this.contextMenuData.entity;
 
@@ -167,7 +169,10 @@ export class ContextMenuComponent implements OnInit {
               },
             }).closed;
           }),
-        ),
+        )
+        .subscribe(() => {
+          this.navigation.reload();
+        }),
     );
   }
 
@@ -240,6 +245,7 @@ export class ContextMenuComponent implements OnInit {
       .complete<boolean>(new CheckAccountEnabledStateStrategy())
       .pipe(take(1))
       .subscribe((result) => {
+        console.log(result);
         this.accountEnabled = result;
       });
   }
