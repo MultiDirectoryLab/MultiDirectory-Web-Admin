@@ -8,7 +8,12 @@
     <div class="form-grid">
       <!-- Domain Row -->
       <div>{{ 'access-policy-create.domain' | transloco }}</div>
-      <md-textbox [(ngModel)]="accessClient.name" appRequired class="span-two"></md-textbox>
+      <md-textbox
+        [(ngModel)]="accessClient.name"
+        [maxLength]="100"
+        appRequired
+        class="span-two"
+      ></md-textbox>
 
       <!-- IP Addresses Row -->
       <div>{{ 'access-policy-create.ip-addresses' | transloco }}</div>
