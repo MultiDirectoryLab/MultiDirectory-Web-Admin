@@ -1,4 +1,4 @@
-<ng-container *transloco="let t">
+<ng-container *transloco="let t; prefix: 'home'">
   @if ($sidebarVisibility | async) {
     <img (click)="handleLogoClick()" class="logo-img" src="/assets/logo_login.svg" />
   }
