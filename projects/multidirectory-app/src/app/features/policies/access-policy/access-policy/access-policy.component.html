@@ -5,7 +5,7 @@
     </div>
     <div class="cell-index">{{ index() }}</div>
     <div class="cell-domain" [ngClass]="{ 'cell-domain-expand': !groups }">
-      {{ accessClient.name }}
+      <span class="cell-domain__container">{{ accessClient.name }}</span>
     </div>
     <div class="cell-ip">
       {{ ipAddress }}

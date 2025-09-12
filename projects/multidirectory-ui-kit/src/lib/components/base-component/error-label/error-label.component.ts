@@ -48,6 +48,9 @@ export class ErrorLabelComponent extends BaseControlComponent {
     if (!!errors['PasswordValidator']) {
       return errors['PasswordValidator'];
     }
+    if (!!errors['MaxLengthExceeded']) {
+      return errors['MaxLengthExceeded'];
+    }
     if (!!errors['ValueIsForbidden']) {
       return errors['ValueIsForbidden'];
     }
