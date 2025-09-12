@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { catchError, EMPTY, Observable, Subject, switchMap, take } from 'rxjs';
+import { catchError, EMPTY, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { MultidirectoryApiService } from './multidirectory-api.service';
 import { LoginResponse } from '@models/api/login/login-response';
 import { translate } from '@jsverse/transloco';
@@ -27,11 +27,15 @@ export class LoginService {
   login(login: string, password: string): Observable<LoginResponse> {
     return this.api.login(login, password).pipe(
       catchError((err) => {
-        if (err.status == 426) {
-          return this.use2FA(login, password);
-        }
         this.toastr.error(translate('login.wrong-login'));
         throw err;
+      }),
+      switchMap((response) => {
+        if (!!response && response.status == 'pending') {
+          document.location = response.message;
+          return EMPTY;
+        }
+        return of(response);
       }),
     );
   }
