@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { concat, EMPTY, of, switchMap, take } from 'rxjs';
+import { concat, EMPTY, of, switchMap, take, tap } from 'rxjs';
 import { ContextMenuService } from '../../../services/context-menu.service';
 import { ContextMenuData } from '../../../interfaces/context-menu-dialog.interface';
 import { BulkService } from '@services/bulk.service';
@@ -167,6 +167,7 @@ export class ContextMenuComponent implements OnInit {
               },
             }).closed;
           }),
+          tap(() => this.navigation.reload()),
         ),
     );
   }
