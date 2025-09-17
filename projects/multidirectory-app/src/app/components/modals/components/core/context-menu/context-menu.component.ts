@@ -167,8 +167,10 @@ export class ContextMenuComponent implements OnInit {
               },
             }).closed;
           }),
-          tap(() => this.navigation.reload()),
-        ),
+        )
+        .subscribe(() => {
+          this.navigation.reload();
+        }),
     );
   }
 
