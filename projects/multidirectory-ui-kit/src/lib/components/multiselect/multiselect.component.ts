@@ -20,7 +20,6 @@ import { DropdownContainerDirective } from '../dropdown-menu/dropdown-container.
 import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 import { MultiselectBadgeComponent } from './multiselect-badge/multiselect-badge.component';
 import { MultiselectModel } from './mutliselect-model';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'md-multiselect',
@@ -34,7 +33,7 @@ import { JsonPipe } from '@angular/common';
       multi: true,
     },
   ],
-  imports: [DropdownContainerDirective, MultiselectBadgeComponent, DropdownMenuComponent, JsonPipe],
+  imports: [DropdownContainerDirective, MultiselectBadgeComponent, DropdownMenuComponent],
 })
 export class MultiselectComponent extends BaseComponent {
   protected override cdr = inject(ChangeDetectorRef);
