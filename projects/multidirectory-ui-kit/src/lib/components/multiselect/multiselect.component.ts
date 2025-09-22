@@ -84,8 +84,7 @@ export class MultiselectComponent extends BaseComponent {
       this.cdr.detectChanges();
       return;
     }
-
-    if (!this.suppressMenu) {
+    if (!this.suppressMenu()) {
       this.showMenu();
     }
     if (event.key == 'ArrowDown') {

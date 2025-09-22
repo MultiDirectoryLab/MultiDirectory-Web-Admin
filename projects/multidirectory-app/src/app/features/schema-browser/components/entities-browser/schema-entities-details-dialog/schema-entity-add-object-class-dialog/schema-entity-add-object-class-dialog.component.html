@@ -6,11 +6,11 @@
     <md-multiselect
       #selector
       (ngModelChange)="checkClassNames($event)"
-      [(ngModel)]="objectClassNames"
+      ngModel
       [(selectedData)]="selectedData"
+      [options]="availableClassNames"
       [maxMenuHeight]="412"
       [notFoundText]="'group-selector.not-found-text' | transloco"
-      [options]="availableClassNames"
       class="row-6 col-1 col-span-4"
     >
     </md-multiselect>

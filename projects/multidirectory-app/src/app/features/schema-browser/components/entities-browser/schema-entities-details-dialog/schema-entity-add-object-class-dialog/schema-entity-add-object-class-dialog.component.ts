@@ -28,7 +28,6 @@ export class SchemaEntityAddObjectClassDialogComponent {
   dialog = inject(DialogService);
   dialogRef = inject(DialogRef);
   selector = viewChild.required<MultiselectComponent>('selector');
-  objectClassNames: MultiselectModel[] = [];
   availableClassNames: MultiselectModel[] = [];
   selectedData: MultiselectModel[] = [];
   checkClassNames($event: string) {
