@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 import {
   Component,
   inject,
@@ -143,9 +143,8 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
           .join(', ');
 
         this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
-        this.availableGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
-
-        this.availableMfaGroups = this.accessClient.mfaGroups.map((x) =>
+        this.selectedGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
+        this.selectedMfaGroups = this.accessClient.mfaGroups.map((x) =>
           this.getMultiselectOption(x),
         );
       },
