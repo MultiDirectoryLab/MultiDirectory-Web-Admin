@@ -8,6 +8,7 @@
       (ngModelChange)="checkAttributes($event)"
       [maxMenuHeight]="412"
       [(ngModel)]="attributes"
+      [(selectedData)]="selectedAttributes"
       [notFoundText]="'group-selector.not-found-text' | transloco"
       [options]="availableAttributes"
       class="row-6 col-1 col-span-4"

@@ -88,9 +88,12 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   ];
   groupQuery = '';
   availableGroups: MultiselectModel[] = [];
+  selectedGroups: MultiselectModel[] = [];
+
   mfaGroupsQuery = '';
   availableMfaGroups: MultiselectModel[] = [];
   bypassAllowed = false;
+  selectedMfaGroups: MultiselectModel[] = [];
 
   private _accessClient = new AccessPolicy();
 
@@ -159,9 +162,9 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
   }
 
   flush() {
-    this.accessClient.groups = this.groupSelector().selectedData.map((x) => x.id);
+    this.accessClient.groups = this.selectedGroups.map((x) => x.id);
     this.accessClient.mfaStatus = this.mfaAccess;
-    this.accessClient.mfaGroups = this.mfaGroupSelector()?.selectedData.map((x) => x.id) ?? [];
+    this.accessClient.mfaGroups = this.selectedMfaGroups.map((x) => x.id) ?? [];
   }
 
   save() {

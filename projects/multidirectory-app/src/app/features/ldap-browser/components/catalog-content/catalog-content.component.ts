@@ -58,7 +58,7 @@ import {
   PlaneButtonComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
-import { delay, take, tap } from 'rxjs';
+import { delay, of, switchMap, take, tap } from 'rxjs';
 import { ViewMode } from './view-modes';
 import { IconViewComponent } from './views/icon-view/icon-view.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
@@ -355,7 +355,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       })
       .closed.pipe(
         take(1),
-        // switchMap((result) => (!result ? of(null) : result)),
+        switchMap((result) => (!result ? of(null) : result)),
       )
       .subscribe(() => {});
   }

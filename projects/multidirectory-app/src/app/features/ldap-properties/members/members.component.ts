@@ -6,7 +6,6 @@ import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { from, take } from 'rxjs';
-import { EntitySelectorDialogComponent } from '../../../components/modals/components/dialogs/entity-selector-dialog/entity-selector-dialog.component';
 import {
   EntitySelectorDialogData,
   EntitySelectorDialogReturnData,
@@ -14,6 +13,7 @@ import {
 } from '../../../components/modals/interfaces/entity-selector-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-selector-dialog/entity-selector-dialog.component';
 
 @Component({
   selector: 'app-members',

@@ -30,7 +30,7 @@ export class SchemaEntityAddObjectClassDialogComponent {
   selector = viewChild.required<MultiselectComponent>('selector');
   objectClassNames: MultiselectModel[] = [];
   availableClassNames: MultiselectModel[] = [];
-
+  selectedData: MultiselectModel[] = [];
   checkClassNames($event: string) {
     this.schema.getObjectClasses(0, 100, $event).subscribe((result) => {
       this.availableClassNames = result.items.map(
@@ -47,7 +47,7 @@ export class SchemaEntityAddObjectClassDialogComponent {
   onSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    const selected = this.selector().selectedData.map((x) => x.title);
+    const selected = this.selectedData.map((x) => x.title);
     this.dialog.close(this.dialogRef, selected);
   }
 

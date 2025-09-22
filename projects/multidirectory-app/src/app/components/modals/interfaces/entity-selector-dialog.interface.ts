@@ -3,7 +3,7 @@ import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 
 export interface EntitySelectorDialogData {
-  selectedEntities: NavigationNode[];
+  selectedEntities: MultiselectModel[];
   selectedEntityTypes: EntityType[];
   selectedPlaceDn: string;
   entityToMove: NavigationNode[];
@@ -13,7 +13,7 @@ export interface EntitySelectorDialogData {
 export type EntitySelectorDialogReturnData = MultiselectModel[];
 
 export class EntitySelectorSettings {
-  selectedEntities: NavigationNode[] = [];
+  selectedEntities: MultiselectModel[] = [];
   selectedEntityTypes: EntityType[] = [];
   selectedPlaceDn = '';
   entityToMove: NavigationNode[] = [];
