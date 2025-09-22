@@ -9,7 +9,6 @@ import {
   MoveEntityDialogData,
   MoveEntityDialogReturnData,
 } from '../../../interfaces/move-entity-dialog.interface';
-import { EntitySelectorDialogComponent } from '../entity-selector-dialog/entity-selector-dialog.component';
 import {
   EntitySelectorDialogData,
   EntitySelectorDialogReturnData,
@@ -20,6 +19,7 @@ import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-selector-dialog/entity-selector-dialog.component';
 
 @Component({
   selector: 'app-move-entity-dialog',

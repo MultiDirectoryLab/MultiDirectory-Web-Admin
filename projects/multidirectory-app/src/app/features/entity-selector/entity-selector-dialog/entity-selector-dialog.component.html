@@ -1,0 +1,19 @@
+<app-dialog>
+  <div class="app-modal-header text-lg font-medium mb-4">
+    {{ 'group-selector.modal-header' | transloco }}
+  </div>
+  <app-entity-selector [settings]="settings" #selector />
+
+  <div class="app-modal-footer pt-4 border-t mt-4">
+    <div class="flex justify-between">
+      <div class="flex gap-1">
+        <md-button (click)="close()">
+          {{ 'group-selector.cancel' | transloco }}
+        </md-button>
+        <md-button (click)="finish()" [disabled]="!selector.selectedData.length" [primary]="true">
+          {{ 'group-selector.apply' | transloco }}
+        </md-button>
+      </div>
+    </div>
+  </div>
+</app-dialog>

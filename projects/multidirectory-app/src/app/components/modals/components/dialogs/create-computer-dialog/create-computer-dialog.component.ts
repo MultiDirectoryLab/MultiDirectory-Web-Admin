@@ -18,7 +18,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { CreateComputerDialogData } from '../../../interfaces/create-computer-dialog.interface';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { EntitySelectorDialogComponent } from '../entity-selector-dialog/entity-selector-dialog.component';
 import {
   EntitySelectorDialogData,
   EntitySelectorDialogReturnData,
@@ -27,6 +26,7 @@ import {
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { SchemaService } from '@services/schema/schema.service';
+import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-selector-dialog/entity-selector-dialog.component';
 
 @Component({
   selector: 'app-create-computer-dialog',

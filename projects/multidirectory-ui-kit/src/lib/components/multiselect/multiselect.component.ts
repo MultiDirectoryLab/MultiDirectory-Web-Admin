@@ -2,12 +2,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   ElementRef,
-  EventEmitter,
   forwardRef,
   inject,
+  input,
   Input,
-  Output,
+  model,
+  output,
+  viewChild,
   ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -32,31 +36,24 @@ import { MultiselectModel } from './mutliselect-model';
   imports: [DropdownContainerDirective, MultiselectBadgeComponent, DropdownMenuComponent],
 })
 export class MultiselectComponent extends BaseComponent {
-  private _originalOptions: MultiselectModel[] = [];
   protected override cdr = inject(ChangeDetectorRef);
-  @Input() suppressMenu = false;
-  @Input() notFoundText = 'Опции не найдены';
-  @Input() maxMenuHeight?: number;
-  @Output() inputChanged = new EventEmitter<string>();
-  @ViewChild('inputContainer') inputContainer!: ElementRef<HTMLElement>;
-  @ViewChild('menuContainer', { read: DropdownContainerDirective })
-  menuContainer!: DropdownContainerDirective;
-  selectedData: MultiselectModel[] = [];
+  private readonly _inputContainer = viewChild.required<ElementRef<HTMLElement>>('inputContainer');
+  private readonly _menuContainer = viewChild.required<DropdownContainerDirective>(
+    DropdownContainerDirective,
+  );
 
-  private _options: MultiselectModel[] = [];
+  suppressMenu = input<boolean>(false);
+  notFoundText = input<string>('Опции не найдены');
+  maxMenuHeight = input<number | undefined>();
+  options = input.required<MultiselectModel[]>();
 
-  get options(): MultiselectModel[] {
-    return this._options;
-  }
+  inputChanged = output<string>();
+  itemSelected = output<MultiselectModel[]>();
 
-  @Input() set options(value: MultiselectModel[]) {
-    value = value.filter((x) => !this.selectedData.some((y) => y.id == x.id));
-    this._options = value;
-    this._originalOptions = JSON.parse(JSON.stringify(value));
-    if (value.some((x) => x.selected)) {
-      this.selectedData = this.selectedData.concat(value.filter((x) => x.selected));
-    }
-  }
+  selectedData = model.required<MultiselectModel[]>();
+  filteredOptions = computed<MultiselectModel[]>(() => {
+    return this.options().filter((x) => !this.selectedData().some((y) => y.id == x.id));
+  });
 
   constructor() {
     super();
@@ -66,58 +63,54 @@ export class MultiselectComponent extends BaseComponent {
     if (event.key == 'Enter') {
       event.preventDefault();
       event.stopPropagation();
-      this.inputChanged.emit(this.inputContainer.nativeElement.innerText);
+      this.inputChanged.emit(this._inputContainer().nativeElement.innerText);
     }
-    if (event.key == 'Backspace' && this.inputContainer.nativeElement.innerText.length === 0) {
-      if (this.selectedData.length > 0) {
-        const items = this.selectedData.splice(this.selectedData.length - 1);
+    if (event.key == 'Backspace' && this._inputContainer().nativeElement.innerText.length === 0) {
+      if (this.selectedData().length > 0) {
+        const items = this.selectedData().splice(this.selectedData.length - 1);
         items.forEach((x) => (x.selected = false));
       }
+      this.itemSelected.emit(this.selectedData());
     }
   }
 
-  onChange(event: KeyboardEvent) {
-    const text = this.inputContainer?.nativeElement.innerText;
+  onQueryChange(event: KeyboardEvent) {
+    const text = this._inputContainer().nativeElement.innerText;
     if (!text) {
-      if (this.menuContainer?.isVisible()) {
-        this.menuContainer?.toggleMenu();
+      if (this._menuContainer()?.isVisible()) {
+        this._menuContainer()?.toggleMenu();
       }
       this.cdr.detectChanges();
       return;
     }
-
-    this._options = this._originalOptions.filter(
-      (x) =>
-        x.title.toLocaleLowerCase().includes(text.toLocaleLowerCase()) &&
-        !this.selectedData.some((y) => y.id == x.id),
-    );
-    if (!this.suppressMenu) {
+    if (!this.suppressMenu()) {
       this.showMenu();
     }
     if (event.key == 'ArrowDown') {
-      this.menuContainer?.focus();
+      this._menuContainer().focus();
     }
     this.value = text;
     this.cdr.detectChanges();
   }
 
   showMenu() {
-    if (!!this.menuContainer?.isVisible()) {
+    if (!!this._menuContainer()?.isVisible()) {
       return;
     }
-    this.menuContainer?.toggleMenu(
+    this._menuContainer().toggleMenu(
       false,
-      this.inputContainer?.nativeElement.offsetWidth,
-      this.maxMenuHeight,
+      this._inputContainer().nativeElement.offsetWidth,
+      this.maxMenuHeight(),
     );
   }
 
   onElementSelect(select: MultiselectModel) {
     select.selected = true;
-    this.selectedData.push(select);
-    this.inputContainer.nativeElement.innerText = '';
-    this.inputContainer.nativeElement.focus();
-    this.menuContainer?.toggleMenu();
+    this.selectedData().push(select);
+    this.itemSelected.emit(this.selectedData());
+    this._inputContainer().nativeElement.innerText = '';
+    this._inputContainer().nativeElement.focus();
+    this._menuContainer().toggleMenu();
   }
 
   onOptionKey(event: KeyboardEvent, select: MultiselectModel) {
@@ -130,22 +123,19 @@ export class MultiselectComponent extends BaseComponent {
   }
 
   onBadgeClose(select: MultiselectModel) {
-    this.selectedData = this.selectedData.filter((x) => x != select);
+    this.selectedData.set(this.selectedData().filter((x) => x !== select));
+    this.itemSelected.emit(this.selectedData());
   }
 
   onContainerClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.inputContainer.nativeElement.focus();
+    this._inputContainer().nativeElement.focus();
   }
 
   override writeValue(value: any): void {
-    if (!value) {
-      this._options = [];
-      this._originalOptions = [];
-    }
-    if (this.inputContainer) {
-      this.inputContainer.nativeElement.innerText = value;
+    if (this._inputContainer) {
+      this._inputContainer().nativeElement.innerText = value;
     }
     if (value !== this.innerValue) {
       this.innerValue = value;

@@ -30,6 +30,7 @@
         (inputChanged)="checkGroups()"
         [(ngModel)]="groupQuery"
         [options]="availableGroups"
+        [(selectedData)]="selectedGroups"
         [suppressMenu]="true"
         notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
       >
@@ -47,14 +48,16 @@
       @if (mfaAccess === MfaAccessEnum.SelectedGroups) {
         <div>{{ 'access-policy-create.mfa-groups' | transloco }}</div>
         <md-multiselect
-          [suppressMenu]="true"
-          [options]="availableMfaGroups"
-          [(ngModel)]="mfaGroupsQuery"
-          (inputChanged)="checkMfaGroups()"
-          notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
           #mfaGroupSelector
+          (inputChanged)="checkMfaGroups()"
+          [(ngModel)]="mfaGroupsQuery"
+          [options]="availableMfaGroups"
+          [(selectedData)]="selectedMfaGroups"
+          [suppressMenu]="true"
+          notFoundText="{{ 'access-policy-create.group-not-found' | transloco }}"
         >
         </md-multiselect>
+
         <md-button (click)="checkMfaGroups()" [stretch]="true">
           {{ 'access-policy-create.check-groups' | transloco }}
         </md-button>

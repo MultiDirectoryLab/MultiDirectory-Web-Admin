@@ -1,81 +1,73 @@
+import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
-  OnInit,
+  input,
+  output,
   ViewChild,
 } from '@angular/core';
-import { DialogComponent } from '../../core/dialog/dialog.component';
-import { MultidirectoryUiKitModule, MultiselectComponent } from 'multidirectory-ui-kit';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { DialogService } from '../../../services/dialog.service';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import {
-  EntitySelectorDialogData,
-  EntitySelectorDialogReturnData,
-} from '../../../interfaces/entity-selector-dialog.interface';
-import { EntityType } from '@core/entities/entities-type';
-import { ENTITY_TYPES } from '@core/entities/entities-available-types';
-import { catchError, map, Subject, take, throwError } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SearchQueries } from '@core/ldap/search';
-import { EntityTypeSelectorDialogComponent } from '../entity-type-selector-dialog/entity-type-selector-dialog.component';
-import {
-  EntityTypeSelectorDialogData,
-  EntityTypeSelectorDialogReturnData,
-} from '../../../interfaces/entity-type-selector-dialog.interface';
+import { CatalogSelectorDialogComponent } from '@components/modals/components/dialogs/catalog-selector-dialog/catalog-selector-dialog.component';
+import { EntityTypeSelectorDialogComponent } from '@components/modals/components/dialogs/entity-type-selector-dialog/entity-type-selector-dialog.component';
 import {
   CatalogSelectorDialogData,
   CatalogSelectorDialogReturnData,
-} from '../../../interfaces/catalog-selector-dialog.interface';
-import { CatalogSelectorDialogComponent } from '../catalog-selector-dialog/catalog-selector-dialog.component';
+} from '@components/modals/interfaces/catalog-selector-dialog.interface';
+import { EntitySelectorDialogData } from '@components/modals/interfaces/entity-selector-dialog.interface';
+import {
+  EntityTypeSelectorDialogData,
+  EntityTypeSelectorDialogReturnData,
+} from '@components/modals/interfaces/entity-type-selector-dialog.interface';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { ENTITY_TYPES } from '@core/entities/entities-available-types';
+import { EntityType } from '@core/entities/entities-type';
+import { SearchQueries } from '@core/ldap/search';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { MultidirectoryUiKitModule, MultiselectComponent } from 'multidirectory-ui-kit';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
+import { catchError, map, take, throwError } from 'rxjs';
 
 @Component({
-  selector: 'app-entity-selector-dialog',
-  standalone: true,
-  imports: [DialogComponent, MultidirectoryUiKitModule, TranslocoPipe, FormsModule],
-  templateUrl: './entity-selector-dialog.component.html',
-  styleUrl: './entity-selector-dialog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-entity-selector',
+  templateUrl: './entity-selector.component.html',
+  styleUrls: ['./entity-selector.component.scss'],
+  imports: [MultidirectoryUiKitModule, TranslocoPipe, FormsModule, CommonModule],
 })
-export class EntitySelectorDialogComponent implements OnInit {
-  /** DIRECTIVES **/
+export class EntitySelectorComponent {
   @ViewChild('selector', { static: false }) selector?: MultiselectComponent;
 
   selectedCatalogDn = '';
   name = '';
   availableGroups: MultiselectModel[] = [];
-  result = new Subject<MultiselectModel[]>();
   entityTypes: EntityType[] = ENTITY_TYPES;
   entityTypeDisplay = '';
   allowSelectEntityTypes = true;
+  itemSelected = output<MultiselectModel[]>();
+  selectedData: MultiselectModel[] = [];
 
-  private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<EntitySelectorDialogReturnData, EntitySelectorDialogComponent> =
-    inject(DialogRef);
-  private dialogData: EntitySelectorDialogData = inject(DIALOG_DATA);
-  settings = this.dialogData;
-  private destroyRef: DestroyRef = inject(DestroyRef);
-  private api: MultidirectoryApiService = inject(MultidirectoryApiService);
-  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  readonly settings = input.required<EntitySelectorDialogData>();
+
+  private readonly dialogService = inject(DialogService);
+  private readonly api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    if (this.settings.selectedEntityTypes && this.settings.selectedEntityTypes.length > 0) {
-      this.entityTypes = this.settings.selectedEntityTypes;
+    const settings = this.settings();
+    if (settings.selectedEntityTypes && settings.selectedEntityTypes.length > 0) {
+      this.entityTypes = settings.selectedEntityTypes;
     }
 
-    this.allowSelectEntityTypes = this.settings.allowSelectEntityTypes;
+    this.allowSelectEntityTypes = settings.allowSelectEntityTypes;
     this.entityTypeDisplay = this.entityTypes.map((x) => x.name).join(' ИЛИ ');
-    this.selectedCatalogDn = this.settings.selectedPlaceDn;
+    this.selectedCatalogDn = settings.selectedPlaceDn;
+
+    this.selectedData = settings.selectedEntities;
     this.cdr.markForCheck();
   }
 
-  /** METHODS**/
   selectEntityType() {
     this.dialogService
       .open<
@@ -135,7 +127,7 @@ export class EntitySelectorDialogComponent implements OnInit {
         map((res) => ({
           ...res,
           search_result: res.search_result.filter((entity) =>
-            this.settings.entityToMove.every((e) => !entity.object_name.includes(e.id)),
+            this.settings().entityToMove.every((e) => !entity.object_name.includes(e.id)),
           ),
         })),
         catchError((err) => throwError(() => err)),
@@ -154,11 +146,8 @@ export class EntitySelectorDialogComponent implements OnInit {
       });
   }
 
-  close(): void {
-    this.dialogService.close(this.dialogRef);
-  }
-
-  finish(): void {
-    this.dialogService.close(this.dialogRef, this.selector?.selectedData);
+  onItemSelected(event: MultiselectModel[]) {
+    this.selectedData = event;
+    this.itemSelected.emit(event);
   }
 }

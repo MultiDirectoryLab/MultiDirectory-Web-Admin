@@ -1,14 +1,14 @@
 <div
   class="multiselect-container"
   (keydown)="preventEnterKey($event)"
-  (keyup)="onChange($event)"
+  (keyup)="onQueryChange($event)"
   [mdDropdownContainer]="menu"
   [openMenuOnClick]="false"
   (click)="onContainerClick($event)"
   #menuContainer
 >
   <div class="multiselect-badges">
-    @for (d of selectedData; track d.id) {
+    @for (d of selectedData(); track d.id) {
       <md-multiselect-badge (badgeClose)="onBadgeClose(d)">{{
         d.badge_title ?? d.title
       }}</md-multiselect-badge>
@@ -16,9 +16,8 @@
     <div class="multiselect-input" contenteditable="true" #inputContainer></div>
   </div>
 </div>
-
 <md-dropdown-menu tabindex="-1" #menu>
-  @for (el of options; track el.id) {
+  @for (el of filteredOptions(); track el.id) {
     <div
       class="dropdown-item"
       tabindex="0"
@@ -28,14 +27,9 @@
       {{ el.title }}
     </div>
   }
-  @if (!options || options.length === 0) {
+  @if (!filteredOptions() || filteredOptions().length === 0) {
     <div>
-      {{ notFoundText }}
+      {{ notFoundText() }}
     </div>
   }
 </md-dropdown-menu>
-<!--select class="select-input" name="{{label}}" id="{{id}}" [(ngModel)]="value" (blur)="onBlur()">
-<option *ngFor="let option of options; let i = index " [ngValue]="getValue(option, i)">
-  {{getTitle(option)}}
-</option>
-</select-->

@@ -24,6 +24,7 @@ export class AddAttributeDialogComponent {
   selector = viewChild.required<MultiselectComponent>('selector');
   attributes: MultiselectModel[] = [];
   availableAttributes: MultiselectModel[] = [];
+  selectedAttributes: MultiselectModel[] = [];
 
   checkAttributes($event: string) {
     this.schema.getAttributes(0, 100, $event).subscribe((result) => {
@@ -41,7 +42,9 @@ export class AddAttributeDialogComponent {
   onSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    const selected = this.selector().selectedData.map((x) => x.title);
+    const selected = this.selector()
+      .selectedData()
+      .map((x) => x.title);
     this.dialog.close(this.dialogRef, selected);
   }
 
