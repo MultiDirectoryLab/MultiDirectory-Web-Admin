@@ -1,7 +1,7 @@
 <app-dialog *transloco="let t">
   <div class="app-modal-header">{{ 'add-zone-dialog.modal-header' | transloco }}</div>
-  <md-form class="form" (submit)="onSumbit($event)">
-    <div class="flex flex-col gap-y-1">
+  <md-form class="form" (submit)="onSumbit($event)" #form>
+    <div class="flex flex-col gap-y-4">
       <div>
         <label>{{ 'add-zone-dialog.header' | transloco }}</label>
       </div>
@@ -10,6 +10,7 @@
           [(ngModel)]="dnsZone.zone_name"
           [placeholder]="t('add-zone-dialog.domain-input')"
           class="grow"
+          appRequired
         />
       </div>
       <div class="flex gap-x-1 justify-between">
@@ -18,6 +19,7 @@
           type="number"
           [placeholder]="t('add-zone-dialog.ttl-input')"
           class="grow"
+          appRequired
         />
       </div>
       <div class="flex gap-x-1 justify-between">
@@ -31,8 +33,10 @@
         }}</md-button>
       </div>
     </div>
-    <div class="flex justify-end pt-1">
-      <md-button [submit]="true">{{ 'add-zone-dialog.add' | transloco }}</md-button>
+    <div class="flex justify-end pt-4">
+      <md-button [primary]="true" [disabled]="!form.valid" [submit]="true">{{
+        'add-zone-dialog.apply' | transloco
+      }}</md-button>
     </div>
   </md-form>
 </app-dialog>
