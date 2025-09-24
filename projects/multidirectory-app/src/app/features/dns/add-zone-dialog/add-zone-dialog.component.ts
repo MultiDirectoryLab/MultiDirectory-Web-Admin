@@ -13,12 +13,20 @@ import { take } from 'rxjs';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
 import { DnsAddZoneRequest, DnsZoneParam } from '@models/dns/zones/dns-add-zone-response';
 import { CommonModule } from '@angular/common';
+import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 
 @Component({
   selector: 'app-add-zone-dialog',
   templateUrl: './add-zone-dialog.component.html',
   styleUrls: ['./add-zone-dialog.component.scss'],
-  imports: [FormsModule, DialogComponent, TranslocoModule, MultidirectoryUiKitModule, CommonModule],
+  imports: [
+    FormsModule,
+    DialogComponent,
+    TranslocoModule,
+    MultidirectoryUiKitModule,
+    CommonModule,
+    RequiredWithMessageDirective,
+  ],
 })
 export class AddZoneDialogComponent {
   private api = inject(DnsApiService);
@@ -30,6 +38,8 @@ export class AddZoneDialogComponent {
   });
 
   onSumbit(event: SubmitEvent) {
+    event.preventDefault();
+    event.stopPropagation();
     this.api.addZone(this.dnsZone).subscribe((result) => {
       this.dialogService.close(this.dialogRef, result);
     });
