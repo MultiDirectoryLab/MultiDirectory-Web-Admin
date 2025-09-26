@@ -191,8 +191,9 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   private isValidDate(str: string): boolean {
-    const date = moment(str, moment.ISO_8601, true); // Strict parsing with ISO 8601
-    return date.isValid();
+    const iso8601Pattern =
+      /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
+    return iso8601Pattern.test(str);
   }
 
   private getLocalDate(value: string): string {
