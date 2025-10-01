@@ -43,6 +43,7 @@ import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-obje
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { SyslogConnection } from '../models/api/syslog/syslog-connection';
 import { DeleteManyEntryRequest } from '@models/api/entry/delete-many-request';
+import { UpdateManyEntryRequest } from '@models/api/entry/update-many-request';
 
 @Injectable({
   providedIn: 'root',
@@ -94,6 +95,9 @@ export class MultidirectoryApiService {
 
   update(request: UpdateEntryRequest): Observable<UpdateEntryResponse> {
     return this.httpClient.patch<UpdateEntryResponse>('entry/update', request).execute();
+  }
+  updateMany(request: UpdateManyEntryRequest): Observable<UpdateEntryResponse> {
+    return this.httpClient.patch<UpdateEntryResponse>('entry/update_many', request).execute();
   }
   delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request).execute();
