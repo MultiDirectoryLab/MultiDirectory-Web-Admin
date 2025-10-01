@@ -5,6 +5,7 @@ import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { combineLatest, Observable } from 'rxjs';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { UpdateEntryRequest } from '@models/api/entry/update-request';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,11 @@ export class CompleteUpdateEntiresStrategies extends BulkCompleteStrategy<LdapAt
 
   override complete<RESULT>(accessors: LdapAttributes[]): Observable<RESULT> {
     const updatesRx: Observable<UpdateEntryResponse>[] = [];
+    const updateRequestData: UpdateEntryRequest[] = [];
     accessors.forEach((accessor) => {
-      const updateRequest = this.attributes.createAttributeUpdateRequest(accessor);
-      updatesRx.push(this.api.update(updateRequest));
+      updateRequestData.push(this.attributes.createAttributeUpdateRequest(accessor));
     });
+    updatesRx.push(this.api.updateMany(updateRequestData));
     return combineLatest(updatesRx) as Observable<RESULT>;
   }
 }
