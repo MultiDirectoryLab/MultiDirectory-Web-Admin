@@ -84,8 +84,14 @@
 .ui-modal-footer {
   margin-top: auto;
   padding: 1rem;
+  &:empty {
+    display: none;
+  }
 }
-
+.app-modal-footer {
+  margin-top: auto;
+  padding: 1rem;
+}
 .ui-titlebar {
   display: flex;
   align-items: center;

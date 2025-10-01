@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration=development && ng build multidirectory-ui-kit --watch --configuration=development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "watch: kit": "ng build multidirectory-ui-kit --watch",

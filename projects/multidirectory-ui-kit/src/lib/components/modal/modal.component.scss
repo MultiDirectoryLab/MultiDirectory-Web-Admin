@@ -83,6 +83,9 @@
 
 .ui-modal-footer {
   padding: 1rem;
+  &:empty {
+    display: none;
+  }
 }
 
 .ui-titlebar {
@@ -211,7 +214,6 @@
 .resize-handle-sw {
   position: absolute;
   cursor: sw-resize;
-  height: 7px;
   width: 15px;
   height: 15px;
   bottom: 0;
@@ -230,7 +232,6 @@
 .resize-handle-nw {
   position: absolute;
   cursor: nw-resize;
-  height: 7px;
   width: 15px;
   height: 15px;
   top: 0;
@@ -249,7 +250,6 @@
 .resize-handle-ne {
   position: absolute;
   cursor: ne-resize;
-  height: 7px;
   width: 15px;
   height: 15px;
   top: 0;

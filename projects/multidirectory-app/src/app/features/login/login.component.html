@@ -3,33 +3,38 @@
     <img class="logo-img" src="/assets/logo_login_transparent.svg" />
   </ng-container>
 
-  <md-form #loginForm [autocomplete]="false">
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin($event)" class="pt-2">
     <div class="flex flex-col justify-between h-full gap-4">
       <div class="flex justify-between">
         <label class="form-label">{{ 'login.name' | transloco }}</label>
-        <md-textbox [(ngModel)]="login" appRequired name="login"></md-textbox>
+        <md-textbox
+          #usernameInput
+          appRequired
+          formControlName="username"
+          [autocomplete]="true"
+          (autofilled)="setaAutofilledValue('username', $event)"
+        ></md-textbox>
       </div>
       <div class="flex justify-between">
         <label class="form-label">{{ 'login.password' | transloco }}</label>
         <md-textbox
-          [(ngModel)]="password"
+          #passwordInput
           [allowPasswordView]="false"
           [autocomplete]="true"
           [password]="true"
+          (autofilled)="setaAutofilledValue('password', $event)"
+          formControlName="password"
           appRequired
-          name="password"
         />
       </div>
     </div>
-    <input (click)="onLogin($event)" hidden type="submit" />
-  </md-form>
-
-  <ng-container class="app-modal-footer">
-    <div class="flex justify-center">
-      <md-button (click)="onLogin($event)" [disabled]="!loginValid" [primary]="true"
+    <div class="flex justify-center buttons">
+      <md-button
+        [submit]="true"
+        [disabled]="!(loginForm.valid || this.autoFilled.allAutoFilled)"
+        [primary]="true"
         >{{ 'login.login' | transloco }}
       </md-button>
     </div>
-  </ng-container>
+  </form>
 </app-dialog>
-<!--</md-modal>-->

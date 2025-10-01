@@ -1,20 +1,19 @@
+import { Component, ElementRef, inject, OnDestroy, ViewChild, viewChild } from '@angular/core';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  viewChild,
-} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { LoginService } from '@services/login.service';
-import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
-import { catchError, EMPTY, Subject, takeUntil } from 'rxjs';
-import { DialogComponent } from '../../components/modals/components/core/dialog/dialog.component';
-import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '../../components/modals/constants/dialog.constants';
+import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { catchError, Subject } from 'rxjs';
+import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
+import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '@components/modals/constants/dialog.constants';
 
 @Component({
   selector: 'app-login',
@@ -22,12 +21,12 @@ import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '../../components/modals/constan
   styleUrls: ['./login.component.scss'],
   imports: [
     DialogComponent,
-    MdFormComponent,
     TextboxComponent,
     FormsModule,
     RequiredWithMessageDirective,
     TranslocoPipe,
     ButtonComponent,
+    ReactiveFormsModule,
   ],
   providers: [
     {
@@ -39,25 +38,27 @@ import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '../../components/modals/constan
     },
   ],
 })
-export class LoginComponent implements AfterViewInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
   private loginService = inject(LoginService);
   private unsubscribe = new Subject<void>();
-  login = '';
+  username = '';
   password = '';
-  readonly loginForm = viewChild.required<MdFormComponent>('loginForm');
   readonly dialogComponent = viewChild.required<DialogComponent>(DialogComponent);
   loginValid = false;
+  loginForm: FormGroup;
+  autoFilled: { allAutoFilled: boolean; fields: { [key: string]: boolean } } = {
+    fields: { username: false, password: false },
+    allAutoFilled: false,
+  };
+  @ViewChild('usernameInput') usernameInput!: ElementRef;
+  @ViewChild('passwordInput') passwordInput!: ElementRef;
 
-  ngAfterViewInit(): void {
-    this.loginValid = this.loginForm().valid;
-    this.loginForm()
-      .onValidChanges.pipe(takeUntil(this.unsubscribe))
-      .subscribe((result) => {
-        this.loginValid = result;
-        this.cdr.detectChanges();
-      });
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
   }
 
   ngOnDestroy(): void {
@@ -65,21 +66,32 @@ export class LoginComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  setaAutofilledValue(name: string, event: boolean) {
+    this.autoFilled.fields[name] = event;
+    this.autoFilled.allAutoFilled = Object.values(this.autoFilled.fields).reduce(
+      (acc, curr) => acc && curr,
+      true,
+    );
+    this.loginForm.markAsTouched();
+  }
+
   onLogin(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.dialogComponent().showSpinner();
-    this.loginService
-      .login(this.login, this.password)
-      .pipe(
-        catchError((err) => {
+    if (this.loginForm.valid) {
+      this.dialogComponent().showSpinner();
+      this.loginService
+        .login(this.loginForm.get('username')?.value, this.loginForm.get('password')?.value)
+        .pipe(
+          catchError((err) => {
+            this.dialogComponent().hideSpinner();
+            throw err;
+          }),
+        )
+        .subscribe(() => {
           this.dialogComponent().hideSpinner();
-          throw err;
-        }),
-      )
-      .subscribe(() => {
-        this.dialogComponent().hideSpinner();
-        this.router.navigate(['/']);
-      });
+          this.router.navigate(['/']);
+        });
+    }
   }
 }
