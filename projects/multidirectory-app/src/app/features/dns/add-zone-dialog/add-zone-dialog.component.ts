@@ -11,7 +11,7 @@ import { IpListDialogComponent } from '@components/modals/components/dialogs/acc
 import { IplistDialogData } from '@components/modals/interfaces/ip-list-dialog.interface';
 import { take } from 'rxjs';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
-import { DnsAddZoneRequest, DnsZoneParam } from '@models/dns/zones/dns-add-zone-response';
+import { DnsAddZoneRequest, DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
 import { CommonModule } from '@angular/common';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 

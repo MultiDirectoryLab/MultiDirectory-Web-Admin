@@ -5,5 +5,7 @@
   @if (getFirstError() === 'pattern') {
     <label> Значение имеет неверный формат </label>
   }
-  <label>{{ getFirstError() }}</label>
+  @if (getFirstError() != 'required' && getFirstError() != 'pattern') {
+    <label>{{ getFirstError() }}</label>
+  }
 </div>

@@ -1,0 +1,20 @@
+:host {
+  //display: grid;
+  //grid-template-rows: 1fr 1fr 1fr;
+  //grid-template-columns: 32px 32px 1fr 1fr 1fr 64px;
+  border: 1px solid var(--md-neutral-400);
+  border-radius: 8px;
+  background-color: var(--md-white);
+  min-height: 48px;
+}
+.dhcp-areas-item {
+  padding: calc(var(--spacing) * 5);
+  &__header {
+    position: relative;
+    display: flex;
+    &-number {
+      position: absolute;
+      left: 10px;
+    }
+  }
+}

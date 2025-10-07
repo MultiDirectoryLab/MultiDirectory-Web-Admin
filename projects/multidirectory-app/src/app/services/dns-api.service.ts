@@ -14,7 +14,7 @@ import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 import { DnsServiceResponse } from '@models/api/dns/dns-service-response';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
-import { DnsAddZoneRequest } from '@models/dns/zones/dns-add-zone-response';
+import { DnsAddZoneRequest } from '@models/dhcp/areas/dhcp-add-areas-response';
 import { DnsZoneListResponse, DnsZoneRecordWithType } from '@models/dns/zones/dns-zone-response';
 import { map, Observable, of, tap } from 'rxjs';
 

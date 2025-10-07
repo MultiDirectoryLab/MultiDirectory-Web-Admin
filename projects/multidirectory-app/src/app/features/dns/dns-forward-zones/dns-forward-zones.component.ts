@@ -12,7 +12,7 @@ import {
   AddForwardZoneDialogReturnData,
 } from './add-forward-zone-dialog/add-forward-zone-dialog.interface';
 import { AddForwardZoneDialogComponent } from './add-forward-zone-dialog/add-forward-zone-dialog.component';
-import { DnsAddZoneRequest } from '@models/dns/zones/dns-add-zone-response';
+import { DnsAddZoneRequest } from '@models/dhcp/areas/dhcp-add-areas-response';
 import { EMPTY, switchMap, take } from 'rxjs';
 import { TableColumn } from 'ngx-datatable-gimefork';
 

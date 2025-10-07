@@ -1,4 +1,4 @@
-import { DnsAddZoneRequest, DnsZoneParam } from '@models/dns/zones/dns-add-zone-response';
+import { DnsAddZoneRequest, DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
 
 export class DnsForwardZone {
   name: string = '';

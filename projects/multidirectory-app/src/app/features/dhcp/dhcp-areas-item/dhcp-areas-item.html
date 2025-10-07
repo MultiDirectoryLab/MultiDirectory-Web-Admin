@@ -1,0 +1,33 @@
+<div class="dhcp-areas-item">
+  <div class="dhcp-areas-item__header">
+    <h3>
+      <span class="hcp-areas-item__header-number">{{ index }}</span> Область: <b>192.168.51.0</b>
+    </h3>
+
+    <md-plane-button class="control-button" (click)="deleteArea()">
+      <img
+        class="control-button-logo"
+        width="24"
+        height="24"
+        src="assets/trash.svg"
+        alt="trash-icon"
+      />
+    </md-plane-button>
+  </div>
+  <div>
+    <mui-tabs>
+      <div *muiTab="'dhcp-setup-wizard.tab-header-pool-addresses' | transloco">
+        <addresses-pool></addresses-pool>
+      </div>
+      <div *muiTab="'dhcp-setup-wizard.rented-addresses' | transloco">
+        <rented-addresses></rented-addresses>
+      </div>
+      <div *muiTab="'dhcp-setup-wizard.tab-header-reservation' | transloco">
+        <reservation></reservation>
+      </div>
+      <div *muiTab="'dhcp-setup-wizard.tab-header-area-parameters' | transloco">
+        <area-parameters></area-parameters>
+      </div>
+    </mui-tabs>
+  </div>
+</div>

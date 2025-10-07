@@ -1,0 +1,10 @@
+<div class="flex w-full justify-end pt-10 pb-2 pr-2 p-2">
+  <md-button (click)="onAddDhcpArea()">
+    {{ 'dhcp-setup-wizard.add-area' | transloco }}
+  </md-button>
+</div>
+<div class="flex flex-col gap-y-2 p-2 pb-4">
+  @for (area of areas; track area; let i = $index) {
+    <dhcp-areas-item class="mb-4" [index]="$index"></dhcp-areas-item>
+  }
+</div>

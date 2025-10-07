@@ -1,0 +1,50 @@
+<!--@if (dhcpStatus.dns_status !== dhcpStatus.NOT_CONFIGURED) {-->
+<!--  <div class="flex flex-row justify-end p-4 gap-4">-->
+<!--    <label>{{ 'dns-settings.dnssec' | transloco }}:</label>-->
+<!--    <md-dropdown-->
+<!--      [options]="dnsSecOptions"-->
+<!--      [ngModel]="dnsSec"-->
+<!--      (ngModelChange)="onDnsSecChange($event)"-->
+<!--    ></md-dropdown>-->
+<!--  </div>-->
+<!--  <mui-tabs>-->
+<!--    <div *muiTab="'dhcp-setup-wizard.tab-header-pool-addresses' | transloco">-->
+<!--      111-->
+<!--    </div>-->
+<!--    <div *muiTab="'dhcp-setup-wizard.rented-addresses' | transloco">-->
+<!--      222-->
+<!--      <app-dns-forward-zones></app-dns-forward-zones>-->
+<!--    </div>-->
+<!--    <div *muiTab="'dhcp-setup-wizard.tab-header-reservation' | transloco">-->
+<!--      333-->
+<!--      <app-dns-forward-zones></app-dns-forward-zones>-->
+<!--    </div>-->
+<!--    <div *muiTab="'dhcp-setup-wizard.tab-header-area-parameters' | transloco">-->
+<!--      444-->
+<!--      <app-dns-forward-zones></app-dns-forward-zones>-->
+<!--    </div>-->
+<!--  </mui-tabs>-->
+<dhcp-areas></dhcp-areas>
+<!--}-->
+
+<!--@if (dhcpStatus.dns_status === dhcpStatuses.NOT_CONFIGURED) {-->
+<!--  <div>-->
+<!--    <div class="p-2">-->
+<!--      <md-alert>-->
+<!--        <div class="flex gap-2">-->
+<!--          <div class="flex justify-center flex-align-center">-->
+<!--            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>-->
+<!--          </div>-->
+<!--          <div class="flex flex-col">-->
+<!--            <h3>{{ 'dns-settings.setup-dhcp-description' | transloco }}</h3>-->
+<!--            <div class="pv-8">-->
+<!--              <md-button (click)="handleSetupClick()">{{-->
+<!--                'dns-settings.setup-dhcp' | transloco-->
+<!--              }}</md-button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </md-alert>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--}-->

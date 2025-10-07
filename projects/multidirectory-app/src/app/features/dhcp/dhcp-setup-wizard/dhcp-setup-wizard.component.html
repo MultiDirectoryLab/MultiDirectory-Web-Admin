@@ -1,0 +1,105 @@
+<app-dialog *transloco="let t">
+  <div class="app-modal-header">{{ 'dhcp-setup-wizard.header' | transloco }}</div>
+  <div class="flex flex-col align-start justify-end gap-1">
+    <md-form [formGroup]="dhcpForm" (ngSubmit)="onSubmit($event)">
+      <div class="dns-setup-grid">
+        <h3 class="bold">{{ 'dhcp-setup-wizard.address-params' | transloco }}</h3>
+        <section class="py-2">
+          <md-radiogroup
+            #interface
+            [drawBorder]="true"
+            (valueChanges)="interfaceSet($event)"
+            formControlName="interface"
+            [title]="'dhcp-setup-wizard.network-interface' | transloco"
+            class="w-full"
+          >
+            <div class="control-row">
+              <md-radiobutton
+                name="interface"
+                id="show-with-values-only"
+                [group]="interface"
+                [value]="1"
+              >
+                <span
+                  ><span class="ml-4">{{ '192.168.51.1' }}</span>
+                  <span class="ml-4">{{ 'Ethernet1' }}</span></span
+                >
+              </md-radiobutton>
+              <md-radiobutton
+                name="interface"
+                id="show-with-values-only"
+                [group]="interface"
+                [value]="2"
+              >
+                <span
+                  ><span class="ml-4">{{ '192.168.51.1' }}</span>
+                  <span class="ml-4">{{ 'Ethernet2' }}</span></span
+                ></md-radiobutton
+              >
+            </div>
+          </md-radiogroup>
+
+          <div class="py-2">
+            <md-textbox
+              formControlName="startIp"
+              [placeholder]="t('dhcp-setup-wizard.start-ip')"
+              validIpAddress
+            />
+          </div>
+          <div class="py-2">
+            <md-textbox
+              formControlName="endIp"
+              [placeholder]="t('dhcp-setup-wizard.end-ip')"
+              validIpAddress
+            />
+          </div>
+          <div class="flex flex-row py-2">
+            <label class="whitespace-nowrap">{{
+              'dhcp-setup-wizard.rental-duration' | transloco
+            }}</label>
+            <md-number class="ml-2" formControlName="days" max="999" />
+            <md-number class="ml-2" type="number" formControlName="hours" />
+            <md-number class="ml-2" type="number" formControlName="minutes" />
+          </div>
+        </section>
+        <hr />
+        <section class="py-2">
+          <p>{{ 'dhcp-setup-wizard.dhcp-params' | transloco }}</p>
+          <div class="py-2">
+            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.subnet-mask')" />
+          </div>
+          <div class="py-2">
+            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.main-gateway')" />
+          </div>
+        </section>
+        <hr />
+        <section class="py-2">
+          <p>{{ 'dhcp-setup-wizard.domain-name-and-DNS-server-addresses' | transloco }}</p>
+          <div class="py-2">
+            <md-textbox [placeholder]="t('dhcp-setup-wizard.domain')" />
+          </div>
+          <div class="py-2">
+            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.dns-server')" />
+          </div>
+        </section>
+      </div>
+
+      <div class="app-modal-footer">
+        <div class="flex align-center justify-end gap-1">
+          <!--          <md-button (click)="onClose()">-->
+          <md-button>
+            {{ 'add-principal.cancel' | transloco }}
+          </md-button>
+          <md-button
+            type="submit"
+            (click)="onSubmit($event)"
+            [disabled]="!dhcpForm.valid"
+            [primary]="true"
+          >
+            {{ 'add-principal.apply' | transloco }}
+          </md-button>
+        </div>
+      </div>
+    </md-form>
+  </div>
+</app-dialog>

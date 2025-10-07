@@ -70,6 +70,14 @@ h2,
   }
 }
 
+h3,
+.h3 {
+  @include use-inter-typography(400, 18px, 34.13px);
+  &.bold {
+    @include use-inter-typography(700, 18px, 34.13px);
+  }
+}
+
 label.bold {
   @include use-inter-typography(700, 18px, 25.2px);
 }
