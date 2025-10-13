@@ -36,6 +36,7 @@
     #selector
     (inputChanged)="checkNames()"
     [(ngModel)]="name"
+    [containerHeightLimit]="14"
     [(selectedData)]="selectedData"
     (itemSelected)="onItemSelected($event)"
     [notFoundText]="'group-selector.not-found-text' | transloco"

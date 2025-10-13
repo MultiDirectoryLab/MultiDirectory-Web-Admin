@@ -45,6 +45,7 @@ export class MultiselectComponent extends BaseComponent {
   suppressMenu = input<boolean>(false);
   notFoundText = input<string>('Опции не найдены');
   maxMenuHeight = input<number | undefined>();
+  containerHeightLimit = input<number | undefined>();
   options = input.required<MultiselectModel[]>();
 
   inputChanged = output<string>();
