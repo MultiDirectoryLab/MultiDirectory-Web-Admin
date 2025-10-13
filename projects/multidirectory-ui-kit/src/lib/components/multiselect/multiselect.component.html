@@ -1,5 +1,10 @@
+@let heightLimit = containerHeightLimit();
+
 <div
   class="multiselect-container"
+  [style.max-height]="heightLimit ? heightLimit + 'em' : 'unset'"
+  [style.overflow-y]="heightLimit ? 'scroll' : 'unset'"
+  [style.height]="heightLimit ? 'unset' : ''"
   (keydown)="preventEnterKey($event)"
   (keyup)="onQueryChange($event)"
   [mdDropdownContainer]="menu"
