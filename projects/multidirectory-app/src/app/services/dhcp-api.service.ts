@@ -3,9 +3,21 @@ import { ApiAdapter } from '@core/api/api-adapter';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { DhcpServiceResponse } from '@models/api/dhcp/dhcp-service-response';
 import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
+import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
+import {
+  DhcpCreateSubnetRequest,
+  DhcpCreateSubnetResponse,
+  DhcpUpdateSubnetRequest,
+} from '@models/api/dhcp/dhcp-create-subnet-response';
+import { TReservationList, TReservationListStore } from '@models/api/dhcp/dhcp-reservations.model';
+import {
+  DhcpCreateReservationRequest,
+  DhcpDeleteReservationRequest,
+} from '@models/api/dhcp/dhcp-create-reservation-response';
+import { parameters } from '@storybook/addon-docs/preview';
 
 @Injectable({
   providedIn: 'root',
@@ -14,77 +26,86 @@ export class DhcpApiService {
   private httpClient = inject<ApiAdapter<MultidirectoryAdapterSettings>>('apiAdapter' as any);
   private DhcpHttpClient = inject<ApiAdapter<DnsAdapterSettings>>('dnsAdapter' as any);
 
-  get(): Observable<DhcpServiceResponse[]> {
-    return this.httpClient.get<DhcpServiceResponse[]>('Dhcp/record').execute();
+  readonly areaListRx: BehaviorSubject<TSubnetsList> = new BehaviorSubject([] as TSubnetsList);
+  get $areaList(): Observable<TSubnetsList> {
+    return this.areaListRx.asObservable();
   }
 
-  // post(rule: DhcpRule): Observable<DhcpRule> {
-  //   return this.httpClient
-  //     .post<string>('Dhcp/record', DhcpRule.toRequest(rule))
-  //     .execute()
-  //     .pipe(map(() => rule));
-  // }
-  //
-  // update(rule: DhcpRule): Observable<DhcpRule> {
-  //   return this.httpClient
-  //     .patch<string>('Dhcp/record', DhcpRule.toRequest(rule))
-  //     .execute()
-  //     .pipe(map(() => rule));
-  // }
+  set areaList(data: TSubnetsList) {
+    this.areaListRx.next(data);
+  }
+  readonly reservationsListRx: BehaviorSubject<TReservationListStore> = new BehaviorSubject({
+    list: {},
+  });
+  get $reservationsList(): Observable<TReservationListStore> {
+    return this.reservationsListRx.asObservable();
+  }
 
-  // delete(rule: DhcpRule): Observable<string> {
-  //   return this.httpClient.delete<string>('Dhcp/record', DhcpRule.toRequest(rule)).execute();
-  // }
+  set reservationsList(data: TReservationListStore) {
+    this.reservationsListRx.next(data);
+  }
+
+  getAreasList() {
+    this.getDhcpSubnets().subscribe((data: TSubnetsList) => {
+      this.areaList = data;
+    });
+  }
+  getReservationsList(subnetId: string) {
+    this.getDhcpReservations(subnetId).subscribe((data: TReservationList) => {
+      this.reservationsList = {
+        list: {
+          ...this.reservationsList?.['list'],
+          [subnetId]: data,
+        },
+      };
+    });
+  }
+
+  getDhcpSubnets(): Observable<TSubnetsList> {
+    return this.httpClient.get<TSubnetsList>('dhcp/subnets').execute();
+  }
+
+  createDhcpSubnet(request: DhcpCreateSubnetRequest): Observable<DhcpCreateSubnetRequest> {
+    return this.httpClient.post<DhcpCreateSubnetRequest>('dhcp/subnet', request).execute();
+  }
+
+  updateDhcpSubnet(
+    request: DhcpUpdateSubnetRequest,
+    id: string,
+  ): Observable<DhcpUpdateSubnetRequest> {
+    return this.httpClient.put<DhcpUpdateSubnetRequest>(`dhcp/subnet/${id}`, request).execute();
+  }
+
+  deleteDhcpSubnet(id: string): Observable<string> {
+    return this.httpClient.delete<string>(`dhcp/subnet/${id}`).execute();
+  }
+
+  createDhcpReservations(
+    request: DhcpCreateReservationRequest,
+  ): Observable<DhcpCreateReservationRequest> {
+    return this.httpClient
+      .post<DhcpCreateReservationRequest>(`dhcp/reservation`, request)
+      .execute();
+  }
+  deleteDhcpReservation(
+    params: DhcpDeleteReservationRequest,
+  ): Observable<DhcpDeleteReservationRequest> {
+    const url = `dhcp/reservation` + this.calcParameters(params);
+    return this.httpClient.delete<DhcpDeleteReservationRequest>(url).execute();
+  }
+  calcParameters(params: object = {}): string {
+    return Object.entries(params).reduce(
+      (acc, curr, currentIndex) =>
+        currentIndex < 1 ? `?${curr[0]}=${curr[1]}` : `${acc}&${curr[0]}=${curr[1]}`,
+      '',
+    );
+  }
+
+  getDhcpReservations(subnet_id: string): Observable<TReservationList> {
+    return this.httpClient.get<TReservationList>(`dhcp/reservation/${subnet_id}`).execute();
+  }
 
   status(): Observable<DhcpStatusResponse> {
     return this.DhcpHttpClient.get<DhcpStatusResponse>('Dhcp/status').execute();
   }
-
-  setup(request: DhcpSetupRequest): Observable<boolean> {
-    return this.DhcpHttpClient.post<string>('Dhcp/setup', request)
-      .execute()
-      .pipe(map((x) => !!x));
-  }
-  //
-  // zone(): Observable<DhcpZoneListResponse[]> {
-  //   return this.DhcpHttpClient
-  //     .get<DhcpZoneListResponse[]>(`Dhcp/zone`)
-  //     .execute()
-  //     .pipe(
-  //       tap((x) => {
-  //         for (let zone of x) {
-  //           for (let type of zone.records) {
-  //             for (let record of type.records) {
-  //               record.type = type.type as DhcpRuleType;
-  //               record.zone_name = zone.name;
-  //             }
-  //           }
-  //         }
-  //       }),
-  //     );
-  // }
-  //
-  // addZone(request: DhcpAddZoneRequest): Observable<string> {
-  //   return this.DhcpHttpClient.post<string>('Dhcp/zone', request).execute();
-  // }
-  // updateZone(request: DhcpAddZoneRequest): any {
-  //   return this.DhcpHttpClient.patch<string>('Dhcp/zone', request).execute();
-  // }
-  // deleteZone(zoneNames: string[]) {
-  //   return this.DhcpHttpClient.delete<string>('Dhcp/zone', { zone_names: zoneNames }).execute();
-  // }
-  // getForwardZones(): Observable<DhcpForwardZone[]> {
-  //   return this.DhcpHttpClient.get<DhcpForwardZone[]>('Dhcp/zone/forward').execute();
-  // }
-  // checkForwardZone(request: DhcpCheckForwardZoneRequest): Observable<DhcpCheckForwardZoneResponse[]> {
-  //   return this.DhcpHttpClient
-  //     .post<DhcpCheckForwardZoneResponse[]>('Dhcp/forward_check', request)
-  //     .execute();
-  // }
-  // getServerOptions(): Observable<DhcpServerOption[]> {
-  //   return this.DhcpHttpClient.get<DhcpServerOption[]>('Dhcp/server/options').execute();
-  // }
-  // setServerOptions(request: DhcpServerOption[]): Observable<boolean> {
-  //   return this.DhcpHttpClient.patch<boolean>('Dhcp/server/options', request).execute();
-  // }
 }

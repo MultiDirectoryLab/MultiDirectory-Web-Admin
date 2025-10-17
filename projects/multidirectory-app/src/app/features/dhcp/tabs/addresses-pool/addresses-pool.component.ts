@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 
@@ -8,6 +8,7 @@ import {
   DhcpDialogSetupReturnData,
 } from '@components/modals/interfaces/dhcp-setup-wizard-dialog.interface';
 import { DialogService } from '@components/modals/services/dialog.service';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
 
 @Component({
   selector: 'addresses-pool',
@@ -17,14 +18,25 @@ import { DialogService } from '@components/modals/services/dialog.service';
 })
 export default class AddressesPoolComponent {
   private dialogService = inject(DialogService);
-  rows = [
-    { startPath: '192.168.51.2', endPath: '192.168.51.40', desc: 'Описание' },
-    { startPath: '192.168.51.10', endPath: '192.168.51.40', desc: '2Описание' },
-  ];
+  private _subnet!: Subnet;
+  protected rows: any[] = [];
+  @Input() set subnet(subnet: Subnet) {
+    this._subnet = subnet;
+
+    this.rows = [
+      {
+        startPath: this._subnet.pool[0].split('-')[0],
+        endPath: this._subnet.pool[0].split('-')[1],
+      },
+    ];
+  }
+  get subnet(): Subnet {
+    return this._subnet;
+  }
   columns = [
     { name: translate('dhcp-areas.startPath'), prop: 'startPath', flexGrow: 1 },
     { name: translate('dhcp-areas.endPath'), prop: 'endPath', flexGrow: 1 },
-    { name: translate('dhcp-areas.desc'), prop: 'desc', flexGrow: 1 },
+    // { name: translate('dhcp-areas.desc'), prop: 'desc', flexGrow: 1 },
   ];
 
   onAddDhcpArea() {
@@ -33,7 +45,7 @@ export default class AddressesPoolComponent {
         component: DHCPSetupWizardComponent,
         dialogConfig: {
           width: '550px',
-          data: {},
+          data: this.subnet,
         },
       })
       .closed //   .pipe(

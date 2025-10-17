@@ -1,11 +1,9 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 import {
   ButtonComponent,
   MdFormComponent,
   NumberComponent,
-  RadiobuttonComponent,
-  RadioGroupComponent,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import {
@@ -16,8 +14,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
-import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
-import { JsonPipe } from '@angular/common';
+import { DhcpApiService } from '@services/dhcp-api.service';
+import { DhcpCreateSubnetRequest } from '@models/api/dhcp/dhcp-create-subnet-response';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
+import { catchError } from 'rxjs';
+import { DAY, HOUR, MINUTE } from '@models/time-constants.constants';
 
 @Component({
   selector: 'app-dhcp-setup-wizard',
@@ -30,60 +33,124 @@ import { JsonPipe } from '@angular/common';
     DialogComponent,
     FormsModule,
     ReactiveFormsModule,
-    RadiobuttonComponent,
-    RadioGroupComponent,
     ButtonComponent,
     NumberComponent,
-    IpAddressValidatorDirective,
+    ButtonComponent,
   ],
 })
-export class DHCPSetupWizardComponent implements OnInit, OnChanges {
-  dhcpForm: FormGroup;
-  submitted = false;
+export class DHCPSetupWizardComponent {
+  dhcpForm: FormGroup = this.fb.group({});
+  ipReg = '(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)';
+  subnetMaskReg = `${this.ipReg}\\/(?:3[0-2]|[12]?\\d|0)`;
+  private readonly dhcp = inject(DhcpApiService);
+  private dialogService = inject(DialogService);
+  private dialogRef = inject(DialogRef);
+  private dialogData: Subnet = inject(DIALOG_DATA);
+  private isResetForm = Object.keys(this.dialogData).length > 0;
 
   constructor(private fb: FormBuilder) {
-    // Инициализация формы с помощью FormBuilder
-    this.dhcpForm = this.fb.group({
-      interface: ['', [Validators.required]],
-      startIp: ['', [Validators.required]],
-      endIp: ['', [Validators.required]],
-      days: ['', [Validators.required]],
-      hours: ['', [Validators.required, Validators.max(24)]],
-      minutes: ['', [Validators.required, Validators.max(60)]],
-    });
+    this.initForm();
   }
 
-  // days: ['', [Validators.required, Validators.max(999), Validators.maxLength(3)]],
-  // hours: ['', [Validators.required, Validators.max(24), Validators.maxLength(2)]],
-  // minutes: ['', [Validators.required, Validators.max(60), Validators.maxLength(2)]],
   // Геттер для удобного доступа к полям формы
-  get f() {
-    return this.dhcpForm.controls;
-  }
-
-  ngOnChanges(): void {
-    console.log('Form Errors:', this.dhcpForm.controls);
-  }
-  ngOnInit(): void {}
-  interfaceSet($event: Event | undefined) {
-    console.log($event);
+  get form() {
+    return this.dhcpForm?.controls;
   }
 
   // Обработка отправки формы
   onSubmit(event: Event): void {
-    this.submitted = true;
-
-    // Вывод данных формы в консоль
-    console.log('Form Submitted!', this.dhcpForm);
     // Проверка валидности формы
-    if (this.dhcpForm.invalid) {
+    if (this.dhcpForm?.invalid) {
       alert('invalid');
       return;
     }
+    const lifetime = this.calcDateToNumber();
+    // @ts-ignore
+    let data: DhcpCreateSubnetRequest = {
+      subnet: this.form.subnetMask.value,
+      pool: `${this.form.startIp.value}-${this.form.endIp.value}`,
+      valid_lifetime: lifetime,
+      default_gateway: this.form.defaultGateway.value,
+    };
 
-    // Вывод данных формы в консоль
-    console.log('Form Submitted!', this.dhcpForm.value);
+    if (!this.isResetForm) {
+      this.dhcp
+        .createDhcpSubnet(data)
+        .pipe(
+          catchError((err) => {
+            throw err;
+          }),
+        )
+        .subscribe(() => {
+          this.dhcp.getAreasList();
+          this.dialogService.close(this.dialogRef);
+        });
+    } else {
+      this.dhcp
+        .updateDhcpSubnet(data, this.dialogData.id)
+        .pipe(
+          catchError((err) => {
+            throw err;
+          }),
+        )
+        .subscribe(() => {
+          this.dhcp.getAreasList();
+          this.dialogService.close(this.dialogRef);
+        });
+    }
+  }
+  calcDateToNumber(): number {
+    return (
+      this.form.days.value * DAY + this.form.hours.value * HOUR + this.form.minutes.value * MINUTE
+    );
+  }
+  calcNumberToDate(ms: number) {
+    const totalMinutes = Math.floor(ms / (1000 * 60));
+    const days = Math.floor(totalMinutes / (60 * 24));
+    const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+    const minutes = totalMinutes % 60;
+    return { days, hours, minutes };
   }
 
-  protected readonly event = event;
+  onCancel(event: MouseEvent) {
+    this.dialogService.close(this.dialogRef);
+  }
+
+  initForm() {
+    // Инициализация формы с помощью FormBuilder
+    if (this.isResetForm) {
+      const date = this.calcNumberToDate(this.dialogData.valid_lifetime);
+      this.dhcpForm = this.fb.group({
+        startIp: [
+          this.dialogData?.pool[0].split('-')[0],
+          [Validators.required, Validators.pattern(this.ipReg)],
+        ],
+        endIp: [
+          this.dialogData?.pool[0].split('-')[1],
+          [Validators.required, Validators.pattern(this.ipReg)],
+        ],
+        days: [date.days, [Validators.required, Validators.max(999)]],
+        hours: [date.hours, [Validators.required, Validators.max(24)]],
+        minutes: [date.minutes, [Validators.required, Validators.max(60)]],
+        subnetMask: [
+          this.dialogData?.subnet,
+          [Validators.required, Validators.pattern(this.subnetMaskReg)],
+        ],
+        defaultGateway: [
+          this.dialogData?.default_gateway,
+          [Validators.required, Validators.pattern(this.ipReg)],
+        ],
+      });
+    } else {
+      this.dhcpForm = this.fb.group({
+        startIp: ['', [Validators.required, Validators.pattern(this.ipReg)]],
+        endIp: ['', [Validators.required, Validators.pattern(this.ipReg)]],
+        days: ['', [Validators.required, Validators.max(999)]],
+        hours: ['', [Validators.required, Validators.max(24)]],
+        minutes: ['', [Validators.required, Validators.max(60)]],
+        subnetMask: ['', [Validators.required, Validators.pattern(this.subnetMaskReg)]],
+        defaultGateway: ['', [Validators.required, Validators.pattern(this.ipReg)]],
+      });
+    }
+  }
 }

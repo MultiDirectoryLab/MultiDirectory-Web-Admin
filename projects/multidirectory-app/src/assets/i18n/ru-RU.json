@@ -736,8 +736,7 @@
     "startPath": "Начальный IP-адрес",
     "endPath": "Конечный IP-адрес",
     "desc": "Описание",
-    "add-area": "Добавить область",
-    "change": "Изменить"
+    "add-area": "Добавить область"
   },
   "rented-addresses": {
     "clientIpAddress": "IP-адрес клиента",

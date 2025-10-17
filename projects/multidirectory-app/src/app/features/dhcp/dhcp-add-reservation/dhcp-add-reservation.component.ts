@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, inject, OnChanges, OnInit } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import {
@@ -10,6 +10,13 @@ import {
 } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { DhcpApiService } from '@services/dhcp-api.service';
+import { catchError } from 'rxjs';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { JsonPipe } from '@angular/common';
+import { IReservation, TReservationList } from '@models/api/dhcp/dhcp-reservations.model';
 
 @Component({
   selector: 'app-dhcp-add-reservation',
@@ -26,44 +33,54 @@ import { IpAddressValidatorDirective } from '@core/validators/ip-address.directi
     IpAddressValidatorDirective,
   ],
 })
-export class DhcpAddReservationComponent implements OnInit, OnChanges {
+export class DhcpAddReservationComponent {
   dhcpForm: FormGroup;
   submitted = false;
+  private dialogService = inject(DialogService);
+  private dialogRef = inject(DialogRef);
+  private readonly dhcp = inject(DhcpApiService);
+  private currentReservationExist: boolean = false;
+  protected dialogData: Subnet = inject(DIALOG_DATA);
 
   constructor(private fb: FormBuilder) {
     this.dhcpForm = this.fb.group({
       nameOfReservation: ['', [Validators.required]],
       ipAddress: ['', [Validators.required]],
       macAddress: ['', [Validators.required]],
-      desc: ['', [Validators.required]],
+      // desc: ['', [Validators.requsired]],
     });
   }
-
-  get f() {
-    return this.dhcpForm.controls;
-  }
-
-  ngOnChanges(): void {
-    console.log('Form Errors:', this.dhcpForm.controls);
-  }
-  ngOnInit(): void {
-    console.log('ngOnInit');
+  get form() {
+    return this.dhcpForm?.controls;
   }
 
   // Обработка отправки формы
   onSubmit(event: Event): void {
-    this.submitted = true;
-
-    // Вывод данных формы в консоль
-    console.log('Form Submitted!', this.dhcpForm);
     // Проверка валидности формы
-    if (this.dhcpForm.invalid) {
+    console.log(this.dialogData);
+    if (this.dhcpForm?.invalid) {
       alert('invalid');
       return;
     }
+    // @ts-ignore
+    let data: DhcpCreateSubnetRequest = {
+      subnet_id: this.dialogData.id,
+      ip_address: this.form.ipAddress.value,
+      mac_address: this.form.macAddress.value,
+      hostname: this.form.nameOfReservation.value,
+    };
 
-    // Вывод данных формы в консоль
-    console.log('Form Submitted!', this.dhcpForm.value);
+    this.dhcp
+      .createDhcpReservations(data)
+      .pipe(
+        catchError((err) => {
+          throw err;
+        }),
+      )
+      .subscribe(() => {
+        this.dhcp.getReservationsList(this.dialogData.id);
+        this.dialogService.close(this.dialogRef);
+      });
   }
 
   protected readonly event = event;

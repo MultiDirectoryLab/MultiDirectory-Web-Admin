@@ -6,9 +6,6 @@
   >
     {{ t('md-settings') }}
   </div>
-  <div [ngClass]="{ selected: url.endsWith('dhcp') }" class="nav-item" routerLink="/settings/dhcp">
-    {{ t('dhcp-settings') }}
-  </div>
   <div
     [ngClass]="{ selected: url.endsWith('multifactor') }"
     class="nav-item"
@@ -31,6 +28,9 @@
     routerLink="/settings/kdc-principals"
   >
     {{ t('kdc-principals') }}
+  </div>
+  <div [ngClass]="{ selected: url.endsWith('dhcp') }" class="nav-item" routerLink="/settings/dhcp">
+    {{ t('dhcp-settings') }}
   </div>
   <div [ngClass]="{ selected: url.endsWith('dns') }" class="nav-item" routerLink="/settings/dns">
     {{ t('dns-settings') }}

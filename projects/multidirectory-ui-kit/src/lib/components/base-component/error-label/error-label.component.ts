@@ -22,7 +22,7 @@ export class ErrorLabelComponent extends BaseControlComponent {
       return 'required';
     }
     if (!!errors['pattern']) {
-      return errors['pattern'];
+      return 'pattern';
     }
     if (!!errors['PasswordsDoNotMatch']) {
       return errors['PasswordsDoNotMatch'];

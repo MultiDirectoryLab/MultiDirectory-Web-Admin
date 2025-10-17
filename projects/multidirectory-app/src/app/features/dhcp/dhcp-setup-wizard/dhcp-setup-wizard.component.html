@@ -5,53 +5,11 @@
       <div class="dns-setup-grid">
         <h3 class="bold">{{ 'dhcp-setup-wizard.address-params' | transloco }}</h3>
         <section class="py-2">
-          <md-radiogroup
-            #interface
-            [drawBorder]="true"
-            (valueChanges)="interfaceSet($event)"
-            formControlName="interface"
-            [title]="'dhcp-setup-wizard.network-interface' | transloco"
-            class="w-full"
-          >
-            <div class="control-row">
-              <md-radiobutton
-                name="interface"
-                id="show-with-values-only"
-                [group]="interface"
-                [value]="1"
-              >
-                <span
-                  ><span class="ml-4">{{ '192.168.51.1' }}</span>
-                  <span class="ml-4">{{ 'Ethernet1' }}</span></span
-                >
-              </md-radiobutton>
-              <md-radiobutton
-                name="interface"
-                id="show-with-values-only"
-                [group]="interface"
-                [value]="2"
-              >
-                <span
-                  ><span class="ml-4">{{ '192.168.51.1' }}</span>
-                  <span class="ml-4">{{ 'Ethernet2' }}</span></span
-                ></md-radiobutton
-              >
-            </div>
-          </md-radiogroup>
-
           <div class="py-2">
-            <md-textbox
-              formControlName="startIp"
-              [placeholder]="t('dhcp-setup-wizard.start-ip')"
-              validIpAddress
-            />
+            <md-textbox formControlName="startIp" [placeholder]="t('dhcp-setup-wizard.start-ip')" />
           </div>
           <div class="py-2">
-            <md-textbox
-              formControlName="endIp"
-              [placeholder]="t('dhcp-setup-wizard.end-ip')"
-              validIpAddress
-            />
+            <md-textbox formControlName="endIp" [placeholder]="t('dhcp-setup-wizard.end-ip')" />
           </div>
           <div class="flex flex-row py-2">
             <label class="whitespace-nowrap">{{
@@ -66,36 +24,38 @@
         <section class="py-2">
           <p>{{ 'dhcp-setup-wizard.dhcp-params' | transloco }}</p>
           <div class="py-2">
-            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.subnet-mask')" />
+            <md-textbox
+              type="number"
+              [placeholder]="t('dhcp-setup-wizard.subnet-mask')"
+              formControlName="subnetMask"
+            />
           </div>
           <div class="py-2">
-            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.main-gateway')" />
+            <md-textbox
+              type="number"
+              [placeholder]="t('dhcp-setup-wizard.main-gateway')"
+              formControlName="defaultGateway"
+            />
           </div>
         </section>
-        <hr />
-        <section class="py-2">
-          <p>{{ 'dhcp-setup-wizard.domain-name-and-DNS-server-addresses' | transloco }}</p>
-          <div class="py-2">
-            <md-textbox [placeholder]="t('dhcp-setup-wizard.domain')" />
-          </div>
-          <div class="py-2">
-            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.dns-server')" />
-          </div>
-        </section>
+        <!--        <hr />-->
+        <!--        <section class="py-2">-->
+        <!--          <p>{{ 'dhcp-setup-wizard.domain-name-and-DNS-server-addresses' | transloco }}</p>-->
+        <!--          <div class="py-2">-->
+        <!--            <md-textbox [placeholder]="t('dhcp-setup-wizard.domain')" />-->
+        <!--          </div>-->
+        <!--          <div class="py-2">-->
+        <!--            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.dns-server')" />-->
+        <!--          </div>-->
+        <!--        </section>-->
       </div>
 
       <div class="app-modal-footer">
         <div class="flex align-center justify-end gap-1">
-          <!--          <md-button (click)="onClose()">-->
-          <md-button>
+          <md-button (click)="onCancel($event)">
             {{ 'add-principal.cancel' | transloco }}
           </md-button>
-          <md-button
-            type="submit"
-            (click)="onSubmit($event)"
-            [disabled]="!dhcpForm.valid"
-            [primary]="true"
-          >
+          <md-button [submit]="true" [disabled]="!dhcpForm.valid" [primary]="true">
             {{ 'add-principal.apply' | transloco }}
           </md-button>
         </div>

@@ -3,7 +3,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DnsSetupDialogComponent } from '@features/forms/dns-setup/dns-setup-dialog.component';
 import { SetupKerberosDialogComponent } from '@features/forms/setup-kerberos/setup-kerberos.component';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
-import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
 import { AppWindowsService } from '@services/app-windows.service';
 import { ModalInjectDirective } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
@@ -32,12 +31,6 @@ export class WindowsComponent implements AfterViewInit {
       .subscribe((dnsSetupRequest) => {
         this.openDnsSetupDialog(dnsSetupRequest);
       });
-
-    this.ldapWindows.showDhcpSetupDialogRx
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((dhcpSetupRequest) => {
-        this.openDhcpSetupDialog(dhcpSetupRequest);
-      });
   }
 
   openSetupKerberosDialog() {
@@ -55,15 +48,6 @@ export class WindowsComponent implements AfterViewInit {
       .pipe(take(1), takeUntilDestroyed(this.destroyRef$))
       .subscribe((result) => {
         this.ldapWindows.closeDnsSetupDialog(result);
-      });
-  }
-
-  openDhcpSetupDialog(dnsSetupRequest: DhcpSetupRequest) {
-    this.dnsSetupDialog()
-      .open({ minHeight: 460 }, { dhcpSetupRequest: DhcpSetupRequest })
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef$))
-      .subscribe((result) => {
-        this.ldapWindows.closeDhcpSetupDialog(result);
       });
   }
 }

@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
-import { translate, TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import DhcpAreasComponent from '@features/dhcp/tabs/rented-addresses/rented-addresses.component';
 import AddressesPoolComponent from '@features/dhcp/tabs/addresses-pool/addresses-pool.component';
 import DhcpReservationComponent from '@features/dhcp/tabs/reservation/reservation.component';
-import DhcpAreaParametersComponent from '@features/dhcp/tabs/area-parameters/area-parameters.component';
-import { catchError, EMPTY, take } from 'rxjs';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
+import { catchError } from 'rxjs';
+import { DhcpApiService } from '@services/dhcp-api.service';
 
 @Component({
   selector: 'dhcp-areas-item',
@@ -20,43 +21,24 @@ import { catchError, EMPTY, take } from 'rxjs';
     DhcpAreasComponent,
     AddressesPoolComponent,
     DhcpReservationComponent,
-    DhcpAreaParametersComponent,
   ],
 })
 export default class DhcpAreasItem implements OnInit {
-  @Input() index!: number;
+  @Input() index!: string;
+  @Input() subnet!: Subnet;
   private api: any;
+  private readonly dhcp = inject(DhcpApiService);
   ngOnInit(): void {}
   deleteArea() {
-    // this.api
-    //   .deleteSession(this.sessionId)
-    //   .pipe(
-    //     take(1),
-    //     catchError(() => EMPTY),
-    //   )
-    //   .subscribe(() => {
-    //     const currentSessions = this.sessions();
-    //     this.sessions.set(currentSessions.filter((s) => s.session_id !== sessionId));
-    //   });
+    this.dhcp
+      .deleteDhcpSubnet(this.subnet.id)
+      .pipe(
+        catchError((err) => {
+          throw err;
+        }),
+      )
+      .subscribe(() => {
+        this.dhcp.getAreasList();
+      });
   }
-  // onAddDnsZone() {
-  //   this.dialogService
-  //     .open<AddZoneDialogReturnData, AddZoneDialogData, AddZoneDialogComponent>({
-  //       component: AddZoneDialogComponent,
-  //       dialogConfig: {
-  //         data: {},
-  //       },
-  //     })
-  //     .closed.pipe(
-  //       switchMap((result) => {
-  //         return this.dns.zone();
-  //       }),
-  //     )
-  //     .subscribe((result: DnsZoneListResponse[]) => {
-  //       if (!result) {
-  //         return;
-  //       }
-  //       this.zones = result;
-  //     });
-  // }
 }

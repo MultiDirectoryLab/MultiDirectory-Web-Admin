@@ -1,10 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
-import { DnsZoneListResponse } from '@models/dns/zones/dns-zone-response';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DnsApiService } from '@services/dns-api.service';
 import { TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '@components/modals/services/dialog.service';
-import { ToastrService } from 'ngx-toastr';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import DhcpAreasItem from '@features/dhcp/dhcp-areas-item/dhcp-areas-item';
 import {
@@ -12,7 +9,8 @@ import {
   DhcpDialogSetupReturnData,
 } from '@components/modals/interfaces/dhcp-setup-wizard-dialog.interface';
 import { DHCPSetupWizardComponent } from '@features/dhcp/dhcp-setup-wizard/dhcp-setup-wizard.component';
-import { DhcpAreaListResponse } from '@models/dhcp/areas/dns-area-response';
+import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'dhcp-areas',
@@ -21,12 +19,10 @@ import { DhcpAreaListResponse } from '@models/dhcp/areas/dns-area-response';
   imports: [MultidirectoryUiKitModule, TranslocoModule, DhcpAreasItem],
 })
 export default class DhcpAreasComponent implements OnInit {
+  @Input() subnetsList!: TSubnetsList;
   private dns = inject(DnsApiService);
   private dialogService = inject(DialogService);
   areas: number[] = [1, 2];
-  // areas: DhcpAreaListResponse[] = [1, 2];
-
-  listDnsZones(name: string = '') {}
 
   ngOnInit(): void {
     // this.dns.zone().subscribe((x) => {
@@ -54,25 +50,4 @@ export default class DhcpAreasComponent implements OnInit {
         // this.zones = result;
       });
   }
-
-  // onAddDnsZone() {
-  //   this.dialogService
-  //     .open<AddZoneDialogReturnData, AddZoneDialogData, AddZoneDialogComponent>({
-  //       component: AddZoneDialogComponent,
-  //       dialogConfig: {
-  //         data: {},
-  //       },
-  //     })
-  //     .closed.pipe(
-  //       switchMap((result) => {
-  //         return this.dns.zone();
-  //       }),
-  //     )
-  //     .subscribe((result: DnsZoneListResponse[]) => {
-  //       if (!result) {
-  //         return;
-  //       }
-  //       this.zones = result;
-  //     });
-  // }
 }
