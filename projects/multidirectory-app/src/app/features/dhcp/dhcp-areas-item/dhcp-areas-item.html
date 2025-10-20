@@ -25,7 +25,7 @@
       </div>
       <div *muiTab="'dhcp-setup-wizard.rented-addresses' | transloco">
         @if(subnet) {
-        <rented-addresses></rented-addresses>
+        <rented-addresses [subnet]="subnet"></rented-addresses>
         }
       </div>
       <div *muiTab="'dhcp-setup-wizard.tab-header-reservation' | transloco">

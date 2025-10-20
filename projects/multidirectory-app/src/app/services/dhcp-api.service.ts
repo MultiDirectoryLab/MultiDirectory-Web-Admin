@@ -18,6 +18,7 @@ import {
   DhcpDeleteReservationRequest,
 } from '@models/api/dhcp/dhcp-create-reservation-response';
 import { parameters } from '@storybook/addon-docs/preview';
+import { TRentedList, TRentedListStore } from '@models/api/dhcp/dhcp-rented.model';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,16 @@ export class DhcpApiService {
 
   set reservationsList(data: TReservationListStore) {
     this.reservationsListRx.next(data);
+  }
+  readonly rentedListRx: BehaviorSubject<TRentedListStore> = new BehaviorSubject({
+    list: {},
+  });
+  get $rentedList(): Observable<TRentedListStore> {
+    return this.rentedListRx.asObservable();
+  }
+
+  set rentedList(data: TRentedListStore) {
+    this.rentedListRx.next(data);
   }
 
   getAreasList() {
@@ -107,5 +118,25 @@ export class DhcpApiService {
 
   status(): Observable<DhcpStatusResponse> {
     return this.DhcpHttpClient.get<DhcpStatusResponse>('Dhcp/status').execute();
+  }
+
+  getRentedList(subnetId: string) {
+    this.getDhcpRented(subnetId).subscribe((data: TRentedList) => {
+      this.reservationsList = {
+        list: {
+          ...this.reservationsList?.['list'],
+          [subnetId]: data,
+        },
+      };
+    });
+  }
+
+  getDhcpRented(subnet_id: string): Observable<TRentedList> {
+    return this.httpClient.get<TRentedList>(`dhcp/lease/${subnet_id}`).execute();
+  }
+  setup(request: DhcpSetupRequest): Observable<boolean> {
+    return this.DhcpHttpClient.post<string>('dhcp/service/change_state', request)
+      .execute()
+      .pipe(map((x) => !!x));
   }
 }

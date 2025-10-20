@@ -1,8 +1,7 @@
-@if (subnetsExists) {
-  @if (subnetsList.length > 0) {
-    <dhcp-areas [subnetsList]="subnetsList"></dhcp-areas>
-  }
+@if (subnetsExists && subnetsList.length > 0) {
+  <dhcp-areas [subnetsList]="subnetsList"></dhcp-areas>
 }
+subnetsExists {{ subnetsExists }}
 
 @if (!subnetsExists) {
   <div>
@@ -16,7 +15,7 @@
             <h3>{{ 'dns-settings.setup-dhcp-description' | transloco }}</h3>
             <div class="pv-8">
               <md-button (click)="handleSetupClick()">{{
-                'dns-settings.setup-dhcp' | transloco
+                'setup.domain-settings.enableDhcp' | transloco
               }}</md-button>
             </div>
           </div>

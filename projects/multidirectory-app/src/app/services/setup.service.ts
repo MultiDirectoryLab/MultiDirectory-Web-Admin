@@ -7,6 +7,7 @@ import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
 import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
 import { SetupRequest } from '@models/api/setup/setup-request';
+import { DhcpApiService } from '@services/dhcp-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class SetupService {
   private api = inject(MultidirectoryApiService);
   private dns = inject(DnsApiService);
   private loginService = inject(LoginService);
+  private dhcp = inject(DhcpApiService);
 
   setup(setupRequest: SetupRequest): Observable<boolean> {
     return this.api.setup(setupRequest).pipe(
@@ -25,6 +27,13 @@ export class SetupService {
         return iif(
           () => setupRequest.setupDns,
           this.dns.setup(setupRequest.setupDnsRequest),
+          of(!!success),
+        );
+      }),
+      switchMap((success) => {
+        return iif(
+          () => setupRequest.setupDhcp,
+          this.dhcp.setup({ dhcp_manager_state: String(+setupRequest.setupDhcp) }),
           of(!!success),
         );
       }),

@@ -132,6 +132,7 @@
       "domain-label": "Домен",
       "setup-dns": "Настроить DNS",
       "setup-dhcp": "Настроить DHCP",
+      "enableDhcp": "Включить DHCP",
       "setup-kdc": "Настроить Kerberos",
       "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически",
       "domain-format-error": "Неправильный формат домена"
@@ -678,7 +679,7 @@
     "zone": "Зона: ",
     "add": "Добавить запись",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
-    "setup-dhcp-description": "Для управления DHCP требуется произвести настройку",
+    "setup-dhcp-description": "Для управления DHCP требуется его активировать",
     "setup-dns": "Выполнить настройку",
     "setup-dhcp": "Выполнить настройку",
     "add-zone": "Добавить зону",

@@ -29,7 +29,7 @@ export class DhcpSettingComponent implements OnInit {
   private windows: AppWindowsService = inject(AppWindowsService);
 
   ngOnInit(): void {
-    this.getList();
+    // this.getList();
   }
 
   getList() {
@@ -46,26 +46,28 @@ export class DhcpSettingComponent implements OnInit {
   }
 
   handleSetupClick() {
-    this.dialogService
-      .open<DhcpDialogSetupReturnData, object, object>({
-        component: DHCPSetupWizardComponent,
-        dialogConfig: {
-          width: '550px',
-          data: {},
-        },
-      })
-      .closed.pipe() //   .pipe(
-      //   switchMap((result) => {
-      //     return this.dns.zone();
-      //   }),
-      // )
-      .subscribe((result: any) => {
-        if (!result) {
-          return;
-        }
-        this.dialogService.close(result.data);
-        this.getList();
-      });
+    console.log('handleSetupClick');
+    // this.dhcp.setup({dhcp_manager_state: '1'});
+    // this.dialogService
+    //   .open<DhcpDialogSetupReturnData, object, object>({
+    //     component: DHCPSetupWizardComponent,
+    //     dialogConfig: {
+    //       width: '550px',
+    //       data: {},
+    //     },
+    //   })
+    //   .closed.pipe() //   .pipe(
+    //   //   switchMap((result) => {
+    //   //     return this.dns.zone();
+    //   //   }),
+    //   // )
+    //   .subscribe((result: any) => {
+    //     if (!result) {
+    //       return;
+    //     }
+    //     this.dialogService.close(result.data);
+    //     this.getList();
+    //   });
   }
 
   protected readonly faCircleExclamation = faCircleExclamation;

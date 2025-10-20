@@ -131,7 +131,7 @@
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
       "setup-dns": "Setup DNS",
-      "setup-dhcp": "Setup DHCP",
+      "enableDhcp": "Enable DHCP",
       "setup-kdc": "Setup Kerberos",
       "generate-kdc-passwords": "Generate Kerberos Passwords Automatically",
       "domain-format-error": "Invalid domain format"
