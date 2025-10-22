@@ -1,4 +1,4 @@
-import { JsonPipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -31,7 +31,6 @@ export class RadioGroupComponent extends BaseComponent {
 
   @Input() drawBorder = false;
   @Input() title = '';
-  @Input() errors = [];
   @Output() valueChanges = new EventEmitter<any>();
   buttons: RadiobuttonComponent[] = [];
 
