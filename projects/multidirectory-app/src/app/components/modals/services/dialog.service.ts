@@ -58,6 +58,10 @@ export class DialogService {
     this.openedDialogs = this.openedDialogs.filter((ref) => ref.id !== dialogRef.id);
   }
 
+  closeAll() {
+    this.openedDialogs.forEach(dialog => dialog.close());
+  }
+
   bringToFront(dialogRef: DialogRef | null): void {
     if (!dialogRef) return;
 
