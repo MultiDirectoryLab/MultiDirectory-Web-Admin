@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import {
@@ -9,14 +9,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
-import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DhcpApiService } from '@services/dhcp-api.service';
 import { catchError } from 'rxjs';
 import { DialogService } from '@components/modals/services/dialog.service';
-import { JsonPipe } from '@angular/common';
-import { IReservation, TReservationList } from '@models/api/dhcp/dhcp-reservations.model';
 
 @Component({
   selector: 'app-dhcp-add-reservation',
@@ -30,16 +27,13 @@ import { IReservation, TReservationList } from '@models/api/dhcp/dhcp-reservatio
     FormsModule,
     ReactiveFormsModule,
     ButtonComponent,
-    IpAddressValidatorDirective,
   ],
 })
 export class DhcpAddReservationComponent {
   dhcpForm: FormGroup;
-  submitted = false;
   private dialogService = inject(DialogService);
   private dialogRef = inject(DialogRef);
   private readonly dhcp = inject(DhcpApiService);
-  private currentReservationExist: boolean = false;
   protected dialogData: Subnet = inject(DIALOG_DATA);
 
   constructor(private fb: FormBuilder) {
@@ -47,7 +41,6 @@ export class DhcpAddReservationComponent {
       nameOfReservation: ['', [Validators.required]],
       ipAddress: ['', [Validators.required]],
       macAddress: ['', [Validators.required]],
-      // desc: ['', [Validators.requsired]],
     });
   }
   get form() {

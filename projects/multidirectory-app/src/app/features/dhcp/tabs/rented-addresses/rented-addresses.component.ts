@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
-import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
+import { DatagridComponent } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { DhcpApiService } from '@services/dhcp-api.service';
 import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
@@ -19,7 +19,7 @@ class TLeaseList {}
   selector: 'rented-addresses',
   templateUrl: './rented-addresses.component.html',
   styleUrls: ['./rented-addresses.component.scss'],
-  imports: [DatagridComponent, TranslocoPipe, ButtonComponent],
+  imports: [DatagridComponent, TranslocoPipe],
 })
 export default class DhcpRentedAddressesComponent implements OnInit {
   private readonly dhcp = inject(DhcpApiService);
