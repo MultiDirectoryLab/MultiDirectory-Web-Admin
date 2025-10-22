@@ -5,49 +5,53 @@
       <div class="dns-setup-grid">
         <h3 class="bold">{{ 'dhcp-setup-wizard.address-params' | transloco }}</h3>
         <section class="py-2">
-          <div class="py-2">
-            <md-textbox formControlName="startIp" [placeholder]="t('dhcp-setup-wizard.start-ip')" />
+          <div class="py-2 grid grid-cols-5 gap-5">
+            <label for="startIp" class="col-span-2">
+              {{ 'dhcp-setup-wizard.start-ip' | transloco }}
+            </label>
+            <md-textbox class="col-span-3 w-full" formControlName="startIp" />
           </div>
-          <div class="py-2">
-            <md-textbox formControlName="endIp" [placeholder]="t('dhcp-setup-wizard.end-ip')" />
+          <div class="py-2 grid grid-cols-5 gap-5">
+            <label for="endIp" class="col-span-2">
+              {{ 'dhcp-setup-wizard.end-ip' | transloco }}
+            </label>
+            <md-textbox class="col-span-3 w-full" formControlName="endIp" />
           </div>
-          <div class="flex flex-row py-2">
-            <label class="whitespace-nowrap">{{
+          <div class="py-2 grid grid-cols-5 gap-5">
+            <label class="whitespace-nowrap col-span-2">{{
               'dhcp-setup-wizard.rental-duration' | transloco
             }}</label>
-            <md-number class="ml-2" formControlName="days" max="999" />
-            <md-number class="ml-2" type="number" formControlName="hours" />
-            <md-number class="ml-2" type="number" formControlName="minutes" />
+            <md-number [label]="t('days')" class="col-span-1" formControlName="days" max="999" />
+            <md-number
+              [label]="t('hours')"
+              class="col-span-1"
+              type="number"
+              formControlName="hours"
+            />
+            <md-number
+              [label]="t('minutes')"
+              class="col-span-1"
+              type="number"
+              formControlName="minutes"
+            />
           </div>
         </section>
         <hr />
         <section class="py-2">
           <p>{{ 'dhcp-setup-wizard.dhcp-params' | transloco }}</p>
-          <div class="py-2">
-            <md-textbox
-              type="number"
-              [placeholder]="t('dhcp-setup-wizard.subnet-mask')"
-              formControlName="subnetMask"
-            />
+          <div class="py-2 grid grid-cols-5 gap-5">
+            <label for="subnetMask" class="col-span-2">
+              {{ 'dhcp-setup-wizard.subnet-mask' | transloco }}
+            </label>
+            <md-textbox class="col-span-3 w-full" type="number" formControlName="subnetMask" />
           </div>
-          <div class="py-2">
-            <md-textbox
-              type="number"
-              [placeholder]="t('dhcp-setup-wizard.main-gateway')"
-              formControlName="defaultGateway"
-            />
+          <div class="py-2 grid grid-cols-5 gap-5">
+            <label for="defaultGateway" class="col-span-2">
+              {{ 'dhcp-setup-wizard.main-gateway' | transloco }}
+            </label>
+            <md-textbox class="col-span-3 w-full" type="number" formControlName="defaultGateway" />
           </div>
         </section>
-        <!--        <hr />-->
-        <!--        <section class="py-2">-->
-        <!--          <p>{{ 'dhcp-setup-wizard.domain-name-and-DNS-server-addresses' | transloco }}</p>-->
-        <!--          <div class="py-2">-->
-        <!--            <md-textbox [placeholder]="t('dhcp-setup-wizard.domain')" />-->
-        <!--          </div>-->
-        <!--          <div class="py-2">-->
-        <!--            <md-textbox type="number" [placeholder]="t('dhcp-setup-wizard.dns-server')" />-->
-        <!--          </div>-->
-        <!--        </section>-->
       </div>
 
       <div class="app-modal-footer">

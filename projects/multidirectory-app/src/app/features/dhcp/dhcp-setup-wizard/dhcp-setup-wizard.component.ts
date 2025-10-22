@@ -118,39 +118,28 @@ export class DHCPSetupWizardComponent {
 
   initForm() {
     // Инициализация формы с помощью FormBuilder
-    if (this.isResetForm) {
-      const date = this.calcNumberToDate(this.dialogData.valid_lifetime);
-      this.dhcpForm = this.fb.group({
-        startIp: [
-          this.dialogData?.pool[0].split('-')[0],
-          [Validators.required, Validators.pattern(this.ipReg)],
-        ],
-        endIp: [
-          this.dialogData?.pool[0].split('-')[1],
-          [Validators.required, Validators.pattern(this.ipReg)],
-        ],
-        days: [date.days, [Validators.required, Validators.max(999)]],
-        hours: [date.hours, [Validators.required, Validators.max(24)]],
-        minutes: [date.minutes, [Validators.required, Validators.max(60)]],
-        subnetMask: [
-          this.dialogData?.subnet,
-          [Validators.required, Validators.pattern(this.subnetMaskReg)],
-        ],
-        defaultGateway: [
-          this.dialogData?.default_gateway,
-          [Validators.required, Validators.pattern(this.ipReg)],
-        ],
-      });
-    } else {
-      this.dhcpForm = this.fb.group({
-        startIp: ['', [Validators.required, Validators.pattern(this.ipReg)]],
-        endIp: ['', [Validators.required, Validators.pattern(this.ipReg)]],
-        days: ['', [Validators.required, Validators.max(999)]],
-        hours: ['', [Validators.required, Validators.max(24)]],
-        minutes: ['', [Validators.required, Validators.max(60)]],
-        subnetMask: ['', [Validators.required, Validators.pattern(this.subnetMaskReg)]],
-        defaultGateway: ['', [Validators.required, Validators.pattern(this.ipReg)]],
-      });
-    }
+
+    const date = this.calcNumberToDate(this.dialogData.valid_lifetime);
+    this.dhcpForm = this.fb.group({
+      startIp: [
+        this.isResetForm ? this.dialogData?.pool[0].split('-')[0] : '',
+        [Validators.required, Validators.pattern(this.ipReg)],
+      ],
+      endIp: [
+        this.isResetForm ? this.dialogData?.pool[0].split('-')[1] : '',
+        [Validators.required, Validators.pattern(this.ipReg)],
+      ],
+      days: [this.isResetForm ? date.days : '', [Validators.required, Validators.max(999)]],
+      hours: [this.isResetForm ? date.hours : '', [Validators.required, Validators.max(24)]],
+      minutes: [this.isResetForm ? date.minutes : '', [Validators.required, Validators.max(60)]],
+      subnetMask: [
+        this.isResetForm ? this.dialogData?.subnet : '',
+        [Validators.required, Validators.pattern(this.subnetMaskReg)],
+      ],
+      defaultGateway: [
+        this.isResetForm ? this.dialogData?.default_gateway : '',
+        [Validators.required, Validators.pattern(this.ipReg)],
+      ],
+    });
   }
 }

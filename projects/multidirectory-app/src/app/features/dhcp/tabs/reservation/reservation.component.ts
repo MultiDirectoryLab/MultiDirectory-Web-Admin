@@ -42,7 +42,7 @@ export default class DhcpReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
-    this.dhcp.$leaseList.subscribe((data) => {
+    this.dhcp.$reservationsList.subscribe((data) => {
       data?.list?.[this.subnet.id] && this.updateRows(data?.list?.[this.subnet.id]);
       this.cdr.detectChanges();
     });
