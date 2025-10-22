@@ -1,4 +1,5 @@
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
 
 export class SetupRequest {
   domain = '';
@@ -10,6 +11,7 @@ export class SetupRequest {
   repeatPassword = '';
 
   setupKdc = true;
+  setupDhcp = true;
   generateKdcPasswords = true;
   krbadmin_password = '';
   krbadmin_password_repeat = '';
@@ -19,4 +21,5 @@ export class SetupRequest {
 
   setupDns = true;
   setupDnsRequest = new DnsSetupRequest({});
+  setupDhcpRequest = new DhcpSetupRequest({});
 }

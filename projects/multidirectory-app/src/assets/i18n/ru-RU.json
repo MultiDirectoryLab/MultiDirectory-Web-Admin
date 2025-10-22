@@ -131,6 +131,8 @@
       "header": "Этот мастер поможет завершить настройку Multidirectory",
       "domain-label": "Домен",
       "setup-dns": "Настроить DNS",
+      "setup-dhcp": "Настроить DHCP",
+      "enableDhcp": "Включить DHCP",
       "setup-kdc": "Настроить Kerberos",
       "generate-kdc-passwords": "Сгенерировать пароли для Kerberos автоматически",
       "domain-format-error": "Неправильный формат домена"
@@ -486,6 +488,7 @@
     "about": "О программе",
     "kdc-principals": "Принципалы Kerberos",
     "dns-settings": "Настройки DNS",
+    "dhcp-settings": "Настройки DHCP",
     "sessions": "Сессии",
     "access-policy": "Политики доступа",
     "password-policy": "Парольные политики",
@@ -522,7 +525,8 @@
     "modal-header": "Свойства",
     "close": "Закрыть",
     "approve": "Применить",
-    "select-entity": "Для просмотра свойств необходимо выбрать сущность"
+    "select-entity": "Для просмотра свойств необходимо выбрать сущность",
+    "loading": "Загрузка..."
   },
   "hotkeys": {
     "toggle-help": "Показать/скрыть меню помощи",
@@ -675,7 +679,9 @@
     "zone": "Зона: ",
     "add": "Добавить запись",
     "setup-dns-description": "Для управления DNS требуется произвести настройку",
+    "setup-dhcp-description": "Для управления DHCP требуется его активировать",
     "setup-dns": "Выполнить настройку",
+    "setup-dhcp": "Выполнить настройку",
     "add-zone": "Добавить зону",
     "dns-unavailable": "Сервис DNS недоступен",
     "dns-zone-header": "Зоны DNS",
@@ -707,6 +713,58 @@
     "add": "Добавить",
     "apply": "Применить",
     "cancel": "Отменить"
+  },
+  "dhcp-setup-wizard": {
+    "header": "Мастер настройки DHCP",
+    "address-params": "Параметры конфигурации для пула адресов",
+    "network-interface": "Выберите сетевой интерфейс для подключения и привязки сервера",
+    "start-ip": "Начальный IP-адрес",
+    "end-ip": "Конечный IP-адрес",
+    "rental-duration": "Длительность аренды",
+    "dhcp-params": "Параметры конфигурации распространяемые на DHCP-клиент",
+    "subnet-mask": "Маска подсети",
+    "main-gateway": "Основной шлюз (опционально)",
+    "domain-name-and-DNS-server-addresses": "Укажите имя домена и адреса DNS серверов, которые будут назначены клиентам DHCP",
+    "domain": "Домен",
+    "dns-server": "DNS серверы",
+    "tab-header-pool-addresses": "Пул адресов",
+    "rented-addresses": "Арендованные адреса",
+    "tab-header-reservation": "Резервирование",
+    "tab-header-area-parameters": "Параметры области",
+    "add-area": "Добавить область"
+  },
+  "dhcp-areas": {
+    "startPath": "Начальный IP-адрес",
+    "endPath": "Конечный IP-адрес",
+    "desc": "Описание",
+    "add-area": "Добавить область"
+  },
+  "rented-addresses": {
+    "clientIpAddress": "IP-адрес клиента",
+    "name": "Имя",
+    "expiration": "Истечение срока аренды"
+  },
+  "tabReservation": {
+    "header": "Новое резервирование",
+    "macAddress": "МАС адрес",
+    "clientIpAddress": "IP-адрес клиента",
+    "ipAddress": "IP-адрес",
+    "name": "Имя",
+    "nameOfReservation": "Имя резервирования",
+    "desc": "Описание",
+    "validLifetime": "Длительность аренда"
+  },
+  "tabAreaParameters": {
+    "parameterName": "Имя параметра",
+    "supplier": "Поставщик",
+    "meaning": "Значение",
+    "nameOfThePolicy": "Имя политики"
+  },
+  "tab": {
+    "macAddress": "МАС адрес",
+    "clientIpAddress": "IP-адрес клиента",
+    "name": "Имя",
+    "desc": "Описание"
   },
   "dns-setup-dialog": {
     "header": "Настройка DNS",
@@ -884,5 +942,12 @@
   "policies-navigation": {
     "password-policies": "Парольные политики",
     "access-policies": "Политики доступа"
-  }
+  },
+  "days": "Дни",
+  "hours": "Часы",
+  "minutes": "Минуты",
+  "change": "Изменить",
+  "add": "Добавить",
+  "delete": "Удалить",
+  "empty-list": "Список пуст"
 }

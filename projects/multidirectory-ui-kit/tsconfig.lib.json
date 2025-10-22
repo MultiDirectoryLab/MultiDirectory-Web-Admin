@@ -9,7 +9,8 @@
     "types": [],
     "paths": {
       "@components/*": ["projects/multidirectory-ui-kit/src/lib/components/*"]
-    }
+    },
+    "lib": ["ES2021.String"]
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

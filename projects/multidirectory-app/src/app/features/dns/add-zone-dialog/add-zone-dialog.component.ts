@@ -11,7 +11,7 @@ import { IpListDialogComponent } from '@components/modals/components/dialogs/acc
 import { IplistDialogData } from '@components/modals/interfaces/ip-list-dialog.interface';
 import { take } from 'rxjs';
 import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
-import { DnsAddZoneRequest, DnsZoneParam } from '@models/dns/zones/dns-add-zone-response';
+import { DnsAddZoneRequest, DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
 import { CommonModule } from '@angular/common';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 
@@ -46,15 +46,15 @@ export class AddZoneDialogComponent {
   }
 
   openIpAddressDialog() {
-    let aclParams = this.dnsZone.params.find((x) => x.name == 'acl');
-    if (!aclParams) {
-      aclParams = new DnsZoneParam({ name: 'acl', value: [] });
-      this.dnsZone.params.push(aclParams);
+    let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+    if (!aclparameters) {
+      aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
+      this.dnsZone.parameters.push(aclparameters);
     }
 
     let address: IpOption[] = [];
-    if (aclParams.value instanceof Array) {
-      address = aclParams.value.flatMap((x) => this.toIpOption(x));
+    if (aclparameters.value instanceof Array) {
+      address = aclparameters.value.flatMap((x) => this.toIpOption(x));
     }
 
     this.dialogService
@@ -71,13 +71,13 @@ export class AddZoneDialogComponent {
         if (!result) {
           return;
         }
-        let aclParams = this.dnsZone.params.find((x) => x.name == 'acl');
-        if (!aclParams) {
-          aclParams = new DnsZoneParam({ name: 'acl', value: [] });
-          this.dnsZone.params.push(aclParams);
+        let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+        if (!aclparameters) {
+          aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
+          this.dnsZone.parameters.push(aclparameters);
         }
         this._ipString = this.fromIpOption(result.addresses);
-        aclParams.value = this._ipString.split(',').map((x) => x.trim());
+        aclparameters.value = this._ipString.split(',').map((x) => x.trim());
       });
   }
 
@@ -87,12 +87,12 @@ export class AddZoneDialogComponent {
   }
   set ipString(x: string) {
     this._ipString = x;
-    let aclParams = this.dnsZone.params.find((x) => x.name == 'acl');
-    if (!aclParams) {
-      aclParams = new DnsZoneParam({ name: 'acl', value: [] });
-      this.dnsZone.params.push(aclParams);
+    let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+    if (!aclparameters) {
+      aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
+      this.dnsZone.parameters.push(aclparameters);
     }
-    aclParams.value = this.fromIpOption(this.toIpOption(x))
+    aclparameters.value = this.fromIpOption(this.toIpOption(x))
       .split(',')
       .map((x) => x.trim());
   }

@@ -19,10 +19,10 @@ export class ErrorLabelComponent extends BaseControlComponent {
       return undefined;
     }
     if (errors['required']) {
-      return errors['required'];
+      return 'required';
     }
     if (!!errors['pattern']) {
-      return errors['pattern'];
+      return 'pattern';
     }
     if (!!errors['PasswordsDoNotMatch']) {
       return errors['PasswordsDoNotMatch'];

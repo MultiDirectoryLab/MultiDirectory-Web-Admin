@@ -34,6 +34,13 @@
         </div>
         <div class="flex justify-center">
           <div class="flex flex-col flex-grow-1">
+            <md-checkbox [(ngModel)]="setupRequest.setupDhcp">
+              {{ 'setup.domain-settings.enableDhcp' | transloco }}
+            </md-checkbox>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="flex flex-col flex-grow-1">
             <md-checkbox [(ngModel)]="setupRequest.setupKdc">
               {{ 'setup.domain-settings.setup-kdc' | transloco }}
             </md-checkbox>

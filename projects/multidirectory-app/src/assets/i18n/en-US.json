@@ -131,6 +131,7 @@
       "header": "This wizard will help you complete the Multidirectory setup",
       "domain-label": "Domain",
       "setup-dns": "Setup DNS",
+      "enableDhcp": "Enable DHCP",
       "setup-kdc": "Setup Kerberos",
       "generate-kdc-passwords": "Generate Kerberos Passwords Automatically",
       "domain-format-error": "Invalid domain format"
@@ -486,6 +487,7 @@
     "about": "About",
     "kdc-principals": "Kerberos Principals",
     "dns-settings": "DNS Settings",
+    "dhcp-settings": "DHCP Settings",
     "sessions": "Sessions",
     "dns-zone-header": "DNS Zones",
     "dns-forwarding-header": "DNS Forwarding",
@@ -526,7 +528,8 @@
     "modal-header": "Properties",
     "close": "Close",
     "approve": "Apply",
-    "select-entity": "You need to select an entity to see it's properties"
+    "select-entity": "You need to select an entity to see it's properties",
+    "loading": "Loading..."
   },
   "hotkeys": {
     "toggle-help": "Toggle the help menu",
@@ -681,6 +684,7 @@
     "add": "Add entry",
     "add-zone": "Add Zone",
     "setup-dns-description": "Setup required for DNS management",
+    "setup-dhcp-description": "Setup required for DHCP management",
     "setup-dns": "Run setup",
     "dns-zone-header": "DNS Zones",
     "dns-forwarding-header": "DNS Forwarding",
@@ -712,6 +716,51 @@
     "add": "Add",
     "cancel": "Cancel",
     "apply": "Apply"
+  },
+  "dhcp-setup-wizard": {
+    "header": "DHCP Setup Wizard",
+    "address-params": "Configuration parameters for the address pool",
+    "network-interface": "Select a network interface to connect and bind the server to",
+    "start-ip": "Start IP address",
+    "end-ip": "End IP address",
+    "rental-duration": "Lease duration",
+    "dhcp-params": "Configuration parameters propagated to the DHCP client",
+    "subnet-mask": "Subnet mask",
+    "main-gateway": "Default gateway (optional)",
+    "domain-name-and-DNS-server-addresses": "Specify the domain name and DNS server addresses that will be assigned to DHCP clients",
+    "domain": "Domain",
+    "dns-server": "DNS servers",
+    "tab-header-pool-addresses": "Address pool",
+    "rented-addresses": "Rented addresses",
+    "tab-header-reservation": "Reservation",
+    "tab-header-area-parameters": "Area parameters"
+  },
+  "dhcp-areas": {
+    "startPath": "Начальный IP-адрес",
+    "endPath": "Конечный IP-адрес",
+    "desc": "Описание",
+    "add-area": "Добавить область"
+  },
+  "rented-addresses": {
+    "clientIpAddress": "Client IP address",
+    "name": "Name",
+    "expiration": "Expiration of the lease"
+  },
+  "tabReservation": {
+    "header": "New Reservation",
+    "macAddress": "MAC Address",
+    "clientIpAddress": "Client IP Address",
+    "ipAddress": "IP Address",
+    "name": "Name",
+    "nameOfReservation": "Reservation Name",
+    "desc": "Description",
+    "validLifetime": "Lease duration"
+  },
+  "tabAreaParameters": {
+    "parameterName": "Parameter name",
+    "supplier": "Supplier",
+    "meaning": "value",
+    "nameOfThePolicy": "Policy name"
   },
   "dns-setup-dialog": {
     "header": "Configure DNS",
@@ -882,5 +931,12 @@
   "policies-navigation": {
     "password-policies": "Password Policies",
     "access-policies": "Access Policies"
-  }
+  },
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "change": "Change",
+  "add": "Add",
+  "delete": "Delete",
+  "empty-list": "This list is empty"
 }

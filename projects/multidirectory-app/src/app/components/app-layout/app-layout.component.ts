@@ -15,10 +15,11 @@ import { NotificationsComponent } from './shared/notifications/notifications.com
 import { WindowsComponent } from './shared/windows/windows.component';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
-import { DnsStatuses } from '@models/api/dns/dns-statuses';
+import { DhcpStatuses } from '@models/api/dhcp/dhcp-statuses';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DnsApiService } from '@services/dns-api.service';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
 
 @Component({
   selector: 'app-layout',

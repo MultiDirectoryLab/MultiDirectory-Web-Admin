@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
 import { Observable, Subject } from 'rxjs';
+import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +32,22 @@ export class AppWindowsService {
     return this._showDnsSetupDialogRx.asObservable();
   }
 
+  private _showDhcpSetupDialogRx = new Subject<DhcpSetupRequest | undefined>();
+
+  get showDhcpSetupDialogRx(): Observable<DhcpSetupRequest | undefined> {
+    return this._showDhcpSetupDialogRx.asObservable();
+  }
+
   private _closeDnsSetupDialogRx = new Subject<DnsSetupRequest>();
 
   get closeDnsSetupDialogRx(): Observable<DnsSetupRequest> {
     return this._closeDnsSetupDialogRx.asObservable();
+  }
+
+  private _closeDhcpSetupDialogRx = new Subject<DhcpSetupRequest>();
+
+  get closeDhcpSetupDialogRx(): Observable<DhcpSetupRequest> {
+    return this._closeDhcpSetupDialogRx.asObservable();
   }
 
   hideSpinner() {
@@ -58,7 +72,16 @@ export class AppWindowsService {
     return this.closeDnsSetupDialogRx;
   }
 
+  openDhcpSetupDialog(request?: DhcpSetupRequest) {
+    this._showDhcpSetupDialogRx.next(request);
+    return this.closeDhcpSetupDialogRx;
+  }
+
   closeDnsSetupDialog(rule: DnsSetupRequest) {
     return this._closeDnsSetupDialogRx.next(rule);
+  }
+
+  closeDhcpSetupDialog(rule: DhcpSetupRequest) {
+    return this._closeDhcpSetupDialogRx.next(rule);
   }
 }

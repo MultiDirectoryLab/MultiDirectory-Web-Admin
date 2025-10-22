@@ -29,7 +29,9 @@
   >
     {{ t('kdc-principals') }}
   </div>
-
+  <div [ngClass]="{ selected: url.endsWith('dhcp') }" class="nav-item" routerLink="/settings/dhcp">
+    {{ t('dhcp-settings') }}
+  </div>
   <div [ngClass]="{ selected: url.endsWith('dns') }" class="nav-item" routerLink="/settings/dns">
     {{ t('dns-settings') }}
   </div>

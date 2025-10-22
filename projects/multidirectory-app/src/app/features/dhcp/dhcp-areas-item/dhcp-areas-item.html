@@ -1,0 +1,38 @@
+<div class="dhcp-areas-item">
+  <div class="dhcp-areas-item__header">
+    <h3>
+      <span class="hcp-areas-item__header-number">{{ subnet.id }}</span> Область:
+      <b>{{subnet.default_gateway}}</b>
+    </h3>
+    <div class="cell-control-buttons">
+      <md-button class="control-button" (click)="deleteArea()">
+        <img
+          class="control-button-logo"
+          width="24"
+          height="24"
+          src="assets/trash.svg"
+          alt="trash-icon"
+        />
+      </md-button>
+    </div>
+  </div>
+  <div>
+    <mui-tabs>
+      <div *muiTab="'dhcp-setup-wizard.tab-header-pool-addresses' | transloco">
+        @if(subnet) {
+        <addresses-pool [subnet]="subnet"></addresses-pool>
+        }
+      </div>
+      <div *muiTab="'dhcp-setup-wizard.rented-addresses' | transloco">
+        @if(subnet) {
+        <rented-addresses [subnet]="subnet"></rented-addresses>
+        }
+      </div>
+      <div *muiTab="'dhcp-setup-wizard.tab-header-reservation' | transloco">
+        @if(subnet) {
+        <reservation [subnet]="subnet"></reservation>
+        }
+      </div>
+    </mui-tabs>
+  </div>
+</div>

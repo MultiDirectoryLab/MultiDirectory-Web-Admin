@@ -1,0 +1,51 @@
+<app-dialog *transloco="let t">
+  <div class="app-modal-header">{{ 'tabReservation.header' | transloco }}</div>
+  <div class="flex flex-col align-start justify-end gap-1">
+    <md-form [formGroup]="dhcpForm" (ngSubmit)="onSubmit($event)">
+      <div class="dns-setup-grid">
+        <section class="py-2">
+          <div class="py-2 grid grid-cols-4 gap-4">
+            <label for="nameOfReservation" class="col-span-2">
+              {{ 'tabReservation.nameOfReservation' | transloco }}
+            </label>
+            <md-textbox class="col-span-2 w-full" formControlName="nameOfReservation" />
+          </div>
+          <div class="py-2 grid grid-cols-4 gap-4">
+            <label for="validIpAddress" class="col-span-2">
+              {{ 'tabReservation.ipAddress' | transloco }}
+            </label>
+            <md-textbox class="col-span-2 w-full" formControlName="ipAddress" />
+          </div>
+          <div class="py-2 grid grid-cols-4 gap-4">
+            <label for="nameOfReservation" class="col-span-2">
+              {{ 'tabReservation.macAddress' | transloco }}
+            </label>
+            <md-textbox class="col-span-2 w-full" formControlName="macAddress" />
+          </div>
+          <!--          <div class="py-2">-->
+          <!--            <md-textbox-->
+          <!--              formControlName="desc"-->
+          <!--              [placeholder]="t('tabReservation.desc')"-->
+          <!--              validIpAddress-->
+          <!--            />-->
+          <!--          </div>-->
+        </section>
+        <div class="app-modal-footer">
+          <div class="flex align-center justify-end gap-1">
+            <md-button>
+              {{ 'add-principal.cancel' | transloco }}
+            </md-button>
+            <md-button
+              type="submit"
+              (click)="onSubmit($event)"
+              [disabled]="!dhcpForm.valid"
+              [primary]="true"
+            >
+              {{ 'add' | transloco }}
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-form>
+  </div>
+</app-dialog>

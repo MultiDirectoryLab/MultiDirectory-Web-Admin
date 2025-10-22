@@ -42,7 +42,7 @@ import { catchError, Subject } from 'rxjs';
   ],
 })
 export class SetupKerberosDialogComponent implements OnDestroy {
-  private modalInejctor = inject(ModalInjectDirective);
+  private modalInjector = inject(ModalInjectDirective);
   private toastr = inject(ToastrService);
   private app = inject(AppSettingsService);
   private download = inject(DownloadService);
@@ -70,18 +70,18 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       form.validate();
       return;
     }
-    this.modalInejctor.showSpinner();
+    this.modalInjector.showSpinner();
     this.setup
       .kerberosSetup(this.setupRequest)
       .pipe(
         catchError((err) => {
-          this.modalInejctor.hideSpinner();
+          this.modalInjector.hideSpinner();
           throw err;
         }),
       )
       .subscribe(() => {
         this.toastr.success(translate('setup.kerberos-setup-complete'));
-        this.modalInejctor.hideSpinner();
+        this.modalInjector.hideSpinner();
         window.location.reload();
       });
   }
@@ -106,6 +106,6 @@ export class SetupKerberosDialogComponent implements OnDestroy {
   }
 
   onClose() {
-    this.modalInejctor.close(null);
+    this.modalInjector.close(null);
   }
 }

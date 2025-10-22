@@ -1,0 +1,13 @@
+<md-datagrid
+  #grid
+  name="table-view"
+  [rows]="rows"
+  [columns]="columns"
+  (selectionChanged)="selectionChanged()"
+  emptyMessage="{{ 'grid.no-data' | transloco }}"
+></md-datagrid>
+<div class="flex w-full justify-start pt-10 pb-2">
+  <md-button (click)="onAddDhcpArea()">
+    {{ 'change' | transloco }}
+  </md-button>
+</div>

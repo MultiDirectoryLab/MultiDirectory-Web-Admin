@@ -1,0 +1,23 @@
+@if ($subnetsExists | async) {
+  <dhcp-areas [subnetsList]="subnetsList"></dhcp-areas>
+} @else {
+  <div>
+    <div class="p-2">
+      <md-alert>
+        <div class="flex gap-2">
+          <div class="flex justify-center flex-align-center">
+            <fa-icon [icon]="faCircleExclamation" size="2x"></fa-icon>
+          </div>
+          <div cxlass="flex flex-col">
+            <h3>{{ 'dns-settings.setup-dhcp-description' | transloco }}</h3>
+            <div class="pv-8">
+              <md-button (click)="handleSetupClick()">{{
+                'setup.domain-settings.enableDhcp' | transloco
+              }}</md-button>
+            </div>
+          </div>
+        </div>
+      </md-alert>
+    </div>
+  </div>
+}

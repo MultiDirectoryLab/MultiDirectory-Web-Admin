@@ -31,6 +31,11 @@ export const appSettingsRoutes: Routes = [
       ),
   },
   {
+    path: 'dhcp',
+    loadComponent: () =>
+      import('@features/dhcp/dhcp-setting.component').then((c) => c.DhcpSettingComponent),
+  },
+  {
     path: 'dns',
     loadComponent: () =>
       import('@features/dns/dns-settings.component').then((c) => c.DnsSettingsComponent),
