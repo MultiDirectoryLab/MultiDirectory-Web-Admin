@@ -91,12 +91,7 @@ export default class DhcpReservationComponent implements OnInit {
           data: this.subnet,
         },
       })
-      .closed //   .pipe(
-      //   switchMap((result) => {
-      //     return this.dns.zone();
-      //   }),
-      // )
-      .subscribe((result: any) => {
+      .closed.subscribe((result: any) => {
         if (!result) {
           return;
         }

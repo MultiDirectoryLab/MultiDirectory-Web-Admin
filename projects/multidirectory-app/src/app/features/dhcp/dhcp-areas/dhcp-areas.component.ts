@@ -17,17 +17,12 @@ import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
   styleUrls: ['./dhcp-areas.component.scss'],
   imports: [MultidirectoryUiKitModule, TranslocoModule, DhcpAreasItem],
 })
-export default class DhcpAreasComponent implements OnInit {
+export default class DhcpAreasComponent {
   @Input() subnetsList!: TSubnetsList;
   private dns = inject(DnsApiService);
   private dialogService = inject(DialogService);
   areas: number[] = [1, 2];
 
-  ngOnInit(): void {
-    // this.dns.zone().subscribe((x) => {
-    //   this.zones = x;
-    // });
-  }
   onAddDhcpArea() {
     this.dialogService
       .open<DhcpDialogSetupReturnData, DhcpDialogSetupDialogData, DHCPSetupWizardComponent>({
@@ -37,12 +32,7 @@ export default class DhcpAreasComponent implements OnInit {
           data: {},
         },
       })
-      .closed //   .pipe(
-      //   switchMap((result) => {
-      //     return this.dns.zone();
-      //   }),
-      // )
-      .subscribe((result: any) => {
+      .closed.subscribe((result: any) => {
         if (!result) {
           return;
         }

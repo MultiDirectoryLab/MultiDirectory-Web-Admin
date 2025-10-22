@@ -36,7 +36,6 @@ export default class AddressesPoolComponent {
   columns = [
     { name: translate('dhcp-areas.startPath'), prop: 'startPath', flexGrow: 1 },
     { name: translate('dhcp-areas.endPath'), prop: 'endPath', flexGrow: 1 },
-    // { name: translate('dhcp-areas.desc'), prop: 'desc', flexGrow: 1 },
   ];
 
   onAddDhcpArea() {
@@ -48,16 +47,10 @@ export default class AddressesPoolComponent {
           data: this.subnet,
         },
       })
-      .closed //   .pipe(
-      //   switchMap((result) => {
-      //     return this.dns.zone();
-      //   }),
-      // )
-      .subscribe((result: any) => {
+      .closed.subscribe((result: any) => {
         if (!result) {
           return;
         }
-        // this.zones = result;
       });
   }
   selectionChanged() {}

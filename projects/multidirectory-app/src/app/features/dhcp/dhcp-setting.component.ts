@@ -47,7 +47,6 @@ export class DhcpSettingComponent implements OnInit {
     this.dhcp.getAreasList();
     this.dhcp.$areaList.subscribe((data: TSubnetsList) => {
       this.subnetsList = data;
-      // this.subnetsExists = data.length > 0;
     });
   }
 

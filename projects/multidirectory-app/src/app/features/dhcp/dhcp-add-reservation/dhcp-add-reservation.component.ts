@@ -50,7 +50,6 @@ export class DhcpAddReservationComponent {
   // Обработка отправки формы
   onSubmit(event: Event): void {
     // Проверка валидности формы
-    console.log(this.dialogData);
     if (this.dhcpForm?.invalid) {
       alert('invalid');
       return;
