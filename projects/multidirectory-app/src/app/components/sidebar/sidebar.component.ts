@@ -64,6 +64,8 @@ export class SidebarComponent {
   }
 
   logout() {
+    this.dialogService.closeAll();
+
     this.app
       .logout()
       .pipe(take(1))
