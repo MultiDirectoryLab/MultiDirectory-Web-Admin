@@ -1,5 +1,3 @@
-import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
-
 export type TReservationListStore = {
   list: { [key: string]: TReservationList };
 };

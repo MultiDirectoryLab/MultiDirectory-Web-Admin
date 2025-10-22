@@ -10,7 +10,6 @@ import {
 } from '@components/modals/interfaces/dhcp-setup-wizard-dialog.interface';
 import { DHCPSetupWizardComponent } from '@features/dhcp/dhcp-setup-wizard/dhcp-setup-wizard.component';
 import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'dhcp-areas',

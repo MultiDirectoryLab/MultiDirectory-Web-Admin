@@ -753,7 +753,8 @@
     "ipAddress": "IP Address",
     "name": "Name",
     "nameOfReservation": "Reservation Name",
-    "desc": "Description"
+    "desc": "Description",
+    "validLifetime": "Lease duration"
   },
   "tabAreaParameters": {
     "parameterName": "Parameter name",
@@ -930,5 +931,12 @@
   "policies-navigation": {
     "password-policies": "Password Policies",
     "access-policies": "Access Policies"
-  }
+  },
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "change": "Change",
+  "add": "Add",
+  "delete": "Delete",
+  "empty-list": "This list is empty"
 }

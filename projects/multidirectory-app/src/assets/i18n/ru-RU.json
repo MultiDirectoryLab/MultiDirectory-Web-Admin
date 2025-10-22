@@ -751,7 +751,8 @@
     "ipAddress": "IP-адрес",
     "name": "Имя",
     "nameOfReservation": "Имя резервирования",
-    "desc": "Описание"
+    "desc": "Описание",
+    "validLifetime": "Длительность аренда"
   },
   "tabAreaParameters": {
     "parameterName": "Имя параметра",
@@ -947,5 +948,6 @@
   "minutes": "Минуты",
   "change": "Изменить",
   "add": "Добавить",
-  "delete": "Удалить"
+  "delete": "Удалить",
+  "empty-list": "Список пуст"
 }

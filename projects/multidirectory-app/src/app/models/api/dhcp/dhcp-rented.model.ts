@@ -1,5 +1,3 @@
-import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
-
 export type TRentedListStore = {
   list: { [key: string]: TRentedList };
 };

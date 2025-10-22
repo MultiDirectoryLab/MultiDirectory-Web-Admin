@@ -1,9 +1,6 @@
-@if (subnetsExists && subnetsList.length > 0) {
+@if ($subnetsExists | async) {
   <dhcp-areas [subnetsList]="subnetsList"></dhcp-areas>
-}
-subnetsExists {{ subnetsExists }}
-
-@if (!subnetsExists) {
+} @else {
   <div>
     <div class="p-2">
       <md-alert>

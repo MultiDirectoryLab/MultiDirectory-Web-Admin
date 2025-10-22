@@ -1,5 +1,3 @@
-import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
-
 export type TSubnetsList = Array<Subnet>;
 export interface Subnet {
   id: string;

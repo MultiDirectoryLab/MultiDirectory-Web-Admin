@@ -42,7 +42,7 @@ export default class DhcpReservationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
-    this.dhcp.$reservationsList.subscribe((data) => {
+    this.dhcp.$leaseList.subscribe((data) => {
       data?.list?.[this.subnet.id] && this.updateRows(data?.list?.[this.subnet.id]);
       this.cdr.detectChanges();
     });
@@ -100,13 +100,11 @@ export default class DhcpReservationComponent implements OnInit {
         if (!result) {
           return;
         }
-        // this.zones = result;
       });
   }
 
   onRowSelect(event: TReservationList) {
     this.selectedReservation = event[0];
-    console.log(event);
   }
 
   protected readonly event = event;

@@ -3,5 +3,18 @@
   name="table-view"
   [rows]="rows"
   [columns]="columns"
+  (selectionChanged)="onRowSelect($event)"
   emptyMessage="{{ 'grid.no-data' | transloco }}"
 ></md-datagrid>
+<!--<div class="flex w-full justify-between pt-10 pb-2">-->
+<!--  <div class="flex pb-2">-->
+<!--    <md-button (click)="add()" class="flex pl-2">-->
+<!--      {{ 'add' | transloco }}-->
+<!--    </md-button>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <md-button (click)="delete()" [disabled]="!selectedReservation">-->
+<!--      {{ 'delete' | transloco }}-->
+<!--    </md-button>-->
+<!--  </div>-->
+<!--</div>-->

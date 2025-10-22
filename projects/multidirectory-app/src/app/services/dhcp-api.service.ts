@@ -1,15 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { DhcpServiceResponse } from '@models/api/dhcp/dhcp-service-response';
 import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
-import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
+import { Subnet, TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
 import {
   DhcpCreateSubnetRequest,
-  DhcpCreateSubnetResponse,
   DhcpUpdateSubnetRequest,
 } from '@models/api/dhcp/dhcp-create-subnet-response';
 import { TReservationList, TReservationListStore } from '@models/api/dhcp/dhcp-reservations.model';
@@ -17,7 +15,8 @@ import {
   DhcpCreateReservationRequest,
   DhcpDeleteReservationRequest,
 } from '@models/api/dhcp/dhcp-create-reservation-response';
-import { parameters } from '@storybook/addon-docs/preview';
+import { DhcpCreateLeaseRequest } from '@models/api/dhcp/dhcp-create-lease-response';
+import { TLeasesList, TLeasesListStore } from '@models/api/dhcp/dhcp-lease.model';
 import { TRentedList, TRentedListStore } from '@models/api/dhcp/dhcp-rented.model';
 
 @Injectable({
@@ -27,7 +26,17 @@ export class DhcpApiService {
   private httpClient = inject<ApiAdapter<MultidirectoryAdapterSettings>>('apiAdapter' as any);
   private DhcpHttpClient = inject<ApiAdapter<DnsAdapterSettings>>('dnsAdapter' as any);
 
+  readonly dhcpStatusRx: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  get $dhcpStatus(): Observable<boolean> {
+    return this.dhcpStatusRx.asObservable();
+  }
+
+  set dhcpStatus(data: boolean) {
+    this.dhcpStatusRx.next(data);
+  }
+
   readonly areaListRx: BehaviorSubject<TSubnetsList> = new BehaviorSubject([] as TSubnetsList);
+
   get $areaList(): Observable<TSubnetsList> {
     return this.areaListRx.asObservable();
   }
@@ -45,15 +54,15 @@ export class DhcpApiService {
   set reservationsList(data: TReservationListStore) {
     this.reservationsListRx.next(data);
   }
-  readonly rentedListRx: BehaviorSubject<TRentedListStore> = new BehaviorSubject({
+  readonly leaseListRx: BehaviorSubject<TLeasesListStore> = new BehaviorSubject({
     list: {},
   });
-  get $rentedList(): Observable<TRentedListStore> {
-    return this.rentedListRx.asObservable();
+  get $leaseList(): Observable<TLeasesListStore> {
+    return this.leaseListRx.asObservable();
   }
 
-  set rentedList(data: TRentedListStore) {
-    this.rentedListRx.next(data);
+  set leaseList(data: TLeasesListStore) {
+    this.leaseListRx.next(data);
   }
 
   getAreasList() {
@@ -117,7 +126,7 @@ export class DhcpApiService {
   }
 
   status(): Observable<DhcpStatusResponse> {
-    return this.DhcpHttpClient.get<DhcpStatusResponse>('Dhcp/status').execute();
+    return this.DhcpHttpClient.get<DhcpStatusResponse>('dhcp/status').execute();
   }
 
   getRentedList(subnetId: string) {
@@ -131,12 +140,39 @@ export class DhcpApiService {
     });
   }
 
-  getDhcpRented(subnet_id: string): Observable<TRentedList> {
-    return this.httpClient.get<TRentedList>(`dhcp/lease/${subnet_id}`).execute();
+  getDhcpRented(subnet_id: string): Observable<TLeasesList> {
+    return this.httpClient.get<TLeasesList>(`dhcp/lease/${subnet_id}`).execute();
   }
   setup(request: DhcpSetupRequest): Observable<boolean> {
-    return this.DhcpHttpClient.post<string>('dhcp/service/change_state', request)
+    return this.DhcpHttpClient.post<boolean>('dhcp/service/change_state', request)
       .execute()
-      .pipe(map((x) => !!x));
+      .pipe(tap(() => this.getDhcpStatus()));
+  }
+
+  getDhcpStatus() {
+    this.httpClient
+      .get<DhcpStatusResponse>('dhcp/service/state')
+      .execute()
+      .subscribe(
+        (status: DhcpStatusResponse) => (this.dhcpStatus = status.dhcp_manager_state === '1'),
+      );
+  }
+
+  createDhcpLease(request: DhcpCreateLeaseRequest): Observable<DhcpCreateLeaseRequest> {
+    return this.httpClient.post<DhcpCreateLeaseRequest>(`dhcp/lease`, request).execute();
+  }
+  getDhcpLeases(subnetId: string): Observable<TLeasesList> {
+    return this.httpClient.get<TLeasesList>(`dhcp/lease/${subnetId}`).execute();
+  }
+
+  getLeasesList(subnetId: string) {
+    this.getDhcpLeases(subnetId).subscribe((data: TLeasesList) => {
+      this.leaseList = {
+        list: {
+          ...this.leaseList?.['list'],
+          [subnetId]: data,
+        },
+      };
+    });
   }
 }
