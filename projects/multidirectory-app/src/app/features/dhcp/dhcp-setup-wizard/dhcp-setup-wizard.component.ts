@@ -132,7 +132,7 @@ export class DHCPSetupWizardComponent {
       days: [this.isResetForm ? date.days : '', [Validators.required, Validators.max(999)]],
       hours: [this.isResetForm ? date.hours : '', [Validators.required, Validators.max(24)]],
       minutes: [this.isResetForm ? date.minutes : '', [Validators.required, Validators.max(60)]],
-      subnetMask: [this.isResetForm ? this.dialogData?.subnet : '', [Validators.required]],
+      subnetMask: [this.isResetForm ? this.dialogData?.subnet : '', []],
       defaultGateway: [
         this.isResetForm ? this.dialogData?.default_gateway : '',
         [Validators.required, Validators.pattern(this.ipReg)],
