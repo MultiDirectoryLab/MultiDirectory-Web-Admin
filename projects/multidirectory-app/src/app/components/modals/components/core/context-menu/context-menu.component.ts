@@ -91,8 +91,9 @@ export class ContextMenuComponent implements OnInit {
   }
 
   openMoreDialog() {
-    this.contextMenuService.close(
-      this.dialogService
+    this.contextMenuService.close(undefined);
+
+    this.dialogService
         .open<
           EntityPropertiesDialogReturnData,
           EntityPropertiesDialogData,
@@ -105,28 +106,26 @@ export class ContextMenuComponent implements OnInit {
             minHeight: '660px',
             data: { entity: this.entries[0] },
           },
-        })
-        .closed.pipe(take(1)),
-    );
+        });
   }
 
   openChangePasswordDialog() {
     const { id: identity, name: un } = this.entries[0];
 
-    this.contextMenuService.close(
-      this.dialogService.open<
-        ChangePasswordDialogReturnData,
-        ChangePasswordDialogData,
-        ChangePasswordDialogComponent
-      >({
-        component: ChangePasswordDialogComponent,
-        dialogConfig: {
-          minHeight: '220px',
-          height: '220px',
-          data: { identity, un },
-        },
-      }).closed,
-    );
+    this.contextMenuService.close(undefined);
+
+    this.dialogService.open<
+      ChangePasswordDialogReturnData,
+      ChangePasswordDialogData,
+      ChangePasswordDialogComponent
+    >({
+      component: ChangePasswordDialogComponent,
+      dialogConfig: {
+        minHeight: '220px',
+        height: '220px',
+        data: { identity, un },
+      },
+    });
   }
 
   toggleAccount(enabled: boolean) {
@@ -173,9 +172,9 @@ export class ContextMenuComponent implements OnInit {
   }
 
   openMoveDialog() {
-    this.contextMenuService.close(
-      this.dialogService
-        .open<MoveEntityDialogReturnData, MoveEntityDialogData, MoveEntityDialogComponent>({
+    this.contextMenuService.close(undefined);
+    this.dialogService
+      .open<MoveEntityDialogReturnData, MoveEntityDialogData, MoveEntityDialogComponent>({
           component: MoveEntityDialogComponent,
           dialogConfig: {
             minHeight: '230px',
@@ -185,8 +184,7 @@ export class ContextMenuComponent implements OnInit {
         .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
         .subscribe((x) => {
           this.navigation.reload();
-        }),
-    );
+        });
   }
 
   openConfirmDeleteDialog() {
