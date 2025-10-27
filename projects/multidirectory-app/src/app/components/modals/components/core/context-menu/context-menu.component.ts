@@ -191,7 +191,7 @@ export class ContextMenuComponent implements OnInit {
 
   openConfirmDeleteDialog() {
     const toDeleteDNs = this.entries.map((x) => x.id);
-    this.contextMenuService.close(
+    this.contextMenuService.close(undefined);
       this.dialogService
         .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>(
           {
@@ -221,8 +221,7 @@ export class ContextMenuComponent implements OnInit {
         .subscribe((result) => {
           this.ldapTreeview.invalidate(toDeleteDNs);
           this.navigation.reload();
-        }),
-    );
+        });
   }
 
   isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
