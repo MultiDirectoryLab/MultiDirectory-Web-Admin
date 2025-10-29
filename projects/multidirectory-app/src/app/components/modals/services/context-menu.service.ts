@@ -6,7 +6,7 @@ import {
   ContextMenuData,
   ContextMenuReturnData,
 } from '../interfaces/context-menu-dialog.interface';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { ContextMenuComponent } from '../components/core/context-menu/context-menu.component';
 
 @Injectable({
@@ -74,7 +74,8 @@ export class ContextMenuService {
 
     this.clickOutsideSubscription = this.contextMenuRef?.outsidePointerEvents.subscribe((data) => {
       if (data.type !== 'auxclick' && !isFirst) {
-        this.close(this.contextMenuRef?.config.data);
+        const resultData = this.contextMenuRef?.config.data ? of(this.contextMenuRef?.config.data) : null;
+        this.close(resultData);
         isFirst = true;
       }
       isFirst = false;

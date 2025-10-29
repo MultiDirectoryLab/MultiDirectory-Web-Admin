@@ -91,7 +91,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   openMoreDialog() {
-    this.contextMenuService.close(undefined);
+    this.contextMenuService.close(null);
 
     this.dialogService
         .open<
@@ -112,7 +112,7 @@ export class ContextMenuComponent implements OnInit {
   openChangePasswordDialog() {
     const { id: identity, name: un } = this.entries[0];
 
-    this.contextMenuService.close(undefined);
+    this.contextMenuService.close(null);
 
     this.dialogService.open<
       ChangePasswordDialogReturnData,
@@ -172,7 +172,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   openMoveDialog() {
-    this.contextMenuService.close(undefined);
+    this.contextMenuService.close(null);
     this.dialogService
       .open<MoveEntityDialogReturnData, MoveEntityDialogData, MoveEntityDialogComponent>({
           component: MoveEntityDialogComponent,
@@ -189,7 +189,7 @@ export class ContextMenuComponent implements OnInit {
 
   openConfirmDeleteDialog() {
     const toDeleteDNs = this.entries.map((x) => x.id);
-    this.contextMenuService.close(undefined);
+    this.contextMenuService.close(null);
       this.dialogService
         .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>(
           {
@@ -224,7 +224,7 @@ export class ContextMenuComponent implements OnInit {
 
   isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
     const objectClasses = this.entries.map(
-      (x) => x.attributes.find((y) => y.type.toLocaleLowerCase() == 'objectclass')?.vals ?? [],
+      (x) => (x.attributes || []).find((y) => y.type.toLocaleLowerCase() == 'objectclass')?.vals ?? [],
     );
     const nodeTypes = objectClasses.map((x) => EntityInfoResolver.getNodeType(x));
     return nodeTypes.every((x) => types.includes(x));
