@@ -121,8 +121,8 @@ export class ContextMenuComponent implements OnInit {
     >({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
-        minHeight: '220px',
-        height: '220px',
+        minHeight: '240px',
+        height: '240px',
         data: { identity, un },
       },
     });

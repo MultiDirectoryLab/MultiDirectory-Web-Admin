@@ -543,6 +543,7 @@
   },
   "change-password": {
     "header": "Изменение пароля для ",
+    "old-password-label": "Старый пароль",
     "password-label": "Пароль",
     "password-repeat-label": "Повторите Пароль",
     "cancel": "Отмена",

@@ -26,6 +26,7 @@ import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -59,6 +60,7 @@ export class ChangePasswordDialogComponent {
   private toastr: ToastrService = inject(ToastrService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private contextMenuService = inject(ContextMenuService);
+  private appSettings = inject(AppSettingsService);
   private suggestDialogRef: DialogRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
   private passwordInput = viewChild.required<NgModel>('passwordInput');
   private password = signal('');
@@ -114,5 +116,9 @@ export class ChangePasswordDialogComponent {
     if (this.suggestDialogRef) {
       this.suggestDialogRef.close();
     }
+  }
+
+  protected get me(): boolean {
+    return this.appSettings.user?.dn === this.dialogData.identity;
   }
 }

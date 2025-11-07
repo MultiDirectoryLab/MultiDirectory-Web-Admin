@@ -548,6 +548,7 @@
   "change-password": {
     "header": "Change password for ",
     "password-label": "Password",
+    "old-password-label": "Old Password",
     "password-repeat-label": "Repeat Password",
     "cancel": "Cancel",
     "finish": "Finish",
