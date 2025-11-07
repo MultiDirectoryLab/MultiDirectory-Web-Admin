@@ -11,7 +11,7 @@ export class DnsForwardZone {
     return new DnsAddZoneRequest({
       zone_name: this.name,
       zone_type: this.type,
-      parameters: [
+      params: [
         new DnsZoneParam({
           name: 'forwarders',
           value: this.forwarders,

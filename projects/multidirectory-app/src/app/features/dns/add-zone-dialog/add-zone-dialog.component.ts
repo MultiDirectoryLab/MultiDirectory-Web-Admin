@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
 import { TranslocoModule } from '@jsverse/transloco';
-import { MuiButtonComponent, MuiInputComponent } from '@mflab/mui-kit';
-import { FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DnsApiService } from '@services/dns-api.service';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../components/modals/services/dialog.service';
@@ -46,10 +45,10 @@ export class AddZoneDialogComponent {
   }
 
   openIpAddressDialog() {
-    let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+    let aclparameters = this.dnsZone.params.find((x) => x.name == 'acl');
     if (!aclparameters) {
       aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
-      this.dnsZone.parameters.push(aclparameters);
+      this.dnsZone.params.push(aclparameters);
     }
 
     let address: IpOption[] = [];
@@ -71,10 +70,10 @@ export class AddZoneDialogComponent {
         if (!result) {
           return;
         }
-        let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+        let aclparameters = this.dnsZone.params.find((x) => x.name == 'acl');
         if (!aclparameters) {
           aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
-          this.dnsZone.parameters.push(aclparameters);
+          this.dnsZone.params.push(aclparameters);
         }
         this._ipString = this.fromIpOption(result.addresses);
         aclparameters.value = this._ipString.split(',').map((x) => x.trim());
@@ -87,10 +86,10 @@ export class AddZoneDialogComponent {
   }
   set ipString(x: string) {
     this._ipString = x;
-    let aclparameters = this.dnsZone.parameters.find((x) => x.name == 'acl');
+    let aclparameters = this.dnsZone.params.find((x) => x.name == 'acl');
     if (!aclparameters) {
       aclparameters = new DnsZoneParam({ name: 'acl', value: [] });
-      this.dnsZone.parameters.push(aclparameters);
+      this.dnsZone.params.push(aclparameters);
     }
     aclparameters.value = this.fromIpOption(this.toIpOption(x))
       .split(',')

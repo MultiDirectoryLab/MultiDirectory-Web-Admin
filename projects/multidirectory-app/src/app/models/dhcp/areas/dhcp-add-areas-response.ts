@@ -13,7 +13,7 @@ export class DnsAddZoneRequest {
   zone_name: string = '';
   zone_type: string = '';
   ttl = Constants.DnsTTL;
-  parameters: DnsZoneParam[] = [];
+  params: DnsZoneParam[] = [];
   constructor(obj: Partial<DnsAddZoneRequest>) {
     Object.assign(this, obj);
   }
