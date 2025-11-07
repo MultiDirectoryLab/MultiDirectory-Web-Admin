@@ -127,7 +127,7 @@ export class EntitySelectorComponent {
         map((res) => ({
           ...res,
           search_result: res.search_result.filter((entity) =>
-            this.settings().entityToMove.every((e) => !entity.object_name.includes(e.id)),
+            this.settings().entityToMove.every((e) => !entity.object_name?.includes(e.id)),
           ),
         })),
         catchError((err) => throwError(() => err)),
@@ -141,6 +141,7 @@ export class EntitySelectorComponent {
             badge_title: x.object_name,
           });
         });
+        this.addRootCatalog();
         this.selector?.showMenu();
         this.cdr.detectChanges();
       });
@@ -149,5 +150,14 @@ export class EntitySelectorComponent {
   onItemSelected(event: MultiselectModel[]) {
     this.selectedData = event;
     this.itemSelected.emit(event);
+  }
+
+  private addRootCatalog() {
+    this.availableGroups.push(new MultiselectModel({
+      id: this.selectedCatalogDn,
+      selected: false,
+      title: this.selectedCatalogDn,
+      badge_title: this.selectedCatalogDn
+    }));
   }
 }
