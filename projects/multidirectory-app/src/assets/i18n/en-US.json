@@ -744,7 +744,15 @@
   "rented-addresses": {
     "clientIpAddress": "Client IP address",
     "name": "Name",
-    "expiration": "Expiration of the lease"
+    "expiration": "Expiration of the lease",
+    "reserve-ip": "Reserve",
+    "confirm-reserve-one": "Please confirm reserving IP address",
+    "confirm-reserve-one-client": "for client",
+    "confirm-reserve-many": "Please confirm reserving IP addresses",
+    "confirm-reserve-many-client": "for clients",
+    "fail-to-reserve": "Couldn't reserve IPs. Error:",
+    "success-reserved": "IP Reservation succeeded",
+    "partial-reserved": "Couldn't reserve these IPs:"
   },
   "tabReservation": {
     "header": "New Reservation",

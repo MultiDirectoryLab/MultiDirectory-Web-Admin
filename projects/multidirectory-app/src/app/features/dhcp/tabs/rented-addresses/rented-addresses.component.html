@@ -1,6 +1,8 @@
 <md-datagrid
   #grid
   name="table-view"
+  (contextmenu)="openContextMenu($event)"
+  (selectionChanged)="onSelect($event)"
   [rows]="rows"
   [columns]="columns"
   emptyMessage="{{ 'grid.no-data' | transloco }}"
