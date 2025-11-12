@@ -52,9 +52,11 @@ export class MultidirectoryApiService {
   private httpClient = inject<ApiAdapter<MultidirectoryAdapterSettings>>('apiAdapter' as any);
 
   login(login: string, password: string): Observable<LoginResponse> {
-    const payload = new HttpParams().set('username', login).set('password', password);
+    const form = new FormData();
+    form.append('username', login);
+    form.append('password', password);
 
-    return this.httpClient.post<LoginResponse>('auth/', payload).useUrlEncodedForm().execute();
+    return this.httpClient.post<LoginResponse>('auth/', form).execute();
   }
 
   logout(): Observable<void> {
