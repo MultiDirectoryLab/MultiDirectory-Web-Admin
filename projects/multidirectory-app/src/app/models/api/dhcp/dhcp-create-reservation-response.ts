@@ -1,5 +1,3 @@
-import { DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
-
 export class DhcpCreateReservationRequest {
   subnet_id: string = '';
   ip_address: string = '';
@@ -10,6 +8,22 @@ export class DhcpCreateReservationRequest {
     Object.assign(this, obj);
   }
 }
+
+/**
+ * Ответ на запрос перевода аренды в резервацию
+ * @value null, если все аренды переведены успешно
+ * @value LeaseToReservationPartialData, если часть аренд переведена успешно, а часть - нет
+ */
+export type DhcpLeaseToReservationResponse = null | LeaseToReservationPartialData[];
+
+export class LeaseToReservationPartialData {
+  constructor(
+    public ip_address?: string,
+    public mac_address?: string,
+    public text?: string
+  ) {}
+}
+
 export class DhcpDeleteReservationRequest {
   subnet_id: string = '';
   ip_address: string = '';

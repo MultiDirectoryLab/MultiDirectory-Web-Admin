@@ -596,7 +596,7 @@
     "password-must-meet-conditions": "Пароль должен удовлевтворять требованиям сложности"
   },
   "confirmation-dialog": {
-    "prompt-header": "Требуется подтвержение",
+    "prompt-header": "Требуется подтверждение",
     "prompt-text": "Имеются несохраненные изменения. Применить?",
     "yes": "Применить",
     "no": "Не применять",
@@ -742,7 +742,15 @@
   "rented-addresses": {
     "clientIpAddress": "IP-адрес клиента",
     "name": "Имя",
-    "expiration": "Истечение срока аренды"
+    "expiration": "Истечение срока аренды",
+    "reserve-ip":  "Зарезервировать",
+    "confirm-reserve-one": "Вы действительно хотите зарезервировать адрес",
+    "confirm-reserve-one-client": "за клиентом",
+    "confirm-reserve-many": "Вы действительно хотите зарезервировать адреса",
+    "confirm-reserve-many-client": "за клиентами",
+    "fail-to-reserve": "Не удалось зарезервировать IP адреса. Ошибка:",
+    "success-reserved": "IP адреса были успешно зарезервированы",
+    "partial-reserved": "Следующие IP адреса не удалось зарезервировать:"
   },
   "tabReservation": {
     "header": "Новое резервирование",

@@ -13,11 +13,11 @@ import {
 import { TReservationList, TReservationListStore } from '@models/api/dhcp/dhcp-reservations.model';
 import {
   DhcpCreateReservationRequest,
-  DhcpDeleteReservationRequest,
+  DhcpDeleteReservationRequest, DhcpLeaseToReservationResponse,
 } from '@models/api/dhcp/dhcp-create-reservation-response';
 import { DhcpCreateLeaseRequest } from '@models/api/dhcp/dhcp-create-lease-response';
 import { TLeasesList, TLeasesListStore } from '@models/api/dhcp/dhcp-lease.model';
-import { TRentedList, TRentedListStore } from '@models/api/dhcp/dhcp-rented.model';
+import { TRentedList } from '@models/api/dhcp/dhcp-rented.model';
 
 @Injectable({
   providedIn: 'root',
@@ -143,6 +143,11 @@ export class DhcpApiService {
   getDhcpRented(subnet_id: string): Observable<TLeasesList> {
     return this.httpClient.get<TLeasesList>(`dhcp/lease/${subnet_id}`).execute();
   }
+
+  leaseToReservation(request: DhcpCreateReservationRequest[]): Observable<DhcpLeaseToReservationResponse> {
+    return this.httpClient.patch<DhcpLeaseToReservationResponse>(`dhcp/lease/to_reservation`, request).execute();
+  }
+
   setup(request: DhcpSetupRequest): Observable<boolean> {
     return this.DhcpHttpClient.post<boolean>('dhcp/service/change_state', request)
       .execute()
