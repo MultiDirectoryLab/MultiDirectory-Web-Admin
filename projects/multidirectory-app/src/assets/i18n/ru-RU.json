@@ -743,7 +743,7 @@
     "clientIpAddress": "IP-адрес клиента",
     "name": "Имя",
     "expiration": "Истечение срока аренды",
-    "reserve-ip":  "Зарезервировать",
+    "reserve-ip": "Зарезервировать",
     "confirm-reserve-one": "Вы действительно хотите зарезервировать адрес",
     "confirm-reserve-one-client": "за клиентом",
     "confirm-reserve-many": "Вы действительно хотите зарезервировать адреса",
@@ -922,7 +922,8 @@
     "name-column": "Имя",
     "description-column": "Описание",
     "level-column": "Уровень",
-    "toggle-column": "Активное состояние"
+    "toggle-column": "Активное состояние",
+    "load-events-error": "Ошибка при загрузке событий"
   },
   "syslog-connections-settings": {
     "no-data-available": "Соединений не найдено",

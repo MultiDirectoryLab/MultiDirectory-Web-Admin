@@ -914,7 +914,8 @@
     "name-column": "Name",
     "description-column": "Description",
     "level-column": "Level",
-    "toggle-column": "Active state"
+    "toggle-column": "Active state",
+    "load-events-error": "Error loading events"
   },
   "syslog-connections-settings": {
     "no-data-available": "No connections found",

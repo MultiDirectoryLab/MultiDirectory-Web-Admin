@@ -6,6 +6,8 @@
     [(limit)]="limit"
     [(offset)]="offset"
     [(total)]="total"
+    (limitChange)="onPaginationChange()"
+    (offsetChange)="onPaginationChange()"
     (doubleclick)="onRowEdit()"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
     #grid
