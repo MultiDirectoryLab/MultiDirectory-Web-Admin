@@ -14,16 +14,20 @@ import {
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
+import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
+import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
+import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
+import moment from 'moment';
 import {
   ButtonComponent,
   CheckboxComponent,
   DatagridComponent,
-  DropdownComponent,
   DropdownContainerDirective,
   DropdownMenuComponent,
-  DropdownOption,
   TextboxComponent,
 } from 'multidirectory-ui-kit';
+import { TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AttributesFilterContextMenuComponent } from '../../components/modals/components/context-menus/attributes-filter-context-menu/attributes-filter-context-menu.component';
@@ -34,12 +38,6 @@ import {
 } from '../../components/modals/interfaces/property-edit-dialog.interface';
 import { ContextMenuService } from '../../components/modals/services/context-menu.service';
 import { DialogService } from '../../components/modals/services/dialog.service';
-import { AttributeFilter } from '@models/api/entity-attribute/attribute-filter';
-import { EditPropertyRequest } from '@models/api/entity-attribute/edit-property-request';
-import { SchemaEntry } from '@models/api/entity-attribute/schema-entry';
-import { LdapPropertiesService } from '@services/ldap/ldap-properties.service';
-import { TableColumn } from 'ngx-datatable-gimefork';
-import moment from 'moment';
 
 @Component({
   selector: 'app-entity-attributes',
@@ -174,6 +172,7 @@ export class EntityAttributesComponent implements OnInit {
 
   private loadEntityAttributes() {
     const entityDn = this.accessor['$entitydn']?.[0];
+
     if (entityDn) {
       this.properties
         .loadSchema()

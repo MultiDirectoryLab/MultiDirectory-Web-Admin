@@ -367,6 +367,9 @@
     "to": "To",
     "login-shell": "Login Shell (UNIX)"
   },
+  "user-properties-password-policy": {
+    "no-policy": "Password policy is not set"
+  },
   "user-properties-tabs": {
     "general": "General",
     "attributes": "Attributes",
@@ -374,7 +377,8 @@
     "account": "Account",
     "profile": "Profile",
     "groups": "Groups",
-    "members": "Members"
+    "members": "Members",
+    "password-policy": "Password policy"
   },
   "header": {
     "folder": "Container",
