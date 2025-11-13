@@ -89,8 +89,12 @@ export class DropdownMenuComponent {
     if (this._maxHeight) {
       this.renderer.setStyle(this.menu.nativeElement, 'max-height', `${this._maxHeight}px`);
     }
-    this.checkOverflow();
-    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.checkOverflow();
+      this.cdr.detectChanges();
+    }, 0);
+
     this.setOutsideClickHandler();
   }
 
@@ -132,23 +136,32 @@ export class DropdownMenuComponent {
   }
 
   private checkOverflow() {
-    const bottomPoint = this.menu.nativeElement.offsetTop + this.menu.nativeElement.offsetHeight;
-    if (bottomPoint > window.innerHeight) {
-      this.renderer.setStyle(
-        this.menu.nativeElement,
-        'top',
-        `${window.innerHeight - this.menu.nativeElement.offsetHeight - 32}px`,
-      );
+    const menuElement = this.menu.nativeElement;
+    const rect = menuElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    if (rect.bottom > viewportHeight) {
+      const availableHeight = viewportHeight - rect.top - 16;
+
+      if (availableHeight > 0) {
+        this.renderer.setStyle(menuElement, 'max-height', `${availableHeight}px`);
+      } else {
+        const maxHeight = viewportHeight - 32;
+
+        this.renderer.setStyle(menuElement, 'top', '16px');
+        this.renderer.setStyle(menuElement, 'max-height', `${maxHeight}px`);
+      }
+    } else {
+      if (this._maxHeight && !this._maxHeight) {
+        this.renderer.removeStyle(menuElement, 'max-height');
+      }
     }
 
-    const rightPoint = this.menu.nativeElement.offsetLeft + this.menu.nativeElement.offsetWidth;
-    if (rightPoint > window.innerWidth) {
-      this.renderer.setStyle(
-        this.menu.nativeElement,
-        'left',
-        `${window.innerWidth - this.menu.nativeElement.getBoundingClientRect().width - 40}px`,
-      );
-      this.renderer.setStyle(this.menu.nativeElement, 'right', `1rem`);
+    const viewportWidth = window.innerWidth;
+
+    if (rect.right > viewportWidth) {
+      this.renderer.setStyle(menuElement, 'left', `${viewportWidth - rect.width - 40}px`);
+      this.renderer.setStyle(menuElement, 'right', `1rem`);
     }
   }
 
