@@ -1,49 +1,49 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ApiAdapter } from '@core/api/api-adapter';
-import { Observable, map } from 'rxjs';
-import { PasswordPolicy } from '@core/password-policy/password-policy';
-import { PasswordPolicyGetResponse } from '@models/api/password-policy/password-policy-get-response';
-import { PasswordPolicyPutRequest } from '@models/api/password-policy/password-policy-put-request';
-import { GetAcpPageResponse } from '@models/api/login/get-acp-response';
-import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
-import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
-import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
-import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
-import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request';
-import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
-import { GetSessionsResponse } from '@models/api/sessions/get-session-response';
-import { UserSession } from '@models/api/sessions/user-session';
 import { AccessPolicy } from '@core/access-policy/access-policy';
+import { ApiAdapter } from '@core/api/api-adapter';
+import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { CreateEntryResponse } from '@models/api/entry/create-response';
+import { DeleteManyEntryRequest } from '@models/api/entry/delete-many-request';
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { DeleteEntryResponse } from '@models/api/entry/delete-response';
 import { SearchRequest } from '@models/api/entry/search-request';
 import { SearchResponse } from '@models/api/entry/search-response';
+import { UpdateManyEntryRequest } from '@models/api/entry/update-many-request';
 import { UpdateEntryRequest } from '@models/api/entry/update-request';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { GetAcpPageResponse } from '@models/api/login/get-acp-response';
 import { LoginResponse } from '@models/api/login/login-response';
+import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { GetMultifactorResponse } from '@models/api/multifactor/get-multifactor-response';
 import { SetupMultifactorRequest } from '@models/api/multifactor/setup-multifactor-request';
+import { PasswordPolicyGetResponse } from '@models/api/password-policy/password-policy-get-response';
+import { PasswordPolicyPutRequest } from '@models/api/password-policy/password-policy-put-request';
 import { PolicyCreateRequest } from '@models/api/policy/policy-create-request';
 import { PolicyResponse } from '@models/api/policy/policy-get-response';
 import { PolicyPutRequest } from '@models/api/policy/policy-put-request';
 import { SwapPolicyRequest } from '@models/api/policy/policy-swap-request';
 import { SwapPolicyResponse } from '@models/api/policy/policy-swap-response';
-import { SetupRequest } from '@models/api/setup/setup-request';
-import { ChangePasswordRequest } from '@models/api/user/change-password-request';
-import { WhoamiResponse } from '@models/api/whoami/whoami-response';
-import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
-import { SchemaEntitiesResponse } from '@models/api/schema/entities/schema-entities-response';
-import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaAttributeTypesResponse } from '@models/api/schema/attribute-types/schema-attribute-type-response';
+import { SchemaEntitiesResponse } from '@models/api/schema/entities/schema-entities-response';
+import { SchemaEntity } from '@models/api/schema/entities/schema-entity';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
+import { SchemaObjectClassResponse } from '@models/api/schema/object-classes/schema-object-classes-response';
+import { GetSessionsResponse } from '@models/api/sessions/get-session-response';
+import { UserSession } from '@models/api/sessions/user-session';
+import { KerberosSetupRequest } from '@models/api/setup/kerberos-setup-request';
+import { KerberosTreeSetupRequest } from '@models/api/setup/kerberos-tree-setup-request';
+import { SetupRequest } from '@models/api/setup/setup-request';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
+import { ChangePasswordRequest } from '@models/api/user/change-password-request';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
+import { Observable, map } from 'rxjs';
 import { SyslogConnection } from '../models/api/syslog/syslog-connection';
-import { DeleteManyEntryRequest } from '@models/api/entry/delete-many-request';
-import { UpdateManyEntryRequest } from '@models/api/entry/update-many-request';
 
 @Injectable({
   providedIn: 'root',
@@ -195,35 +195,90 @@ export class MultidirectoryApiService {
     return this.httpClient.patch<boolean>('auth/user/password', request).execute();
   }
 
-  getPasswordPolicy(): Observable<PasswordPolicy> {
+  getPasswordPolicy(id: string): Observable<PasswordPolicy> {
     return this.httpClient
-      .get<PasswordPolicyGetResponse>('password-policy')
+      .get<PasswordPolicyGetResponse>(`password-policy/${id}`)
       .execute()
       .pipe(
-        map((policy) => {
-          const passwordPolicy = new PasswordPolicy({
-            id: 1,
-            name: policy.name,
-            enforcePasswordHistory: policy.password_history_length,
-            minimumPasswordAge: policy.minimum_password_age_days,
-            maximumPasswordAge: policy.maximum_password_age_days,
-            minimumPasswordLength: policy.minimum_password_length,
-            passwordMustMeetComplexityRequirements:
-              policy.password_must_meet_complexity_requirements,
-          });
-          return passwordPolicy;
+        map(
+          (policy) =>
+            new PasswordPolicy({
+              id: policy.id,
+              name: policy.name,
+              language: policy.language,
+              isExactMatch: policy.is_exact_match,
+              historyLength: policy.history_length,
+              minAgeDays: policy.min_age_days,
+              maxAgeDays: policy.max_age_days,
+              minLength: policy.min_length,
+              maxLength: policy.max_length,
+              minLowercaseLettersCount: policy.min_lowercase_letters_count,
+              minUppercaseLettersCount: policy.min_uppercase_letters_count,
+              minLettersCount: policy.min_letters_count,
+              minSpecialSymbolsCount: policy.min_special_symbols_count,
+              minDigitsCount: policy.min_digits_count,
+              minUniqueSymbolsCount: policy.min_unique_symbols_count,
+              maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+              maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
+              maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
+              maxFailedAttempts: policy.max_failed_attempts,
+              failedAttemptsResetSec: policy.failed_attempts_reset_sec,
+              lockoutDurationSec: policy.lockout_duration_sec,
+              failDelaySec: policy.fail_delay_sec,
+              priority: policy.priority,
+              scopes: policy.group_paths,
+            }),
+        ),
+      );
+  }
+
+  getAllPasswordPolicies(): Observable<PasswordPolicy[]> {
+    return this.httpClient
+      .get<PasswordPolicyGetResponse[]>('password-policy/all')
+      .execute()
+      .pipe(
+        map((policies) => {
+          return policies.map(
+            (policy) =>
+              new PasswordPolicy({
+                id: policy.id,
+                name: policy.name,
+                language: policy.language,
+                isExactMatch: policy.is_exact_match,
+                historyLength: policy.history_length,
+                minAgeDays: policy.min_age_days,
+                maxAgeDays: policy.max_age_days,
+                minLength: policy.min_length,
+                maxLength: policy.max_length,
+                minLowercaseLettersCount: policy.min_lowercase_letters_count,
+                minUppercaseLettersCount: policy.min_uppercase_letters_count,
+                minLettersCount: policy.min_letters_count,
+                minSpecialSymbolsCount: policy.min_special_symbols_count,
+                minDigitsCount: policy.min_digits_count,
+                minUniqueSymbolsCount: policy.min_unique_symbols_count,
+                maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+                maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
+                maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
+                maxFailedAttempts: policy.max_failed_attempts,
+                failedAttemptsResetSec: policy.failed_attempts_reset_sec,
+                lockoutDurationSec: policy.lockout_duration_sec,
+                failDelaySec: policy.fail_delay_sec,
+                priority: policy.priority,
+                scopes: policy.group_paths,
+              }),
+          );
         }),
       );
   }
 
-  savePasswordPolicy(client: PasswordPolicy): Observable<boolean> {
+  savePasswordPolicy(policy: PasswordPolicy): Observable<boolean> {
     return this.httpClient
-      .put<boolean>('password-policy', new PasswordPolicyPutRequest(client))
+      .put<boolean>(`password-policy/${policy.id}`, new PasswordPolicyPutRequest(policy))
       .execute();
   }
 
-  deletePasswordPolicy(): Observable<boolean> {
-    return this.httpClient.delete<boolean>('password-policy').execute();
+  deletePasswordPolicy(id: number): Observable<boolean> {
+    return this.httpClient.delete<boolean>(`password-policy/${id}`).execute();
   }
 
   getMultifactorACP(login: string, password: string): Observable<GetAcpPageResponse> {

@@ -6,4 +6,6 @@ export class Constants {
   static RegexGetPathFormDn = /^\w{0,2}\=[^,]+,(.*)$/gm;
 
   static DnsTTL = 604800;
+
+  static DefaultPolicyName = 'Default domain password policy';
 }
