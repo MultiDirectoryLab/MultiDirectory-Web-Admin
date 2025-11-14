@@ -1,22 +1,19 @@
-import { Component, DestroyRef, inject, OnInit, TemplateRef, viewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, TemplateRef, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { SyslogService } from '@services/syslog.service';
-import { of, switchMap, take } from 'rxjs';
-import {
-  DatagridComponent,
-  DropdownOption,
-  MultidirectoryUiKitModule,
-} from 'multidirectory-ui-kit';
-import { translate, TranslocoModule } from '@jsverse/transloco';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { DatagridComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { TableColumn } from 'ngx-datatable-gimefork';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, of, switchMap, take } from 'rxjs';
+import { SyslogEventEditComponent } from './syslog-event-edit/syslog-event-edit.component';
 import {
   SyslogEventEditDialogData,
   SyslogEventEditReturnData,
 } from './syslog-event-edit/syslog-event-edit.interface';
-import { SyslogEventEditComponent } from './syslog-event-edit/syslog-event-edit.component';
-import { DialogService } from '@components/modals/services/dialog.service';
-import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
   selector: 'app-syslog-event-settings',
@@ -25,20 +22,22 @@ import { TableColumn } from 'ngx-datatable-gimefork';
   styleUrl: './syslog-event-settings.component.scss',
 })
 export class SyslogEventSettingsComponent implements OnInit {
-  syslog = inject(SyslogService);
-  destroyRef = inject(DestroyRef);
-  dialog = inject(DialogService);
-  grid = viewChild.required<DatagridComponent>('grid');
-  selectLevelTemplate = viewChild.required<TemplateRef<any>>('selectLevelColumnTemplate');
-  toggleColumnTemplate = viewChild.required<TemplateRef<any>>('toggleColumnTemplate');
-
   syslogEvents: SyslogEvent[] = [];
   syslogEventsColumns: TableColumn[] = [];
-
   limit = 20;
   offset = 0;
   total = 0;
   levelOptions = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
+
+  private allEvents: SyslogEvent[] = [];
+
+  private grid = viewChild.required<DatagridComponent>('grid');
+  private selectLevelTemplate = viewChild.required<TemplateRef<any>>('selectLevelColumnTemplate');
+  private toggleColumnTemplate = viewChild.required<TemplateRef<any>>('toggleColumnTemplate');
+
+  private readonly syslog = inject(SyslogService);
+  private readonly toastr = inject(ToastrService);
+  private readonly dialog = inject(DialogService);
 
   ngOnInit(): void {
     this.syslogEventsColumns = [
@@ -53,24 +52,14 @@ export class SyslogEventSettingsComponent implements OnInit {
         cellTemplate: this.toggleColumnTemplate(),
       },
     ];
-    this.syslog
-      .getEvents()
-      .pipe(take(1))
-      .subscribe((events) => {
-        this.syslogEvents = events
-          .sort((a, b) => {
-            return Number(a.id) > Number(b.id) ? 1 : -1;
-          })
-          .map((x) => new SyslogEvent(x));
-        this.total = events.length;
-      });
+    this.loadEvents();
   }
 
-  onRowChange(event: SyslogEvent) {
+  protected onRowChange(event: SyslogEvent) {
     this.syslog.updateEvent(event.id, event).subscribe();
   }
 
-  onRowEdit() {
+  protected onRowEdit() {
     this.dialog
       .open<SyslogEventEditReturnData, SyslogEventEditDialogData, SyslogEventEditComponent>({
         component: SyslogEventEditComponent,
@@ -90,17 +79,40 @@ export class SyslogEventSettingsComponent implements OnInit {
         }),
       )
       .subscribe(() => {
-        this.syslog
-          .getEvents()
-          .pipe(take(1))
-          .subscribe((events) => {
-            this.syslogEvents = events
-              .sort((a, b) => {
-                return Number(a.id) > Number(b.id) ? 1 : -1;
-              })
-              .map((x) => new SyslogEvent(x));
-            this.total = events.length;
-          });
+        this.loadEvents();
+      });
+  }
+
+  protected onPaginationChange(): void {
+    const sortedEvents = this.allEvents
+      .sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
+      .map((x) => new SyslogEvent(x));
+    const start = this.offset;
+    const end = start + this.limit;
+
+    this.syslogEvents = sortedEvents.slice(start, end);
+    this.total = sortedEvents.length;
+  }
+
+  private loadEvents() {
+    this.syslog
+      .getEvents()
+      .pipe(
+        catchError((err) => {
+          this.toastr.error(translate('syslog-event-settings.load-events-error'));
+          throw err;
+        }),
+      )
+      .subscribe((events) => {
+        const sortedEvents = events
+          .sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
+          .map((x) => new SyslogEvent(x));
+        const start = this.offset;
+        const end = start + this.limit;
+
+        this.allEvents = sortedEvents;
+        this.syslogEvents = sortedEvents.slice(start, end);
+        this.total = events.length;
       });
   }
 }
