@@ -1,18 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DialogComponent } from '../../../../components/modals/components/core/dialog/dialog.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AddForwardZoneDialogData } from './add-forward-zone-dialog.interface';
 import { FormsModule, NgForm } from '@angular/forms';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DnsApiService } from '@services/dns-api.service';
 import {
   DnsCheckForwardZoneRequest,
   DnsCheckForwardZoneResponse,
 } from '@models/api/dns/dns-check-forward-zone';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck, faClose, faCross, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
@@ -27,7 +27,7 @@ import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
   templateUrl: './add-forward-zone-dialog.component.html',
   styleUrl: './add-forward-zone-dialog.component.scss',
 })
-export class AddForwardZoneDialogComponent implements OnInit {
+export class AddForwardZoneDialogComponent {
   private dialog = inject(DialogService);
   private dns = inject(DnsApiService);
   private dialogData = inject<AddForwardZoneDialogData>(DIALOG_DATA);
@@ -38,14 +38,6 @@ export class AddForwardZoneDialogComponent implements OnInit {
   selectedForwaderIndex?: number;
   forwarderResponse = new Map<number, DnsCheckForwardZoneResponse>();
   tooltip = translate('add-forward-zone-dialog.tooltip');
-  ngOnInit(): void {
-    const checkRequest = new DnsCheckForwardZoneRequest({ dns_server_ips: this.zone.forwarders });
-    this.dns.checkForwardZone(checkRequest).subscribe((response) => {
-      response.forEach((value, index) => {
-        this.forwarderResponse?.set(index, value);
-      });
-    });
-  }
 
   onDeleteForwarderClick(toDelete: string) {
     this.zone.forwarders = this.zone.forwarders.filter((forwarder) => forwarder !== toDelete);
