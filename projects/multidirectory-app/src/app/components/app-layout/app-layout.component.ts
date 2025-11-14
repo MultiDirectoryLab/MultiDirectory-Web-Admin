@@ -4,6 +4,12 @@ import { RouterOutlet } from '@angular/router';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { SearchQueries } from '@core/ldap/search';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
+import { DnsStatuses } from '@models/api/dns/dns-statuses';
+import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { AppSettingsService } from '@services/app-settings.service';
+import { DnsApiService } from '@services/dns-api.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { HotkeyModule, HotkeysCheatsheetComponent } from 'angular2-hotkeys';
 import { MdSlideshiftComponent } from 'multidirectory-ui-kit';
@@ -13,13 +19,6 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { NotificationsComponent } from './shared/notifications/notifications.component';
 import { WindowsComponent } from './shared/windows/windows.component';
-import { NavigationNode } from '@models/core/navigation/navigation-node';
-import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
-import { DhcpStatuses } from '@models/api/dhcp/dhcp-statuses';
-import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
-import { AppSettingsService } from '@services/app-settings.service';
-import { DnsApiService } from '@services/dns-api.service';
-import { DnsStatuses } from '@models/api/dns/dns-statuses';
 
 @Component({
   selector: 'app-layout',
@@ -112,10 +111,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe((status) => {
         this.app.dnsStatus = status;
       });
-
-    this.api.getPasswordPolicy().subscribe((x) => {
-      this.app.validatePasswords = x.passwordMustMeetComplexityRequirements;
-    });
   }
 
   ngOnDestroy(): void {

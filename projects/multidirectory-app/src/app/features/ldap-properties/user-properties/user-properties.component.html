@@ -19,6 +19,9 @@
       <md-tab [el]="memberOf.el">
         {{ 'user-properties-tabs.groups' | transloco }}
       </md-tab>
+      <md-tab [el]="passwordPolicy.el">
+        {{ 'user-properties-tabs.password-policy' | transloco }}
+      </md-tab>
     </div>
     <app-user-properties-general #generals="mdTab" [accessor]="accessor()" mdTab />
     <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-full" mdTab />
@@ -26,5 +29,6 @@
     <app-user-properties-profile #profile="mdTab" [accessor]="accessor()" mdTab />
     <app-user-properties-account #account="mdTab" [accessor]="accessor()" mdTab />
     <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab />
+    <app-password-policy #passwordPolicy="mdTab" [accessor]="accessor()" mdTab />
   }
 </md-tab-pane>

@@ -367,6 +367,9 @@
     "to": "To",
     "login-shell": "Login Shell (UNIX)"
   },
+  "user-properties-password-policy": {
+    "no-policy": "Password policy is not set"
+  },
   "user-properties-tabs": {
     "general": "General",
     "attributes": "Attributes",
@@ -374,7 +377,8 @@
     "account": "Account",
     "profile": "Profile",
     "groups": "Groups",
-    "members": "Members"
+    "members": "Members",
+    "password-policy": "Password policy"
   },
   "header": {
     "folder": "Container",
@@ -940,6 +944,44 @@
   "policies-navigation": {
     "password-policies": "Password Policies",
     "access-policies": "Access Policies"
+  },
+  "password-policy": {
+    "title": "Title",
+    "max-password-age": "Maximum Password Age (in days)",
+    "min-password-age": "Minimum Password Age (in days)",
+    "min-password-length": "Minimum Password Length",
+    "enforce-password-history": "Enforce Password History",
+    "password-complexity-requirements": "Password Must Meet Complexity Requirements",
+    "approve": "Approve",
+    "properties": "Properties",
+    "language": "Language",
+    "min-length": "Minimum Password Length",
+    "max-length": "Maximum Password Length",
+    "min-age-days": "Minimum Password Age (days)",
+    "max-age-days": "Maximum Password Age (days)",
+    "min-lowercase-letters-count": "Minimum Lowercase Letters Count",
+    "min-uppercase-letters-count": "Minimum Uppercase Letters Count",
+    "min-letters-count": "Minimum Letters Count",
+    "min-special-symbols-count": "Minimum Special Symbols Count",
+    "min-digits-count": "Minimum Digits Count",
+    "min-unique-symbols-count": "Minimum Unique Symbols Count",
+    "max-repeating-symbols-in-row-count": "Max Repeating Symbols In Row",
+    "max-sequential-keyboard-symbols-count": "Max Sequential Keyboard Symbols",
+    "max-sequential-alphabet-symbols-count": "Max Sequential Alphabet Symbols",
+    "isExactMatch": "Exact match only",
+    "lockout-threshold": "Lockout Threshold",
+    "lockout-duration": "Lockout Duration",
+    "max-failed-attempts": "Threshold To Lockout On Login Attempts Exceeded (seconds)",
+    "failed-attempts-reset-sec": "Failed Attempts Counter Duration (seconds)",
+    "fail-delay": "Duration in seconds of Lockout on Login Fail (seconds)",
+    "priority": "Priority",
+    "scope": "Scope of action",
+    "policy-updated-successfully": "Policy updated successfully",
+    "policy-update-error": "Failed to update policy",
+    "policy-load-error": "Failed to load policy",
+    "back": "Back",
+    "policy-get-error": "Failed to load policies",
+    "policy-update-priorities-error": "Failed to update policy priorities"
   },
   "days": "Days",
   "hours": "Hours",

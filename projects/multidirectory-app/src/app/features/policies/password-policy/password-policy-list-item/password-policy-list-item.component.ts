@@ -12,37 +12,29 @@ import { ToastrService } from 'ngx-toastr';
   imports: [NgOptimizedImage, PlaneButtonComponent],
 })
 export class PasswordPolicyListItemComponent {
-  private toastr = inject(ToastrService);
-  private cdr = inject(ChangeDetectorRef);
-  readonly index = input(0);
+  passwordPolicy = input<PasswordPolicy | null>(null);
+  index = input(0);
+  defaultPolicy = input(false);
+
   readonly deleteClick = output<PasswordPolicy>();
   readonly turnOffClick = output<PasswordPolicy>();
   readonly editClick = output<PasswordPolicy>();
 
-  _passwordPolicy: PasswordPolicy | null = null;
+  private readonly toastr = inject(ToastrService);
 
-  get passwordPolicy(): PasswordPolicy | null {
-    return this._passwordPolicy;
+  protected onDeleteClick() {
+    const policy = this.passwordPolicy();
+
+    policy
+      ? this.deleteClick.emit(policy)
+      : this.toastr.error(translate('password-policy.client-does-not-exist'));
   }
 
-  @Input() set passwordPolicy(passwordPolicy: PasswordPolicy | null) {
-    this._passwordPolicy = passwordPolicy;
-  }
+  protected onEditClick() {
+    const policy = this.passwordPolicy();
 
-  onDeleteClick() {
-    if (!this.passwordPolicy) {
-      this.toastr.error(translate('password-policy.client-does-not-exist'));
-      return;
-    }
-    this.deleteClick.emit(this.passwordPolicy);
-  }
-
-  onEditClick() {
-    if (!this.passwordPolicy) {
-      this.toastr.error(translate('password-policy.client-does-not-exist'));
-      return;
-    }
-    this.editClick.emit(this.passwordPolicy);
-    this.cdr.detectChanges();
+    policy
+      ? this.editClick.emit(policy)
+      : this.toastr.error(translate('password-policy.client-does-not-exist'));
   }
 }

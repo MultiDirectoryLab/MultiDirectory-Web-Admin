@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
+import { Constants } from '@core/constants';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AppSettingsService } from '@services/app-settings.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-password-conditions',
@@ -34,13 +34,14 @@ export class PasswordConditionsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.app.userEntry) {
-      this.api
-        .getPasswordPolicy()
-        .pipe(take(1))
-        .subscribe((x) => {
-          this.minimumPasswordLength = x.minimumPasswordLength;
-          this.passwordMustMeetComplexityRequirements = x.passwordMustMeetComplexityRequirements;
-        });
+      this.api.getAllPasswordPolicies().subscribe((policies) => {
+        const defaultPolicy = policies.find((x) => x.name === Constants.DefaultPolicyName);
+
+        if (defaultPolicy) {
+          this.minimumPasswordLength = defaultPolicy.minLength;
+          this.passwordMustMeetComplexityRequirements = true;
+        }
+      });
     }
   }
 }

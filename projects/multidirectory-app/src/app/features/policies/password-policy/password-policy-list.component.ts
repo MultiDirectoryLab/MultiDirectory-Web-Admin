@@ -1,56 +1,64 @@
-import { Component, inject, OnInit, viewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Constants } from '@core/constants';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
-import { PasswordPolicyCreateComponent } from '@features/policies/password-policy/password-policy-create/password-policy-create.component';
 import { PasswordPolicyListItemComponent } from '@features/policies/password-policy/password-policy-list-item/password-policy-list-item.component';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { ModalInjectDirective } from 'multidirectory-ui-kit';
-import { switchMap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, finalize } from 'rxjs';
+import { DialogType } from './password-policy/password-policy.component';
 
 @Component({
   selector: 'app-password-policy-list',
   templateUrl: './password-policy-list.component.html',
   styleUrls: ['./password-policy-list.component.scss'],
-  imports: [PasswordPolicyListItemComponent, PasswordPolicyCreateComponent, ModalInjectDirective],
+  imports: [PasswordPolicyListItemComponent, TranslocoModule],
 })
 export class PasswordPolicyListComponent implements OnInit {
-  private api = inject(MultidirectoryApiService);
-  private router = inject(Router);
-  private windows = inject(AppWindowsService);
+  protected policies: PasswordPolicy[] = [];
+  protected defaultPolicy: PasswordPolicy | null = null;
 
-  appCratePolicyModal = viewChild(ModalInjectDirective);
+  protected readonly dialogTypes = DialogType;
 
-  properties: any[] = [];
-
-  clients: PasswordPolicy[] = [];
+  private readonly api = inject(MultidirectoryApiService);
+  private readonly router = inject(Router);
+  private readonly windows = inject(AppWindowsService);
+  private readonly toastr = inject(ToastrService);
 
   ngOnInit(): void {
-    this.windows.showSpinner();
-    this.api.getPasswordPolicy().subscribe((x) => {
-      this.clients = [x];
-      this.windows.hideSpinner();
+    this.getAllPolicies();
+  }
+
+  protected onDeleteClick(policy: PasswordPolicy) {
+    this.api
+      .deletePasswordPolicy(policy.id)
+      .pipe(finalize(() => this.getAllPolicies()))
+      .subscribe();
+  }
+
+  protected redirectToPolicyDialog(dialogType: DialogType, id?: number) {
+    this.router.navigate(['policies/password-policies', id ?? ''], {
+      state: { dialogType, defaultPolicy: this.defaultPolicy },
     });
   }
 
-  onDeleteClick(client: PasswordPolicy) {
-    if (!client?.id) {
-      return;
-    }
-    this.clients = this.clients.filter((x) => x != client);
+  private getAllPolicies() {
+    this.windows.showSpinner();
+
     this.api
-      .deletePasswordPolicy()
-      .pipe(switchMap(() => this.api.getPasswordPolicy()))
-      .subscribe((clients) => {
-        this.clients = [clients];
+      .getAllPasswordPolicies()
+      .pipe(
+        catchError((err) => {
+          this.toastr.error(translate('password-policy.policy-get-error'));
+          throw err;
+        }),
+        finalize(() => this.windows.hideSpinner()),
+      )
+      .subscribe((policies) => {
+        this.defaultPolicy =
+          policies.find((policy) => policy.name === Constants.DefaultPolicyName) ?? null;
       });
-  }
-
-  onEditClick(toEdit: PasswordPolicy) {
-    this.router.navigate(['policies/password-policies', toEdit.id]);
-  }
-
-  onAddClick() {
-    this.appCratePolicyModal()?.open({});
   }
 }

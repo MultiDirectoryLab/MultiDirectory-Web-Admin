@@ -7,6 +7,7 @@ import { MemberOfComponent } from '../member-of/member-of.component';
 import { UserPropertiesAccountComponent } from './account/user-properties-account.component';
 import { UserPropertiesAddressComponent } from './address/user-properties-address.component';
 import { UserPropertiesGeneralComponent } from './general/user-properties-general.component';
+import { PasswordPolicyComponent } from './password-policy/password-policy.component';
 import { UserPropertiesProfileComponent } from './profile/user-properties-profile.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { UserPropertiesProfileComponent } from './profile/user-properties-profil
     UserPropertiesProfileComponent,
     UserPropertiesAccountComponent,
     MemberOfComponent,
+    PasswordPolicyComponent,
   ],
 })
 export class UserPropertiesComponent {
