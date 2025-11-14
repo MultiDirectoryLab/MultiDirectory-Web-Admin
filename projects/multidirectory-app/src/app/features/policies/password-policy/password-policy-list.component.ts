@@ -8,7 +8,6 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, finalize } from 'rxjs';
-import { DialogType } from './password-policy/password-policy.component';
 
 @Component({
   selector: 'app-password-policy-list',
@@ -20,27 +19,18 @@ export class PasswordPolicyListComponent implements OnInit {
   protected policies: PasswordPolicy[] = [];
   protected defaultPolicy: PasswordPolicy | null = null;
 
-  protected readonly dialogTypes = DialogType;
-
-  private readonly api = inject(MultidirectoryApiService);
-  private readonly router = inject(Router);
-  private readonly windows = inject(AppWindowsService);
-  private readonly toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+  private router = inject(Router);
+  private windows = inject(AppWindowsService);
+  private toastr = inject(ToastrService);
 
   ngOnInit(): void {
     this.getAllPolicies();
   }
 
-  protected onDeleteClick(policy: PasswordPolicy) {
-    this.api
-      .deletePasswordPolicy(policy.id)
-      .pipe(finalize(() => this.getAllPolicies()))
-      .subscribe();
-  }
-
-  protected redirectToPolicyDialog(dialogType: DialogType, id?: number) {
+  protected redirectToPolicyDialog(id?: number) {
     this.router.navigate(['policies/password-policies', id ?? ''], {
-      state: { dialogType, defaultPolicy: this.defaultPolicy },
+      state: { defaultPolicy: this.defaultPolicy },
     });
   }
 
