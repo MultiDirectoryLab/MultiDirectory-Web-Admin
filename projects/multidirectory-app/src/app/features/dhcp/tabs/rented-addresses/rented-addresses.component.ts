@@ -20,10 +20,7 @@ import { catchError, EMPTY, filter, switchMap } from 'rxjs';
 import { ConfirmDialogData, ConfirmDialogReturnData } from '@components/modals/interfaces/confirm-dialog.interface';
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  DhcpCreateReservationRequest,
-  DhcpLeaseToReservationResponse,
-} from '@models/api/dhcp/dhcp-create-reservation-response';
+import { DhcpLeaseToReservationResponse, DhcpReservationRequest } from '@models/api/dhcp/dhcp-create-reservation-response';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -84,8 +81,8 @@ export default class DhcpRentedAddressesComponent implements OnInit {
     this.selectedIpAddresses = addresses;
   }
 
-  private createReservationRequest(): DhcpCreateReservationRequest[] {
-    return this.selectedIpAddresses.map(x => new DhcpCreateReservationRequest({subnet_id: this.subnet.id, ip_address: x.clientIpAddress, mac_address: x.macAddress, hostname: x.name}));
+  private createReservationRequest(): DhcpReservationRequest[] {
+    return this.selectedIpAddresses.map(x => new DhcpReservationRequest({subnet_id: this.subnet.id, ip_address: x.clientIpAddress, mac_address: x.macAddress, hostname: x.name}));
   }
 
   private getReservationPromptText(data: RentedIpAddress[]): string {

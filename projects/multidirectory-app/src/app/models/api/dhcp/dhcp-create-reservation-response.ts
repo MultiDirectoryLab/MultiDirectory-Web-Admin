@@ -1,14 +1,15 @@
-export class DhcpCreateReservationRequest {
+export class DhcpReservationRequest {
   subnet_id: string = '';
   ip_address: string = '';
   mac_address: string = '';
   hostname: string = '';
 
-  constructor(obj: Partial<DhcpCreateReservationRequest>) {
+  constructor(obj: Partial<DhcpReservationRequest>) {
     Object.assign(this, obj);
   }
 }
 
+export type DhcpReservationResponse = null;
 /**
  * Ответ на запрос перевода аренды в резервацию
  * @value null, если все аренды переведены успешно

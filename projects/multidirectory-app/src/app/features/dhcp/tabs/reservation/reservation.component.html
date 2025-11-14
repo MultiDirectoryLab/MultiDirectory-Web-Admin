@@ -11,6 +11,9 @@
     <md-button (click)="add()" class="flex pl-2">
       {{ 'add' | transloco }}
     </md-button>
+    <md-button (click)="change()" [disabled]="!selectedReservation" class="flex pl-2">
+      {{ 'change' | transloco }}
+    </md-button>
   </div>
   <div>
     <md-button (click)="delete()" [disabled]="!selectedReservation">

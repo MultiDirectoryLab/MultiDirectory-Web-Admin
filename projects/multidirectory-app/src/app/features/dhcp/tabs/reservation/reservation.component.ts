@@ -1,16 +1,12 @@
 import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import {
-  DhcpDialogSetupDialogData,
-  DhcpDialogSetupReturnData,
-} from '@components/modals/interfaces/dhcp-setup-wizard-dialog.interface';
-import { DHCPSetupWizardComponent } from '@features/dhcp/dhcp-setup-wizard/dhcp-setup-wizard.component';
+import { DhcpDialogSetupReturnData } from '@components/modals/interfaces/dhcp-setup-wizard-dialog.interface';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { DhcpAddReservationComponent } from '@features/dhcp/dhcp-add-reservation/dhcp-add-reservation.component';
-import { Subnet, TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
 import { DhcpApiService } from '@services/dhcp-api.service';
-import { IReservation, TReservationList } from '@models/api/dhcp/dhcp-reservations.model';
+import { IReservation, ReservationDataWrapper, TReservationList } from '@models/api/dhcp/dhcp-reservations.model';
 import { catchError } from 'rxjs';
 
 @Component({
@@ -29,7 +25,6 @@ import { catchError } from 'rxjs';
 export default class DhcpReservationComponent implements OnInit {
   private dialogService = inject(DialogService);
   private readonly dhcp = inject(DhcpApiService);
-  private _subnet!: Subnet;
   protected rows: any[] = [];
   protected selectedReservation: IReservation | undefined;
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -67,40 +62,60 @@ export default class DhcpReservationComponent implements OnInit {
     const selectedReservationExist =
       this.selectedReservation && Object.keys(this.selectedReservation).length > 0;
     selectedReservationExist &&
-      this.dhcp
-        .deleteDhcpReservation({
-          ip_address: this.selectedReservation?.ip_address ?? '',
-          mac_address: this.selectedReservation?.mac_address ?? '',
-          subnet_id: this.subnet.id,
-        })
-        .pipe(
-          catchError((err) => {
-            throw err;
-          }),
-        )
-        .subscribe(() => {
-          this.dhcp.getReservationsList(this.subnet.id);
-        });
-  }
-  add() {
-    this.dialogService
-      .open<DhcpDialogSetupReturnData, DhcpDialogSetupDialogData, DhcpAddReservationComponent>({
-        component: DhcpAddReservationComponent,
-        dialogConfig: {
-          width: '550px',
-          data: this.subnet,
-        },
+    this.dhcp
+      .deleteDhcpReservation({
+        ip_address: this.selectedReservation?.ip_address ?? '',
+        mac_address: this.selectedReservation?.mac_address ?? '',
+        subnet_id: this.subnet.id,
       })
-      .closed.subscribe((result: any) => {
-        if (!result) {
-          return;
-        }
+      .pipe(
+        catchError((err) => {
+          throw err;
+        }),
+      )
+      .subscribe(() => {
+        this.dhcp.getReservationsList(this.subnet.id);
       });
+  }
+
+  add() {
+    const data = this.getReservationData('', '', '');
+    this.openReservationDetails(data, false);
+  }
+
+  change() {
+    const reservation = this.selectedReservation;
+
+    if (!reservation) {
+      return;
+    }
+
+    const data = this.getReservationData(reservation.ip_address, reservation.mac_address, reservation.hostname);
+    this.openReservationDetails(data, true);
   }
 
   onRowSelect(event: TReservationList) {
     this.selectedReservation = event[0];
   }
 
-  protected readonly event = event;
+  private getReservationData(ip: string, mac: string, host: string): IReservation {
+    return {
+      subnet_id: this.subnet.id,
+      ip_address: ip,
+      mac_address: mac,
+      hostname: host
+    };
+  }
+
+  private openReservationDetails(data: IReservation, reservationExists: boolean) {
+    this.dialogService
+      .open<DhcpDialogSetupReturnData, ReservationDataWrapper, DhcpAddReservationComponent>({
+        component: DhcpAddReservationComponent,
+        dialogConfig: {
+          width: '550px',
+          data: new ReservationDataWrapper(data, reservationExists)
+        }
+      })
+      .closed.subscribe();
+  }
 }

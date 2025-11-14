@@ -1,7 +1,7 @@
 <app-dialog *transloco="let t">
   <div class="app-modal-header">{{ 'tabReservation.header' | transloco }}</div>
   <div class="flex flex-col align-start justify-end gap-1">
-    <md-form [formGroup]="dhcpForm" (ngSubmit)="onSubmit($event)">
+    <md-form [formGroup]="dhcpForm" (ngSubmit)="onSubmit()">
       <div class="dns-setup-grid">
         <section class="py-2">
           <div class="py-2 grid grid-cols-4 gap-4">
@@ -37,7 +37,7 @@
             </md-button>
             <md-button
               type="submit"
-              (click)="onSubmit($event)"
+              (click)="onSubmit()"
               [disabled]="!dhcpForm.valid"
               [primary]="true"
             >
