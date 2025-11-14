@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TranslocoModule } from '@jsverse/transloco';
+import { translate, TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import {
   FormBuilder,
@@ -9,11 +9,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
-import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DhcpApiService } from '@services/dhcp-api.service';
-import { catchError } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 import { DialogService } from '@components/modals/services/dialog.service';
+import { ReservationDataWrapper } from '@models/api/dhcp/dhcp-reservations.model';
+import { ToastrService } from 'ngx-toastr';
+import { DhcpReservationRequest } from '@models/api/dhcp/dhcp-create-reservation-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dhcp-add-reservation',
@@ -34,46 +37,50 @@ export class DhcpAddReservationComponent {
   private dialogService = inject(DialogService);
   private dialogRef = inject(DialogRef);
   private readonly dhcp = inject(DhcpApiService);
-  protected dialogData: Subnet = inject(DIALOG_DATA);
+  private toastr = inject(ToastrService);
+  private fb = inject(FormBuilder);
+  protected dialogData: ReservationDataWrapper = <ReservationDataWrapper>inject(DIALOG_DATA);
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.dhcpForm = this.fb.group({
-      nameOfReservation: ['', [Validators.required]],
-      ipAddress: ['', [Validators.required]],
-      macAddress: ['', [Validators.required]],
+      nameOfReservation: [this.dialogData.reservation.hostname, [Validators.required]],
+      ipAddress: [this.dialogData.reservation.ip_address, [Validators.required]],
+      macAddress: [this.dialogData.reservation.mac_address, [Validators.required]]
     });
   }
+
   get form() {
     return this.dhcpForm?.controls;
   }
 
   // Обработка отправки формы
-  onSubmit(event: Event): void {
+  onSubmit(): void {
     // Проверка валидности формы
     if (this.dhcpForm?.invalid) {
-      alert('invalid');
+      this.toastr.error(translate('please-check-errors'));
       return;
     }
-    // @ts-ignore
-    let data: DhcpCreateSubnetRequest = {
-      subnet_id: this.dialogData.id,
+
+    const request = new DhcpReservationRequest({
+      subnet_id: this.dialogData.reservation.subnet_id,
       ip_address: this.form.ipAddress.value,
       mac_address: this.form.macAddress.value,
       hostname: this.form.nameOfReservation.value,
-    };
+    });
 
-    this.dhcp
-      .createDhcpReservations(data)
+    const apiCall = this.dialogData.exists ?
+      this.dhcp.modifyDhcpReservation(request) : this.dhcp.createDhcpReservations(request);
+
+    apiCall
       .pipe(
-        catchError((err) => {
-          throw err;
-        }),
+        catchError((err: HttpErrorResponse) => {
+          this.toastr.error(err.error?.detail || err.message);
+          return EMPTY;
+        })
       )
       .subscribe(() => {
-        this.dhcp.getReservationsList(this.dialogData.id);
+        this.dhcp.getReservationsList(this.dialogData.reservation.subnet_id);
         this.dialogService.close(this.dialogRef);
       });
   }
-
-  protected readonly event = event;
 }

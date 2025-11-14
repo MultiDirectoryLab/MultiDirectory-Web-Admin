@@ -5,19 +5,15 @@ import { DhcpStatusResponse } from '@models/api/dhcp/dhcp-status-response';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
-import { Subnet, TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
+import { TSubnetsList } from '@models/api/dhcp/dhcp-subnet.model';
 import {
   DhcpCreateSubnetRequest,
   DhcpUpdateSubnetRequest,
 } from '@models/api/dhcp/dhcp-create-subnet-response';
 import { TReservationList, TReservationListStore } from '@models/api/dhcp/dhcp-reservations.model';
-import {
-  DhcpCreateReservationRequest,
-  DhcpDeleteReservationRequest, DhcpLeaseToReservationResponse,
-} from '@models/api/dhcp/dhcp-create-reservation-response';
+import { DhcpDeleteReservationRequest, DhcpLeaseToReservationResponse, DhcpReservationRequest, DhcpReservationResponse } from '@models/api/dhcp/dhcp-create-reservation-response';
 import { DhcpCreateLeaseRequest } from '@models/api/dhcp/dhcp-create-lease-response';
 import { TLeasesList, TLeasesListStore } from '@models/api/dhcp/dhcp-lease.model';
-import { TRentedList } from '@models/api/dhcp/dhcp-rented.model';
 
 @Injectable({
   providedIn: 'root',
@@ -100,13 +96,16 @@ export class DhcpApiService {
     return this.httpClient.delete<string>(`dhcp/subnet/${id}`).execute();
   }
 
-  createDhcpReservations(
-    request: DhcpCreateReservationRequest,
-  ): Observable<DhcpCreateReservationRequest> {
+  createDhcpReservations(request: DhcpReservationRequest): Observable<DhcpReservationResponse> {
     return this.httpClient
-      .post<DhcpCreateReservationRequest>(`dhcp/reservation`, request)
+      .post<DhcpReservationResponse>(`dhcp/reservation`, request)
       .execute();
   }
+
+  modifyDhcpReservation(request: DhcpReservationRequest): Observable<DhcpReservationResponse> {
+    return this.httpClient.put<DhcpReservationResponse>(`dhcp/reservation`, request).execute();
+  }
+
   deleteDhcpReservation(
     params: DhcpDeleteReservationRequest,
   ): Observable<DhcpDeleteReservationRequest> {
@@ -129,22 +128,11 @@ export class DhcpApiService {
     return this.DhcpHttpClient.get<DhcpStatusResponse>('dhcp/status').execute();
   }
 
-  getRentedList(subnetId: string) {
-    this.getDhcpRented(subnetId).subscribe((data: TRentedList) => {
-      this.reservationsList = {
-        list: {
-          ...this.reservationsList?.['list'],
-          [subnetId]: data,
-        },
-      };
-    });
-  }
-
   getDhcpRented(subnet_id: string): Observable<TLeasesList> {
     return this.httpClient.get<TLeasesList>(`dhcp/lease/${subnet_id}`).execute();
   }
 
-  leaseToReservation(request: DhcpCreateReservationRequest[]): Observable<DhcpLeaseToReservationResponse> {
+  leaseToReservation(request: DhcpReservationRequest[]): Observable<DhcpLeaseToReservationResponse> {
     return this.httpClient.patch<DhcpLeaseToReservationResponse>(`dhcp/lease/to_reservation`, request).execute();
   }
 
