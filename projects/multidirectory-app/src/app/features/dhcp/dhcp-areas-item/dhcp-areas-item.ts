@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, effect, inject, Input, output, untracked, viewChild } from '@angular/core';
 import { MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
@@ -23,12 +23,22 @@ import { DhcpApiService } from '@services/dhcp-api.service';
     DhcpReservationComponent,
   ],
 })
-export default class DhcpAreasItem implements OnInit {
+export default class DhcpAreasItem {
   @Input() index!: string;
   @Input() subnet!: Subnet;
-  private api: any;
+  protected readonly tabs = viewChild.required<MuiTabsComponent>('tabs');
   private readonly dhcp = inject(DhcpApiService);
-  ngOnInit(): void {}
+  onSelectedTabIndexChange = output<number>();
+
+  constructor() {
+    effect(() => {
+      const tabs = untracked(() => this.tabs());
+      if (tabs) {
+        this.onSelectedTabIndexChange.emit(tabs.selectedIndex());
+      }
+    });
+  }
+
   deleteArea() {
     this.dhcp
       .deleteDhcpSubnet(this.subnet.id)

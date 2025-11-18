@@ -1,4 +1,13 @@
 <div class="flex w-full justify-end pt-10 pb-2 pr-2 p-2">
+  @if (leaseTabSelected) {
+    <md-textbox
+      class="px-2"
+      (blur)="searchLease()"
+      (keyup.enter)="searchLease()"
+      [(ngModel)]="searchQuery"
+      placeholder="{{ 'dhcp-setup-wizard.find-rented' | transloco }}"
+    />
+  }
   <md-button (click)="onAddDhcpArea()">
     {{ 'dhcp-setup-wizard.add-area' | transloco }}
   </md-button>
@@ -6,9 +15,7 @@
 <div class="flex flex-col gap-y-2 p-2 pb-4">
   @if (subnetsList.length > 0) {
     @for (subnet of subnetsList; track subnet.id; let i = $index) {
-      @if (subnet) {
-        <dhcp-areas-item class="mb-4" [index]="subnet.id" [subnet]="subnet"></dhcp-areas-item>
-      }
+      <dhcp-areas-item class="mb-4" [index]="subnet.id" (onSelectedTabIndexChange)="setSelectedTab(subnet.id, $event)" [subnet]="subnet"></dhcp-areas-item>
     }
   } @else {
     <div class="empty-list">

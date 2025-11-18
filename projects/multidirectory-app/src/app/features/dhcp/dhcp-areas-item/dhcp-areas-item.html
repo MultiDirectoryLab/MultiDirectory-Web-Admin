@@ -17,21 +17,15 @@
     </div>
   </div>
   <div>
-    <mui-tabs>
+    <mui-tabs #tabs>
       <div *muiTab="'dhcp-setup-wizard.tab-header-pool-addresses' | transloco">
-        @if(subnet) {
         <addresses-pool [subnet]="subnet"></addresses-pool>
-        }
       </div>
       <div *muiTab="'dhcp-setup-wizard.rented-addresses' | transloco">
-        @if(subnet) {
         <rented-addresses [subnet]="subnet"></rented-addresses>
-        }
       </div>
       <div *muiTab="'dhcp-setup-wizard.tab-header-reservation' | transloco">
-        @if(subnet) {
         <reservation [subnet]="subnet"></reservation>
-        }
       </div>
     </mui-tabs>
   </div>

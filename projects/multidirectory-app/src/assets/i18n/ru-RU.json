@@ -641,6 +641,7 @@
   "error-message": {
     "required": "Это поле обязательно для заполнения",
     "ip-valid": "Введите IP Адрес в правильном формате",
+    "mac-valid": "Введите MAC Адрес в правильном формате",
     "ip6-valid": "Введите IPv6 Адрес в правильном формате",
     "passwords-not-match": "Пароли не совпадают",
     "passwords-should-not-match": "Пароли не должны совпадать",
@@ -735,7 +736,8 @@
     "rented-addresses": "Арендованные адреса",
     "tab-header-reservation": "Резервирование",
     "tab-header-area-parameters": "Параметры области",
-    "add-area": "Добавить область"
+    "add-area": "Добавить область",
+    "find-rented": "Поиск по арендам"
   },
   "dhcp-areas": {
     "startPath": "Начальный IP-адрес",
