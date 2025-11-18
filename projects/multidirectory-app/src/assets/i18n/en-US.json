@@ -749,6 +749,7 @@
   },
   "rented-addresses": {
     "clientIpAddress": "Client IP address",
+    "mac": "MAC Address",
     "name": "Name",
     "expiration": "Expiration of the lease",
     "reserve-ip": "Reserve",

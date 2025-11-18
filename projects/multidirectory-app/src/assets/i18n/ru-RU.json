@@ -747,6 +747,7 @@
   },
   "rented-addresses": {
     "clientIpAddress": "IP-адрес клиента",
+    "mac": "MAC-адрес",
     "name": "Имя",
     "expiration": "Истечение срока аренды",
     "reserve-ip": "Зарезервировать",
