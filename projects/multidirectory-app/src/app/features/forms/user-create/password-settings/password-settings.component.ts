@@ -1,4 +1,3 @@
-import { DialogRef } from '@angular/cdk/dialog';
 import {
   AfterViewInit,
   Component,
@@ -20,6 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PasswordSuggestContextMenuComponent } from '../../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
 import { UserCreateRequest } from '@models/api/user-create/user-create.request';
+import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 
 @Component({
   selector: 'app-user-create-password-settings',
@@ -39,7 +39,7 @@ import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
   setup = inject(UserCreateService);
   private contextMenuService = inject(ContextMenuService);
-  private suggestDialogRef: DialogRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
   private passwordInput = viewChild.required<NgModel>('passwordInput');
   private password = signal('');
 
@@ -161,7 +161,7 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   closeSuggest(): void {
     if (this.suggestDialogRef) {
-      this.suggestDialogRef.close();
+      this.suggestDialogRef.close(null);
     }
   }
 }

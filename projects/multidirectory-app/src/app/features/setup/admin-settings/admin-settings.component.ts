@@ -20,6 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PasswordSuggestContextMenuComponent } from '../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { ContextMenuService } from '../../../components/modals/services/context-menu.service';
 import { SetupRequest } from '@models/api/setup/setup-request';
+import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 
 @Component({
   selector: 'app-admin-settings',
@@ -49,7 +50,7 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
   @Input() setupRequest!: SetupRequest;
   readonly form = viewChild.required<MdFormComponent>('form');
   private contextMenuService = inject(ContextMenuService);
-  private suggestDialogRef: DialogRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
   private passwordInput = viewChild.required<NgModel>('passwordInput');
   private password = signal('');
 
@@ -96,7 +97,7 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
 
   closeSuggest(): void {
     if (this.suggestDialogRef) {
-      this.suggestDialogRef.close();
+      this.suggestDialogRef.close(null);
     }
   }
 

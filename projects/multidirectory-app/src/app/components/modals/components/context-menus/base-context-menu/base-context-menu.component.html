@@ -1,0 +1,7 @@
+<div #dropdown class="context-menu">
+  @for (item of menuItems; track item.actionId) {
+    <div (click)="emitAction(item.actionId)" class="context-item">
+      {{ item.title }}
+    </div>
+  }
+</div>
