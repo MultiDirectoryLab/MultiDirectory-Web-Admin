@@ -1,23 +1,20 @@
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
-import { DatagridComponent } from 'multidirectory-ui-kit';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { DhcpApiService } from '@services/dhcp-api.service';
-import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
-import { DialogService } from '@components/modals/services/dialog.service';
-import { TLeasesList } from '@models/api/dhcp/dhcp-lease.model';
-import { ContextMenuService } from '@components/modals/services/context-menu.service';
-import { ContextMenuEvent } from 'ngx-datatable-gimefork';
-import { RentedIpAddress } from '@models/api/dhcp/dhcp-rented-ip.model';
-import { ToastrService } from 'ngx-toastr';
-import {
-  DhcpReservationRequest,
-  DhcpLeaseToReservationResponse,
-} from '@models/api/dhcp/dhcp-create-reservation-response';
-import { ConfirmDialogData, ConfirmDialogReturnData } from '@components/modals/interfaces/confirm-dialog.interface';
-import { catchError, EMPTY, filter, switchMap } from 'rxjs';
-import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ContextMenuItem, SetContextMenuActions } from '@models/core/context-menu/context-menu-item';
+import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
+import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogData, ConfirmDialogReturnData } from '@components/modals/interfaces/confirm-dialog.interface';
+import { ContextMenuService } from '@components/modals/services/context-menu.service';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DhcpLeaseToReservationResponse, DhcpReservationRequest } from '@models/api/dhcp/dhcp-create-reservation-response';
+import { TLeasesList } from '@models/api/dhcp/dhcp-lease.model';
+import { RentedIpAddress } from '@models/api/dhcp/dhcp-rented-ip.model';
+import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
+import {ContextMenuItem, SetContextMenuActions} from '@models/core/context-menu/context-menu-item';
+import { DhcpApiService } from '@services/dhcp-api.service';
+import { DatagridComponent } from 'multidirectory-ui-kit';
+import { ContextMenuEvent } from 'ngx-datatable-gimefork';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY, filter, switchMap } from 'rxjs';
 
 type ContextMenuActions = SetContextMenuActions<'reserveIp'>;
 
@@ -36,6 +33,7 @@ export default class DhcpRentedAddressesComponent implements OnInit {
   columns = [
     { name: translate('rented-addresses.clientIpAddress'), prop: 'clientIpAddress', flexGrow: 1 },
     { name: translate('rented-addresses.name'), prop: 'name', flexGrow: 1 },
+    { name: translate('rented-addresses.mac'), prop: 'macAddress', flexGrow: 1 },
     { name: translate('rented-addresses.expiration'), prop: 'expiration', flexGrow: 1 },
   ];
   private readonly dhcp = inject(DhcpApiService);
