@@ -645,6 +645,7 @@
   "error-message": {
     "required": "This value is requried",
     "ip-valid": "Enter a valid IP Address",
+    "mac-valid": "Enter a valid MAC Address",
     "ip6-valid": "Enter a valid IPv6 Address",
     "passwords-not-match": "Passwords do not match",
     "passwords-should-not-match": "Passwords should not match",
@@ -737,7 +738,8 @@
     "tab-header-pool-addresses": "Address pool",
     "rented-addresses": "Rented addresses",
     "tab-header-reservation": "Reservation",
-    "tab-header-area-parameters": "Area parameters"
+    "tab-header-area-parameters": "Area parameters",
+    "find-rented": "Search rented addresses"
   },
   "dhcp-areas": {
     "startPath": "Начальный IP-адрес",

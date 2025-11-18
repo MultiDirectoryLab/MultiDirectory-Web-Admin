@@ -13,7 +13,7 @@ import {
 import { TReservationList, TReservationListStore } from '@models/api/dhcp/dhcp-reservations.model';
 import { DhcpDeleteReservationRequest, DhcpLeaseToReservationResponse, DhcpReservationRequest, DhcpReservationResponse } from '@models/api/dhcp/dhcp-create-reservation-response';
 import { DhcpCreateLeaseRequest } from '@models/api/dhcp/dhcp-create-lease-response';
-import { TLeasesList, TLeasesListStore } from '@models/api/dhcp/dhcp-lease.model';
+import { ILease, TLeasesList, TLeasesListStore } from '@models/api/dhcp/dhcp-lease.model';
 
 @Injectable({
   providedIn: 'root',
@@ -154,6 +154,12 @@ export class DhcpApiService {
   createDhcpLease(request: DhcpCreateLeaseRequest): Observable<DhcpCreateLeaseRequest> {
     return this.httpClient.post<DhcpCreateLeaseRequest>(`dhcp/lease`, request).execute();
   }
+
+  searchAllDhcpLeases(searchFor: 'hostname' | 'mac_address', value: string) {
+    return this.httpClient.get<ILease>(`dhcp/lease/?${searchFor}=${value}`).execute();
+  }
+
+
   getDhcpLeases(subnetId: string): Observable<TLeasesList> {
     return this.httpClient.get<TLeasesList>(`dhcp/lease/${subnetId}`).execute();
   }
