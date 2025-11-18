@@ -36,7 +36,10 @@ export class MaxLengthValidatorDirective implements Validator {
       return null;
     }
 
-    const exceededMaxLength = this.maxLength ? value.length > this.maxLength : false;
+    // todo: убрать в рамках рефакторинга форм
+    const normalizedValue = value instanceof Array ? value[0] : value;
+
+    const exceededMaxLength = this.maxLength ? normalizedValue.length > this.maxLength : false;
 
     return exceededMaxLength ? { MaxLengthExceeded: this.maxLengthErrorMessage } : null;
   }

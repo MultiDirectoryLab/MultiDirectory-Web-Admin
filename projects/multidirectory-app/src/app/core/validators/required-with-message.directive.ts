@@ -23,12 +23,13 @@ export class RequiredWithMessageDirective extends RequiredValidator {
 
   override validate(control: AbstractControl): ValidationErrors | null {
     const appRequiredErrorLabel = this.appRequiredErrorLabel();
-    return control.value !== null && control.value !== undefined && control.value !== ''
+    const normalizedValue = control.value instanceof Array ? control.value[0] : control.value;
+    return normalizedValue !== null && normalizedValue !== undefined && normalizedValue !== ''
       ? null
       : {
-          required: appRequiredErrorLabel
-            ? appRequiredErrorLabel
-            : translate('error-message.required'),
-        };
+        required: appRequiredErrorLabel
+          ? appRequiredErrorLabel
+          : translate('error-message.required'),
+      };
   }
 }

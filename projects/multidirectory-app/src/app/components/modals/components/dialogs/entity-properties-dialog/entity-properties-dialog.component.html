@@ -5,7 +5,7 @@
   <div class="app-modal-body">
     @switch (entityType) {
       @case (EntityTypes.User) {
-        <app-user-properties class="block h-full" [accessor]="accessor"></app-user-properties>
+        <app-user-properties class="block h-full" #userProps [accessor]="accessor"></app-user-properties>
       }
       @case (EntityTypes.Group) {
         <app-group-properties class="block h-full" [accessor]="accessor" />
@@ -25,8 +25,8 @@
     <md-button (click)="save(true)" class="pr-8">{{
       'properties-modal.close' | transloco
     }}</md-button>
-    <md-button (click)="save(false)" [primary]="true"
-      >{{ 'properties-modal.approve' | transloco }}
+    <md-button (click)="save(false)" [disabled]="userProps && !userProps.generalPropertiesValid" [primary]="true"
+    >{{ 'properties-modal.approve' | transloco }}
     </md-button>
   </div>
 </app-dialog>

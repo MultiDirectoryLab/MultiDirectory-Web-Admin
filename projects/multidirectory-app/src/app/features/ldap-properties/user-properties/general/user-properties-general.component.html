@@ -9,102 +9,108 @@
 
   <hr class="my-2" />
 
-  <!-- Имя + Инициалы -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="givenName" class="col-span-1">
-      {{ 'user-properties-generals.name' | transloco }}
-    </label>
-    <md-textbox
-      id="givenName"
-      name="givenName"
-      appRequired
-      class="col-span-2"
-      [(ngModel)]="accessor.givenName"
-    ></md-textbox>
+  <md-form #form>
+    <!-- Имя + Инициалы -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="givenName" class="col-span-1">
+        {{ 'user-properties-generals.name' | transloco }}
+      </label>
+      <md-textbox
+        id="givenName"
+        name="givenName"
+        appRequired
+        [maxLength]="256"
+        class="col-span-2"
+        [(ngModel)]="accessor.givenName"
+      ></md-textbox>
 
-    <label for="initials" class="col-span-1">
-      {{ 'user-properties-generals.initials' | transloco }}
-    </label>
-    <md-textbox name="initials" class="col-span-2" [(ngModel)]="accessor.initials"></md-textbox>
-  </div>
+      <label for="initials" class="col-span-1">
+        {{ 'user-properties-generals.initials' | transloco }}
+      </label>
+      <md-textbox name="initials" class="col-span-2" [maxLength]="6"  [(ngModel)]="accessor.initials"></md-textbox>
+    </div>
 
-  <!-- Фамилия -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="surname" class="col-span-1">
-      {{ 'user-properties-generals.last-name' | transloco }}
-    </label>
-    <md-textbox name="surname" class="col-span-5" [(ngModel)]="accessor.surname"></md-textbox>
-  </div>
+    <!-- Фамилия -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="surname" class="col-span-1">
+        {{ 'user-properties-generals.last-name' | transloco }}
+      </label>
+      <md-textbox name="surname" [maxLength]="64" class="col-span-5" [(ngModel)]="accessor.surname"></md-textbox>
+    </div>
 
-  <!-- Полное имя -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="display-name" class="col-span-1">
-      {{ 'user-properties-generals.full-name' | transloco }}
-    </label>
-    <md-textbox
-      name="display-name"
-      class="col-span-5"
-      [(ngModel)]="accessor.displayName"
-    ></md-textbox>
-  </div>
+    <!-- Полное имя -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="display-name" class="col-span-1">
+        {{ 'user-properties-generals.full-name' | transloco }}
+      </label>
+      <md-textbox
+        name="display-name"
+        [maxLength]="64"
+        class="col-span-5"
+        [(ngModel)]="accessor.displayName"
+      ></md-textbox>
+    </div>
 
-  <!-- Описание -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="description" class="col-span-1">
-      {{ 'user-properties-generals.description' | transloco }}
-    </label>
-    <md-textbox
-      name="description"
-      class="col-span-5"
-      [(ngModel)]="accessor.description"
-    ></md-textbox>
-  </div>
+    <!-- Описание -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="description" class="col-span-1">
+        {{ 'user-properties-generals.description' | transloco }}
+      </label>
+      <md-textbox
+        name="description"
+        [maxLength]="1024"
+        class="col-span-5"
+        [(ngModel)]="accessor.description"
+      ></md-textbox>
+    </div>
 
-  <!-- Офис -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="office" class="col-span-1">
-      {{ 'user-properties-generals.office' | transloco }}
-    </label>
-    <md-textbox name="office" class="col-span-5" [(ngModel)]="accessor.office"></md-textbox>
-  </div>
+    <!-- Офис -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="office" class="col-span-1">
+        {{ 'user-properties-generals.office' | transloco }}
+      </label>
+      <md-textbox name="office" [maxLength]="64" class="col-span-5" [(ngModel)]="accessor.office"></md-textbox>
+    </div>
 
-  <hr class="my-2" />
+    <hr class="my-2" />
 
-  <!-- Телефон -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="phone" class="col-span-1">
-      {{ 'user-properties-generals.phone' | transloco }}
-    </label>
-    <md-textbox name="phone" class="col-span-4" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
-    <md-button
-      (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
-    >
-      {{ 'user-properties-generals.other' | transloco }}
-    </md-button>
-  </div>
+    <!-- Телефон -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="phone" class="col-span-1">
+        {{ 'user-properties-generals.phone' | transloco }}
+      </label>
+      <md-textbox name="phone" [maxLength]="64" class="col-span-4" [maxlength]="64" [(ngModel)]="accessor.telephoneNumber"></md-textbox>
+      <md-button
+        (click)="changeOtherAttributeList('user-properties-generals.phones', 'otherTelephone')"
+      >
+        {{ 'user-properties-generals.other' | transloco }}
+      </md-button>
+    </div>
 
-  <!-- Email -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="email" class="col-span-1">Email</label>
-    <md-textbox name="email" class="col-span-5" [(ngModel)]="accessor.mail"></md-textbox>
-  </div>
+    <!-- Email -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="email" class="col-span-1">Email</label>
+      <md-textbox name="email" class="col-span-5" [maxLength]="254" [(ngModel)]="accessor.mail"></md-textbox>
+    </div>
 
-  <!-- Веб-страница -->
-  <div class="grid grid-cols-6 gap-4 items-start py-2">
-    <label for="homepage" class="col-span-1">
-      {{ 'user-properties-generals.webpage' | transloco }}
-    </label>
-    <md-textbox
-      appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
-      domainErrorMessage="{{ 'setup.domain-settings.domain-format-error' | transloco }}"
-      class="col-span-4"
-      name="homepage"
-      [(ngModel)]="accessor.webpage"
-    ></md-textbox>
-    <md-button
-      (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
-    >
-      {{ 'user-properties-generals.other' | transloco }}
-    </md-button>
-  </div>
+    <!-- Веб-страница -->
+    <div class="grid grid-cols-6 gap-4 items-start py-2">
+      <label for="homepage" class="col-span-1">
+        {{ 'user-properties-generals.webpage' | transloco }}
+      </label>
+      <md-textbox
+        [maxLength]="64"
+        appDomainFormat="^(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9]\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$"
+        domainErrorMessage="{{ 'setup.domain-settings.domain-format-error' | transloco }}"
+        class="col-span-4"
+        name="homepage"
+        [(ngModel)]="accessor.webpage"
+      ></md-textbox>
+      <md-button
+        (click)="changeOtherAttributeList('user-properties-generals.webpages', 'otherWebpage')"
+      >
+        {{ 'user-properties-generals.other' | transloco }}
+      </md-button>
+    </div>
+  </md-form>
 }
