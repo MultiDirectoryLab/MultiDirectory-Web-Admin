@@ -1,10 +1,10 @@
-import { Component, inject, Input } from '@angular/core';
-import { AbstractControl, FormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Component, inject, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { AvatarUploadComponent } from '@features/ldap-properties/avatar-upload/avatar-upload.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { ButtonComponent, TextboxComponent, MdFormComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { AttributeListDialogComponent } from '../../../../components/modals/components/dialogs/attribute-list-dialog/attribute-list-dialog.component';
 import {
@@ -14,6 +14,7 @@ import {
 import { DialogService } from '../../../../components/modals/services/dialog.service';
 import { ValidationFunctions } from '@core/validators/validator-functions';
 import { DomainFormatValidatorDirective } from '@core/validators/domainformat.directive';
+import { MaxLengthValidatorDirective } from '@core/validators/max-length.directive';
 
 @Component({
   selector: 'app-user-properties-general',
@@ -22,17 +23,24 @@ import { DomainFormatValidatorDirective } from '@core/validators/domainformat.di
   imports: [
     AvatarUploadComponent,
     TextboxComponent,
+    MdFormComponent,
     FormsModule,
     RequiredWithMessageDirective,
     TranslocoPipe,
     ButtonComponent,
     DomainFormatValidatorDirective,
+    MaxLengthValidatorDirective,
   ],
 })
-export class UserPropertiesGeneralComponent {
+export class UserPropertiesGeneralComponent implements AfterViewInit {
   private dialogService: DialogService = inject(DialogService);
   @Input() accessor: LdapAttributes | null = null;
+  @ViewChild('form') userPropsForm!: MdFormComponent;
   toastr = inject(ToastrService);
+
+  ngAfterViewInit() {
+    this.userPropsForm?.validate();
+  }
 
   changeOtherAttributeList(title: string, field: string) {
     if (!this.accessor) {
@@ -65,5 +73,12 @@ export class UserPropertiesGeneralComponent {
         }
         this.accessor![field] = result;
       });
+  }
+
+  get formValid(): boolean {
+    if (!this.userPropsForm) {
+      return true;
+    }
+    return this.userPropsForm.valid;
   }
 }

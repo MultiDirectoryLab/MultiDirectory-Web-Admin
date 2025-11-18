@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
+import {ChangeDetectorRef, Component, inject, input, ViewChild} from '@angular/core';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { TabComponent, TabDirective, TabPaneComponent } from 'multidirectory-ui-kit';
@@ -25,10 +25,11 @@ import { UserPropertiesProfileComponent } from './profile/user-properties-profil
     UserPropertiesProfileComponent,
     UserPropertiesAccountComponent,
     MemberOfComponent,
-    PasswordPolicyComponent,
+    PasswordPolicyComponent
   ],
 })
 export class UserPropertiesComponent {
+  @ViewChild('ug') generalProperties!: UserPropertiesGeneralComponent;
   private cdr = inject(ChangeDetectorRef);
   readonly accessor = input.required<LdapAttributes>();
   properties?: any[];
@@ -39,5 +40,12 @@ export class UserPropertiesComponent {
 
   onTabChanged() {
     this.cdr.detectChanges();
+  }
+
+  get generalPropertiesValid(): boolean {
+    if (!this.generalProperties) {
+      return true;
+    }
+    return this.generalProperties.formValid;
   }
 }

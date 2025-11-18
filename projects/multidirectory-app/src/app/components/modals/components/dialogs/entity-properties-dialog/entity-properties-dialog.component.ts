@@ -50,6 +50,7 @@ import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 export class EntityPropertiesDialogComponent implements OnInit {
   dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
 
+  @ViewChild('userProps') userProps!: UserPropertiesComponent;
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
   EntityTypes = LdapEntryType;

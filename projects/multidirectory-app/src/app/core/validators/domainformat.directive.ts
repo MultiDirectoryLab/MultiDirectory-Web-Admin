@@ -25,6 +25,9 @@ export class DomainFormatValidatorDirective implements Validator {
   patternValidator = new PatternValidator();
 
   validate(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null;
+    }
     const result = new RegExp(this.domainPattern()).test(control.value);
     return result ? null : { DomainFormat: this.domainErrorMessage() };
   }
