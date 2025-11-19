@@ -144,6 +144,10 @@ export class AppSettingsService {
     return this._headerTitle.value;
   }
 
+  me(userDn: string): boolean {
+    return this.user?.dn?.toLowerCase() === userDn.toLowerCase();
+  }
+
   logout() {
     this.user = new WhoamiResponse({});
     return this.api.logout();

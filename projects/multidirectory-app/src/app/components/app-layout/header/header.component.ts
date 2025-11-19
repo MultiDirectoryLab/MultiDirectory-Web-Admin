@@ -156,11 +156,14 @@ export class HeaderComponent {
   }
 
   onChangePasswordClick() {
-    if (!this.app.userEntry) {
+    const user = this.app.userEntry;
+
+    if (!user) {
       return;
     }
 
-    const { id: identity, name: un } = this.app.userEntry;
+    const me = this.app.me(user.id);
+    const height = me ? '250px' : '220px';
 
     this.dialogService.open<
       ChangePasswordDialogReturnData,
@@ -169,9 +172,9 @@ export class HeaderComponent {
     >({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
-        minHeight: '220px',
-        height: '220px',
-        data: { identity, un },
+        minHeight: height,
+        height: height,
+        data: { un: user.name, identity: user.id, me: me },
       },
     });
   }
