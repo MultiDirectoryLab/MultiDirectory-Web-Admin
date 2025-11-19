@@ -998,8 +998,13 @@
     "all-domain": "Весь домен"
   },
   "passwords-upload": {
+    "clear": "Очистить",
     "description": "Пожалуйста, выберите файл формата .txt, содержащий запрещенные пароли, разделенные переносом строки",
-    "upload-button": "Загрузить файл"
+    "upload-button": "Загрузить файл",
+    "forbidden-passwords-uploaded-successfully": "Запрещенные пароли успешно загружены",
+    "forbidden-passwords-upload-error": "Не удалось загрузить запрещенные пароли",
+    "forbidden-passwords-file-uploaded-successfully": "Файл запрещенных паролей успешно загружен",
+    "forbidden-passwords-file-upload-error": "Не удалось загрузить файл запрещенных паролей"
   },
   "days": "Дни",
   "hours": "Часы",

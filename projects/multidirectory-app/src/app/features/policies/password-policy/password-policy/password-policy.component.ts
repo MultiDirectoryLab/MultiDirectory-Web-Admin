@@ -1,15 +1,6 @@
-import {
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-  viewChild,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, viewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Constants } from '@core/constants';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { MaxValueValidatorDirective } from '@core/validators/max-value.directive';
 import { MinValueValidatorDirective } from '@core/validators/min-value.directive';
@@ -35,19 +26,14 @@ import { PasswordsUploadComponent } from './passwords-upload/passwords-upload.co
     PasswordsUploadComponent,
   ],
   templateUrl: './password-policy.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordPolicyComponent implements OnInit {
   private readonly form = viewChild.required<MdFormComponent>('form');
   protected forbiddenPasswords?: File;
   protected passwordPolicy: WritableSignal<PasswordPolicy> = signal(new PasswordPolicy());
-  protected languageOptions: DropdownOption[] = ['Latin', 'Cyrillic'].map(
-    (x) => new DropdownOption({ title: x, value: x }),
-  );
+  protected languageOptions: DropdownOption[] = ['Latin', 'Cyrillic'].map((x) => new DropdownOption({ title: x, value: x }));
   protected scopeOptions: DropdownOption[] = [];
-
-  protected readonly isDefaultPolicy = computed(
-    () => this.passwordPolicy().name === Constants.DefaultPolicyName,
-  );
 
   private windows = inject(AppWindowsService);
   private api = inject(MultidirectoryApiService);
@@ -66,6 +52,8 @@ export class PasswordPolicyComponent implements OnInit {
     if (this.form().valid) {
       this.windows.showSpinner();
 
+      this.loadForbiddenPasswords();
+
       this.api
         .savePasswordPolicy(this.passwordPolicy())
         .pipe(
@@ -73,21 +61,11 @@ export class PasswordPolicyComponent implements OnInit {
             this.windows.hideSpinner();
             this.router.navigate(['policies/password-policies']);
           }),
-          catchError((err) => {
-            this.windows.hideSpinner();
-            this.toastr.error(translate('password-policy.policy-update-error'));
-            throw err;
-          }),
         )
-        .subscribe(() =>
-          this.toastr.success(translate('password-policy.policy-updated-successfully')),
-        );
-    }
-  }
-
-  protected onPasswordsSubmit() {
-    if (this.forbiddenPasswords) {
-      this.api.uploadForbiddenPasswords(this.forbiddenPasswords).subscribe();
+        .subscribe({
+          next: () => this.toastr.success(translate('password-policy.policy-updated-successfully')),
+          error: () => this.toastr.error(translate('password-policy.policy-update-error')),
+        });
     }
   }
 
@@ -108,6 +86,15 @@ export class PasswordPolicyComponent implements OnInit {
         this.passwordPolicy.set(policy);
         this.scopeOptions = policy.scopes.map((x) => new DropdownOption({ title: x, value: x }));
       });
+  }
+
+  private loadForbiddenPasswords() {
+    if (this.forbiddenPasswords) {
+      this.api.uploadForbiddenPasswords(this.forbiddenPasswords).subscribe({
+        next: () => this.toastr.success(translate('passwords-upload.forbidden-passwords-uploaded-successfully')),
+        error: () => this.toastr.error(translate('passwords-upload.forbidden-passwords-upload-error')),
+      });
+    }
   }
 
   private stopSubmitEvent(event: SubmitEvent) {

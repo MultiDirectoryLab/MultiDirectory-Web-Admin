@@ -978,8 +978,13 @@
     "policy-update-priorities-error": "Failed to update policy priorities"
   },
   "passwords-upload": {
-    "description": "Пожалуйста, выберите файл формата .txt, содержащий запрещенные пароли, разделенные переносом строки",
-    "upload-button": "Загрузить файл"
+    "clear": "Clear",
+    "description": "Please select a .txt file containing forbidden passwords, separated by line breaks",
+    "upload-button": "Upload file",
+    "forbidden-passwords-uploaded-successfully": "Forbidden passwords uploaded successfully",
+    "forbidden-passwords-upload-error": "Failed to upload forbidden passwords",
+    "forbidden-passwords-file-uploaded-successfully": "Forbidden passwords file uploaded successfully",
+    "forbidden-passwords-file-upload-error": "Failed to upload forbidden passwords file"
   },
   "days": "Days",
   "hours": "Hours",
