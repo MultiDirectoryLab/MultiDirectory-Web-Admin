@@ -205,12 +205,26 @@ export class MultidirectoryApiService {
             new PasswordPolicy({
               id: policy.id,
               name: policy.name,
+              language: policy.language,
+              isExactMatch: policy.is_exact_match,
               historyLength: policy.history_length,
-              maxAgeDays: policy.max_age_days,
               minAgeDays: policy.min_age_days,
+              maxAgeDays: policy.max_age_days,
               minLength: policy.min_length,
-              passwordMustMeetComplexityRequirements:
-                policy.password_must_meet_complexity_requirements,
+              maxLength: policy.max_length,
+              minLowercaseLettersCount: policy.min_lowercase_letters_count,
+              minUppercaseLettersCount: policy.min_uppercase_letters_count,
+              minLettersCount: policy.min_letters_count,
+              minSpecialSymbolsCount: policy.min_special_symbols_count,
+              minDigitsCount: policy.min_digits_count,
+              minUniqueSymbolsCount: policy.min_unique_symbols_count,
+              maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+              maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
+              maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
+              maxFailedAttempts: policy.max_failed_attempts,
+              failedAttemptsResetSec: policy.failed_attempts_reset_sec,
+              lockoutDurationSec: policy.lockout_duration_sec,
+              failDelaySec: policy.fail_delay_sec,
               priority: policy.priority,
               scopes: policy.group_paths,
             }),
@@ -229,12 +243,26 @@ export class MultidirectoryApiService {
               new PasswordPolicy({
                 id: policy.id,
                 name: policy.name,
+                language: policy.language,
+                isExactMatch: policy.is_exact_match,
                 historyLength: policy.history_length,
-                maxAgeDays: policy.max_age_days,
                 minAgeDays: policy.min_age_days,
+                maxAgeDays: policy.max_age_days,
                 minLength: policy.min_length,
-                passwordMustMeetComplexityRequirements:
-                  policy.password_must_meet_complexity_requirements,
+                maxLength: policy.max_length,
+                minLowercaseLettersCount: policy.min_lowercase_letters_count,
+                minUppercaseLettersCount: policy.min_uppercase_letters_count,
+                minLettersCount: policy.min_letters_count,
+                minSpecialSymbolsCount: policy.min_special_symbols_count,
+                minDigitsCount: policy.min_digits_count,
+                minUniqueSymbolsCount: policy.min_unique_symbols_count,
+                maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+                maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
+                maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
+                maxFailedAttempts: policy.max_failed_attempts,
+                failedAttemptsResetSec: policy.failed_attempts_reset_sec,
+                lockoutDurationSec: policy.lockout_duration_sec,
+                failDelaySec: policy.fail_delay_sec,
                 priority: policy.priority,
                 scopes: policy.group_paths,
               }),
@@ -253,12 +281,26 @@ export class MultidirectoryApiService {
             new PasswordPolicy({
               id: policy.id,
               name: policy.name,
+              language: policy.language,
+              isExactMatch: policy.is_exact_match,
               historyLength: policy.history_length,
-              maxAgeDays: policy.max_age_days,
               minAgeDays: policy.min_age_days,
+              maxAgeDays: policy.max_age_days,
               minLength: policy.min_length,
-              passwordMustMeetComplexityRequirements:
-                policy.password_must_meet_complexity_requirements,
+              maxLength: policy.max_length,
+              minLowercaseLettersCount: policy.min_lowercase_letters_count,
+              minUppercaseLettersCount: policy.min_uppercase_letters_count,
+              minLettersCount: policy.min_letters_count,
+              minSpecialSymbolsCount: policy.min_special_symbols_count,
+              minDigitsCount: policy.min_digits_count,
+              minUniqueSymbolsCount: policy.min_unique_symbols_count,
+              maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+              maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
+              maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
+              maxFailedAttempts: policy.max_failed_attempts,
+              failedAttemptsResetSec: policy.failed_attempts_reset_sec,
+              lockoutDurationSec: policy.lockout_duration_sec,
+              failDelaySec: policy.fail_delay_sec,
               priority: policy.priority,
               scopes: policy.group_paths,
             }),
@@ -274,6 +316,13 @@ export class MultidirectoryApiService {
 
   deletePasswordPolicy(id: number): Observable<boolean> {
     return this.httpClient.delete<boolean>(`password-policy/${id}`).execute();
+  }
+
+  uploadForbiddenPasswords(file: File): Observable<boolean> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.httpClient.post<boolean>('password_ban_word/upload_txt', formData).execute();
   }
 
   getMultifactorACP(login: string, password: string): Observable<GetAcpPageResponse> {

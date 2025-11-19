@@ -20,6 +20,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { DropdownOption, MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, finalize } from 'rxjs';
+import { PasswordsUploadComponent } from './passwords-upload/passwords-upload.component';
 
 @Component({
   selector: 'app-password-policy',
@@ -31,13 +32,17 @@ import { catchError, finalize } from 'rxjs';
     MinValueValidatorDirective,
     MaxValueValidatorDirective,
     RouterLink,
+    PasswordsUploadComponent,
   ],
   templateUrl: './password-policy.component.html',
 })
 export class PasswordPolicyComponent implements OnInit {
   private readonly form = viewChild.required<MdFormComponent>('form');
-
+  protected forbiddenPasswords?: File;
   protected passwordPolicy: WritableSignal<PasswordPolicy> = signal(new PasswordPolicy());
+  protected languageOptions: DropdownOption[] = ['Latin', 'Cyrillic'].map(
+    (x) => new DropdownOption({ title: x, value: x }),
+  );
   protected scopeOptions: DropdownOption[] = [];
 
   protected readonly isDefaultPolicy = computed(
@@ -77,6 +82,12 @@ export class PasswordPolicyComponent implements OnInit {
         .subscribe(() =>
           this.toastr.success(translate('password-policy.policy-updated-successfully')),
         );
+    }
+  }
+
+  protected onPasswordsSubmit() {
+    if (this.forbiddenPasswords) {
+      this.api.uploadForbiddenPasswords(this.forbiddenPasswords).subscribe();
     }
   }
 
