@@ -57,6 +57,7 @@ export class ChangePasswordDialogComponent {
   private dialog = viewChild.required<DialogComponent>('dialog');
   changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
   un = this.dialogData.un;
+  protected me = this.dialogData.me;
   private toastr: ToastrService = inject(ToastrService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private contextMenuService = inject(ContextMenuService);

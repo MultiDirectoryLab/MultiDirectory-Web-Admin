@@ -54,6 +54,7 @@ import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { AppNavigationService } from '@services/app-navigation.service';
+import { AppSettingsService } from '@services/app-settings.service';
 
 @Component({
   selector: 'app-context-menu',
@@ -72,6 +73,7 @@ export class ContextMenuComponent implements OnInit {
   private contextMenuService: ContextMenuService = inject(ContextMenuService);
   private dialogService: DialogService = inject(DialogService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
+  private appSettings: AppSettingsService = inject(AppSettingsService);
   private ldapTreeview = inject(LdapTreeviewService);
   private navigation = inject(AppNavigationService);
   private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
@@ -110,7 +112,9 @@ export class ContextMenuComponent implements OnInit {
   }
 
   openChangePasswordDialog() {
-    const { id: identity, name: un } = this.entries[0];
+    const user = this.entries[0];
+    const me = this.appSettings.me(user.id);
+    const height = me ? '250px' : '220px';
 
     this.contextMenuService.close(null);
 
@@ -121,9 +125,9 @@ export class ContextMenuComponent implements OnInit {
     >({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
-        minHeight: '220px',
-        height: '220px',
-        data: { identity, un },
+        minHeight: height,
+        height: height,
+        data: { un: user.name, identity: user.id, me: me },
       },
     });
   }
