@@ -40,7 +40,7 @@ export class PasswordPolicyPutRequest {
     this.min_special_symbols_count = obj.minSpecialSymbolsCount;
     this.min_digits_count = obj.minDigitsCount;
     this.min_unique_symbols_count = obj.minUniqueSymbolsCount;
-    this.max_repeating_symbols_in_row_count = obj.maxRepeating_symbols_in_row_count;
+    this.max_repeating_symbols_in_row_count = obj.maxRepeatingSymbolsInRowCount;
     this.max_sequential_keyboard_symbols_count = obj.maxSequentialKeyboardSymbolsCount;
     this.max_sequential_alphabet_symbols_count = obj.maxSequentialAlphabetSymbolsCount;
     this.max_failed_attempts = obj.maxFailedAttempts;

@@ -105,9 +105,7 @@ export class MultidirectoryApiService {
     return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request).execute();
   }
   deleteMany(request: DeleteManyEntryRequest): Observable<DeleteEntryResponse> {
-    return this.httpClient
-      .post<DeleteEntryResponse>('entry/delete_many', request.selectedItems)
-      .execute();
+    return this.httpClient.post<DeleteEntryResponse>('entry/delete_many', request.selectedItems).execute();
   }
 
   getAccessPolicy(): Observable<AccessPolicy[]> {
@@ -218,7 +216,7 @@ export class MultidirectoryApiService {
               minSpecialSymbolsCount: policy.min_special_symbols_count,
               minDigitsCount: policy.min_digits_count,
               minUniqueSymbolsCount: policy.min_unique_symbols_count,
-              maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+              maxRepeatingSymbolsInRowCount: policy.max_repeating_symbols_in_row_count,
               maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
               maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
               maxFailedAttempts: policy.max_failed_attempts,
@@ -256,7 +254,7 @@ export class MultidirectoryApiService {
                 minSpecialSymbolsCount: policy.min_special_symbols_count,
                 minDigitsCount: policy.min_digits_count,
                 minUniqueSymbolsCount: policy.min_unique_symbols_count,
-                maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+                maxRepeatingSymbolsInRowCount: policy.max_repeating_symbols_in_row_count,
                 maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
                 maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
                 maxFailedAttempts: policy.max_failed_attempts,
@@ -294,7 +292,7 @@ export class MultidirectoryApiService {
               minSpecialSymbolsCount: policy.min_special_symbols_count,
               minDigitsCount: policy.min_digits_count,
               minUniqueSymbolsCount: policy.min_unique_symbols_count,
-              maxRepeating_symbols_in_row_count: policy.max_repeating_symbols_in_row_count,
+              maxRepeatingSymbolsInRowCount: policy.max_repeating_symbols_in_row_count,
               maxSequentialKeyboardSymbolsCount: policy.max_sequential_keyboard_symbols_count,
               maxSequentialAlphabetSymbolsCount: policy.max_sequential_alphabet_symbols_count,
               maxFailedAttempts: policy.max_failed_attempts,
@@ -309,9 +307,7 @@ export class MultidirectoryApiService {
   }
 
   savePasswordPolicy(policy: PasswordPolicy): Observable<boolean> {
-    return this.httpClient
-      .put<boolean>(`password-policy/${policy.id}`, new PasswordPolicyPutRequest(policy))
-      .execute();
+    return this.httpClient.put<boolean>(`password-policy/${policy.id}`, new PasswordPolicyPutRequest(policy)).execute();
   }
 
   deletePasswordPolicy(id: number): Observable<boolean> {
@@ -327,10 +323,7 @@ export class MultidirectoryApiService {
 
   getMultifactorACP(login: string, password: string): Observable<GetAcpPageResponse> {
     const payload = new HttpParams().set('username', login).set('password', password);
-    return this.httpClient
-      .post<GetAcpPageResponse>('multifactor/connect', payload)
-      .useUrlEncodedForm()
-      .execute();
+    return this.httpClient.post<GetAcpPageResponse>('multifactor/connect', payload).useUrlEncodedForm().execute();
   }
 
   updateDn(payload: ModifyDnRequest): any {
@@ -391,11 +384,7 @@ export class MultidirectoryApiService {
     return this.httpClient.get<SchemaEntity>(url).execute();
   }
 
-  getSchemaEntities(
-    pageNumber: number,
-    pageSize: number,
-    query: string,
-  ): Observable<SchemaEntitiesResponse> {
+  getSchemaEntities(pageNumber: number, pageSize: number, query: string): Observable<SchemaEntitiesResponse> {
     let url = `schema/entity_types?page_number=${pageNumber}&page_size=${pageSize}`;
     if (!!query) {
       url = url + `&query=${query}`;
@@ -403,11 +392,7 @@ export class MultidirectoryApiService {
     return this.httpClient.get<SchemaEntitiesResponse>(url).execute();
   }
 
-  getSchemaObjectClasses(
-    pageNumber: number,
-    pageSize: number,
-    query: string,
-  ): Observable<SchemaObjectClassResponse> {
+  getSchemaObjectClasses(pageNumber: number, pageSize: number, query: string): Observable<SchemaObjectClassResponse> {
     let url = `schema/object_classes?page_number=${pageNumber}&page_size=${pageSize}`;
     if (!!query) {
       url = url + `&query=${query}`;
@@ -415,11 +400,7 @@ export class MultidirectoryApiService {
     return this.httpClient.get<SchemaObjectClassResponse>(url).execute();
   }
 
-  getSchemaAttributes(
-    pageNumber: number,
-    pageSize: number,
-    query: string,
-  ): Observable<SchemaAttributeTypesResponse> {
+  getSchemaAttributes(pageNumber: number, pageSize: number, query: string): Observable<SchemaAttributeTypesResponse> {
     let url = `schema/attribute_types?page_number=${pageNumber}&page_size=${pageSize}`;
     if (!!query) {
       url = url + `&query=${query}`;
@@ -432,21 +413,15 @@ export class MultidirectoryApiService {
   }
 
   updateSchemaAttribute(attibute: SchemaAttributeType): Observable<string> {
-    return this.httpClient
-      .patch<string>(`schema/attribute_type/${attibute.name}`, attibute)
-      .execute();
+    return this.httpClient.patch<string>(`schema/attribute_type/${attibute.name}`, attibute).execute();
   }
 
   getSchemaAttribute(attributeName: string): Observable<SchemaAttributeType> {
-    return this.httpClient
-      .get<SchemaAttributeType>(`schema/attribute_type/${attributeName}`)
-      .execute();
+    return this.httpClient.get<SchemaAttributeType>(`schema/attribute_type/${attributeName}`).execute();
   }
 
   deleteSchemaAttributes(attributeNames: string[]): Observable<string> {
-    return this.httpClient
-      .post<string>(`schema/attribute_types/delete`, { attribute_types_names: attributeNames })
-      .execute();
+    return this.httpClient.post<string>(`schema/attribute_types/delete`, { attribute_types_names: attributeNames }).execute();
   }
 
   updateSchemaEntity(entity: SchemaEntity) {
@@ -458,21 +433,15 @@ export class MultidirectoryApiService {
   }
 
   updateObjectClass(objectClass: SchemaObjectClass): Observable<string> {
-    return this.httpClient
-      .patch<string>(`schema/object_class/${objectClass.name}`, objectClass)
-      .execute();
+    return this.httpClient.patch<string>(`schema/object_class/${objectClass.name}`, objectClass).execute();
   }
 
   getSchemaObjectClass(objectClassName: string): Observable<SchemaObjectClass> {
-    return this.httpClient
-      .get<SchemaObjectClass>(`schema/object_class/${objectClassName}`)
-      .execute();
+    return this.httpClient.get<SchemaObjectClass>(`schema/object_class/${objectClassName}`).execute();
   }
 
   deleteSchemaObjectClass(objectClassNames: string[]): Observable<string> {
-    return this.httpClient
-      .post<string>('schema/object_class/delete', { object_classes_names: objectClassNames })
-      .execute();
+    return this.httpClient.post<string>('schema/object_class/delete', { object_classes_names: objectClassNames }).execute();
   }
 
   getAuditPolicies(): Observable<SyslogEvent[]> {
