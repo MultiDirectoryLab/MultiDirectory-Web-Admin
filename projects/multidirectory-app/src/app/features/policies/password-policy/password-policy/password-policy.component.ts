@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, viewChild, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, viewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -26,7 +26,6 @@ import { PasswordsUploadComponent } from './passwords-upload/passwords-upload.co
     PasswordsUploadComponent,
   ],
   templateUrl: './password-policy.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordPolicyComponent implements OnInit {
   private readonly form = viewChild.required<MdFormComponent>('form');

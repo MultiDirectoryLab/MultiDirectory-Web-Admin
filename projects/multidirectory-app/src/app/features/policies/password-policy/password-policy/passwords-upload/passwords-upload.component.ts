@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, model, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, model, viewChild } from '@angular/core';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
   imports: [TranslocoModule, MultidirectoryUiKitModule],
   templateUrl: './passwords-upload.component.html',
   styleUrl: './passwords-upload.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordsUploadComponent {
   passwords = model<File | undefined>(undefined);
