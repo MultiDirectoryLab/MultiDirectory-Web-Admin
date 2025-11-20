@@ -472,16 +472,6 @@
     "clients": "Парольные политики",
     "add": "Добавить"
   },
-  "password-policy-create": {
-    "title": "Название",
-    "max-password-age": "Максимальный срок давности пароля (в днях)",
-    "min-password-age": "Минимальный срок давности пароля (в днях)",
-    "min-password-length": "Минимальная длина пароля",
-    "enforce-password-history": "Не допускать повторений N предыдущих паролей",
-    "password-complexity-requirements": "Пароль должен удовлевтворять требованиям сложности",
-    "approve": "Применить",
-    "properties": "Свойства"
-  },
   "settings-header": {
     "title": "Настройки"
   },
@@ -982,6 +972,8 @@
     "max-repeating-symbols-in-row-count": "Максимум повторяющихся символов подряд",
     "max-sequential-keyboard-symbols-count": "Максимум последовательных символов на клавиатуре",
     "max-sequential-alphabet-symbols-count": "Максимум последовательных букв алфавита",
+    "forbidden-passwords": "Запрещённые пароли",
+    "dowload-forbidden-passwords": "Скачать список запрещённых паролей",
     "isExactMatch": "Точное совпадение пароля",
     "submit": "Отправить",
     "clear": "Очистить",
@@ -995,8 +987,24 @@
     "policy-update-error": "Не удалось обновить политику",
     "policy-load-error": "Не удалось загрузить политику",
     "back": "Назад",
+    "create": "Создать",
+    "policy-create-error": "Не удалось создать политику",
+    "policy-created-successfully": "Политика успешно создана",
     "policy-get-error": "Не удалось загрузить политики",
-    "policy-update-priorities-error": "Не удалось обновить приоритеты политик"
+    "policy-update-priorities-error": "Не удалось обновить приоритеты политик",
+    "default-policy-title": "Политика по умолчанию",
+    "created-policies": "Созданные политики",
+    "no-created-policies": "Нет созданных политик",
+    "all-domain": "Весь домен"
+  },
+  "passwords-upload": {
+    "clear": "Очистить",
+    "description": "Пожалуйста, выберите файл формата .txt, содержащий запрещенные пароли, разделенные переносом строки",
+    "upload-button": "Загрузить файл",
+    "forbidden-passwords-uploaded-successfully": "Запрещенные пароли успешно загружены",
+    "forbidden-passwords-upload-error": "Не удалось загрузить запрещенные пароли",
+    "forbidden-passwords-file-uploaded-successfully": "Файл запрещенных паролей успешно загружен",
+    "forbidden-passwords-file-upload-error": "Не удалось загрузить файл запрещенных паролей"
   },
   "days": "Дни",
   "hours": "Часы",

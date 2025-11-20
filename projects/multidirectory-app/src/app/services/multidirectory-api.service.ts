@@ -318,6 +318,13 @@ export class MultidirectoryApiService {
     return this.httpClient.delete<boolean>(`password-policy/${id}`).execute();
   }
 
+  uploadForbiddenPasswords(file: File): Observable<boolean> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.httpClient.post<boolean>('password_ban_word/upload_txt', formData).execute();
+  }
+
   getMultifactorACP(login: string, password: string): Observable<GetAcpPageResponse> {
     const payload = new HttpParams().set('username', login).set('password', password);
     return this.httpClient

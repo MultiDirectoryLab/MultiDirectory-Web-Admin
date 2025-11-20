@@ -471,16 +471,6 @@
     "unable-to-create-policy": "Unable to create policy",
     "policy-id-not-found": "The policy has not ID"
   },
-  "password-policy-create": {
-    "title": "Title",
-    "max-password-age": "Maximum Password Age (in days)",
-    "min-password-age": "Minimum Password Age (in days)",
-    "min-password-length": "Minimum Password Length",
-    "enforce-password-history": "Enforce Password History",
-    "password-complexity-requirements": "Password Must Meet Complexity Requirements",
-    "approve": "Approve",
-    "properties": "Properties"
-  },
   "settings-header": {
     "title": "Settings"
   },
@@ -986,6 +976,15 @@
     "back": "Back",
     "policy-get-error": "Failed to load policies",
     "policy-update-priorities-error": "Failed to update policy priorities"
+  },
+  "passwords-upload": {
+    "clear": "Clear",
+    "description": "Please select a .txt file containing forbidden passwords, separated by line breaks",
+    "upload-button": "Upload file",
+    "forbidden-passwords-uploaded-successfully": "Forbidden passwords uploaded successfully",
+    "forbidden-passwords-upload-error": "Failed to upload forbidden passwords",
+    "forbidden-passwords-file-uploaded-successfully": "Forbidden passwords file uploaded successfully",
+    "forbidden-passwords-file-upload-error": "Failed to upload forbidden passwords file"
   },
   "days": "Days",
   "hours": "Hours",
