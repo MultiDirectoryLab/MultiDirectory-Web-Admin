@@ -11,5 +11,5 @@ import { TranslocoPipe } from '@jsverse/transloco';
 export class PasswordConditionItemComponent {
   isOk = input.required<boolean>();
   translationKey = input.required<string>();
-  translationParams = input<Record<string, any>>({});
+  translationParams = input<{ [key: string]: string | number }>({});
 }
