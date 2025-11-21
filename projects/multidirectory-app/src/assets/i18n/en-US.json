@@ -599,7 +599,8 @@
     "min-special-symbols": "Minimum special symbols: {{ count }}",
     "min-digits": "Minimum digits: {{ count }}",
     "min-unique-symbols": "Minimum unique symbols: {{ count }}",
-    "max-repeating-in-row": "Maximum repeating symbols in a row: {{ count }}"
+    "max-repeating-in-row": "Maximum repeating symbols in a row: {{ count }}",
+    "language": "Password must contain only {{ language }} characters"
   },
   "confirmation-dialog": {
     "prompt-header": "Confirmation required",

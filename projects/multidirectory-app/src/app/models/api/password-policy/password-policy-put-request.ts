@@ -1,6 +1,7 @@
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 
 export class PasswordPolicyPutRequest {
+  id: number;
   name: string;
   language: 'Cyrillic' | 'Latin' = 'Latin';
   is_exact_match = true;
@@ -18,7 +19,7 @@ export class PasswordPolicyPutRequest {
   max_repeating_symbols_in_row_count = 0;
   max_sequential_keyboard_symbols_count = 0;
   max_sequential_alphabet_symbols_count = 0;
-  max_failed_attempts = 0;
+  max_failed_attempts = 6;
   failed_attempts_reset_sec = 60;
   lockout_duration_sec = 600;
   fail_delay_sec = 5;
@@ -26,6 +27,7 @@ export class PasswordPolicyPutRequest {
   group_paths: string[] = [];
 
   constructor(obj: PasswordPolicy) {
+    this.id = obj.id;
     this.name = obj.name;
     this.language = obj.language;
     this.is_exact_match = obj.isExactMatch;

@@ -64,7 +64,8 @@ export class ValidationFunctions {
   static repeatingSymbolsInRowCount(value: string) {
     const repeatingSymbolsRegex = /(.)\1+/g;
     const matches = value.match(repeatingSymbolsRegex);
-    return matches ? matches.length : 0;
+    matches?.sort((a, b) => b.length - a.length);
+    return matches && matches.length > 0 ? matches[0].length : 0;
   }
 
   static endsWithSixDigits(value: string): boolean {
@@ -73,5 +74,15 @@ export class ValidationFunctions {
     }
     const lastSixDigitsRegex = /\d{6}$/;
     return lastSixDigitsRegex.test(value);
+  }
+
+  static hasCyrillic(value: string): boolean {
+    const cyrillicRegex = /[а-яёА-ЯЁ]/;
+    return cyrillicRegex.test(value);
+  }
+
+  static hasLatin(value: string): boolean {
+    const latinRegex = /[a-zA-Z]/;
+    return latinRegex.test(value);
   }
 }
