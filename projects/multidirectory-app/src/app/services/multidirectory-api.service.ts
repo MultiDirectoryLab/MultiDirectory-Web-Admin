@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
+import { Constants } from '@core/constants';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { CreateEntryResponse } from '@models/api/entry/create-response';
@@ -304,6 +305,12 @@ export class MultidirectoryApiService {
             }),
         ),
       );
+  }
+
+  getDefaultPasswordPolicy(): Observable<PasswordPolicy> {
+    return this.getAllPasswordPolicies().pipe(
+      map((policies) => policies.find((policy) => policy.name === Constants.DefaultPolicyName) ?? new PasswordPolicy()),
+    );
   }
 
   savePasswordPolicy(policy: PasswordPolicy): Observable<boolean> {

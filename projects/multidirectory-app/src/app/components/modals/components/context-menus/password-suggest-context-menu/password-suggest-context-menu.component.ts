@@ -1,5 +1,6 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { Component, ElementRef, inject, NgZone, OnInit, Signal, viewChild } from '@angular/core';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { take } from 'rxjs';
 
@@ -12,7 +13,7 @@ import { take } from 'rxjs';
 export class PasswordSuggestContextMenuComponent implements OnInit {
   private dropdown = viewChild.required<ElementRef<HTMLDivElement>>('dropdown');
   private ngZone = inject(NgZone);
-  dialogData = inject<{ password: Signal<string> }>(DIALOG_DATA);
+  dialogData = inject<{ password: Signal<string>; policy: PasswordPolicy }>(DIALOG_DATA);
 
   ngOnInit(): void {
     this.ngZone.onStable.pipe(take(1)).subscribe(() => {

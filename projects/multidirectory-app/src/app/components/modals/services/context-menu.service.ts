@@ -1,18 +1,12 @@
-import { inject, Injectable } from '@angular/core';
 import { Dialog, DialogConfig, DialogRef } from '@angular/cdk/dialog';
 import { Overlay } from '@angular/cdk/overlay';
-import {
-  ContextMenuConfig,
-  ContextMenuData,
-  ContextMenuReturnData,
-} from '../interfaces/context-menu-dialog.interface';
+import { inject, Injectable } from '@angular/core';
+import { BaseContextMenuComponent } from '@components/modals/components/context-menus/base-context-menu/base-context-menu.component';
+import { ContextMenuAction, ContextMenuItem } from '@models/core/context-menu/context-menu-item';
+import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 import { of, Subscription } from 'rxjs';
 import { ContextMenuComponent } from '../components/core/context-menu/context-menu.component';
-import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
-import { ContextMenuAction, ContextMenuItem } from '@models/core/context-menu/context-menu-item';
-import {
-  BaseContextMenuComponent
-} from '@components/modals/components/context-menus/base-context-menu/base-context-menu.component';
+import { ContextMenuConfig, ContextMenuData, ContextMenuReturnData } from '../interfaces/context-menu-dialog.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -33,11 +27,11 @@ export class ContextMenuService {
    * @returns Ссылка на созданный компонент.
    */
   open<R = ContextMenuReturnData, D = ContextMenuData, C = ContextMenuComponent, A = ContextMenuAction>({
-                                                                                                          x,
-                                                                                                          y,
-                                                                                                          component,
-                                                                                                          contextMenuConfig,
-                                                                                                        }: ContextMenuConfig<R, D, C>): ContextMenuRef<R, C, A> {
+    x,
+    y,
+    component,
+    contextMenuConfig,
+  }: ContextMenuConfig<R, D, C>): ContextMenuRef<R, C, A> {
     this.close('close');
 
     const config: DialogConfig<D, DialogRef<R, C>> = {
@@ -57,9 +51,7 @@ export class ContextMenuService {
       ...(contextMenuConfig ?? {}),
     };
 
-    const contextMenuRef = new ContextMenuRef<R, C, A>(
-      this.dialog.open<R, D, C>(component, config)
-    );
+    const contextMenuRef = new ContextMenuRef<R, C, A>(this.dialog.open<R, D, C>(component, config));
 
     this.contextMenuRef = contextMenuRef;
 
@@ -78,7 +70,7 @@ export class ContextMenuService {
         hasBackdrop: false,
         minWidth: 'auto',
         minHeight: 'auto',
-      }
+      },
     });
   }
 
@@ -91,9 +83,14 @@ export class ContextMenuService {
   }
 
   private initHandleOverlaySubscriptions(): void {
+    let isFirst = true;
+
     this.clickOutsideSubscription = this.contextMenuRef?.outsidePointerEvents.subscribe((event) => {
-      if (event.type !== 'auxclick') {
+      if (event.type !== 'auxclick' && !isFirst) {
         this.close(of(null));
+        isFirst = true;
+      } else {
+        isFirst = false;
       }
     });
   }

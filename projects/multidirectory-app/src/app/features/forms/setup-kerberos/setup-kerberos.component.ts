@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
@@ -10,6 +11,7 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/api/setup/setup-request';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetupService } from '@services/setup.service';
 import {
   ButtonComponent,
@@ -42,18 +44,22 @@ import { catchError, Subject } from 'rxjs';
   ],
 })
 export class SetupKerberosDialogComponent implements OnDestroy {
+  readonly form = viewChild.required<MdFormComponent>('form');
+
+  protected passwordPolicy = new PasswordPolicy();
+  protected setupRequest = new SetupRequest();
+
+  private unsubscribe = new Subject<void>();
+
   private modalInjector = inject(ModalInjectDirective);
   private toastr = inject(ToastrService);
   private app = inject(AppSettingsService);
   private download = inject(DownloadService);
   private setup = inject(SetupService);
+  private api = inject(MultidirectoryApiService);
 
-  setupRequest = new SetupRequest();
-  readonly form = viewChild.required<MdFormComponent>('form');
-  unsubscribe = new Subject<void>();
-
-  checkModel() {
-    this.form().validate(true);
+  ngOnInit() {
+    this.loadPasswordPolicy();
   }
 
   ngOnDestroy(): void {
@@ -61,7 +67,11 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     this.unsubscribe.complete();
   }
 
-  onFinish(event: MouseEvent) {
+  protected checkModel() {
+    this.form().validate(true);
+  }
+
+  protected onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.setupRequest.mail = this.app.user.mail;
@@ -86,16 +96,14 @@ export class SetupKerberosDialogComponent implements OnDestroy {
       });
   }
 
-  generatePasswords() {
+  protected generatePasswords() {
     this.setupRequest.generateKdcPasswords = true;
-    this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
-      PasswordGenerator.generatePassword();
-    this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
-      PasswordGenerator.generatePassword();
+    this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat = PasswordGenerator.generatePassword();
+    this.setupRequest.stash_password = this.setupRequest.stash_password_repeat = PasswordGenerator.generatePassword();
     this.checkModel();
   }
 
-  downloadPasswords() {
+  protected downloadPasswords() {
     this.download.downloadDict(
       {
         'KrbAdmin Password': this.setupRequest.krbadmin_password,
@@ -105,7 +113,11 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     );
   }
 
-  onClose() {
+  protected onClose() {
     this.modalInjector.close(null);
+  }
+
+  private loadPasswordPolicy() {
+    this.api.getDefaultPasswordPolicy().subscribe((policy) => (this.passwordPolicy = policy));
   }
 }

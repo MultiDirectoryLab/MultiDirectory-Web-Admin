@@ -212,7 +212,7 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 .ngx-datatable .datatable-footer .datatable-footer-inner {
   display: flex;
