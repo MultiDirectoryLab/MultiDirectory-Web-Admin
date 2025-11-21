@@ -1,13 +1,14 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { ValidationFunctions } from '@core/validators/validator-functions';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { PasswordConditionItemComponent } from './password-condition-item/password-condition-item.component';
 
 @Component({
   selector: 'app-password-conditions',
-  imports: [TranslocoPipe],
+  imports: [PasswordConditionItemComponent],
   templateUrl: './password-conditions.component.html',
   styleUrls: ['./password-conditions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordConditionsComponent {
   policy = input.required<PasswordPolicy>();
@@ -32,4 +33,5 @@ export class PasswordConditionsComponent {
   protected maxRepeatingSymbolsInRowCountOk = computed(
     () => ValidationFunctions.repeatingSymbolsInRowCount(this.currentPassword()) <= this.policy().maxRepeatingSymbolsInRowCount,
   );
+  protected notEndsWithSixDigitsOk = computed(() => !ValidationFunctions.endsWithSixDigits(this.currentPassword()));
 }

@@ -66,4 +66,12 @@ export class ValidationFunctions {
     const matches = value.match(repeatingSymbolsRegex);
     return matches ? matches.length : 0;
   }
+
+  static endsWithSixDigits(value: string): boolean {
+    if (!value || value.length < 6) {
+      return false;
+    }
+    const lastSixDigitsRegex = /\d{6}$/;
+    return lastSixDigitsRegex.test(value);
+  }
 }
