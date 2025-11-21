@@ -1,7 +1,8 @@
-import { Directive, inject, input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { translate } from '@jsverse/transloco';
-import { AppSettingsService } from '@services/app-settings.service';
+import { ValidationFunctions } from './validator-functions';
 
 @Directive({
   selector: '[appPasswordShouldBeValid]',
@@ -14,21 +15,29 @@ import { AppSettingsService } from '@services/app-settings.service';
   ],
 })
 export class PasswordValidatorDirective implements Validator {
-  private app = inject(AppSettingsService);
+  readonly passwordPolicy = input.required<PasswordPolicy>();
   readonly errorLabel = input('');
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if ((!control.touched && !control.value) || !this.app.validatePasswords) {
-      return null;
+    if (control.touched && control.value) {
+      const password = control.value;
+
+      const upperCaseCountOk = ValidationFunctions.upperCaseLettersCount(password) >= this.passwordPolicy().minUppercaseLettersCount;
+      const lowerCaseCountOk = ValidationFunctions.loverCaseLettersCount(password) >= this.passwordPolicy().minLowercaseLettersCount;
+      const numbersCountOk = ValidationFunctions.digitsCount(password) >= this.passwordPolicy().minDigitsCount;
+      const specialSymbolsCountOk = ValidationFunctions.specialSymbolsCount(password) >= this.passwordPolicy().minSpecialSymbolsCount;
+      const uniqueSymbolsCountOk = ValidationFunctions.uniqueSymbolsCount(password) >= this.passwordPolicy().minUniqueSymbolsCount;
+      const repeatingSymbolsCountOk =
+        ValidationFunctions.repeatingSymbolsInRowCount(password) >= this.passwordPolicy().maxRepeatingSymbolsInRowCount;
+
+      const passwordValid =
+        upperCaseCountOk && lowerCaseCountOk && numbersCountOk && specialSymbolsCountOk && uniqueSymbolsCountOk && repeatingSymbolsCountOk;
+
+      if (!passwordValid) {
+        return { PasswordValidator: translate('password-conditions.password-must-meet-conditions') };
+      }
     }
-    const password = control.value;
-    const hasUpperCase = /[A-ZА-Я]/.test(password);
-    const hasLowerCase = /[a-zа-я]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const endsWith6Digits = /.*\d{6,}$/.test(password);
-    if (!hasUpperCase || !hasLowerCase || !hasNumbers || endsWith6Digits) {
-      return { PasswordValidator: translate('password-conditions.password-must-meet-conditions') };
-    }
+
     return null;
   }
 }

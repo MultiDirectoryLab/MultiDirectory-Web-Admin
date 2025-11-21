@@ -592,7 +592,14 @@
     "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
     "password-complexity": "Password must contain uppercase letters, lowercase letters, special charecters and digits",
     "password-without-otp": "Password must not end with series of 6 digits in a row",
-    "password-must-meet-conditions": "Password must meet security conditions"
+    "password-must-meet-conditions": "Password must meet security conditions",
+    "length-range": "Password length must be from {{ minLength }} to {{ maxLength }} characters",
+    "min-lowercase": "Minimum lowercase letters: {{ count }}",
+    "min-uppercase": "Minimum uppercase letters: {{ count }}",
+    "min-special-symbols": "Minimum special symbols: {{ count }}",
+    "min-digits": "Minimum digits: {{ count }}",
+    "min-unique-symbols": "Minimum unique symbols: {{ count }}",
+    "max-repeating-in-row": "Maximum repeating symbols in a row: {{ count }}"
   },
   "confirmation-dialog": {
     "prompt-header": "Confirmation required",

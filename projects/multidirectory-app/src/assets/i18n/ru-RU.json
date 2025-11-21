@@ -588,7 +588,14 @@
     "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
     "password-complexity": "Пароль должен содержать заглавные и строчные буквы, а также цифры",
     "password-without-otp": "Пароль не должен завершаться 6 цифрами подряд",
-    "password-must-meet-conditions": "Пароль должен удовлевтворять требованиям сложности"
+    "password-must-meet-conditions": "Пароль должен удовлевтворять требованиям сложности",
+    "length-range": "Количество символов должно быть от {{ minLength }} до {{ maxLength }}",
+    "min-lowercase": "Минимальное количество символов в нижнем регистре: {{ count }}",
+    "min-uppercase": "Минимальное количество символов в верхнем регистре: {{ count }}",
+    "min-special-symbols": "Минимальное количество специальных символов: {{ count }}",
+    "min-digits": "Минимальное количество цифр: {{ count }}",
+    "min-unique-symbols": "Минимальное количество уникальных символов: {{ count }}",
+    "max-repeating-in-row": "Максимальное количество повторяющихся символов подряд: {{ count }}"
   },
   "confirmation-dialog": {
     "prompt-header": "Требуется подтверждение",

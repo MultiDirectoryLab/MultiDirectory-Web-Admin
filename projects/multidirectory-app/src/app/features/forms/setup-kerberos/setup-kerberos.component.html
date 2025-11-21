@@ -4,46 +4,34 @@
 <div class="kerberos-settings">
   <md-form #form>
     <div class="kerberos-grid">
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.admin-password-label' | transloco
-      }}</label>
+      <label class="textbox-label">{{ 'setup.kerberos-settings.admin-password-label' | transloco }}</label>
       <div class="flex flex-col flex-grow-1">
-        <md-textbox
-          appRequired
-          [password]="true"
-          [(ngModel)]="setupRequest.password"
-          (keyup)="checkModel()"
-        ></md-textbox>
+        <md-textbox appRequired [password]="true" [(ngModel)]="setupRequest.password" (keyup)="checkModel()"></md-textbox>
       </div>
 
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.krbadmin-password-label' | transloco
-      }}</label>
+      <label class="textbox-label">{{ 'setup.kerberos-settings.krbadmin-password-label' | transloco }}</label>
       <div class="flex flex-col flex-grow-1">
         <md-textbox
+          #krbPasswordInput="ngModel"
+          #krbSuggestContainer="PopupContainerDirective"
           appRequired
+          appPasswordShouldBeValid
+          [mdPopupContainer]="krbSuggest"
+          [passwordPolicy]="passwordPolicy"
           [password]="!this.setupRequest.generateKdcPasswords"
           [appPasswordMatch]="krbRepeatPassword"
           [appPasswordNotMatch]="stashPasswordInput"
-          appPasswordShouldBeValid
+          [openMenuOnClick]="false"
           [(ngModel)]="setupRequest.krbadmin_password"
           (keyup)="checkModel()"
-          #krbPasswordInput="ngModel"
-          [mdPopupContainer]="krbSuggest"
-          #krbSuggestContainer="PopupContainerDirective"
-          [openMenuOnClick]="false"
           (focus)="krbSuggestContainer.openMenu()"
           (blur)="krbSuggestContainer.closeMenu()"
         ></md-textbox>
         <md-popup-suggest #krbSuggest [closeOnClickOutside]="false">
-          <app-password-conditions
-            [currentPassword]="setupRequest.krbadmin_password"
-          ></app-password-conditions>
+          <app-password-conditions [currentPassword]="setupRequest.krbadmin_password" [policy]="passwordPolicy"></app-password-conditions>
         </md-popup-suggest>
       </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco
-      }}</label>
+      <label class="textbox-label">{{ 'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco }}</label>
       <div class="flex flex-col flex-grow-1">
         <md-textbox
           appRequired
@@ -54,9 +42,7 @@
           #krbRepeatPassword="ngModel"
         ></md-textbox>
       </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.stash-password-label' | transloco
-      }}</label>
+      <label class="textbox-label">{{ 'setup.kerberos-settings.stash-password-label' | transloco }}</label>
       <div class="flex flex-col flex-grow-1">
         <md-textbox
           appRequired
@@ -72,14 +58,10 @@
           (blur)="stashSuggestContainer.closeMenu()"
         ></md-textbox>
         <md-popup-suggest #suggestStash [closeOnClickOutside]="false">
-          <app-password-conditions
-            [currentPassword]="setupRequest.stash_password"
-          ></app-password-conditions>
+          <app-password-conditions [currentPassword]="setupRequest.stash_password" [policy]="passwordPolicy"></app-password-conditions>
         </md-popup-suggest>
       </div>
-      <label class="textbox-label">{{
-        'setup.kerberos-settings.stash-password-repeat-label' | transloco
-      }}</label>
+      <label class="textbox-label">{{ 'setup.kerberos-settings.stash-password-repeat-label' | transloco }}</label>
       <div class="flex flex-col flex-grow-1">
         <md-textbox
           appRequired
@@ -93,12 +75,8 @@
     </div>
   </md-form>
   <div class="flex align-center gap-1 pt-16">
-    <md-button (click)="generatePasswords()">
-      {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}</md-button
-    >
-    <md-button (click)="downloadPasswords()">{{
-      'setup.kerberos-settings.download-passwords' | transloco
-    }}</md-button>
+    <md-button (click)="generatePasswords()"> {{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}</md-button>
+    <md-button (click)="downloadPasswords()">{{ 'setup.kerberos-settings.download-passwords' | transloco }}</md-button>
   </div>
 </div>
 <div class="app-modal-footer flex align-center justify-end gap-1">

@@ -1,32 +1,23 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-  viewChild,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, viewChild, ViewChild } from '@angular/core';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { ContextMenuService } from '../../../services/context-menu.service';
 import { PasswordSuggestContextMenuComponent } from '../../context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { DialogComponent } from '../../core/dialog/dialog.component';
-import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
 
-import { FormsModule, NgModel } from '@angular/forms';
-import { catchError, EMPTY, Subject } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import {
-  ChangePasswordDialogData,
-  ChangePasswordDialogReturnData,
-} from '../../../interfaces/change-password-dialog.interface';
+import { FormsModule, NgModel } from '@angular/forms';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, EMPTY } from 'rxjs';
+import { ChangePasswordDialogData, ChangePasswordDialogReturnData } from '../../../interfaces/change-password-dialog.interface';
+import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -45,31 +36,35 @@ import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordDialogComponent {
+  private dialogData: ChangePasswordDialogData = inject(DIALOG_DATA);
   @ViewChild('form', { static: true }) form!: MdFormComponent;
 
-  unsubscribe = new Subject<boolean>();
-  repeatPassword = '';
-
-  private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<ChangePasswordDialogReturnData, ChangePasswordDialogComponent> =
-    inject(DialogRef);
-  private dialogData: ChangePasswordDialogData = inject(DIALOG_DATA);
+  private passwordInput = viewChild.required<NgModel>('passwordInput');
   private dialog = viewChild.required<DialogComponent>('dialog');
-  changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
-  un = this.dialogData.un;
+
+  protected repeatPassword = '';
+  protected un = this.dialogData.un;
   protected me = this.dialogData.me;
+  protected changeRequest = new ChangePasswordRequest({ identity: this.dialogData.identity });
+  protected passwordPolicy = new PasswordPolicy();
+  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private password = signal('');
+
+  private dialogRef: DialogRef<ChangePasswordDialogReturnData, ChangePasswordDialogComponent> = inject(DialogRef);
+  private dialogService: DialogService = inject(DialogService);
   private toastr: ToastrService = inject(ToastrService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private contextMenuService = inject(ContextMenuService);
-  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
-  private passwordInput = viewChild.required<NgModel>('passwordInput');
-  private password = signal('');
 
-  close() {
+  ngOnInit() {
+    this.loadPasswordPolicy();
+  }
+
+  protected close() {
     this.dialogService.close(this.dialogRef);
   }
 
-  finish() {
+  protected finish() {
     this.dialog().showSpinner();
     this.api
       .changePassword(this.changeRequest)
@@ -82,14 +77,13 @@ export class ChangePasswordDialogComponent {
         }),
       )
       .subscribe((x) => {
-        // this.modalControl.modal?.hideSpinner();
         this.toastr.success(translate('change-password.password-successfully-changed'));
         this.dialog().hideSpinner();
         this.dialogService.close(this.dialogRef, x);
       });
   }
 
-  checkModel() {
+  protected checkModel() {
     this.form.validate();
     this.password.set(this.passwordInput().value);
     if (this.passwordInput().valid) {
@@ -97,14 +91,14 @@ export class ChangePasswordDialogComponent {
     }
   }
 
-  openSuggest(event: FocusEvent): void {
+  protected openSuggest(event: FocusEvent): void {
     const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
     const targetRect = target.getBoundingClientRect();
 
     this.suggestDialogRef = this.contextMenuService.open({
       contextMenuConfig: {
         hasBackdrop: false,
-        data: { password: this.password },
+        data: { password: this.password, policy: this.passwordPolicy },
       },
       component: PasswordSuggestContextMenuComponent,
       y: targetRect.y,
@@ -112,9 +106,13 @@ export class ChangePasswordDialogComponent {
     });
   }
 
-  closeSuggest(): void {
+  private closeSuggest(): void {
     if (this.suggestDialogRef) {
       this.suggestDialogRef.close(null);
     }
+  }
+
+  private loadPasswordPolicy() {
+    this.api.getDefaultPasswordPolicy().subscribe((policy) => (this.passwordPolicy = policy));
   }
 }

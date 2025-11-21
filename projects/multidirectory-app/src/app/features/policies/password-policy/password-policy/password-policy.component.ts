@@ -55,14 +55,12 @@ export class PasswordPolicyComponent implements OnInit {
 
       this.api
         .savePasswordPolicy(this.passwordPolicy())
-        .pipe(
-          finalize(() => {
-            this.windows.hideSpinner();
-            this.router.navigate(['policies/password-policies']);
-          }),
-        )
+        .pipe(finalize(() => this.windows.hideSpinner()))
         .subscribe({
-          next: () => this.toastr.success(translate('password-policy.policy-updated-successfully')),
+          next: () => {
+            this.toastr.success(translate('password-policy.policy-updated-successfully'));
+            this.router.navigate(['policies/password-policies']);
+          },
           error: () => this.toastr.error(translate('password-policy.policy-update-error')),
         });
     }

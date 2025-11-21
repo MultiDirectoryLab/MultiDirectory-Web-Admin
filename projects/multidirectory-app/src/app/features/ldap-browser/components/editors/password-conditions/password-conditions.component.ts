@@ -1,47 +1,37 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { Constants } from '@core/constants';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { AppSettingsService } from '@services/app-settings.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { ValidationFunctions } from '@core/validators/validator-functions';
+import { PasswordConditionItemComponent } from './password-condition-item/password-condition-item.component';
 
 @Component({
   selector: 'app-password-conditions',
+  imports: [PasswordConditionItemComponent],
   templateUrl: './password-conditions.component.html',
   styleUrls: ['./password-conditions.component.scss'],
-  imports: [TranslocoPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PasswordConditionsComponent implements OnInit {
-  private api = inject(MultidirectoryApiService);
-  private app = inject(AppSettingsService);
+export class PasswordConditionsComponent {
+  policy = input.required<PasswordPolicy>();
+  currentPassword = input.required<string>();
 
-  minimumPasswordLength = 7;
-  passwordMustMeetComplexityRequirements = true;
-
-  checkPasswordComplexity = false;
-  checkPasswordMinimalLength = false;
-  checkPasswordWithoutOtp = false;
-
-  @Input() set currentPassword(password: string) {
-    const hasUpperCase = /[A-ZА-Я]/.test(password);
-    const hasLowerCase = /[a-zа-я]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const endsWith6Digits = /.*\d{6,}$/.test(password);
-
-    this.checkPasswordComplexity = hasLowerCase && hasNumbers && hasUpperCase;
-    this.checkPasswordMinimalLength = password?.length >= this.minimumPasswordLength;
-    this.checkPasswordWithoutOtp = !endsWith6Digits;
-  }
-
-  ngOnInit(): void {
-    if (this.app.userEntry) {
-      this.api.getAllPasswordPolicies().subscribe((policies) => {
-        const defaultPolicy = policies.find((x) => x.name === Constants.DefaultPolicyName);
-
-        if (defaultPolicy) {
-          this.minimumPasswordLength = defaultPolicy.minLength;
-          this.passwordMustMeetComplexityRequirements = true;
-        }
-      });
-    }
-  }
+  protected passwordLengthOk = computed(
+    () => this.currentPassword().length >= this.policy().minLength && this.currentPassword().length <= this.policy().maxLength,
+  );
+  protected minLowercaseLettersCountOk = computed(
+    () => ValidationFunctions.loverCaseLettersCount(this.currentPassword()) >= this.policy().minLowercaseLettersCount,
+  );
+  protected minUppercaseLettersCountOk = computed(
+    () => ValidationFunctions.upperCaseLettersCount(this.currentPassword()) >= this.policy().minUppercaseLettersCount,
+  );
+  protected minSpecialSymbolsCountOk = computed(
+    () => ValidationFunctions.specialSymbolsCount(this.currentPassword()) >= this.policy().minSpecialSymbolsCount,
+  );
+  protected minDigitsCountOk = computed(() => ValidationFunctions.digitsCount(this.currentPassword()) >= this.policy().minDigitsCount);
+  protected minUniqueSymbolsCountOk = computed(
+    () => ValidationFunctions.uniqueSymbolsCount(this.currentPassword()) >= this.policy().minUniqueSymbolsCount,
+  );
+  protected maxRepeatingSymbolsInRowCountOk = computed(
+    () => ValidationFunctions.repeatingSymbolsInRowCount(this.currentPassword()) <= this.policy().maxRepeatingSymbolsInRowCount,
+  );
+  protected notEndsWithSixDigitsOk = computed(() => !ValidationFunctions.endsWithSixDigits(this.currentPassword()));
 }
