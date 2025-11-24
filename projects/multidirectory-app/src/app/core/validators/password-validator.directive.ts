@@ -28,10 +28,23 @@ export class PasswordValidatorDirective implements Validator {
       const specialSymbolsCountOk = ValidationFunctions.specialSymbolsCount(password) >= this.passwordPolicy().minSpecialSymbolsCount;
       const uniqueSymbolsCountOk = ValidationFunctions.uniqueSymbolsCount(password) >= this.passwordPolicy().minUniqueSymbolsCount;
       const repeatingSymbolsCountOk =
-        ValidationFunctions.repeatingSymbolsInRowCount(password) >= this.passwordPolicy().maxRepeatingSymbolsInRowCount;
+        ValidationFunctions.repeatingSymbolsInRowCount(password) <= this.passwordPolicy().maxRepeatingSymbolsInRowCount;
+      const endsWithSixDigitsOk = !ValidationFunctions.endsWithSixDigits(password);
+
+      const languageOk =
+        this.passwordPolicy().language === 'Cyrillic'
+          ? ValidationFunctions.hasCyrillic(password) && !ValidationFunctions.hasLatin(password)
+          : ValidationFunctions.hasLatin(password) && !ValidationFunctions.hasCyrillic(password);
 
       const passwordValid =
-        upperCaseCountOk && lowerCaseCountOk && numbersCountOk && specialSymbolsCountOk && uniqueSymbolsCountOk && repeatingSymbolsCountOk;
+        upperCaseCountOk &&
+        lowerCaseCountOk &&
+        numbersCountOk &&
+        specialSymbolsCountOk &&
+        uniqueSymbolsCountOk &&
+        repeatingSymbolsCountOk &&
+        endsWithSixDigitsOk &&
+        languageOk;
 
       if (!passwordValid) {
         return { PasswordValidator: translate('password-conditions.password-must-meet-conditions') };

@@ -34,4 +34,10 @@ export class PasswordConditionsComponent {
     () => ValidationFunctions.repeatingSymbolsInRowCount(this.currentPassword()) <= this.policy().maxRepeatingSymbolsInRowCount,
   );
   protected notEndsWithSixDigitsOk = computed(() => !ValidationFunctions.endsWithSixDigits(this.currentPassword()));
+  protected languageOk = computed(() => {
+    const password = this.currentPassword();
+    return this.policy().language === 'Cyrillic'
+      ? ValidationFunctions.hasCyrillic(password) && !ValidationFunctions.hasLatin(password)
+      : ValidationFunctions.hasLatin(password) && !ValidationFunctions.hasCyrillic(password);
+  });
 }
