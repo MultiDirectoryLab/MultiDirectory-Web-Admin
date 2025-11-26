@@ -1,26 +1,20 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
+import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { DropdownContainerDirective, DropdownMenuComponent } from 'multidirectory-ui-kit';
 import { take } from 'rxjs';
 import { ChangePasswordDialogComponent } from '../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 import { EntityPropertiesDialogComponent } from '../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
-import {
-  ChangePasswordDialogData,
-  ChangePasswordDialogReturnData,
-} from '../modals/interfaces/change-password-dialog.interface';
-import {
-  EntityPropertiesDialogData,
-  EntityPropertiesDialogReturnData,
-} from '../modals/interfaces/entity-properties-dialog.interface';
+import { ChangePasswordDialogData, ChangePasswordDialogReturnData } from '../modals/interfaces/change-password-dialog.interface';
+import { EntityPropertiesDialogData, EntityPropertiesDialogReturnData } from '../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../modals/services/dialog.service';
-import { WhoamiResponse } from '@models/api/whoami/whoami-response';
-import { FormsModule } from '@angular/forms';
-import { AsyncPipe, NgClass } from '@angular/common';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-sidebar',
@@ -83,11 +77,7 @@ export class SidebarComponent {
       return;
     }
 
-    this.dialogService.open<
-      EntityPropertiesDialogReturnData,
-      EntityPropertiesDialogData,
-      EntityPropertiesDialogComponent
-    >({
+    this.dialogService.open<EntityPropertiesDialogReturnData, EntityPropertiesDialogData, EntityPropertiesDialogComponent>({
       component: EntityPropertiesDialogComponent,
       dialogConfig: {
         width: '600px',
@@ -105,17 +95,13 @@ export class SidebarComponent {
     }
 
     const me = this.app.me(user.id);
-    const height = me ? '250px' : '220px';
+    const height = me ? `530px` : `500px`;
 
-    this.dialogService.open<
-      ChangePasswordDialogReturnData,
-      ChangePasswordDialogData,
-      ChangePasswordDialogComponent
-    >({
+    this.dialogService.open<ChangePasswordDialogReturnData, ChangePasswordDialogData, ChangePasswordDialogComponent>({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
         minHeight: height,
-        height: height,
+        width: '550px',
         data: { un: user.name, identity: user.id, me: me },
       },
     });

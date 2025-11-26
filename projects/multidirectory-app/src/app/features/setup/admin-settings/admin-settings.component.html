@@ -6,13 +6,13 @@
     </div>
   </div>
   <md-form #form>
-    <div class="flex flex-col gap-4">
-      <div class="flex gap-1 justify-between">
+    <div class="flex flex-col gap-5">
+      <div class="flex flex-column gap-1">
         <label class="textbox-label">{{ 'setup.admin-settings.admin-login-label' | transloco }}</label>
         <md-textbox class="flex-grow-1" appRequired appAutofocus [(ngModel)]="setupRequest.username"></md-textbox>
       </div>
 
-      <div class="flex gap-1 justify-between">
+      <div class="flex flex-column gap-1">
         <label class="textbox-label">{{ 'setup.admin-settings.admin-password-label' | transloco }}</label>
         <md-textbox
           #passwordInput="ngModel"
@@ -24,11 +24,10 @@
           [appPasswordMatch]="repeatPassword"
           [(ngModel)]="setupRequest.password"
           (keyup)="checkModel()"
-          (focus)="openSuggest($event)"
         ></md-textbox>
       </div>
 
-      <div class="flex gap-1 justify-between">
+      <div class="flex flex-column gap-1">
         <label class="textbox-label">{{ 'setup.admin-settings.admin-password-repeat-label' | transloco }}</label>
         <md-textbox
           class="flex-grow-1"
@@ -39,6 +38,14 @@
           [(ngModel)]="setupRequest.repeatPassword"
           #repeatPassword="ngModel"
         ></md-textbox>
+      </div>
+
+      <md-button type="button" class="requirements-button" [primary]="true" (click)="togglePasswordRequirements()">{{
+        passwordRequirementsLabel()
+      }}</md-button>
+
+      <div class="password-conditions-wrapper" [class.visible]="showPasswordRequirements()">
+        <app-password-conditions [policy]="passwordPolicy" [currentPassword]="password()"></app-password-conditions>
       </div>
     </div>
   </md-form>

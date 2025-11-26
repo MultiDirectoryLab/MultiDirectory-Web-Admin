@@ -1,19 +1,17 @@
-import { AfterViewInit, Component, inject, input, OnDestroy, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, inject, input, OnDestroy, signal, viewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { UserCreateRequest } from '@models/api/user-create/user-create.request';
-import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { UserCreateService } from '@services/user-create.service';
-import { CheckboxComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { ButtonComponent, CheckboxComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { PasswordSuggestContextMenuComponent } from '../../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
-import { ContextMenuService } from '../../../../components/modals/services/context-menu.service';
 
 @Component({
   selector: 'app-user-create-password-settings',
@@ -28,6 +26,8 @@ import { ContextMenuService } from '../../../../components/modals/services/conte
     PasswordValidatorDirective,
     CheckboxComponent,
     MdFormComponent,
+    ButtonComponent,
+    PasswordConditionsComponent,
   ],
 })
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
@@ -36,13 +36,17 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   private form = viewChild.required<MdFormComponent>('form');
   private passwordInput = viewChild.required<NgModel>('passwordInput');
 
+  protected showPasswordRequirements = signal<boolean>(false);
   protected passwordPolicy = new PasswordPolicy();
-  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
-  private password = signal('');
+  protected password = signal<string>('');
+  protected passwordRequirementsLabel = computed(() =>
+    this.showPasswordRequirements()
+      ? translate('user-create.password-settings.hide-password-requirements')
+      : translate('user-create.password-settings.show-password-requirements'),
+  );
   private unsubscribe = new Subject<void>();
 
   private setup = inject(UserCreateService);
-  private contextMenuService = inject(ContextMenuService);
   private api = inject(MultidirectoryApiService);
 
   get passwordNeverExpires(): boolean {
@@ -111,31 +115,10 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   protected checkModel() {
     this.form().validate();
     this.password.set(this.passwordInput().value);
-
-    if (this.passwordInput().valid) {
-      this.closeSuggest();
-    }
   }
 
-  protected openSuggest(event: FocusEvent): void {
-    const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
-    const targetRect = target.getBoundingClientRect();
-
-    this.suggestDialogRef = this.contextMenuService.open({
-      contextMenuConfig: {
-        hasBackdrop: false,
-        data: { password: this.password, policy: this.passwordPolicy },
-      },
-      component: PasswordSuggestContextMenuComponent,
-      y: targetRect.y,
-      x: targetRect.right + 8,
-    });
-  }
-
-  private closeSuggest(): void {
-    if (this.suggestDialogRef) {
-      this.suggestDialogRef.close(null);
-    }
+  protected togglePasswordRequirements(): void {
+    this.showPasswordRequirements.update((prev) => !prev);
   }
 
   private loadPasswordPolicy() {

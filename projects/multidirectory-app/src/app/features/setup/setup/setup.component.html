@@ -2,7 +2,7 @@
   <md-modal
     #modal
     [closeable]="false"
-    [minHeight]="460"
+    [minHeight]="550"
     [opened]="true"
     [spinnerText]="'spinner.please-wait' | transloco"
     [width]="'510px'"
@@ -12,11 +12,7 @@
         <img class="logo-img" src="/assets/logo_login_transparent.svg" />
       </div>
       <div>
-        <md-plane-button
-          [mdDropdownContainer]="languageMenu"
-          [calculatePosition]="true"
-          class="btn"
-        >
+        <md-plane-button [mdDropdownContainer]="languageMenu" [calculatePosition]="true" class="btn">
           <fa-icon [icon]="faLanguage" class="white"></fa-icon>
         </md-plane-button>
         <md-dropdown-menu #languageMenu>
@@ -47,13 +43,9 @@
     <ng-container class="app-modal-footer">
       <div class="flex justify-center gap-2">
         @if (stepper.currentIndex > 0) {
-          <md-button [primary]="false" (click)="stepper.previous()"
-            >{{ 'setup.back' | transloco }}
-          </md-button>
+          <md-button [primary]="false" (click)="stepper.previous()">{{ 'setup.back' | transloco }} </md-button>
         }
-        <md-button (click)="showNextStep()" [primary]="true"
-          >{{ 'setup.next' | transloco }}
-        </md-button>
+        <md-button (click)="showNextStep()" [primary]="true">{{ 'setup.next' | transloco }} </md-button>
       </div>
     </ng-container>
   </md-modal>

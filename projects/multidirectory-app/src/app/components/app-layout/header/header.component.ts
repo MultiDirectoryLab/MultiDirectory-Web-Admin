@@ -1,9 +1,11 @@
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, inject, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ViewMode } from '@features/ldap-browser/components/catalog-content/view-modes';
 import { SearchPanelComponent } from '@features/search/search-panel.component';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ContentViewService } from '@services/content-view.service';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
@@ -17,17 +19,9 @@ import {
 } from 'multidirectory-ui-kit';
 import { ChangePasswordDialogComponent } from '../../modals/components/dialogs/change-password-dialog/change-password-dialog.component';
 import { EntityPropertiesDialogComponent } from '../../modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
-import {
-  ChangePasswordDialogData,
-  ChangePasswordDialogReturnData,
-} from '../../modals/interfaces/change-password-dialog.interface';
-import {
-  EntityPropertiesDialogData,
-  EntityPropertiesDialogReturnData,
-} from '../../modals/interfaces/entity-properties-dialog.interface';
+import { ChangePasswordDialogData, ChangePasswordDialogReturnData } from '../../modals/interfaces/change-password-dialog.interface';
+import { EntityPropertiesDialogData, EntityPropertiesDialogReturnData } from '../../modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '../../modals/services/dialog.service';
-import { WhoamiResponse } from '@models/api/whoami/whoami-response';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -140,11 +134,7 @@ export class HeaderComponent {
       return;
     }
 
-    this.dialogService.open<
-      EntityPropertiesDialogReturnData,
-      EntityPropertiesDialogData,
-      EntityPropertiesDialogComponent
-    >({
+    this.dialogService.open<EntityPropertiesDialogReturnData, EntityPropertiesDialogData, EntityPropertiesDialogComponent>({
       component: EntityPropertiesDialogComponent,
       dialogConfig: {
         hasBackdrop: false,
@@ -163,17 +153,13 @@ export class HeaderComponent {
     }
 
     const me = this.app.me(user.id);
-    const height = me ? '250px' : '220px';
+    const height = me ? `530px` : `500px`;
 
-    this.dialogService.open<
-      ChangePasswordDialogReturnData,
-      ChangePasswordDialogData,
-      ChangePasswordDialogComponent
-    >({
+    this.dialogService.open<ChangePasswordDialogReturnData, ChangePasswordDialogData, ChangePasswordDialogComponent>({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
         minHeight: height,
-        height: height,
+        width: '550px',
         data: { un: user.name, identity: user.id, me: me },
       },
     });

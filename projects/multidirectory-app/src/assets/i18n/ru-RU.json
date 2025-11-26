@@ -175,7 +175,9 @@
       "user-should-change-password": "Пользователь должен изменить пароль при следующем входе в систему",
       "user-unable-change-password": "Пользователь не может изменить пароль",
       "password-never-expires": "Срок действия пароля не истекает",
-      "account-disabled": "Аккаунт отключен"
+      "account-disabled": "Аккаунт отключен",
+      "show-password-requirements": "Показать требования к паролю",
+      "hide-password-requirements": "Скрыть требования к паролю"
     },
     "summary": {
       "header": "Когда вы нажмёте «Готово», будет создан пользователь:",
