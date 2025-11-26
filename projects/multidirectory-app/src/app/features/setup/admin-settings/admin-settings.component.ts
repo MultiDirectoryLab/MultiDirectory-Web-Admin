@@ -7,12 +7,9 @@ import { RequiredWithMessageDirective } from '@core/validators/required-with-mes
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/api/setup/setup-request';
-import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
 import { AutofocusDirective, ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { PasswordSuggestContextMenuComponent } from '../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
-import { ContextMenuService } from '../../../components/modals/services/context-menu.service';
 
 @Component({
   selector: 'app-admin-settings',
@@ -52,10 +49,8 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
       ? translate('user-create.password-settings.hide-password-requirements')
       : translate('user-create.password-settings.show-password-requirements'),
   );
-  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
   private unsubscribe = new Subject<void>();
 
-  private contextMenuService = inject(ContextMenuService);
   private setupRequestValidatorService = inject(SetupRequestValidatorService);
 
   ngAfterViewInit(): void {
