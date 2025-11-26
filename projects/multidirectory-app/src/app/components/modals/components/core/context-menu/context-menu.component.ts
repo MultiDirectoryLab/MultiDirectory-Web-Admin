@@ -1,60 +1,37 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  NgZone,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { concat, EMPTY, of, switchMap, take, tap } from 'rxjs';
-import { ContextMenuService } from '../../../services/context-menu.service';
-import { ContextMenuData } from '../../../interfaces/context-menu-dialog.interface';
-import { BulkService } from '@services/bulk.service';
-import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
-import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
-import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
-import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import {
-  EntityPropertiesDialogData,
-  EntityPropertiesDialogReturnData,
-} from '../../../interfaces/entity-properties-dialog.interface';
-import {
-  ChangePasswordDialogData,
-  ChangePasswordDialogReturnData,
-} from '../../../interfaces/change-password-dialog.interface';
-import { ChangePasswordDialogComponent } from '../../dialogs/change-password-dialog/change-password-dialog.component';
-import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
-import {
-  ConfirmDialogData,
-  ConfirmDialogReturnData,
-} from '../../../interfaces/confirm-dialog.interface';
-import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
-import {
-  MoveEntityDialogData,
-  MoveEntityDialogReturnData,
-} from '../../../interfaces/move-entity-dialog.interface';
-import { MoveEntityDialogComponent } from '../../dialogs/move-entity-dialog/move-entity-dialog.component';
-import {
-  ConfirmDeleteDialogData,
-  ConfirmDeleteDialogReturnData,
-} from '../../../interfaces/confirm-delete-dialog.interface';
-import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import { DialogService } from '../../../services/dialog.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { CheckAccountEnabledStateStrategy } from '@core/bulk/strategies/check-account-enabled-state-strategy';
 import { CompleteUpdateEntiresStrategies } from '@core/bulk/strategies/complete-update-entires-strategy';
-import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
-import { DeleteEntryRequest } from '@models/api/entry/delete-request';
-import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
-import { UpdateEntryResponse } from '@models/api/entry/update-response';
-import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { FilterControllableStrategy } from '@core/bulk/strategies/filter-controllable-strategy';
+import { GetAccessorStrategy } from '@core/bulk/strategies/get-accessor-strategy';
+import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-account-disable-strategy';
 import { EntityInfoResolver } from '@core/ldap/entity-info-resolver';
-import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { DeleteEntryRequest } from '@models/api/entry/delete-request';
+import { UpdateEntryResponse } from '@models/api/entry/update-response';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
+import { BulkService } from '@services/bulk.service';
+import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { concat, EMPTY, of, switchMap, take, tap } from 'rxjs';
+import { ChangePasswordDialogData, ChangePasswordDialogReturnData } from '../../../interfaces/change-password-dialog.interface';
+import { ConfirmDeleteDialogData, ConfirmDeleteDialogReturnData } from '../../../interfaces/confirm-delete-dialog.interface';
+import { ConfirmDialogData, ConfirmDialogReturnData } from '../../../interfaces/confirm-dialog.interface';
+import { ContextMenuData } from '../../../interfaces/context-menu-dialog.interface';
+import { EntityPropertiesDialogData, EntityPropertiesDialogReturnData } from '../../../interfaces/entity-properties-dialog.interface';
+import { MoveEntityDialogData, MoveEntityDialogReturnData } from '../../../interfaces/move-entity-dialog.interface';
+import { ContextMenuService } from '../../../services/context-menu.service';
+import { DialogService } from '../../../services/dialog.service';
+import { ChangePasswordDialogComponent } from '../../dialogs/change-password-dialog/change-password-dialog.component';
+import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { MoveEntityDialogComponent } from '../../dialogs/move-entity-dialog/move-entity-dialog.component';
 
 @Component({
   selector: 'app-context-menu',
@@ -78,9 +55,7 @@ export class ContextMenuComponent implements OnInit {
   private navigation = inject(AppNavigationService);
   private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
-  private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(
-    CompleteUpdateEntiresStrategies,
-  );
+  private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(CompleteUpdateEntiresStrategies);
   private contextMenuData: ContextMenuData = inject(DIALOG_DATA);
   /** OTHER **/
   entries = this.contextMenuData.entity;
@@ -95,38 +70,29 @@ export class ContextMenuComponent implements OnInit {
   openMoreDialog() {
     this.contextMenuService.close(null);
 
-    this.dialogService
-        .open<
-          EntityPropertiesDialogReturnData,
-          EntityPropertiesDialogData,
-          EntityPropertiesDialogComponent
-        >({
-          component: EntityPropertiesDialogComponent,
-          dialogConfig: {
-            hasBackdrop: false,
-            width: '600px',
-            minHeight: '660px',
-            data: { entity: this.entries[0] },
-          },
-        });
+    this.dialogService.open<EntityPropertiesDialogReturnData, EntityPropertiesDialogData, EntityPropertiesDialogComponent>({
+      component: EntityPropertiesDialogComponent,
+      dialogConfig: {
+        hasBackdrop: false,
+        width: '600px',
+        minHeight: '660px',
+        data: { entity: this.entries[0] },
+      },
+    });
   }
 
   openChangePasswordDialog() {
     const user = this.entries[0];
     const me = this.appSettings.me(user.id);
-    const height = me ? '250px' : '220px';
+    const height = me ? `530px` : `500px`;
 
     this.contextMenuService.close(null);
 
-    this.dialogService.open<
-      ChangePasswordDialogReturnData,
-      ChangePasswordDialogData,
-      ChangePasswordDialogComponent
-    >({
+    this.dialogService.open<ChangePasswordDialogReturnData, ChangePasswordDialogData, ChangePasswordDialogComponent>({
       component: ChangePasswordDialogComponent,
       dialogConfig: {
         minHeight: height,
-        height: height,
+        width: '550px',
         data: { un: user.name, identity: user.id, me: me },
       },
     });
@@ -145,19 +111,12 @@ export class ContextMenuComponent implements OnInit {
           switchMap(() => {
             let promptText =
               translate('toggle-account.accounts-was-toggled') +
-              (enabled
-                ? translate('toggle-account.enabled')
-                : translate('toggle-account.disabled')) +
+              (enabled ? translate('toggle-account.enabled') : translate('toggle-account.disabled')) +
               ':';
 
-            promptText +=
-              '<br/><ul>' + this.entries.map((x) => `<li>${x.id}</li>`).join('') + '</ul>';
+            promptText += '<br/><ul>' + this.entries.map((x) => `<li>${x.id}</li>`).join('') + '</ul>';
 
-            return this.dialogService.open<
-              ConfirmDialogReturnData,
-              ConfirmDialogData,
-              ConfirmDialogComponent
-            >({
+            return this.dialogService.open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
               component: ConfirmDialogComponent,
               dialogConfig: {
                 minHeight: '160px',
@@ -179,51 +138,49 @@ export class ContextMenuComponent implements OnInit {
     this.contextMenuService.close(null);
     this.dialogService
       .open<MoveEntityDialogReturnData, MoveEntityDialogData, MoveEntityDialogComponent>({
-          component: MoveEntityDialogComponent,
-          dialogConfig: {
-            minHeight: '230px',
-            data: { toMove: this.entries },
-          },
-        })
-        .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
-        .subscribe((x) => {
-          this.navigation.reload();
-        });
+        component: MoveEntityDialogComponent,
+        dialogConfig: {
+          minHeight: '230px',
+          data: { toMove: this.entries },
+        },
+      })
+      .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
+      .subscribe((x) => {
+        this.navigation.reload();
+      });
   }
 
   openConfirmDeleteDialog() {
     const toDeleteDNs = this.entries.map((x) => x.id);
     this.contextMenuService.close(null);
-      this.dialogService
-        .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>(
-          {
-            component: ConfirmDeleteDialogComponent,
-            dialogConfig: {
-              width: '580px',
-              data: { toDeleteDNs: toDeleteDNs },
-            },
-          },
-        )
-        .closed.pipe(
-          switchMap((isConfirmed) => {
-            return isConfirmed
-              ? concat(
-                  ...this.entries.map((x) =>
-                    // TODO: Будет deleteMany
-                    this.api.delete(
-                      new DeleteEntryRequest({
-                        entry: x.id,
-                      }),
-                    ),
+    this.dialogService
+      .open<ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData, ConfirmDeleteDialogComponent>({
+        component: ConfirmDeleteDialogComponent,
+        dialogConfig: {
+          width: '580px',
+          data: { toDeleteDNs: toDeleteDNs },
+        },
+      })
+      .closed.pipe(
+        switchMap((isConfirmed) => {
+          return isConfirmed
+            ? concat(
+                ...this.entries.map((x) =>
+                  // TODO: Будет deleteMany
+                  this.api.delete(
+                    new DeleteEntryRequest({
+                      entry: x.id,
+                    }),
                   ),
-                )
-              : of(null);
-          }),
-        )
-        .subscribe((result) => {
-          this.ldapTreeview.invalidate(toDeleteDNs);
-          this.navigation.reload();
-        });
+                ),
+              )
+            : of(null);
+        }),
+      )
+      .subscribe((result) => {
+        this.ldapTreeview.invalidate(toDeleteDNs);
+        this.navigation.reload();
+      });
   }
 
   isSelectedRowsOfType(...types: LdapEntryType[]): boolean {
