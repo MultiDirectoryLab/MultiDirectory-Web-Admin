@@ -13,6 +13,7 @@ import { PasswordConditionItemComponent } from './password-condition-item/passwo
 export class PasswordConditionsComponent {
   policy = input.required<PasswordPolicy>();
   currentPassword = input.required<string>();
+  passwordRepeat = input<string | null>(null);
 
   protected passwordLengthOk = computed(
     () => this.currentPassword().length >= this.policy().minLength && this.currentPassword().length <= this.policy().maxLength,
@@ -34,6 +35,20 @@ export class PasswordConditionsComponent {
     () => ValidationFunctions.repeatingSymbolsInRowCount(this.currentPassword()) <= this.policy().maxRepeatingSymbolsInRowCount,
   );
   protected notEndsWithSixDigitsOk = computed(() => !ValidationFunctions.endsWithSixDigits(this.currentPassword()));
+  protected passwordsMatchOk = computed(() => {
+    const passwordRepeatValue = this.passwordRepeat();
+    const currentPasswordValue = this.currentPassword();
+
+    if (!passwordRepeatValue || passwordRepeatValue === '') {
+      return true;
+    }
+
+    if (!currentPasswordValue || currentPasswordValue === '') {
+      return true;
+    }
+
+    return passwordRepeatValue === currentPasswordValue;
+  });
   protected languageOk = computed(() => {
     const password = this.currentPassword();
     return this.policy().language === 'Cyrillic'

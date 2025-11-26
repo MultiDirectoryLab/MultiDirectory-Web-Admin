@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, Input, OnDestroy, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, input, OnDestroy, signal, viewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
@@ -31,23 +31,14 @@ import { ContextMenuService } from '../../../../components/modals/services/conte
   ],
 })
 export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDestroy {
-  private _setupRequest!: UserCreateRequest;
-  get setupRequest(): UserCreateRequest {
-    return this._setupRequest;
-  }
+  setupRequest = input.required<UserCreateRequest>();
 
-  @Input() set setupRequest(request: UserCreateRequest) {
-    this._setupRequest = request;
-    this.form()?.inputs?.forEach((x) => x.reset());
-  }
-
+  private form = viewChild.required<MdFormComponent>('form');
   private passwordInput = viewChild.required<NgModel>('passwordInput');
-  readonly form = viewChild.required<MdFormComponent>('form');
 
   protected passwordPolicy = new PasswordPolicy();
   private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
   private password = signal('');
-
   private unsubscribe = new Subject<void>();
 
   private setup = inject(UserCreateService);
@@ -55,39 +46,39 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   private api = inject(MultidirectoryApiService);
 
   get passwordNeverExpires(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0;
+    return (Number(this.setupRequest().uacBitSet?.toString(10)) & UserAccountControlFlag.DONT_EXPIRE_PASSWORD) > 0;
   }
 
   set passwordNeverExpires(value: boolean) {
-    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.DONT_EXPIRE_PASSWORD), value ? 1 : 0);
+    this.setupRequest().uacBitSet?.set(Math.log2(UserAccountControlFlag.DONT_EXPIRE_PASSWORD), value ? 1 : 0);
   }
 
   get accountDisabled(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0;
+    return (Number(this.setupRequest().uacBitSet?.toString(10)) & UserAccountControlFlag.ACCOUNTDISABLE) > 0;
   }
 
   set accountDisabled(value: boolean) {
-    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.ACCOUNTDISABLE), value ? 1 : 0);
+    this.setupRequest().uacBitSet?.set(Math.log2(UserAccountControlFlag.ACCOUNTDISABLE), value ? 1 : 0);
   }
 
   get userShouldChangePassword(): boolean {
-    return (Number(this.setupRequest.uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0;
+    return (Number(this.setupRequest().uacBitSet?.toString(10)) & UserAccountControlFlag.PASSWORD_EXPIRED) > 0;
   }
 
   set userShouldChangePassword(shouldChange: boolean) {
     if (shouldChange) {
-      this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
+      this.setupRequest().uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 1);
       return;
     }
-    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
+    this.setupRequest().uacBitSet?.set(Math.log2(UserAccountControlFlag.PASSWORD_EXPIRED), 0);
   }
 
   get userUnableToChangePassword(): boolean {
-    return (Number(this.setupRequest.uacBitSet.toString(10)) & UserAccountControlFlag.PASSWD_CANT_CHANGE) > 0;
+    return (Number(this.setupRequest().uacBitSet.toString(10)) & UserAccountControlFlag.PASSWD_CANT_CHANGE) > 0;
   }
 
   set userUnableToChangePassword(shouldChange: boolean) {
-    this.setupRequest.uacBitSet.set(Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE), Number(shouldChange));
+    this.setupRequest().uacBitSet.set(Math.log2(UserAccountControlFlag.PASSWD_CANT_CHANGE), Number(shouldChange));
   }
 
   ngOnInit() {
@@ -97,14 +88,19 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
   ngAfterViewInit(): void {
     const form = this.form();
     this.setup.stepValid(form.valid);
+
     this.setup.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
       this.form().validate();
-    });
-    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
-      this.setup.stepValid(this.form().valid);
+      this.setup.stepValid(form.valid);
     });
 
-    this.setupRequest.uacBitSet?.set(Math.log2(UserAccountControlFlag.NORMAL_ACCOUNT), 1);
+    form.onValidChanges.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
+      this.setup.stepValid(form.valid);
+    });
+
+    this.setupRequest().uacBitSet?.set(Math.log2(UserAccountControlFlag.NORMAL_ACCOUNT), 1);
+
+    setTimeout(() => this.validateFormWithValues(), 0);
   }
 
   ngOnDestroy(): void {
@@ -144,5 +140,27 @@ export class UserCreatePasswordSettingsComponent implements AfterViewInit, OnDes
 
   private loadPasswordPolicy() {
     this.api.getDefaultPasswordPolicy().subscribe((policy) => (this.passwordPolicy = policy));
+  }
+
+  private validateFormWithValues(): void {
+    const form = this.form();
+    let hasValue = false;
+
+    form.inputs.forEach((input) => {
+      if (input.control) {
+        hasValue = !!input.control.value && input.control.value !== '' && typeof input.control.value !== 'boolean';
+
+        if (hasValue) {
+          input.control.markAsTouched({ onlySelf: true });
+          input.control.markAsDirty({ onlySelf: true });
+          input.control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+        }
+      }
+    });
+
+    if (hasValue) {
+      form.validate();
+      this.setup.stepValid(form.valid);
+    }
   }
 }

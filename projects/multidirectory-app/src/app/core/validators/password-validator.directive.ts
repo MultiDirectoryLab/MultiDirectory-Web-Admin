@@ -19,9 +19,10 @@ export class PasswordValidatorDirective implements Validator {
   readonly errorLabel = input('');
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (control.touched && control.value) {
+    if (control.value !== null && control.value !== undefined) {
       const password = control.value;
 
+      const lengthOk = password.length >= this.passwordPolicy().minLength && password.length <= this.passwordPolicy().maxLength;
       const upperCaseCountOk = ValidationFunctions.upperCaseLettersCount(password) >= this.passwordPolicy().minUppercaseLettersCount;
       const lowerCaseCountOk = ValidationFunctions.loverCaseLettersCount(password) >= this.passwordPolicy().minLowercaseLettersCount;
       const numbersCountOk = ValidationFunctions.digitsCount(password) >= this.passwordPolicy().minDigitsCount;
@@ -30,13 +31,13 @@ export class PasswordValidatorDirective implements Validator {
       const repeatingSymbolsCountOk =
         ValidationFunctions.repeatingSymbolsInRowCount(password) <= this.passwordPolicy().maxRepeatingSymbolsInRowCount;
       const endsWithSixDigitsOk = !ValidationFunctions.endsWithSixDigits(password);
-
       const languageOk =
         this.passwordPolicy().language === 'Cyrillic'
           ? ValidationFunctions.hasCyrillic(password) && !ValidationFunctions.hasLatin(password)
           : ValidationFunctions.hasLatin(password) && !ValidationFunctions.hasCyrillic(password);
 
       const passwordValid =
+        lengthOk &&
         upperCaseCountOk &&
         lowerCaseCountOk &&
         numbersCountOk &&

@@ -585,6 +585,8 @@
     "apply": "Применить"
   },
   "password-conditions": {
+    "passwords-not-match": "Пароли не совпадают",
+    "passwords-match": "Пароли совпадают",
     "minimum-password-length": "Пароль должен содержать от {{ minimumPasswordLength }} символов",
     "password-complexity": "Пароль должен содержать заглавные и строчные буквы, а также цифры",
     "password-without-otp": "Пароль не должен завершаться 6 цифрами подряд",
