@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, forwardRef, inject, Input, OnDestroy, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, forwardRef, inject, Input, OnDestroy, signal, viewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
 import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
+import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { SetupRequest } from '@models/api/setup/setup-request';
 import { ContextMenuRef } from '@models/core/context-menu/context-menu-ref';
 import { SetupRequestValidatorService } from '@services/setup-request-validator.service';
-import { AutofocusDirective, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
+import { AutofocusDirective, ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { PasswordSuggestContextMenuComponent } from '../../../components/modals/components/context-menus/password-suggest-context-menu/password-suggest-context-menu.component';
 import { ContextMenuService } from '../../../components/modals/services/context-menu.service';
@@ -33,6 +34,8 @@ import { ContextMenuService } from '../../../components/modals/services/context-
     FormsModule,
     PasswordMatchValidatorDirective,
     PasswordValidatorDirective,
+    ButtonComponent,
+    PasswordConditionsComponent,
   ],
 })
 export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
@@ -41,10 +44,16 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
   readonly form = viewChild.required<MdFormComponent>('form');
   private passwordInput = viewChild.required<NgModel>('passwordInput');
 
-  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
-  private password = signal('');
-  private unsubscribe = new Subject<void>();
   protected passwordPolicy = new PasswordPolicy();
+  protected password = signal('');
+  protected showPasswordRequirements = signal<boolean>(false);
+  protected passwordRequirementsLabel = computed(() =>
+    this.showPasswordRequirements()
+      ? translate('user-create.password-settings.hide-password-requirements')
+      : translate('user-create.password-settings.show-password-requirements'),
+  );
+  private suggestDialogRef: ContextMenuRef<unknown, PasswordSuggestContextMenuComponent> | null = null;
+  private unsubscribe = new Subject<void>();
 
   private contextMenuService = inject(ContextMenuService);
   private setupRequestValidatorService = inject(SetupRequestValidatorService);
@@ -67,33 +76,12 @@ export class AdminSettingsComponent implements AfterViewInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  protected togglePasswordRequirements(): void {
+    this.showPasswordRequirements.update((prev) => !prev);
+  }
+
   protected checkModel() {
     this.form().validate(true);
     this.password.set(this.passwordInput().value);
-
-    if (this.passwordInput().valid) {
-      this.closeSuggest();
-    }
-  }
-
-  protected openSuggest(event: FocusEvent): void {
-    const target = ((event as unknown as Event).target as HTMLElement).parentElement as HTMLElement;
-    const targetRect = target.getBoundingClientRect();
-
-    this.suggestDialogRef = this.contextMenuService.open({
-      contextMenuConfig: {
-        hasBackdrop: false,
-        data: { password: this.password, policy: this.passwordPolicy },
-      },
-      component: PasswordSuggestContextMenuComponent,
-      y: targetRect.y,
-      x: targetRect.right + 8,
-    });
-  }
-
-  private closeSuggest(): void {
-    if (this.suggestDialogRef) {
-      this.suggestDialogRef.close(null);
-    }
   }
 }
