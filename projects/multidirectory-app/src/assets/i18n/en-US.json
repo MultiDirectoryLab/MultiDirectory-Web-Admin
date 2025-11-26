@@ -589,6 +589,8 @@
     "apply": "Apply"
   },
   "password-conditions": {
+    "passwords-not-match": "Passwords do not match",
+    "passwords-match": "Passwords match",
     "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
     "password-complexity": "Password must contain uppercase letters, lowercase letters, special charecters and digits",
     "password-without-otp": "Password must not end with series of 6 digits in a row",
