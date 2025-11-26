@@ -174,7 +174,9 @@
       "user-should-change-password": "The user must change the password the next time they log in",
       "user-unable-change-password": "User cannot change password",
       "password-never-expires": "Password does not expire",
-      "account-disabled": "Account disabled"
+      "account-disabled": "Account disabled",
+      "show-password-requirements": "Show password requirements",
+      "hide-password-requirements": "Hide password requirements"
     },
     "summary": {
       "header": "Finish",
