@@ -4,3 +4,30 @@
   grid-template-rows: auto;
   gap: 16px;
 }
+
+.password-conditions-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.25s ease-in-out,
+    margin-top 0.25s ease-in-out;
+  margin: 0;
+  padding: 0;
+  margin-top: -1.25rem;
+
+  &.visible {
+    max-height: unset;
+    margin-top: 0;
+  }
+}
+
+.requirements-button {
+  max-inline-size: fit-content;
+}
+
+.conditions-container {
+  box-sizing: border-box;
+  border: 1px solid var(--md-neutral-300);
+  border-radius: 0.5em;
+  padding: 1em;
+}

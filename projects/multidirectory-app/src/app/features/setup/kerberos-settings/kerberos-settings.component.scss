@@ -17,3 +17,10 @@
 .requirements-button {
   max-inline-size: fit-content;
 }
+
+.conditions-container {
+  box-sizing: border-box;
+  border: 1px solid var(--md-neutral-300);
+  border-radius: 0.5em;
+  padding: 1em;
+}

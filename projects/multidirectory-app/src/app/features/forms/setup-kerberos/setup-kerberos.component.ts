@@ -1,10 +1,8 @@
-import { Component, inject, OnDestroy, viewChild } from '@angular/core';
+import { Component, computed, inject, OnDestroy, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
-import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
-import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passwordnotmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -13,14 +11,7 @@ import { AppSettingsService } from '@services/app-settings.service';
 import { DownloadService } from '@services/download.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetupService } from '@services/setup.service';
-import {
-  ButtonComponent,
-  MdFormComponent,
-  ModalInjectDirective,
-  PopupContainerDirective,
-  PopupSuggestComponent,
-  TextboxComponent,
-} from 'multidirectory-ui-kit';
+import { ButtonComponent, MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Subject } from 'rxjs';
 
@@ -34,11 +25,7 @@ import { catchError, Subject } from 'rxjs';
     TextboxComponent,
     RequiredWithMessageDirective,
     FormsModule,
-    PasswordMatchValidatorDirective,
-    PasswordShouldNotMatchValidatorDirective,
     PasswordValidatorDirective,
-    PopupContainerDirective,
-    PopupSuggestComponent,
     PasswordConditionsComponent,
     ButtonComponent,
   ],
@@ -46,8 +33,24 @@ import { catchError, Subject } from 'rxjs';
 export class SetupKerberosDialogComponent implements OnDestroy {
   readonly form = viewChild.required<MdFormComponent>('form');
 
+  protected showPasswordRequirements = signal<boolean>(false);
+  protected passwordRequirementsLabel = computed(() =>
+    this.showPasswordRequirements()
+      ? translate('user-create.password-settings.hide-password-requirements')
+      : translate('user-create.password-settings.show-password-requirements'),
+  );
   protected passwordPolicy = new PasswordPolicy();
+  protected stashPasswordPolicy = new PasswordPolicy({
+    minLength: 20,
+    maxLength: 32,
+    minLowercaseLettersCount: 1,
+    minUppercaseLettersCount: 1,
+    minDigitsCount: 1,
+    minSpecialSymbolsCount: 1,
+  });
   protected setupRequest = new SetupRequest();
+  protected krbPassword = signal('');
+  protected stashPassword = signal('');
 
   private unsubscribe = new Subject<void>();
 
@@ -67,19 +70,26 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     this.unsubscribe.complete();
   }
 
+  protected togglePasswordRequirements(): void {
+    this.showPasswordRequirements.update((prev) => !prev);
+  }
+
   protected checkModel() {
-    this.form().validate(true);
+    this.form().validate();
   }
 
   protected onFinish(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
+
     this.setupRequest.mail = this.app.user.mail;
     const form = this.form();
+
     if (!form.valid) {
       form.validate();
       return;
     }
+
     this.modalInjector.showSpinner();
     this.setup
       .kerberosSetup(this.setupRequest)
@@ -97,9 +107,17 @@ export class SetupKerberosDialogComponent implements OnDestroy {
   }
 
   protected generatePasswords() {
-    this.setupRequest.generateKdcPasswords = true;
-    this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat = PasswordGenerator.generatePassword();
-    this.setupRequest.stash_password = this.setupRequest.stash_password_repeat = PasswordGenerator.generatePassword();
+    const krbPassword = PasswordGenerator.generatePassword(this.passwordPolicy);
+    const stashPassword = PasswordGenerator.generatePassword(this.stashPasswordPolicy);
+
+    this.setupRequest.krbadmin_password = krbPassword;
+    this.setupRequest.krbadmin_password_repeat = krbPassword;
+    this.setupRequest.stash_password = stashPassword;
+    this.setupRequest.stash_password_repeat = stashPassword;
+
+    this.krbPassword.set(krbPassword);
+    this.stashPassword.set(stashPassword);
+
     this.checkModel();
   }
 
