@@ -7,7 +7,15 @@ export class PasswordGenerator {
   private static readonly cyrillicUpperCase = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
   private static readonly numbers = '0123456789';
   private static readonly symbols = '!@#$%^&*()_-,.';
-  private static readonly keyboardSequences = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm', 'QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM', '1234567890'];
+  private static readonly forbiddenKeyboardSequences = [
+    'qwertyuiop',
+    'asdfghjkl',
+    'zxcvbnm',
+    'QWERTYUIOP',
+    'ASDFGHJKL',
+    'ZXCVBNM',
+    '1234567890',
+  ];
 
   static generatePassword(passwordPolicy?: PasswordPolicy): string {
     if (!passwordPolicy) {
@@ -210,7 +218,7 @@ export class PasswordGenerator {
     if (policy.maxSequentialKeyboardSymbolsCount > 0) {
       const minSeqLength = policy.maxSequentialKeyboardSymbolsCount + 1;
 
-      for (const sequence of this.keyboardSequences) {
+      for (const sequence of this.forbiddenKeyboardSequences) {
         for (let i = 0; i <= sequence.length - minSeqLength; i++) {
           const subSeq = sequence.substring(i, i + minSeqLength).toLowerCase();
           if (passwordLower.includes(subSeq)) {
@@ -306,7 +314,7 @@ export class PasswordGenerator {
       const minSeqLength = policy.maxSequentialKeyboardSymbolsCount + 1;
       let passwordLower = password.join('').toLowerCase();
 
-      for (const sequence of this.keyboardSequences) {
+      for (const sequence of this.forbiddenKeyboardSequences) {
         for (let i = 0; i <= sequence.length - minSeqLength; i++) {
           const subSeq = sequence.substring(i, i + minSeqLength).toLowerCase();
           let searchIndex = 0;
