@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, computed, inject, Input, signal, viewChild } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { PasswordPolicy } from '@core/password-policy/password-policy';
+import { PasswordGenerator } from '@core/setup/password-generator';
 import { PasswordValidatorDirective } from '@core/validators/password-validator.directive';
-import { PasswordMatchValidatorDirective } from '@core/validators/passwordmatch.directive';
-import { PasswordShouldNotMatchValidatorDirective } from '@core/validators/passwordnotmatch.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { PasswordConditionsComponent } from '@features/ldap-browser/components/editors/password-conditions/password-conditions.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -22,8 +21,6 @@ import { Subject, takeUntil } from 'rxjs';
     MdFormComponent,
     TextboxComponent,
     RequiredWithMessageDirective,
-    PasswordMatchValidatorDirective,
-    PasswordShouldNotMatchValidatorDirective,
     PasswordValidatorDirective,
     FormsModule,
     PasswordConditionsComponent,
@@ -32,12 +29,20 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class KerberosSettingsComponent implements AfterViewInit {
   @Input() setupRequest!: SetupRequest;
+
   private form = viewChild.required<MdFormComponent>('form');
-  private krbPasswordInput = viewChild.required<NgModel>('krbPasswordInput');
-  private stashPasswordInput = viewChild.required<NgModel>('stashPasswordInput');
 
   protected passwordPolicy = new PasswordPolicy();
-  protected password = signal('');
+  protected stashPasswordPolicy = new PasswordPolicy({
+    minLength: 20,
+    maxLength: 32,
+    minLowercaseLettersCount: 1,
+    minUppercaseLettersCount: 1,
+    minDigitsCount: 1,
+    minSpecialSymbolsCount: 1,
+  });
+  protected krbPassword = signal('');
+  protected stashPassword = signal('');
   protected showPasswordRequirements = signal<boolean>(false);
   protected passwordRequirementsLabel = computed(() =>
     this.showPasswordRequirements()
@@ -51,7 +56,9 @@ export class KerberosSettingsComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const form = this.form();
+
     if (form) {
+      this.updatePasswordsInSignals();
       this.setupRequestValidatorService.stepValid(form.valid);
       this.setupRequestValidatorService.invalidateRx.pipe(takeUntil(this.unsubscribe)).subscribe(() => {
         this.form().validate();
@@ -68,9 +75,22 @@ export class KerberosSettingsComponent implements AfterViewInit {
   }
 
   protected checkModel() {
-    this.form().validate(true);
-    this.password.set(this.krbPasswordInput().value);
-    this.password.set(this.stashPasswordInput().value);
+    this.form().validate();
+  }
+
+  protected generatePasswords() {
+    const krbPassword = PasswordGenerator.generatePassword(this.passwordPolicy);
+    const stashPassword = PasswordGenerator.generatePassword(this.stashPasswordPolicy);
+
+    this.setupRequest.krbadmin_password = krbPassword;
+    this.setupRequest.krbadmin_password_repeat = krbPassword;
+    this.setupRequest.stash_password = stashPassword;
+    this.setupRequest.stash_password_repeat = stashPassword;
+
+    this.krbPassword.set(krbPassword);
+    this.stashPassword.set(stashPassword);
+
+    this.checkModel();
   }
 
   protected downloadPasswords() {
@@ -81,5 +101,10 @@ export class KerberosSettingsComponent implements AfterViewInit {
       },
       'md passwords.txt',
     );
+  }
+
+  private updatePasswordsInSignals() {
+    this.krbPassword.set(this.setupRequest.krbadmin_password);
+    this.stashPassword.set(this.setupRequest.stash_password);
   }
 }

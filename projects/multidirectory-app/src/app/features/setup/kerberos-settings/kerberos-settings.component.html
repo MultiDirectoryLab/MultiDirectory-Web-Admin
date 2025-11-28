@@ -12,13 +12,11 @@
           <label class="textbox-label">{{ 'setup.kerberos-settings.krbadmin-password-label' | transloco }}</label>
           <div class="flex flex-col flex-grow-1">
             <md-textbox
-              #krbPasswordInput="ngModel"
+              #krbPasswordInput
               appRequired
               appPasswordShouldBeValid
               [passwordPolicy]="passwordPolicy"
               [password]="true"
-              [appPasswordMatch]="krbRepeatPassword"
-              [appPasswordNotMatch]="stashPasswordInput"
               [(ngModel)]="setupRequest.krbadmin_password"
               (keyup)="checkModel()"
             ></md-textbox>
@@ -29,9 +27,8 @@
           <label class="textbox-label">{{ 'setup.kerberos-settings.krbadmin-password-repeat-label' | transloco }}</label>
           <div class="flex flex-col flex-grow-1">
             <md-textbox
+              #krbRepeatPasswordInput
               appRequired
-              #krbRepeatPassword="ngModel"
-              [appPasswordMatch]="krbPasswordInput"
               [password]="true"
               [(ngModel)]="setupRequest.krbadmin_password_repeat"
               (keyup)="checkModel()"
@@ -43,10 +40,9 @@
           <label class="textbox-label">{{ 'setup.kerberos-settings.stash-password-label' | transloco }}</label>
           <div class="flex flex-col flex-grow-1">
             <md-textbox
-              #stashPasswordInput="ngModel"
+              #stashPasswordInput
               appRequired
               [password]="true"
-              [appPasswordMatch]="stashRepeatPassword"
               [(ngModel)]="setupRequest.stash_password"
               (keyup)="checkModel()"
             ></md-textbox>
@@ -57,9 +53,8 @@
           <label class="textbox-label">{{ 'setup.kerberos-settings.stash-password-repeat-label' | transloco }}</label>
           <div class="flex flex-col flex-grow-1">
             <md-textbox
+              #stashRepeatPasswordInput
               appRequired
-              #stashRepeatPassword="ngModel"
-              [appPasswordMatch]="stashPasswordInput"
               [password]="true"
               (keyup)="checkModel()"
               [(ngModel)]="setupRequest.stash_password_repeat"
@@ -67,16 +62,39 @@
           </div>
         </div>
 
-        <div class="flex pt-16 justify-between">
+        <div class="flex flex-column gap-4 pt-16 justify-between">
+          <div class="flex gap-4">
+            <md-button (click)="generatePasswords()">{{ 'setup.domain-settings.generate-kdc-passwords' | transloco }}</md-button>
+            <md-button (click)="downloadPasswords()">{{ 'setup.kerberos-settings.download-passwords' | transloco }}</md-button>
+          </div>
+
           <md-button type="button" class="requirements-button" [primary]="true" (click)="togglePasswordRequirements()">{{
             passwordRequirementsLabel()
           }}</md-button>
-
-          <md-button (click)="downloadPasswords()">{{ 'setup.kerberos-settings.download-passwords' | transloco }}</md-button>
         </div>
 
         <div class="password-conditions-wrapper" [class.visible]="showPasswordRequirements()">
-          <app-password-conditions [policy]="passwordPolicy" [currentPassword]="password()"></app-password-conditions>
+          <div class="flex flex-col gap-4">
+            <div class="conditions-container">
+              <div class="mb-2 font-medium">{{ 'setup.kerberos-settings.krbadmin-password-label' | transloco }}</div>
+              <app-password-conditions
+                [policy]="passwordPolicy"
+                [currentPassword]="krbPassword()"
+                [passwordRepeat]="setupRequest.krbadmin_password_repeat"
+              >
+              </app-password-conditions>
+            </div>
+
+            <div class="conditions-container">
+              <div class="mb-2 font-medium">{{ 'setup.kerberos-settings.stash-password-label' | transloco }}</div>
+              <app-password-conditions
+                [policy]="stashPasswordPolicy"
+                [currentPassword]="stashPassword()"
+                [passwordRepeat]="setupRequest.stash_password_repeat"
+              >
+              </app-password-conditions>
+            </div>
+          </div>
         </div>
       </div>
     </md-form>

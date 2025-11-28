@@ -85,4 +85,24 @@ export class ValidationFunctions {
     const latinRegex = /[a-zA-Z]/;
     return latinRegex.test(value);
   }
+
+  static hasUpperCase(value: string): boolean {
+    const uppercaseRegex = /[A-Z]/;
+    return uppercaseRegex.test(value);
+  }
+
+  static hasLowerCase(value: string): boolean {
+    const lowercaseRegex = /[a-z]/;
+    return lowercaseRegex.test(value);
+  }
+
+  static hasNumbers(value: string): boolean {
+    const numbersRegex = /\d/;
+    return numbersRegex.test(value);
+  }
+
+  static hasEndsWithSixDigits(value: string): boolean {
+    const lastSixDigitsRegex = /\d{6}$/;
+    return lastSixDigitsRegex.test(value);
+  }
 }

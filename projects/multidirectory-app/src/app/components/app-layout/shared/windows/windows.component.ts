@@ -20,22 +20,18 @@ export class WindowsComponent implements AfterViewInit {
   readonly dnsSetupDialog = viewChild.required<ModalInjectDirective>('dnsSetupDialog');
 
   ngAfterViewInit(): void {
-    this.ldapWindows.showSetupKerberosDialogRx
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe(() => {
-        this.openSetupKerberosDialog();
-      });
+    this.ldapWindows.showSetupKerberosDialogRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe(() => {
+      this.openSetupKerberosDialog();
+    });
 
-    this.ldapWindows.showDnsSetupDialogRx
-      .pipe(takeUntilDestroyed(this.destroyRef$))
-      .subscribe((dnsSetupRequest) => {
-        this.openDnsSetupDialog(dnsSetupRequest);
-      });
+    this.ldapWindows.showDnsSetupDialogRx.pipe(takeUntilDestroyed(this.destroyRef$)).subscribe((dnsSetupRequest) => {
+      this.openDnsSetupDialog(dnsSetupRequest);
+    });
   }
 
   openSetupKerberosDialog() {
     this.setupKerberosDialog()
-      .open({ minHeight: 400 }, {})
+      .open({ minHeight: 450, width: '550px' }, {})
       .pipe(take(1), takeUntilDestroyed(this.destroyRef$))
       .subscribe(() => {
         this.ldapWindows.closeSetupKerberosDialog();
