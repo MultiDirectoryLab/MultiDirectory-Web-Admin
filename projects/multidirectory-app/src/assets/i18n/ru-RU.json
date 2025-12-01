@@ -931,7 +931,7 @@
     "id-column": "ID",
     "name-column": "Имя",
     "description-column": "Описание",
-    "level-column": "Уровень",
+    "level-column": "Важность",
     "toggle-column": "Активное состояние",
     "load-events-error": "Ошибка при загрузке событий"
   },
@@ -954,7 +954,7 @@
     "approve": "Применить",
     "cancel": "Отменить",
     "id": "ID события",
-    "severity": "Критичность",
+    "severity": "Важность",
     "description": "Наименование",
     "is_enabled": "Событие Включено"
   },
