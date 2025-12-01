@@ -7,7 +7,7 @@
     <div class="place">{{ 'computer-create.header' | transloco }} {{ dialogData.parentDn }}</div>
   </div>
   <hr />
-  <div class="flex flex-col align-start justify-end gap-1" style="max-height: 400px">
+  <div class="flex flex-col align-start justify-end gap-1 central-part">
     <md-form #form>
       <div class="flex flex-col align-start justify-end gap-1">
         <label for="computerName">{{ 'computer-create.computername-label' | transloco }}</label>
@@ -23,9 +23,7 @@
             <md-textbox [(ngModel)]="ownerDn" [disabled]="true" name="ownerDn"></md-textbox>
           </div>
           <div class="grow-2">
-            <md-button (click)="showAccountSelector($event)"
-              >{{ 'computer-create.change' | transloco }}
-            </md-button>
+            <md-button (click)="showAccountSelector($event)">{{ 'computer-create.change' | transloco }} </md-button>
           </div>
         </div>
         <div>
@@ -37,12 +35,7 @@
       <div class="flex flex-col align-start justify-between gap-1 pt-16">
         <label for="description">{{ 'computer-create.description' | transloco }}</label>
         <div class="flex w-full">
-          <md-textarea
-            [(ngModel)]="description"
-            [expandWidth]="true"
-            class="grow-2"
-            name="description"
-          ></md-textarea>
+          <md-textarea [(ngModel)]="description" [expandWidth]="true" class="grow-2 textArea" name="description"></md-textarea>
         </div>
       </div>
     </md-form>
