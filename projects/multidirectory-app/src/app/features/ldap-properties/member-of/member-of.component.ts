@@ -4,16 +4,15 @@ import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Group } from '@core/groups/group';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { from, take } from 'rxjs';
-import {
-  EntitySelectorDialogData,
-  EntitySelectorDialogReturnData,
-} from '../../../components/modals/interfaces/entity-selector-dialog.interface';
-import { DialogService } from '../../../components/modals/services/dialog.service';
+import { EntitySelectorDialogData, EntitySelectorDialogReturnData } from '@components/modals/interfaces/entity-selector-dialog.interface';
+import { DialogService } from '@components/modals/services/dialog.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-selector-dialog/entity-selector-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
 
 @Component({
   selector: 'app-member-of',
@@ -22,16 +21,6 @@ import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-
   imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
 export class MemberOfComponent {
-  private dialogService: DialogService = inject(DialogService);
-  private ldapTreeview: LdapTreeviewService = inject(LdapTreeviewService);
-  private cdr = inject(ChangeDetectorRef);
-  readonly groupList = viewChild<DatagridComponent>('groupList');
-  groups: Group[] = [];
-  columns = [
-    { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
-    { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
-  ];
-
   private _accessor: LdapAttributes = new LdapAttributes([]);
 
   get accessor(): LdapAttributes {
@@ -43,17 +32,36 @@ export class MemberOfComponent {
     this.groups = this._accessor.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
   }
 
-  addGroup() {
+  protected groups: Group[] = [];
+  protected columns = [
+    { name: translate('member-of.name'), prop: 'name', flexGrow: 1 },
+    { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
+  ];
+
+  private readonly groupList = viewChild<DatagridComponent>('groupList');
+
+  private dialogService: DialogService = inject(DialogService);
+  private ldapTreeview: LdapTreeviewService = inject(LdapTreeviewService);
+  private cdr = inject(ChangeDetectorRef);
+  private toastr = inject(ToastrService);
+  private api = inject(MultidirectoryApiService);
+
+  protected get accessorHasPrimaryGroup(): boolean {
+    return !!this.accessor.primaryGroupID;
+  }
+
+  protected get groupSelected(): boolean {
+    return !!this.groupList()?.selected?.length;
+  }
+
+  protected addGroup() {
     const types = ['group', 'user'];
+
     from(this.ldapTreeview.load(''))
       .pipe(take(1))
       .subscribe((ldapTree) => {
         this.dialogService
-          .open<
-            EntitySelectorDialogReturnData,
-            EntitySelectorDialogData,
-            EntitySelectorDialogComponent
-          >({
+          .open<EntitySelectorDialogReturnData, EntitySelectorDialogData, EntitySelectorDialogComponent>({
             component: EntitySelectorDialogComponent,
             dialogConfig: {
               data: {
@@ -69,8 +77,7 @@ export class MemberOfComponent {
           .subscribe((res) => {
             if (res && !!this.accessor) {
               res = res.filter((x) => !this.accessor!.memberOf?.includes(x.id)) ?? res;
-              this.accessor.memberOf =
-                this.accessor?.memberOf?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
+              this.accessor.memberOf = this.accessor?.memberOf?.concat(res.map((x) => x.id)) ?? res.map((x) => x.id);
               this.groups = this.accessor?.memberOf?.map((x) => this.createGroupFromDn(x)) ?? [];
               this.cdr.detectChanges();
             }
@@ -78,19 +85,22 @@ export class MemberOfComponent {
       });
   }
 
-  deleteGroup() {
-    this.groups = this.groups.filter(
-      (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1,
-    );
-    this.accessor.memberOf = this.accessor.memberOf.filter(
-      (x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1,
-    );
+  protected deleteGroup() {
+    this.groups = this.groups.filter((x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x.dn) ?? -1) === -1);
+    this.accessor.memberOf = this.accessor.memberOf.filter((x) => (this.groupList()?.selected?.findIndex((y) => y.dn == x) ?? -1) === -1);
   }
 
-  openGroupProperties() {
-    const groupList = this.groupList();
-    if (!groupList?.selected?.[0]) {
-      return;
+  protected updateGroup() {
+    const selectedGroups: Group[] | undefined = this.groupList()?.selected;
+    const dn: string | undefined = this.accessor.distinguishedName[0];
+
+    if (selectedGroups && this.groupSelected && dn) {
+      if (selectedGroups.length > 1) {
+        this.toastr.warning(translate('member-of.update-group-length-error'));
+      } else {
+        const selectedGroupDn = selectedGroups[0].dn;
+        selectedGroupDn && this.setPrimaryGroup(dn, selectedGroupDn);
+      }
     }
   }
 
@@ -101,6 +111,22 @@ export class MemberOfComponent {
       name: name?.[1] ?? '',
       path: path?.[1] ?? '',
       dn: dn,
+    });
+  }
+
+  private setPrimaryGroup(directoryDn: string, groupDn: string) {
+    const payload: SetPrimaryGroupRequest = {
+      directory_dn: directoryDn,
+      group_dn: groupDn,
+    };
+
+    this.api.setPrimaryGroup(payload).subscribe({
+      next: () => {
+        this.toastr.success(translate('member-of.primary-group-updated', { group: groupDn }));
+      },
+      error: () => {
+        this.toastr.error(translate('member-of.primary-group-update-error', { group: groupDn }));
+      },
     });
   }
 }

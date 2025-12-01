@@ -4,7 +4,6 @@
 <div class="flex w-full" style="min-height: 250px">
   <md-datagrid
     #groupList
-    (doubleclick)="openGroupProperties()"
     [columns]="columns"
     [rows]="groups"
     [total]="groups.length"
@@ -17,17 +16,20 @@
   </md-datagrid>
 </div>
 <div class="flex button-row">
-  <md-button (click)="addGroup()">{{ 'member-of.add' | transloco }}</md-button>
+  <md-button [primary]="true" (click)="addGroup()">{{ 'member-of.add' | transloco }}</md-button>
   <md-button (click)="deleteGroup()">{{ 'member-of.delete' | transloco }}</md-button>
 </div>
 <hr />
 <div class="flex gap-1">
   <div class="grow-1">{{ 'member-of.primary-group' | transloco }}</div>
+  <!--TODO: update current primary group in next release -->
   <div class="grow-1">Administrators</div>
 </div>
 <div class="flex primary-group-block">
   <div class="grow-1">
-    <md-button [disabled]="true">{{ 'member-of.make-primary' | transloco }}</md-button>
+    <md-button [primary]="true" [disabled]="!accessorHasPrimaryGroup || !groupSelected" (click)="updateGroup()">
+      {{ 'member-of.make-primary' | transloco }}
+    </md-button>
   </div>
   <div class="grow-1">
     {{ 'member-of.primary-note' | transloco }}

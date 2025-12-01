@@ -279,7 +279,10 @@
     "delete": "Delete",
     "primary-group": "Main group: ",
     "make-primary": "Make primary",
-    "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients."
+    "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients.",
+    "update-group-length-error": "Only one group can be selected as the main group",
+    "primary-group-updated": "Group {{ group }} has been made primary",
+    "primary-group-updated-error": "Group {{ group }} could not be made primary"
   },
   "members": {
     "members": "Members:",
@@ -296,7 +299,6 @@
     "finish-to": "By",
     "cancel": "Cancel",
     "apply": "Apply",
-
     "every": "All",
     "monday": "Monday",
     "tuesday": "Tuesday",
@@ -305,7 +307,6 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday",
-
     "from-monday": "From Monday",
     "from-tuesday": "From Tuesday",
     "from-wednesday": "From Wednesday",
