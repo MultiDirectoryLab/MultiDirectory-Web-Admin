@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnChanges, OnInit } from '@angular/core';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import {
@@ -18,13 +18,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
   styleUrl: './entity-type-selector-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntityTypeSelectorDialogComponent implements OnInit {
+export class EntityTypeSelectorDialogComponent implements OnInit, OnChanges {
   tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name }));
 
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<EntityTypeSelectorDialogReturnData, EntityTypeSelectorDialogComponent> = inject(DialogRef);
   dialogData: EntityTypeSelectorDialogData = inject(DIALOG_DATA);
-  protected isSelectedItems: boolean = true;
+  protected hasSelectedItems: boolean = true;
 
   ngOnInit(): void {
     const selected = this.dialogData.selectedEntityTypes;
@@ -33,19 +33,22 @@ export class EntityTypeSelectorDialogComponent implements OnInit {
       x.selected = selected.findIndex((select) => select.id == x.id) > -1;
     });
 
-    this.hasSelectedItems();
+    this.calcSelectedItems();
+  }
+  ngOnChanges(): void {
+    this.calcSelectedItems();
   }
 
   onNodeCheckbox() {
-    this.hasSelectedItems();
+    this.calcSelectedItems();
   }
 
   close() {
     this.dialogService.close(this.dialogRef);
   }
 
-  hasSelectedItems() {
-    this.isSelectedItems = this.tree.some((x) => x.selected);
+  calcSelectedItems() {
+    this.hasSelectedItems = this.tree.some((x) => x.selected);
   }
 
   finish() {
