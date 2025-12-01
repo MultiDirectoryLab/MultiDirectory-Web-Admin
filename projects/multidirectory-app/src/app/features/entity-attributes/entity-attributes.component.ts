@@ -1,16 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-  Input,
-  OnInit,
-  signal,
-  TemplateRef,
-  viewChild,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, Input, OnInit, signal, TemplateRef, viewChild, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -32,10 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, from, Subject, take, takeUntil } from 'rxjs';
 import { AttributesFilterContextMenuComponent } from '../../components/modals/components/context-menus/attributes-filter-context-menu/attributes-filter-context-menu.component';
 import { PropertyEditDialogComponent } from '../../components/modals/components/dialogs/property-edit-dialog/property-edit-dialog.component';
-import {
-  PropertyEditDialogData,
-  PropertyEditDialogReturnData,
-} from '../../components/modals/interfaces/property-edit-dialog.interface';
+import { PropertyEditDialogData, PropertyEditDialogReturnData } from '../../components/modals/interfaces/property-edit-dialog.interface';
 import { ContextMenuService } from '../../components/modals/services/context-menu.service';
 import { DialogService } from '../../components/modals/services/dialog.service';
 
@@ -125,9 +111,7 @@ export class EntityAttributesComponent implements OnInit {
       return;
     }
     const attribute = this.propGrid().selected[0];
-    this.accessor[attribute.name] = this.accessor[attribute.name].filter(
-      (x) => x !== attribute.val,
-    );
+    this.accessor[attribute.name] = this.accessor[attribute.name].filter((x) => x !== attribute.val);
     this.rows = this.rows.filter((x) => x.name !== attribute.name || x.val !== attribute.val);
     this.cdr.detectChanges();
   }
@@ -154,7 +138,7 @@ export class EntityAttributesComponent implements OnInit {
       })
       .closed.pipe(take(1))
       .subscribe((editedValue) => {
-        if (!editedValue) return;
+        if (!editedValue || !editedValue.propertyName) return;
 
         this.accessor[attribute.name] = editedValue.propertyValue;
         this.displayAttributes();
@@ -190,8 +174,7 @@ export class EntityAttributesComponent implements OnInit {
   }
 
   private isValidDate(str: string): boolean {
-    const iso8601Pattern =
-      /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
+    const iso8601Pattern = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})?)?$/;
     return iso8601Pattern.test(str);
   }
 
@@ -241,11 +224,7 @@ export class EntityAttributesComponent implements OnInit {
     return result
       .filter((attr) => !this.filter().showWithValuesOnly || this._accessor[attr.name])
       .filter((attr) => !this.filter().showWritableOnly || this._schema.get(attr.name)?.writable)
-      .filter(
-        (attr) =>
-          !this.searchQuery ||
-          attr.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()),
-      );
+      .filter((attr) => !this.searchQuery || attr.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()));
   }
 
   openFilterContext(e: Event) {
