@@ -4,3 +4,12 @@
   min-width: inherit;
   min-height: inherit;
 }
+
+.textArea {
+  max-height: 550px;
+}
+.central-part {
+  max-height: 400px;
+  height: 400px;
+  overflow: auto;
+}
