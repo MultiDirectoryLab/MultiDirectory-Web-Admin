@@ -54,7 +54,8 @@
     "modal-header": "Object Types",
     "header": "Select the types of objects you want to find:",
     "apply": "Apply",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "error-select": "Please select at least 1 entity"
   },
   "group-selector": {
     "modal-header": "Object selection",

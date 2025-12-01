@@ -22,11 +22,9 @@ export class EntityTypeSelectorDialogComponent implements OnInit {
   tree = ENTITY_TYPES.map((x) => new Treenode({ id: x.id, name: x.name }));
 
   private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<
-    EntityTypeSelectorDialogReturnData,
-    EntityTypeSelectorDialogComponent
-  > = inject(DialogRef);
-  private dialogData: EntityTypeSelectorDialogData = inject(DIALOG_DATA);
+  private dialogRef: DialogRef<EntityTypeSelectorDialogReturnData, EntityTypeSelectorDialogComponent> = inject(DialogRef);
+  dialogData: EntityTypeSelectorDialogData = inject(DIALOG_DATA);
+  protected isSelectedItems: boolean = true;
 
   ngOnInit(): void {
     const selected = this.dialogData.selectedEntityTypes;
@@ -34,10 +32,20 @@ export class EntityTypeSelectorDialogComponent implements OnInit {
     this.tree.forEach((x) => {
       x.selected = selected.findIndex((select) => select.id == x.id) > -1;
     });
+
+    this.hasSelectedItems();
+  }
+
+  onNodeCheckbox() {
+    this.hasSelectedItems();
   }
 
   close() {
     this.dialogService.close(this.dialogRef);
+  }
+
+  hasSelectedItems() {
+    this.isSelectedItems = this.tree.some((x) => x.selected);
   }
 
   finish() {
