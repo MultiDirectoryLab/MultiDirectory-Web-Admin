@@ -1,13 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  inject,
-  input,
-  output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, input, output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CatalogSelectorDialogComponent } from '@components/modals/components/dialogs/catalog-selector-dialog/catalog-selector-dialog.component';
 import { EntityTypeSelectorDialogComponent } from '@components/modals/components/dialogs/entity-type-selector-dialog/entity-type-selector-dialog.component';
@@ -70,11 +62,7 @@ export class EntitySelectorComponent {
 
   selectEntityType() {
     this.dialogService
-      .open<
-        EntityTypeSelectorDialogReturnData,
-        EntityTypeSelectorDialogData,
-        EntityTypeSelectorDialogComponent
-      >({
+      .open<EntityTypeSelectorDialogReturnData, EntityTypeSelectorDialogData, EntityTypeSelectorDialogComponent>({
         component: EntityTypeSelectorDialogComponent,
         dialogConfig: {
           width: '580px',
@@ -89,16 +77,14 @@ export class EntitySelectorComponent {
         }
         this.entityTypeDisplay = result.map((x) => x.name).join(' ИЛИ ');
         this.entityTypes = result;
+
+        this.cdr.markForCheck();
       });
   }
 
   selectCatalog() {
     this.dialogService
-      .open<
-        CatalogSelectorDialogReturnData,
-        CatalogSelectorDialogData,
-        CatalogSelectorDialogComponent
-      >({
+      .open<CatalogSelectorDialogReturnData, CatalogSelectorDialogData, CatalogSelectorDialogComponent>({
         component: CatalogSelectorDialogComponent,
         dialogConfig: {
           minHeight: '360px',
@@ -141,7 +127,6 @@ export class EntitySelectorComponent {
             badge_title: x.object_name,
           });
         });
-        this.addRootCatalog();
         this.selector?.showMenu();
         this.cdr.detectChanges();
       });
@@ -153,11 +138,13 @@ export class EntitySelectorComponent {
   }
 
   private addRootCatalog() {
-    this.availableGroups.push(new MultiselectModel({
-      id: this.selectedCatalogDn,
-      selected: false,
-      title: this.selectedCatalogDn,
-      badge_title: this.selectedCatalogDn
-    }));
+    this.availableGroups.push(
+      new MultiselectModel({
+        id: this.selectedCatalogDn,
+        selected: false,
+        title: this.selectedCatalogDn,
+        badge_title: this.selectedCatalogDn,
+      }),
+    );
   }
 }

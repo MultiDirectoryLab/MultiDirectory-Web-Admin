@@ -1,18 +1,11 @@
 <div class="scrollable treeview-container" tabindex="0">
   @for (node of tree; track node.id) {
-    <ng-container
-      [ngTemplateOutlet]="treeNode"
-      [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"
-    ></ng-container>
+    <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
   }
 </div>
 
 <ng-template #treeNode let-data let-level="level">
-  <div
-    (click)="handleNodeClick($event, data)"
-    (dblclick)="handleExpandClick($event, data)"
-    (contextmenu)="handleRightClick($event, data)"
-  >
+  <div (click)="handleNodeClick($event, data)" (dblclick)="handleExpandClick($event, data)" (contextmenu)="handleRightClick($event, data)">
     <div
       class="tree-item-wrapper"
       [ngClass]="{
@@ -29,7 +22,7 @@
         }"
       ></span>
       <span
-        class="tree-item"
+        class="tree-item gap-2"
         [ngClass]="{
           expanded: data.expanded,
           expandable: data.children.length > 0 && data.expandable,
@@ -41,15 +34,7 @@
           <label class="expand-mark">
             @if (data.children.length > 0 && data.expandable) {
               <span style="margin-right: 2px">
-                <span
-                  [innerHTML]="
-                    data.children?.length === 0 && data.childrenLoaded
-                      ? '&nbsp;&nbsp;'
-                      : data.expanded
-                        ? '-'
-                        : '+'
-                  "
-                ></span>
+                <span [innerHTML]="data.children?.length === 0 && data.childrenLoaded ? '&nbsp;&nbsp;' : data.expanded ? '-' : '+'"></span>
               </span>
             }
             @if (!data.expandable) {
@@ -57,20 +42,14 @@
             }
           </label>
         }
-        <ng-container
-          [ngTemplateOutlet]="nodeLabelTemplate"
-          [ngTemplateOutletContext]="{ $implicit: data }"
-        ></ng-container>
+        <ng-container [ngTemplateOutlet]="nodeLabelTemplate" [ngTemplateOutletContext]="{ $implicit: data }"></ng-container>
       </span>
     </div>
   </div>
   @if (data.children !== null && data.expanded) {
     <div>
       @for (child of data.children; track child.id) {
-        <ng-container
-          [ngTemplateOutlet]="treeNode"
-          [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
-        ></ng-container>
+        <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"></ng-container>
       }
     </div>
   }
@@ -78,11 +57,16 @@
 
 <ng-template #defaultLabel let-data>
   @if (checkboxes) {
-    <md-checkbox [(ngModel)]="data.selected" [name]="'checkboxe$' + data.id">{{
-      data.name
-    }}</md-checkbox>
+    <input type="checkbox" class="checkbox-input" name="checkbox_{{ data.name }}_{{ data.id }}" [(ngModel)]="data.selected" />
+    <label>
+      {{ data.name }}
+    </label>
   }
   @if (!checkboxes) {
-    <label class="tree-label">{{ data.name }}</label>
+    @if (data.tooltipText) {
+      <label mdTooltip [tooltipText]="data.name" class="tree-label">{{ data.name }}</label>
+    } @else {
+      <label class="tree-label">{{ data.name }}</label>
+    }
   }
 </ng-template>

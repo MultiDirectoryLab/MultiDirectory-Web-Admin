@@ -1,0 +1,25 @@
+.tooltip {
+  position: relative;
+}
+
+.tooltip-container {
+  background-color: #333;
+  color: #fff;
+  max-width: 230px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  opacity: 0.9;
+  word-wrap: break-word;
+  white-space: normal;
+
+  transition: opacity 0.2s ease-in-out;
+
+  &.extended {
+    width: auto;
+    max-width: 600px;
+  }
+
+  &.fluid {
+    width: auto;
+  }
+}

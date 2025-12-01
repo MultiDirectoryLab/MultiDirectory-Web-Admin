@@ -13,7 +13,7 @@
     "build-storybook": "ng run multidirectory-ui-kit:build-storybook",
     "lint": "ng lint",
     "prepare": "husky",
-    "start-dev": "ngg build multidirectory-ui-kit && rm -f  \"$(npm root -g)/multidirectory-ui-kit\" && npm link ./dist/multidirectory-ui-kit && npm start",
+    "start-dev": "ng build multidirectory-ui-kit && rm -f  \"$(npm root -g)/multidirectory-ui-kit\" && npm link ./dist/multidirectory-ui-kit && npm start",
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
