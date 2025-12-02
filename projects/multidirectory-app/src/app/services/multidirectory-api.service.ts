@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AccessPolicy } from '@core/access-policy/access-policy';
 import { ApiAdapter } from '@core/api/api-adapter';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
@@ -43,8 +43,9 @@ import { SetupRequest } from '@models/api/setup/setup-request';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { SyslogConnection } from '../models/api/syslog/syslog-connection';
+import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
 
 @Injectable({
   providedIn: 'root',
@@ -107,6 +108,10 @@ export class MultidirectoryApiService {
   }
   deleteMany(request: DeleteManyEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.post<DeleteEntryResponse>('entry/delete_many', request.selectedItems).execute();
+  }
+
+  setPrimaryGroup(request: SetPrimaryGroupRequest): Observable<SetPrimaryGroupRequest> {
+    return this.httpClient.post<SetPrimaryGroupRequest>('entry/set_primary_group', request).execute();
   }
 
   getAccessPolicy(): Observable<AccessPolicy[]> {
