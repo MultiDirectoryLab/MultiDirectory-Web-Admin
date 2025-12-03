@@ -25,6 +25,7 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { from, Subject, take, takeUntil } from 'rxjs';
+import { MaxLengthValidatorDirective } from '@core/validators/max-length.directive';
 
 @Component({
   selector: 'app-user-create-general-info',
@@ -39,6 +40,7 @@ import { from, Subject, take, takeUntil } from 'rxjs';
     DropdownComponent,
     MdFormComponent,
     CommonModule,
+    MaxLengthValidatorDirective
   ],
 })
 export class UserCreateGeneralInfoComponent implements OnInit, AfterViewInit, OnDestroy {

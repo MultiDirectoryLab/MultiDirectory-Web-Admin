@@ -9,6 +9,7 @@
         appRequired
         class="col-span-1 w-full"
         name="first-name"
+        [maxLength]="256"
         (change)="onNameChange()"
         [(ngModel)]="setupRequest.firstName"
       ></md-textbox>
@@ -19,6 +20,7 @@
       <md-textbox
         class="col-span-1 w-full"
         name="initials"
+        [maxLength]="6"
         (change)="onNameChange()"
         [(ngModel)]="setupRequest.initials"
       ></md-textbox>
@@ -32,6 +34,7 @@
       <md-textbox
         class="col-span-3 w-full"
         name="last-name"
+        [maxLength]="64"
         (change)="onNameChange()"
         [(ngModel)]="setupRequest.lastName"
       ></md-textbox>
@@ -45,6 +48,7 @@
       <md-textbox
         class="col-span-3 w-full"
         name="full-name"
+        [maxLength]="64"
         [(ngModel)]="setupRequest.fullName"
       ></md-textbox>
     </div>
@@ -57,6 +61,7 @@
       <md-textarea
         class="col-span-3 w-full"
         name="description"
+        [maxLength]="1024"
         [(ngModel)]="setupRequest.description"
         [expandWidth]="true"
       ></md-textarea>
@@ -70,6 +75,7 @@
       <md-textbox
         class="col-span-3 w-full"
         name="email"
+        [maxLength]="254"
         [(ngModel)]="setupRequest.email"
       ></md-textbox>
     </div>
@@ -83,6 +89,7 @@
         <md-textbox
           appRequired
           [(ngModel)]="setupRequest.upnLogin"
+          [maxLength]="64"
           name="login"
           class="w-full"
         ></md-textbox>
