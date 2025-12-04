@@ -22,7 +22,7 @@
   </div>
 
   <div class="app-modal-footer flex justify-end">
-    <md-button (click)="save(true)" class="pr-8">{{
+    <md-button (click)="save(userProps?.generalPropertiesValid)" class="pr-8">{{
       'properties-modal.close' | transloco
     }}</md-button>
     <md-button (click)="save(false)" [disabled]="userProps && !userProps.generalPropertiesValid" [primary]="true"
