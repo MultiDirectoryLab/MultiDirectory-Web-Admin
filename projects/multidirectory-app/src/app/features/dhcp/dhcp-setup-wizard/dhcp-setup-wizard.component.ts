@@ -135,7 +135,7 @@ export class DHCPSetupWizardComponent {
       subnetMask: [this.isResetForm ? this.dialogData?.subnet : '', []],
       defaultGateway: [
         this.isResetForm ? this.dialogData?.default_gateway : '',
-        [Validators.required, Validators.pattern(this.ipReg)],
+        [Validators.pattern(this.ipReg)],
       ],
     });
   }
