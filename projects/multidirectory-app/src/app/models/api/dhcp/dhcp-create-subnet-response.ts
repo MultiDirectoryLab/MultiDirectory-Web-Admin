@@ -5,7 +5,7 @@ export class DhcpCreateSubnetRequest {
   subnet = '';
   pool = '';
   valid_lifetime = 0;
-  default_gateway = '';
+  default_gateway: string | null = null;
 
   constructor(obj: Partial<DhcpCreateSubnetRequest>) {
     Object.assign(this, obj);
@@ -20,7 +20,7 @@ export interface DhcpCreateSubnetResponse {
 export class DhcpUpdateSubnetRequest {
   subnet = '';
   pool = '';
-  default_gateway = '';
+  default_gateway: string | null = null;
 
   constructor(obj: Partial<DhcpUpdateSubnetRequest>) {
     Object.assign(this, obj);
