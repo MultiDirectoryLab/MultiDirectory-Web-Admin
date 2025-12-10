@@ -70,7 +70,7 @@ export class DHCPSetupWizardComponent {
       subnet: this.form.subnetMask.value,
       pool: `${this.form.startIp.value}-${this.form.endIp.value}`,
       valid_lifetime: lifetime,
-      default_gateway: this.form.defaultGateway.value,
+      default_gateway: this.form.defaultGateway.value || null,
     };
 
     if (!this.isResetForm) {
