@@ -88,7 +88,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
     this.dialogComponent.showSpinner();
     const updateRequest = this.attributeService.createAttributeUpdateRequest(this.accessor);
 
-    if (updateRequest.changes.length === 0 || !this.userProps?.generalPropertiesValid) {
+    if (updateRequest.changes.length === 0 || (this.userProps && !this.userProps.generalPropertiesValid)) {
       this.dialogComponent.hideSpinner();
       this.close();
 
