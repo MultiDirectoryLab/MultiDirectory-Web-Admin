@@ -2,7 +2,7 @@
   <div class="dhcp-areas-item__header">
     <h3>
       <span class="hcp-areas-item__header-number">{{ subnet.id }}</span> Область:
-      <b>{{subnet.default_gateway}}</b>
+      <b>{{ subnetWithoutMask }}</b>
     </h3>
     <div class="cell-control-buttons">
       <md-button class="control-button" (click)="deleteArea()">

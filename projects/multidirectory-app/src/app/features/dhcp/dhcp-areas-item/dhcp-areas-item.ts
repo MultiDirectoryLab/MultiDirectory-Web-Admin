@@ -30,6 +30,14 @@ export default class DhcpAreasItem {
   private readonly dhcp = inject(DhcpApiService);
   onSelectedTabIndexChange = output<number>();
 
+  get subnetWithoutMask(): string {
+    const subnet = this.subnet?.subnet;
+    if (!subnet) {
+      return '';
+    }
+    return subnet.substring(0, subnet.indexOf('/'));
+  }
+
   constructor() {
     effect(() => {
       const tabs = untracked(() => this.tabs());
