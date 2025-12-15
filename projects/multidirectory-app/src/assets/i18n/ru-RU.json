@@ -964,6 +964,9 @@
     "access-policies": "Политики доступа"
   },
   "password-policy": {
+    "general-settings": "Общие настройки",
+    "password-complexity-settings": "Параметры сложности пароля",
+    "blocking-settings": "Параметры блокировки",
     "title": "Название",
     "max-password-age": "Максимальный срок давности пароля (в днях)",
     "min-password-age": "Минимальный срок давности пароля (в днях)",

@@ -989,7 +989,10 @@
     "policy-load-error": "Failed to load policy",
     "back": "Back",
     "policy-get-error": "Failed to load policies",
-    "policy-update-priorities-error": "Failed to update policy priorities"
+    "policy-update-priorities-error": "Failed to update policy priorities",
+    "general-settings": "General Settings",
+    "password-complexity-settings": "Password Complexity Settings",
+    "blocking-settings": "Blocking Settings"
   },
   "passwords-upload": {
     "clear": "Clear",

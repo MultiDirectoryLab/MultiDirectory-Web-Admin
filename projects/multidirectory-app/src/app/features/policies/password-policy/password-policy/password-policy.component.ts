@@ -26,6 +26,7 @@ import { PasswordsUploadComponent } from './passwords-upload/passwords-upload.co
     PasswordsUploadComponent,
   ],
   templateUrl: './password-policy.component.html',
+  styleUrls: ['./password-policy.component.scss'],
 })
 export class PasswordPolicyComponent implements OnInit {
   private readonly form = viewChild.required<MdFormComponent>('form');
