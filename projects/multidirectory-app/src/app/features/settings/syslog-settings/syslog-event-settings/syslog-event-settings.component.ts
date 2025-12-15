@@ -6,14 +6,11 @@ import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { SyslogService } from '@services/syslog.service';
 import { DatagridComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { TableColumn } from 'ngx-datatable-gimefork';
+import { SelectionType, TableColumn } from 'ngx-datatable-gimefork';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, of, switchMap, take } from 'rxjs';
 import { SyslogEventEditComponent } from './syslog-event-edit/syslog-event-edit.component';
-import {
-  SyslogEventEditDialogData,
-  SyslogEventEditReturnData,
-} from './syslog-event-edit/syslog-event-edit.interface';
+import { SyslogEventEditDialogData, SyslogEventEditReturnData } from './syslog-event-edit/syslog-event-edit.interface';
 
 @Component({
   selector: 'app-syslog-event-settings',
@@ -30,10 +27,12 @@ export class SyslogEventSettingsComponent implements OnInit {
   levelOptions = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
 
   private allEvents: SyslogEvent[] = [];
+  selected: SyslogEvent[] = [];
 
   private grid = viewChild.required<DatagridComponent>('grid');
   private selectLevelTemplate = viewChild.required<TemplateRef<any>>('selectLevelColumnTemplate');
   private toggleColumnTemplate = viewChild.required<TemplateRef<any>>('toggleColumnTemplate');
+  private toggleHeaderTemplate = viewChild.required<TemplateRef<any>>('toggleHeaderTemplate');
 
   private readonly syslog = inject(SyslogService);
   private readonly toastr = inject(ToastrService);
@@ -49,14 +48,25 @@ export class SyslogEventSettingsComponent implements OnInit {
       },
       {
         name: translate('syslog-event-settings.toggle-column'),
+        headerCheckboxable: true,
+        checkboxable: true,
+        headerTemplate: this.toggleHeaderTemplate(),
         cellTemplate: this.toggleColumnTemplate(),
       },
     ];
     this.loadEvents();
   }
+  checkAllCheckbox = false;
 
-  protected onRowChange(event: SyslogEvent) {
-    this.syslog.updateEvent(event.id, event).subscribe();
+  selectionChanged(event: SyslogEvent[]) {
+    if (event.length === this.limit || event.length === 0) {
+      this.checkAllCheckbox = !this.checkAllCheckbox;
+    }
+    const newEnabledItems = this.symmetricDifferenceById(event, this.selected);
+    newEnabledItems.forEach((row) => {
+      this.syslog.updateEvent(row.id, row).subscribe();
+    });
+    this.selected = [...event];
   }
 
   protected onRowEdit() {
@@ -84,14 +94,7 @@ export class SyslogEventSettingsComponent implements OnInit {
   }
 
   protected onPaginationChange(): void {
-    const sortedEvents = this.allEvents
-      .sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
-      .map((x) => new SyslogEvent(x));
-    const start = this.offset;
-    const end = start + this.limit;
-
-    this.syslogEvents = sortedEvents.slice(start, end);
-    this.total = sortedEvents.length;
+    this.calcPageRows();
   }
 
   private loadEvents() {
@@ -104,15 +107,46 @@ export class SyslogEventSettingsComponent implements OnInit {
         }),
       )
       .subscribe((events) => {
-        const sortedEvents = events
-          .sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1))
-          .map((x) => new SyslogEvent(x));
-        const start = this.offset;
-        const end = start + this.limit;
+        this.allEvents = events.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)).map((x) => new SyslogEvent(x));
 
-        this.allEvents = sortedEvents;
-        this.syslogEvents = sortedEvents.slice(start, end);
-        this.total = events.length;
+        this.calcPageRows();
+
+        this.selected = this.syslogEvents.filter((item) => item.is_enabled);
+        this.grid()._selected = this.syslogEvents.filter((item) => item.is_enabled);
       });
   }
+
+  calcPageRows(): void {
+    const start = this.offset;
+    const end = start + this.limit;
+
+    this.syslogEvents = this.allEvents.slice(start, end);
+    this.total = this.allEvents.length;
+  }
+
+  /**
+   * Поиск измененных строк с проставлением значения для параметра is_enabled
+   **/
+  symmetricDifferenceById<T, K extends keyof T>(arr1: T[], arr2: T[], idKey: K = 'id' as K): T[] {
+    const map1 = new Map<T[K], T>(arr1.map((item) => [item[idKey], item]));
+    const map2 = new Map<T[K], T>(arr2.map((item) => [item[idKey], item]));
+
+    const result: T[] = [];
+
+    for (const [id, item] of map1) {
+      if (!map2.has(id)) {
+        result.push({ ...item, is_enabled: true });
+      }
+    }
+
+    for (const [id, item] of map2) {
+      if (!map1.has(id)) {
+        result.push({ ...item, is_enabled: false });
+      }
+    }
+
+    return result;
+  }
+
+  protected readonly SelectionType = SelectionType;
 }

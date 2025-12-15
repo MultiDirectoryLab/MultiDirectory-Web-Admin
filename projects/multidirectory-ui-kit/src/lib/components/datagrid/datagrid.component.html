@@ -8,7 +8,7 @@
     [columns]="columns"
     [selected]="selected"
     [headerHeight]="headerHeight ? headerHeight : controlPanelRef ? 64 : 32"
-    [selectionType]="SelectionType.multi"
+    [selectionType]="selectionType"
     (select)="onSelect($event)"
     (activate)="onActivate($event)"
     [externalPaging]="externalPaging"
@@ -56,16 +56,9 @@
 
         <div class="flex-row flex-end align-center w-100 flex-gap-10 p-4">
           <label class="pr-10">Размер страницы: </label>
-          <md-dropdown
-            class="page-size-select"
-            [options]="pageSizes"
-            [(ngModel)]="limit"
-          ></md-dropdown>
+          <md-dropdown class="page-size-select" [options]="pageSizes" [(ngModel)]="limit"></md-dropdown>
           <div>
-            {{ (curPage - 1) * pageSize + 1 }}-{{
-              curPage * pageSize > rowCount ? rowCount : curPage * pageSize
-            }}
-            из {{ rowCount }}
+            {{ (curPage - 1) * pageSize + 1 }}-{{ curPage * pageSize > rowCount ? rowCount : curPage * pageSize }} из {{ rowCount }}
           </div>
         </div>
         <datatable-pager

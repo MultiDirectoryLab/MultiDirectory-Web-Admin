@@ -1,23 +1,28 @@
 <div class="px-2 py-2">
   <md-datagrid
     [rows]="syslogEvents"
+    (selectionChanged)="selectionChanged($event)"
     [columns]="syslogEventsColumns"
+    [selectionType]="SelectionType.checkbox"
     [externalPaging]="true"
     [(limit)]="limit"
     [(offset)]="offset"
     [(total)]="total"
     (limitChange)="onPaginationChange()"
     (offsetChange)="onPaginationChange()"
-    (doubleclick)="onRowEdit()"
     emptyMessage="{{ 'grid.no-data' | transloco }}"
     #grid
   >
-    <ng-template #toggleColumnTemplate let-row="row">
-      <md-checkbox [(ngModel)]="row.is_enabled" (ngModelChange)="onRowChange(row)"></md-checkbox>
-    </ng-template>
+    <ng-template #toggleColumnTemplate let-row="row" let-isSelected="isSelected"> </ng-template>
 
     <ng-template #selectLevelColumnTemplate let-row="row">
       {{ row.severity }}
+    </ng-template>
+
+    <ng-template #toggleHeaderTemplate let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+      <span class="datatable-header-cell-wrapper">
+        <span class="datatable-header-cell-label draggable text-left"> {{ 'syslog-event-settings.toggle-column' | transloco }} </span>
+      </span>
     </ng-template>
   </md-datagrid>
 </div>

@@ -103,12 +103,12 @@ export class DatagridComponent {
   @Output() totalChange = new EventEmitter<number>();
 
   @Input() rows: any[] = [];
-
   @Input() scrollbarV = false;
   @Input() hideFooter = false;
   @Input() headerHeight = 32;
   @Input() controlPanelRef: TemplateRef<any> | null = null;
   @Input() externalSorting = false;
+  @Input() selectionType = SelectionType.multi;
   @Output() sort = new EventEmitter<SortEvent>();
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
