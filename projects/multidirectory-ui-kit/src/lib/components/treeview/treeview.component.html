@@ -1,4 +1,4 @@
-<div class="scrollable treeview-container" tabindex="0">
+<div class="scrollable treeview-container" [ngStyle]="{ height: height }" tabindex="0">
   @for (node of tree; track node.id) {
     <ng-container [ngTemplateOutlet]="treeNode" [ngTemplateOutletContext]="{ $implicit: node, level: 0 }"></ng-container>
   }

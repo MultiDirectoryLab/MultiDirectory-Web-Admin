@@ -10,6 +10,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ObjectClassEntitiesComponent } from '@features/schema-browser/components/object-class-browser/forms/object-class-entities/object-class-entities.component';
 
 @Component({
   selector: 'app-object-class-properties',
@@ -22,6 +23,7 @@ import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angu
     ObjectClassCreateGeneralComponent,
     ObjectClassAttributeSummaryComponent,
     ObjectClassEntriesComponent,
+    ObjectClassEntitiesComponent,
   ],
   templateUrl: './object-class-properties-dialog.component.html',
   styleUrl: './object-class-properties-dialog.component.scss',

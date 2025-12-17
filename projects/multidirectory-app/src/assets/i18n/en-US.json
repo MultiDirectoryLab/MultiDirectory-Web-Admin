@@ -853,7 +853,8 @@
     "attributes": "Attributes",
     "entries": "Entries",
     "cancel": "Cancel",
-    "apply": "Apply"
+    "apply": "Apply",
+    "entities": "Entities"
   },
   "schema-entities-browser": {
     "header": "Entity schema",
@@ -870,6 +871,9 @@
   "schema-entity-details-entries": {
     "add": "Add entry",
     "delete": "Delete"
+  },
+  "schema-entity-details-entities": {
+    "comment": "Entities that use the object class"
   },
   "schema-entity-details-object-classes": {
     "add": "Add entry",
@@ -901,7 +905,10 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "header": "Settings",
-    "modal-header": "Set attribute settings"
+    "modal-header": "Set attribute settings",
+    "common": "Common",
+    "object-classes": "Object classes",
+    "comment": "The attribute is included in the following object classes"
   },
   "add-forward-zone-dialog": {
     "modal-header": "Add forward zone",

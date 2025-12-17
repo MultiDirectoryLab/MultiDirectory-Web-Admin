@@ -4,29 +4,16 @@ import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaObjectClass } from '@models/api/schema/object-classes/schema-object-class';
 import { SchemaService } from '@services/schema/schema.service';
-import {
-  DatagridComponent,
-  DropdownOption,
-  MultidirectoryUiKitModule,
-} from 'multidirectory-ui-kit';
-import {
-  ObjectClassCreateDialogData,
-  ObjectClassCreateDialogReturnData,
-} from './object-class-create-dialog.interface';
+import { DatagridComponent, DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { ObjectClassCreateDialogData, ObjectClassCreateDialogReturnData } from './object-class-create-dialog.interface';
 import { ObjectClassCreateDialogComponent } from './object-class-create-dialog/object-class-create-dialog.component';
-import {
-  ObjectClassPropertiesDialogData,
-  ObjectClassPropertiesDialogReturnData,
-} from './object-class-properites-dialog.interface';
+import { ObjectClassPropertiesDialogData, ObjectClassPropertiesDialogReturnData } from './object-class-properites-dialog.interface';
 import { ObjectClassPropertiesDialogComponent } from './object-class-properties-dialog/object-class-properties-dialog.component';
 import { concat, EMPTY, of, switchMap, take } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { AppSettingsService } from '@services/app-settings.service';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import {
-  ConfirmDeleteDialogReturnData,
-  ConfirmDeleteDialogData,
-} from '@components/modals/interfaces/confirm-delete-dialog.interface';
+import { ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData } from '@components/modals/interfaces/confirm-delete-dialog.interface';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { TableColumn } from 'ngx-datatable-gimefork';
@@ -55,9 +42,7 @@ export class ObjectClassBrowserComponent implements OnInit {
     this.loadData();
   }
   objectClasses = signal<SchemaObjectClass[]>([]);
-  columns = signal<TableColumn[]>([
-    { name: translate('object-class-browser.name-column'), prop: 'name' },
-  ]);
+  columns = signal<TableColumn[]>([{ name: translate('object-class-browser.name-column'), prop: 'name' }]);
   attributeName = '';
   total = 0;
 
@@ -93,11 +78,7 @@ export class ObjectClassBrowserComponent implements OnInit {
 
   openCreateObjectClassDialog() {
     this.dialog
-      .open<
-        ObjectClassCreateDialogReturnData,
-        ObjectClassCreateDialogData,
-        ObjectClassCreateDialogComponent
-      >({
+      .open<ObjectClassCreateDialogReturnData, ObjectClassCreateDialogData, ObjectClassCreateDialogComponent>({
         component: ObjectClassCreateDialogComponent,
         dialogConfig: {
           data: {
@@ -130,15 +111,11 @@ export class ObjectClassBrowserComponent implements OnInit {
   }
 
   openObjectClassPropertiesDialog(objectClass: SchemaObjectClass) {
-    return this.dialog.open<
-      ObjectClassPropertiesDialogReturnData,
-      ObjectClassPropertiesDialogData,
-      ObjectClassPropertiesDialogComponent
-    >({
+    return this.dialog.open<ObjectClassPropertiesDialogReturnData, ObjectClassPropertiesDialogData, ObjectClassPropertiesDialogComponent>({
       component: ObjectClassPropertiesDialogComponent,
       dialogConfig: {
         data: { objectClass: objectClass },
-        width: '612px',
+        width: '732px',
       },
     });
   }

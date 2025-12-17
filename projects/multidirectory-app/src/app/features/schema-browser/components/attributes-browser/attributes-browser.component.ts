@@ -4,26 +4,16 @@ import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { SchemaAttributeType } from '@models/api/schema/attribute-types/schema-attibute-type';
 import { SchemaService } from '@services/schema/schema.service';
-import {
-  DatagridComponent,
-  DropdownOption,
-  MultidirectoryUiKitModule,
-} from 'multidirectory-ui-kit';
+import { DatagridComponent, DropdownOption, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { AttributeDetailsDialogComponent } from './attribute-details-dialog/attribute-details-dialog.component';
-import {
-  AttributeDetailsDialogData,
-  AttributeDetailsDialogReturnData,
-} from './attribute-details-dialog.interface';
+import { AttributeDetailsDialogData, AttributeDetailsDialogReturnData } from './attribute-details-dialog.interface';
 import { EMPTY, of, switchMap, take } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import {
-  ConfirmDeleteDialogReturnData,
-  ConfirmDeleteDialogData,
-} from '@components/modals/interfaces/confirm-delete-dialog.interface';
+import { ConfirmDeleteDialogReturnData, ConfirmDeleteDialogData } from '@components/modals/interfaces/confirm-delete-dialog.interface';
 import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
@@ -144,17 +134,14 @@ export class AttributesBrowserComponent implements OnInit {
 
   private showAttributeDialog(attribute: SchemaAttributeType, isEdit: boolean) {
     return this.dialog
-      .open<
-        AttributeDetailsDialogReturnData,
-        AttributeDetailsDialogData,
-        AttributeDetailsDialogComponent
-      >({
+      .open<AttributeDetailsDialogReturnData, AttributeDetailsDialogData, AttributeDetailsDialogComponent>({
         component: AttributeDetailsDialogComponent,
         dialogConfig: {
           data: {
             attribute: attribute,
             edit: isEdit,
           },
+          width: '550px',
         },
       })
       .closed.pipe(take(1));

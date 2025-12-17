@@ -3,10 +3,9 @@
   <md-tab-pane>
     <div class="tab-header flex flex-grow-1">
       <md-tab [el]="general.el">{{ 'object-class-properties-dialog.general' | transloco }}</md-tab>
-      <md-tab [el]="attribute.el">{{
-        'object-class-properties-dialog.attributes' | transloco
-      }}</md-tab>
-      <md-tab [el]="entires.el">{{ 'object-class-properties-dialog.entries' | transloco }}</md-tab>
+      <md-tab [el]="attribute.el">{{ 'object-class-properties-dialog.attributes' | transloco }}</md-tab>
+      <md-tab [el]="entries.el">{{ 'object-class-properties-dialog.entries' | transloco }}</md-tab>
+      <md-tab [el]="entities.el">{{ 'object-class-properties-dialog.entities' | transloco }}</md-tab>
     </div>
     <div mdTab #general="mdTab">
       <app-object-class-general [objectClass]="objectClass" (stepValid)="setStepValid($event)" />
@@ -14,18 +13,17 @@
     <div mdTab #attribute="mdTab">
       <app-object-class-attribute-summary [objectClass]="objectClass" />
     </div>
-    <div mdTab #entires="mdTab">
+    <div mdTab #entries="mdTab">
       <app-object-class-entries [objectClass]="objectClass" />
+    </div>
+    <div mdTab #entities="mdTab">
+      <app-object-class-entities [objectClass]="objectClass" />
     </div>
   </md-tab-pane>
   <div class="app-modal-footer">
     <div class="w-full flex flex-row gap-2 justify-end">
-      <md-button (click)="onCancelClick()">{{
-        'object-class-properties-dialog.cancel' | transloco
-      }}</md-button>
-      <md-button (click)="onApplyClick()" [disabled]="!stepValid">{{
-        'object-class-properties-dialog.apply' | transloco
-      }}</md-button>
+      <md-button (click)="onCancelClick()">{{ 'object-class-properties-dialog.cancel' | transloco }}</md-button>
+      <md-button (click)="onApplyClick()" [disabled]="!stepValid">{{ 'object-class-properties-dialog.apply' | transloco }}</md-button>
     </div>
   </div>
 </app-dialog>

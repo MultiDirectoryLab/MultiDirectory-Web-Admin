@@ -1,27 +1,40 @@
 <app-dialog>
   <div class="app-modal-header">{{ 'attribute-details-dialog.modal-header' | transloco }}</div>
-  <div class="pb-4">
-    {{ 'attribute-details-dialog.header' | transloco }}
-  </div>
-  <div class="flex-col gap-2">
-    <form class="grid grid-cols-2 gap-4" [formGroup]="form" (submit)="onSumbit($event)">
-      <label for="oid">oid</label>
-      <md-textbox formControlName="oid" name="oid"></md-textbox>
 
-      <label for="name">name</label>
-      <md-textbox formControlName="name" name="name"></md-textbox>
+  <md-tab-pane>
+    <div class="tab-header flex flex-grow-1">
+      <md-tab [el]="common.el"> {{ 'attribute-details-dialog.common' | transloco }}</md-tab>
+      <md-tab [el]="classes.el">{{ 'attribute-details-dialog.object-classes' | transloco }}</md-tab>
+    </div>
+    <div mdTab #common="mdTab">
+      <div class="flex-col gap-2 p-2">
+        <div class="pb-4">
+          {{ 'attribute-details-dialog.header' | transloco }}
+        </div>
+        <form class="grid grid-cols-4 gap-4" [formGroup]="form" (submit)="onSumbit($event)">
+          <label for="oid" class="col-span-1">oid</label>
+          <md-textbox formControlName="oid" name="oid" class="col-span-3"></md-textbox>
 
-      <label for="single_value">single_value</label>
-      <md-shift-checkbox formControlName="single_value" name="single_value"></md-shift-checkbox>
+          <label for="name" class="col-span-1">name</label>
+          <md-textbox formControlName="name" name="name" class="col-span-3"></md-textbox>
 
-      <div class="flex flex-row gap-4">
-        <md-button (click)="cancel()">{{
-          'attribute-details-dialog.cancel' | transloco
-        }}</md-button>
-        <md-button [primary]="true" [disabled]="attribute().is_system || form.invalid" [submit]="true">{{
-          'attribute-details-dialog.submit' | transloco
-        }}</md-button>
+          <label for="single_value" class="col-span-1">single_value</label>
+          <md-shift-checkbox formControlName="single_value" name="single_value" class="col-span-3"></md-shift-checkbox>
+
+          <div class="flex flex-row gap-4 mt-2 col-span-2">
+            <md-button (click)="cancel()">{{ 'attribute-details-dialog.cancel' | transloco }}</md-button>
+            <md-button [primary]="true" [disabled]="attribute().is_system || form.invalid" [submit]="true">{{
+              'attribute-details-dialog.submit' | transloco
+            }}</md-button>
+          </div>
+        </form>
       </div>
-    </form>
-  </div>
+    </div>
+    <div mdTab #classes="mdTab">
+      <div class="py-4">
+        <p class="mb-2">{{ 'attribute-details-dialog.comment' | transloco: { name: this.attribute().name } }}</p>
+        <md-treeview #treeview [tree]="tree" class="border-solid-1 h-full w-full" style="min-height: 200px"></md-treeview>
+      </div>
+    </div>
+  </md-tab-pane>
 </app-dialog>

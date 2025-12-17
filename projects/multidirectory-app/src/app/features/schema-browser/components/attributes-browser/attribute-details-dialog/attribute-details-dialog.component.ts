@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DialogComponent } from '../../../../../components/modals/components/core/dialog/dialog.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
@@ -8,16 +8,11 @@ import { AttributeDetailsDialogData } from '../attribute-details-dialog.interfac
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '@components/modals/services/dialog.service';
+import { AttributeListEntry } from '@components/modals/components/dialogs/attribute-list-dialog/attribute-list-dialog.component';
 
 @Component({
   selector: 'app-attribute-details-dialog',
-  imports: [
-    DialogComponent,
-    TranslocoModule,
-    MultidirectoryUiKitModule,
-    CommonModule,
-    ReactiveFormsModule,
-  ],
+  imports: [DialogComponent, TranslocoModule, MultidirectoryUiKitModule, CommonModule, ReactiveFormsModule],
   templateUrl: './attribute-details-dialog.component.html',
   styleUrl: './attribute-details-dialog.component.scss',
 })
@@ -27,6 +22,7 @@ export class AttributeDetailsDialogComponent implements OnInit {
   private dialogData = inject<AttributeDetailsDialogData>(DIALOG_DATA);
   private attributeInput = signal<SchemaAttributeType | undefined>(this.dialogData.attribute);
   isEdit = this.dialogData.edit;
+  tree: AttributeListEntry[] = [];
   attribute = computed<SchemaAttributeType>(() => {
     return (
       this.attributeInput() ??
@@ -57,6 +53,18 @@ export class AttributeDetailsDialogComponent implements OnInit {
       this.form.controls.name.disable();
       this.form.controls.single_value.disable();
     }
+
+    this.tree =
+      this.attributeInput()?.object_class_names?.map(
+        (x) =>
+          new AttributeListEntry({
+            name: x,
+            id: x,
+            selectable: true,
+            type: '',
+            new: false,
+          }),
+      ) ?? [];
   }
 
   onSumbit(event: SubmitEvent) {

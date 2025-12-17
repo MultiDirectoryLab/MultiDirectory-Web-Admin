@@ -861,7 +861,8 @@
     "attributes": "Атрибуты",
     "entries": "Вхождения",
     "cancel": "Отмена",
-    "apply": "Применить"
+    "apply": "Применить",
+    "entities": "Сущности"
   },
   "schema-entities-browser": {
     "header": "Схема сущностей",
@@ -878,6 +879,9 @@
   "schema-entity-details-entries": {
     "add": "Добавить запись",
     "delete": "Удалить"
+  },
+  "schema-entity-details-entities": {
+    "comment": "Сущности, которые используют класс объекта"
   },
   "schema-entity-details-object-classes": {
     "add": "Добавить запись",
@@ -908,7 +912,10 @@
     "submit": "Принять",
     "cancel": "Отмена",
     "header": "Настройка",
-    "modal-header": "Задайте настройки атрибута"
+    "modal-header": "Задайте настройки атрибута",
+    "common": "Общие",
+    "object-classes": "Обджект классы",
+    "comment": "Атрибут {{name}} входит в следующие классы объектов"
   },
   "add-forward-zone-dialog": {
     "modal-header": "Добавление зоны перенаправления",
@@ -1028,5 +1035,8 @@
   "change": "Изменить",
   "add": "Добавить",
   "delete": "Удалить",
-  "empty-list": "Список пуст"
+  "empty-list": "Список пуст",
+  "create": "Создать",
+  "cancel": "Отменить",
+  "name": "Имя"
 }
