@@ -32,7 +32,7 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
   @Input() tree: Treenode[] = [];
   @Input() nodeLabelTemplate: TemplateRef<any> | null = null;
   @Input() checkboxes = false;
-  @Input() height = '200px';
+  @Input() height: string = '100%';
   @Output() nodeSelect = new EventEmitter<Treenode>();
   @Output() nodeRightClick = new EventEmitter<RightClickEvent>();
   @Output() nodeExpandClick = new EventEmitter<Treenode>();

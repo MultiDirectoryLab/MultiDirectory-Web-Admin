@@ -33,7 +33,7 @@
     <div mdTab #classes="mdTab">
       <div class="py-4">
         <p class="mb-2">{{ 'attribute-details-dialog.comment' | transloco: { name: this.attribute().name } }}</p>
-        <md-treeview #treeview [tree]="tree" class="border-solid-1 h-full w-full" style="min-height: 200px"></md-treeview>
+        <md-treeview #treeview [tree]="tree" class="border-solid-1 h-full w-full" [height]="`200px`"></md-treeview>
       </div>
     </div>
   </md-tab-pane>

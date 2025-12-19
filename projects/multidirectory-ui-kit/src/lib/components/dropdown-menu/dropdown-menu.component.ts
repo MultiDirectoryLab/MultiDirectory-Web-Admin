@@ -148,7 +148,7 @@ export class DropdownMenuComponent {
       } else {
         const maxHeight = viewportHeight - 32;
 
-        this.renderer.setStyle(menuElement, 'top', '16px');
+        this.renderer.setStyle(menuElement, 'top', `${viewportHeight - this.menu.nativeElement.offsetHeight - 16}px`);
         this.renderer.setStyle(menuElement, 'max-height', `${maxHeight}px`);
       }
     } else {
