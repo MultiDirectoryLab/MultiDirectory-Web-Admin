@@ -62,11 +62,23 @@ export class SyslogEventSettingsComponent implements OnInit {
     if (event.length === this.limit || event.length === 0) {
       this.checkAllCheckbox = !this.checkAllCheckbox;
     }
-    const newEnabledItems = this.symmetricDifferenceById(event, this.selected);
+    const newEnabledItems: SyslogEvent[] = this.symmetricDifferenceById(event, this.selected);
     newEnabledItems.forEach((row) => {
       this.syslog.updateEvent(row.id, row).subscribe();
     });
+
+    this.refreshAllEvents(newEnabledItems);
     this.selected = [...event];
+  }
+
+  refreshAllEvents(newEnabledItems: SyslogEvent[]) {
+    let newAllEvents: { [key: string]: SyslogEvent } = Object.fromEntries(newEnabledItems.map((item) => [item.id, new SyslogEvent(item)]));
+    this.allEvents = this.allEvents.map((item): SyslogEvent => {
+      if (!newAllEvents[item.id]) {
+        return item;
+      }
+      return newAllEvents[item.id];
+    });
   }
 
   protected onRowEdit() {
@@ -112,7 +124,6 @@ export class SyslogEventSettingsComponent implements OnInit {
         this.calcPageRows();
 
         this.selected = this.syslogEvents.filter((item) => item.is_enabled);
-        this.grid()._selected = this.syslogEvents.filter((item) => item.is_enabled);
       });
   }
 
@@ -122,6 +133,8 @@ export class SyslogEventSettingsComponent implements OnInit {
 
     this.syslogEvents = this.allEvents.slice(start, end);
     this.total = this.allEvents.length;
+    this.selected = this.syslogEvents.filter((item) => item.is_enabled);
+    this.grid()._selected = this.syslogEvents.filter((item) => item.is_enabled);
   }
 
   /**
