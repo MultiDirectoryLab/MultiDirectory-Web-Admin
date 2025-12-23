@@ -24,7 +24,7 @@
       "clear-success": "MULTIFACTOR was cleared",
       "integration-failed": "Error has occured",
       "integration-disabled": "Integration disabled",
-      "help": "<div class='pl-16'>This section controls integration between Multidirectory and MULTIFACTOR. To enable two-factor verification for an admin entrance:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Web-Site</b>';</li>\n<li>On the resource's page you will see the <b>'API Key'</b> and <b>'API Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
+      "help": "<div class='pl-16'>This section controls integration between Multidirectory and MULTIFACTOR. To enable two-factor verification for an admin entrance:</div>\n<ol>\n<li>Log in into the Multifactor's admin panel and create a new resource of type '<b>Web-Site</b>';</li>\n<li>On the resource's page you will see the <b>'NAS Identifier'</b> and <b>'Shared Secret'</b> fields;\n<li>Copy that values to that panel and press <b>'Apply'</b> button.</li>\n</ol>"
     }
   },
   "catalog-selector": {
