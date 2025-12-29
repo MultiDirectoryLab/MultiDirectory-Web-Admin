@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import {
+  OnInit,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -95,7 +96,7 @@ import { TableColumn } from 'ngx-datatable-gimefork';
     FaIconComponent,
   ],
 })
-export class TableViewComponent implements AfterViewInit, OnDestroy {
+export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   private dialogService = inject(DialogService);
   private navigation = inject(AppNavigationService);
   private ldapTreeview = inject(LdapTreeviewService);
@@ -119,6 +120,7 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
   faLevelUp = faLevelUpAlt;
   showControlPanel = true;
   accountToggleEnabled = false;
+  private _gridContentPending = false;
 
   private _searchQuery = '';
   private _searchQueryRx = new BehaviorSubject(this._searchQuery);
@@ -197,6 +199,72 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  private updateContentInitial() {
+    combineLatest([this.navigation.navigationEnd, this._searchQueryRx, this._limitRx])
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap(([navigationEnd, searchQuery, limit]) => {
+          this._gridContentPending = true;
+          this.parentDn = this.navigation.getContainer();
+          this._offset = 0;
+          return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
+        }),
+        mergeMap((result) => {
+          if (!this.navigation.isSelectEntry()) {
+            return of(result);
+          }
+          const targetDn = this.navigation.getDistinguishedName();
+          if (result[0].findIndex((x) => x.dn == targetDn) > -1) {
+            return of(result);
+          }
+          this.offset += this.limit;
+          return EMPTY;
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntries]) => {
+        this.setSelected([]);
+        this.setAccountEnabledToggle();
+        this.rows.splice(0, this.rows.length);
+        this.rows.push(...rows);
+
+        this.total = totalEntries;
+        if (this.navigation.isSelectEntry()) {
+          this.selectRows([this.navigation.getDistinguishedName()]);
+        }
+        this._gridContentPending = false;
+      });
+  }
+
+  private updateContentOnOffsetChange() {
+    this._offsetRx
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap((result) => {
+          if (this._gridContentPending) {
+            return EMPTY;
+          }
+          return this.ldapContent.loadContent(
+            this.parentDn,
+            this._searchQuery,
+            this.offset,
+            this.limit,
+          );
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntires]) => {
+        this.rows = rows;
+        this.total = totalEntires;
+        if (this.navigation.isSelectEntry()) {
+          this.selectRows([this.navigation.getDistinguishedName()]);
+        }
+      });
+  }
+
+  ngOnInit() {
+    this.updateContentInitial();
+    this.updateContentOnOffsetChange();
+  }
+
   ngAfterViewInit(): void {
     this.columns = [
       {
@@ -234,58 +302,6 @@ export class TableViewComponent implements AfterViewInit, OnDestroy {
       },
       { name: translate('table-view.status-column'), flexGrow: 3, pipe: new LdapEntryStatusPipe() },
     ];
-
-    this._offsetRx
-      .pipe(
-        takeUntil(this.unsubscribe),
-        switchMap((result) => {
-          return this.ldapContent.loadContent(
-            this.parentDn,
-            this._searchQuery,
-            this.offset,
-            this.limit,
-          );
-        }),
-      )
-      .subscribe(([rows, totalPages, totalEntires]) => {
-        this.rows = rows;
-        this.total = totalEntires;
-        if (this.navigation.isSelectEntry()) {
-          this.selectRows([this.navigation.getDistinguishedName()]);
-        }
-      });
-
-    combineLatest([this.navigation.navigationEnd, this._searchQueryRx, this._limitRx])
-      .pipe(
-        takeUntil(this.unsubscribe),
-        switchMap(([navigationEnd, searchQuery, limit]) => {
-          this.parentDn = this.navigation.getContainer();
-          this._offset = 0;
-          return this.ldapContent.loadContent(this.parentDn, searchQuery, this.offset, this.limit);
-        }),
-        mergeMap((result) => {
-          if (!this.navigation.isSelectEntry()) {
-            return of(result);
-          }
-          const targetDn = this.navigation.getDistinguishedName();
-          if (result[0].findIndex((x) => x.dn == targetDn) > -1) {
-            return of(result);
-          }
-          this.offset += this.limit;
-          return EMPTY;
-        }),
-      )
-      .subscribe(([rows, totalPages, totalEntries]) => {
-        this.setSelected([]);
-        this.setAccountEnabledToggle();
-        this.rows.splice(0, this.rows.length);
-        this.rows.push(...rows);
-
-        this.total = totalEntries;
-        if (this.navigation.isSelectEntry()) {
-          this.selectRows([this.navigation.getDistinguishedName()]);
-        }
-      });
   }
 
   ngOnDestroy(): void {
