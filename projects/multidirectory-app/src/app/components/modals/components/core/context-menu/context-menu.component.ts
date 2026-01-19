@@ -101,7 +101,11 @@ export class ContextMenuComponent implements OnInit {
   }
 
   resetPasswordHistory() {
-    this.api.resetPasswordHistory().subscribe(() => {
+    this.contextMenuService.close(null);
+
+    const user = this.entries[0];
+    const username = user.name;
+    this.api.resetPasswordHistory(username).subscribe(() => {
       this.toastr.success(
         translate('catalog-content.reset-password-history-success')
       );
