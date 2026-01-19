@@ -219,6 +219,8 @@
     "ou": "Organizational unit",
     "rule": "Rule",
     "folder": "Catalog",
+    "reset-password-history": "Reset password history",
+    "reset-password-history-success": "Password history has been reset successfully",
     "common-folder": "a shared folder",
     "printer": "Printer",
     "user": "User",

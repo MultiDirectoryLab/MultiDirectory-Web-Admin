@@ -223,6 +223,8 @@
     "common-folder": "Общая папка",
     "printer": "Принтер",
     "user": "Пользователь",
+    "reset-password-history": "Сбросить историю паролей",
+    "reset-password-history-success": "История паролей успешно сброшена",
     "approve-delete-header": "Требуется подтвержение",
     "approve-delete": "Вы действительно хотите удалить объект?",
     "cancel": "Отмена",

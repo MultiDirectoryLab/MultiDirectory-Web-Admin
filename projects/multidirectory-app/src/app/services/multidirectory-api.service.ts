@@ -81,6 +81,10 @@ export class MultidirectoryApiService {
     return this.httpClient.post<boolean>('auth/setup', request).execute();
   }
 
+  resetPasswordHistory(username: string): Observable<void> {
+    return this.httpClient.post<void>('user/password_history/clear', username).execute();
+  }
+
   kerberosTreeSetup(request: KerberosTreeSetupRequest): Observable<boolean> {
     return this.httpClient.post<boolean>('kerberos/setup/tree', request).execute();
   }

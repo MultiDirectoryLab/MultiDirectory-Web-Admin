@@ -32,6 +32,7 @@ import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialo
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import { MoveEntityDialogComponent } from '../../dialogs/move-entity-dialog/move-entity-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-context-menu',
@@ -54,6 +55,7 @@ export class ContextMenuComponent implements OnInit {
   private ldapTreeview = inject(LdapTreeviewService);
   private navigation = inject(AppNavigationService);
   private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
+  private toastr = inject(ToastrService);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(CompleteUpdateEntiresStrategies);
   private contextMenuData: ContextMenuData = inject(DIALOG_DATA);
@@ -95,6 +97,18 @@ export class ContextMenuComponent implements OnInit {
         width: '550px',
         data: { un: user.name, identity: user.id, me: me },
       },
+    });
+  }
+
+  resetPasswordHistory() {
+    this.contextMenuService.close(null);
+
+    const user = this.entries[0];
+    const username = user.name;
+    this.api.resetPasswordHistory(username).subscribe(() => {
+      this.toastr.success(
+        translate('catalog-content.reset-password-history-success')
+      );
     });
   }
 
