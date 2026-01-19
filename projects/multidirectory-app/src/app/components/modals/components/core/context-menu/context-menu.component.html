@@ -7,6 +7,10 @@
     <div class="context-item" (click)="openChangePasswordDialog()">
       {{ 'catalog-content.change-password' | transloco }}
     </div>
+
+    <div class="context-item" (click)="resetPasswordHistory()">
+      {{ 'catalog-content.reset-password-history' | transloco }}
+    </div>
   }
 
   @if (isSelectedRowsOfType(LdapEntryType.User, LdapEntryType.Computer) && accountEnabled) {
