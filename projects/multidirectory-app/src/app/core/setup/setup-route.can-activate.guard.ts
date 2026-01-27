@@ -5,9 +5,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, delay, map, Observable, of, switchMap } from 'rxjs';
 
-export const setupRouteGuardCanActivateFn = (
-  route: ActivatedRouteSnapshot,
-): Observable<boolean | UrlTree> => {
+export const setupRouteGuardCanActivateFn = (route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> => {
   const multidirectoryApi = inject(MultidirectoryApiService);
   const router = inject(Router);
   const toast = inject(ToastrService);
@@ -16,7 +14,6 @@ export const setupRouteGuardCanActivateFn = (
   return multidirectoryApi.checkSetup().pipe(
     catchError((err, caughtRx) => {
       if (err.status == 0 || calls > 5) {
-        toast.error(translate('backend-status.backend-is-not-responding'));
         router.navigate(['/enable-backend']);
         return of(true);
       }

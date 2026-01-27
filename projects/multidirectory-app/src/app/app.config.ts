@@ -1,12 +1,7 @@
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {
   ApplicationConfig,
   ErrorHandler,
@@ -23,7 +18,6 @@ import { ApiAdapter } from '@core/api/api-adapter';
 import { DnsAdapterSettings } from '@core/api/dns-adapter.settings';
 import { GlobalErrorHandler } from '@core/api/error-handling/global-error-handler';
 import { PasswordPolicyViolationInterceptor } from '@core/api/error-handling/password-policy-violation-interceptor';
-import { ResultCodeInterceptor } from '@core/api/error-handling/result-code-interceptor';
 import { MultidirectoryAdapterSettings } from '@core/api/multidirectory-adapter.settings';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { provideTransloco, TranslocoService } from '@jsverse/transloco';
@@ -36,6 +30,7 @@ import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { DIALOG_CONFIG_DEFAULT } from './components/modals/constants/dialog.constants';
 import { TranslocoHttpLoader } from './transloco-loader';
+import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -54,20 +49,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: 'apiAdapter',
       useFactory: () =>
-        new ApiAdapter<MultidirectoryAdapterSettings>(
-          inject(HttpClient),
-          inject(MultidirectoryAdapterSettings),
-          inject(ToastrService),
-        ),
+        new ApiAdapter<MultidirectoryAdapterSettings>(inject(HttpClient), inject(MultidirectoryAdapterSettings), inject(ToastrService)),
     },
     {
       provide: 'dnsAdapter',
-      useFactory: () =>
-        new ApiAdapter<DnsAdapterSettings>(
-          inject(HttpClient),
-          inject(DnsAdapterSettings),
-          inject(ToastrService),
-        ),
+      useFactory: () => new ApiAdapter<DnsAdapterSettings>(inject(HttpClient), inject(DnsAdapterSettings), inject(ToastrService)),
     },
     {
       provide: ErrorHandler,
@@ -76,7 +62,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ResultCodeInterceptor,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     {

@@ -71,7 +71,7 @@ export class AccessPolicySettingsComponent implements OnInit {
     this.api
       .deleteAccessPolicy(client.id)
       .pipe(
-        catchError((error) => {
+        catchError(() => {
           return of(true);
         }),
         switchMap(() => this.api.getAccessPolicy()),
@@ -135,7 +135,6 @@ export class AccessPolicySettingsComponent implements OnInit {
         }),
         catchError(() => {
           this.clients.pop();
-          this.toastr.error(translate('access-policy-settings.unable-to-create-policy'));
           return EMPTY;
         }),
         switchMap(() => this.api.getAccessPolicy()),

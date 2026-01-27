@@ -9,7 +9,7 @@ import { DhcpLeaseToReservationResponse, DhcpReservationRequest } from '@models/
 import { TLeasesList } from '@models/api/dhcp/dhcp-lease.model';
 import { RentedIpAddress } from '@models/api/dhcp/dhcp-rented-ip.model';
 import { Subnet } from '@models/api/dhcp/dhcp-subnet.model';
-import {ContextMenuItem, SetContextMenuActions} from '@models/core/context-menu/context-menu-item';
+import { ContextMenuItem, SetContextMenuActions } from '@models/core/context-menu/context-menu-item';
 import { DhcpApiService } from '@services/dhcp-api.service';
 import { DatagridComponent } from 'multidirectory-ui-kit';
 import { ContextMenuEvent } from 'ngx-datatable-gimefork';
@@ -114,10 +114,6 @@ export default class DhcpRentedAddressesComponent implements OnInit {
         switchMap(() => {
           const request = this.createReservationRequest();
           return this.dhcp.leaseToReservation(request);
-        }),
-        catchError((err: HttpErrorResponse) => {
-          this.toastr.error(translate('rented-addresses.fail-to-reserve') + (err.error?.detail || err.message));
-          return EMPTY;
         }),
       )
       .subscribe((x: DhcpLeaseToReservationResponse) => {

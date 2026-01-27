@@ -110,21 +110,13 @@ export class SyslogEventSettingsComponent implements OnInit {
   }
 
   private loadEvents() {
-    this.syslog
-      .getEvents()
-      .pipe(
-        catchError((err) => {
-          this.toastr.error(translate('syslog-event-settings.load-events-error'));
-          throw err;
-        }),
-      )
-      .subscribe((events) => {
-        this.allEvents = events.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)).map((x) => new SyslogEvent(x));
+    this.syslog.getEvents().subscribe((events) => {
+      this.allEvents = events.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)).map((x) => new SyslogEvent(x));
 
-        this.calcPageRows();
+      this.calcPageRows();
 
-        this.selected = this.syslogEvents.filter((item) => item.is_enabled);
-      });
+      this.selected = this.syslogEvents.filter((item) => item.is_enabled);
+    });
   }
 
   calcPageRows(): void {

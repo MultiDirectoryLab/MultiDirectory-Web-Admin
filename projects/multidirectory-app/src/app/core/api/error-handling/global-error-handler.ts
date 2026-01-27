@@ -17,25 +17,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   handleError(error: any) {
-    console.error(error);
     if (error.error instanceof ProgressEvent) {
       this.router.navigate(['/enable-backend']);
       return;
     }
 
     if (error.error?.detail) {
-      if (typeof error.error?.detail === 'string' || error.error?.detail instanceof String) {
-        this.toastr.error(error.error.detail);
+      if (error.status == 451) {
+        this.toastr.error(translate('errors.license-problem'));
         return;
-      }
-
-      for (const i of error.error.detail) {
-        this.toastr.error(i?.msg ?? i);
       }
       return;
     }
-    this.toastr.error(error?.statusText ?? translate('errors.unknown-error'), '', {
-      onActivateTick: true,
-    });
   }
 }

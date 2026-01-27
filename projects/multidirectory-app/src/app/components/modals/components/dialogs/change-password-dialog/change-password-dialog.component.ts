@@ -77,9 +77,7 @@ export class ChangePasswordDialogComponent {
       .changePassword(this.changeRequest)
       .pipe(
         catchError(() => {
-          this.toastr.error(translate('change-password.unable-change-password'));
           this.dialogService.close(this.dialogRef);
-          this.dialog().hideSpinner();
           return EMPTY;
         }),
       )

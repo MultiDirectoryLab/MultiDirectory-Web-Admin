@@ -1,13 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { ButtonComponent, MdFormComponent, TextboxComponent } from 'multidirectory-ui-kit';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DhcpApiService } from '@services/dhcp-api.service';
@@ -22,15 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-dhcp-add-reservation',
   templateUrl: './dhcp-add-reservation.component.html',
   styleUrls: ['./dhcp-add-reservation.component.scss'],
-  imports: [
-    TranslocoModule,
-    TextboxComponent,
-    MdFormComponent,
-    DialogComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonComponent,
-  ],
+  imports: [TranslocoModule, TextboxComponent, MdFormComponent, DialogComponent, FormsModule, ReactiveFormsModule, ButtonComponent],
 })
 export class DhcpAddReservationComponent {
   dhcpForm: FormGroup;
@@ -45,7 +31,7 @@ export class DhcpAddReservationComponent {
     this.dhcpForm = this.fb.group({
       nameOfReservation: [this.dialogData.reservation.hostname, [Validators.required]],
       ipAddress: [this.dialogData.reservation.ip_address, [Validators.required]],
-      macAddress: [this.dialogData.reservation.mac_address, [Validators.required]]
+      macAddress: [this.dialogData.reservation.mac_address, [Validators.required]],
     });
   }
 
@@ -68,19 +54,11 @@ export class DhcpAddReservationComponent {
       hostname: this.form.nameOfReservation.value,
     });
 
-    const apiCall = this.dialogData.exists ?
-      this.dhcp.modifyDhcpReservation(request) : this.dhcp.createDhcpReservations(request);
+    const apiCall = this.dialogData.exists ? this.dhcp.modifyDhcpReservation(request) : this.dhcp.createDhcpReservations(request);
 
-    apiCall
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.toastr.error(err.error?.detail || err.message);
-          return EMPTY;
-        })
-      )
-      .subscribe(() => {
-        this.dhcp.getReservationsList(this.dialogData.reservation.subnet_id);
-        this.dialogService.close(this.dialogRef);
-      });
+    apiCall.subscribe(() => {
+      this.dhcp.getReservationsList(this.dialogData.reservation.subnet_id);
+      this.dialogService.close(this.dialogRef);
+    });
   }
 }

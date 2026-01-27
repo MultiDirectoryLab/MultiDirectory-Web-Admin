@@ -7,10 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { catchError, EMPTY, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import {
-  CreateGroupDialogData,
-  CreateGroupDialogReturnData,
-} from '../../../interfaces/create-group-dialog.interface';
+import { CreateGroupDialogData, CreateGroupDialogReturnData } from '../../../interfaces/create-group-dialog.interface';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
@@ -21,14 +18,7 @@ import { SchemaService } from '@services/schema/schema.service';
 @Component({
   selector: 'app-create-group-dialog',
   standalone: true,
-  imports: [
-    DialogComponent,
-    MultidirectoryUiKitModule,
-    RequiredWithMessageDirective,
-    TranslocoDirective,
-    FormsModule,
-    TranslocoPipe,
-  ],
+  imports: [DialogComponent, MultidirectoryUiKitModule, RequiredWithMessageDirective, TranslocoDirective, FormsModule, TranslocoPipe],
   templateUrl: './create-group-dialog.component.html',
   styleUrl: './create-group-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,8 +29,7 @@ export class CreateGroupDialogComponent implements OnInit {
   formValid = false;
 
   private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> =
-    inject(DialogRef);
+  private dialogRef: DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> = inject(DialogRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private toastr: ToastrService = inject(ToastrService);
   private schema = inject(SchemaService);
@@ -100,8 +89,6 @@ export class CreateGroupDialogComponent implements OnInit {
           );
         }),
         catchError(() => {
-          this.dialogComponent?.hideSpinner();
-          this.toastr.error(translate('group-create.unable-create-group'));
           this.dialogService.close(this.dialogRef);
           return EMPTY;
         }),

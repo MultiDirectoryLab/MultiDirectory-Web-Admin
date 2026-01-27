@@ -72,14 +72,7 @@ export class PasswordPolicyComponent implements OnInit {
 
     this.api
       .getPasswordPolicy(id)
-      .pipe(
-        finalize(() => this.windows.hideSpinner()),
-        catchError((err) => {
-          this.windows.hideSpinner();
-          this.toastr.error(translate('password-policy.policy-load-error'));
-          throw err;
-        }),
-      )
+      .pipe(finalize(() => this.windows.hideSpinner()))
       .subscribe((policy) => {
         this.passwordPolicy.set(policy);
         this.scopeOptions = policy.scopes.map((x) => new DropdownOption({ title: x, value: x }));

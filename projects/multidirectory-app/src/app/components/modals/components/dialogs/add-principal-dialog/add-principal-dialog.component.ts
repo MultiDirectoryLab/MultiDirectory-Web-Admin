@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { PatternWithMessageDirective } from '@core/validators/pattern-with-message.directive';
@@ -44,8 +37,7 @@ export class AddPrincipalDialogComponent implements OnInit {
   principalName = '';
 
   private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<AddPrincipalDialogReturnData, AddPrincipalDialogComponent> =
-    inject(DialogRef);
+  private dialogRef: DialogRef<AddPrincipalDialogReturnData, AddPrincipalDialogComponent> = inject(DialogRef);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private toastr: ToastrService = inject(ToastrService);
   private destroyRef$: DestroyRef = inject(DestroyRef);
@@ -64,20 +56,10 @@ export class AddPrincipalDialogComponent implements OnInit {
     this.dialogComponent.showSpinner();
     const request = new AddPrincipalRequest(this.principalName);
 
-    this.api
-      .addPrincipal(request)
-      .pipe(
-        catchError(() => {
-          this.toastr.error(translate('add-principal.unable-to-add'));
-          this.dialogComponent.hideSpinner();
-
-          return EMPTY;
-        }),
-      )
-      .subscribe((x) => {
-        this.dialogComponent.hideSpinner();
-        this.dialogService.close(this.dialogRef, x);
-      });
+    this.api.addPrincipal(request).subscribe((x) => {
+      this.dialogComponent.hideSpinner();
+      this.dialogService.close(this.dialogRef, x);
+    });
   }
 
   onClose() {
