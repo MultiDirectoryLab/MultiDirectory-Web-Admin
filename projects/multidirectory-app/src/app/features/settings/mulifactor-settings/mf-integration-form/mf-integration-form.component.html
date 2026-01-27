@@ -10,10 +10,10 @@
     </div>
     <div class="flex justify-center"></div>
     <div class="mf-control-grid">
-      <label class="gap-1" for="api-key">API Key</label>
+      <label class="gap-1" for="api-key">NAS Identifier</label>
       <md-textbox [(ngModel)]="apiKey" appMfKeyValidator class="grow-1" name="api-key"></md-textbox>
 
-      <label class="gap-1" for="api-secret">API Secret</label>
+      <label class="gap-1" for="api-secret">Shared Secret</label>
       <md-textbox
         [(ngModel)]="apiSecret"
         [allowPasswordView]="false"
@@ -27,9 +27,7 @@
 
     <div class="flex justify-end pv-16 gap-1">
       <md-button (click)="clear()">{{ t('clear') }}</md-button>
-      <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true"
-        >{{ t('apply') }}
-      </md-button>
+      <md-button (click)="apply()" [disabled]="!form.valid" [primary]="true">{{ t('apply') }} </md-button>
     </div>
   </md-form>
 </div>
