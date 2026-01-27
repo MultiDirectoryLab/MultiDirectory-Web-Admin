@@ -39,16 +39,9 @@ export class PasswordPolicyListComponent implements OnInit {
 
     this.api
       .getAllPasswordPolicies()
-      .pipe(
-        catchError((err) => {
-          this.toastr.error(translate('password-policy.policy-get-error'));
-          throw err;
-        }),
-        finalize(() => this.windows.hideSpinner()),
-      )
+      .pipe(finalize(() => this.windows.hideSpinner()))
       .subscribe((policies) => {
-        this.defaultPolicy =
-          policies.find((policy) => policy.name === Constants.DefaultPolicyName) ?? null;
+        this.defaultPolicy = policies.find((policy) => policy.name === Constants.DefaultPolicyName) ?? null;
       });
   }
 }

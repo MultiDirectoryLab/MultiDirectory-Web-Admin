@@ -18,10 +18,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, from, Subject, switchMap, take, takeUntil, throwError } from 'rxjs';
 import { AddPrincipalDialogComponent } from '../../../components/modals/components/dialogs/add-principal-dialog/add-principal-dialog.component';
-import {
-  AddPrincipalDialogData,
-  AddPrincipalDialogReturnData,
-} from '../../../components/modals/interfaces/add-principal-dialog.interface';
+import { AddPrincipalDialogData, AddPrincipalDialogReturnData } from '../../../components/modals/interfaces/add-principal-dialog.interface';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { SearchEntry } from '@models/api/entry/search-entry';
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
@@ -105,8 +102,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
   }
 
   filterPrincipals(entry: SearchEntry) {
-    const object_name =
-      entry?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ?? entry.object_name;
+    const object_name = entry?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ?? entry.object_name;
     const isKerberosPrincipal = this._kadminPrefixes.some((x) => object_name.startsWith(x));
     const isUserPrincipal = this._userPrincipalRegex.test(object_name);
     return !isKerberosPrincipal && !isUserPrincipal;
@@ -116,17 +112,13 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
     from(this.ldapTreeview.load(''))
       .pipe(
         take(1),
-        switchMap((x) =>
-          this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery)),
-        ),
+        switchMap((x) => this.api.search(SearchQueries.getKdcPrincipals(x[0].id, this._searchQuery))),
         catchError((err) => {
           return throwError(() => err);
         }),
       )
       .subscribe((res) => {
-        this.columns = [
-          { name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 },
-        ];
+        this.columns = [{ name: translate('kerberos-settings.name-column'), prop: 'name', flexGrow: 1 }];
         this.principals = res.search_result
           .map((x) => {
             x.object_name = x.object_name.replace('krbprincipalname=', '');
@@ -136,9 +128,7 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
           .map(
             (node) =>
               ({
-                name:
-                  node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ??
-                  node.object_name,
+                name: node?.partial_attributes?.find((x) => x.type == 'cn')?.vals?.[0] ?? node.object_name,
               }) as SearchResult,
           );
         this.total = this.principals.length;
@@ -168,38 +158,27 @@ export class KerberosPrincipalsComponent implements OnInit, OnDestroy {
       return;
     }
     this.windows.showSpinner();
-    this.api
-      .ktadd(selectedName)
-      .pipe(
-        catchError((err) => {
-          this.windows.hideSpinner();
-          this.toastr.error(err);
-          return EMPTY;
-        }),
-      )
-      .subscribe((x) => {
-        // It is necessary to create a new blob object with mime-type explicitly set
-        // otherwise only Chrome works like it should
-        const newBlob = new Blob([x], { type: 'application/text' });
+    this.api.ktadd(selectedName).subscribe((x) => {
+      // It is necessary to create a new blob object with mime-type explicitly set
+      // otherwise only Chrome works like it should
+      const newBlob = new Blob([x], { type: 'application/text' });
 
-        // For other browsers:
-        // Create a link pointing to the ObjectURL containing the blob.
-        const data = window.URL.createObjectURL(newBlob);
+      // For other browsers:
+      // Create a link pointing to the ObjectURL containing the blob.
+      const data = window.URL.createObjectURL(newBlob);
 
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = 'krb5.keytab';
-        // this is necessary as link.click() does not work on the latest firefox
-        link.dispatchEvent(
-          new MouseEvent('click', { bubbles: true, cancelable: true, view: window }),
-        );
-        this.windows.hideSpinner();
-        setTimeout(function () {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(data);
-          link.remove();
-        }, 100);
-      });
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = 'krb5.keytab';
+      // this is necessary as link.click() does not work on the latest firefox
+      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      this.windows.hideSpinner();
+      setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
+    });
   }
 
   addPrincipal() {

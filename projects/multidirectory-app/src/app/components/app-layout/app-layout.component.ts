@@ -79,9 +79,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         const nameAttirbute = searchEntry.partial_attributes.find((x) => x.type == 'name');
         const displayName = nameAttirbute?.vals?.[0] ?? '';
 
-        const objectClass = searchEntry.partial_attributes.find(
-          (x) => x.type.toLocaleLowerCase() == 'objectclass',
-        )!;
+        const objectClass = searchEntry.partial_attributes.find((x) => x.type.toLocaleLowerCase() == 'objectclass')!;
         const entry = new NavigationNode({
           name: displayName,
           selectable: true,
@@ -100,7 +98,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .status()
       .pipe(
         catchError(() => {
-          this.toastr.error(translate('dns-settings.dns-unavailable'));
           return of(
             new DnsStatusResponse({
               dns_status: DnsStatuses.NOT_CONFIGURED,

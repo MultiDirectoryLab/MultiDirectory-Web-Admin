@@ -73,21 +73,11 @@ export class ChangePasswordDialogComponent {
 
   protected finish() {
     this.dialog().showSpinner();
-    this.api
-      .changePassword(this.changeRequest)
-      .pipe(
-        catchError(() => {
-          this.toastr.error(translate('change-password.unable-change-password'));
-          this.dialogService.close(this.dialogRef);
-          this.dialog().hideSpinner();
-          return EMPTY;
-        }),
-      )
-      .subscribe((x) => {
-        this.toastr.success(translate('change-password.password-successfully-changed'));
-        this.dialog().hideSpinner();
-        this.dialogService.close(this.dialogRef, x);
-      });
+    this.api.changePassword(this.changeRequest).subscribe((x) => {
+      this.toastr.success(translate('change-password.password-successfully-changed'));
+      this.dialog().hideSpinner();
+      this.dialogService.close(this.dialogRef, x);
+    });
   }
 
   protected checkModel() {

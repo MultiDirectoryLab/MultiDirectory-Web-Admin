@@ -26,10 +26,6 @@ export class LoginService {
 
   login(login: string, password: string): Observable<LoginResponse> {
     return this.api.login(login, password).pipe(
-      catchError((err) => {
-        this.toastr.error(translate('login.wrong-login'));
-        throw err;
-      }),
       switchMap((response) => {
         if (!!response && response.status == 'pending') {
           document.location = response.message;
