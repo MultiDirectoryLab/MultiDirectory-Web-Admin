@@ -1,0 +1,45 @@
+<app-dialog #dialogComponent>
+  <div class="app-modal-header">
+    <div>{{ 'contact-create.modal-header' | transloco }}</div>
+  </div>
+
+  <div>
+    <div class="flex align-center gap-4 pb-4">
+      <div class="avatar"><img class="avatar-img" src="assets/empty_avatar.svg" /></div>
+      <div class="place">{{ 'contact-create.add-to' | transloco }} {{ parentDn }}</div>
+    </div>
+    <hr />
+
+    <form [formGroup]="contactForm" class="pt-2">
+      <div class="field">
+        <label for="displayName" class="col-span-1">
+          {{ 'contact-create.displayName' | transloco }}
+        </label>
+        <md-textbox class="row-1 col-2" formControlName="displayName"></md-textbox>
+      </div>
+      <div class="field">
+        <label for="givenName" class="col-span-1"> {{ 'contact-create.givenName' | transloco }}* </label>
+        <md-textbox class="row-1 col-2" formControlName="givenName"></md-textbox>
+      </div>
+      <div class="field">
+        <label for="surname" class="col-span-1"> {{ 'contact-create.sn' | transloco }}* </label>
+        <md-textbox class="row-1 col-2" formControlName="surname"></md-textbox>
+      </div>
+      <div class="field">
+        <label for="cn" class="col-span-1"> {{ 'contact-create.cn' | transloco }}* </label>
+        <md-textbox class="row-1 col-2" formControlName="cn"></md-textbox>
+      </div>
+    </form>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="flex align-center justify-end gap-1">
+      <md-button (click)="cancel()">
+        {{ 'cancel' | transloco }}
+      </md-button>
+      <md-button [primary]="true" [disabled]="!contactForm.valid" (click)="create()">
+        {{ 'create' | transloco }}
+      </md-button>
+    </div>
+  </div>
+</app-dialog>

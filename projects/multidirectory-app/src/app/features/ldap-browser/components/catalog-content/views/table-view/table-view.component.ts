@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import {
-  OnInit,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
@@ -8,6 +7,7 @@ import {
   inject,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   TemplateRef,
   viewChild,
@@ -21,12 +21,7 @@ import { ToggleAccountDisableStrategy } from '@core/bulk/strategies/toggle-accou
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import {
-  faCrosshairs,
-  faLevelUpAlt,
-  faToggleOff,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCrosshairs, faLevelUpAlt, faToggleOff, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
@@ -46,40 +41,22 @@ import {
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
-import {
-  ConfirmDeleteDialogData,
-  ConfirmDeleteDialogReturnData,
-} from '@components/modals/interfaces/confirm-delete-dialog.interface';
-import {
-  ConfirmDialogData,
-  ConfirmDialogReturnData,
-} from '@components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDeleteDialogData, ConfirmDeleteDialogReturnData } from '@components/modals/interfaces/confirm-delete-dialog.interface';
+import { ConfirmDialogData, ConfirmDialogReturnData } from '@components/modals/interfaces/confirm-dialog.interface';
 import {
   EntityPropertiesDialogData,
   EntityPropertiesDialogReturnData,
 } from '@components/modals/interfaces/entity-properties-dialog.interface';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { AppNavigationService } from '@services/app-navigation.service';
-import {
-  BehaviorSubject,
-  combineLatest,
-  EMPTY,
-  mergeMap,
-  of,
-  Subject,
-  switchMap,
-  take,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, mergeMap, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
-import {
-  LdapEntryDescriptionPipe,
-  LdapEntryStatusPipe,
-  LdapEntryTypePipe,
-} from '@core/ldap/entity-info-resolver';
+import { LdapEntryDescriptionPipe, LdapEntryStatusPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import { newCatalogRow } from '@models/api/catalog/newCatalogRow.model';
+import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 
 @Component({
   selector: 'app-table-view',
@@ -124,6 +101,24 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _searchQuery = '';
   private _searchQueryRx = new BehaviorSubject(this._searchQuery);
+
+  @Input() set newRows(element: newCatalogRow | undefined) {
+    if (element) {
+      const name: string = element.partial_attributes.find((attr) => attr.type === 'name')?.['vals'][0] ?? '';
+      const newEl: LdapBrowserEntry = new LdapBrowserEntry({
+        id: element.object_name,
+        dn: element.object_name,
+        icon: '',
+        name: name,
+        type: LdapEntryType.Contact,
+        description: '',
+        expandable: false,
+        attributes: element.partial_attributes,
+      });
+      this.rows.unshift(newEl);
+    }
+  }
+
   @Input() set searchQuery(q: string) {
     if (this._searchQuery != q) {
       this._searchQuery = q;
@@ -243,12 +238,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
           if (this._gridContentPending) {
             return EMPTY;
           }
-          return this.ldapContent.loadContent(
-            this.parentDn,
-            this._searchQuery,
-            this.offset,
-            this.limit,
-          );
+          return this.ldapContent.loadContent(this.parentDn, this._searchQuery, this.offset, this.limit);
         }),
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
@@ -339,11 +329,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
       this.navigation.navigate(['ldap'], { distinguishedName: entry.dn });
     } else if (entry && !entry.expandable) {
       this.dialogService
-        .open<
-          EntityPropertiesDialogReturnData,
-          EntityPropertiesDialogData,
-          EntityPropertiesDialogComponent
-        >({
+        .open<EntityPropertiesDialogReturnData, EntityPropertiesDialogData, EntityPropertiesDialogComponent>({
           component: EntityPropertiesDialogComponent,
           dialogConfig: {
             hasBackdrop: false,
@@ -438,11 +424,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
           all += '<br/>' + changed;
 
-          return this.dialogService.open<
-            ConfirmDialogReturnData,
-            ConfirmDialogData,
-            ConfirmDialogComponent
-          >({
+          return this.dialogService.open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
             component: ConfirmDialogComponent,
             dialogConfig: {
               minHeight: '160px',

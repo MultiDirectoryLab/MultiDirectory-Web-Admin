@@ -8,16 +8,6 @@ export const SCHEMA_RESTRICTIONS = new Map<string, string[]>([
   ['krb principal', ['krbTicketPolicyAux', 'krbPrincipal', 'krbPrincipalAux']],
   ['krb realm container', ['krbrealmcontainer', 'krbticketpolicyaux', 'top']],
   ['organizational unit', ['conatiner', 'organizationalUnit', 'top']],
-  [
-    'user',
-    [
-      'inetOrgPerson',
-      'organiationalPerson',
-      'person',
-      'posixAccount',
-      'shadowAccount',
-      'top',
-      'user',
-    ],
-  ],
+  ['user', ['inetOrgPerson', 'organiationalPerson', 'person', 'posixAccount', 'shadowAccount', 'top', 'user']],
+  ['contact', ['contact', 'mailRecipient', 'organizationalPerson', 'person', 'top']],
 ]);

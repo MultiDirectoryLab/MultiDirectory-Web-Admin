@@ -1,11 +1,7 @@
 <div class="control-pane flex flex-wrap align-center justify-between">
   <div class="flex align-center flex-wrap gap-2">
     <div class="button-wrapper">
-      <md-plane-button
-        [mdDropdownContainer]="createMenu"
-        [calculatePosition]="true"
-        class="search control-button min-w-[16px]"
-      >
+      <md-plane-button [mdDropdownContainer]="createMenu" [calculatePosition]="true" class="search control-button min-w-[16px]">
         <div class="flex justify-between">
           <img [src]="'assets/add_blue.svg'" class="color-change-blue-white" />
           @if (!createMenu.dropdownVisible) {
@@ -44,19 +40,13 @@
     </md-button>
   </div>
   <div>
-    <md-textbox
-      [(ngModel)]="searchQuery"
-      placeholder="{{ 'catalog-content.filter' | transloco }}"
-    />
+    <md-textbox [(ngModel)]="searchQuery" placeholder="{{ 'catalog-content.filter' | transloco }}" />
   </div>
 </div>
 <div [ngStyle]="{ display: 'block' }" class="flex flex-col-expanded">
   @switch (currentView) {
     @case (ViewMode.Table) {
-      <app-table-view
-        (rightClick)="showContextMenu($event)"
-        [searchQuery]="searchQuery"
-      ></app-table-view>
+      <app-table-view (rightClick)="showContextMenu($event)" [searchQuery]="searchQuery" [newRows]="newRows"></app-table-view>
     }
     @case (ViewMode.SmallIcons) {
       <app-icon-view (rightClick)="showContextMenu($event)"></app-icon-view>
@@ -83,9 +73,6 @@
   <div (click)="createMenu.close(); openCreateComputer()" class="dropdown-item">
     {{ 'catalog-content.computer' | transloco }}
   </div>
-  <div class="dropdown-item disabled hidden">
-    {{ 'catalog-content.contact' | transloco }}
-  </div>
   <div (click)="createMenu.close(); openCreateOu()" class="dropdown-item">
     {{ 'catalog-content.ou' | transloco }}
   </div>
@@ -100,6 +87,9 @@
   </div>
   <div (click)="createMenu.close(); openCreateRule()" class="dropdown-item disabled hidden">
     {{ 'catalog-content.rule' | transloco }}
+  </div>
+  <div (click)="createMenu.close(); openCreateContact()" class="dropdown-item">
+    {{ 'catalog-content.contact' | transloco }}
   </div>
   <div class="dropdown-item disabled hidden">msDS-ShadowPrincipalContainer</div>
   <div class="dropdown-item disabled hidden">msExchDynamic DistributionList</div>

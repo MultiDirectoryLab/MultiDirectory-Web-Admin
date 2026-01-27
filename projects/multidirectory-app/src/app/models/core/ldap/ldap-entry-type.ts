@@ -9,4 +9,6 @@ export enum LdapEntryType {
   Computer = 7,
   Rule = 8,
   KrbPrincipal = 8,
+  Reference = 9,
+  Contact = 10,
 }

@@ -1,14 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { NgStyle } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  inject,
-  OnDestroy,
-  OnInit,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ContextMenuComponent } from '@components/modals/components/core/context-menu/context-menu.component';
@@ -19,30 +11,15 @@ import { CreateOrganizationUnitDialogComponent } from '@components/modals/compon
 import { CreateRuleDialogComponent } from '@components/modals/components/dialogs/create-rule-dialog/create-rule-dialog.component';
 import { CreateUserDialogComponent } from '@components/modals/components/dialogs/create-user-dialog/create-user-dialog.component';
 import { ContextMenuData } from '@components/modals/interfaces/context-menu-dialog.interface';
-import {
-  CreateCatalogDialogData,
-  CreateCatalogDialogReturnData,
-} from '@components/modals/interfaces/create-catalog-dialog.interface';
-import {
-  CreateComputerDialogData,
-  CreateComputerDialogReturnData,
-} from '@components/modals/interfaces/create-computer-dialog.interface';
-import {
-  CreateGroupDialogData,
-  CreateGroupDialogReturnData,
-} from '@components/modals/interfaces/create-group-dialog.interface';
+import { CreateCatalogDialogData, CreateCatalogDialogReturnData } from '@components/modals/interfaces/create-catalog-dialog.interface';
+import { CreateComputerDialogData, CreateComputerDialogReturnData } from '@components/modals/interfaces/create-computer-dialog.interface';
+import { CreateGroupDialogData, CreateGroupDialogReturnData } from '@components/modals/interfaces/create-group-dialog.interface';
 import {
   CreateOrganizationUnitDialogData,
   CreateOrganizationUnitDialogReturnData,
 } from '@components/modals/interfaces/create-organization-unit-dialog.interface';
-import {
-  CreateRuleDialogData,
-  CreateRuleDialogReturnData,
-} from '@components/modals/interfaces/create-rule-dialog.interface';
-import {
-  CreateUserDialogData,
-  CreateUserDialogReturnData,
-} from '@components/modals/interfaces/user-create-dialog.interface';
+import { CreateRuleDialogData, CreateRuleDialogReturnData } from '@components/modals/interfaces/create-rule-dialog.interface';
+import { CreateUserDialogData, CreateUserDialogReturnData } from '@components/modals/interfaces/user-create-dialog.interface';
 import { ContextMenuService } from '@components/modals/services/context-menu.service';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -64,6 +41,10 @@ import { IconViewComponent } from './views/icon-view/icon-view.component';
 import { TableViewComponent } from './views/table-view/table-view.component';
 import { RouterModule } from '@angular/router';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
+import { CreateContactDialogComponent } from '@components/modals/components/dialogs/create-contact-dialog/create-contact-dialog.component';
+import { CreateContactDialogData, CreateContactDialogReturnData } from '@components/modals/interfaces/contact-creat-data.interface';
+import { LdapBrowserEntry } from '@models/core/ldap-browser/ldap-browser-entry';
+import { newCatalogRow } from '@models/api/catalog/newCatalogRow.model';
 
 @Component({
   selector: 'app-catalog-content',
@@ -97,14 +78,12 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   private destroyRef$ = inject(DestroyRef);
   private navigation = inject(AppNavigationService);
   private ldapTreeviewService = inject(LdapTreeviewService);
+  public newRows: newCatalogRow | undefined;
 
   currentView = this.contentView.contentView;
 
   ngOnInit(): void {
-    let createUserDialogRef: DialogRef<
-      CreateUserDialogReturnData,
-      CreateUserDialogComponent
-    > | null = null;
+    let createUserDialogRef: DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> | null = null;
 
     this.hotkeysService.add(
       new Hotkey(
@@ -128,10 +107,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    let createGroupDialogRef: DialogRef<
-      CreateGroupDialogReturnData,
-      CreateGroupDialogComponent
-    > | null = null;
+    let createGroupDialogRef: DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> | null = null;
 
     this.hotkeysService.add(
       new Hotkey(
@@ -154,10 +130,8 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
       ),
     );
 
-    let createOrganizationUnitDialogRef: DialogRef<
-      CreateOrganizationUnitDialogReturnData,
-      CreateOrganizationUnitDialogComponent
-    > | null = null;
+    let createOrganizationUnitDialogRef: DialogRef<CreateOrganizationUnitDialogReturnData, CreateOrganizationUnitDialogComponent> | null =
+      null;
 
     this.hotkeysService.add(
       new Hotkey(
@@ -205,11 +179,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   openCreateGroup(): DialogRef<CreateGroupDialogReturnData, CreateGroupDialogComponent> {
     const parentDn = this.navigation.getContainer();
 
-    const dialogRef = this.dialogService.open<
-      CreateGroupDialogReturnData,
-      CreateGroupDialogData,
-      CreateGroupDialogComponent
-    >({
+    const dialogRef = this.dialogService.open<CreateGroupDialogReturnData, CreateGroupDialogData, CreateGroupDialogComponent>({
       component: CreateGroupDialogComponent,
       dialogConfig: {
         data: { parentDn },
@@ -225,10 +195,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  openCreateOu(): DialogRef<
-    CreateOrganizationUnitDialogReturnData,
-    CreateOrganizationUnitDialogComponent
-  > {
+  openCreateOu(): DialogRef<CreateOrganizationUnitDialogReturnData, CreateOrganizationUnitDialogComponent> {
     const parentDn = this.navigation.getContainer();
 
     const dialogRef = this.dialogService.open<
@@ -273,11 +240,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
     const parentDn = this.navigation.getContainer();
 
     this.dialogService
-      .open<
-        CreateComputerDialogReturnData,
-        CreateComputerDialogData,
-        CreateComputerDialogComponent
-      >({
+      .open<CreateComputerDialogReturnData, CreateComputerDialogData, CreateComputerDialogComponent>({
         component: CreateComputerDialogComponent,
         dialogConfig: {
           width: '580px',
@@ -316,11 +279,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
   openCreateUser(): DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> {
     const dn = this.navigation.getContainer();
 
-    const dialogRef = this.dialogService.open<
-      CreateUserDialogReturnData,
-      CreateUserDialogData,
-      CreateUserDialogComponent
-    >({
+    const dialogRef = this.dialogService.open<CreateUserDialogReturnData, CreateUserDialogData, CreateUserDialogComponent>({
       component: CreateUserDialogComponent,
       dialogConfig: {
         data: { dn },
@@ -331,6 +290,27 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
     dialogRef.closed.subscribe(() => {
       this.navigation.reload();
+    });
+
+    return dialogRef;
+  }
+
+  openCreateContact(): DialogRef<CreateContactDialogReturnData, CreateContactDialogComponent> {
+    const dn = this.navigation.getContainer();
+
+    const dialogRef = this.dialogService.open<CreateContactDialogReturnData, CreateContactDialogData, CreateContactDialogComponent>({
+      component: CreateContactDialogComponent,
+      dialogConfig: {
+        data: { dn },
+        width: '580px',
+        height: '564px',
+      },
+    });
+
+    dialogRef.closed.subscribe((newFormValue: CreateContactDialogReturnData | undefined) => {
+      if (!!newFormValue) {
+        this.newRows = newFormValue;
+      }
     });
 
     return dialogRef;
