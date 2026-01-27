@@ -29,6 +29,7 @@ export class EntityInfoResolver {
     [LdapEntryType.Group, () => translate('entity-info-resolver.security-group')],
     [LdapEntryType.OU, () => translate('entity-info-resolver.organizational-unit')],
     [LdapEntryType.Computer, () => translate('entity-info-resolver.computer')],
+    [LdapEntryType.Contact, () => translate('entity-info-resolver.contact')],
     [LdapEntryType.Rule, () => translate('entity-info-resolver.rule')],
     [LdapEntryType.KrbPrincipal, () => translate('entity-info-resolver.rule')],
   ]);
@@ -38,6 +39,7 @@ export class EntityInfoResolver {
     ['group', LdapEntryType.Group],
     ['organizationalUnit', LdapEntryType.OU],
     ['computer', LdapEntryType.Computer],
+    ['contact', LdapEntryType.Contact],
     ['sudoRole', LdapEntryType.Rule],
     ['krbprincipal', LdapEntryType.KrbPrincipal],
   ]);
@@ -79,9 +81,7 @@ export class EntityInfoResolver {
     const uacBitSet = BitSet.fromHexString(Number(uacAttirbute[0]).toString(16));
 
     const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
-    return enabled
-      ? translate('entity-info-resolver.enabled')
-      : translate('entity-info-resolver.disabled');
+    return enabled ? translate('entity-info-resolver.enabled') : translate('entity-info-resolver.disabled');
   }
 }
 
@@ -106,8 +106,6 @@ export class LdapEntryStatusPipe implements PipeTransform {
     }
     const uacBitSet = BitSet.fromHexString(Number(uacAttirbute.vals[0]).toString(16));
     const enabled = (Number(uacBitSet) & UserAccountControlFlag.ACCOUNTDISABLE) > 0 ? false : true;
-    return enabled
-      ? translate('entity-info-resolver.enabled')
-      : translate('entity-info-resolver.disabled');
+    return enabled ? translate('entity-info-resolver.enabled') : translate('entity-info-resolver.disabled');
   }
 }

@@ -242,6 +242,15 @@
     "disable-account": "Disable account",
     "enable-account": "Enable account"
   },
+  "contact-create": {
+    "modal-header": "New object - User",
+    "cn": "First name + Last name",
+    "displayName": "Display name",
+    "givenName": "Name",
+    "sn": "Surname",
+    "add-to": "Add to",
+    "unable-create-contact": "Failed to create contact"
+  },
   "attributes-list": {
     "value": "Value",
     "add": "Add",
@@ -520,6 +529,7 @@
     "rule": "Rule",
     "security-group": "Security group",
     "computer": "Computer",
+    "contact": "Contact",
     "organizational-unit": "Organizational Unit",
     "enabled": "Enabled",
     "disabled": "Disabled"
