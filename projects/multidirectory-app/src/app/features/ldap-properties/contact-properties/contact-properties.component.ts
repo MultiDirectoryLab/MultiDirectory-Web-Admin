@@ -23,15 +23,11 @@ import { ContactPropertiesGeneralComponent } from './general/contact-properties-
     ContactPropertiesGeneralComponent,
   ],
 })
-export class ContactPropertiesComponent implements OnInit {
+export class ContactPropertiesComponent {
   @ViewChild('cg') generalProperties!: ContactPropertiesGeneralComponent;
   private cdr = inject(ChangeDetectorRef);
   public accessor = input.required<LdapAttributes>();
   properties?: any[];
-
-  ngOnInit() {
-    // console.log( this.keys());
-  }
 
   onTabChanged() {
     this.cdr.detectChanges();
