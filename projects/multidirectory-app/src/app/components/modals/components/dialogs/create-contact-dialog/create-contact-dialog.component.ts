@@ -15,7 +15,7 @@ import { CreateEntryRequest } from '@models/api/entry/create-request';
 import { LdapAttribute } from '@core/ldap/ldap-attributes/ldap-attribute';
 
 @Component({
-  selector: 'app-user-create-dialog',
+  selector: 'app-contact-create-dialog',
   standalone: true,
   imports: [DialogComponent, TranslocoPipe, MultidirectoryUiKitModule, ReactiveFormsModule],
   templateUrl: './create-contact-dialog.component.html',

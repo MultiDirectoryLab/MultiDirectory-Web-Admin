@@ -105,12 +105,13 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() set newRows(element: newCatalogRow | undefined) {
     if (element) {
       const name: string = element.partial_attributes.find((attr) => attr.type === 'name')?.['vals'][0] ?? '';
+      const type: string = element.partial_attributes.find((attr) => attr.type === 'entityTypeName')?.['vals'][0] ?? '';
       const newEl: LdapBrowserEntry = new LdapBrowserEntry({
         id: element.object_name,
         dn: element.object_name,
         icon: '',
         name: name,
-        type: LdapEntryType.Contact,
+        type: LdapEntryType[type as keyof typeof LdapEntryType],
         description: '',
         expandable: false,
         attributes: element.partial_attributes,

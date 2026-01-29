@@ -1,0 +1,22 @@
+<md-tab-pane #tabs (tabChanged)="onTabChanged()" class="flex flex-col h-full">
+  @defer {
+    <div class="tab-header">
+      <md-tab [el]="generals.el" [isSelected]="true">
+        {{ 'user-properties-tabs.general' | transloco }}
+      </md-tab>
+      <md-tab [el]="attributes.el">
+        {{ 'user-properties-tabs.attributes' | transloco }}
+      </md-tab>
+      <md-tab [el]="address.el">
+        {{ 'user-properties-tabs.address' | transloco }}
+      </md-tab>
+      <md-tab [el]="memberOf.el">
+        {{ 'user-properties-tabs.groups' | transloco }}
+      </md-tab>
+    </div>
+    <app-contact-properties-general #cg #generals="mdTab" [accessor]="accessor()" mdTab />
+    <app-entity-attributes #attributes="mdTab" [accessor]="accessor()" class="block h-full" mdTab />
+    <app-contact-properties-address #address="mdTab" [accessor]="accessor()" mdTab />
+    <app-member-of #memberOf="mdTab" [accessor]="accessor()" mdTab />
+  }
+</md-tab-pane>

@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ComputerPropertiesComponent } from '@features/ldap-properties/computer-properties/computer-properties.component';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { EntityAttributesComponent } from '@features/entity-attributes/entity-attributes.component';
@@ -16,20 +9,15 @@ import { UserPropertiesComponent } from '@features/ldap-properties/user-properti
 import { EMPTY, of, switchMap, take } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import {
-  EntityPropertiesDialogData,
-  EntityPropertiesDialogReturnData,
-} from '../../../interfaces/entity-properties-dialog.interface';
+import { EntityPropertiesDialogData, EntityPropertiesDialogReturnData } from '../../../interfaces/entity-properties-dialog.interface';
 import { AttributeService } from '@services/attributes.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import {
-  ConfirmDialogData,
-  ConfirmDialogReturnData,
-} from '../../../interfaces/confirm-dialog.interface';
+import { ConfirmDialogData, ConfirmDialogReturnData } from '../../../interfaces/confirm-dialog.interface';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { SearchQueries } from '@core/ldap/search';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { ContactPropertiesComponent } from '@features/ldap-properties/contact-properties/contact-properties.component';
 
 @Component({
   selector: 'app-entity-properties-dialog',
@@ -42,6 +30,7 @@ import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
     MultidirectoryUiKitModule,
     TranslocoPipe,
     UserPropertiesComponent,
+    ContactPropertiesComponent,
   ],
   templateUrl: './entity-properties-dialog.component.html',
   styleUrl: './entity-properties-dialog.component.scss',
@@ -51,6 +40,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   dialogData: EntityPropertiesDialogData = inject(DIALOG_DATA);
 
   @ViewChild('userProps') userProps!: UserPropertiesComponent;
+  @ViewChild('contactProps') contactProps!: ContactPropertiesComponent;
   @ViewChild(DialogComponent, { static: true }) dialogComponent!: DialogComponent;
 
   EntityTypes = LdapEntryType;
@@ -58,8 +48,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
   accessor: LdapAttributes = new LdapAttributes([]);
 
   private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<EntityPropertiesDialogReturnData, EntityPropertiesDialogComponent> =
-    inject(DialogRef);
+  private dialogRef: DialogRef<EntityPropertiesDialogReturnData, EntityPropertiesDialogComponent> = inject(DialogRef);
   private attributeService: AttributeService = inject(AttributeService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -71,10 +60,7 @@ export class EntityPropertiesDialogComponent implements OnInit {
       .subscribe((props) => {
         const attributes = props.search_result[0].partial_attributes;
 
-        this.accessor = this.attributeService.getTrackableAttributes(
-          this.dialogData.entity,
-          new LdapAttributes(attributes),
-        );
+        this.accessor = this.attributeService.getTrackableAttributes(this.dialogData.entity, new LdapAttributes(attributes));
 
         this.cdr.detectChanges();
       });
@@ -97,23 +83,21 @@ export class EntityPropertiesDialogComponent implements OnInit {
 
     const confirmObservable$ = !needConfirmation
       ? of<ConfirmDialogReturnData>(true)
-      : this.dialogService.open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>(
-          {
-            component: ConfirmDialogComponent,
-            dialogConfig: {
-              minHeight: '160px',
-              data: {
-                promptHeader: translate('confirmation-dialog.prompt-header'),
-                promptText: translate('confirmation-dialog.prompt-text'),
-                primaryButtons: [{ id: true, text: translate('confirmation-dialog.yes') }],
-                secondaryButtons: [
-                  { id: false, text: translate('confirmation-dialog.no') },
-                  { id: 'cancel', text: translate('confirmation-dialog.cancel') },
-                ],
-              },
+      : this.dialogService.open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+          component: ConfirmDialogComponent,
+          dialogConfig: {
+            minHeight: '160px',
+            data: {
+              promptHeader: translate('confirmation-dialog.prompt-header'),
+              promptText: translate('confirmation-dialog.prompt-text'),
+              primaryButtons: [{ id: true, text: translate('confirmation-dialog.yes') }],
+              secondaryButtons: [
+                { id: false, text: translate('confirmation-dialog.no') },
+                { id: 'cancel', text: translate('confirmation-dialog.cancel') },
+              ],
             },
           },
-        ).closed;
+        }).closed;
 
     confirmObservable$
       .pipe(
