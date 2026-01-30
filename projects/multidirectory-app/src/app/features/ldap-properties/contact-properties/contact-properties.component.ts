@@ -27,7 +27,6 @@ export class ContactPropertiesComponent {
   @ViewChild('cg') generalProperties!: ContactPropertiesGeneralComponent;
   private cdr = inject(ChangeDetectorRef);
   public accessor = input.required<LdapAttributes>();
-  properties?: any[];
 
   onTabChanged() {
     this.cdr.detectChanges();
