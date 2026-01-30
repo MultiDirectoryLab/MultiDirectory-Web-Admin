@@ -1,0 +1,43 @@
+@if (accessor) {
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="streetAddress" class="col-span-1">
+      {{ 'user-address.street' | transloco }}
+    </label>
+    <md-textarea class="col-span-5" name="streetAddress" [(ngModel)]="accessor.streetAddress"></md-textarea>
+  </div>
+
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="postalAddress" class="col-span-1">
+      {{ 'user-address.postal-address' | transloco }}
+    </label>
+    <md-textbox class="col-span-5" name="postalAddress" [(ngModel)]="accessor.postalAddress"></md-textbox>
+  </div>
+
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="location" class="col-span-1">
+      {{ 'user-address.city' | transloco }}
+    </label>
+    <md-textbox class="col-span-5" name="location" [(ngModel)]="accessor.location"></md-textbox>
+  </div>
+
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="state" class="col-span-1">
+      {{ 'user-address.area' | transloco }}
+    </label>
+    <md-textbox class="col-span-5" name="state" [(ngModel)]="accessor.state"></md-textbox>
+  </div>
+
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="postalCode" class="col-span-1">
+      {{ 'user-address.postal-code' | transloco }}
+    </label>
+    <md-textbox class="col-span-5" name="postalCode" [(ngModel)]="accessor.postalCode"></md-textbox>
+  </div>
+
+  <div class="grid grid-cols-6 gap-4 items-start py-2">
+    <label for="country" class="col-span-1">
+      {{ 'user-address.country' | transloco }}
+    </label>
+    <md-dropdown class="col-span-5 w-full" [options]="countries" [(ngModel)]="country"></md-dropdown>
+  </div>
+}

@@ -13,6 +13,9 @@
       @case (EntityTypes.Computer) {
         <app-computer-properties class="block h-full" [accessor]="accessor" />
       }
+      @case (EntityTypes.Contact) {
+        <app-contact-properties class="block h-full" #contactProps [accessor]="accessor"></app-contact-properties>
+      }
       @default {
         <div class="block flex h-full">
           <app-entity-attributes [accessor]="accessor" class="w-full" />
@@ -22,11 +25,16 @@
   </div>
 
   <div class="app-modal-footer flex justify-end">
-    <md-button (click)="save(true)" class="pr-8">{{
-      'properties-modal.close' | transloco
-    }}</md-button>
-    <md-button (click)="save(false)" [disabled]="userProps && !userProps.generalPropertiesValid" [primary]="true"
-    >{{ 'properties-modal.approve' | transloco }}
-    </md-button>
+    <md-button (click)="save(true)" class="pr-8">{{ 'properties-modal.close' | transloco }}</md-button>
+    @if (userProps) {
+      <md-button (click)="save(false)" [disabled]="userProps && !userProps.generalPropertiesValid" [primary]="true"
+        >{{ 'properties-modal.approve' | transloco }}
+      </md-button>
+    }
+    @if (contactProps) {
+      <md-button (click)="save(false)" [disabled]="contactProps && !contactProps.generalPropertiesValid" [primary]="true"
+        >{{ 'properties-modal.approve' | transloco }}
+      </md-button>
+    }
   </div>
 </app-dialog>
