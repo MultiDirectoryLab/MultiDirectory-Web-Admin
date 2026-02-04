@@ -1,14 +1,5 @@
 import { NgClass } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  input,
-  OnDestroy,
-  OnInit,
-  output,
-  viewChild,
-} from '@angular/core';
+import { Component, inject, Input, input, OnDestroy, OnInit, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AccessPolicy } from '@core/access-policy/access-policy';
@@ -113,11 +104,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
       .getMultifactor()
       .pipe(take(1))
       .subscribe((mfSettings) => {
-        this.bypassAllowed =
-          !!mfSettings.mfa_key_ldap ||
-          !!mfSettings.mfa_secret_ldap ||
-          !!mfSettings.mfa_key ||
-          !!mfSettings.mfa_secret;
+        this.bypassAllowed = !!mfSettings.mfa_key_ldap || !!mfSettings.mfa_secret_ldap || !!mfSettings.mfa_key || !!mfSettings.mfa_secret;
       });
   }
 
@@ -133,20 +120,13 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         this.windows.hideSpinner();
         if (this.activatedRoute.snapshot.params.id) {
           this.accessClient =
-            policies.find(
-              (x) =>
-                x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId(),
-            ) ?? new AccessPolicy();
+            policies.find((x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId()) ?? new AccessPolicy();
         }
-        this.ipAddresses = this.accessClient.ipRange
-          .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
-          .join(', ');
+        this.ipAddresses = this.accessClient.ipRange.map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x)).join(', ');
 
         this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
         this.selectedGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
-        this.selectedMfaGroups = this.accessClient.mfaGroups.map((x) =>
-          this.getMultiselectOption(x),
-        );
+        this.selectedMfaGroups = this.accessClient.mfaGroups.map((x) => this.getMultiselectOption(x));
       },
       error: () => {
         this.windows.hideSpinner();
@@ -189,9 +169,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         if (!result) {
           return;
         }
-        this.ipAddresses = result.addresses
-          .map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x))
-          .join(', ');
+        this.ipAddresses = result.addresses.map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x)).join(', ');
         this.accessClient.ipRange = result.addresses;
       });
   }
@@ -217,6 +195,10 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
         this.availableGroups = result;
         this.groupSelector().showMenu();
       });
+  }
+
+  onChangeSelectedItems($event: MultiselectModel[]) {
+    this.accessClient.groups = $event.map((x) => x.id);
   }
 
   checkMfaGroups() {
@@ -245,9 +227,7 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
     }
     return from(this.ldapTreeview.load('')).pipe(
       take(1),
-      switchMap((root) =>
-        this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group'])),
-      ),
+      switchMap((root) => this.api.search(SearchQueries.findEntities(groupQuery, root?.[0]?.id ?? '', ['group']))),
       map((result) => {
         return result.search_result.map((x) => {
           const name = new RegExp(Constants.RegexGetNameFromDn).exec(x.object_name);
