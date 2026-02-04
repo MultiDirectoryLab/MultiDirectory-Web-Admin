@@ -1,11 +1,5 @@
 import { Component, ElementRef, inject, OnDestroy, ViewChild, viewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -42,11 +36,13 @@ export class LoginComponent implements OnDestroy {
   private router = inject(Router);
   private loginService = inject(LoginService);
   private unsubscribe = new Subject<void>();
+  protected cdr = inject(ChangeDetectorRef);
   username = '';
   password = '';
   readonly dialogComponent = viewChild.required<DialogComponent>(DialogComponent);
-  loginValid = false;
   loginForm: FormGroup;
+  isFirstLoad: boolean = true;
+  isValid: boolean = false;
   autoFilled: { allAutoFilled: boolean; fields: { [key: string]: boolean } } = {
     fields: { username: false, password: false },
     allAutoFilled: false,
@@ -59,6 +55,9 @@ export class LoginComponent implements OnDestroy {
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+    this.loginForm.valueChanges.subscribe((data) => {
+      this.checkValid();
+    });
   }
 
   ngOnDestroy(): void {
@@ -68,11 +67,21 @@ export class LoginComponent implements OnDestroy {
 
   setaAutofilledValue(name: string, event: boolean) {
     this.autoFilled.fields[name] = event;
-    this.autoFilled.allAutoFilled = Object.values(this.autoFilled.fields).reduce(
-      (acc, curr) => acc && curr,
-      true,
-    );
+    this.autoFilled.allAutoFilled = Object.values(this.autoFilled.fields).reduce((acc, curr) => acc && curr, true);
     this.loginForm.markAsTouched();
+    if (name === 'password') {
+      this.checkValid();
+    }
+  }
+
+  checkValid() {
+    if (this.isFirstLoad) {
+      this.isFirstLoad = false;
+      this.isValid = !(this.loginForm.valid || this.autoFilled.allAutoFilled);
+    } else {
+      this.isValid = !this.loginForm.valid;
+    }
+    this.cdr.detectChanges();
   }
 
   onLogin(event: Event) {

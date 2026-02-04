@@ -7,6 +7,7 @@ import { catchError, EMPTY, Observable, take, throwError } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { translate } from '@jsverse/transloco';
+
 export const ErrorCode = {
   BadRequest: 400,
   NotAuthorized: 401,
@@ -27,11 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         this.spinner.hide();
         if (error.status === ErrorCode.NotAuthorized) {
-          const errText = this.parseBadRequestError(error);
-          this.toastr.info(errText);
-          this.dialogService.closeAll();
-
-          return throwError(() => error);
+          return this.handle401(error);
         }
         if (
           error.status === ErrorCode.BadRequest ||
@@ -54,5 +51,28 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     return errorName;
+  }
+
+  private handle401(error: HttpErrorResponse) {
+    this.dialogService.closeAll();
+
+    const isAuthCheck = error?.url?.includes('/auth/me');
+    if (!isAuthCheck) {
+      const errText = this.parseBadRequestError(error);
+      this.toastr.info(errText);
+    }
+
+    const userAbsent = Object.keys(this.app.user).length === 0;
+
+    if (!window.location.href.includes('/login') && userAbsent) {
+      this.app
+        .logout()
+        .pipe(take(1))
+        .subscribe(() => {
+          this.router.navigate(['login']);
+        });
+      return EMPTY;
+    }
+    return throwError(() => error);
   }
 }
