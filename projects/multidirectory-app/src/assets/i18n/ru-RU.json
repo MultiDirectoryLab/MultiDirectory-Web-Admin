@@ -1008,6 +1008,7 @@
     "max-repeating-symbols-in-row-count": "Максимум повторяющихся символов подряд",
     "max-sequential-keyboard-symbols-count": "Максимум последовательных символов на клавиатуре",
     "max-sequential-alphabet-symbols-count": "Максимум последовательных букв алфавита",
+    "keep-password-history-items": "Сохранять историю N паролей",
     "forbidden-passwords": "Запрещённые пароли",
     "dowload-forbidden-passwords": "Скачать список запрещённых паролей",
     "isExactMatch": "Точное совпадение пароля",

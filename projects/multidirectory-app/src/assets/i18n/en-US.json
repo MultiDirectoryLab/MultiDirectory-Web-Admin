@@ -996,6 +996,7 @@
     "max-repeating-symbols-in-row-count": "Max Repeating Symbols In Row",
     "max-sequential-keyboard-symbols-count": "Max Sequential Keyboard Symbols",
     "max-sequential-alphabet-symbols-count": "Max Sequential Alphabet Symbols",
+    "keep-password-history-items": "Keep password history (items)",
     "isExactMatch": "Exact match only",
     "lockout-threshold": "Lockout Threshold",
     "lockout-duration": "Lockout Duration",
