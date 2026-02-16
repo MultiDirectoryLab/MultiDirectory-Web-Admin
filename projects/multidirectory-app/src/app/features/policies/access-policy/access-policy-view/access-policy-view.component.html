@@ -12,7 +12,7 @@
 
       <!-- IP Addresses Row -->
       <div>{{ 'access-policy-create.ip-addresses' | transloco }}</div>
-      <md-textbox (blur)="onIpChanged()" [(ngModel)]="ipAddresses" appRequired validIpAddress> </md-textbox>
+      <md-textbox (blur)="onIpChanged()" [(ngModel)]="ipAddresses" appRequired validIp> </md-textbox>
       <md-button (click)="changeIpAdressAttribute()" [stretch]="true">
         {{ 'access-policy-create.add' | transloco }}
       </md-button>
