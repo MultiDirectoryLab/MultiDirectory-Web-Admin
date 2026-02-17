@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DialogComponent } from '../../../../components/modals/components/core/dialog/dialog.component';
+import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '@components/modals/services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -7,23 +7,13 @@ import { AddForwardZoneDialogData } from './add-forward-zone-dialog.interface';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DnsApiService } from '@services/dns-api.service';
-import {
-  DnsCheckForwardZoneRequest,
-  DnsCheckForwardZoneResponse,
-} from '@models/api/dns/dns-check-forward-zone';
+import { DnsCheckForwardZoneRequest, DnsCheckForwardZoneResponse } from '@models/api/dns/dns-check-forward-zone';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 
 @Component({
-  imports: [
-    DialogComponent,
-    TranslocoModule,
-    MultidirectoryUiKitModule,
-    FormsModule,
-    CommonModule,
-    FontAwesomeModule,
-  ],
+  imports: [DialogComponent, TranslocoModule, MultidirectoryUiKitModule, FormsModule, CommonModule, FontAwesomeModule],
   templateUrl: './add-forward-zone-dialog.component.html',
   styleUrl: './add-forward-zone-dialog.component.scss',
 })
@@ -40,7 +30,7 @@ export class AddForwardZoneDialogComponent {
   tooltip = translate('add-forward-zone-dialog.tooltip');
 
   onDeleteForwarderClick(toDelete: string) {
-    this.zone.forwarders = this.zone.forwarders.filter((forwarder) => forwarder !== toDelete);
+    this.zone.servers = this.zone.servers.filter((forwarder) => forwarder !== toDelete);
     this.selectedForwaderIndex = undefined;
   }
 
@@ -48,10 +38,9 @@ export class AddForwardZoneDialogComponent {
     if (this.selectedForwaderIndex == undefined) {
       return;
     }
-    const temp = this.zone.forwarders?.[this.selectedForwaderIndex + 1];
-    this.zone.forwarders[this.selectedForwaderIndex + 1] =
-      this.zone.forwarders[this.selectedForwaderIndex];
-    this.zone.forwarders[this.selectedForwaderIndex] = temp;
+    const temp = this.zone.servers?.[this.selectedForwaderIndex + 1];
+    this.zone.servers[this.selectedForwaderIndex + 1] = this.zone.servers[this.selectedForwaderIndex];
+    this.zone.servers[this.selectedForwaderIndex] = temp;
     this.selectedForwaderIndex++;
   }
   moveUp() {
@@ -59,23 +48,20 @@ export class AddForwardZoneDialogComponent {
       return;
     }
 
-    const temp = this.zone.forwarders?.[this.selectedForwaderIndex - 1];
-    this.zone.forwarders[this.selectedForwaderIndex - 1] =
-      this.zone.forwarders[this.selectedForwaderIndex];
-    this.zone.forwarders[this.selectedForwaderIndex] = temp;
+    const temp = this.zone.servers?.[this.selectedForwaderIndex - 1];
+    this.zone.servers[this.selectedForwaderIndex - 1] = this.zone.servers[this.selectedForwaderIndex];
+    this.zone.servers[this.selectedForwaderIndex] = temp;
     this.selectedForwaderIndex--;
   }
 
   addForwarder() {
-    this.zone.forwarders.push('');
+    this.zone.servers.push('');
   }
 
   submitForwarder(form: NgForm, index: number) {
-    this.dns
-      .checkForwardZone(new DnsCheckForwardZoneRequest({ dns_server_ips: [form.value.ip] }))
-      .subscribe((response) => {
-        this.forwarderResponse?.set(index, response[0]);
-      });
+    this.dns.checkForwardZone(new DnsCheckForwardZoneRequest({ dns_server_ips: [form.value.ip] })).subscribe((response) => {
+      this.forwarderResponse?.set(index, response[0]);
+    });
   }
 
   apply() {

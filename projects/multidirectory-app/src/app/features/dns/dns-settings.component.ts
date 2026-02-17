@@ -10,10 +10,7 @@ import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, switchMap, take } from 'rxjs';
 import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
-import {
-  ConfirmDialogData,
-  ConfirmDialogReturnData,
-} from '../../components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDialogData, ConfirmDialogReturnData } from '../../components/modals/interfaces/confirm-dialog.interface';
 import { DialogService } from '../../components/modals/services/dialog.service';
 import DnsZonesComponent from './dns-zones/dns-zones.component';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
@@ -100,36 +97,36 @@ export class DnsSettingsComponent implements OnInit {
       });
   }
 
-  onDelete(toDeleteIndex: number) {
-    const prompt: ConfirmDialogDescriptor = {
-      promptHeader: translate('remove-confirmation-dialog.prompt-header'),
-      promptText: translate('remove-confirmation-dialog.prompt-text'),
-      primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
-      secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
-    };
-
-    this.dialogService
-      .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
-        component: ConfirmDialogComponent,
-        dialogConfig: {
-          minHeight: '160px',
-          data: prompt,
-        },
-      })
-      .closed.pipe(
-        take(1),
-        switchMap((x) => {
-          if (x === 'cancel' || !x) {
-            return EMPTY;
-          }
-          const rule = this.enusreHostname(this.rules[toDeleteIndex]);
-          return this.dns.delete(rule);
-        }),
-      )
-      .subscribe(() => {
-        this.rules = this.rules.filter((_, ind) => ind !== toDeleteIndex);
-      });
-  }
+  // onDelete(toDeleteIndex: number) {
+  //   const prompt: ConfirmDialogDescriptor = {
+  //     promptHeader: translate('remove-confirmation-dialog.prompt-header'),
+  //     promptText: translate('remove-confirmation-dialog.prompt-text'),
+  //     primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
+  //     secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
+  //   };
+  //
+  //   this.dialogService
+  //     .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
+  //       component: ConfirmDialogComponent,
+  //       dialogConfig: {
+  //         minHeight: '160px',
+  //         data: prompt,
+  //       },
+  //     })
+  //     .closed.pipe(
+  //       take(1),
+  //       switchMap((x) => {
+  //         if (x === 'cancel' || !x) {
+  //           return EMPTY;
+  //         }
+  //         const rule = this.enusreHostname(this.rules[toDeleteIndex]);
+  //         return this.dns.deleteZoneRule(rule);
+  //       }),
+  //     )
+  //     .subscribe(() => {
+  //       this.rules = this.rules.filter((_, ind) => ind !== toDeleteIndex);
+  //     });
+  // }
 
   handleSetupClick() {
     this.windows
@@ -150,7 +147,7 @@ export class DnsSettingsComponent implements OnInit {
 
   private enusreHostname(rule: DnsRule): DnsRule {
     const result = new DnsRule(rule);
-    result.name = result.name.replace('.' + this.dnsStatus.zone_name, '');
+    result.record_name = result.record_name?.replace('.' + this.dnsStatus.zone_name, '');
     return result;
   }
 }

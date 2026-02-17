@@ -6,14 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { CommonModule } from '@angular/common';
 import { DnsApiService } from '@services/dns-api.service';
-import { DnsForwardZone } from '@models/api/dns/dns-forward-zone';
-import {
-  AddForwardZoneDialogData,
-  AddForwardZoneDialogReturnData,
-} from './add-forward-zone-dialog/add-forward-zone-dialog.interface';
+import { DnsForwardGetData, DnsForwardZone } from '@models/api/dns/dns-forward-zone';
+import { AddForwardZoneDialogData, AddForwardZoneDialogReturnData } from './add-forward-zone-dialog/add-forward-zone-dialog.interface';
 import { AddForwardZoneDialogComponent } from './add-forward-zone-dialog/add-forward-zone-dialog.component';
 import { DnsAddZoneRequest } from '@models/dhcp/areas/dhcp-add-areas-response';
-import { EMPTY, switchMap, take } from 'rxjs';
+import { EMPTY, filter, switchMap, take } from 'rxjs';
 import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
@@ -43,22 +40,18 @@ export class DnsForwardZonesComponent implements OnInit {
   }
 
   private loadData() {
-    this.dnsApi.getForwardZones().subscribe((forwardZones) => {
+    this.dnsApi.getForwardZones().subscribe((forwardZones: DnsForwardZone[]) => {
       this.selectedRedirectionZones.set([]);
       this.redirectionZonesRows.set(forwardZones);
       this.total = forwardZones.length;
     });
   }
 
-  selectedRedirectionZones = signal<DnsForwardZone[]>([]);
+  selectedRedirectionZones = signal<DnsForwardGetData[]>([]);
 
   onAddRedirectionZone() {
     this.dialogService
-      .open<
-        AddForwardZoneDialogReturnData,
-        AddForwardZoneDialogData,
-        AddForwardZoneDialogComponent
-      >({
+      .open<AddForwardZoneDialogReturnData, AddForwardZoneDialogData, AddForwardZoneDialogComponent>({
         component: AddForwardZoneDialogComponent,
         dialogConfig: {
           minWidth: '620px',
@@ -67,11 +60,12 @@ export class DnsForwardZonesComponent implements OnInit {
       })
       .closed.pipe(
         take(1),
-        switchMap((result) => {
+        filter((x) => !!x),
+        switchMap((result: DnsForwardZone) => {
           if (!result) {
             return EMPTY;
           }
-          return this.dnsApi.addZone(result.toDnsAddZoneRequest());
+          return this.dnsApi.addForwardZone(result);
         }),
       )
       .subscribe((result) => {
@@ -79,26 +73,24 @@ export class DnsForwardZonesComponent implements OnInit {
       });
   }
 
-  onEditRedirectionZone($event: InputEvent) {
+  onEditRedirectionZone($event: any) {
+    const dialogData = new DnsForwardZone({ servers: ($event.row as DnsForwardGetData).servers, zone_name: ($event as any).row.name });
     this.dialogService
-      .open<
-        AddForwardZoneDialogReturnData,
-        AddForwardZoneDialogData,
-        AddForwardZoneDialogComponent
-      >({
+      .open<AddForwardZoneDialogReturnData, AddForwardZoneDialogData, AddForwardZoneDialogComponent>({
         component: AddForwardZoneDialogComponent,
         dialogConfig: {
           minWidth: '620px',
-          data: new DnsForwardZone(($event as any).row as DnsForwardZone),
+          data: dialogData,
         },
       })
       .closed.pipe(
         take(1),
-        switchMap((result) => {
+        filter((x) => !!x),
+        switchMap((result: DnsForwardZone) => {
           if (!result) {
             return EMPTY;
           }
-          return this.dnsApi.updateZone(result.toDnsAddZoneRequest());
+          return this.dnsApi.changeForwardZones(result);
         }),
       )
       .subscribe((result) => {
@@ -122,13 +114,13 @@ export class DnsForwardZonesComponent implements OnInit {
       return;
     }
 
-    this.dnsApi.deleteZone(selectedRows.map((x) => x.name)).subscribe((x) => {
+    this.dnsApi.deleteForwardZones(selectedRows.map((x) => x.id)).subscribe(() => {
       this.toastr.success(translate('dns-forward-zones.delete-successful'));
       this.loadData();
     });
   }
 
-  onRedirectionZonesSelectionChanged(rows: DnsForwardZone[]) {
+  onRedirectionZonesSelectionChanged(rows: DnsForwardGetData[]) {
     this.selectedRedirectionZones.set(rows);
   }
 }

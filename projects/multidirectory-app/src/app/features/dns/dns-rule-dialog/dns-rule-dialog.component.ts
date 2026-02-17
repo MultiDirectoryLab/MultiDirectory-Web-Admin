@@ -1,31 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { Ip6AddressValidatorDirective } from '@core/validators/ip6-address.directive';
 import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import {
-  AvailableDnsRecordTypes,
-  DnsRuleClass,
-  DnsRuleType,
-  DnsTypeToDataType,
-} from '@models/api/dns/dns-rule-type';
+import { AvailableDnsRecordTypes, DnsRuleClass, DnsRuleType, DnsTypeToDataType } from '@models/api/dns/dns-rule-type';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogService } from '../../../components/modals/services/dialog.service';
-import {
-  DnsRuleDialogData,
-  DnsRuleDialogReturnData,
-} from '../../../components/modals/interfaces/dns-rule-dialog.interface';
+import { DnsRuleDialogData, DnsRuleDialogReturnData } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
 import { DnsRule } from '@models/api/dns/dns-rule';
 
@@ -69,17 +53,17 @@ export class DnsRuleDialogComponent implements OnInit {
   set sameAsZoneName(val: boolean) {
     this._sameAsZoneName = val;
     if (val) {
-      this.dnsRule.name = '@';
+      this.dnsRule.record_name = '@';
     }
     this.cdr.detectChanges();
   }
 
   get recordType() {
-    return this.dnsRule.type;
+    return this.dnsRule.record_type;
   }
 
   set recordType(type: DnsRuleType) {
-    this.dnsRule.type = type;
+    this.dnsRule.record_type = type;
     this.recordDataType = DnsTypeToDataType.get(type)?.valueOf() ?? -1;
     this.cdr.detectChanges();
   }
@@ -90,7 +74,7 @@ export class DnsRuleDialogComponent implements OnInit {
       this.formValid = x;
     });
     this.dnsRule = this.dialogData.rule ?? {};
-    this.recordType = this.dnsRule.type;
+    this.recordType = this.dnsRule.record_type;
   }
 
   onFinish(event: MouseEvent) {

@@ -11,9 +11,8 @@ export class DnsZoneParam {
 
 export class DnsAddZoneRequest {
   zone_name: string = '';
-  zone_type: string = '';
-  ttl = Constants.DnsTTL;
-  params: DnsZoneParam[] = [];
+  nameserver_ip: string = '';
+  dnssec: boolean = false;
   constructor(obj: Partial<DnsAddZoneRequest>) {
     Object.assign(this, obj);
   }

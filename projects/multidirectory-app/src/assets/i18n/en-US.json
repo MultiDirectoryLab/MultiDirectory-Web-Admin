@@ -281,6 +281,7 @@
     "constructed-only": "Constructed",
     "backlinks-only": "Backlinks",
     "system-only": "System Only",
+    "dnssec": "DNSSEC",
     "filter": "Filter"
   },
   "member-of": {
@@ -734,7 +735,8 @@
     "modal-header": "Add a new zone",
     "header": "DNS Zone wizard",
     "domain-input": "Domain",
-    "allowed-ip-input": "Allowed IP addresses",
+    "zone_name": "Zone name",
+    "allowed-ip-input": "Allowed IP address",
     "ttl-input": "TTL",
     "add": "Add",
     "cancel": "Cancel",

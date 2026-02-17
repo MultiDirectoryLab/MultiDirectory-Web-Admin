@@ -1,25 +1,19 @@
 <app-dialog>
-  <div class="app-modal-header">
-    {{ 'dns-zone-details.modal-header' | transloco }} {{ zone().name }}
-  </div>
+  <div class="app-modal-header">{{ 'dns-zone-details.modal-header' | transloco }} {{ zone().name }}</div>
 
   <div class="flex justify-between pb-4">
-    <md-button (click)="onAdd()">{{ 'dns-zone-details.add' | transloco }}</md-button>
+    <md-button (click)="onAddRule()">{{ 'dns-zone-details.add' | transloco }}</md-button>
   </div>
   <div class="flex w-full">
-    <md-textbox
-      class="w-full"
-      [(ngModel)]="search"
-      placeholder="{{ 'dns-zone-details.search' | transloco }}"
-    ></md-textbox>
+    <md-textbox class="w-full" [(ngModel)]="search" placeholder="{{ 'dns-zone-details.search' | transloco }}"></md-textbox>
   </div>
   <div class="cell-content flex flex-col gap-4 py-2">
-    @for (type of zone().records; track $index; let indexA = $index) {
+    @for (type of zone().rrsets; track $index; let indexA = $index) {
       @for (record of type.records; track $index; let indexB = $index) {
         <app-dns-rule-list-item
           [index]="$count * indexA + indexB"
           [dnsRule]="record"
-          (deleteClick)="onDeleteRuleClick(record)"
+          (deleteClick)="onDeleteRuleClick($event)"
           (editClick)="onEditRuleClick(record)"
           (turnOffClick)="onTurnOffRuleClick(record)"
         ></app-dns-rule-list-item>

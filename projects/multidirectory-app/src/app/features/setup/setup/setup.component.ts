@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  viewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PasswordGenerator } from '@core/setup/password-generator';
 import { AdminSettingsSecondComponent } from '@features/setup/admin-settings-second/admin-settings-second.component';
@@ -74,13 +66,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.setupRequest.domain = window.location.hostname;
-    this.setupRequest.setupDnsRequest.domain = window.location.hostname;
-    this.setupRequest.setupDnsRequest.zone_name = window.location.hostname;
-    this.setupRequestValidatorService.onStepValid
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((valid) => {
-        this.stepValid = valid;
-      });
+    // this.setupRequest.setupDnsRequest = window.location.hostname;
+    this.setupRequestValidatorService.onStepValid.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+      this.stepValid = valid;
+    });
+    this.setupRequestValidatorService.onStepValid.pipe(takeUntil(this.unsubscribe)).subscribe((valid) => {
+      this.stepValid = valid;
+    });
   }
 
   ngOnDestroy(): void {
@@ -94,10 +86,8 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onNext() {
     if (this.stepper().currentIndex == 1 && this.setupRequest.generateKdcPasswords) {
-      this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat =
-        PasswordGenerator.generatePassword();
-      this.setupRequest.stash_password = this.setupRequest.stash_password_repeat =
-        PasswordGenerator.generatePassword();
+      this.setupRequest.krbadmin_password = this.setupRequest.krbadmin_password_repeat = PasswordGenerator.generatePassword();
+      this.setupRequest.stash_password = this.setupRequest.stash_password_repeat = PasswordGenerator.generatePassword();
     }
     this.modal().resizeToContentHeight();
   }

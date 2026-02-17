@@ -282,6 +282,7 @@
     "constructed-only": "Constructed",
     "backlinks-only": "Backlinks",
     "system-only": "Только системные",
+    "dnssec": "DNSSEC",
     "filter": "Фильтр"
   },
   "member-of": {
@@ -730,7 +731,8 @@
     "modal-header": "Добавить новую зону",
     "header": "Мастер добавления зон DNS",
     "domain-input": "Домен",
-    "allowed-ip-input": "Разрешенные IP адреса",
+    "zone_name": "Название зоны",
+    "allowed-ip-input": "Разрешенный IP адрес",
     "ttl-input": "TTL",
     "add": "Добавить",
     "apply": "Применить",
