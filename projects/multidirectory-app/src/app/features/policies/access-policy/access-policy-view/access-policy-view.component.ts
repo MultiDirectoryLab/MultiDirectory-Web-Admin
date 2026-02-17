@@ -7,7 +7,6 @@ import { IpRange } from '@core/access-policy/access-policy-ip-address';
 import { MfaAccessEnum } from '@core/access-policy/mfa-access-enum';
 import { Constants } from '@core/constants';
 import { SearchQueries } from '@core/ldap/search';
-import { IpAddressValidatorDirective } from '@core/validators/ip-address.directive';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { IpListDialogComponent } from 'projects/multidirectory-app/src/app/components/modals/components/dialogs/access-policy-ip-list/ip-list-dialog.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -24,7 +23,7 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { from, map, Observable, of, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { DialogService } from '../../../../components/modals/services/dialog.service';
 import { IplistDialogData } from '../../../../components/modals/interfaces/ip-list-dialog.interface';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
@@ -47,7 +46,6 @@ import { UniversalIpValidatorDirective } from '@core/validators/ip-universal.dir
     GroupComponent,
     ShiftCheckboxComponent,
     RequiredWithMessageDirective,
-    IpAddressValidatorDirective,
     TranslocoPipe,
     MaxLengthValidatorDirective,
     UniversalIpValidatorDirective,

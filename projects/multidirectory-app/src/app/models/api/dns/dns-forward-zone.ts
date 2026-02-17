@@ -1,22 +1,23 @@
 import { DnsAddZoneRequest, DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
 
 export class DnsForwardZone {
-  name: string = '';
-  type: string = 'forward';
-  forwarders: string[] = ['127.0.0.1', '127.0.0.2'];
+  zone_name: string = '';
+  servers: string[] = ['127.0.0.1', '127.0.0.2'];
   constructor(obj: Partial<DnsForwardZone>) {
     Object.assign(this, obj);
   }
-  toDnsAddZoneRequest(): DnsAddZoneRequest {
-    return new DnsAddZoneRequest({
-      zone_name: this.name,
-      zone_type: this.type,
-      params: [
-        new DnsZoneParam({
-          name: 'forwarders',
-          value: this.forwarders,
-        }),
-      ],
-    });
+}
+
+export class DnsForwardGetData {
+  id: string = '';
+  name: string = '';
+  rrsets: string[] = [];
+  type: string = 'zone';
+  servers: string[] = [];
+  recursion_desired: boolean = false;
+  kind: string = '';
+
+  constructor(obj: Partial<DnsForwardGetData>) {
+    Object.assign(this, obj);
   }
 }

@@ -6,37 +6,31 @@
         <label>{{ 'add-zone-dialog.header' | transloco }}</label>
       </div>
       <div class="flex gap-x-1 justify-between">
-        <md-textbox
-          [(ngModel)]="dnsZone.zone_name"
-          [placeholder]="t('add-zone-dialog.domain-input')"
-          class="grow"
-          appRequired
-        />
+        <md-textbox [(ngModel)]="dnsZone.zone_name" [placeholder]="t('add-zone-dialog.zone_name')" class="grow" appRequired />
       </div>
+      <!--      <div class="flex gap-x-1 justify-between">-->
+      <!--        <md-textbox-->
+      <!--          [(ngModel)]="dnsZone.ttl"-->
+      <!--          type="number"-->
+      <!--          [placeholder]="t('add-zone-dialog.ttl-input')"-->
+      <!--          class="grow"-->
+      <!--          appRequired-->
+      <!--        />-->
+      <!--      </div>-->
       <div class="flex gap-x-1 justify-between">
-        <md-textbox
-          [(ngModel)]="dnsZone.ttl"
-          type="number"
-          [placeholder]="t('add-zone-dialog.ttl-input')"
-          class="grow"
-          appRequired
-        />
-      </div>
-      <div class="flex gap-x-1 justify-between">
-        <md-textbox
-          [(ngModel)]="ipString"
-          [placeholder]="t('add-zone-dialog.allowed-ip-input')"
-          class="grow"
-        />
-        <md-button (click)="openIpAddressDialog()">{{
-          'add-zone-dialog.add' | transloco
-        }}</md-button>
+        <md-textbox [(ngModel)]="ipString" [placeholder]="t('add-zone-dialog.allowed-ip-input')" class="grow" />
+        <!--        <md-button (click)="openIpAddressDialog()">{{-->
+        <!--          'add-zone-dialog.add' | transloco-->
+        <!--        }}</md-button>-->
       </div>
     </div>
+    <div class="flex gap-x-1 justify-between">
+      <md-checkbox [(ngModel)]="dnsZone.dnssec" class="grow">
+        {{ 'entity-attributes.with-values-only' | transloco }}
+      </md-checkbox>
+    </div>
     <div class="flex justify-end pt-4">
-      <md-button [primary]="true" [disabled]="!form.valid" [submit]="true">{{
-        'add-zone-dialog.apply' | transloco
-      }}</md-button>
+      <md-button [primary]="true" [disabled]="!form.valid" [submit]="true">{{ 'add-zone-dialog.apply' | transloco }}</md-button>
     </div>
   </md-form>
 </app-dialog>

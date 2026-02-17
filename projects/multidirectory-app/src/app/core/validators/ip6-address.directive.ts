@@ -16,7 +16,6 @@ import { translate } from '@jsverse/transloco';
 export class Ip6AddressValidatorDirective implements Validator {
   readonly errorLabel = input(translate('error-message.ip6-valid'));
   ipPattern = new RegExp('^([a-f0-9:]+:+)+[a-f0-9]+$');
-
   validate(control: AbstractControl): ValidationErrors | null {
     const result = this.ipPattern.test(control.value);
     if (result) {

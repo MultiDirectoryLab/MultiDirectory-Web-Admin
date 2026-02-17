@@ -7,24 +7,15 @@ import { translate, TranslocoModule } from '@jsverse/transloco';
 import { DialogService } from '../../../components/modals/services/dialog.service';
 import { AddZoneDialogComponent } from '../add-zone-dialog/add-zone-dialog.component';
 import { DnsRuleDialogComponent } from '../dns-rule-dialog/dns-rule-dialog.component';
-import {
-  DnsRuleDialogData,
-  DnsRuleDialogReturnData,
-} from '../../../components/modals/interfaces/dns-rule-dialog.interface';
+import { DnsRuleDialogData, DnsRuleDialogReturnData } from '../../../components/modals/interfaces/dns-rule-dialog.interface';
 import { EMPTY, switchMap, take } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogComponent } from '../../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
-import {
-  ConfirmDialogReturnData,
-  ConfirmDialogData,
-} from '../../../components/modals/interfaces/confirm-dialog.interface';
+import { ConfirmDialogReturnData, ConfirmDialogData } from '../../../components/modals/interfaces/confirm-dialog.interface';
 import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/api/dns/dns-rule';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import {
-  AddZoneDialogData,
-  AddZoneDialogReturnData,
-} from '../add-zone-dialog/add-zone-dialog.interface';
+import { AddZoneDialogData, AddZoneDialogReturnData } from '../add-zone-dialog/add-zone-dialog.interface';
 
 @Component({
   selector: 'app-dns-zones',
@@ -62,28 +53,30 @@ export default class DnsZonesComponent implements OnInit {
       });
   }
 
-  onEditRuleClick(rule: DnsRule) {
-    this.dialogService
-      .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
-        component: DnsRuleDialogComponent,
-        dialogConfig: {
-          minHeight: '360px',
-          data: { rule, isEdit: true },
-        },
-      })
-      .closed.pipe(
-        take(1),
-        switchMap((x) => {
-          if (!x) return EMPTY;
-          return this.dns.update(rule);
-        }),
-      )
-      .subscribe(() => {
-        this.toastr.success(translate('dns-settings.success'));
-      });
-  }
+  // onEditRuleClick(rule: DnsRule) {
+  //   this.dialogService
+  //     .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
+  //       component: DnsRuleDialogComponent,
+  //       dialogConfig: {
+  //         minHeight: '360px',
+  //         data: { rule, isEdit: true },
+  //       },
+  //     })
+  //     .closed.pipe(
+  //       take(1),
+  //       switchMap((x) => {
+  //         console.log(x);
+  //         if (!x) return EMPTY;
+  //         return this.dns.updateZoneRule(rule, );
+  //       }),
+  //     )
+  //     .subscribe(() => {
+  //       this.toastr.success(translate('dns-settings.success'));
+  //     });
+  // }
 
   onDeleteZoneClick(zone: DnsZoneListResponse) {
+    console.log(zone);
     const prompt: ConfirmDialogDescriptor = {
       promptHeader: translate('remove-confirmation-dialog.prompt-header'),
       promptText: translate('remove-confirmation-dialog.prompt-text'),
@@ -102,7 +95,7 @@ export default class DnsZonesComponent implements OnInit {
       .closed.pipe(take(1))
       .subscribe((result) => {
         if (result === 'yes') {
-          this.dns.deleteZone([zone.name]).subscribe((result) => {
+          this.dns.deleteZone([zone.id]).subscribe((result) => {
             this.zones = this.zones.filter((x) => x !== zone);
           });
           return;

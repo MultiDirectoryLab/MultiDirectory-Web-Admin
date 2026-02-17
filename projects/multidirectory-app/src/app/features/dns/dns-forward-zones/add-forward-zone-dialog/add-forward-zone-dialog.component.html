@@ -3,14 +3,12 @@
     <div class="app-modal-header">{{ 'add-forward-zone-dialog.modal-header' | transloco }}</div>
     <div class="flex flex-row gap-2 py-2">
       <label>{{ 'add-forward-zone-dialog.zone-name' | transloco }}</label>
-      <md-textbox [(ngModel)]="zone.name" name="zoneName" required></md-textbox>
+      <md-textbox [(ngModel)]="zone.zone_name" name="zoneName" required></md-textbox>
     </div>
 
     <div class="grid grid-cols-2 grid-rows-4 h-full w-full">
-      <div
-        class="col-1 row-1 col-span-3 row-span-3 flex flex-col gap-2 overflow-y-auto max-h-64 px-2"
-      >
-        @for (forwarder of zone.forwarders; track $index) {
+      <div class="col-1 row-1 col-span-3 row-span-3 flex flex-col gap-2 overflow-y-auto max-h-64 px-2">
+        @for (forwarder of zone.servers; track $index) {
           <form (submit)="submitForwarder(form, $index)" #form="ngForm">
             <div
               [ngClass]="{
@@ -20,16 +18,9 @@
               (click)="selectedForwaderIndex = $index"
             >
               <div class="flex flex-row w-full gap-2 px-2" (click)="submitForwarder(form, $index)">
-                <md-textbox [(ngModel)]="zone.forwarders[$index]" name="ip"></md-textbox>
-                <div
-                  class="decoration-dotted underline cursor-pointer"
-                  [attr.data-tooltip]="tooltip"
-                >
-                  {{
-                    forwarderResponse.has($index)
-                      ? (forwarderResponse.get($index)?.FQDN ?? 'FQDN')
-                      : 'FQDN'
-                  }}
+                <md-textbox [(ngModel)]="zone.servers[$index]" name="ip"></md-textbox>
+                <div class="decoration-dotted underline cursor-pointer" [attr.data-tooltip]="tooltip">
+                  {{ forwarderResponse.has($index) ? (forwarderResponse.get($index)?.FQDN ?? 'FQDN') : 'FQDN' }}
                 </div>
               </div>
               <div class="px-2">
@@ -43,10 +34,7 @@
                 }
               </div>
               <div>
-                <md-plane-button
-                  class="control-button max-h-4"
-                  (click)="onDeleteForwarderClick(forwarder)"
-                >
+                <md-plane-button class="control-button max-h-4" (click)="onDeleteForwarderClick(forwarder)">
                   <img class="control-button-logo" [src]="'assets/trash.svg'" />
                 </md-plane-button>
               </div>
@@ -56,18 +44,14 @@
       </div>
 
       <div class="row-4 col-1 col-span-4 whitespace-nowrap flex flex-row gap-2 py-2">
-        <md-button (click)="addForwarder()">{{
-          'add-forward-zone-dialog.add' | transloco
-        }}</md-button>
+        <md-button (click)="addForwarder()">{{ 'add-forward-zone-dialog.add' | transloco }}</md-button>
       </div>
     </div>
 
     <div class="app-modal-footer">
       <div class="w-full flex justify-end gap-2 px-2">
         <md-button (click)="cancel()">{{ 'add-forward-zone-dialog.cancel' | transloco }}</md-button>
-        <md-button [disabled]="!zoneForm.valid" (click)="apply()">{{
-          'add-forward-zone-dialog.apply' | transloco
-        }}</md-button>
+        <md-button [disabled]="!zoneForm.valid" (click)="apply()">{{ 'add-forward-zone-dialog.apply' | transloco }}</md-button>
       </div>
     </div>
   </form>
