@@ -27,7 +27,6 @@ export class DnsSetupDialogComponent implements OnInit {
   onFinish(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    console.log('this.dnsSetupRequest', this.dnsSetupRequest);
     if (this.formValid) {
       this.modalControl.close(this.dnsSetupRequest);
     }

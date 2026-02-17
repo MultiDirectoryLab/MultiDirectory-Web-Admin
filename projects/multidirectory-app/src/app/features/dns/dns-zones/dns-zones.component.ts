@@ -53,30 +53,7 @@ export default class DnsZonesComponent implements OnInit {
       });
   }
 
-  // onEditRuleClick(rule: DnsRule) {
-  //   this.dialogService
-  //     .open<DnsRuleDialogReturnData, DnsRuleDialogData, DnsRuleDialogComponent>({
-  //       component: DnsRuleDialogComponent,
-  //       dialogConfig: {
-  //         minHeight: '360px',
-  //         data: { rule, isEdit: true },
-  //       },
-  //     })
-  //     .closed.pipe(
-  //       take(1),
-  //       switchMap((x) => {
-  //         console.log(x);
-  //         if (!x) return EMPTY;
-  //         return this.dns.updateZoneRule(rule, );
-  //       }),
-  //     )
-  //     .subscribe(() => {
-  //       this.toastr.success(translate('dns-settings.success'));
-  //     });
-  // }
-
   onDeleteZoneClick(zone: DnsZoneListResponse) {
-    console.log(zone);
     const prompt: ConfirmDialogDescriptor = {
       promptHeader: translate('remove-confirmation-dialog.prompt-header'),
       promptText: translate('remove-confirmation-dialog.prompt-text'),

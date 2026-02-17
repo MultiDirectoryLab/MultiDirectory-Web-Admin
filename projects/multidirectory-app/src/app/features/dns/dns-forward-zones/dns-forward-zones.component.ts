@@ -90,7 +90,6 @@ export class DnsForwardZonesComponent implements OnInit {
           if (!result) {
             return EMPTY;
           }
-          // console.log(result.row as any);
           return this.dnsApi.changeForwardZones(result);
         }),
       )

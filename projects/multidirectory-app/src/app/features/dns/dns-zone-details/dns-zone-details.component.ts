@@ -98,11 +98,6 @@ export class DnsZoneDetailsComponent implements AfterViewInit {
       })
       .closed.pipe(
         take(1),
-        // tap((x) => {
-        //   if (!!x && !x.zone_name?.endsWith(x.zone_name)) {
-        //     x.zone_name += '.' + x.zone_name;
-        //   }
-        // }),
         switchMap((x) => (x ? this.dns.addZoneRule(x, this.zone().id) : EMPTY)),
       )
       .subscribe(() => {
