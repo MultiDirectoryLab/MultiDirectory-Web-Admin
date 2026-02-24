@@ -66,7 +66,7 @@ export class DnsApiService {
             for (let type of zone.rrsets) {
               type.records = type.records.map((record) => ({
                 record_type: type.type as DnsRuleType,
-                record_name: zone.name,
+                record_name: type.name,
                 record_value: String(record.content ?? ''),
                 ttl: type.ttl,
               }));
