@@ -145,9 +145,9 @@ export class DnsSettingsComponent implements OnInit {
       });
   }
 
-  private enusreHostname(rule: DnsRule): DnsRule {
-    const result = new DnsRule(rule);
-    result.record_name = result.record_name?.replace('.' + this.dnsStatus.zone_name, '');
-    return result;
-  }
+  // private enusreHostname(rule: DnsRule): DnsRule {
+  //   const result = new DnsRule(rule);
+  //   result.record_name = result.record_name?.replace('.' + this.dnsStatus.zone_name, '');
+  //   return result;
+  // }
 }

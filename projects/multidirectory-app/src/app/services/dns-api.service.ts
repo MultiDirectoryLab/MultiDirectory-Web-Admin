@@ -56,7 +56,6 @@ export class DnsApiService {
         tap(() => this.status()),
       );
   }
-
   zone(): Observable<DnsZoneListResponse[]> {
     return this.dnsHttpClient
       .get<DnsZoneListResponse[]>(`dns/zone`)
