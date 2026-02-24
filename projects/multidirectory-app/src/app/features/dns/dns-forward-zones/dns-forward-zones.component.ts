@@ -62,9 +62,6 @@ export class DnsForwardZonesComponent implements OnInit {
         take(1),
         filter((x) => !!x),
         switchMap((result: DnsForwardZone) => {
-          if (!result) {
-            return EMPTY;
-          }
           return this.dnsApi.addForwardZone(result);
         }),
       )
