@@ -10,6 +10,7 @@ export const SearchQueries = {
     types_only: false,
     filter: '(objectClass=*)',
     attributes: [
+      'rootDomainNamingContext',
       'defaultNamingContext',
       'namingContexts',
       'subschemaSubentry',
@@ -33,8 +34,7 @@ export const SearchQueries = {
       size_limit: 0,
       time_limit: 0,
       types_only: false,
-      filter:
-        '(|(objectClass=builtinDomain)(objectClass=container)(objectClass=krbContainer)(objectClass=krbrealmcontainer))',
+      filter: '(|(objectClass=builtinDomain)(objectClass=container)(objectClass=krbContainer)(objectClass=krbrealmcontainer))',
       attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass'],
     });
   },
@@ -48,15 +48,7 @@ export const SearchQueries = {
       time_limit: 0,
       types_only: false,
       filter: query ? `(&(objectClass=*)(name=*${query}*))` : '(objectClass=*)',
-      attributes: [
-        'defaultNamingContext',
-        'sAMAccountName',
-        'name',
-        'objectClass',
-        'userAccountControl',
-        'entityTypeName',
-        'description',
-      ],
+      attributes: ['defaultNamingContext', 'sAMAccountName', 'name', 'objectClass', 'userAccountControl', 'entityTypeName', 'description'],
       page_number: Math.floor(offset / Math.max(limit, 1) + 1),
     });
     return req;
@@ -185,14 +177,7 @@ export const SearchQueries = {
       size_limit: limit,
       time_limit: 1000,
       filter: `(|(objectClass=${objectClass}))`,
-      attributes: [
-        'displayName',
-        'distinguishedName',
-        'objectClass',
-        'name',
-        'cn',
-        'entityTypeName',
-      ],
+      attributes: ['displayName', 'distinguishedName', 'objectClass', 'name', 'cn', 'entityTypeName'],
       page_number: Math.floor(offset / limit) + 1,
     });
   },
