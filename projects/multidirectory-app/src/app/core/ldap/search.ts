@@ -10,6 +10,7 @@ export const SearchQueries = {
     types_only: false,
     filter: '(objectClass=*)',
     attributes: [
+      'dnsHostName',
       'rootDomainNamingContext',
       'defaultNamingContext',
       'namingContexts',
