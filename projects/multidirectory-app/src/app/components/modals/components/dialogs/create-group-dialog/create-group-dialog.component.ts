@@ -4,7 +4,7 @@ import { MdFormComponent, MultidirectoryUiKitModule } from 'multidirectory-ui-ki
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { catchError, EMPTY, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { finalize, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { CreateGroupDialogData, CreateGroupDialogReturnData } from '../../../interfaces/create-group-dialog.interface';
@@ -88,13 +88,11 @@ export class CreateGroupDialogComponent implements OnInit {
             }),
           );
         }),
-        catchError(() => {
-          this.dialogService.close(this.dialogRef);
-          return EMPTY;
+        finalize(() => {
+          this.dialogComponent.hideSpinner();
         }),
       )
       .subscribe((x) => {
-        this.dialogComponent?.hideSpinner();
         this.setupRequest = new GroupCreateRequest();
         this.dialogService.close(this.dialogRef, x);
       });

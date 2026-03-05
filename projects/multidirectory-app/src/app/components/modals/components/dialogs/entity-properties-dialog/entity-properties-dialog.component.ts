@@ -6,7 +6,7 @@ import { GroupPropertiesComponent } from '@features/ldap-properties/group-proper
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
 import { UserPropertiesComponent } from '@features/ldap-properties/user-properties/user-properties.component';
-import { EMPTY, of, switchMap, take } from 'rxjs';
+import { EMPTY, finalize, of, switchMap, take } from 'rxjs';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { EntityPropertiesDialogData, EntityPropertiesDialogReturnData } from '../../../interfaces/entity-properties-dialog.interface';
@@ -114,16 +114,13 @@ export class EntityPropertiesDialogComponent implements OnInit {
 
           return of('');
         }),
+        finalize(() => {
+          this.dialogComponent.hideSpinner();
+        }),
       )
       .subscribe({
         next: () => {
-          this.dialogComponent.hideSpinner();
           this.close();
-        },
-        error: (err) => {
-          this.dialogComponent.hideSpinner();
-
-          throw err;
         },
       });
     return false;

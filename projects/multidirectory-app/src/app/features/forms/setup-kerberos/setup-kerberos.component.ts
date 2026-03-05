@@ -13,7 +13,7 @@ import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetupService } from '@services/setup.service';
 import { ButtonComponent, MdFormComponent, ModalInjectDirective, TextboxComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Subject } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-setup-kerberos-dialog',
@@ -94,14 +94,12 @@ export class SetupKerberosDialogComponent implements OnDestroy {
     this.setup
       .kerberosSetup(this.setupRequest)
       .pipe(
-        catchError((err) => {
+        finalize(() => {
           this.modalInjector.hideSpinner();
-          throw err;
         }),
       )
       .subscribe(() => {
         this.toastr.success(translate('setup.kerberos-setup-complete'));
-        this.modalInjector.hideSpinner();
         window.location.reload();
       });
   }

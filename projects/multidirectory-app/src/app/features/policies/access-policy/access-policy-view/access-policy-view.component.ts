@@ -23,9 +23,9 @@ import {
   TextboxComponent,
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
-import { DialogService } from '../../../../components/modals/services/dialog.service';
-import { IplistDialogData } from '../../../../components/modals/interfaces/ip-list-dialog.interface';
+import { finalize, from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
+import { DialogService } from '@components/modals/services/dialog.service';
+import { IplistDialogData } from '@components/modals/interfaces/ip-list-dialog.interface';
 import { MultiselectModel } from 'projects/multidirectory-ui-kit/src/lib/components/multiselect/mutliselect-model';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { MaxLengthValidatorDirective } from '@core/validators/max-length.directive';
@@ -115,23 +115,27 @@ export class AccessPolicyViewComponent implements OnInit, OnDestroy {
 
   load() {
     this.windows.showSpinner();
-    this.api.getAccessPolicy().subscribe({
-      next: (policies) => {
-        this.windows.hideSpinner();
-        if (this.activatedRoute.snapshot.params.id) {
-          this.accessClient =
-            policies.find((x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId()) ?? new AccessPolicy();
-        }
-        this.ipAddresses = this.accessClient.ipRange.map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x)).join(', ');
+    this.api
+      .getAccessPolicy()
+      .pipe(
+        finalize(() => {
+          this.windows.hideSpinner();
+        }),
+      )
+      .subscribe({
+        next: (policies) => {
+          this.windows.hideSpinner();
+          if (this.activatedRoute.snapshot.params.id) {
+            this.accessClient =
+              policies.find((x) => x.id == this.activatedRoute.snapshot.params.id || x.id == this.accessPolicyId()) ?? new AccessPolicy();
+          }
+          this.ipAddresses = this.accessClient.ipRange.map((x: any) => (x instanceof Object ? x.start + '-' + x.end : x)).join(', ');
 
-        this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
-        this.selectedGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
-        this.selectedMfaGroups = this.accessClient.mfaGroups.map((x) => this.getMultiselectOption(x));
-      },
-      error: () => {
-        this.windows.hideSpinner();
-      },
-    });
+          this.mfaAccess = this.accessClient.mfaStatus ?? MfaAccessEnum.Noone;
+          this.selectedGroups = this.accessClient.groups.map((x) => this.getMultiselectOption(x));
+          this.selectedMfaGroups = this.accessClient.mfaGroups.map((x) => this.getMultiselectOption(x));
+        },
+      });
   }
 
   close() {

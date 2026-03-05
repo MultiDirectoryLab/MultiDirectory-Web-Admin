@@ -1,7 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, EMPTY, Observable, take, throwError } from 'rxjs';
 import { AppSettingsService } from '@services/app-settings.service';
@@ -18,7 +17,6 @@ export const ErrorCode = {
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   private readonly toastr = inject(ToastrService);
-  private readonly spinner = inject(NgxSpinnerService);
   private readonly router = inject(Router);
   private app: AppSettingsService = inject(AppSettingsService);
   private dialogService = inject(DialogService);
@@ -26,7 +24,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        this.spinner.hide();
         if (error.status === ErrorCode.NotAuthorized) {
           return this.handle401(error);
         }
