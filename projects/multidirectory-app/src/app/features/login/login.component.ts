@@ -5,7 +5,7 @@ import { RequiredWithMessageDirective } from '@core/validators/required-with-mes
 import { TranslocoPipe } from '@jsverse/transloco';
 import { LoginService } from '@services/login.service';
 import { ButtonComponent, TextboxComponent } from 'multidirectory-ui-kit';
-import { catchError, Subject } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { DIALOG_COMPONENT_WRAPPER_CONFIG } from '@components/modals/constants/dialog.constants';
 
@@ -92,13 +92,11 @@ export class LoginComponent implements OnDestroy {
       this.loginService
         .login(this.loginForm.get('username')?.value, this.loginForm.get('password')?.value)
         .pipe(
-          catchError((err) => {
+          finalize(() => {
             this.dialogComponent().hideSpinner();
-            throw err;
           }),
         )
         .subscribe(() => {
-          this.dialogComponent().hideSpinner();
           this.router.navigate(['/']);
         });
     }

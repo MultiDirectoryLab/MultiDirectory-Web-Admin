@@ -4,28 +4,15 @@ import { MfKeyValidatorDirective } from '@core/validators/mf-keys-validator.dire
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import {
-  ButtonComponent,
-  MdFormComponent,
-  TextboxComponent,
-  TooltipComponent,
-} from 'multidirectory-ui-kit';
+import { ButtonComponent, MdFormComponent, TextboxComponent, TooltipComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError } from 'rxjs';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-mf-integration-form',
   templateUrl: './mf-integration-form.component.html',
   styleUrls: ['./mf-integration-form.component.scss'],
-  imports: [
-    TranslocoDirective,
-    MdFormComponent,
-    TooltipComponent,
-    TextboxComponent,
-    FormsModule,
-    MfKeyValidatorDirective,
-    ButtonComponent,
-  ],
+  imports: [TranslocoDirective, MdFormComponent, TooltipComponent, TextboxComponent, FormsModule, MfKeyValidatorDirective, ButtonComponent],
 })
 export class MfIntegrationFormComponent implements OnInit {
   private api = inject(MultidirectoryApiService);
@@ -49,16 +36,14 @@ export class MfIntegrationFormComponent implements OnInit {
     this.api
       .setupMultifactor(this.apiKey, this.apiSecret, this.scope == 'ldap')
       .pipe(
-        catchError((err) => {
+        finalize(() => {
           this.windows.hideSpinner();
-          throw err;
         }),
       )
       .subscribe((result) => {
         if (result) {
           this.toastr.success(translate(`${this.translocoSection}.integration-success`));
         }
-        this.windows.hideSpinner();
       });
   }
 
@@ -67,16 +52,14 @@ export class MfIntegrationFormComponent implements OnInit {
     this.api
       .clearMultifactor(this.scope)
       .pipe(
-        catchError((err) => {
+        finalize(() => {
           this.windows.hideSpinner();
-          throw err;
         }),
       )
       .subscribe(() => {
         this.toastr.success(translate(`${this.translocoSection}.clear-success`));
         this.apiKey = this.apiSecret = '';
         this.form().inputs.forEach((input) => input.reset());
-        this.windows.hideSpinner();
       });
   }
 }

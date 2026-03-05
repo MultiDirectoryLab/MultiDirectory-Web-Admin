@@ -25,7 +25,7 @@ import {
   StepperComponent,
 } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-setup',
@@ -97,16 +97,13 @@ export class SetupComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setup
       .setup(this.setupRequest)
       .pipe(
-        catchError((err) => {
+        finalize(() => {
           this.modal().hideSpinner();
           this.router.navigate(['/']);
-          throw err;
         }),
       )
       .subscribe(() => {
-        this.modal().hideSpinner();
         this.toastr.success(translate('setup.setup-complete'));
-        this.router.navigate(['/']);
       });
   }
 

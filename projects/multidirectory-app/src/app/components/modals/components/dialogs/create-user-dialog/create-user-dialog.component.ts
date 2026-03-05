@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DialogComponent } from '../../core/dialog/dialog.component';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
@@ -14,11 +7,8 @@ import { DialogService } from '../../../services/dialog.service';
 import { UserCreateService } from '@services/user-create.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, map, Subject, switchMap } from 'rxjs';
-import {
-  CreateUserDialogData,
-  CreateUserDialogReturnData,
-} from '../../../interfaces/user-create-dialog.interface';
+import { finalize, map, Subject, switchMap } from 'rxjs';
+import { CreateUserDialogData, CreateUserDialogReturnData } from '../../../interfaces/user-create-dialog.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserCreateGeneralInfoComponent } from '@features/forms/user-create/general-info/general-info.component';
 import { UserCreatePasswordSettingsComponent } from '@features/forms/user-create/password-settings/password-settings.component';
@@ -52,8 +42,7 @@ export class CreateUserDialogComponent implements OnInit {
   unsubscribe = new Subject<void>();
   formValid = false;
 
-  private dialogRef: DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> =
-    inject(DialogRef);
+  private dialogRef: DialogRef<CreateUserDialogReturnData, CreateUserDialogComponent> = inject(DialogRef);
   private dialogService: DialogService = inject(DialogService);
   private setup: UserCreateService = inject(UserCreateService);
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
@@ -69,14 +58,7 @@ export class CreateUserDialogComponent implements OnInit {
     });
   }
 
-  objectClasses: string[] = [
-    'user',
-    'top',
-    'person',
-    'organizationalPerson',
-    'posixAccount',
-    'shadowAccount',
-  ];
+  objectClasses: string[] = ['user', 'top', 'person', 'organizationalPerson', 'posixAccount', 'shadowAccount'];
   getObjectClasses() {
     return this.schema.getSchemaEntity('User').pipe(
       map((result) => {
@@ -152,13 +134,11 @@ export class CreateUserDialogComponent implements OnInit {
             }),
           );
         }),
-        catchError((err) => {
+        finalize(() => {
           this.dialogComponent.hideSpinner();
-          throw err;
         }),
       )
       .subscribe((x) => {
-        this.dialogComponent.hideSpinner();
         this.close(x);
       });
   }

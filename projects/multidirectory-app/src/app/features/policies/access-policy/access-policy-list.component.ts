@@ -9,7 +9,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ButtonComponent, ModalInjectDirective } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, switchMap, take } from 'rxjs';
+import { EMPTY, finalize, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-access-policy-list',
@@ -46,10 +46,13 @@ export class AccessPolicySettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.windows.showSpinner();
-    this.api.getAccessPolicy().subscribe((x) => {
-      this.clients = x;
-      this.windows.hideSpinner();
-    });
+    this.api
+      .getAccessPolicy()
+      .pipe(finalize(() => this.windows.hideSpinner()))
+      .subscribe((x) => {
+        this.clients = x;
+        this.windows.hideSpinner();
+      });
   }
 
   onDeleteClick(client: AccessPolicy) {

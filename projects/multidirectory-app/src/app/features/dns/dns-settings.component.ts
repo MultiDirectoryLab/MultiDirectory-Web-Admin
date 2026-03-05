@@ -1,21 +1,17 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircleExclamation, faL } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { MuiButtonComponent, MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
+import { MuiTabDirective, MuiTabsComponent } from '@mflab/mui-kit';
 import { AppSettingsService } from '@services/app-settings.service';
 import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, switchMap, take } from 'rxjs';
-import { ConfirmDialogComponent } from '../../components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
-import { ConfirmDialogData, ConfirmDialogReturnData } from '../../components/modals/interfaces/confirm-dialog.interface';
+import { EMPTY, finalize, switchMap, take } from 'rxjs';
 import { DialogService } from '../../components/modals/services/dialog.service';
 import DnsZonesComponent from './dns-zones/dns-zones.component';
-import { ConfirmDialogDescriptor } from '@models/api/confirm-dialog/confirm-dialog-descriptor';
 import { DnsRule } from '@models/api/dns/dns-rule';
-import { DnsRuleType } from '@models/api/dns/dns-rule-type';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DnsStatusResponse } from '@models/api/dns/dns-status-response';
 import { DnsStatuses } from '@models/api/dns/dns-statuses';
@@ -78,13 +74,11 @@ export class DnsSettingsComponent implements OnInit {
     this.app.dnsStatusRx
       .pipe(
         takeUntilDestroyed(this.destroyRef$),
-        catchError((err) => {
+        finalize(() => {
           this.windows.hideSpinner();
-          throw err;
         }),
       )
       .subscribe((status) => {
-        this.windows.hideSpinner();
         this.dnsStatus = status;
       });
 

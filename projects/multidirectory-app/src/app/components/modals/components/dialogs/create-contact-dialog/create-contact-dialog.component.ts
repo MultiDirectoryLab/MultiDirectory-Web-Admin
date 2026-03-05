@@ -6,7 +6,7 @@ import { MultidirectoryUiKitModule, StepperComponent } from 'multidirectory-ui-k
 import { DialogService } from '../../../services/dialog.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, debounceTime, EMPTY, map, Subject, switchMap } from 'rxjs';
+import { debounceTime, finalize, map, Subject, switchMap } from 'rxjs';
 import { CreateUserDialogData, CreateUserDialogReturnData } from '../../../interfaces/user-create-dialog.interface';
 import { UserCreateRequest } from '@models/api/user-create/user-create.request';
 import { SchemaService } from '@services/schema/schema.service';
@@ -125,11 +125,8 @@ export class CreateContactDialogComponent implements OnInit {
             }),
           );
         }),
-        catchError(() => {
-          this.dialogComponent?.hideSpinner();
-          this.toastr.error(translate('contact-create.unable-create-contact'));
-          this.dialogService.close(this.dialogRef);
-          return EMPTY;
+        finalize(() => {
+          this.dialogComponent.hideSpinner();
         }),
       )
       .subscribe(() => {
@@ -150,7 +147,6 @@ export class CreateContactDialogComponent implements OnInit {
             },
           ],
         };
-        this.dialogComponent?.hideSpinner();
         this.dialogService.close(this.dialogRef, newItem);
       });
   }
