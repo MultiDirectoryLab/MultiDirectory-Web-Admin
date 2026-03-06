@@ -9,7 +9,7 @@ import { AppWindowsService } from '@services/app-windows.service';
 import { DnsApiService } from '@services/dns-api.service';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, finalize, switchMap, take } from 'rxjs';
-import { DialogService } from '../../components/modals/services/dialog.service';
+import { DialogService } from '@components/modals/services/dialog.service';
 import DnsZonesComponent from './dns-zones/dns-zones.component';
 import { DnsRule } from '@models/api/dns/dns-rule';
 import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
@@ -84,43 +84,15 @@ export class DnsSettingsComponent implements OnInit {
 
     this.dns
       .getServerOptions()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        finalize(() => this.windows.hideSpinner()),
+      )
       .subscribe((options) => {
         const dnsSecOption = options.find((x) => x.name == 'dnssec-validation');
         this.dnsSec = dnsSecOption?.value ?? 'auto';
       });
   }
-
-  // onDelete(toDeleteIndex: number) {
-  //   const prompt: ConfirmDialogDescriptor = {
-  //     promptHeader: translate('remove-confirmation-dialog.prompt-header'),
-  //     promptText: translate('remove-confirmation-dialog.prompt-text'),
-  //     primaryButtons: [{ id: 'yes', text: translate('remove-confirmation-dialog.yes') }],
-  //     secondaryButtons: [{ id: 'cancel', text: translate('remove-confirmation-dialog.cancel') }],
-  //   };
-  //
-  //   this.dialogService
-  //     .open<ConfirmDialogReturnData, ConfirmDialogData, ConfirmDialogComponent>({
-  //       component: ConfirmDialogComponent,
-  //       dialogConfig: {
-  //         minHeight: '160px',
-  //         data: prompt,
-  //       },
-  //     })
-  //     .closed.pipe(
-  //       take(1),
-  //       switchMap((x) => {
-  //         if (x === 'cancel' || !x) {
-  //           return EMPTY;
-  //         }
-  //         const rule = this.enusreHostname(this.rules[toDeleteIndex]);
-  //         return this.dns.deleteZoneRule(rule);
-  //       }),
-  //     )
-  //     .subscribe(() => {
-  //       this.rules = this.rules.filter((_, ind) => ind !== toDeleteIndex);
-  //     });
-  // }
 
   handleSetupClick() {
     this.windows
@@ -138,10 +110,4 @@ export class DnsSettingsComponent implements OnInit {
         window.location.reload();
       });
   }
-
-  // private enusreHostname(rule: DnsRule): DnsRule {
-  //   const result = new DnsRule(rule);
-  //   result.record_name = result.record_name?.replace('.' + this.dnsStatus.zone_name, '');
-  //   return result;
-  // }
 }
