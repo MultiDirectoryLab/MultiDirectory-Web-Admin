@@ -2,22 +2,22 @@ import { DnsSetupRequest } from '@models/api/dns/dns-setup-request';
 import { DhcpSetupRequest } from '@models/api/dhcp/dhcp-setup-request';
 
 export class SetupRequest {
-  domain = '';
-  username = '';
-  user_principal_name = '';
-  display_name = '';
-  mail = '';
-  password = '';
-  repeatPassword = '';
+  domain: string = '';
+  username: string = '';
+  user_principal_name: string = '';
+  display_name: string = '';
+  mail: string = '';
+  password: string = '';
+  repeatPassword: string = '';
 
   setupKdc = true;
   setupDhcp = true;
   generateKdcPasswords = true;
-  krbadmin_password = '';
-  krbadmin_password_repeat = '';
+  krbadmin_password: string = '';
+  krbadmin_password_repeat: string = '';
 
-  stash_password = '';
-  stash_password_repeat = '';
+  stash_password: string = '';
+  stash_password_repeat: string = '';
 
   setupDns = true;
   setupDnsRequest = new DnsSetupRequest({});

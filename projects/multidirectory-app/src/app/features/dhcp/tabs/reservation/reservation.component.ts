@@ -13,14 +13,7 @@ import { catchError } from 'rxjs';
   selector: 'reservation',
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.scss'],
-  imports: [
-    DatagridComponent,
-    ButtonComponent,
-    TranslocoPipe,
-    ButtonComponent,
-    ButtonComponent,
-    ButtonComponent,
-  ],
+  imports: [DatagridComponent, ButtonComponent, TranslocoPipe, ButtonComponent, ButtonComponent, ButtonComponent],
 })
 export default class DhcpReservationComponent implements OnInit {
   private dialogService = inject(DialogService);
@@ -59,23 +52,22 @@ export default class DhcpReservationComponent implements OnInit {
   }
 
   delete() {
-    const selectedReservationExist =
-      this.selectedReservation && Object.keys(this.selectedReservation).length > 0;
+    const selectedReservationExist = this.selectedReservation && Object.keys(this.selectedReservation).length > 0;
     selectedReservationExist &&
-    this.dhcp
-      .deleteDhcpReservation({
-        ip_address: this.selectedReservation?.ip_address ?? '',
-        mac_address: this.selectedReservation?.mac_address ?? '',
-        subnet_id: this.subnet.id,
-      })
-      .pipe(
-        catchError((err) => {
-          throw err;
-        }),
-      )
-      .subscribe(() => {
-        this.dhcp.getReservationsList(this.subnet.id);
-      });
+      this.dhcp
+        .deleteDhcpReservation({
+          ip_address: this.selectedReservation?.ip_address ?? '',
+          mac_address: this.selectedReservation?.mac_address ?? '',
+          subnet_id: this.subnet.id,
+        })
+        .pipe(
+          catchError((err) => {
+            throw err;
+          }),
+        )
+        .subscribe(() => {
+          this.dhcp.getReservationsList(this.subnet.id);
+        });
   }
 
   add() {
@@ -103,7 +95,7 @@ export default class DhcpReservationComponent implements OnInit {
       subnet_id: this.subnet.id,
       ip_address: ip,
       mac_address: mac,
-      hostname: host
+      hostname: host,
     };
   }
 
@@ -113,8 +105,8 @@ export default class DhcpReservationComponent implements OnInit {
         component: DhcpAddReservationComponent,
         dialogConfig: {
           width: '550px',
-          data: new ReservationDataWrapper(data, reservationExists)
-        }
+          data: new ReservationDataWrapper(data, reservationExists),
+        },
       })
       .closed.subscribe();
   }

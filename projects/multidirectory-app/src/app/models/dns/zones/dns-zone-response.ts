@@ -1,9 +1,19 @@
-import { DnsRule } from '@models/api/dns/dns-rule';
+import { DnsRule, DnsRuleResponse } from '@models/api/dns/dns-rule';
 
 export class DnsZoneRecordWithType {
   name: string = '';
   type: string = '';
   records: DnsRule[] = [];
+  changetype = null;
+  ttl: number = 3600;
+  constructor(obj: Partial<DnsZoneRecordWithType>) {
+    Object.assign(this, obj);
+  }
+}
+export class DnsZoneRecordWithTypeResponse {
+  name: string = '';
+  type: string = '';
+  records: DnsRuleResponse[] = [];
   changetype = null;
   ttl: number = 3600;
   constructor(obj: Partial<DnsZoneRecordWithType>) {
@@ -16,7 +26,7 @@ export class DnsZoneListResponse {
   type = '';
   zone_name? = '';
   id: string = '';
-  rrsets: DnsZoneRecordWithType[] = [];
+  rrsets: DnsZoneRecordWithTypeResponse[] = [];
   dnssec: boolean = false;
   nameservers: string[] = [];
   kind: string = 'Master';

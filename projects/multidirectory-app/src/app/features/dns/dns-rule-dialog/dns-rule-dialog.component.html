@@ -2,15 +2,11 @@
   <div class="app-modal-header">
     <div>{{ 'dns-rule-dialog.modal-header' | transloco }}</div>
   </div>
-  <div class="flex align-center gap-1 pb-2">
+  <div class="flex align-center gap-1 pb-2 mt-4">
     <md-form #form>
       <div class="form-grid">
         <label>{{ 'dns-rule-dialog.name' | transloco }}</label>
-        <md-textbox [(ngModel)]="dnsRule.record_name" [disabled]="sameAsZoneName || !!dialogData.isEdit" appRequired></md-textbox>
-        <div></div>
-        <md-checkbox [(ngModel)]="sameAsZoneName" [disabled]="!!dialogData.isEdit"
-          >{{ 'dns-rule-dialog.same-as-zone-name' | transloco }}
-        </md-checkbox>
+        <md-textbox [(ngModel)]="dnsRule.record_name" [disabled]="!!dialogData.isEdit" appRequired></md-textbox>
         <label>{{ 'dns-rule-dialog.ip' | transloco }}</label>
         <div>
           @switch (recordDataType) {
@@ -29,8 +25,8 @@
           }
         </div>
         <label>{{ 'dns-rule-dialog.type' | transloco }}</label>
-        <md-dropdown [(ngModel)]="dnsRule.record_type" [disabled]="!!dialogData.isEdit" [options]="DnsRuleTypes" appRequired></md-dropdown>
-        <label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
+        <md-dropdown [(ngModel)]="recordType" [disabled]="!!dialogData.isEdit" [options]="DnsRuleTypes" appRequired></md-dropdown
+        ><label>{{ 'dns-rule-dialog.ttl' | transloco }}</label>
         <md-textbox [(ngModel)]="dnsRule.ttl" appRequired></md-textbox>
       </div>
     </md-form>

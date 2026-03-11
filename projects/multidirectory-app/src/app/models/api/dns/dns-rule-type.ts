@@ -5,7 +5,7 @@ export enum DnsRuleType {
   AAAA = 'AAAA',
   PTR = 'PTR',
   CNAME = 'CNAME',
-  ANAME = 'ANAME',
+  ALIAS = 'ALIAS',
   TXT = 'TXT',
   MX = 'MX',
   SRV = 'SRV',

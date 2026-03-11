@@ -1,16 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RedirectZonesRow } from '@features/dns/interfaces/redirect-zones.interface';
 import { translate, TranslocoPipe } from '@jsverse/transloco';
-import { ButtonComponent, DatagridComponent, DropdownOption } from 'multidirectory-ui-kit';
+import { ButtonComponent, DatagridComponent } from 'multidirectory-ui-kit';
 import { ToastrService } from 'ngx-toastr';
-import { DialogService } from '../../../components/modals/services/dialog.service';
+import { DialogService } from '@components/modals/services/dialog.service';
 import { CommonModule } from '@angular/common';
 import { DnsApiService } from '@services/dns-api.service';
 import { DnsForwardGetData, DnsForwardZone } from '@models/api/dns/dns-forward-zone';
 import { AddForwardZoneDialogData, AddForwardZoneDialogReturnData } from './add-forward-zone-dialog/add-forward-zone-dialog.interface';
 import { AddForwardZoneDialogComponent } from './add-forward-zone-dialog/add-forward-zone-dialog.component';
-import { DnsAddZoneRequest } from '@models/dhcp/areas/dhcp-add-areas-response';
-import { EMPTY, filter, switchMap, take } from 'rxjs';
+import { filter, switchMap, take } from 'rxjs';
 import { TableColumn } from 'ngx-datatable-gimefork';
 
 @Component({
@@ -65,7 +63,7 @@ export class DnsForwardZonesComponent implements OnInit {
           return this.dnsApi.addForwardZone(result);
         }),
       )
-      .subscribe((result) => {
+      .subscribe(() => {
         this.loadData();
       });
   }
@@ -87,7 +85,7 @@ export class DnsForwardZonesComponent implements OnInit {
           return this.dnsApi.changeForwardZones(result);
         }),
       )
-      .subscribe((result) => {
+      .subscribe(() => {
         this.loadData();
       });
   }

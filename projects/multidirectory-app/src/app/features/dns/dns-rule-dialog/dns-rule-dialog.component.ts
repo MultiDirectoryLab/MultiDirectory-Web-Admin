@@ -44,20 +44,6 @@ export class DnsRuleDialogComponent implements OnInit {
   private dialogService: DialogService = inject(DialogService);
   private dialogRef: DialogRef<DnsRuleDialogReturnData, DnsRuleDialogComponent> = inject(DialogRef);
 
-  private _sameAsZoneName = false;
-
-  get sameAsZoneName(): boolean {
-    return this._sameAsZoneName;
-  }
-
-  set sameAsZoneName(val: boolean) {
-    this._sameAsZoneName = val;
-    if (val) {
-      this.dnsRule.record_name = '@';
-    }
-    this.cdr.detectChanges();
-  }
-
   get recordType() {
     return this.dnsRule.record_type;
   }

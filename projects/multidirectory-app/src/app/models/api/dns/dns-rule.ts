@@ -4,9 +4,19 @@ import { DnsRuleType } from './dns-rule-type';
 export class DnsRule {
   record_name: string = '';
   record_type: DnsRuleType = DnsRuleType['A'];
-  record_value: string = '0 100 3268 md.localhost.';
+  record_value: string = '';
   ttl?: number = Constants.DnsTTL;
-  content?: string = '0 100 3268 md.localhost.';
+
+  constructor(obj: Partial<DnsRule>) {
+    Object.assign(this, obj);
+  }
+}
+export class DnsRuleResponse {
+  record_name: string = '';
+  record_type: DnsRuleType = DnsRuleType['A'];
+  record_value: string = '';
+  ttl?: number = Constants.DnsTTL;
+  content?: string = '';
 
   constructor(obj: Partial<DnsRule>) {
     Object.assign(this, obj);

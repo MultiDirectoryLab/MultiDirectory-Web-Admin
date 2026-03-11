@@ -1,16 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { DialogComponent } from '../../../components/modals/components/core/dialog/dialog.component';
+import { DialogComponent } from '@components/modals/components/core/dialog/dialog.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { DnsApiService } from '@services/dns-api.service';
 import { DialogRef } from '@angular/cdk/dialog';
-import { DialogService } from '../../../components/modals/services/dialog.service';
+import { DialogService } from '@components/modals/services/dialog.service';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { IpListDialogComponent } from '@components/modals/components/dialogs/access-policy-ip-list/ip-list-dialog.component';
-import { IplistDialogData } from '@components/modals/interfaces/ip-list-dialog.interface';
-import { take } from 'rxjs';
-import { IpOption, IpRange } from '@core/access-policy/access-policy-ip-address';
-import { DnsAddZoneRequest, DnsZoneParam } from '@models/dhcp/areas/dhcp-add-areas-response';
+import { IpOption } from '@core/access-policy/access-policy-ip-address';
+import { DnsAddZoneRequest } from '@models/dhcp/areas/dhcp-add-areas-response';
 import { CommonModule } from '@angular/common';
 import { RequiredWithMessageDirective } from '@core/validators/required-with-message.directive';
 
