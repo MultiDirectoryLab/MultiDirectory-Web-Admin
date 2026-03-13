@@ -11,6 +11,7 @@ import { DnsCheckForwardZoneRequest, DnsCheckForwardZoneResponse } from '@models
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
+import { DnsForwardZone } from '@models/api/dns/dns-forward-zone';
 
 @Component({
   imports: [DialogComponent, TranslocoModule, MultidirectoryUiKitModule, FormsModule, CommonModule, FontAwesomeModule],
@@ -24,7 +25,10 @@ export class AddForwardZoneDialogComponent {
   private dialogRef = inject(DialogRef);
   faCheck = faCheck;
   faCross = faClose;
-  zone = this.dialogData;
+  readonly zone: DnsForwardZone = {
+    ...this.dialogData,
+    servers: this.dialogData.servers.map((s) => s.replace(/:53$/, '')),
+  };
   selectedForwaderIndex?: number;
   forwarderResponse = new Map<number, DnsCheckForwardZoneResponse>();
   tooltip = translate('add-forward-zone-dialog.tooltip');
