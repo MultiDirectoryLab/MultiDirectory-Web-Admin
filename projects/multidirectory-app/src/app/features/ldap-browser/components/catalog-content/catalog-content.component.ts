@@ -318,7 +318,7 @@ export class CatalogContentComponent implements OnInit, OnDestroy {
 
   showContextMenu({ node, event: { x, y } }: any) {
     const data: ContextMenuData = {
-      entity: [node],
+      entity: node,
     };
 
     this.contextMenuService
