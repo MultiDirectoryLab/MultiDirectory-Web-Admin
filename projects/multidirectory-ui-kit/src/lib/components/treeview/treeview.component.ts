@@ -84,7 +84,7 @@ export class TreeviewComponent extends BaseControlComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
 
-    this.nodeRightClick.emit({ event: event, node: node });
+    this.nodeRightClick.emit({ event: event, node: [node] });
   }
 
   @HostListener('keydown', ['$event'])

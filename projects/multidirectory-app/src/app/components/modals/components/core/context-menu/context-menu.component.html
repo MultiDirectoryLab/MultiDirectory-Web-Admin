@@ -1,7 +1,9 @@
 <div #dropdown class="context-menu">
-  <div (click)="openMoreDialog()" class="context-item">
-    {{ 'catalog-content.more' | transloco }}
-  </div>
+  @if (isShowMore()) {
+    <div (click)="openMoreDialog()" class="context-item">
+      {{ 'catalog-content.more' | transloco }}
+    </div>
+  }
 
   @if (isSelectedRowsOfType(LdapEntryType.User)) {
     <div class="context-item" (click)="openChangePasswordDialog()">

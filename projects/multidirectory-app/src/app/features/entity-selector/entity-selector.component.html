@@ -3,16 +3,8 @@
     {{ 'group-selector.header' | transloco }}
   </div>
 
-  <md-textbox
-    [(ngModel)]="entityTypeDisplay"
-    [disabled]="true"
-    class="row-2 col-1 col-span-4"
-  ></md-textbox>
-  <md-button
-    (click)="selectEntityType()"
-    [disabled]="!allowSelectEntityTypes"
-    class="row-2 col-4 col-span-3"
-  >
+  <md-textbox [(ngModel)]="entityTypeDisplay" [disabled]="true" class="row-2 col-1 col-span-4"></md-textbox>
+  <md-button (click)="selectEntityType()" [disabled]="!allowSelectEntityTypes" class="row-2 col-4 col-span-3">
     {{ 'group-selector.object-types' | transloco }}
   </md-button>
 
@@ -20,11 +12,7 @@
     {{ 'group-selector.from-place' | transloco }}
   </div>
 
-  <md-textbox
-    [(ngModel)]="selectedCatalogDn"
-    [disabled]="true"
-    class="row-4 col-1 col-span-4"
-  ></md-textbox>
+  <md-textbox [(ngModel)]="selectedCatalogDn" [disabled]="true" class="row-4 col-1 col-span-4"></md-textbox>
   <md-plane-button (click)="selectCatalog()" [hasBorder]="true" class="row-4 col-4 col-span-3">
     {{ 'group-selector.places' | transloco }}
   </md-plane-button>
@@ -32,10 +20,12 @@
   <div class="row-5 col-span-6">
     {{ 'group-selector.name-prompt' | transloco }}
   </div>
+
   <md-multiselect
     #selector
     (inputChanged)="checkNames()"
     [(ngModel)]="name"
+    [selectOnlyOne]="true"
     [containerHeightLimit]="14"
     [(selectedData)]="selectedData"
     (itemSelected)="onItemSelected($event)"

@@ -5,21 +5,15 @@ import { TranslocoPipe } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { DialogService } from '../../../services/dialog.service';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import {
-  MoveEntityDialogData,
-  MoveEntityDialogReturnData,
-} from '../../../interfaces/move-entity-dialog.interface';
-import {
-  EntitySelectorDialogData,
-  EntitySelectorDialogReturnData,
-} from '../../../interfaces/entity-selector-dialog.interface';
+import { MoveEntityDialogData, MoveEntityDialogReturnData } from '../../../interfaces/move-entity-dialog.interface';
+import { EntitySelectorDialogData, EntitySelectorDialogReturnData } from '../../../interfaces/entity-selector-dialog.interface';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { from, switchMap, take } from 'rxjs';
 import { LdapNamesHelper } from '@core/ldap/ldap-names-helper';
-import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-selector-dialog/entity-selector-dialog.component';
+import { ModifyDnRequest, ModifyManyDnRequest } from '@models/api/modify-dn/modify-many-dn';
 
 @Component({
   selector: 'app-move-entity-dialog',
@@ -33,8 +27,7 @@ export class MoveEntityDialogComponent {
   targetDn = '';
 
   private dialogService: DialogService = inject(DialogService);
-  private dialogRef: DialogRef<MoveEntityDialogReturnData, MoveEntityDialogComponent> =
-    inject(DialogRef);
+  private dialogRef: DialogRef<MoveEntityDialogReturnData, MoveEntityDialogComponent> = inject(DialogRef);
   private dialogData: MoveEntityDialogData = inject(DIALOG_DATA);
   private treeView = inject(LdapTreeviewService);
   toMove: NavigationNode[] = this.dialogData.toMove;
@@ -44,11 +37,7 @@ export class MoveEntityDialogComponent {
     from(this.treeView.load(''))
       .pipe(
         switchMap((tree) => {
-          return this.dialogService.open<
-            EntitySelectorDialogReturnData,
-            EntitySelectorDialogData,
-            EntitySelectorDialogComponent
-          >({
+          return this.dialogService.open<EntitySelectorDialogReturnData, EntitySelectorDialogData, EntitySelectorDialogComponent>({
             component: EntitySelectorDialogComponent,
             dialogConfig: {
               minHeight: '360px',
@@ -73,15 +62,16 @@ export class MoveEntityDialogComponent {
   }
 
   move() {
-    const request = new ModifyDnRequest();
-    const fromDn = this.toMove[0].id;
+    const request: ModifyDnRequest[] = this.toMove.map((el) => {
+      return {
+        new_superior: this.targetDn,
+        entry: el.id,
+        newrdn: LdapNamesHelper.getDnName(el.id),
+        deleteoldrdn: true,
+      };
+    });
 
-    request.new_superior = this.targetDn;
-    request.entry = fromDn;
-    request.newrdn = LdapNamesHelper.getDnName(fromDn);
-    request.deleteoldrdn = true;
-
-    this.dialogService.close(this.dialogRef, request);
+    this.dialogService.close(this.dialogRef, new ModifyManyDnRequest(request));
   }
 
   cancel(): void {

@@ -1,8 +1,8 @@
-import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
+import { ModifyManyDnRequest } from '@models/api/modify-dn/modify-many-dn';
 
 export interface MoveEntityDialogData {
   toMove: NavigationNode[];
 }
 
-export type MoveEntityDialogReturnData = ModifyDnRequest;
+export type MoveEntityDialogReturnData = ModifyManyDnRequest;

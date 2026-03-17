@@ -38,11 +38,10 @@ import { MultiselectModel } from './mutliselect-model';
 export class MultiselectComponent extends BaseComponent {
   protected override cdr = inject(ChangeDetectorRef);
   private readonly _inputContainer = viewChild.required<ElementRef<HTMLElement>>('inputContainer');
-  private readonly _menuContainer = viewChild.required<DropdownContainerDirective>(
-    DropdownContainerDirective,
-  );
+  private readonly _menuContainer = viewChild.required<DropdownContainerDirective>(DropdownContainerDirective);
 
   suppressMenu = input<boolean>(false);
+  selectOnlyOne = input<boolean>(false);
   notFoundText = input<string>('Опции не найдены');
   maxMenuHeight = input<number | undefined>();
   containerHeightLimit = input<number | undefined>();
@@ -98,16 +97,16 @@ export class MultiselectComponent extends BaseComponent {
     if (!!this._menuContainer()?.isVisible()) {
       return;
     }
-    this._menuContainer().toggleMenu(
-      false,
-      this._inputContainer().nativeElement.offsetWidth,
-      this.maxMenuHeight(),
-    );
+    this._menuContainer().toggleMenu(false, this._inputContainer().nativeElement.offsetWidth, this.maxMenuHeight());
   }
 
   onElementSelect(select: MultiselectModel) {
     select.selected = true;
-    this.selectedData().push(select);
+    if (this.selectOnlyOne()) {
+      this.selectedData.set([select]);
+    } else {
+      this.selectedData().push(select);
+    }
     this.itemSelected.emit(this.selectedData());
     this._inputContainer().nativeElement.innerText = '';
     this._inputContainer().nativeElement.focus();

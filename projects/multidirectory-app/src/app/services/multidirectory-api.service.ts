@@ -19,7 +19,6 @@ import { AddPrincipalRequest } from '@models/api/kerberos/add-principal-request'
 import { KerberosStatuses } from '@models/api/kerberos/kerberos-status';
 import { GetAcpPageResponse } from '@models/api/login/get-acp-response';
 import { LoginResponse } from '@models/api/login/login-response';
-import { ModifyDnRequest } from '@models/api/modify-dn/modify-dn';
 import { GetMultifactorResponse } from '@models/api/multifactor/get-multifactor-response';
 import { SetupMultifactorRequest } from '@models/api/multifactor/setup-multifactor-request';
 import { PasswordPolicyGetResponse } from '@models/api/password-policy/password-policy-get-response';
@@ -44,8 +43,9 @@ import { SyslogEvent } from '@models/api/syslog/syslog-event';
 import { ChangePasswordRequest } from '@models/api/user/change-password-request';
 import { WhoamiResponse } from '@models/api/whoami/whoami-response';
 import { map, Observable } from 'rxjs';
-import { SyslogConnection } from '../models/api/syslog/syslog-connection';
+import { SyslogConnection } from '@models/api/syslog/syslog-connection';
 import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
+import { ModifyManyDnRequest } from '@models/api/modify-dn/modify-many-dn';
 
 @Injectable({
   providedIn: 'root',
@@ -342,8 +342,8 @@ export class MultidirectoryApiService {
     return this.httpClient.post<GetAcpPageResponse>('multifactor/connect', payload).useUrlEncodedForm().execute();
   }
 
-  updateDn(payload: ModifyDnRequest): any {
-    return this.httpClient.put<ModifyDnRequest>('entry/update/dn', payload).execute();
+  updateManyDn(payload: ModifyManyDnRequest): Observable<ModifyManyDnRequest> {
+    return this.httpClient.post<ModifyManyDnRequest>('entry/update_many/dn', payload.entry).execute();
   }
 
   getKerberosStatus(): Observable<KerberosStatuses> {

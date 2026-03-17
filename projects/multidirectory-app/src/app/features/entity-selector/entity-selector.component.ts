@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, DestroyRef, inject, input, output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input, output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CatalogSelectorDialogComponent } from '@components/modals/components/dialogs/catalog-selector-dialog/catalog-selector-dialog.component';
 import { EntityTypeSelectorDialogComponent } from '@components/modals/components/dialogs/entity-type-selector-dialog/entity-type-selector-dialog.component';
@@ -113,7 +113,7 @@ export class EntitySelectorComponent {
         map((res) => ({
           ...res,
           search_result: res.search_result.filter((entity) =>
-            this.settings().entityToMove.every((e) => !entity.object_name?.includes(e.id)),
+            this.settings().entityToMove.every((e) => !e.id.includes(entity.object_name)),
           ),
         })),
         catchError((err) => throwError(() => err)),

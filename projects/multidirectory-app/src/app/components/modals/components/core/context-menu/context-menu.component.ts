@@ -106,9 +106,7 @@ export class ContextMenuComponent implements OnInit {
     const user = this.entries[0];
     const username = user.name;
     this.api.resetPasswordHistory(username).subscribe(() => {
-      this.toastr.success(
-        translate('catalog-content.reset-password-history-success')
-      );
+      this.toastr.success(translate('catalog-content.reset-password-history-success'));
     });
   }
 
@@ -158,7 +156,7 @@ export class ContextMenuComponent implements OnInit {
           data: { toMove: this.entries },
         },
       })
-      .closed.pipe(switchMap((x) => (x ? this.api.updateDn(x) : EMPTY)))
+      .closed.pipe(switchMap((x) => (x ? this.api.updateManyDn(x) : EMPTY)))
       .subscribe((x) => {
         this.navigation.reload();
       });
@@ -203,6 +201,10 @@ export class ContextMenuComponent implements OnInit {
     );
     const nodeTypes = objectClasses.map((x) => EntityInfoResolver.getNodeType(x));
     return nodeTypes.every((x) => types.includes(x));
+  }
+
+  isShowMore(): boolean {
+    return this.entries.length !== 1;
   }
 
   private setAccountEnabled() {

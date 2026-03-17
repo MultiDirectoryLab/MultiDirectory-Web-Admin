@@ -476,8 +476,13 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onContextMenu($event: ContextMenuEvent) {
     if ($event?.content) {
-      this.setSelected([$event.content]);
-      this.rightClick.emit({ event: $event.event, node: $event.content });
+      const selectedDns = this.grid().selected.map((item) => item.dn);
+      const eventId = $event.content.id;
+      const selectedDnsIncludedEventItem = selectedDns.includes(eventId);
+      const data = selectedDnsIncludedEventItem ? this.grid().selected : [$event.content];
+
+      !selectedDnsIncludedEventItem && this.setSelected([$event.content]);
+      this.rightClick.emit({ event: $event.event, node: data });
     }
   }
 }
