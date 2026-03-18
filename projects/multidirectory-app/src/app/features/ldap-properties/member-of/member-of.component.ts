@@ -148,6 +148,8 @@ export class MemberOfComponent implements OnInit {
     this.api.setPrimaryGroup(payload).subscribe({
       next: () => {
         this.toastr.success(translate('member-of.primary-group-updated', { group: groupDn }));
+        this.primaryGroupName = this.getGroupNameFromDn(groupDn);
+        this.cdr.markForCheck();
       },
       error: () => {
         this.toastr.error(translate('member-of.primary-group-update-error', { group: groupDn }));
