@@ -46,6 +46,7 @@ import { map, Observable } from 'rxjs';
 import { SyslogConnection } from '@models/api/syslog/syslog-connection';
 import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
 import { ModifyManyDnRequest } from '@models/api/modify-dn/modify-many-dn';
+import { PathDnResponse } from '@core/ldap/path-dn';
 
 @Injectable({
   providedIn: 'root',
@@ -112,6 +113,10 @@ export class MultidirectoryApiService {
   }
   deleteMany(request: DeleteManyEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.post<DeleteEntryResponse>('entry/delete_many', request.selectedItems).execute();
+  }
+
+  getPrimaryGroupName(id: number): Observable<PathDnResponse> {
+    return this.httpClient.get<PathDnResponse>(`entry/group/primary/${id}`).execute();
   }
 
   setPrimaryGroup(request: SetPrimaryGroupRequest): Observable<SetPrimaryGroupRequest> {

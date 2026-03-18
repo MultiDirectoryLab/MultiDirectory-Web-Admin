@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Input, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input, Input, OnInit, viewChild } from '@angular/core';
 import { Constants } from '@core/constants';
 import { ENTITY_TYPES } from '@core/entities/entities-available-types';
 import { Group } from '@core/groups/group';
@@ -13,6 +13,7 @@ import { EntitySelectorDialogComponent } from '@features/entity-selector/entity-
 import { ToastrService } from 'ngx-toastr';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
+import { PathDnResponse } from '@core/ldap/path-dn';
 
 @Component({
   selector: 'app-member-of',
@@ -20,7 +21,9 @@ import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-requ
   styleUrls: ['./member-of.component.scss'],
   imports: [TranslocoPipe, DatagridComponent, ButtonComponent],
 })
-export class MemberOfComponent {
+export class MemberOfComponent implements OnInit {
+  disabled = input<boolean>(false);
+
   private _accessor: LdapAttributes = new LdapAttributes([]);
 
   get accessor(): LdapAttributes {
@@ -38,6 +41,8 @@ export class MemberOfComponent {
     { name: translate('member-of.catalog-path'), prop: 'path', flexGrow: 3 },
   ];
 
+  protected primaryGroupName = '';
+
   private readonly groupList = viewChild<DatagridComponent>('groupList');
 
   private dialogService: DialogService = inject(DialogService);
@@ -46,8 +51,12 @@ export class MemberOfComponent {
   private toastr = inject(ToastrService);
   private api = inject(MultidirectoryApiService);
 
+  ngOnInit() {
+    this.getPrimaryGroupName();
+  }
+
   protected get accessorHasPrimaryGroup(): boolean {
-    return !!this.accessor.primaryGroupID;
+    return !!(this.accessor as LdapAttributes).primaryGroupID;
   }
 
   protected get groupSelected(): boolean {
@@ -92,7 +101,7 @@ export class MemberOfComponent {
 
   protected updateGroup() {
     const selectedGroups: Group[] | undefined = this.groupList()?.selected;
-    const dn: string | undefined = this.accessor.distinguishedName[0];
+    const dn: string | undefined = (this.accessor as LdapAttributes).distinguishedName[0];
 
     if (selectedGroups && this.groupSelected && dn) {
       if (selectedGroups.length > 1) {
@@ -112,6 +121,22 @@ export class MemberOfComponent {
       path: path?.[1] ?? '',
       dn: dn,
     });
+  }
+
+  private getPrimaryGroupName() {
+    const groupId: number = (<LdapAttributes>this.accessor)['primaryGroupID'][0];
+
+    if (groupId !== undefined && groupId !== null) {
+      this.api.getPrimaryGroupName(groupId).subscribe((response: PathDnResponse) => {
+        this.primaryGroupName = this.getGroupNameFromDn(response.path_dn);
+      });
+    }
+  }
+
+  private getGroupNameFromDn(groupName: string): string {
+    const cnIdx = groupName.indexOf('cn=') + 3;
+    const breakIdx = groupName.indexOf(',');
+    return groupName.substring(cnIdx, breakIdx);
   }
 
   private setPrimaryGroup(directoryDn: string, groupDn: string) {
