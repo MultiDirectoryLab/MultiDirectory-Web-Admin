@@ -20,11 +20,12 @@
   <md-button (click)="deleteGroup()">{{ 'member-of.delete' | transloco }}</md-button>
 </div>
 <hr />
-<div class="flex gap-1">
-  <div class="grow-1">{{ 'member-of.primary-group' | transloco }}</div>
-  <!--TODO: update current primary group in next release -->
-  <div class="grow-1">Administrators</div>
-</div>
+@if (primaryGroupName) {
+  <div class="flex gap-1">
+    <div class="grow-1">{{ 'member-of.primary-group' | transloco }}</div>
+    <div class="grow-1">{{ primaryGroupName }}</div>
+  </div>
+}
 <div class="flex primary-group-block">
   <div class="grow-1">
     <md-button [primary]="true" [disabled]="!accessorHasPrimaryGroup || !groupSelected" (click)="updateGroup()">
