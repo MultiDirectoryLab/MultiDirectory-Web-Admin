@@ -47,6 +47,7 @@ import { SyslogConnection } from '@models/api/syslog/syslog-connection';
 import { SetPrimaryGroupRequest } from '@models/api/entry/set-primary-group-request';
 import { ModifyManyDnRequest } from '@models/api/modify-dn/modify-many-dn';
 import { PathDnResponse } from '@core/ldap/path-dn';
+import { LdapRenameRequest } from '@core/ldap/ldap-rename.request';
 
 @Injectable({
   providedIn: 'root',
@@ -105,14 +106,21 @@ export class MultidirectoryApiService {
   update(request: UpdateEntryRequest): Observable<UpdateEntryResponse> {
     return this.httpClient.patch<UpdateEntryResponse>('entry/update', request).execute();
   }
+
   updateMany(request: UpdateManyEntryRequest): Observable<UpdateEntryResponse> {
     return this.httpClient.patch<UpdateEntryResponse>('entry/update_many', request).execute();
   }
+
   delete(request: DeleteEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.delete<DeleteEntryResponse>('entry/delete', request).execute();
   }
+
   deleteMany(request: DeleteManyEntryRequest): Observable<DeleteEntryResponse> {
     return this.httpClient.post<DeleteEntryResponse>('entry/delete_many', request.selectedItems).execute();
+  }
+
+  rename(request: LdapRenameRequest): Observable<void> {
+    return this.httpClient.put<void>('entry/rename', request).execute();
   }
 
   getPrimaryGroupName(id: number): Observable<PathDnResponse> {

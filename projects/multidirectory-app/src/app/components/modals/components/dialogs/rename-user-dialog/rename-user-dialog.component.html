@@ -1,0 +1,75 @@
+<app-dialog>
+  <div class="app-modal-header">{{ 'rename-user-dialog.header' | transloco }}</div>
+
+  <div class="form-container" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-4 p-2 pt-4">
+      <!-- Full Name -->
+      <div class="grid grid-cols-4 gap-4 items-start">
+        <label for="full-name" class="col-span-1">
+          {{ 'rename-user-dialog.full-name' | transloco }}
+        </label>
+        <md-textbox class="col-span-3 w-full" formControlName="cn" name="full-name"></md-textbox>
+      </div>
+
+      <!-- First name -->
+      <div class="grid grid-cols-4 gap-4 items-start">
+        <label for="first-name" class="col-span-1">
+          {{ 'user-create.general-info.first-name-label' | transloco }}
+        </label>
+        <md-textbox
+          class="col-span-1 w-full"
+          formControlName="givenName"
+          name="first-name"
+        ></md-textbox>
+      </div>
+
+      <!-- Last Name -->
+      <div class="grid grid-cols-4 gap-4 items-start">
+        <label for="last-name" class="col-span-1">
+          {{ 'user-create.general-info.last-name-label' | transloco }}
+        </label>
+        <md-textbox
+          class="col-span-3 w-full"
+          name="last-name"
+          formControlName="surname"
+        ></md-textbox>
+      </div>
+
+      <!-- Displayed Name -->
+      <div class="grid grid-cols-4 gap-4 items-start">
+        <label for="last-name" class="col-span-1">
+          {{ 'rename-user-dialog.displayed-name' | transloco }}
+        </label>
+        <md-textbox
+          class="col-span-3 w-full"
+          formControlName="displayName"
+          name="displayed-name"
+        ></md-textbox>
+      </div>
+
+      <!-- Login & Domain -->
+      <div class="grid grid-cols-4 gap-4 items-start">
+        <div class="col-span-2 flex flex-col gap-1">
+          <label for="login">
+            {{ 'user-create.general-info.logon-name-label' | transloco }}
+          </label>
+          <md-textbox formControlName="userPrincipalName" name="userPrincipalName" class="w-full"></md-textbox>
+        </div>
+        <div class="col-span-2 flex flex-col gap-1">
+          <label>
+            {{ 'user-create.general-info.domain-label' | transloco }}
+          </label>
+          <md-dropdown [options]="domains" formControlName="upnDomain" name="upnDomain"
+                       class="w-full"></md-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-modal-footer flex justify-end gap-1">
+    <md-button (click)="cancel()">{{ 'rename-user-dialog.cancel' | transloco }}</md-button>
+    <md-button (click)="onSubmit()" [disabled]="!form.valid"
+               [primary]="true">{{ 'rename-user-dialog.apply' | transloco }}
+    </md-button>
+  </div>
+</app-dialog>

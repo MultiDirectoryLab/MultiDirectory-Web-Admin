@@ -68,6 +68,19 @@ export const SearchQueries = {
     });
   },
 
+  getUserProperties(baseObject: string): SearchRequest {
+    return new SearchRequest({
+      base_object: baseObject,
+      scope: 0,
+      deref_aliases: 0,
+      size_limit: 0,
+      time_limit: 0,
+      types_only: false,
+      filter: '(objectClass=*)',
+      attributes: ['cn', 'givenName', 'surname', 'displayName', 'sAMAccountName', 'userPrincipalName', 'distinguishedName'],
+    });
+  },
+
   findByName(name: string, baseObject: string): SearchRequest {
     return new SearchRequest({
       base_object: baseObject,

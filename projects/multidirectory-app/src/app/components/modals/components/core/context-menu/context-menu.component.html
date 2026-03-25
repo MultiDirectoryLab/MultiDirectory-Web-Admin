@@ -4,6 +4,17 @@
       {{ 'catalog-content.more' | transloco }}
     </div>
   }
+  @if (isSelectedRowsOfType(LdapEntryType.User)) {
+    <div class="context-item" (click)="openRenameUserDialog()">
+      {{ 'catalog-content.rename' | transloco }}
+    </div>
+  }
+
+  @if (isSelectedRowsOfType(LdapEntryType.Group)) {
+    <div class="context-item" (click)="openRenameGroupDialog()">
+      {{ 'catalog-content.rename' | transloco }}
+    </div>
+  }
 
   @if (isSelectedRowsOfType(LdapEntryType.User)) {
     <div class="context-item" (click)="openChangePasswordDialog()">

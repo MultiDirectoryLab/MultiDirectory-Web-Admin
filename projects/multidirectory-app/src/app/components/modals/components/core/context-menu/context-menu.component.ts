@@ -12,13 +12,12 @@ import { DeleteEntryRequest } from '@models/api/entry/delete-request';
 import { UpdateEntryResponse } from '@models/api/entry/update-response';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
-import { AppNavigationService } from '@services/app-navigation.service';
 import { AppSettingsService } from '@services/app-settings.service';
 import { BulkService } from '@services/bulk.service';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import { MultidirectoryUiKitModule } from 'multidirectory-ui-kit';
-import { concat, EMPTY, of, switchMap, take, tap } from 'rxjs';
+import { concat, EMPTY, filter, of, switchMap, take, tap } from 'rxjs';
 import { ChangePasswordDialogData, ChangePasswordDialogReturnData } from '../../../interfaces/change-password-dialog.interface';
 import { ConfirmDeleteDialogData, ConfirmDeleteDialogReturnData } from '../../../interfaces/confirm-delete-dialog.interface';
 import { ConfirmDialogData, ConfirmDialogReturnData } from '../../../interfaces/confirm-dialog.interface';
@@ -30,9 +29,16 @@ import { DialogService } from '../../../services/dialog.service';
 import { ChangePasswordDialogComponent } from '../../dialogs/change-password-dialog/change-password-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
-import { EntityPropertiesDialogComponent } from '../../dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import { MoveEntityDialogComponent } from '../../dialogs/move-entity-dialog/move-entity-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { RenameUserDialogComponent } from '@components/modals/components/dialogs/rename-user-dialog/rename-user-dialog.component';
+import { RenameGroupDialogComponent } from '@components/modals/components/dialogs/rename-group-dialog/rename-group-dialog.component';
+import { LdapRenameRequest } from '@core/ldap/ldap-rename.request';
+import { Group } from '@core/groups/group';
+import { DataBusService } from '@services/data-bus.service';
+import {
+  EntityPropertiesDialogComponent
+} from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 
 @Component({
   selector: 'app-context-menu',
@@ -53,9 +59,9 @@ export class ContextMenuComponent implements OnInit {
   private api: MultidirectoryApiService = inject(MultidirectoryApiService);
   private appSettings: AppSettingsService = inject(AppSettingsService);
   private ldapTreeview = inject(LdapTreeviewService);
-  private navigation = inject(AppNavigationService);
   private bulk: BulkService<NavigationNode> = inject(BulkService<NavigationNode>);
   private toastr = inject(ToastrService);
+  private dataBus = inject(DataBusService);
   private getAccessorStrategy: GetAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy: CompleteUpdateEntiresStrategies = inject(CompleteUpdateEntiresStrategies);
   private contextMenuData: ContextMenuData = inject(DIALOG_DATA);
@@ -141,7 +147,7 @@ export class ContextMenuComponent implements OnInit {
               },
             }).closed;
           }),
-          tap(() => this.navigation.reload()),
+          tap(() => this.dataBus.emitUpdateGridContent()),
         ),
     );
   }
@@ -157,8 +163,8 @@ export class ContextMenuComponent implements OnInit {
         },
       })
       .closed.pipe(switchMap((x) => (x ? this.api.updateManyDn(x) : EMPTY)))
-      .subscribe((x) => {
-        this.navigation.reload();
+      .subscribe(() => {
+        this.dataBus.emitUpdateGridContent();
       });
   }
 
@@ -174,24 +180,24 @@ export class ContextMenuComponent implements OnInit {
         },
       })
       .closed.pipe(
-        switchMap((isConfirmed) => {
-          return isConfirmed
-            ? concat(
-                ...this.entries.map((x) =>
-                  // TODO: Будет deleteMany
-                  this.api.delete(
-                    new DeleteEntryRequest({
-                      entry: x.id,
-                    }),
-                  ),
-                ),
-              )
-            : of(null);
-        }),
-      )
+      switchMap((isConfirmed) => {
+        return isConfirmed
+          ? concat(
+            ...this.entries.map((x) =>
+              // TODO: Будет deleteMany
+              this.api.delete(
+                new DeleteEntryRequest({
+                  entry: x.id,
+                }),
+              ),
+            ),
+          )
+          : of(null);
+      }),
+    )
       .subscribe((result) => {
         this.ldapTreeview.invalidate(toDeleteDNs);
-        this.navigation.reload();
+        this.dataBus.emitUpdateGridContent();
       });
   }
 
@@ -227,5 +233,49 @@ export class ContextMenuComponent implements OnInit {
     const offsetY = window.innerHeight - (dropdownRect.y + dropdownRect.height);
 
     dropdownEl.style.transform = `translate(${offsetX < 0 ? offsetX : 0}px, ${offsetY < 0 ? offsetY : 0}px)`;
+  }
+
+  protected openRenameUserDialog() {
+    this.contextMenuService.close(null);
+    const id = this.entries[0].id;
+
+    this.dialogService
+      .open<LdapRenameRequest, string, RenameUserDialogComponent>({
+        component: RenameUserDialogComponent,
+        dialogConfig: {
+          minHeight: '230px',
+          data: id,
+        },
+      })
+      .closed.pipe(
+      filter(Boolean),
+      switchMap((request) => this.api.rename(request)),
+    )
+      .subscribe(() => {
+        this.toastr.success(translate('rename-user-dialog.success'));
+        this.dataBus.emitUpdateGridContent();
+      });
+  }
+
+  protected openRenameGroupDialog() {
+    this.contextMenuService.close(null);
+    const group = this.entries[0] as Group;
+
+    this.dialogService
+      .open<LdapRenameRequest, Group, RenameGroupDialogComponent>({
+        component: RenameGroupDialogComponent,
+        dialogConfig: {
+          minHeight: '230px',
+          data: group,
+        },
+      })
+      .closed.pipe(
+      filter(Boolean),
+      switchMap((request) => this.api.rename(request)),
+    )
+      .subscribe(() => {
+        this.toastr.success(translate('rename-group-dialog.success'));
+        this.dataBus.emitUpdateGridContent();
+      });
   }
 }
