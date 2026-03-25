@@ -95,16 +95,22 @@ export class DropdownComponent extends BaseComponent {
       .subscribe(() => this.closeDropdown());
   }
 
-  override writeValue(value: DropdownOption): void {
-    this.selectedOption = this.options().find((x) => {
-      if (typeof x === 'string') {
-        return x === value;
-      }
-      return (<DropdownOption>x)?.value == <DropdownOption>value;
-    });
-    if (this.selectedOption?.value !== this.innerValue) {
-      this.innerValue = this.selectedOption?.value;
+  override writeValue(value: DropdownOption | string | null): void {
+    if (!value) {
+      this.innerValue = value;
       this.cdr.detectChanges();
+      return;
+    }
+    const options = this.options();
+    // TODO: убрать string в рамках рефакторинга
+    const targetValue: string = typeof value === 'string' ? value : value.value;
+    this.selectedOption = options.find((option) => option.value === targetValue);
+
+    if (this.selectedOption) {
+      if (this.selectedOption.value !== this.innerValue) {
+        this.innerValue = this.selectedOption?.value;
+        this.cdr.detectChanges();
+      }
     }
   }
 
