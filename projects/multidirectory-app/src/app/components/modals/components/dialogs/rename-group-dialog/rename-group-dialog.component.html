@@ -1,0 +1,17 @@
+<app-dialog>
+  <div class="app-modal-header">{{ 'rename-group-dialog.header' | transloco }}</div>
+
+  <div class="form-container" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="groupName" class="col-span-1"> {{ 'group-create.group-name' | transloco }}</label>
+      <md-textbox class="row-1 col-2" formControlName="groupName"></md-textbox>
+    </div>
+  </div>
+
+  <div class="app-modal-footer flex justify-end gap-1">
+    <md-button (click)="cancel()">{{ 'rename-group-dialog.cancel' | transloco }}</md-button>
+    <md-button (click)="onSubmit()" [disabled]="!form.valid"
+               [primary]="true">{{ 'rename-group-dialog.apply' | transloco }}
+    </md-button>
+  </div>
+</app-dialog>

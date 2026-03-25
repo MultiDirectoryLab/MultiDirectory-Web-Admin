@@ -207,20 +207,35 @@
     "select-all": "Select All",
     "go-to-parent": "Go To Parent"
   },
+  "rename-user-dialog": {
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "header": "Rename user",
+    "displayed-name": "Displayed name",
+    "full-name": "Full name",
+    "success": "User has been renamed successfully"
+  },
+  "rename-group-dialog": {
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "header": "Rename group",
+    "success": "Group has been renamed successfully"
+  },
   "catalog-content": {
     "create-user": "Create a user",
     "create-group": "Create a group",
     "create-object": "Add object",
+    "rename": "Rename",
     "create-computer": "Add a computer",
     "help": "Help",
     "group": "Group",
+    "reset-password-history": "Reset password history",
+    "reset-password-history-success": "Password history has been reset successfully",
     "computer": "Computer",
     "contact": "Contact",
     "ou": "Organizational unit",
     "rule": "Rule",
     "folder": "Catalog",
-    "reset-password-history": "Reset password history",
-    "reset-password-history-success": "Password history has been reset successfully",
     "common-folder": "a shared folder",
     "printer": "Printer",
     "user": "User",
@@ -293,6 +308,7 @@
     "primary-group": "Main group: ",
     "make-primary": "Make primary",
     "primary-note": "You should only change the primary group if you have POSIX-compliant applications or Macintosh clients.",
+    "remove-myself": "Cannot remove myself user from domain admins group",
     "update-group-length-error": "Only one group can be selected as the main group",
     "primary-group-updated": "Group {{ group }} has been made primary",
     "primary-group-updated-error": "Group {{ group }} could not be made primary"
@@ -341,7 +357,14 @@
     "legacy-login-label": "Login(pre-Windows 2000):",
     "login-time": "Hours for entry",
     "login-resources": "Login Resources",
-    "unlock-account": "Unblock account",
+    "unlock-account": "Unlock account",
+    "lock-account": "Lock account",
+    "lock-state": "Account status",
+    "lock-state-changed-successfully": "Account successfully",
+    "active": "Active",
+    "locked-up": "Locked",
+    "locked": "locked",
+    "unlocked": "unlocked",
     "user-should-change-password": "The user must change the password on the next log in",
     "user-unable-change-password": "User cannot change password",
     "password-never-expires": "Password does not expire",
@@ -459,7 +482,10 @@
     "bypass-no-connection": "On Multifactor connection lost",
     "bypass-service-failure": "On Multifactor Service inoperative",
     "protocols": "Protocols",
-    "enable-2fa": "2FA required to set bypass up"
+    "enable-2fa": "2FA required to set bypass up",
+    "http-session-ttl": "HTTP Session TTL (in seconds)",
+    "ldap-session-ttl": "LDAP Session TTL (in seconds)",
+    "back": "Back"
   },
   "access-policy-ip-list": {
     "modal-header": "Valid addresses",
@@ -487,6 +513,15 @@
     "unable-to-create-policy": "Unable to create policy",
     "policy-id-not-found": "The policy has not ID"
   },
+  "passwords-upload": {
+    "clear": "Clear",
+    "description": "Please select a .txt file containing forbidden passwords, separated by line breaks",
+    "upload-button": "Upload file",
+    "forbidden-passwords-uploaded-successfully": "Forbidden passwords uploaded successfully",
+    "forbidden-passwords-upload-error": "Failed to upload forbidden passwords",
+    "forbidden-passwords-file-uploaded-successfully": "Forbidden passwords file uploaded successfully",
+    "forbidden-passwords-file-upload-error": "Failed to upload forbidden passwords file"
+  },
   "settings-header": {
     "title": "Settings"
   },
@@ -496,6 +531,7 @@
     "mf-settings": "Multifactor Integration",
     "about": "About",
     "kdc-principals": "Kerberos Principals",
+    "roles": "Roles and permissions",
     "dns-settings": "DNS Settings",
     "dhcp-settings": "DHCP Settings",
     "sessions": "Sessions",
@@ -503,7 +539,11 @@
     "dns-forwarding-header": "DNS Forwarding",
     "access-policy": "Access Policy",
     "password-policy": "Password Policy",
-    "syslog": "Journaling"
+    "syslog": "Journaling",
+    "users-with-sessions": "Active sessions",
+    "trusted-domains": "Domains and trust",
+    "license": "License",
+    "group-policies": "Group Policies"
   },
   "settings": {
     "account-settings": "Account Settings",
@@ -580,6 +620,7 @@
   },
   "errors": {
     "entry-already-exists": "Entry with that name already exists",
+    "license-problem": "There are a problem with your license, please check it at the settings page",
     "unknown-error": "Unknown Error",
     "filter-error": "Filter Error",
     "empty-filter": "Filter is empty, please fill the form",
@@ -609,7 +650,6 @@
   "password-conditions": {
     "passwords-not-match": "Passwords do not match",
     "passwords-match": "Passwords match",
-    "minimum-password-length": "Password must be at least {{minimumPasswordLength}} characters length",
     "password-complexity": "Password must contain uppercase letters, lowercase letters, special charecters and digits",
     "password-without-otp": "Password must not end with series of 6 digits in a row",
     "password-must-meet-conditions": "Password must meet security conditions",
@@ -650,7 +690,11 @@
     "filter": "Filter",
     "setup-kerberos-description": "It is required to setup kerberos service to manage a principals",
     "setup-kerberos": "Setup Kerberos",
-    "admin-password-label": "Admin password"
+    "admin-password-label": "Admin password",
+    "type-of-encryption": "Type of encryption",
+    "compatibility": "Compatibility",
+    "algorithm-of-encryption": "Algorithm of encryption",
+    "windows-compatibility": "Windows compatibility"
   },
   "add-principal": {
     "modal-header": "New object - Principal",
@@ -853,8 +897,8 @@
     "next": "Next"
   },
   "object-class-attribute-summary": {
-    "must-attribute-description": "Entity MUST have",
-    "may-attribute-description": "Entity MAY have",
+    "must-attribute-description": "Object Class MUST have",
+    "may-attribute-description": "Object Class MAY have",
     "add": "Add",
     "remove": "Remove"
   },
@@ -882,6 +926,92 @@
     "object-classes": "Object classes",
     "apply": "Apply",
     "cancel": "Cancel"
+  },
+  "role-details-dialog": {
+    "modal-header": "Role properties",
+    "role-name": "Name",
+    "common": "Common",
+    "groups": "Related groups",
+    "access-control": "Access control",
+    "permissions": "Web Admin permissions",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back"
+  },
+  "role-details-dialog-common": {
+    "role-name": "Role name",
+    "createdat": "Created at",
+    "createdby": "Created by",
+    "role-type": "Role type",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "system": "System",
+    "custom": "Custom"
+  },
+  "ace-settings": {
+    "status-column": "Type",
+    "entity-type-column": "Entity",
+    "attribute-type-column": "Attribute",
+    "access-column": "Access",
+    "level-column": "Level",
+    "path-column": "Applied to"
+  },
+  "ace-change-dialog": {
+    "title": "Access Control Entry Change",
+    "object": "Object",
+    "type": "Type",
+    "ace-props": "Access Control Entry Properties",
+    "select-entity-attr": "Select entity and attribute",
+    "select-entity": "Select entity",
+    "level": "Level",
+    "change": "Change",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "permissions": "Permissions",
+    "create-child": "Create child object",
+    "delete-obj-attr": "Remove object or attribute",
+    "read-obj-attr": "Read object or attribute",
+    "modify-obj-attr": "Modify object or attribute",
+    "ace-status-allow": "Allow",
+    "ace-status-deny": "Deny",
+    "ace-level-obj": "This object",
+    "ace-level-same-level": "Same level",
+    "ace-level-subtree": "Whole subtree",
+    "attr-type": "Type",
+    "attr-name": "Name",
+    "attr-toggle": "On/off"
+  },
+  "ace-type-names": {
+    "right-create-child": "Create a child object",
+    "right-delete": "Delete an object or a specific attribute",
+    "right-read-prop": "Read an object or a specific attribute",
+    "right-write-prop": "Modify an object or a specific attribute"
+  },
+  "ace-level-names": {
+    "object": "This Object",
+    "current": "One level",
+    "subtree": "The entire subtree"
+  },
+  "ace-status-names": {
+    "allow": "Allow",
+    "deny": "Deny"
+  },
+  "is-system": {
+    "system": "System",
+    "custom": "Custom"
+  },
+  "ace-attr-change-dialog": {
+    "title": "Permissions Change",
+    "entities": "Entities",
+    "attr-schema": "Attribute scheme for entity"
+  },
+  "role-details-access-control": {
+    "add": "Add"
+  },
+  "web-admin-access-control": {
+    "full-access": "Full Access",
+    "select-all": "Select All"
   },
   "schema-entity-details-entries": {
     "add": "Add entry",
@@ -951,6 +1081,146 @@
     "toggle-column": "Active state",
     "load-events-error": "Error loading events"
   },
+  "roles-settings": {
+    "name-column": "Name",
+    "type-column": "Type",
+    "desc-column": "Description",
+    "status-column": "Status",
+    "add": "Add role"
+  },
+  "users-with-sessions": {
+    "header": "User sessions",
+    "success": "The session is completed",
+    "description": "On this screen you can view and complete user sessions",
+    "search": {
+      "placeholder": "Search by {{type}}",
+      "button": "Search",
+      "reset-button": "Reset search"
+    },
+    "table": {
+      "sessions": "Sessions",
+      "sessions-for": "Sessions {{upn}}",
+      "manage": "Manage",
+      "protocol": "Protocol",
+      "time": "Authorization time"
+    }
+  },
+  "license-upload": {
+    "description": "Please upload a valid license file with a .lic extension. The license domain must match with the domain specified.",
+    "upload-button": "Upload a license"
+  },
+  "license-info": {
+    "license-information": "License Information",
+    "status": "Status",
+    "license-key": "License Key",
+    "company": "Company",
+    "issue-date": "Issue Date",
+    "start-date": "Start Date",
+    "end-date": "End Date",
+    "user-count": "User Count",
+    "total-users": "Total Users",
+    "registered-users": "Registered Users",
+    "available-users": "Available Users",
+    "active": "Active",
+    "expired": "Expired"
+  },
+  "license": {
+    "submit": "Submit",
+    "clear": "Clear"
+  },
+  "license-settings": {
+    "license-must-match-to-domain": "License must match to the domain",
+    "license-not-found": "A license was not found or the file has an invalid format.",
+    "license-must-be-uploaded": "The License is mandatory for the Enterprise verision of MultiDirectory"
+  },
+  "trusted-domains": {
+    "domain-name": "Domain Name",
+    "trust-type": "Trust Type",
+    "direction-type": "Direction Type",
+    "forest": "Forest",
+    "domain": "Domain",
+    "realm": "Realm",
+    "bidirectional": "Bidirectional",
+    "unidirectional": "Unidirectional",
+    "header": "Domains and Trust",
+    "add": "Add",
+    "delete": "Delete",
+    "delete-prompt-header": "Delete the domain trust",
+    "delete-prompt-body": "Are you really want to delete the following trust:",
+    "cancel": "Cancel",
+    "manage-references": "Manage References"
+  },
+  "add-trust-dialog": {
+    "modal-header": "Add a new trust",
+    "cancel": "Cancel",
+    "previous-step": "Previous",
+    "next-step": "Next",
+    "save": "Save"
+  },
+  "trust-ldap-forward": {
+    "header": "Configure LDAP Forward",
+    "tooltip": "MultiDirectory proxies LDAP requests to a trusted domain",
+    "protocol": "Protocol",
+    "domain": "Domain",
+    "port": "Port",
+    "login": "Login",
+    "password": "Password",
+    "login-spn": "Login (SPN)",
+    "keytab": "Upload .keytab file",
+    "upload-certificate": "Upload file",
+    "verifying-ssl": "Verifying SSL certificate"
+  },
+  "trust-domain-info": {
+    "header": "General parameters",
+    "trust-name": "Trust name",
+    "host": "Host",
+    "direction-type": "Direction Type",
+    "unidirectional": "Unidirectional",
+    "bidirectional": "Bidirectional",
+    "trust-type": "Trust Type",
+    "forest": "Forest",
+    "domain": "Domain",
+    "tooltip": "Allows you to create a bidirectional trust relationship between domains and allows you to build unidirectional proxying of LDAP queries."
+  },
+  "trust-password-settings": {
+    "header": "Password setting",
+    "realm": "Realm",
+    "prompt": "Enter the common password for the cross-domain principal",
+    "password": "Password",
+    "password-confirmation": "Password confirmation"
+  },
+  "add-trust-dialog-error": {
+    "required": "This field is required",
+    "invalid-domain": "Enter a valid domain",
+    "password-must-meet-conditions": "Password must meet complexity requirements",
+    "password-mismatch": "Passwords do not match",
+    "minlength": "The length must be at least {{requiredLength}} characters"
+  },
+  "add-reference": {
+    "header": "Add new reference"
+  },
+  "manage-trust-reference-dialog": {
+    "header": "Manage References",
+    "add": "Add Reference",
+    "delete": "Delete"
+  },
+  "reference-editor-dialog": {
+    "header": "Manage Reference",
+    "done": "Done",
+    "path": "Path",
+    "source": "Source",
+    "select": "Select"
+  },
+  "validation-details": {
+    "unauthorized-language": "Password must not contain characters from an unauthorized language",
+    "ban-word": "Password must not equal a banned word",
+    "min-age-day": "Password is not old enough to update",
+    "min-lowercase-letters-count": "Password must contain more lowercase letters",
+    "min-uppercase-letters-count": "Password must contain more uppercase letters",
+    "min-letters-count": "Password must contain more letters",
+    "min-digits-count": "Password must contain more digits",
+    "unknown": "Invalid password format"
+  },
   "syslog-connections-settings": {
     "no-data-available": "No connections found",
     "add": "Add"
@@ -971,11 +1241,79 @@
     "description": "Name",
     "is_enabled": "Is Enabled"
   },
+  "group-polcies-header": {
+    "title": "Group Policies"
+  },
+  "group-policies-settings": {
+    "group-policy-tab": "Group Policies",
+    "rsop": "RSOP"
+  },
+  "group-policies": {
+    "policy-name": "Name",
+    "policy-author": "Author",
+    "creation-date": "Creation Date",
+    "modified-date": "Modified Date",
+    "add": "Add"
+  },
   "policies-navigation": {
     "password-policies": "Password Policies",
+    "access-policies": "Access Policies",
+    "group-policies": "Group Policies"
+  },
+  "rsop-management": {
+    "run": "Run all policies",
+    "empty": "No RSOPs found"
+  },
+  "rsop-entry": {
+    "tasks": "Results",
+    "instructions": "Instructions",
+    "run": "Run RSOP"
+  },
+  "rsop-tasks": {
+    "run-all-tasks": "Run",
+    "task-id": "ID",
+    "start-time": "Start time",
+    "control-panel": "Results",
+    "download-task": "Download"
+  },
+  "group-policy-create": {
+    "header": "Create GPO entry",
+    "cancel": "Cancel",
+    "previous": "Back",
+    "next": "Next",
+    "finish": "Finish"
+  },
+  "group-policy-edit": {
+    "header": "Edit GPO",
+    "general": "General",
+    "instructions": "Instructions",
+    "groups": "Groups",
+    "cancel": "Cancel",
+    "apply": "Apply"
+  },
+  "group-policy-general": {
+    "name": "Name",
+    "author": "Author",
+    "created-at": "Created at",
+    "description": "Description"
+  },
+  "group-policy-instruction-set": {
+    "select-instruction": "Please select an instruction",
+    "instructions": "Instructions",
+    "parameters": "Parameters"
+  },
+  "ou-properties": {
+    "attributes": "Attributes",
+    "gpo-priority": "GPO Priority"
+  },
+  "gpo-priority": {
+    "empty": "No GPOs found",
     "access-policies": "Access Policies"
   },
   "password-policy": {
+    "general-settings": "General Settings",
+    "password-complexity-settings": "Password Complexity Settings",
+    "blocking-settings": "Blocking Settings",
     "title": "Title",
     "max-password-age": "Maximum Password Age (in days)",
     "min-password-age": "Minimum Password Age (in days)",
@@ -1012,19 +1350,7 @@
     "policy-load-error": "Failed to load policy",
     "back": "Back",
     "policy-get-error": "Failed to load policies",
-    "policy-update-priorities-error": "Failed to update policy priorities",
-    "general-settings": "General Settings",
-    "password-complexity-settings": "Password Complexity Settings",
-    "blocking-settings": "Blocking Settings"
-  },
-  "passwords-upload": {
-    "clear": "Clear",
-    "description": "Please select a .txt file containing forbidden passwords, separated by line breaks",
-    "upload-button": "Upload file",
-    "forbidden-passwords-uploaded-successfully": "Forbidden passwords uploaded successfully",
-    "forbidden-passwords-upload-error": "Failed to upload forbidden passwords",
-    "forbidden-passwords-file-uploaded-successfully": "Forbidden passwords file uploaded successfully",
-    "forbidden-passwords-file-upload-error": "Failed to upload forbidden passwords file"
+    "policy-update-priorities-error": "Failed to update policy priorities"
   },
   "errors-code": {
     "400101": "Audit policy not found",
@@ -1035,7 +1361,6 @@
     "400206": "User not found",
     "400208": "Authorization error",
     "400209": "User locked",
-
     "400301": "Invalid session key",
     "400302": "Missing session data",
     "400303": "Invalid IP address",
@@ -1043,7 +1368,6 @@
     "400305": "Invalid session signature",
     "400306": "Invalid session data",
     "400307": "User not found in session",
-
     "400402": "DNS record create error",
     "400403": "DNS record update error",
     "400404": "DNS record delete error",
@@ -1053,7 +1377,6 @@
     "400408": "DNS server options update error",
     "400409": "DNS connection error",
     "400410": "DNS feature not implemented",
-
     "400602": "Kerberos conflict",
     "400603": "Kerberos resource not found",
     "400604": "Kerberos dependency error",
@@ -1075,7 +1398,6 @@
     "400621": "Kerberos force password change error",
     "400622": "Kerberos status not found",
     "400623": "Kerberos connection error",
-
     "400802": "Multi-factor authentication required",
     "400803": "Invalid or missing MFA token",
     "400804": "MFA API error",
@@ -1084,9 +1406,7 @@
     "400808": "Network policy violation",
     "400809": "Required resource not found (user, MFA config)",
     "400810": "Authentication attempt failed",
-
     "400902": "Network policy not found",
-
     "4001001": "Password policy already exists",
     "4001002": "Password policy not found",
     "4001003": "Directory is not a user",
@@ -1100,18 +1420,19 @@
     "4001011": "Wrong ban words file extension",
     "4001012": "Cannot delete the last password policy",
     "4001013": "Not all priorities set",
-
     "401201": "Unauthorized error (invalid credentials)",
-
     "422205": "Password does not meet policy requirements",
     "422207": "Authentication validation error",
     "422401": "DNS setup error",
     "422807": "Provided credentials are invalid",
     "422901": "Network policy already exists",
     "422903": "Last active policy error",
-
     "500601": "Kerberos base DN not found",
     "500605": "Kerberos service unavailable"
+  },
+  "export-keytab": {
+    "keep-previous-encryption-keys": "Оставить предыдущие ключи шифрования",
+    "info-text": "The \"-norandkey\" flag prevents random key generation when exporting a .keytab file. In this case, previous encryption keys will be used. \n\n Required for exporting a Windows-compatible .keytab file."
   },
   "days": "Days",
   "hours": "Hours",
@@ -1119,5 +1440,6 @@
   "change": "Change",
   "add": "Add",
   "delete": "Delete",
-  "empty-list": "This list is empty"
+  "empty-list": "This list is empty",
+  "export": "Экспортировать"
 }

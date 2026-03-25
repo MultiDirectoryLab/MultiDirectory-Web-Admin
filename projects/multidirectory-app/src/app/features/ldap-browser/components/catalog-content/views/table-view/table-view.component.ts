@@ -29,7 +29,6 @@ import { LdapBrowserEntry } from '@models/core/ldap-browser/ldap-browser-entry';
 import { NavigationNode } from '@models/core/navigation/navigation-node';
 import { BulkService } from '@services/bulk.service';
 import { LdapBrowserService } from '@services/ldap/ldap-browser.service';
-import { MultidirectoryApiService } from '@services/multidirectory-api.service';
 import {
   CheckboxComponent,
   ContextMenuEvent,
@@ -40,7 +39,6 @@ import {
 } from 'multidirectory-ui-kit';
 import { ConfirmDeleteDialogComponent } from '@components/modals/components/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { ConfirmDialogComponent } from '@components/modals/components/dialogs/confirm-dialog/confirm-dialog.component';
-import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 import { ConfirmDeleteDialogData, ConfirmDeleteDialogReturnData } from '@components/modals/interfaces/confirm-delete-dialog.interface';
 import { ConfirmDialogData, ConfirmDialogReturnData } from '@components/modals/interfaces/confirm-dialog.interface';
 import {
@@ -51,12 +49,18 @@ import { DialogService } from '@components/modals/services/dialog.service';
 import { AppNavigationService } from '@services/app-navigation.service';
 import { BehaviorSubject, combineLatest, EMPTY, mergeMap, of, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { LdapTreeviewService } from '@services/ldap/ldap-treeview.service';
-import { LdapEntryDescriptionPipe, LdapEntryStatusPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
+import { LdapEntryDescriptionPipe, LdapEntryTypePipe } from '@core/ldap/entity-info-resolver';
 import BitSet from 'bitset';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
 import { TableColumn } from 'ngx-datatable-gimefork';
+import { DeleteManyEntryRequest } from '@models/api/entry/delete-many-request';
 import { newCatalogRow } from '@models/api/catalog/newCatalogRow.model';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
+import { DataBusService } from '@services/data-bus.service';
+import { MultidirectoryApiService } from '@services/multidirectory-api.service';
+import {
+  EntityPropertiesDialogComponent
+} from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 
 @Component({
   selector: 'app-table-view',
@@ -80,6 +84,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   private bulkService = inject<BulkService<NavigationNode>>(BulkService);
   private cdr = inject(ChangeDetectorRef);
   private api = inject(MultidirectoryApiService);
+  private dataBus = inject(DataBusService);
   private getAccessorStrategy = inject(GetAccessorStrategy);
   private completeUpdateEntiresStrategy = inject(CompleteUpdateEntiresStrategies);
   private ldapContent = inject(LdapBrowserService);
@@ -102,6 +107,13 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   private _searchQuery = '';
   private _searchQueryRx = new BehaviorSubject(this._searchQuery);
 
+  @Input() set searchQuery(q: string) {
+    if (this._searchQuery != q) {
+      this._searchQuery = q;
+      this._searchQueryRx.next(q);
+    }
+  }
+
   @Input() set newRows(element: newCatalogRow | undefined) {
     if (element) {
       const name: string = element.partial_attributes.find((attr) => attr.type === 'name')?.['vals'][0] ?? '';
@@ -120,12 +132,6 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @Input() set searchQuery(q: string) {
-    if (this._searchQuery != q) {
-      this._searchQuery = q;
-      this._searchQueryRx.next(q);
-    }
-  }
   get searchQuery() {
     return this._searchQuery;
   }
@@ -146,6 +152,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   get accountEnabled(): boolean {
     return this._accountEnabled;
   }
+
   set accountEnabled(enabled: boolean) {
     this._accountEnabled = enabled;
   }
@@ -154,15 +161,18 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
   get parentDn(): string {
     return this._parentDn;
   }
+
   set parentDn(dn: string) {
     this._parentDn = dn;
   }
 
   private _limit = 20;
   private _limitRx = new BehaviorSubject(this._limit);
+
   get limit() {
     return this._limit;
   }
+
   set limit(limit: number) {
     if (this._limit != limit) {
       this._offset = 0;
@@ -173,9 +183,11 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _offset = 0;
   private _offsetRx = new BehaviorSubject(this._offset);
+
   get offset() {
     return this._offset;
   }
+
   set offset(offset: number) {
     if (this._offset != offset) {
       this._offset = offset;
@@ -185,14 +197,45 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _total = 0;
   private _totalRx = new BehaviorSubject(this._total);
+
   get total() {
     return this._total;
   }
+
   set total(total: number) {
     if (this._total != total) {
       this._total = total;
       this._totalRx.next(total);
     }
+  }
+
+  private listenToManualContentUpdate(): void {
+    this.dataBus.onUpdateGridContent.pipe(takeUntil(this.unsubscribe)).subscribe(() => this.updateContentInitial());
+  }
+
+  private updateTableContent() {
+    this.updateContentInitial();
+    this.updateContentOnOffsetChange();
+  }
+
+  private updateContentOnOffsetChange() {
+    this._offsetRx
+      .pipe(
+        takeUntil(this.unsubscribe),
+        switchMap((result) => {
+          if (this._gridContentPending) {
+            return EMPTY;
+          }
+          return this.ldapContent.loadContent(this.parentDn, this._searchQuery, this.offset, this.limit);
+        }),
+      )
+      .subscribe(([rows, totalPages, totalEntires]) => {
+        this.rows = rows;
+        this.total = totalEntires;
+        if (this.navigation.isSelectEntry()) {
+          this.selectRows([this.navigation.getDistinguishedName()]);
+        }
+      });
   }
 
   private updateContentInitial() {
@@ -231,29 +274,9 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private updateContentOnOffsetChange() {
-    this._offsetRx
-      .pipe(
-        takeUntil(this.unsubscribe),
-        switchMap((result) => {
-          if (this._gridContentPending) {
-            return EMPTY;
-          }
-          return this.ldapContent.loadContent(this.parentDn, this._searchQuery, this.offset, this.limit);
-        }),
-      )
-      .subscribe(([rows, totalPages, totalEntires]) => {
-        this.rows = rows;
-        this.total = totalEntires;
-        if (this.navigation.isSelectEntry()) {
-          this.selectRows([this.navigation.getDistinguishedName()]);
-        }
-      });
-  }
-
   ngOnInit() {
-    this.updateContentInitial();
-    this.updateContentOnOffsetChange();
+    this.updateTableContent();
+    this.listenToManualContentUpdate();
   }
 
   ngAfterViewInit(): void {
@@ -291,7 +314,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
         flexGrow: 3,
         pipe: new LdapEntryDescriptionPipe(),
       },
-      { name: translate('table-view.status-column'), flexGrow: 3, pipe: new LdapEntryStatusPipe() },
+      { name: translate('table-view.status-column'), prop: 'status', flexGrow: 3 },
     ];
   }
 
@@ -368,21 +391,21 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       })
       .closed.pipe(
-        take(1),
-        switchMap((confirmed) => {
-          if (!confirmed) return of(confirmed);
-          const selectedItems: { entry: string }[] = this.grid().selected.map((el) => ({
-            entry: el.id,
-          }));
+      take(1),
+      switchMap((confirmed) => {
+        if (!confirmed) return of(confirmed);
+        const selectedItems: { entry: string }[] = this.grid().selected.map((el) => ({
+          entry: el.id,
+        }));
 
-          const manyItemsSelected = selectedItems.length > 1;
-          if (manyItemsSelected) {
-            return this.api.deleteMany({ selectedItems: selectedItems });
-          }
+        const manyItemsSelected = selectedItems.length > 1;
+        if (manyItemsSelected) {
+          return this.api.deleteMany(new DeleteManyEntryRequest({ selectedItems: selectedItems }));
+        }
 
-          return this.api.delete(new DeleteEntryRequest(selectedItems[0]));
-        }),
-      )
+        return this.api.delete(new DeleteEntryRequest(selectedItems[0]));
+      }),
+    )
       .subscribe(() => {
         this.ldapTreeview.invalidate(toDeleteDNs);
         this.navigation.reload();
