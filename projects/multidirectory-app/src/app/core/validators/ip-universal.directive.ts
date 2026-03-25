@@ -21,6 +21,10 @@ export class UniversalIpValidatorDirective implements Validator {
 
   validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
+    
+    if (!value) {
+      return null;
+    }
     // возможно, передан список IP через запятую
     const extractedIps: string[] = value.replace(/\s/g, '').split(',');
 
