@@ -82,7 +82,7 @@ export class RenameUserDialogComponent implements OnInit {
 
   private hydrateForm(attributes: LdapAttribute[]) {
     this.form.controls.cn.setValue(attributes.find((t) => t.type === 'cn')!.vals[0]);
-    this.form.controls.surname.setValue(attributes.find((t) => t.type === 'surname')?.vals[0] || '');
+    this.form.controls.surname.setValue(attributes.find((t) => t.type === 'surname')!.vals[0]);
     this.form.controls.givenName.setValue(attributes.find((t) => t.type === 'givenName')!.vals[0]);
     this.form.controls.displayName.setValue(attributes.find((t) => t.type === 'displayName')!.vals[0]);
 
