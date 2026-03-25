@@ -15,9 +15,15 @@ import { translate } from '@jsverse/transloco';
 })
 export class UniversalIpValidatorDirective implements Validator {
   readonly errorLabel = input(translate('error-message.ip-valid'));
-  ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:-(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))?(?:\/(?:[0-9]|[1-2][0-9]|3[0-2]))?(?:,\s*(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:-(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))?(?:\/(?:[0-9]|[1-2][0-9]|3[0-2]))?)*$/;
+  ipPattern = new RegExp(
+    '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:-(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))?(?:\\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$',
+  );
 
   validate(control: AbstractControl): ValidationErrors | null {
-    return this.ipPattern.test(control.value) ? null : { IpAddress: this.errorLabel() };
+    const value = control.value;
+    // возможно, передан список IP через запятую
+    const extractedIps: string[] = value.replace(/\s/g, '').split(',');
+
+    return extractedIps.every((ip) => this.ipPattern.test(ip)) ? null : { IpAddress: this.errorLabel() };
   }
 }
