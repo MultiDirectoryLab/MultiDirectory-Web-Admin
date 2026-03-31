@@ -1,12 +1,5 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  Input,
-  viewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, Input, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LdapAttributes } from '@core/ldap/ldap-attributes/ldap-attributes';
 import { UserAccountControlFlag } from '@core/ldap/user-account-control-flags';
@@ -84,9 +77,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   }
 
   get storePasswordReversible(): boolean {
-    return (
-      (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) > 0
-    );
+    return (Number(this.uacBitSet?.toString(10)) & UserAccountControlFlag.PARTIAL_SECRETS_ACCOUNT) > 0;
   }
 
   set storePasswordReversible(value: boolean) {
@@ -134,9 +125,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const uacBits = this.accessor['userAccountControl']?.[0];
-    this.uacBitSet = this.accessor['userAccountControl']
-      ? BitSet.fromHexString(Number(uacBits).toString(16))
-      : new BitSet();
+    this.uacBitSet = this.accessor['userAccountControl'] ? BitSet.fromHexString(Number(uacBits).toString(16)) : new BitSet();
 
     this._accountExpires = !!Number(this.accessor['accountExpires']);
     this.cdr.detectChanges();
@@ -151,7 +140,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
               value: x.name,
             }),
         );
-        this.upnDomain = this.domains?.[0]?.value;
+        this.upnDomain = this.domains?.[0];
         this.cdr.detectChanges();
       });
   }
@@ -159,11 +148,7 @@ export class UserPropertiesAccountComponent implements AfterViewInit {
   // @ViewChild('editLogonTime') editLogonTime!: ModalInjectDirective;
   showLogonTimeEditor() {
     this.dialogService
-      .open<
-        LogonTimeEditorDialogReturnData,
-        LogonTimeEditorDialogData,
-        LogonTimeEditorDialogComponent
-      >({
+      .open<LogonTimeEditorDialogReturnData, LogonTimeEditorDialogData, LogonTimeEditorDialogComponent>({
         component: LogonTimeEditorDialogComponent,
         dialogConfig: {
           width: '732px',

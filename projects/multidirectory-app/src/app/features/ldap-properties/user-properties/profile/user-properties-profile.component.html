@@ -7,11 +7,7 @@
         <label for="profile-path" class="col-span-1">
           {{ 'user-properties-profile.profile-path' | transloco }}
         </label>
-        <md-textbox
-          class="col-span-5 w-full"
-          name="profile-path"
-          [(ngModel)]="accessor.profilePath"
-        ></md-textbox>
+        <md-textbox class="col-span-5 w-full" name="profile-path" [(ngModel)]="accessor.profilePath"></md-textbox>
       </div>
 
       <!-- Logon Script -->
@@ -19,11 +15,7 @@
         <label for="script-path" class="col-span-1">
           {{ 'user-properties-profile.logon-script' | transloco }}
         </label>
-        <md-textbox
-          class="col-span-5 w-full"
-          name="script-path"
-          [(ngModel)]="accessor.scriptPath"
-        ></md-textbox>
+        <md-textbox class="col-span-5 w-full" name="script-path" [(ngModel)]="accessor.scriptPath"></md-textbox>
       </div>
 
       <!-- Login Shell -->
@@ -31,11 +23,7 @@
         <label for="login-shell" class="col-span-1">
           {{ 'user-properties-profile.login-shell' | transloco }}
         </label>
-        <md-textbox
-          class="col-span-5 w-full"
-          name="login-shell"
-          [(ngModel)]="accessor.loginShell"
-        ></md-textbox>
+        <md-textbox class="col-span-5 w-full" name="login-shell" [(ngModel)]="accessor.loginShell"></md-textbox>
       </div>
     </md-group>
   </div>
@@ -56,11 +44,7 @@
           {{ 'user-properties-profile.local-path' | transloco }}
         </label>
       </div>
-      <md-textbox
-        class="col-span-4 w-full"
-        [disabled]="homeDirectorySelection !== 1"
-        [(ngModel)]="accessor.homeDirectory"
-      ></md-textbox>
+      <md-textbox class="col-span-4 w-full" [disabled]="homeDirectorySelection !== 1" [(ngModel)]="accessor.homeDirectory"></md-textbox>
     </div>
 
     <!-- Mount Point -->
@@ -74,7 +58,7 @@
       <div class="col-span-4 flex items-center gap-2">
         <md-dropdown
           [options]="mountDrives"
-          [ngModel]="'C:'"
+          [ngModel]="mountDrives[0]"
           [disabled]="homeDirectorySelection !== 2"
           class="w-16"
         ></md-dropdown>

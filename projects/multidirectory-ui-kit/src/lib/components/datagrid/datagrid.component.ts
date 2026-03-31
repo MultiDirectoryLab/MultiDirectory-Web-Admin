@@ -72,13 +72,25 @@ export class DatagridComponent {
   ];
 
   private _limit = this.pageSizes[0].value;
-  get limit() {
+  @Input()
+  set limit(value: number) {
+    this._limit = value;
+  }
+
+  get limit(): number {
     return this._limit;
   }
-  @Input() set limit(value: number) {
+
+  get limitOption(): DropdownOption {
+    return this.pageSizes.find((p) => p.value === this._limit) ?? new DropdownOption({ title: this._limit, value: this._limit });
+  }
+
+  set limitOption(option: DropdownOption) {
+    const value = option?.value ?? option;
     this._limit = value;
     this.limitChange.emit(value);
   }
+
   @Output() limitChange = new EventEmitter<number>();
 
   private _offset = 0;
@@ -113,6 +125,8 @@ export class DatagridComponent {
   @Output() doubleclick = new EventEmitter<InputEvent>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() contextmenu = new EventEmitter<ContextMenuEvent>();
+  private sortDirection = 'asc';
+  sorts: any[] = [];
 
   _selected: any[] = [];
   get selected(): any[] {
@@ -241,8 +255,30 @@ export class DatagridComponent {
     this.grid?.bodyComponent?.scroller?.setOffset(0);
   }
 
-  onSort(event: SortEvent) {
-    this.sort.emit(event);
+  onSort(event: any) {
+    const sort = event.sorts[0];
+    if (!sort) return;
+    this.sorts = [...event.sorts];
+
+    this.rows = this.rows.sort((rowA, rowB) => {
+      const valueA = this.getValue(rowA, 'name');
+      const valueB = this.getValue(rowB, 'name');
+
+      if (valueA === valueB) {
+        return 0;
+      }
+
+      if (this.sortDirection === 'asc') {
+        return valueA > valueB ? 1 : -1;
+      }
+      return valueB > valueA ? -1 : 1;
+    });
+
+    this.rows = [...this.rows];
+  }
+
+  getValue(value: any, prop: string) {
+    return typeof value === 'string' ? value : (value?.[prop] ?? '');
   }
 }
 
