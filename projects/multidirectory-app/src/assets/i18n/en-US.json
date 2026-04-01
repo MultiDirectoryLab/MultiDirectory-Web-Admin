@@ -1441,5 +1441,6 @@
   "add": "Add",
   "delete": "Delete",
   "empty-list": "This list is empty",
-  "export": "Экспортировать"
+  "export": "Export",
+  "apply": "Apply"
 }

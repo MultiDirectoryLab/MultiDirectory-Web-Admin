@@ -18,8 +18,11 @@ export class MultidirectorySettingsComponent {
     { title: 'English', value: 'en-US' },
   ];
 
-  get selectedLanguage(): string {
-    return this.settings.language;
+  get selectedLanguage(): DropdownOption {
+    return (
+      this.lanugages.find((p) => p.value === this.settings.language) ??
+      new DropdownOption({ title: this.settings.language, value: this.settings.language })
+    );
   }
 
   set selectedLanguage(value: string) {
