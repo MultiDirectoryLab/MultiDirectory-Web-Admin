@@ -58,9 +58,7 @@ import { newCatalogRow } from '@models/api/catalog/newCatalogRow.model';
 import { LdapEntryType } from '@models/core/ldap/ldap-entry-type';
 import { DataBusService } from '@services/data-bus.service';
 import { MultidirectoryApiService } from '@services/multidirectory-api.service';
-import {
-  EntityPropertiesDialogComponent
-} from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
+import { EntityPropertiesDialogComponent } from '@components/modals/components/dialogs/entity-properties-dialog/entity-properties-dialog.component';
 
 @Component({
   selector: 'app-table-view',
@@ -231,6 +229,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(([rows, totalPages, totalEntires]) => {
         this.rows = rows;
+        this.rows = [...rows];
         this.total = totalEntires;
         if (this.navigation.isSelectEntry()) {
           this.selectRows([this.navigation.getDistinguishedName()]);
@@ -265,6 +264,7 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setAccountEnabledToggle();
         this.rows.splice(0, this.rows.length);
         this.rows.push(...rows);
+        this.rows = [...rows];
 
         this.total = totalEntries;
         if (this.navigation.isSelectEntry()) {
@@ -284,24 +284,10 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         name: translate('table-view.name-column'),
         cellTemplate: this.iconColumn(),
+        prop: 'name',
+        sortable: true,
         flexGrow: 1,
         checkboxable: true,
-        comparator: (
-          valueA: LdapBrowserEntry,
-          valueB: LdapBrowserEntry,
-          rowA: LdapBrowserEntry,
-          rowB: LdapBrowserEntry,
-          sortDirection: string,
-        ) => {
-          if (valueA.name === valueB.name) {
-            return 0;
-          }
-
-          if (sortDirection === 'asc') {
-            return valueA.name > valueB.name ? 1 : -1;
-          }
-          return valueB.name > valueA.name ? -1 : 1;
-        },
       },
       {
         name: translate('table-view.type-column'),
@@ -391,21 +377,21 @@ export class TableViewComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       })
       .closed.pipe(
-      take(1),
-      switchMap((confirmed) => {
-        if (!confirmed) return of(confirmed);
-        const selectedItems: { entry: string }[] = this.grid().selected.map((el) => ({
-          entry: el.id,
-        }));
+        take(1),
+        switchMap((confirmed) => {
+          if (!confirmed) return of(confirmed);
+          const selectedItems: { entry: string }[] = this.grid().selected.map((el) => ({
+            entry: el.id,
+          }));
 
-        const manyItemsSelected = selectedItems.length > 1;
-        if (manyItemsSelected) {
-          return this.api.deleteMany(new DeleteManyEntryRequest({ selectedItems: selectedItems }));
-        }
+          const manyItemsSelected = selectedItems.length > 1;
+          if (manyItemsSelected) {
+            return this.api.deleteMany(new DeleteManyEntryRequest({ selectedItems: selectedItems }));
+          }
 
-        return this.api.delete(new DeleteEntryRequest(selectedItems[0]));
-      }),
-    )
+          return this.api.delete(new DeleteEntryRequest(selectedItems[0]));
+        }),
+      )
       .subscribe(() => {
         this.ldapTreeview.invalidate(toDeleteDNs);
         this.navigation.reload();

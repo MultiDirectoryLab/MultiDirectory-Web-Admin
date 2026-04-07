@@ -1,11 +1,5 @@
 import { Directive, input } from '@angular/core';
-import {
-  AbstractControl,
-  NG_VALIDATORS,
-  PatternValidator,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
   selector: '[appDomainFormat]',
@@ -21,8 +15,6 @@ import {
 export class DomainFormatValidatorDirective implements Validator {
   readonly domainPattern = input.required<string>({ alias: 'appDomainFormat' });
   readonly domainErrorMessage = input('Check a domain format');
-
-  patternValidator = new PatternValidator();
 
   validate(control: AbstractControl): ValidationErrors | null {
     if (!control.value) {

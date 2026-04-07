@@ -45,6 +45,7 @@ export class SyslogEventSettingsComponent implements OnInit {
       {
         name: translate('syslog-event-settings.level-column'),
         cellTemplate: this.selectLevelTemplate(),
+        prop: 'severity',
       },
       {
         name: translate('syslog-event-settings.toggle-column'),
@@ -52,6 +53,7 @@ export class SyslogEventSettingsComponent implements OnInit {
         checkboxable: true,
         headerTemplate: this.toggleHeaderTemplate(),
         cellTemplate: this.toggleColumnTemplate(),
+        sortable: false,
       },
     ];
     this.loadEvents();
