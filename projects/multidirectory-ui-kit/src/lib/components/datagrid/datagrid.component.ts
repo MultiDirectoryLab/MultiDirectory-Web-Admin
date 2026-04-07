@@ -1,14 +1,12 @@
-import { CommonModule, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
-  computed,
   EventEmitter,
   HostListener,
   inject,
   Input,
   Output,
-  Signal,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -19,9 +17,6 @@ import {
   ContextmenuType,
   DatatableComponent,
   DataTableControlPanelDirective,
-  DatatableFooterDirective,
-  DataTableFooterTemplateDirective,
-  DataTablePagerComponent,
   PageEvent,
   SelectEvent,
   SelectionType,
@@ -39,18 +34,7 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
     './../../styles/ngx-datatable/icons.css',
   ],
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgStyle,
-    NgTemplateOutlet,
-    DatatableComponent,
-    DataTablePagerComponent,
-    DatatableFooterDirective,
-    DataTableFooterTemplateDirective,
-    DataTableControlPanelDirective,
-    DropdownComponent,
-  ],
+  imports: [CommonModule, FormsModule, DatatableComponent, DataTableControlPanelDirective, DropdownComponent],
 })
 export class DatagridComponent {
   private readonly cdr = inject(ChangeDetectorRef);
@@ -80,7 +64,19 @@ export class DatagridComponent {
   @Input() headerHeight = 32;
   @Input() controlPanelRef: TemplateRef<any> | null = null;
 
-  @Input() rows: any[] = [];
+  private _rows: any[] = [];
+  displayRows: any[] = [];
+
+  @Input()
+  set rows(value: any[]) {
+    this._rows = value ?? [];
+    this.displayRows = [...this._rows];
+  }
+
+  get rows(): any[] {
+    return this._rows;
+  }
+
   @Input() selectionType = SelectionType.multi;
 
   private _limit = this.allowedPageSizes[0];
@@ -169,7 +165,7 @@ export class DatagridComponent {
   }
 
   toggleSelectedAll(selected: boolean): void {
-    this.selected = selected ? [...this.rows] : [];
+    this.selected = selected ? [...this.displayRows] : [];
   }
 
   onSelect(event: SelectEvent<any>): void {
@@ -220,7 +216,7 @@ export class DatagridComponent {
 
     this.sorts = [...event.sorts];
 
-    this.rows = [...this.rows].sort((a, b) => {
+    this.displayRows = [...this.displayRows].sort((a, b) => {
       const valueA = String(this.getValue(a, sort.prop)).trim();
       const valueB = String(this.getValue(b, sort.prop)).trim();
 
@@ -246,18 +242,18 @@ export class DatagridComponent {
   }
 
   onKeyDown(event: KeyboardEvent): void {
-    if (!this.rows.length) return;
+    if (!this.displayRows.length) return;
 
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      let index = this.rows.findIndex((x) => x === this.selected[0]);
+      let index = this.displayRows.findIndex((x) => x === this.selected[0]);
 
       if (event.key === 'ArrowDown') {
-        index = (index + 1) % this.rows.length;
+        index = (index + 1) % this.displayRows.length;
       } else {
-        index = index <= 0 ? this.rows.length - 1 : index - 1;
+        index = index <= 0 ? this.displayRows.length - 1 : index - 1;
       }
 
-      this.select(this.rows[index]);
+      this.select(this.displayRows[index]);
     }
 
     if (event.key === 'Enter') {

@@ -3,6 +3,7 @@ import { DatagridComponent } from './datagrid.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Page } from './page';
+import { NgxDatatableModule } from 'ngx-datatable-gimefork';
 
 const meta: Meta<DatagridComponent> = {
   title: 'Components/Datagrid',
@@ -26,7 +27,7 @@ export const NonPaging: Story = {
     scrollbarV: true,
   },
   play: async ({ canvasElement }) => {},
-  argTypes: { pageChange: { action: 'clicked' } },
+  argTypes: { onPageChange: { action: 'clicked' } },
   render: () => ({
     props: {
       columns: [{ name: 'name' }],
@@ -38,12 +39,12 @@ export const NonPaging: Story = {
     },
     template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid 
+                <md-datagrid
                     (pageChanged)="pageChanged"
                     [page]="page"
                     [stretchHeight]="true"
                     [scrollbarV]="true"
-                    [columns]="columns" 
+                    [columns]="columns"
                     [rows]="rows"></md-datagrid>
             </div>
         `,
@@ -67,9 +68,9 @@ export const Primary: Story = {
     },
     template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid 
+                <md-datagrid
                     [page]="page"
-                    [columns]="columns" 
+                    [columns]="columns"
                     [rows]="rows"></md-datagrid>
             </div>
         `,
@@ -97,10 +98,10 @@ export const WithControlPanel: Story = {
     },
     template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid 
+                <md-datagrid
                     [controlPanelRef]="controlPanel"
                     [page]="page"
-                    [columns]="columns" 
+                    [columns]="columns"
                     [rows]="rows"></md-datagrid>
             </div>
 
@@ -133,10 +134,10 @@ export const WithExternalSorting: Story = {
     },
     template: `
             <div style="height: 250px; padding: 1rem">
-                <md-datagrid 
+                <md-datagrid
                     [controlPanelRef]="controlPanel"
                     [page]="page"
-                    [columns]="columns" 
+                    [columns]="columns"
                     [rows]="rows"
                     [externalSorting]="false"
                     (sort)="onSort($event)"
