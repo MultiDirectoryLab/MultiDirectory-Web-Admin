@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -17,6 +17,9 @@ import {
   ContextmenuType,
   DatatableComponent,
   DataTableControlPanelDirective,
+  DatatableFooterDirective,
+  DataTableFooterTemplateDirective,
+  DataTablePagerComponent,
   PageEvent,
   SelectEvent,
   SelectionType,
@@ -34,7 +37,18 @@ import { DropdownComponent, DropdownOption } from '../dropdown/dropdown.componen
     './../../styles/ngx-datatable/icons.css',
   ],
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, FormsModule, DatatableComponent, DataTableControlPanelDirective, DropdownComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgStyle,
+    NgTemplateOutlet,
+    DatatableComponent,
+    DataTablePagerComponent,
+    DatatableFooterDirective,
+    DataTableFooterTemplateDirective,
+    DataTableControlPanelDirective,
+    DropdownComponent,
+  ],
 })
 export class DatagridComponent {
   private readonly cdr = inject(ChangeDetectorRef);
@@ -215,10 +229,15 @@ export class DatagridComponent {
     if (!sort) return;
 
     this.sorts = [...event.sorts];
+    const pipe = this._columns.find((col) => col.prop === sort.prop)?.pipe;
 
     this.displayRows = [...this.displayRows].sort((a, b) => {
-      const valueA = String(this.getValue(a, sort.prop)).trim();
-      const valueB = String(this.getValue(b, sort.prop)).trim();
+      let valueA = String(this.getValue(a, sort.prop)).trim();
+      let valueB = String(this.getValue(b, sort.prop)).trim();
+      if (pipe) {
+        valueA = pipe?.transform(Number(valueA));
+        valueB = pipe?.transform(Number(valueB));
+      }
 
       const result = this.naturalCompare(valueA, valueB);
 
